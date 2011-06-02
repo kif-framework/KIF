@@ -10,6 +10,7 @@
 #import "KIFTestScenario.h"
 #import "KIFTestStep.h"
 #import "NSFileManager-KIFAdditions.h"
+#import <QuartzCore/QuartzCore.h>
 
 
 @interface KIFTestController ()
@@ -28,6 +29,7 @@
 - (void)_advanceWithResult:(KIFTestStepResult)result error:(NSError*) error;
 - (KIFTestStep *)_nextStep;
 - (KIFTestScenario *)_nextScenario;
+- (void)_writeScreenshotForStep:(KIFTestStep *)step;
 - (void)_logTestingDidStart;
 - (void)_logTestingDidFinish;
 - (void)_logDidStartScenario:(KIFTestScenario *)scenario;
@@ -184,6 +186,8 @@ static void releaseInstance()
     switch (result) {
         case KIFTestStepResultFailure: {
             [self _logDidFailStep:self.currentStep duration:currentStepDuration error:error];
+            [self _writeScreenshotForStep:self.currentStep];
+            
             self.currentScenario = [self _nextScenario];
             self.currentScenarioStartDate = [NSDate date];
             self.currentStep = (self.currentScenario.steps.count ? [self.currentScenario.steps objectAtIndex:0] : nil);
@@ -255,6 +259,34 @@ static void releaseInstance()
     }
     
     return nextScenario;
+}
+
+- (void)_writeScreenshotForStep:(KIFTestStep *)step;
+{
+    char *path = getenv("KIF_SCREENSHOTS");
+    if (!path) {
+        return;
+    }
+    NSFileManager *fileManager = [[NSFileManager alloc] init];
+    NSString *outputPath = [fileManager stringWithFileSystemRepresentation:path length:strlen(path)];
+    
+    NSArray *windows = [[UIApplication sharedApplication] windows];
+    if (windows.count == 0) {
+        return;
+    }
+    
+    UIGraphicsBeginImageContext([[windows objectAtIndex:0] bounds].size);
+    for (UIWindow *window in windows) {
+        [window.layer renderInContext:UIGraphicsGetCurrentContext()];
+    }
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    outputPath = [outputPath stringByExpandingTildeInPath];
+    outputPath = [outputPath stringByAppendingPathComponent:[step.description stringByReplacingOccurrencesOfString:@"/" withString:@"_"]];
+    outputPath = [outputPath stringByAppendingPathExtension:@"png"];
+    [UIImagePNGRepresentation(image) writeToFile:outputPath atomically:YES];
+    [fileManager release];
 }
 
 #pragma mark Logging
