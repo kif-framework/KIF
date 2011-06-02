@@ -41,6 +41,7 @@ typedef void (^KIFTestControllerCompletionBlock)();
     KIFTestStep *currentStep;
     
     NSDate *currentStepStartDate;
+    NSDate *currentScenarioStartDate;
     
     NSInteger failureCount;
 }
