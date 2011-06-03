@@ -121,8 +121,6 @@
         }
         
         CGRect elementFrame = [view.window convertRect:element.accessibilityFrame toView:view];
-        //NSLog(@"Element frame: %@", NSStringFromCGRect(elementFrame));
-        
         [view tapAtPoint:CGPointCenteredInRect(elementFrame)];
         
         // Verify that we successfully selected the view
@@ -380,6 +378,9 @@
             CGRect elementFrame = [view.window convertRect:element.accessibilityFrame toView:scrollView];
             [scrollView scrollRectToVisible:elementFrame animated:YES];
         }
+        
+        // Give the scroll view a small amount of time to perform the scroll.
+        CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.3, false);
     }
     
     if ([[UIApplication sharedApplication] isIgnoringInteractionEvents]) {
