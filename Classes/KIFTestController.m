@@ -269,6 +269,7 @@ static void releaseInstance()
     }
     NSFileManager *fileManager = [[NSFileManager alloc] init];
     NSString *outputPath = [fileManager stringWithFileSystemRepresentation:path length:strlen(path)];
+    [fileManager release];
     
     NSArray *windows = [[UIApplication sharedApplication] windows];
     if (windows.count == 0) {
@@ -286,7 +287,6 @@ static void releaseInstance()
     outputPath = [outputPath stringByAppendingPathComponent:[step.description stringByReplacingOccurrencesOfString:@"/" withString:@"_"]];
     outputPath = [outputPath stringByAppendingPathExtension:@"png"];
     [UIImagePNGRepresentation(image) writeToFile:outputPath atomically:YES];
-    [fileManager release];
 }
 
 #pragma mark Logging
