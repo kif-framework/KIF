@@ -230,7 +230,7 @@
         return nil;
     }
     
-    self.timeout = 10.0f;
+    self.timeout = 30.0f;
     
     return self;
 }
