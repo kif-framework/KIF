@@ -231,4 +231,12 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
  */
 + (id)stepToSelectPickerViewRowWithTitle:(NSString *)title;
 
+/*!
+ @method stepToDismissPopover
+ @abstract A step that dismisses a popover on screen.
+ @discussion With a popover up, tap at the top-left corner of the screen.
+ @result A configured test step.
+ */
++ (id)stepToDismissPopover;
+
 @end

@@ -233,6 +233,18 @@
     }];
 }
 
++ (id)stepToDismissPopover;
+{
+    return [self stepWithDescription:@"Dismiss the popover" executionBlock:^(KIFTestStep *step, NSError **error) {
+        const NSTimeInterval tapDelay = 0.05;
+        NSArray *windows = [[UIApplication sharedApplication] windows];
+        KIFTestCondition(windows.count, error, @"Failed to find any windows in the application");
+        [[[windows objectAtIndex:0] subviewWithClassNamePrefix:@"UIDimmingView"] tapAtPoint:CGPointMake(50.0f, 50.0f)];
+        CFRunLoopRunInMode(kCFRunLoopDefaultMode, tapDelay, false);
+        return KIFTestStepResultSuccess;
+    }];
+}
+
 #pragma mark Initialization
 
 - (id)init;
