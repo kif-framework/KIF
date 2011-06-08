@@ -68,9 +68,20 @@
 
 + (id)stepToWaitForTappableViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits;
 {
-    NSString *description = [NSString stringWithFormat:@"Wait for view with accessibility label \"%@\"", label];
+    return [self stepToWaitForTappableViewWithAccessibilityLabel:label value:nil traits:traits];
+}
+
++ (id)stepToWaitForTappableViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits;
+{
+    NSString *description = nil;
+    if (value.length) {
+        description = [NSString stringWithFormat:@"Wait for view with accessibility label \"%@\" and accessibility value \"%@\"", label, value];
+    } else {
+        description = [NSString stringWithFormat:@"Wait for view with accessibility label \"%@\"", label];
+    }
+    
     return [self stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
-        UIAccessibilityElement *element = [self _tappableAccessibilityElementWithLabel:label accessibilityValue:nil traits:traits error:error];
+        UIAccessibilityElement *element = [self _tappableAccessibilityElementWithLabel:label accessibilityValue:value traits:traits error:error];
         return (element ? KIFTestStepResultSuccess : KIFTestStepResultWait);
     }];
 }
@@ -157,6 +168,7 @@
                 
         CGRect elementFrame = [view.window convertRect:element.accessibilityFrame toView:view];
         [view tapAtPoint:CGPointCenteredInRect(elementFrame)];
+        
         KIFTestCondition([view isAncestorOfFirstResponder], error, @"Failed to make the view with accessibility label \"%@\" the first responder. First responder is %@", label, [[[UIApplication sharedApplication] keyWindow] firstResponder]);
         
         // Wait for the keyboard
@@ -250,6 +262,18 @@
 
 #pragma mark Private Methods
 
++ (NSString *)_representedKeyboardStringForCharacter:(NSString *)characterString;
+{
+    // Interpret control characters appropriately
+    if ([characterString isEqual:@"\b"]) {
+        characterString = @"Delete";
+    } /*else if ([matchingCharacterString isEqual:@"\n"]) {
+       
+    } */
+    
+    return characterString;
+}
+
 + (BOOL)_enterCharacter:(NSString *)characterString;
 {
     const NSTimeInterval keystrokeDelay = 0.05f;
@@ -274,11 +298,15 @@
     NSArray *keys = [keyplane valueForKey:@"keys"];
     NSString *matchingCharacterString = (isShowingCapitals ? [characterString uppercaseString] : [characterString lowercaseString]);
     
+    // Interpret control characters appropriately
+    matchingCharacterString = [self _representedKeyboardStringForCharacter:matchingCharacterString];
+    
     id keyToTap = nil;
     id shiftKey = nil;
     id moreKey = nil;
     for (id/*UIKBKey*/ key in keys) {
         NSString *representedString = [key valueForKey:@"representedString"];
+        
         // Find the key based on the key's represented string
         if ([representedString isEqual:matchingCharacterString]) {
             keyToTap = key;
@@ -330,6 +358,8 @@
     if (!characterString.length) {
         return YES;
     }
+    
+    characterString = [self _representedKeyboardStringForCharacter:characterString];
     
     // For custom keyboards, use the classic methods of looking up views based on accessibility labels
     UIWindow *keyboardWindow = [[UIApplication sharedApplication] keyboardWindow];
