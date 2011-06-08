@@ -19,6 +19,7 @@
 @property (nonatomic, retain) KIFTestStep *currentStep;
 @property (nonatomic, retain) NSArray *scenarios;
 @property (nonatomic, getter=isTesting) BOOL testing;
+@property (nonatomic, retain) NSDate *testSuiteStartDate;
 @property (nonatomic, retain) NSDate *currentScenarioStartDate;
 @property (nonatomic, retain) NSDate *currentStepStartDate;
 @property (nonatomic, copy) KIFTestControllerCompletionBlock completionBlock;
@@ -44,6 +45,7 @@
 
 @synthesize scenarios;
 @synthesize testing;
+@synthesize testSuiteStartDate;
 @synthesize failureCount;
 @synthesize currentScenario;
 @synthesize currentStep;
@@ -88,9 +90,13 @@ static void releaseInstance()
 
 - (void)dealloc;
 {
+    self.currentStep = nil;
+    self.currentScenario = nil;
     self.scenarios = nil;
+    self.testSuiteStartDate = nil;
     self.currentScenarioStartDate = nil;
     self.currentStepStartDate = nil;
+    self.completionBlock = nil;
     
     [super dealloc];
 }
@@ -122,6 +128,7 @@ static void releaseInstance()
     NSAssert(!self.testing, @"Testing is already in progress");
     
     self.testing = YES;
+    self.testSuiteStartDate = [NSDate date];
     self.currentScenario = (self.scenarios.count ? [self.scenarios objectAtIndex:0] : nil);
     self.currentScenarioStartDate = [NSDate date];
     self.currentStep = (self.currentScenario.steps.count ? [self.currentScenario.steps objectAtIndex:0] : nil);
@@ -338,7 +345,7 @@ static void releaseInstance()
 {
     KIFLogBlankLine();
     KIFLogSeparator();
-    KIFLog(@"KIF TEST RUN FINISHED: %d failures", failureCount);
+    KIFLog(@"KIF TEST RUN FINISHED: %d failures (duration %.2fs)", failureCount, -[self.testSuiteStartDate timeIntervalSinceNow]);
     KIFLogSeparator();
     
     // Also log the failure count to stdout, for easier integration with CI tools.

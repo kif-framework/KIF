@@ -40,6 +40,7 @@ typedef void (^KIFTestControllerCompletionBlock)();
     KIFTestScenario *currentScenario;
     KIFTestStep *currentStep;
     
+    NSDate *testSuiteStartDate;
     NSDate *currentStepStartDate;
     NSDate *currentScenarioStartDate;
     
