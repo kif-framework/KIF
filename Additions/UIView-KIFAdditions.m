@@ -38,17 +38,15 @@
     // In case multiple elements with the same label exist, prefer ones that are currently visible
     UIAccessibilityElement *matchingButHiddenElement = nil;
     
-    if (self.isAccessibilityElement) {
-        BOOL labelsMatch = [self.accessibilityLabel isEqual:label];
-        BOOL traitsMatch = ((self.accessibilityTraits) & traits) == traits;
-        BOOL valuesMatch = !value || [value isEqual:self.accessibilityValue];
-        
-        if (labelsMatch && valuesMatch && traitsMatch) {
-            if (self.tappable) {
-                return (UIAccessibilityElement *)self;
-            } else {
-                matchingButHiddenElement = (UIAccessibilityElement *)self;
-            }
+    BOOL labelsMatch = [self.accessibilityLabel isEqual:label];
+    BOOL traitsMatch = ((self.accessibilityTraits) & traits) == traits;
+    BOOL valuesMatch = !value || [value isEqual:self.accessibilityValue];
+    
+    if (labelsMatch && valuesMatch && traitsMatch) {
+        if (self.tappable) {
+            return (UIAccessibilityElement *)self;
+        } else {
+            matchingButHiddenElement = (UIAccessibilityElement *)self;
         }
     }
     
@@ -64,8 +62,6 @@
         
         UIView *viewForElement = [UIAccessibilityElement viewContainingAccessibilityElement:element];
         CGRect accessibilityFrame = [viewForElement.window convertRect:element.accessibilityFrame toView:viewForElement];
-//        CGRect elementFrame = [viewForElement.window convertRect:viewForElement.visibleRect fromView:viewForElement.superview];
-//        CGRect visibleRect = CGRectIntersection([viewForElement.window convertRect:elementFrame toWindow:nil], element.accessibilityFrame);
         
         if ([viewForElement isTappableInRect:accessibilityFrame]) {
             return element;
@@ -263,13 +259,13 @@
 // Is this view currently on screen?
 - (BOOL)isTappable;
 {
-    return [self isTappableInRect:self.frame];
+    return [self isTappableInRect:self.bounds];
 }
 
 - (BOOL)isTappableInRect:(CGRect)rect;
 {
     // Start at the top and recurse down
-    CGRect frame = [self.window convertRect:rect fromView:self.superview];
+    CGRect frame = [self.window convertRect:rect fromView:self];
     
     UIView *hitView = nil;
     
