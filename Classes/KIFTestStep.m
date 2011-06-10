@@ -150,10 +150,10 @@
 
 + (id)stepToEnterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label;
 {
-    return [self stepToEnterText:text intoViewWithAccessibilityLabel:label traits:UIAccessibilityTraitNone];
+    return [self stepToEnterText:text intoViewWithAccessibilityLabel:label traits:UIAccessibilityTraitNone expectedResult:nil];
 }
 
-+ (id)stepToEnterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits;
++ (id)stepToEnterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits expectedResult:(NSString *)expectedResult;
 {
     NSString *description = [NSString stringWithFormat:@"Type the text \"%@\" into the view with accessibility label \"%@\"", text, label];
     return [self stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
@@ -178,6 +178,13 @@
             NSString *characterString = [text substringWithRange:NSMakeRange(characterIndex, 1)];
             
             KIFTestCondition([self _enterCharacter:characterString], error, @"Failed to find key for character \"%@\"", characterString);
+        }
+        
+        // This is probably a UITextField- or UITextView-ish view, so make sure it worked
+        if ([view respondsToSelector:@selector(text)]) {
+            NSString *expected = expectedResult ? expectedResult : text;
+            NSString *actual = [view performSelector:@selector(text)];
+            KIFTestCondition([actual isEqual:expected], error, @"Failed to actually enter text \"%@\" in field; instead, it was \"%@\"", text, actual);
         }
         
         return KIFTestStepResultSuccess;
@@ -266,7 +273,12 @@
     KIFTestStepResult result = KIFTestStepResultFailure;
     
     if (self.executionBlock) {
-        result = self.executionBlock(self, error);
+        @try {
+            result = self.executionBlock(self, error);
+        }
+        @catch (NSException *exception) {
+            KIFTestCondition(NO, error, @"Step threw exception: %@", exception);
+        }
     }
     
     return result;
@@ -343,7 +355,9 @@
                 return NO;
             }
             [keyboardView tapAtPoint:CGPointCenteredInRect([shiftKey frame])];
-            CFRunLoopRunInMode(kCFRunLoopDefaultMode, keystrokeDelay, false);            
+            CFRunLoopRunInMode(kCFRunLoopDefaultMode, keystrokeDelay, false);
+            
+            return [self _enterCharacter:characterString];
         }
         
         [keyboardView tapAtPoint:CGPointCenteredInRect([keyToTap frame])];
