@@ -184,7 +184,7 @@
         if ([view respondsToSelector:@selector(text)]) {
             NSString *expected = expectedResult ? expectedResult : text;
             NSString *actual = [view performSelector:@selector(text)];
-            KIFTestCondition([actual isEqual:expected], error, @"Failed to actually enter text \"%@\" in field; instead, it was \"%@\"", text, actual);
+            KIFTestCondition([actual isEqualToString:expected], error, @"Failed to actually enter text \"%@\" in field; instead, it was \"%@\"", text, actual);
         }
         
         return KIFTestStepResultSuccess;
