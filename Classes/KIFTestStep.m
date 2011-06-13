@@ -151,10 +151,10 @@
 
 + (id)stepToEnterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label;
 {
-    return [self stepToEnterText:text intoViewWithAccessibilityLabel:label traits:UIAccessibilityTraitNone];
+    return [self stepToEnterText:text intoViewWithAccessibilityLabel:label traits:UIAccessibilityTraitNone expectedResult:nil];
 }
 
-+ (id)stepToEnterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits;
++ (id)stepToEnterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits expectedResult:(NSString *)expectedResult;
 {
     NSString *description = [NSString stringWithFormat:@"Type the text \"%@\" into the view with accessibility label \"%@\"", text, label];
     return [self stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
@@ -187,6 +187,13 @@
                     KIFTestCondition(NO, error, @"Failed to find key for character \"%@\"", characterString);
                 }
             }
+        }
+        
+        // This is probably a UITextField- or UITextView-ish view, so make sure it worked
+        if ([view respondsToSelector:@selector(text)]) {
+            NSString *expected = expectedResult ? expectedResult : text;
+            NSString *actual = [view performSelector:@selector(text)];
+            KIFTestCondition([actual isEqualToString:expected], error, @"Failed to actually enter text \"%@\" in field; instead, it was \"%@\"", text, actual);
         }
         
         return KIFTestStepResultSuccess;
@@ -242,6 +249,18 @@
     }];
 }
 
++ (id)stepToDismissPopover;
+{
+    return [self stepWithDescription:@"Dismiss the popover" executionBlock:^(KIFTestStep *step, NSError **error) {
+        const NSTimeInterval tapDelay = 0.05;
+        NSArray *windows = [[UIApplication sharedApplication] windows];
+        KIFTestCondition(windows.count, error, @"Failed to find any windows in the application");
+        [[[windows objectAtIndex:0] subviewWithClassNamePrefix:@"UIDimmingView"] tapAtPoint:CGPointMake(50.0f, 50.0f)];
+        CFRunLoopRunInMode(kCFRunLoopDefaultMode, tapDelay, false);
+        return KIFTestStepResultSuccess;
+    }];
+}
+
 #pragma mark Initialization
 
 - (id)init;
@@ -263,7 +282,12 @@
     KIFTestStepResult result = KIFTestStepResultFailure;
     
     if (self.executionBlock) {
-        result = self.executionBlock(self, error);
+        @try {
+            result = self.executionBlock(self, error);
+        }
+        @catch (NSException *exception) {
+            KIFTestCondition(NO, error, @"Step threw exception: %@", exception);
+        }
     }
     
     return result;
