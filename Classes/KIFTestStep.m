@@ -21,6 +21,7 @@
 @property (nonatomic, copy) KIFTestStepExecutionBlock executionBlock;
 
 + (BOOL)_enterCharacter:(NSString *)characterString;
++ (BOOL)_enterCharacter:(NSString *)characterString history:(NSMutableDictionary *)history;
 + (BOOL)_enterCustomKeyboardCharacter:(NSString *)characterString;
 
 + (UIAccessibilityElement *)_tappableAccessibilityElementWithLabel:(NSString *)label accessibilityValue:(NSString *)value traits:(UIAccessibilityTraits)traits error:(out NSError **)error;
@@ -177,7 +178,15 @@
         for (NSUInteger characterIndex = 0; characterIndex < [text length]; characterIndex++) {
             NSString *characterString = [text substringWithRange:NSMakeRange(characterIndex, 1)];
             
-            KIFTestCondition([self _enterCharacter:characterString], error, @"Failed to find key for character \"%@\"", characterString);
+            if (![self _enterCharacter:characterString]) {
+                // Attempt to cheat if we couldn't find the character
+                if ([view isKindOfClass:[UITextField class]] || [view isKindOfClass:[UITextView class]]) {
+                    NSLog(@"KIF: Unable to find keyboard key for %@. Inserting manually.", characterString);
+                    [(UITextField *)view setText:[[(UITextField *)view text] stringByAppendingString:characterString]];
+                } else {
+                    KIFTestCondition(NO, error, @"Failed to find key for character \"%@\"", characterString);
+                }
+            }
         }
         
         // This is probably a UITextField- or UITextView-ish view, so make sure it worked
@@ -291,14 +300,21 @@
     // Interpret control characters appropriately
     if ([characterString isEqual:@"\b"]) {
         characterString = @"Delete";
-    } /*else if ([matchingCharacterString isEqual:@"\n"]) {
-       
-    } */
+    } else if ([characterString isEqual:@"\n"]) {
+        characterString = @"Return";
+    } else if ([characterString isEqual:@"\r"]) {
+        characterString = @"Return";
+    }
     
     return characterString;
 }
 
 + (BOOL)_enterCharacter:(NSString *)characterString;
+{
+    return [self _enterCharacter:characterString history:[NSMutableDictionary dictionary]];
+}
+
++ (BOOL)_enterCharacter:(NSString *)characterString history:(NSMutableDictionary *)history;
 {
     const NSTimeInterval keystrokeDelay = 0.05f;
     
@@ -316,50 +332,59 @@
         return [self _enterCustomKeyboardCharacter:characterString];
     }
     id /*UIKBKeyplane*/ keyplane = [keyboardView valueForKey:@"keyplane"];
-    BOOL isShowingCapitals = [[keyplane valueForKey:@"isShiftKeyplane"] boolValue];
-    BOOL isCapitalLetter = isupper([characterString characterAtIndex:0]);
+    BOOL isShiftKeyplane = [[keyplane valueForKey:@"isShiftKeyplane"] boolValue];
+    
+    NSMutableArray *unvisitedForKeyplane = [history objectForKey:[NSValue valueWithNonretainedObject:keyplane]];
+    if (!unvisitedForKeyplane) {
+        unvisitedForKeyplane = [NSMutableArray arrayWithObjects:@"More", @"International", nil];
+        if (!isShiftKeyplane) {
+            [unvisitedForKeyplane insertObject:@"Shift" atIndex:0];
+        }
+        [history setObject:unvisitedForKeyplane forKey:[NSValue valueWithNonretainedObject:keyplane]];
+    }
     
     NSArray *keys = [keyplane valueForKey:@"keys"];
-    NSString *matchingCharacterString = (isShowingCapitals ? [characterString uppercaseString] : [characterString lowercaseString]);
     
     // Interpret control characters appropriately
-    matchingCharacterString = [self _representedKeyboardStringForCharacter:matchingCharacterString];
+    characterString = [self _representedKeyboardStringForCharacter:characterString];
     
     id keyToTap = nil;
-    id shiftKey = nil;
-    id moreKey = nil;
-    for (id/*UIKBKey*/ key in keys) {
-        NSString *representedString = [key valueForKey:@"representedString"];
-        
-        // Find the key based on the key's represented string
-        if ([representedString isEqual:matchingCharacterString]) {
-            keyToTap = key;
+    id modifierKey = nil;
+    NSString *selectedModifierRepresentedString = nil;
+    
+    while (YES) {
+        for (id/*UIKBKey*/ key in keys) {
+            NSString *representedString = [key valueForKey:@"representedString"];
             
-            if (isShowingCapitals == isCapitalLetter) {
-                break;
+            // Find the key based on the key's represented string
+            if ([representedString isEqual:characterString]) {
+                keyToTap = key;
+            }
+            
+            if (!modifierKey && unvisitedForKeyplane.count && [[unvisitedForKeyplane objectAtIndex:0] isEqual:representedString]) {
+                modifierKey = key;
+                selectedModifierRepresentedString = representedString;
+                [unvisitedForKeyplane removeObjectAtIndex:0];
             }
         }
         
-        if ([representedString isEqual:@"Shift"]) {
-            shiftKey = key;
+        if (keyToTap) {
+            break;
         }
         
-        if ([representedString isEqual:@"More"]) {
-            moreKey = key;
+        if (modifierKey) {
+            break;
         }
+        
+        if (!unvisitedForKeyplane.count) {
+            return NO;
+        }
+        
+        // If we didn't find the key or the modifier, then this modifier must not exist on this keyboard. Remove it.
+        [unvisitedForKeyplane removeObjectAtIndex:0];
     }
     
     if (keyToTap) {
-        if (isShowingCapitals != isCapitalLetter) {
-            if (!shiftKey) {
-                return NO;
-            }
-            [keyboardView tapAtPoint:CGPointCenteredInRect([shiftKey frame])];
-            CFRunLoopRunInMode(kCFRunLoopDefaultMode, keystrokeDelay, false);
-            
-            return [self _enterCharacter:characterString];
-        }
-        
         [keyboardView tapAtPoint:CGPointCenteredInRect([keyToTap frame])];
         CFRunLoopRunInMode(kCFRunLoopDefaultMode, keystrokeDelay, false);
         
@@ -367,11 +392,24 @@
     }
     
     // We didn't find anything, so try the symbols pane
-    if (moreKey) {
-        [keyboardView tapAtPoint:CGPointCenteredInRect([moreKey frame])];
+    if (modifierKey) {
+        [keyboardView tapAtPoint:CGPointCenteredInRect([modifierKey frame])];
         CFRunLoopRunInMode(kCFRunLoopDefaultMode, keystrokeDelay, false);
         
-        return [self _enterCharacter:characterString];
+        // If we're back at a place we've been before, and we still have things to explore in the previous
+        id /*UIKBKeyplane*/ newKeyplane = [keyboardView valueForKey:@"keyplane"];
+        id /*UIKBKeyplane*/ previousKeyplane = [history valueForKey:@"previousKeyplane"];
+        
+        if (newKeyplane == previousKeyplane) {
+            // Come back to the keyplane that we just tested so that we can try the other modifiers
+            NSMutableArray *previousKeyplaneHistory = [history objectForKey:[NSValue valueWithNonretainedObject:newKeyplane]];
+            [previousKeyplaneHistory insertObject:[history valueForKey:@"lastModifierRepresentedString"] atIndex:0];
+        } else {
+            [history setValue:keyplane forKey:@"previousKeyplane"];
+            [history setValue:selectedModifierRepresentedString forKey:@"lastModifierRepresentedString"];
+        }
+        
+        return [self _enterCharacter:characterString history:history];
     }
     
     return NO;
