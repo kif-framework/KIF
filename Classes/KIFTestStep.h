@@ -242,4 +242,11 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
  */
 + (id)stepToDismissPopover;
 
+/*!
+ @method stepToSimulateMemoryWarning
+ @abstract Simulates a memory warning.
+ @result A configured test step.
+ */
++ (id)stepToSimulateMemoryWarning;
+
 @end
