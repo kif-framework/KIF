@@ -175,14 +175,17 @@ static void releaseInstance()
 {
     NSError *error = nil;
     
+    if (!step) {
+        [self _testingDidFinish];
+        return;
+    }
+    
     KIFTestStepResult result = [step executeAndReturnError:&error];
     
     [self _advanceWithResult:result error:error];
     
     if (self.currentStep) {
         [self _scheduleCurrentTestStep];
-    } else {
-        [self _testingDidFinish];
     }
 }
 
@@ -253,6 +256,10 @@ static void releaseInstance()
 {
     if (self.currentScenario) {
         [self _logDidFinishScenario:self.currentScenario duration:-[self.currentScenarioStartDate timeIntervalSinceNow]];
+    }
+    
+    if (!self.scenarios.count) {
+        return nil;
     }
     
     NSUInteger currentScenarioIndex = [self.scenarios indexOfObjectIdenticalTo:self.currentScenario];
