@@ -249,7 +249,7 @@ Finally, we need to add a hook into the app so that it actually runs the KIF tes
 
 Everything should now be configured. When you run the integration tests target it will launch your app and begin running the testing scenarios. When the scenarios finish, the app will exit and return a zero if all scenarios pass, or the number of failures if any fail.
 
-KIF also generates a nicely formatted log containing the full results and timings of the test suite run. The logs can be found in ~/Library/Application Support/iPhone Simulator/<iOS version>/Applications/<Application UUID>/Library/Logs/
+KIF also generates a nicely formatted log containing the full results and timings of the test suite run. The logs can be found in ~/Library/Application Support/iPhone Simulator/<<iOS version>>/Applications/<<Application UUID>>/Library/Logs/
 
 For a simple but complete example of KIF in action, check out the Testable sample project in Documentation/Examples.
 
