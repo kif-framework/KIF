@@ -26,7 +26,7 @@ To install KIF, you'll need to link the libKIF static library directly into your
 *NOTE* These instruction assume you are using Xcode 4. For Xcode 3 you won't be able to take advantage of Workspaces, so the instructions will differ slightly.
 
 ### Add KIF to your project files
-We'll add the KIF project into the ./Frameworks/KIF subdirectory of your existing app. If your project is stored in GitHub then you can use submodules to make updating in the future easier:
+The first step is to add the KIF project into the ./Frameworks/KIF subdirectory of your existing app. If your project is stored in GitHub then you can use submodules to make updating in the future easier:
 
 	cd /path/to/MyApplicationSource
 	mkdir Frameworks
@@ -35,18 +35,18 @@ We'll add the KIF project into the ./Frameworks/KIF subdirectory of your existin
 If you're not using GitHub, simply download the source and copy it into the ./Frameworks/KIF directory.
 
 ### Add KIF to Your Workspace
-Your app needs to know about KIF. The best way to do this is to add the KIF project into a workspace along with your main project.  Find the KIF.xcodeproj file in Finder and drag it into the Project Navigator (⌘+1). If you don't already have a workspace, Xcode will ask if you want to create a new one. Click "Save" when it does.
+Let your project know about KIF by adding the KIF project into a workspace along with your main project. Find the KIF.xcodeproj file in Finder and drag it into the Project Navigator (⌘+1). If you don't already have a workspace, Xcode will ask if you want to create a new one. Click "Save" when it does.
 
 ![Create workspace screen shot](https://github.com/square/KIF/raw/master/Documentation/Images/Create Workspace.png)
 
 ### Create a Testing Target
-We'll create a second target for the KIF enabled version of the app to test. This gives us an easy way to begin testing (just run this second target), and also helps make sure that no testing code ever makes it into your App Store submission and gets your app rejected.
+You'll need to create a second target for the KIF enabled version of the app to test. This gives you an easy way to begin testing (just run this second target), and also helps make sure that no testing code ever makes it into your App Store submission and gets your app rejected.
 
 The new target will start as a duplicate of your old target. To create the duplicate target, select the project file for your app in the Project Navigator. From there, CTRL+click the target for your app and select the "Duplicate" option.
 
 ![Duplicate target screen shot](https://github.com/square/KIF/raw/master/Documentation/Images/Duplicate Target.png)
 
-Xcode may ask you if you want your copy to be for a different iOS device, which we don't, so choose "Duplicate Only". 
+Xcode may ask you if you want your copy to be for a different iOS device, which you don't, so choose "Duplicate Only". 
 
 ![Duplicate target confirmation screen shot](https://github.com/square/KIF/raw/master/Documentation/Images/Duplicate Target Confirmation.png)
 
@@ -59,13 +59,13 @@ You can also (optionally) rename the new target from the default "MyApp copy" to
 ![Rename product screen shot](https://github.com/square/KIF/raw/master/Documentation/Images/Rename Product.png)
 
 ### Configure the Testing Target
-Now that we have a target for our tests, we need to add the tests to that target. With the project settings still selected in the Project Navigator, and the new integration tests target selected in the project settings, select the "Build Phases" tab. Under the "Link Binary With Libraries" section, hit the "+" button. In the sheet that appears, select "libKIF.a" and click "Add".
+Now that you have a target for your tests, add the tests to that target. With the project settings still selected in the Project Navigator, and the new integration tests target selected in the project settings, select the "Build Phases" tab. Under the "Link Binary With Libraries" section, hit the "+" button. In the sheet that appears, select "libKIF.a" and click "Add".
 
 ![Add libKIF library screen shot](https://github.com/square/KIF/raw/master/Documentation/Images/Add Library.png)
 
 ![Add libKIF library screen shot](https://github.com/square/KIF/raw/master/Documentation/Images/Add Library Sheet.png)
 
-Next, we'll make sure that we can access the KIF header files. To do this, we'll add the KIF directory to the "Header Search Paths" build setting. Start by selecting the "Build Settings" tab of the project settings, and from there, use the filter control to find the "Header Search Paths" setting. Double click the value, and add the search path "$(SRCROOT)/Frameworks/KIF/" to the list. Mark the entry as recursive. If it's not there already, you should add the "$(inherited)" entry as the first entry in this list.
+Next, make sure that we can access the KIF header files. To do this, add the KIF directory to the "Header Search Paths" build setting. Start by selecting the "Build Settings" tab of the project settings, and from there, use the filter control to find the "Header Search Paths" setting. Double click the value, and add the search path "$(SRCROOT)/Frameworks/KIF/" to the list. Mark the entry as recursive. If it's not there already, you should add the "$(inherited)" entry as the first entry in this list.
 
 ![Add header search paths screen shot](https://github.com/square/KIF/raw/master/Documentation/Images/Add Header Search Paths.png)
 
@@ -73,7 +73,7 @@ KIF takes advantage of Objective C's ability to add categories on an object, but
 
 ![Add category linker flags screen shot](https://github.com/square/KIF/raw/master/Documentation/Images/Add Category Linker Flags.png)
 
-Finally, we'll add a preprocessor flag to our testing target so that we can conditionally include code. This will help us make sure that none of our testing code makes it into the production app. We'll call the flag "RUN_KIF_TESTS" and we'll add it under the "Preprocessor Macros." Again we'll want to make sure the "$(inherited)" entry is first in the list, 
+Finally, add a preprocessor flag to the testing target so that you can conditionally include code. This will help make sure that none of the testing code makes it into the production app. Call the flag "RUN_KIF_TESTS" and add it under the "Preprocessor Macros." Again, make sure the "$(inherited)" entry is first in the list, 
 
 ![Add preprocessor macro screen shot](https://github.com/square/KIF/raw/master/Documentation/Images/Add KIF Preprocessor Macro.png)
 
@@ -108,7 +108,7 @@ Although not required, it's recommended that you create a subclass of KIFTestCon
 
 	@end
 
-The next step is to implement our scenario to test the login (+[KIFTestScenario scenarioToLogin]). We'll implement the scenarios as category class methods on KIFTestScenario. This will allow us to easily add on these category methods without needing additional subclasses, and the method name provides a unique identifier for referencing each scenario. Your KIFTestScenario category should look something like this:
+The next step is to implement a scenario to test the login (+[KIFTestScenario scenarioToLogin]). We'll implement the scenarios as category class methods on KIFTestScenario. This will allow us to easily add on these category methods without needing additional subclasses, and the method name provides a unique identifier for referencing each scenario. Your KIFTestScenario category should look something like this:
 
 *KIFTestScenario+EXAdditions.h*
 
@@ -146,7 +146,7 @@ The next step is to implement our scenario to test the login (+[KIFTestScenario 
 
 	@end
 
-Most of the steps in our scenario are already defined by the KIF framework, but +stepToReset is not. This is an example of a custom step which is specific to your application. Adding such a step is easy, and is done using a factory method in a category of KIFTestStep, similar to how we added our scenario.
+Most of the steps in the scenario are already defined by the KIF framework, but +stepToReset is not. This is an example of a custom step which is specific to your application. Adding such a step is easy, and is done using a factory method in a category of KIFTestStep, similar to how we added the scenario.
 
 *KIFTestStep+EXAdditions.h*
 
@@ -180,7 +180,7 @@ Most of the steps in our scenario are already defined by the KIF framework, but 
 
 	@end
 
-The other line to notice in our sample scenario is the one that calls +[KIFTestStep stepsToGoToLoginPage]. This is an example of a convenient organizational technique which allows for easy code reuse. If you have a set of steps that are reused in a number of your scenarios, then you can group them together as a factory method that returns them as an array. Here's our KIFTestStep category again, this time including our step collection array:
+The other line to notice in the sample scenario is the one that calls +[KIFTestStep stepsToGoToLoginPage]. This is an example of an organizational technique which allows for easy code reuse. If you have a set of steps that are reused in a number of your scenarios, then you can group them together as a factory method that returns them as an array. Here's the KIFTestStep category again, this time including the step collection array:
 
 *KIFTestStep+EXAdditions.h*
 
@@ -238,7 +238,7 @@ The other line to notice in our sample scenario is the one that calls +[KIFTestS
 
 	@end
 
-Finally, we need to add a hook into the app so that it actually runs the KIF tests when executing the Integration Tests target. To do this we'll take advantage of the RUN_KIF_TESTS macro that we defined earlier. This macro is only defined in our testing target, so the tests won't run in the regular target. To invoke the test suite, add the following code to the end of your -application:didFinishLaunchingWithOptions: method in your application delegate:
+Finally, the app needs a hook so that it actually runs the KIF tests when executing the Integration Tests target. To do this we'll take advantage of the RUN_KIF_TESTS macro that was defined earlier. This macro is only defined in the testing target, so the tests won't run in the regular target. To invoke the test suite, add the following code to the end of the -application:didFinishLaunchingWithOptions: method in your application delegate:
 
 	#if RUN_KIF_TESTS
 	    [[EXTestController sharedInstance] startTestingWithCompletionBlock:^{
@@ -280,7 +280,7 @@ or if you get another "unrecognized selector" error inside the KIF code, make su
 Continuous Integration
 ----------------------
 
-A continuous integration (CI) process is extremely useful in ensuring that your application stays functional, and is highly recommended. In order to run our KIF tests in CI, we'll need to be able to launch the simulator from the command line. One tool for accomplishing this is [WaxSim](https://github.com/square/waxsim). Note that the Square branch of WaxSim provides a number of bug fixes and some useful additional functionality. Our CI script should resemble something like the this:
+A continuous integration (CI) process is highly recommended and is extremely useful in ensuring that your application stays functional. In order to run our KIF tests in CI, you'll need to be able to launch the simulator from the command line. One tool for accomplishing this is [WaxSim](https://github.com/square/waxsim). Note that the Square fork of WaxSim provides a number of bug fixes and some useful additional functionality. Your CI script should resemble something like the this:
 	
 	#!/bin/bash
 	
@@ -299,4 +299,4 @@ A continuous integration (CI) process is extremely useful in ensuring that your 
 	# WaxSim hides the return value from the app, so to determine success we search for a "no failures" line
 	grep -q "TESTING FINISHED: 0 failures" /tmp/KIF-$$.out
 	
-You'll likely want to customize the script further. For example, you may want it to run iphone rather than ipad, or perhaps both. This should provide a strong starting point.
+This should provide a strong starting point, but you'll likely want to customize the script further. For example, you may want it to run iphone rather than ipad, or perhaps both.
