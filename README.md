@@ -242,12 +242,16 @@ Finally, we need to add a hook into the app so that it actually runs the KIF tes
 
 	#if RUN_KIF_TESTS
 	    [[EXTestController sharedInstance] startTestingWithCompletionBlock:^{
-	        // Exit after the tests complete. When running on CI, this lets you check the return value for pass/fail.
+	        // Exit after the tests complete so that CI knows we're done
 	        exit([[EXTestController sharedInstance] failureCount]);
 	    }];
 	#endif
 
 Everything should now be configured. When you run the integration tests target it will launch your app and begin running the testing scenarios. When the scenarios finish, the app will exit and return a zero if all scenarios pass, or the number of failures if any fail.
+
+KIF also generates a nicely formatted log containing the full results and timings of the test suite run. The logs can be found in ~/Library/Application Support/iPhone Simulator/<iOS version>/Applications/<Application UUID>/Library/Logs/
+
+For a simple but complete example of KIF in action, check out the Testable sample project in Documentation/Examples.
 
 Troubleshooting
 ---------------
@@ -274,3 +278,23 @@ or if you get another "unrecognized selector" error inside the KIF code, make su
 Continuous Integration
 ----------------------
 
+A continuous integration (CI) process is extremely useful in ensuring that your application stays functional, and is highly recommended. In order to run our KIF tests in CI, we'll need to be able to launch the simulator from the command line. One tool for accomplishing this is [WaxSim](https://github.com/square/waxsim). Note that the Square branch of WaxSim provides a number of bug fixes and some useful additional functionality. Our CI script should resemble something like the this:
+	
+	#!/bin/bash
+	
+	killall "iPhone Simulator"
+	
+	set -o errexit
+	set -o verbose
+	
+	# Build the "Integration Tests" target to run in the simulator
+	xcodebuild -target "Integration Tests" -configuration Release -sdk iphonesimulator build
+	
+	# Run the app we just built in the simulator and send its output to a file
+	# /path/to/MyApp.app should be the relative or absolute path to the application bundle that was built in the previous step
+	/path/to/waxsim -f "ipad" "/path/to/MyApp.app" > /tmp/KIF-$$.out 2>&1
+	
+	# WaxSim hides the return value from the app, so to determine success we search for a "no failures" line
+	grep -q "TESTING FINISHED: 0 failures" /tmp/KIF-$$.out
+	
+You'll likely want to customize the script further. For example, you may want it to run iphone rather than ipad, or perhaps both. This should provide a strong starting point.
