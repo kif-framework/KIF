@@ -145,7 +145,10 @@ static void releaseInstance()
 {
     [self _logTestingDidFinish];
     self.testing = NO;
-    self.completionBlock();
+    
+    if (self.completionBlock) {
+        self.completionBlock();
+    }
 }
 
 #pragma mark Private Methods
