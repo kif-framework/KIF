@@ -286,6 +286,14 @@
     }];
 }
 
++ (id)stepToSimulateMemoryWarning;
+{
+    return [KIFTestStep stepWithDescription:@"Simulate a memory warning" executionBlock:^(KIFTestStep *step, NSError **error) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationDidReceiveMemoryWarningNotification object:[UIApplication sharedApplication]];
+        return KIFTestStepResultSuccess;
+    }];
+}
+
 #pragma mark Initialization
 
 - (id)init;
