@@ -186,6 +186,8 @@ static void releaseInstance()
     
     if (self.currentStep) {
         [self _scheduleCurrentTestStep];
+    } else {
+        [self _testingDidFinish];
     }
 }
 
