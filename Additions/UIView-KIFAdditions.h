@@ -35,7 +35,13 @@
  */
 - (BOOL)isTappableInRect:(CGRect)rect;
 
-
+/*!
+ @method tappablePointInRect:(CGRect)rect;
+ @abstract Finds a point in the receiver that is tappable.
+ @discussion Finds a tappable point in the receiver, where tappable is defined as a point that, when tapped, will hit the receiver.
+ @param rect A rectangle specifying an area in the receiver in the receiver's frame coordinates.
+ @result A tappable point in the receivers frame coordinates.
+ */
 - (CGPoint)tappablePointInRect:(CGRect)rect;
 
 @end
