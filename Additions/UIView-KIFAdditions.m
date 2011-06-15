@@ -264,42 +264,55 @@
 
 - (BOOL)isTappableInRect:(CGRect)rect;
 {
+    CGPoint tappablePoint = [self tappablePointInRect:rect];
+    
+    return !isnan(tappablePoint.x);
+}
+
+- (CGPoint)tappablePointInRect:(CGRect)rect;
+{
     // Start at the top and recurse down
     CGRect frame = [self.window convertRect:rect fromView:self];
     
     UIView *hitView = nil;
+    CGPoint tapPoint = CGPointZero;
+    
+    // Mid point
+    tapPoint = CGPointCenteredInRect(frame);
+    hitView = [self.window hitTest:tapPoint withEvent:nil];
+    if ([hitView isDescendantOfView:self]) {
+        return [self.window convertPoint:tapPoint toView:self];
+    }
     
     // Top left
-    hitView = [self.window hitTest:CGPointMake(frame.origin.x + 1.0f, frame.origin.y + 1.0f) withEvent:nil];
+    tapPoint = CGPointMake(frame.origin.x + 1.0f, frame.origin.y + 1.0f);
+    hitView = [self.window hitTest:tapPoint withEvent:nil];
     if ([hitView isDescendantOfView:self]) {
-        return YES;
+        return [self.window convertPoint:tapPoint toView:self];
     }
     
     // Top right
-    hitView = [self.window hitTest:CGPointMake(frame.origin.x + 1.0f + frame.size.width - 1.0f, frame.origin.y + 1.0f) withEvent:nil];
+    tapPoint = CGPointMake(frame.origin.x + 1.0f + frame.size.width - 1.0f, frame.origin.y + 1.0f);
+    hitView = [self.window hitTest:tapPoint withEvent:nil];
     if ([hitView isDescendantOfView:self]) {
-        return YES;
+        return [self.window convertPoint:tapPoint toView:self];
     }
     
     // Bottom left
-    hitView = [self.window hitTest:CGPointMake(frame.origin.x + 1.0f, frame.origin.y + frame.size.height - 1.0f) withEvent:nil];
+    tapPoint = CGPointMake(frame.origin.x + 1.0f, frame.origin.y + frame.size.height - 1.0f);
+    hitView = [self.window hitTest:tapPoint withEvent:nil];
     if ([hitView isDescendantOfView:self]) {
-        return YES;
+        return [self.window convertPoint:tapPoint toView:self];
     }
     
     // Bottom right
-    hitView = [self.window hitTest:CGPointMake(frame.origin.x + frame.size.width - 1.0f, frame.origin.y + frame.size.height - 1.0f) withEvent:nil];
+    tapPoint = CGPointMake(frame.origin.x + frame.size.width - 1.0f, frame.origin.y + frame.size.height - 1.0f);
+    hitView = [self.window hitTest:tapPoint withEvent:nil];
     if ([hitView isDescendantOfView:self]) {
-        return YES;
+        return [self.window convertPoint:tapPoint toView:self];
     }
     
-    // Mid point
-    hitView = [self.window hitTest:CGPointCenteredInRect(frame) withEvent:nil];
-    if ([hitView isDescendantOfView:self]) {
-        return YES;
-    }
-    
-    return NO;
+    return CGPointMake(NAN, NAN);
 }
 
 @end
