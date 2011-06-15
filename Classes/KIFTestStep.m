@@ -158,7 +158,11 @@
         }
         
         CGRect elementFrame = [view.window convertRect:element.accessibilityFrame toView:view];
-        [view tapAtPoint:CGPointCenteredInRect(elementFrame)];
+        CGPoint tappablePointInElement = [view tappablePointInRect:elementFrame];
+        
+        // This is mostly redundant of the test in _accessibilityElementWithLabel:
+        KIFTestCondition(!isnan(tappablePointInElement.x), error, @"The element with accessibility label %@ is not tappable", label);
+        [view tapAtPoint:tappablePointInElement];
         
         // Verify that we successfully selected the view
         if (![view canBecomeFirstResponder]) {
@@ -193,7 +197,11 @@
         KIFTestWaitCondition(view, error, @"Cannot find view with accessibility label \"%@\"", label);
                 
         CGRect elementFrame = [view.window convertRect:element.accessibilityFrame toView:view];
-        [view tapAtPoint:CGPointCenteredInRect(elementFrame)];
+        CGPoint tappablePointInElement = [view tappablePointInRect:elementFrame];
+        
+        // This is mostly a redundant of the test in _accessibilityElementWithLabel:
+        KIFTestCondition(!isnan(tappablePointInElement.x), error, @"The element with accessibility label %@ is not tappable", label);
+        [view tapAtPoint:tappablePointInElement];
         
         KIFTestCondition([view isAncestorOfFirstResponder], error, @"Failed to make the view with accessibility label \"%@\" the first responder. First responder is %@", label, [[[UIApplication sharedApplication] keyWindow] firstResponder]);
         

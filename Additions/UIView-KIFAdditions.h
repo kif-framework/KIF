@@ -35,4 +35,7 @@
  */
 - (BOOL)isTappableInRect:(CGRect)rect;
 
+
+- (CGPoint)tappablePointInRect:(CGRect)rect;
+
 @end
