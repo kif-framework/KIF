@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		AAB0726C139719AC008AF393 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAB0726B139719AC008AF393 /* Foundation.framework */; };
 		AAB0728213971A63008AF393 /* KIF-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = AAB0728113971A63008AF393 /* KIF-Prefix.pch */; };
-		AAB0728C13971A98008AF393 /* KIF-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = AAB0728513971A98008AF393 /* KIF-Prefix.pch */; };
 		AAB0728D13971A98008AF393 /* KIFTestController.h in Headers */ = {isa = PBXBuildFile; fileRef = AAB0728613971A98008AF393 /* KIFTestController.h */; };
 		AAB0728E13971A98008AF393 /* KIFTestController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB0728713971A98008AF393 /* KIFTestController.m */; };
 		AAB0728F13971A98008AF393 /* KIFTestScenario.h in Headers */ = {isa = PBXBuildFile; fileRef = AAB0728813971A98008AF393 /* KIFTestScenario.h */; };
@@ -166,7 +165,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				AAB0728213971A63008AF393 /* KIF-Prefix.pch in Headers */,
-				AAB0728C13971A98008AF393 /* KIF-Prefix.pch in Headers */,
 				AAB0728D13971A98008AF393 /* KIFTestController.h in Headers */,
 				AAB0728F13971A98008AF393 /* KIFTestScenario.h in Headers */,
 				AAB0729113971A98008AF393 /* KIFTestStep.h in Headers */,
@@ -207,6 +205,9 @@
 /* Begin PBXProject section */
 		AAB0725F139719AC008AF393 /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+			};
 			buildConfigurationList = AAB07262139719AC008AF393 /* Build configuration list for PBXProject "KIF" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
