@@ -20,6 +20,12 @@
 
 @end
 
+@interface UIView (KIFAdditionsPrivate)
+
+- (BOOL)isTappableWithHitTestResultView:(UIView *)hitView;
+
+@end
+
 
 @implementation UIView (KIFAdditions)
 
@@ -269,6 +275,19 @@
     return !isnan(tappablePoint.x);
 }
 
+- (BOOL)isTappableWithHitTestResultView:(UIView *)hitView;
+{
+    // Special case UISegment (a private UIView representing a single segment of a UISegmentedControl) to
+    // return YES if the hitView is its parent UISegmentedControl.
+    if ([self isKindOfClass:[NSClassFromString(@"UISegment") class]]) {
+        if ([hitView isKindOfClass:[UISegmentedControl class]] && hitView == [self superview]) {
+            return YES;
+        }
+    }
+    
+    return [hitView isDescendantOfView:self];
+}
+
 - (CGPoint)tappablePointInRect:(CGRect)rect;
 {
     // Start at the top and recurse down
@@ -280,35 +299,35 @@
     // Mid point
     tapPoint = CGPointCenteredInRect(frame);
     hitView = [self.window hitTest:tapPoint withEvent:nil];
-    if ([hitView isDescendantOfView:self]) {
+    if ([self isTappableWithHitTestResultView:hitView]) {
         return [self.window convertPoint:tapPoint toView:self];
     }
     
     // Top left
     tapPoint = CGPointMake(frame.origin.x + 1.0f, frame.origin.y + 1.0f);
     hitView = [self.window hitTest:tapPoint withEvent:nil];
-    if ([hitView isDescendantOfView:self]) {
+    if ([self isTappableWithHitTestResultView:hitView]) {
         return [self.window convertPoint:tapPoint toView:self];
     }
     
     // Top right
     tapPoint = CGPointMake(frame.origin.x + 1.0f + frame.size.width - 1.0f, frame.origin.y + 1.0f);
     hitView = [self.window hitTest:tapPoint withEvent:nil];
-    if ([hitView isDescendantOfView:self]) {
+    if ([self isTappableWithHitTestResultView:hitView]) {
         return [self.window convertPoint:tapPoint toView:self];
     }
     
     // Bottom left
     tapPoint = CGPointMake(frame.origin.x + 1.0f, frame.origin.y + frame.size.height - 1.0f);
     hitView = [self.window hitTest:tapPoint withEvent:nil];
-    if ([hitView isDescendantOfView:self]) {
+    if ([self isTappableWithHitTestResultView:hitView]) {
         return [self.window convertPoint:tapPoint toView:self];
     }
     
     // Bottom right
     tapPoint = CGPointMake(frame.origin.x + frame.size.width - 1.0f, frame.origin.y + frame.size.height - 1.0f);
     hitView = [self.window hitTest:tapPoint withEvent:nil];
-    if ([hitView isDescendantOfView:self]) {
+    if ([self isTappableWithHitTestResultView:hitView]) {
         return [self.window convertPoint:tapPoint toView:self];
     }
     
