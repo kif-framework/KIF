@@ -62,6 +62,12 @@
     }];
 }
 
++ (void)stepFailed;
+{
+    NSLog(@"step failed: %@", self);
+    // breakpoint
+}
+
 + (id)stepToWaitForViewWithAccessibilityLabel:(NSString *)label;
 {
     return [self stepToWaitForViewWithAccessibilityLabel:label traits:UIAccessibilityTraitNone];

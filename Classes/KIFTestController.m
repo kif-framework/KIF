@@ -207,9 +207,6 @@ static void releaseInstance()
             self.currentScenarioStartDate = [NSDate date];
             self.currentStep = (self.currentScenario.steps.count ? [self.currentScenario.steps objectAtIndex:0] : nil);
             self.currentStepStartDate = [NSDate date];
-            if (error) {
-                NSLog(@"The step \"%@\" failed: %@", self.currentStep, [error description]);
-            }
             failureCount++;
             break;
         }
