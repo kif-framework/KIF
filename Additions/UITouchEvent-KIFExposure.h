@@ -13,10 +13,13 @@
     id                      _event;
     NSTimeInterval          _timestamp;
     NSMutableSet           *_touches;
+    
     CFMutableDictionaryRef  _keyedTouches;
+    CFMutableDictionaryRef  _gestureRecognizersByWindow;
 }
 
 - (id)initWithTouch:(UITouch *)touch;
+- (BOOL)_addGestureRecognizersForView:(UIView *)view toTouch:(UITouch *)touch;
 
 @end
 

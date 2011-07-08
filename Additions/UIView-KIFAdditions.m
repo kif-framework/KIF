@@ -210,6 +210,14 @@
     [touch setPhase:UITouchPhaseBegan];
     
     UIEvent *event = [[NSClassFromString(@"UITouchesEvent") alloc] initWithTouch:touch];
+    
+    if ([self isKindOfClass:[UISwitch class]]) {
+        NSLog(@"Created fake event: %@", event);
+        for (UIGestureRecognizer *gestureRecognizer in touch.gestureRecognizers) {
+            NSLog(@"Touches for gestureRecognizer %@:\n%@", gestureRecognizer, [event touchesForGestureRecognizer:gestureRecognizer]);
+        }
+    }    
+    
     [[UIApplication sharedApplication] sendEvent:event];
     
     [touch setPhase:UITouchPhaseEnded];

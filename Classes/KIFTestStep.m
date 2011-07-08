@@ -282,6 +282,41 @@
     }];
 }
 
++ (id)stepToSetState:(BOOL)switchIsOn forSwitchWithAccessibilityLabel:(NSString *)label;
+{
+    NSString *description = [NSString stringWithFormat:@"Switch the toggle with accessibility label \"%@\" to %@", label, switchIsOn ? @"ON" : @"OFF"];
+    return [self stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
+        
+        UIAccessibilityElement *element = [self _accessibilityElementWithLabel:label accessibilityValue:nil tappable:YES traits:UIAccessibilityTraitNone error:error];
+        if (!element) {
+            return KIFTestStepResultWait;
+        }
+                
+        UISwitch *switchView = (UISwitch *)[UIAccessibilityElement viewContainingAccessibilityElement:element];
+        KIFTestWaitCondition([switchView isKindOfClass:[UISwitch class]], error, @"Cannot find switch with accessibility label \"%@\"", label);
+        
+        // No need to switch it if it's already in the correct position
+        BOOL current = switchView.on;
+        if (current == switchIsOn) {
+            return KIFTestStepResultSuccess;   
+        }
+
+        CGRect elementFrame = [switchView.window convertRect:element.accessibilityFrame toView:switchView];
+        CGPoint tappablePointInElement = [switchView tappablePointInRect:elementFrame];
+        
+        // This is mostly redundant of the test in _accessibilityElementWithLabel:
+        KIFTestCondition(!isnan(tappablePointInElement.x), error, @"The element with accessibility label %@ is not tappable", label);
+        [switchView tapAtPoint:tappablePointInElement];
+                
+        // This is should be a UISwitch, so make sure it worked
+            BOOL expected = switchIsOn;
+            BOOL actual = switchView.on;
+            KIFTestCondition(actual == expected, error, @"Failed to switch toggle to \"%@\"; instead, it was \"%@\"", expected ? @"ON" : @"OFF", actual ? @"ON" : @"OFF");
+        
+        return KIFTestStepResultSuccess;
+    }];
+}
+
 + (id)stepToDismissPopover;
 {
     return [self stepWithDescription:@"Dismiss the popover" executionBlock:^(KIFTestStep *step, NSError **error) {

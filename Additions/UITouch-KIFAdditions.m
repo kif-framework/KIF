@@ -40,6 +40,21 @@
     _touchFlags._firstTouchForView = 1;
     _touchFlags._isTap = 1;
     _timestamp = [NSDate timeIntervalSinceReferenceDate];
+    _gestureView = [view retain];
+    
+    NSMutableArray *gestureRecognizers = [[NSMutableArray alloc] init];
+    UIView *superview = view;
+    while (superview) {
+        if (superview.gestureRecognizers.count) {
+            [gestureRecognizers addObjectsFromArray:superview.gestureRecognizers];
+        }
+        
+        superview = superview.superview;
+    }
+    
+    _gestureRecognizers = gestureRecognizers;
+    
+    NSLog(@"Created touch: %@", self);
     
 	return self;
 }

@@ -7,6 +7,7 @@
 //
 
 #import "UITouchEvent-KIFExposure.h"
+#import <objc/runtime.h>
 
 
 //
@@ -34,6 +35,9 @@
 
 @end
 
+@implementation KIFTouchEvent
+@end
+
 @implementation KIFEventProxy
 @end
 
@@ -44,11 +48,18 @@
 
 @end
 
+Boolean GSEventShouldRouteToFrontMost(CFTypeRef event);
+CFTypeRef GSEventCreateWithTypeAndLocation(NSUInteger type, CGPoint location);
 
 @implementation UIEvent (Synthesize)
 
 - (id)initWithTouch:(UITouch *)touch
 {
+    // Create a GSEvent to use with our UIEvent.
+    // Info and header taken from: 
+    //  http://www.iphonedevwiki.net/index.php/GSEvent
+    //  https://github.com/kennytm/iphone-private-frameworks/blob/master/GraphicsServices/GSEvent.h
+    
 	CGPoint location = [touch locationInView:touch.window];
 	KIFEventProxy *eventProxy = [[KIFEventProxy alloc] init];
 	eventProxy->x1 = location.x;
@@ -62,6 +73,11 @@
 	eventProxy->flags = ([touch phase] == UITouchPhaseEnded) ? 0x1010180 : 0x3010180;
 	eventProxy->type = 3001;	
 	
+//    NSUInteger kGSEventLeftMouseUp = 2;
+//    
+//    GSEventShouldRouteToFrontMost(NULL);
+//    void *eventProxy = GSEventCreateWithTypeAndLocation(kGSEventLeftMouseUp, location);
+    
 	//
 	// On SDK versions 3.0 and greater, we need to reallocate as a
 	// UITouchesEvent.
@@ -72,8 +88,14 @@
 		[self release];
 		self = [touchesEventClass alloc];
 	}
+    
+    self = [(UIEvent *)self _initWithEvent:eventProxy touches:[NSMutableSet setWithObject:touch]];
+    
+//    ((KIFTouchEvent *)self)->_keyedTouches = CFDictionaryCreateMutable(NULL, 0, NULL, NULL);
+//    ((KIFTouchEvent *)self)->_gestureRecognizersByWindow = CFDictionaryCreateMutable(NULL, 0, NULL, NULL);
+    [(KIFTouchEvent *)self _addGestureRecognizersForView:touch.view toTouch:touch];
 	
-	return [(UIEvent *)self _initWithEvent:eventProxy touches:[NSMutableSet setWithObject:touch]];
+	return self; //[(UIEvent *)self _initWithEvent:eventProxy touches:[NSMutableSet setWithObject:touch]];
 }
 
 @end

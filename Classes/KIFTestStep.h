@@ -19,10 +19,10 @@
  */
 #define KIFTestCondition(condition, error, ...) ({ \
 if (!(condition)) { \
-    if (error) { \
-        *error = [[[NSError alloc] initWithDomain:@"KIFTest" code:KIFTestStepResultFailure userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:__VA_ARGS__], NSLocalizedDescriptionKey, nil]] autorelease]; \
-    } \
-    return KIFTestStepResultFailure; \
+if (error) { \
+*error = [[[NSError alloc] initWithDomain:@"KIFTest" code:KIFTestStepResultFailure userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:__VA_ARGS__], NSLocalizedDescriptionKey, nil]] autorelease]; \
+} \
+return KIFTestStepResultFailure; \
 } \
 })
 
@@ -33,13 +33,13 @@ if (!(condition)) { \
  @param condition The condition to test.
  @param error The NSError object to put the error string into. May be nil, but should usually be the error parameter from the test step execution block.
  @param ... A string describing why the step needs to wait. This is important since this reason will be considered the cause of a timeout error if the step requires waiting for too long. This may be a format string with additional arguments.
-*/
+ */
 #define KIFTestWaitCondition(condition, error, ...) ({ \
 if (!(condition)) { \
-    if (error) { \
-    *error = [[[NSError alloc] initWithDomain:@"KIFTest" code:KIFTestStepResultWait userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:__VA_ARGS__], NSLocalizedDescriptionKey, nil]] autorelease]; \
-    } \
-    return KIFTestStepResultWait; \
+if (error) { \
+*error = [[[NSError alloc] initWithDomain:@"KIFTest" code:KIFTestStepResultWait userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:__VA_ARGS__], NSLocalizedDescriptionKey, nil]] autorelease]; \
+} \
+return KIFTestStepResultWait; \
 } \
 })
 
@@ -269,6 +269,16 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
  @result A configured test step.
  */
 + (id)stepToSelectPickerViewRowWithTitle:(NSString *)title;
+
+/*!
+ @method stepToSetState:forSwitchWithAccessibilityLabel:
+ @abstract A step that toggles a UISwitch into a specified position.
+ @discussion The UISwitch with the given label is searched for in the view hierarchy. If the element isn't found or isn't currently tappable, then the step will attempt to wait until it is. Once the view is present, the step will return if it's already in the desired position. If the switch is tappable but not in the desired position, a tap event is simulated in the center of the view or element, toggling the switch into the desired position.
+ @param switchIsOn The desired position of the UISwitch.
+ @param label The accessibility label of the element to switch.
+ @result A configured test step.
+ */
++ (id)stepToSetState:(BOOL)switchIsOn forSwitchWithAccessibilityLabel:(NSString *)label;
 
 /*!
  @method stepToDismissPopover
