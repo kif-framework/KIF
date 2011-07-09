@@ -25,8 +25,6 @@
 		AAB072AB13971AB2008AF393 /* UIScrollView-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB0729B13971AB2008AF393 /* UIScrollView-KIFAdditions.m */; };
 		AAB072AC13971AB2008AF393 /* UITouch-KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = AAB0729C13971AB2008AF393 /* UITouch-KIFAdditions.h */; };
 		AAB072AD13971AB2008AF393 /* UITouch-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB0729D13971AB2008AF393 /* UITouch-KIFAdditions.m */; };
-		AAB072AE13971AB2008AF393 /* UITouchEvent-KIFExposure.h in Headers */ = {isa = PBXBuildFile; fileRef = AAB0729E13971AB2008AF393 /* UITouchEvent-KIFExposure.h */; };
-		AAB072AF13971AB2008AF393 /* UITouchEvent-KIFExposure.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB0729F13971AB2008AF393 /* UITouchEvent-KIFExposure.m */; };
 		AAB072B013971AB2008AF393 /* UIView-KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = AAB072A013971AB2008AF393 /* UIView-KIFAdditions.h */; };
 		AAB072B113971AB2008AF393 /* UIView-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB072A113971AB2008AF393 /* UIView-KIFAdditions.m */; };
 		AAB072B213971AB2008AF393 /* UIWindow-KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = AAB072A213971AB2008AF393 /* UIWindow-KIFAdditions.h */; };
@@ -34,7 +32,6 @@
 		AAB072B513971AEA008AF393 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAB072B413971AEA008AF393 /* UIKit.framework */; };
 		CDFD8E86139728B4008D299F /* NSFileManager-KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = CDFD8E84139728B4008D299F /* NSFileManager-KIFAdditions.h */; };
 		CDFD8E87139728B4008D299F /* NSFileManager-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CDFD8E85139728B4008D299F /* NSFileManager-KIFAdditions.m */; };
-		EFE0D84613C7AB16006E95E6 /* GraphicsServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFE0D84513C7AB16006E95E6 /* GraphicsServices.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -58,8 +55,6 @@
 		AAB0729B13971AB2008AF393 /* UIScrollView-KIFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView-KIFAdditions.m"; sourceTree = "<group>"; };
 		AAB0729C13971AB2008AF393 /* UITouch-KIFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITouch-KIFAdditions.h"; sourceTree = "<group>"; };
 		AAB0729D13971AB2008AF393 /* UITouch-KIFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITouch-KIFAdditions.m"; sourceTree = "<group>"; };
-		AAB0729E13971AB2008AF393 /* UITouchEvent-KIFExposure.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITouchEvent-KIFExposure.h"; sourceTree = "<group>"; };
-		AAB0729F13971AB2008AF393 /* UITouchEvent-KIFExposure.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITouchEvent-KIFExposure.m"; sourceTree = "<group>"; };
 		AAB072A013971AB2008AF393 /* UIView-KIFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView-KIFAdditions.h"; sourceTree = "<group>"; };
 		AAB072A113971AB2008AF393 /* UIView-KIFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView-KIFAdditions.m"; sourceTree = "<group>"; };
 		AAB072A213971AB2008AF393 /* UIWindow-KIFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIWindow-KIFAdditions.h"; sourceTree = "<group>"; };
@@ -67,8 +62,6 @@
 		AAB072B413971AEA008AF393 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		CDFD8E84139728B4008D299F /* NSFileManager-KIFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFileManager-KIFAdditions.h"; sourceTree = "<group>"; };
 		CDFD8E85139728B4008D299F /* NSFileManager-KIFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager-KIFAdditions.m"; sourceTree = "<group>"; };
-		EFE0D84213C7AAB7006E95E6 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		EFE0D84513C7AB16006E95E6 /* GraphicsServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GraphicsServices.framework; path = Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.3.sdk/System/Library/PrivateFrameworks/GraphicsServices.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,7 +69,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EFE0D84613C7AB16006E95E6 /* GraphicsServices.framework in Frameworks */,
 				AAB0726C139719AC008AF393 /* Foundation.framework in Frameworks */,
 				AAB072B513971AEA008AF393 /* UIKit.framework in Frameworks */,
 			);
@@ -88,8 +80,6 @@
 		AAB0725D139719AC008AF393 = {
 			isa = PBXGroup;
 			children = (
-				EFE0D84513C7AB16006E95E6 /* GraphicsServices.framework */,
-				EFE0D84213C7AAB7006E95E6 /* CoreGraphics.framework */,
 				AAB072B413971AEA008AF393 /* UIKit.framework */,
 				AAB0729313971AB2008AF393 /* Additions */,
 				AAB0728413971A98008AF393 /* Classes */,
@@ -153,8 +143,6 @@
 				AAB0729B13971AB2008AF393 /* UIScrollView-KIFAdditions.m */,
 				AAB0729C13971AB2008AF393 /* UITouch-KIFAdditions.h */,
 				AAB0729D13971AB2008AF393 /* UITouch-KIFAdditions.m */,
-				AAB0729E13971AB2008AF393 /* UITouchEvent-KIFExposure.h */,
-				AAB0729F13971AB2008AF393 /* UITouchEvent-KIFExposure.m */,
 				AAB072A013971AB2008AF393 /* UIView-KIFAdditions.h */,
 				AAB072A113971AB2008AF393 /* UIView-KIFAdditions.m */,
 				AAB072A213971AB2008AF393 /* UIWindow-KIFAdditions.h */,
@@ -179,7 +167,6 @@
 				AAB072A813971AB2008AF393 /* UIApplication-KIFAdditions.h in Headers */,
 				AAB072AA13971AB2008AF393 /* UIScrollView-KIFAdditions.h in Headers */,
 				AAB072AC13971AB2008AF393 /* UITouch-KIFAdditions.h in Headers */,
-				AAB072AE13971AB2008AF393 /* UITouchEvent-KIFExposure.h in Headers */,
 				AAB072B013971AB2008AF393 /* UIView-KIFAdditions.h in Headers */,
 				AAB072B213971AB2008AF393 /* UIWindow-KIFAdditions.h in Headers */,
 				CDFD8E86139728B4008D299F /* NSFileManager-KIFAdditions.h in Headers */,
@@ -244,7 +231,6 @@
 				AAB072A913971AB2008AF393 /* UIApplication-KIFAdditions.m in Sources */,
 				AAB072AB13971AB2008AF393 /* UIScrollView-KIFAdditions.m in Sources */,
 				AAB072AD13971AB2008AF393 /* UITouch-KIFAdditions.m in Sources */,
-				AAB072AF13971AB2008AF393 /* UITouchEvent-KIFExposure.m in Sources */,
 				AAB072B113971AB2008AF393 /* UIView-KIFAdditions.m in Sources */,
 				AAB072B313971AB2008AF393 /* UIWindow-KIFAdditions.m in Sources */,
 				CDFD8E87139728B4008D299F /* NSFileManager-KIFAdditions.m in Sources */,
@@ -290,10 +276,6 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				DSTROOT = /tmp/KIF.dst;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(DEVELOPER_DIR)/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.3.sdk/System/Library/PrivateFrameworks\"",
-				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Classes/KIF-Prefix.pch";
 				OTHER_LDFLAGS = "-ObjC";
@@ -306,10 +288,6 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				DSTROOT = /tmp/KIF.dst;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(DEVELOPER_DIR)/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator4.3.sdk/System/Library/PrivateFrameworks\"",
-				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Classes/KIF-Prefix.pch";
 				OTHER_LDFLAGS = "-ObjC";

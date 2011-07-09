@@ -54,8 +54,6 @@
     
     _gestureRecognizers = gestureRecognizers;
     
-    NSLog(@"Created touch: %@", self);
-    
 	return self;
 }
     
