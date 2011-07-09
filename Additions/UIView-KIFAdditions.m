@@ -10,8 +10,46 @@
 #import "CGGeometry-KIFAdditions.h"
 #import "UIAccessibilityElement-KIFAdditions.h"
 #import "UITouch-KIFAdditions.h"
-#import "UITouchEvent-KIFExposure.h"
 #import <objc/runtime.h>
+
+
+//
+// GSEvent is an undeclared object. We don't need to use it ourselves but some
+// Apple APIs (UIScrollView in particular) require the x and y fields to be present.
+//
+@interface KIFEventProxy : NSObject
+{
+@public
+	unsigned int flags;
+	unsigned int type;
+	unsigned int ignored1;
+	float x1;
+	float y1;
+	float x2;
+	float y2;
+	unsigned int ignored2[10];
+	unsigned int ignored3[7];
+	float sizeX;
+	float sizeY;
+	float x3;
+	float y3;
+	unsigned int ignored4[3];
+}
+
+@end
+
+@implementation KIFEventProxy
+@end
+
+// This class exposes methods of UITouchesEvent so that the compiler doesn't complain
+@interface KIFTouchEvent : NSObject
+
+- (BOOL)_addGestureRecognizersForView:(UIView *)view toTouch:(UITouch *)touch;
+- (void)_addTouch:(id)arg1 forDelayedDelivery:(BOOL)arg2;
+- (void)_clearTouches;
+- (void)_setGSEvent:(struct __GSEvent *)event;
+
+@end
 
 
 @interface NSObject (UIWebDocumentViewInternal)
@@ -23,6 +61,7 @@
 @interface UIView (KIFAdditionsPrivate)
 
 - (BOOL)isTappableWithHitTestResultView:(UIView *)hitView;
+- (UIEvent *)_eventWithTouch:(UITouch *)touch;
 
 @end
 
@@ -190,6 +229,8 @@
 - (void)tapAtPoint:(CGPoint)point;
 {
     // Web views don't handle touches in a normal fashion, but they do have a method we can call to tap them
+    // This may not be necessary anymore. We didn't properly support controls that used gesture recognizers
+    // when this was added, but we now do. It needs to be tested before we can get rid of it.
     id /*UIWebBrowserView*/ webBrowserView = nil;
     
     if ([NSStringFromClass([self class]) isEqual:@"UIWebBrowserView"]) {
@@ -209,7 +250,15 @@
     UITouch *touch = [[UITouch alloc] initAtPoint:point inView:self];
     [touch setPhase:UITouchPhaseBegan];
     
-    UIEvent *event = [[NSClassFromString(@"UITouchesEvent") alloc] initWithTouch:touch];
+    UIEvent *event = [self _eventWithTouch:touch];
+    
+    if ([self isKindOfClass:[UISwitch class]]) {
+        NSLog(@"Created fake event: %@", event);
+        for (UIGestureRecognizer *gestureRecognizer in touch.gestureRecognizers) {
+            NSLog(@"Touches for gestureRecognizer %@:\n%@", gestureRecognizer, [event touchesForGestureRecognizer:gestureRecognizer]);
+        }
+    }    
+    
     [[UIApplication sharedApplication] sendEvent:event];
     
     [touch setPhase:UITouchPhaseEnded];
@@ -220,7 +269,6 @@
         [self becomeFirstResponder];
     }
     
-    [event release];
     [touch release];
 }
 
@@ -230,7 +278,7 @@
     UITouch *touchDown = [[UITouch alloc] initAtPoint:startPoint inView:self];
     [touchDown setPhase:UITouchPhaseBegan];
     
-    UIEvent *eventDown = [[NSClassFromString(@"UITouchesEvent") alloc] initWithTouch:touchDown];
+    UIEvent *eventDown = [self _eventWithTouch:touchDown];
     [[UIApplication sharedApplication] sendEvent:eventDown];
     
     UITouch *touchDrag = [[UITouch alloc] initAtPoint:CGPointMidPoint(startPoint, endPoint) inView:self];
@@ -239,15 +287,15 @@
     UITouch *touchUp = [[UITouch alloc] initAtPoint:endPoint inView:self];
     [touchUp setPhase:UITouchPhaseMoved];
     
-    UIEvent *eventDrag = [[NSClassFromString(@"UITouchesEvent") alloc] initWithTouch:touchDrag];
+    UIEvent *eventDrag = [self _eventWithTouch:touchDrag];
     [[UIApplication sharedApplication] sendEvent:eventDrag];
     
-    UIEvent *eventDrag2 = [[NSClassFromString(@"UITouchesEvent") alloc] initWithTouch:touchUp];
+    UIEvent *eventDrag2 = [self _eventWithTouch:touchUp];
     [[UIApplication sharedApplication] sendEvent:eventDrag2];
     
     [touchUp setPhase:UITouchPhaseEnded];
     
-    UIEvent *eventUp = [[NSClassFromString(@"UITouchesEvent") alloc] initWithTouch:touchUp];
+    UIEvent *eventUp = [self _eventWithTouch:touchUp];
     
     [[UIApplication sharedApplication] sendEvent:eventUp];
     
@@ -256,8 +304,6 @@
         [self becomeFirstResponder];
     }
     
-    [eventDown release];
-    [eventUp release];
     [touchDown release];
     [touchUp release];
 }
@@ -332,6 +378,33 @@
     }
     
     return CGPointMake(NAN, NAN);
+}
+
+- (UIEvent *)_eventWithTouch:(UITouch *)touch;
+{
+    UIEvent *event = [[UIApplication sharedApplication] performSelector:@selector(_touchesEvent)];
+    
+    CGPoint location = [touch locationInView:touch.window];
+    KIFEventProxy *eventProxy = [[KIFEventProxy alloc] init];
+    eventProxy->x1 = location.x;
+    eventProxy->y1 = location.y;
+    eventProxy->x2 = location.x;
+    eventProxy->y2 = location.y;
+    eventProxy->x3 = location.x;
+    eventProxy->y3 = location.y;
+    eventProxy->sizeX = 1.0;
+    eventProxy->sizeY = 1.0;
+    eventProxy->flags = ([touch phase] == UITouchPhaseEnded) ? 0x1010180 : 0x3010180;
+    eventProxy->type = 3001;	
+
+    KIFTouchEvent *touchEvent = (KIFTouchEvent *)event;
+    [touchEvent _clearTouches];
+    [touchEvent _addTouch:touch forDelayedDelivery:NO];
+    [touchEvent _setGSEvent:(struct __GSEvent *)eventProxy];
+    [touchEvent _addGestureRecognizersForView:touch.view toTouch:touch];
+    
+    [eventProxy release];
+    return event;
 }
 
 @end
