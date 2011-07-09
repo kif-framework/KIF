@@ -229,6 +229,8 @@
 - (void)tapAtPoint:(CGPoint)point;
 {
     // Web views don't handle touches in a normal fashion, but they do have a method we can call to tap them
+    // This may not be necessary anymore. We didn't properly support controls that used gesture recognizers
+    // when this was added, but we now do. It needs to be tested before we can get rid of it.
     id /*UIWebBrowserView*/ webBrowserView = nil;
     
     if ([NSStringFromClass([self class]) isEqual:@"UIWebBrowserView"]) {
@@ -383,18 +385,18 @@
     UIEvent *event = [[UIApplication sharedApplication] performSelector:@selector(_touchesEvent)];
     
     CGPoint location = [touch locationInView:touch.window];
-	KIFEventProxy *eventProxy = [[KIFEventProxy alloc] init];
-	eventProxy->x1 = location.x;
-	eventProxy->y1 = location.y;
-	eventProxy->x2 = location.x;
-	eventProxy->y2 = location.y;
-	eventProxy->x3 = location.x;
-	eventProxy->y3 = location.y;
-	eventProxy->sizeX = 1.0;
-	eventProxy->sizeY = 1.0;
-	eventProxy->flags = ([touch phase] == UITouchPhaseEnded) ? 0x1010180 : 0x3010180;
-	eventProxy->type = 3001;	
-    
+    KIFEventProxy *eventProxy = [[KIFEventProxy alloc] init];
+    eventProxy->x1 = location.x;
+    eventProxy->y1 = location.y;
+    eventProxy->x2 = location.x;
+    eventProxy->y2 = location.y;
+    eventProxy->x3 = location.x;
+    eventProxy->y3 = location.y;
+    eventProxy->sizeX = 1.0;
+    eventProxy->sizeY = 1.0;
+    eventProxy->flags = ([touch phase] == UITouchPhaseEnded) ? 0x1010180 : 0x3010180;
+    eventProxy->type = 3001;	
+
     KIFTouchEvent *touchEvent = (KIFTouchEvent *)event;
     [touchEvent _clearTouches];
     [touchEvent _addTouch:touch forDelayedDelivery:NO];

@@ -42,6 +42,7 @@
     _timestamp = [NSDate timeIntervalSinceReferenceDate];
     _gestureView = [view retain];
     
+    // The gesture recognizers for the touch are the compiled list from all of the views in the view stack at the touch point
     NSMutableArray *gestureRecognizers = [[NSMutableArray alloc] init];
     UIView *superview = view;
     while (superview) {
