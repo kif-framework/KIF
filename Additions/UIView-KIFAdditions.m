@@ -80,8 +80,12 @@
 
 - (UIAccessibilityElement *)accessibilityElementWithLabel:(NSString *)label accessibilityValue:(NSString *)value traits:(UIAccessibilityTraits)traits;
 {
+    if (self.hidden) {
+        return nil;
+    }
+    
     // In case multiple elements with the same label exist, prefer ones that are currently visible
-    UIAccessibilityElement *matchingButHiddenElement = nil;
+    UIAccessibilityElement *matchingButOccludedElement = nil;
     
     BOOL labelsMatch = [self.accessibilityLabel isEqual:label];
     BOOL traitsMatch = ((self.accessibilityTraits) & traits) == traits;
@@ -91,7 +95,7 @@
         if (self.tappable) {
             return (UIAccessibilityElement *)self;
         } else {
-            matchingButHiddenElement = (UIAccessibilityElement *)self;
+            matchingButOccludedElement = (UIAccessibilityElement *)self;
         }
     }
     
@@ -111,7 +115,7 @@
         if ([viewForElement isTappableInRect:accessibilityFrame]) {
             return element;
         } else {
-            matchingButHiddenElement = element;
+            matchingButOccludedElement = element;
         }
     }
     
@@ -132,7 +136,7 @@
             if ([viewForElement isTappableInRect:accessibilityFrame]) {
                 return element;
             } else {
-                matchingButHiddenElement = element;
+                matchingButOccludedElement = element;
                 continue;
             }
         }
@@ -151,7 +155,7 @@
         }
     }
         
-    return matchingButHiddenElement;
+    return matchingButOccludedElement;
 }
 
 - (UIView *)subviewWithClassNamePrefix:(NSString *)prefix;
@@ -323,12 +327,13 @@
 
 - (BOOL)isTappableWithHitTestResultView:(UIView *)hitView;
 {
-    // Special case UISegment (a private UIView representing a single segment of a UISegmentedControl) to
-    // return YES if the hitView is its parent UISegmentedControl.
-    if ([self isKindOfClass:[NSClassFromString(@"UISegment") class]]) {
-        if ([hitView isKindOfClass:[UISegmentedControl class]] && hitView == [self superview]) {
-            return YES;
-        }
+    // Special case for UIControls, which may have subviews which don't respond to -hitTest:,
+    // but which are tappable. In this case the hit view will be the containing
+    // UIControl, and it will forward the tap to the appropriate subview.
+    // This applies with UISegmentedControl which contains UISegment views (a private UIView
+    // representing a single segment).
+    if ([hitView isKindOfClass:[UIControl class]] && [self isDescendantOfView:hitView]) {
+        return YES;
     }
     
     return [hitView isDescendantOfView:self];
