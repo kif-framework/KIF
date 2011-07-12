@@ -3,7 +3,7 @@ KIF iOS Integration Testing Framework
 
 KIF, which stands for Keep It Functional, is an iOS integration test framework. It allows for easy automation of iOS apps by leveraging the accessibility attributes that the OS makes available for those with visual disabilities.
 
-*KIF uses undocumented Apple APIs.* This is true of most iOS testing frameworks, and is safe for testing purposes, but it's important that KIF does not make it into production code, as it will get your app submission denied by Apple. Follow the instructions below to ensure that KIF is configured correctly for your project.
+**KIF uses undocumented Apple APIs.** This is true of most iOS testing frameworks, and is safe for testing purposes, but it's important that KIF does not make it into production code, as it will get your app submission denied by Apple. Follow the instructions below to ensure that KIF is configured correctly for your project.
 
 Features
 --------
@@ -30,7 +30,7 @@ The first step is to add the KIF project into the ./Frameworks/KIF subdirectory 
 
 	cd /path/to/MyApplicationSource
 	mkdir Frameworks
-	git submodule add git@github.com:/square/KIF Frameworks/KIF
+	git submodule add https://github.com/square/KIF.git Frameworks/KIF
 
 If you're not using GitHub, simply download the source and copy it into the ./Frameworks/KIF directory.
 
@@ -40,7 +40,7 @@ Let your project know about KIF by adding the KIF project into a workspace along
 ![Create workspace screen shot](https://github.com/square/KIF/raw/master/Documentation/Images/Create Workspace.png)
 
 ### Create a Testing Target
-You'll need to create a second target for the KIF enabled version of the app to test. This gives you an easy way to begin testing (just run this second target), and also helps make sure that no testing code ever makes it into your App Store submission and gets your app rejected.
+You'll need to create a second target for the KIF-enabled version of the app to test. This gives you an easy way to begin testing -- just run this second target -- and also helps make sure that no testing code ever makes it into your App Store submission and gets your app rejected.
 
 The new target will start as a duplicate of your old target. To create the duplicate target, select the project file for your app in the Project Navigator. From there, CTRL+click the target for your app and select the "Duplicate" option.
 
@@ -81,7 +81,7 @@ Example
 -------
 With your project configured to use KIF, it's time to start writing tests. There are three main classes used in KIF testing: the test runner (KIFTestController), a testable scenario (KIFTestScenario), and a test step (KIFTestStep). The test runner is composed of a list of scenarios that it runs, and in turn each scenario is composed of a list of steps. A step is a small and simple action which is generally used to imitate a user interaction. Three of the most common steps are "tap this view," "enter text into this view," and "wait for this view." These steps are included as factory methods on KIFTestStep in the base KIF implementation.
 
-KIF relies on the built in accessibility of iOS to perform its test steps. As such, it's important that your app is fully accessible. This is also a great way to ensure that your app is usable by the sight impaired. Making your application accessible is usually as easy as giving your views reasonable labels. More details are available in [Apple's Documentation](http://developer.apple.com/library/ios/#documentation/UserExperience/Conceptual/iPhoneAccessibility/Making_Application_Accessible/Making_Application_Accessible.html#//apple_ref/doc/uid/TP40008785-CH102-SW5).
+KIF relies on the built-in accessibility of iOS to perform its test steps. As such, it's important that your app is fully accessible. This is also a great way to ensure that your app is usable by the sight impaired. Making your application accessible is usually as easy as giving your views reasonable labels. More details are available in [Apple's Documentation](http://developer.apple.com/library/ios/#documentation/UserExperience/Conceptual/iPhoneAccessibility/Making_Application_Accessible/Making_Application_Accessible.html#//apple_ref/doc/uid/TP40008785-CH102-SW5).
 
 Although not required, it's recommended that you create a subclass of KIFTestController that is specific to your application. This subclass will override the -initializeScenarios method, which will contain a list of invocations for the scenarios that your test suite will run. We'll call our subclass EXTestController, and will add an initial test scenario, which we will define later.
 
@@ -238,7 +238,7 @@ The other line to notice in the sample scenario is the one that calls +[KIFTestS
 
 	@end
 
-Finally, the app needs a hook so that it actually runs the KIF tests when executing the Integration Tests target. To do this we'll take advantage of the RUN_KIF_TESTS macro that was defined earlier. This macro is only defined in the testing target, so the tests won't run in the regular target. To invoke the test suite, add the following code to the end of the -application:didFinishLaunchingWithOptions: method in your application delegate:
+Finally, the app needs a hook so that it actually runs the KIF tests when executing the Integration Tests target. To do this we'll take advantage of the `RUN_KIF_TESTS` macro that was defined earlier. This macro is only defined in the testing target, so the tests won't run in the regular target. To invoke the test suite, add the following code to the end of the -application:didFinishLaunchingWithOptions: method in your application delegate:
 
 	#if RUN_KIF_TESTS
 	    [[EXTestController sharedInstance] startTestingWithCompletionBlock:^{
@@ -254,6 +254,19 @@ KIF also generates a nicely formatted log containing the full results and timing
 	~/Library/Application Support/iPhone Simulator/<iOS version>/Applications/<Application UUID>/Library/Logs/
 
 For a simple but complete example of KIF in action, check out the Testable sample project in Documentation/Examples.
+
+Environment Variables
+---------------------
+
+You can set a number of environment variables to unlock hidden features of KIF.
+
+### `KIF_SCREENSHOTS`
+
+Set `KIF_SCREENSHOTS` to the full path to a folder on your computer to have KIF output a screenshot of your app as it appears when any given step fails.
+
+### `KIF_FAILURES`
+
+Set `KIF_FAILURES` to the full path to a file on your computer -- that need not exist -- to have KIF keep track of the failing scenarios it encounters during a test run. If any scenarios fail during a run and `KIF_FAILURES`, the next run will only run the scenarios that failed the previous time. Once all of the scenarios succeed again, KIF will return to running all scenarios. This is useful if you're fixing a failing scenario, as it allows you to jump right back to where the problem was.
 
 Troubleshooting
 ---------------
@@ -299,4 +312,4 @@ A continuous integration (CI) process is highly recommended and is extremely use
 	# WaxSim hides the return value from the app, so to determine success we search for a "no failures" line
 	grep -q "TESTING FINISHED: 0 failures" /tmp/KIF-$$.out
 	
-This should provide a strong starting point, but you'll likely want to customize the script further. For example, you may want it to run iphone rather than ipad, or perhaps both.
+This should provide a strong starting point, but you'll likely want to customize the script further. For example, you may want it to run `iphone` rather than `ipad`, or perhaps both.

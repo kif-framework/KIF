@@ -29,7 +29,7 @@
 - (void)_performTestStep:(KIFTestStep *)step;
 - (void)_advanceWithResult:(KIFTestStepResult)result error:(NSError*) error;
 - (KIFTestStep *)_nextStep;
-- (KIFTestScenario *)_nextScenario;
+- (KIFTestScenario *)_nextScenarioWithResult:(KIFTestStepResult)result;
 - (void)_writeScreenshotForStep:(KIFTestStep *)step;
 - (void)_logTestingDidStart;
 - (void)_logTestingDidFinish;
@@ -85,6 +85,15 @@ static void releaseInstance()
         return nil;
     }
     
+    NSString *failedScenarioPath = [[[NSProcessInfo processInfo] environment] objectForKey:@"KIF_FAILURES"];
+    if (failedScenarioPath) {
+        failedScenarioFile = [[NSURL fileURLWithPath:failedScenarioPath] retain];
+        failedScenarioIndexes = [[NSKeyedUnarchiver unarchiveObjectWithFile:failedScenarioPath] mutableCopy];
+    }
+    if (!failedScenarioIndexes) {
+        failedScenarioIndexes = [[NSMutableIndexSet alloc] init];
+    }
+    
     return self;
 }
 
@@ -97,6 +106,12 @@ static void releaseInstance()
     self.currentScenarioStartDate = nil;
     self.currentStepStartDate = nil;
     self.completionBlock = nil;
+    
+    [failedScenarioFile release];
+    failedScenarioFile = nil;
+
+    [failedScenarioIndexes release];
+    failedScenarioIndexes = nil;
     
     [super dealloc];
 }
@@ -129,7 +144,10 @@ static void releaseInstance()
     
     self.testing = YES;
     self.testSuiteStartDate = [NSDate date];
-    self.currentScenario = (self.scenarios.count ? [self.scenarios objectAtIndex:0] : nil);
+    if (!failedScenarioIndexes.count && self.scenarios.count) {
+        [failedScenarioIndexes addIndexesInRange:NSMakeRange(0, self.scenarios.count)];
+    }
+    self.currentScenario = (self.scenarios.count ? [self.scenarios objectAtIndex:[failedScenarioIndexes firstIndex]] : nil);
     self.currentScenarioStartDate = [NSDate date];
     self.currentStep = (self.currentScenario.steps.count ? [self.currentScenario.steps objectAtIndex:0] : nil);
     self.currentStepStartDate = [NSDate date];
@@ -145,6 +163,10 @@ static void releaseInstance()
 {
     [self _logTestingDidFinish];
     self.testing = NO;
+    
+    if (failedScenarioFile) {
+        [NSKeyedArchiver archiveRootObject:failedScenarioIndexes toFile:[failedScenarioFile path]];
+    }
     
     if (self.completionBlock) {
         self.completionBlock();
@@ -203,7 +225,7 @@ static void releaseInstance()
             [self _logDidFailStep:self.currentStep duration:currentStepDuration error:error];
             [self _writeScreenshotForStep:self.currentStep];
             
-            self.currentScenario = [self _nextScenario];
+            self.currentScenario = [self _nextScenarioWithResult:result];
             self.currentScenarioStartDate = [NSDate date];
             self.currentStep = (self.currentScenario.steps.count ? [self.currentScenario.steps objectAtIndex:0] : nil);
             self.currentStepStartDate = [NSDate date];
@@ -214,7 +236,7 @@ static void releaseInstance()
             [self _logDidPassStep:self.currentStep duration:currentStepDuration];
             self.currentStep = [self _nextStep];
             if (!self.currentStep) {
-                self.currentScenario = [self _nextScenario];
+                self.currentScenario = [self _nextScenarioWithResult:result];
                 self.currentScenarioStartDate = [NSDate date];
                 self.currentStep = (self.currentScenario.steps.count ? [self.currentScenario.steps objectAtIndex:0] : nil);
             }
@@ -251,7 +273,7 @@ static void releaseInstance()
     return nextStep;
 }
 
-- (KIFTestScenario *)_nextScenario;
+- (KIFTestScenario *)_nextScenarioWithResult:(KIFTestStepResult)result;
 {
     if (self.currentScenario) {
         [self _logDidFinishScenario:self.currentScenario duration:-[self.currentScenarioStartDate timeIntervalSinceNow]];
@@ -264,12 +286,16 @@ static void releaseInstance()
     NSUInteger currentScenarioIndex = [self.scenarios indexOfObjectIdenticalTo:self.currentScenario];
     NSAssert(currentScenarioIndex != NSNotFound, @"Current scenario %@ not found in test scenarios %@, but should be!", self.currentScenario, self.scenarios);
     
-    NSUInteger nextScenarioIndex = currentScenarioIndex + 1;
+    NSUInteger nextScenarioIndex = [failedScenarioIndexes indexGreaterThanIndex:currentScenarioIndex];
     KIFTestScenario *nextScenario = nil;
     if ([self.scenarios count] > nextScenarioIndex) {
         nextScenario = [self.scenarios objectAtIndex:nextScenarioIndex];
     }
     
+    if (result == KIFTestStepResultSuccess) {
+        [failedScenarioIndexes removeIndex:currentScenarioIndex];
+    }
+
     if (nextScenario) {
         [self _logDidStartScenario:nextScenario];
     }
@@ -347,7 +373,11 @@ static void releaseInstance()
 
 - (void)_logTestingDidStart;
 {
-    KIFLog(@"BEGIN KIF TEST RUN: %d scenarios", self.scenarios.count);
+    if (failedScenarioIndexes.count != self.scenarios.count) {
+        KIFLog(@"BEGIN KIF TEST RUN: re-running %d of %d scenarios that failed last time", failedScenarioIndexes.count, self.scenarios.count);
+    } else {
+        KIFLog(@"BEGIN KIF TEST RUN: %d scenarios", self.scenarios.count);
+    }
 }
 
 - (void)_logTestingDidFinish;
