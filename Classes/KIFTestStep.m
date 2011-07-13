@@ -62,6 +62,11 @@
     }];
 }
 
++ (void)stepFailed;
+{
+    // Add a logging call here or set a breakpoint to debug failed KIFTestCondition calls
+}
+
 + (id)stepToWaitForViewWithAccessibilityLabel:(NSString *)label;
 {
     return [self stepToWaitForViewWithAccessibilityLabel:label traits:UIAccessibilityTraitNone];
