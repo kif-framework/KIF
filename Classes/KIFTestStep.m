@@ -64,8 +64,7 @@
 
 + (void)stepFailed;
 {
-    NSLog(@"step failed: %@", self);
-    // breakpoint
+    // Add a logging call here or set a breakpoint to debug failed KIFTestCondition calls
 }
 
 + (id)stepToWaitForViewWithAccessibilityLabel:(NSString *)label;

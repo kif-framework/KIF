@@ -29,7 +29,7 @@
 - (void)_performTestStep:(KIFTestStep *)step;
 - (void)_advanceWithResult:(KIFTestStepResult)result error:(NSError*) error;
 - (KIFTestStep *)_nextStep;
-- (KIFTestScenario *)_nextScenarioWithResult:(KIFTestStepResult)result;
+- (KIFTestScenario *)_nextScenarioAfterResult:(KIFTestStepResult)result;
 - (void)_writeScreenshotForStep:(KIFTestStep *)step;
 - (void)_logTestingDidStart;
 - (void)_logTestingDidFinish;
@@ -86,7 +86,7 @@ static void releaseInstance()
         return nil;
     }
     
-    NSString *failedScenarioPath = [[[NSProcessInfo processInfo] environment] objectForKey:@"KIF_FAILURES"];
+    NSString *failedScenarioPath = [[[NSProcessInfo processInfo] environment] objectForKey:@"KIF_FAILURE_FILE"];
     if (failedScenarioPath) {
         failedScenarioFile = [[NSURL fileURLWithPath:failedScenarioPath] retain];
         failedScenarioIndexes = [[NSKeyedUnarchiver unarchiveObjectWithFile:failedScenarioPath] mutableCopy];
@@ -150,7 +150,7 @@ static void releaseInstance()
     if (!failedScenarioIndexes.count && self.scenarios.count) {
         [failedScenarioIndexes addIndexesInRange:NSMakeRange(0, self.scenarios.count)];
     }
-    self.currentScenario = [self _nextScenarioWithResult:KIFTestStepResultSuccess];
+    self.currentScenario = [self _nextScenarioAfterResult:KIFTestStepResultSuccess];
     self.currentScenarioStartDate = [NSDate date];
     self.currentStep = (self.currentScenario.steps.count ? [self.currentScenario.steps objectAtIndex:0] : nil);
     self.currentStepStartDate = [NSDate date];
@@ -225,7 +225,7 @@ static void releaseInstance()
             [self _logDidFailStep:self.currentStep duration:currentStepDuration error:error];
             [self _writeScreenshotForStep:self.currentStep];
             
-            self.currentScenario = [self _nextScenarioWithResult:result];
+            self.currentScenario = [self _nextScenarioAfterResult:result];
             self.currentScenarioStartDate = [NSDate date];
             self.currentStep = (self.currentScenario.steps.count ? [self.currentScenario.steps objectAtIndex:0] : nil);
             self.currentStepStartDate = [NSDate date];
@@ -236,7 +236,7 @@ static void releaseInstance()
             [self _logDidPassStep:self.currentStep duration:currentStepDuration];
             self.currentStep = [self _nextStep];
             if (!self.currentStep) {
-                self.currentScenario = [self _nextScenarioWithResult:result];
+                self.currentScenario = [self _nextScenarioAfterResult:result];
                 self.currentScenarioStartDate = [NSDate date];
                 self.currentStep = (self.currentScenario.steps.count ? [self.currentScenario.steps objectAtIndex:0] : nil);
             }
@@ -273,7 +273,7 @@ static void releaseInstance()
     return nextStep;
 }
 
-- (KIFTestScenario *)_nextScenarioWithResult:(KIFTestStepResult)result;
+- (KIFTestScenario *)_nextScenarioAfterResult:(KIFTestStepResult)result;
 {
     if (!self.scenarios.count) {
         return nil;

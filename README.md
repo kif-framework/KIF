@@ -264,9 +264,9 @@ You can set a number of environment variables to unlock hidden features of KIF.
 
 Set `KIF_SCREENSHOTS` to the full path to a folder on your computer to have KIF output a screenshot of your app as it appears when any given step fails.
 
-### `KIF_FAILURES`
+### `KIF_FAILURE_FILE`
 
-Set `KIF_FAILURES` to the full path to a file on your computer -- that need not exist -- to have KIF keep track of the failing scenarios it encounters during a test run. If any scenarios fail during a run and `KIF_FAILURES`, the next run will only run the scenarios that failed the previous time. Once all of the scenarios succeed again, KIF will return to running all scenarios. This is useful if you're fixing a failing scenario, as it allows you to jump right back to where the problem was.
+Set `KIF_FAILURE_FILE` to the full path to a file on your computer -- that need not exist -- to have KIF keep track of the failing scenarios it encounters during a test run. If any scenarios fail during a run and `KIF_FAILURE_FILE` is set, the next run will only run the scenarios that failed the previous time. Once all of the scenarios succeed again, KIF will return to running all scenarios. This is useful if you're fixing a failing scenario, as it allows you to jump right back to where the problem was.
 
 ### `KIF_SCENARIO_FILTER`
 
