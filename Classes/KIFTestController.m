@@ -34,6 +34,7 @@
 - (void)_logTestingDidStart;
 - (void)_logTestingDidFinish;
 - (void)_logDidStartScenario:(KIFTestScenario *)scenario;
+- (void)_logDidSkipScenario:(KIFTestScenario *)scenario;
 - (void)_logDidFinishScenario:(KIFTestScenario *)scenario duration:(NSTimeInterval)duration;
 - (void)_logDidFailStep:(KIFTestStep *)step duration:(NSTimeInterval)duration error:(NSError *)error;
 - (void)_logDidPassStep:(KIFTestStep *)step duration:(NSTimeInterval)duration;
@@ -144,17 +145,16 @@ static void releaseInstance()
     
     self.testing = YES;
     self.testSuiteStartDate = [NSDate date];
+    [self _logTestingDidStart];
+
     if (!failedScenarioIndexes.count && self.scenarios.count) {
         [failedScenarioIndexes addIndexesInRange:NSMakeRange(0, self.scenarios.count)];
     }
-    self.currentScenario = (self.scenarios.count ? [self.scenarios objectAtIndex:[failedScenarioIndexes firstIndex]] : nil);
+    self.currentScenario = [self _nextScenarioWithResult:KIFTestStepResultSuccess];
     self.currentScenarioStartDate = [NSDate date];
     self.currentStep = (self.currentScenario.steps.count ? [self.currentScenario.steps objectAtIndex:0] : nil);
     self.currentStepStartDate = [NSDate date];
     self.completionBlock = inCompletionBlock;
-    
-    [self _logTestingDidStart];
-    [self _logDidStartScenario:self.currentScenario];
     
     [self _scheduleCurrentTestStep];
 }
@@ -275,27 +275,38 @@ static void releaseInstance()
 
 - (KIFTestScenario *)_nextScenarioWithResult:(KIFTestStepResult)result;
 {
-    if (self.currentScenario) {
-        [self _logDidFinishScenario:self.currentScenario duration:-[self.currentScenarioStartDate timeIntervalSinceNow]];
-    }
-    
     if (!self.scenarios.count) {
         return nil;
     }
     
-    NSUInteger currentScenarioIndex = [self.scenarios indexOfObjectIdenticalTo:self.currentScenario];
-    NSAssert(currentScenarioIndex != NSNotFound, @"Current scenario %@ not found in test scenarios %@, but should be!", self.currentScenario, self.scenarios);
-    
-    NSUInteger nextScenarioIndex = [failedScenarioIndexes indexGreaterThanIndex:currentScenarioIndex];
     KIFTestScenario *nextScenario = nil;
-    if ([self.scenarios count] > nextScenarioIndex) {
-        nextScenario = [self.scenarios objectAtIndex:nextScenarioIndex];
+    NSUInteger nextScenarioIndex = NSNotFound;
+    if (self.currentScenario) {
+        NSUInteger currentScenarioIndex = [self.scenarios indexOfObjectIdenticalTo:self.currentScenario];
+        NSAssert(currentScenarioIndex != NSNotFound, @"Current scenario %@ not found in test scenarios %@, but should be!", self.currentScenario, self.scenarios);
+        
+        [self _logDidFinishScenario:self.currentScenario duration:-[self.currentScenarioStartDate timeIntervalSinceNow]];
+        if (result == KIFTestStepResultSuccess) {
+            [failedScenarioIndexes removeIndex:currentScenarioIndex];
+        }
+
+        nextScenarioIndex = [failedScenarioIndexes indexGreaterThanIndex:currentScenarioIndex];
+    } else {
+        nextScenarioIndex = [failedScenarioIndexes firstIndex];
     }
     
-    if (result == KIFTestStepResultSuccess) {
-        [failedScenarioIndexes removeIndex:currentScenarioIndex];
-    }
-
+    do {
+        if ([self.scenarios count] > nextScenarioIndex) {
+            nextScenario = [self.scenarios objectAtIndex:nextScenarioIndex];
+            if (nextScenario.skippedByFilter) {
+                [self _logDidSkipScenario:nextScenario];
+            }
+        } else {
+            nextScenario = nil;
+        }
+        nextScenarioIndex = [failedScenarioIndexes indexGreaterThanIndex:nextScenarioIndex];
+    } while (nextScenario && nextScenario.skippedByFilter);
+    
     if (nextScenario) {
         [self _logDidStartScenario:nextScenario];
     }
@@ -305,13 +316,10 @@ static void releaseInstance()
 
 - (void)_writeScreenshotForStep:(KIFTestStep *)step;
 {
-    char *path = getenv("KIF_SCREENSHOTS");
-    if (!path) {
+    NSString *outputPath = [[[NSProcessInfo processInfo] environment] objectForKey:@"KIF_SCREENSHOTS"];
+    if (!outputPath) {
         return;
     }
-    NSFileManager *fileManager = [[NSFileManager alloc] init];
-    NSString *outputPath = [fileManager stringWithFileSystemRepresentation:path length:strlen(path)];
-    [fileManager release];
     
     NSArray *windows = [[UIApplication sharedApplication] windows];
     if (windows.count == 0) {
@@ -396,6 +404,15 @@ static void releaseInstance()
     KIFLogBlankLine();
     KIFLogSeparator();
     KIFLog(@"BEGIN SCENARIO %d/%d (%d steps)", [self.scenarios indexOfObjectIdenticalTo:scenario] + 1, self.scenarios.count, scenario.steps.count);
+    KIFLog(@"%@", scenario.description);
+    KIFLogSeparator();
+}
+
+- (void)_logDidSkipScenario:(KIFTestScenario *)scenario;
+{
+    KIFLogBlankLine();
+    KIFLogSeparator();
+    KIFLog(@"SKIPPING SCENARIO %d/%d (%d steps)", [self.scenarios indexOfObjectIdenticalTo:scenario] + 1, self.scenarios.count, scenario.steps.count);
     KIFLog(@"%@", scenario.description);
     KIFLogSeparator();
 }

@@ -268,6 +268,10 @@ Set `KIF_SCREENSHOTS` to the full path to a folder on your computer to have KIF 
 
 Set `KIF_FAILURES` to the full path to a file on your computer -- that need not exist -- to have KIF keep track of the failing scenarios it encounters during a test run. If any scenarios fail during a run and `KIF_FAILURES`, the next run will only run the scenarios that failed the previous time. Once all of the scenarios succeed again, KIF will return to running all scenarios. This is useful if you're fixing a failing scenario, as it allows you to jump right back to where the problem was.
 
+### `KIF_SCENARIO_FILTER`
+
+Set `KIF_SCENARIO_FILTER` to a regular expression and KIF will only run scenarios with descriptions matching the expression. This can be useful to skip straight to a particular point in your testing suite.
+
 Troubleshooting
 ---------------
 
