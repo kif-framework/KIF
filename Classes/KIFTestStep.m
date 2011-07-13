@@ -370,7 +370,7 @@
         @try {
             result = self.executionBlock(self, error);
         }
-        @catch (NSException *exception) {
+        @catch (id exception) {
             KIFTestCondition(NO, error, @"Step threw exception: %@", exception);
         }
     }

@@ -281,8 +281,9 @@ static void releaseInstance()
     
     KIFTestScenario *nextScenario = nil;
     NSUInteger nextScenarioIndex = NSNotFound;
+    NSUInteger currentScenarioIndex = NSNotFound;
     if (self.currentScenario) {
-        NSUInteger currentScenarioIndex = [self.scenarios indexOfObjectIdenticalTo:self.currentScenario];
+        currentScenarioIndex = [self.scenarios indexOfObjectIdenticalTo:self.currentScenario];
         NSAssert(currentScenarioIndex != NSNotFound, @"Current scenario %@ not found in test scenarios %@, but should be!", self.currentScenario, self.scenarios);
         
         [self _logDidFinishScenario:self.currentScenario duration:-[self.currentScenarioStartDate timeIntervalSinceNow]];
@@ -291,19 +292,27 @@ static void releaseInstance()
         }
 
         nextScenarioIndex = [failedScenarioIndexes indexGreaterThanIndex:currentScenarioIndex];
+        currentScenarioIndex++;
     } else {
+        currentScenarioIndex = 0;
         nextScenarioIndex = [failedScenarioIndexes firstIndex];
     }
     
     do {
+        for (; currentScenarioIndex < nextScenarioIndex && currentScenarioIndex < [self.scenarios count]; currentScenarioIndex++) {
+            [self _logDidSkipScenario:[self.scenarios objectAtIndex:currentScenarioIndex]];
+        }
+        
         if ([self.scenarios count] > nextScenarioIndex) {
             nextScenario = [self.scenarios objectAtIndex:nextScenarioIndex];
             if (nextScenario.skippedByFilter) {
                 [self _logDidSkipScenario:nextScenario];
+                [failedScenarioIndexes removeIndex:nextScenarioIndex];
             }
         } else {
             nextScenario = nil;
         }
+        currentScenarioIndex = nextScenarioIndex + 1;
         nextScenarioIndex = [failedScenarioIndexes indexGreaterThanIndex:nextScenarioIndex];
     } while (nextScenario && nextScenario.skippedByFilter);
     
@@ -412,7 +421,8 @@ static void releaseInstance()
 {
     KIFLogBlankLine();
     KIFLogSeparator();
-    KIFLog(@"SKIPPING SCENARIO %d/%d (%d steps)", [self.scenarios indexOfObjectIdenticalTo:scenario] + 1, self.scenarios.count, scenario.steps.count);
+    NSString *reason = (scenario.skippedByFilter ? @"filter matches description" : @"only running previously-failed scenarios");
+    KIFLog(@"SKIPPING SCENARIO %d/%d (%@)", [self.scenarios indexOfObjectIdenticalTo:scenario] + 1, self.scenarios.count, reason);
     KIFLog(@"%@", scenario.description);
     KIFLogSeparator();
 }
