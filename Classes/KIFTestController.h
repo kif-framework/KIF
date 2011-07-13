@@ -45,6 +45,8 @@ typedef void (^KIFTestControllerCompletionBlock)();
     NSDate *currentScenarioStartDate;
     
     NSInteger failureCount;
+    NSMutableIndexSet *failedScenarioIndexes;
+    NSURL *failedScenarioFile;
 }
 
 /*!

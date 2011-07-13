@@ -21,6 +21,7 @@
 @interface KIFTestScenario : NSObject {
     NSMutableArray *steps;
     NSString *description;
+    BOOL skippedByFilter;
 }
 
 /*!
@@ -36,6 +37,13 @@
  @discussion The steps are instances of KIFTestStep (or a subclass).
  */
 @property (nonatomic, readonly, retain) NSArray *steps;
+
+/*!
+ @property skippedByFilter
+ @abstract Whether this scenario is being skipped
+ @discussion Set the KIF_SCENARIO_FILTER environment variable to skip all scenarios not matching the variable's value
+ */
+@property (nonatomic, readonly) BOOL skippedByFilter;
 
 /*!
  @method scenarioWithDescription

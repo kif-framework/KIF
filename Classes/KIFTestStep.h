@@ -22,6 +22,7 @@ if (!(condition)) { \
     if (error) { \
         *error = [[[NSError alloc] initWithDomain:@"KIFTest" code:KIFTestStepResultFailure userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:__VA_ARGS__], NSLocalizedDescriptionKey, nil]] autorelease]; \
     } \
+    [KIFTestStep stepFailed]; \
     return KIFTestStepResultFailure; \
 } \
 })
@@ -294,5 +295,7 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
  @result A configured test step.
  */
 + (id)stepToSimulateMemoryWarning;
+
++ (void)stepFailed;
 
 @end

@@ -11,7 +11,8 @@
 
 @interface KIFTestScenario ()
 
-@property (nonatomic, retain) NSArray *steps;
+@property (nonatomic, readwrite, retain) NSArray *steps;
+@property (nonatomic, readwrite) BOOL skippedByFilter;
 
 - (void)_initializeStepsIfNeeded;
 
@@ -21,6 +22,7 @@
 
 @synthesize description;
 @synthesize steps;
+@synthesize skippedByFilter;
 
 #pragma mark Static Methods
 
@@ -28,6 +30,10 @@
 {
     KIFTestScenario *scenario = [[self alloc] init];
     scenario.description = description;
+    NSString *filter = [[[NSProcessInfo processInfo] environment] objectForKey:@"KIF_SCENARIO_FILTER"];
+    if (filter) {
+        scenario.skippedByFilter = ([description rangeOfString:filter options:NSRegularExpressionSearch].location == NSNotFound);
+    }
     return [scenario autorelease];
 }
 
@@ -86,7 +92,7 @@
 
 - (void)_initializeStepsIfNeeded
 {
-    if (!steps) {
+    if (!steps && !self.skippedByFilter) {
         self.steps = [NSMutableArray array];
         [self initializeSteps];
     }
