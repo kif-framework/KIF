@@ -371,6 +371,7 @@
             result = self.executionBlock(self, error);
         }
         @catch (id exception) {
+            // We need to catch exceptions and things like NSInternalInconsistencyException, which is actually an NSString
             KIFTestCondition(NO, error, @"Step threw exception: %@", exception);
         }
     }
