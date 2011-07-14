@@ -25,6 +25,7 @@
 @property (nonatomic, copy) KIFTestControllerCompletionBlock completionBlock;
 
 - (void)_initializeScenariosIfNeeded;
+- (BOOL)_isAccessibilityInspectorEnabled;
 - (void)_scheduleCurrentTestStep;
 - (void)_performTestStep:(KIFTestStep *)step;
 - (void)_advanceWithResult:(KIFTestStepResult)result error:(NSError*) error;
@@ -142,6 +143,7 @@ static void releaseInstance()
 - (void)startTestingWithCompletionBlock:(KIFTestControllerCompletionBlock)inCompletionBlock
 {
     NSAssert(!self.testing, @"Testing is already in progress");
+    NSAssert([self _isAccessibilityInspectorEnabled], @"The accessibility inspector must be enabled in order to run KIF tests. It can be turned on in the Settings app of the simulator by going to General -> Accessibility.");
     
     self.testing = YES;
     self.testSuiteStartDate = [NSDate date];
@@ -181,6 +183,21 @@ static void releaseInstance()
         self.scenarios = [NSMutableArray array];
         [self initializeScenarios];
     }
+}
+
+- (BOOL)_isAccessibilityInspectorEnabled;
+{
+    // This method for testing if the inspector is enabled was taken from the Frank framework.
+    // https://github.com/moredip/Frank
+    UIWindow *keyWindow = [[UIApplication sharedApplication] keyWindow];
+    NSString *originalAccessibilityLabel = [keyWindow accessibilityLabel];
+    
+    [keyWindow setAccessibilityLabel:@"KIF Test Label"];
+    BOOL isInspectorEnabled = [[keyWindow accessibilityLabel] isEqualToString:@"KIF Test Label"];
+    
+    [keyWindow setAccessibilityLabel:originalAccessibilityLabel];
+    
+    return isInspectorEnabled;
 }
 
 - (void)_scheduleCurrentTestStep;
