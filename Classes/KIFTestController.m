@@ -25,15 +25,17 @@
 @property (nonatomic, copy) KIFTestControllerCompletionBlock completionBlock;
 
 - (void)_initializeScenariosIfNeeded;
+- (BOOL)_isAccessibilityInspectorEnabled;
 - (void)_scheduleCurrentTestStep;
 - (void)_performTestStep:(KIFTestStep *)step;
 - (void)_advanceWithResult:(KIFTestStepResult)result error:(NSError*) error;
 - (KIFTestStep *)_nextStep;
-- (KIFTestScenario *)_nextScenario;
+- (KIFTestScenario *)_nextScenarioAfterResult:(KIFTestStepResult)result;
 - (void)_writeScreenshotForStep:(KIFTestStep *)step;
 - (void)_logTestingDidStart;
 - (void)_logTestingDidFinish;
 - (void)_logDidStartScenario:(KIFTestScenario *)scenario;
+- (void)_logDidSkipScenario:(KIFTestScenario *)scenario;
 - (void)_logDidFinishScenario:(KIFTestScenario *)scenario duration:(NSTimeInterval)duration;
 - (void)_logDidFailStep:(KIFTestStep *)step duration:(NSTimeInterval)duration error:(NSError *)error;
 - (void)_logDidPassStep:(KIFTestStep *)step duration:(NSTimeInterval)duration;
@@ -85,6 +87,15 @@ static void releaseInstance()
         return nil;
     }
     
+    NSString *failedScenarioPath = [[[NSProcessInfo processInfo] environment] objectForKey:@"KIF_FAILURE_FILE"];
+    if (failedScenarioPath) {
+        failedScenarioFile = [[NSURL fileURLWithPath:failedScenarioPath] retain];
+        failedScenarioIndexes = [[NSKeyedUnarchiver unarchiveObjectWithFile:failedScenarioPath] mutableCopy];
+    }
+    if (!failedScenarioIndexes) {
+        failedScenarioIndexes = [[NSMutableIndexSet alloc] init];
+    }
+    
     return self;
 }
 
@@ -97,6 +108,12 @@ static void releaseInstance()
     self.currentScenarioStartDate = nil;
     self.currentStepStartDate = nil;
     self.completionBlock = nil;
+    
+    [failedScenarioFile release];
+    failedScenarioFile = nil;
+
+    [failedScenarioIndexes release];
+    failedScenarioIndexes = nil;
     
     [super dealloc];
 }
@@ -126,17 +143,20 @@ static void releaseInstance()
 - (void)startTestingWithCompletionBlock:(KIFTestControllerCompletionBlock)inCompletionBlock
 {
     NSAssert(!self.testing, @"Testing is already in progress");
+    NSAssert([self _isAccessibilityInspectorEnabled], @"The accessibility inspector must be enabled in order to run KIF tests. It can be turned on in the Settings app of the simulator by going to General -> Accessibility.");
     
     self.testing = YES;
     self.testSuiteStartDate = [NSDate date];
-    self.currentScenario = (self.scenarios.count ? [self.scenarios objectAtIndex:0] : nil);
+    [self _logTestingDidStart];
+
+    if (!failedScenarioIndexes.count && self.scenarios.count) {
+        [failedScenarioIndexes addIndexesInRange:NSMakeRange(0, self.scenarios.count)];
+    }
+    self.currentScenario = [self _nextScenarioAfterResult:KIFTestStepResultSuccess];
     self.currentScenarioStartDate = [NSDate date];
     self.currentStep = (self.currentScenario.steps.count ? [self.currentScenario.steps objectAtIndex:0] : nil);
     self.currentStepStartDate = [NSDate date];
     self.completionBlock = inCompletionBlock;
-    
-    [self _logTestingDidStart];
-    [self _logDidStartScenario:self.currentScenario];
     
     [self _scheduleCurrentTestStep];
 }
@@ -145,6 +165,10 @@ static void releaseInstance()
 {
     [self _logTestingDidFinish];
     self.testing = NO;
+    
+    if (failedScenarioFile) {
+        [NSKeyedArchiver archiveRootObject:failedScenarioIndexes toFile:[failedScenarioFile path]];
+    }
     
     if (self.completionBlock) {
         self.completionBlock();
@@ -159,6 +183,21 @@ static void releaseInstance()
         self.scenarios = [NSMutableArray array];
         [self initializeScenarios];
     }
+}
+
+- (BOOL)_isAccessibilityInspectorEnabled;
+{
+    // This method for testing if the inspector is enabled was taken from the Frank framework.
+    // https://github.com/moredip/Frank
+    UIWindow *keyWindow = [[UIApplication sharedApplication] keyWindow];
+    NSString *originalAccessibilityLabel = [keyWindow accessibilityLabel];
+    
+    [keyWindow setAccessibilityLabel:@"KIF Test Label"];
+    BOOL isInspectorEnabled = [[keyWindow accessibilityLabel] isEqualToString:@"KIF Test Label"];
+    
+    [keyWindow setAccessibilityLabel:originalAccessibilityLabel];
+    
+    return isInspectorEnabled;
 }
 
 - (void)_scheduleCurrentTestStep;
@@ -203,13 +242,10 @@ static void releaseInstance()
             [self _logDidFailStep:self.currentStep duration:currentStepDuration error:error];
             [self _writeScreenshotForStep:self.currentStep];
             
-            self.currentScenario = [self _nextScenario];
+            self.currentScenario = [self _nextScenarioAfterResult:result];
             self.currentScenarioStartDate = [NSDate date];
             self.currentStep = (self.currentScenario.steps.count ? [self.currentScenario.steps objectAtIndex:0] : nil);
             self.currentStepStartDate = [NSDate date];
-            if (error) {
-                NSLog(@"The step \"%@\" failed: %@", self.currentStep, [error description]);
-            }
             failureCount++;
             break;
         }
@@ -217,7 +253,7 @@ static void releaseInstance()
             [self _logDidPassStep:self.currentStep duration:currentStepDuration];
             self.currentStep = [self _nextStep];
             if (!self.currentStep) {
-                self.currentScenario = [self _nextScenario];
+                self.currentScenario = [self _nextScenarioAfterResult:result];
                 self.currentScenarioStartDate = [NSDate date];
                 self.currentStep = (self.currentScenario.steps.count ? [self.currentScenario.steps objectAtIndex:0] : nil);
             }
@@ -254,24 +290,48 @@ static void releaseInstance()
     return nextStep;
 }
 
-- (KIFTestScenario *)_nextScenario;
+- (KIFTestScenario *)_nextScenarioAfterResult:(KIFTestStepResult)result;
 {
-    if (self.currentScenario) {
-        [self _logDidFinishScenario:self.currentScenario duration:-[self.currentScenarioStartDate timeIntervalSinceNow]];
-    }
-    
     if (!self.scenarios.count) {
         return nil;
     }
     
-    NSUInteger currentScenarioIndex = [self.scenarios indexOfObjectIdenticalTo:self.currentScenario];
-    NSAssert(currentScenarioIndex != NSNotFound, @"Current scenario %@ not found in test scenarios %@, but should be!", self.currentScenario, self.scenarios);
-    
-    NSUInteger nextScenarioIndex = currentScenarioIndex + 1;
     KIFTestScenario *nextScenario = nil;
-    if ([self.scenarios count] > nextScenarioIndex) {
-        nextScenario = [self.scenarios objectAtIndex:nextScenarioIndex];
+    NSUInteger nextScenarioIndex = NSNotFound;
+    NSUInteger currentScenarioIndex = NSNotFound;
+    if (self.currentScenario) {
+        currentScenarioIndex = [self.scenarios indexOfObjectIdenticalTo:self.currentScenario];
+        NSAssert(currentScenarioIndex != NSNotFound, @"Current scenario %@ not found in test scenarios %@, but should be!", self.currentScenario, self.scenarios);
+        
+        [self _logDidFinishScenario:self.currentScenario duration:-[self.currentScenarioStartDate timeIntervalSinceNow]];
+        if (result == KIFTestStepResultSuccess) {
+            [failedScenarioIndexes removeIndex:currentScenarioIndex];
+        }
+
+        nextScenarioIndex = [failedScenarioIndexes indexGreaterThanIndex:currentScenarioIndex];
+        currentScenarioIndex++;
+    } else {
+        currentScenarioIndex = 0;
+        nextScenarioIndex = [failedScenarioIndexes firstIndex];
     }
+    
+    do {
+        for (; currentScenarioIndex < nextScenarioIndex && currentScenarioIndex < [self.scenarios count]; currentScenarioIndex++) {
+            [self _logDidSkipScenario:[self.scenarios objectAtIndex:currentScenarioIndex]];
+        }
+        
+        if ([self.scenarios count] > nextScenarioIndex) {
+            nextScenario = [self.scenarios objectAtIndex:nextScenarioIndex];
+            if (nextScenario.skippedByFilter) {
+                [self _logDidSkipScenario:nextScenario];
+                [failedScenarioIndexes removeIndex:nextScenarioIndex];
+            }
+        } else {
+            nextScenario = nil;
+        }
+        currentScenarioIndex = nextScenarioIndex + 1;
+        nextScenarioIndex = [failedScenarioIndexes indexGreaterThanIndex:nextScenarioIndex];
+    } while (nextScenario && nextScenario.skippedByFilter);
     
     if (nextScenario) {
         [self _logDidStartScenario:nextScenario];
@@ -282,13 +342,10 @@ static void releaseInstance()
 
 - (void)_writeScreenshotForStep:(KIFTestStep *)step;
 {
-    char *path = getenv("KIF_SCREENSHOTS");
-    if (!path) {
+    NSString *outputPath = [[[NSProcessInfo processInfo] environment] objectForKey:@"KIF_SCREENSHOTS"];
+    if (!outputPath) {
         return;
     }
-    NSFileManager *fileManager = [[NSFileManager alloc] init];
-    NSString *outputPath = [fileManager stringWithFileSystemRepresentation:path length:strlen(path)];
-    [fileManager release];
     
     NSArray *windows = [[UIApplication sharedApplication] windows];
     if (windows.count == 0) {
@@ -350,7 +407,11 @@ static void releaseInstance()
 
 - (void)_logTestingDidStart;
 {
-    KIFLog(@"BEGIN KIF TEST RUN: %d scenarios", self.scenarios.count);
+    if (failedScenarioIndexes.count != self.scenarios.count) {
+        KIFLog(@"BEGIN KIF TEST RUN: re-running %d of %d scenarios that failed last time", failedScenarioIndexes.count, self.scenarios.count);
+    } else {
+        KIFLog(@"BEGIN KIF TEST RUN: %d scenarios", self.scenarios.count);
+    }
 }
 
 - (void)_logTestingDidFinish;
@@ -369,6 +430,16 @@ static void releaseInstance()
     KIFLogBlankLine();
     KIFLogSeparator();
     KIFLog(@"BEGIN SCENARIO %d/%d (%d steps)", [self.scenarios indexOfObjectIdenticalTo:scenario] + 1, self.scenarios.count, scenario.steps.count);
+    KIFLog(@"%@", scenario.description);
+    KIFLogSeparator();
+}
+
+- (void)_logDidSkipScenario:(KIFTestScenario *)scenario;
+{
+    KIFLogBlankLine();
+    KIFLogSeparator();
+    NSString *reason = (scenario.skippedByFilter ? @"filter matches description" : @"only running previously-failed scenarios");
+    KIFLog(@"SKIPPING SCENARIO %d/%d (%@)", [self.scenarios indexOfObjectIdenticalTo:scenario] + 1, self.scenarios.count, reason);
     KIFLog(@"%@", scenario.description);
     KIFLogSeparator();
 }

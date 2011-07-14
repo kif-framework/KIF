@@ -62,6 +62,11 @@
     }];
 }
 
++ (void)stepFailed;
+{
+    // Add a logging call here or set a breakpoint to debug failed KIFTestCondition calls
+}
+
 + (id)stepToWaitForViewWithAccessibilityLabel:(NSString *)label;
 {
     return [self stepToWaitForViewWithAccessibilityLabel:label traits:UIAccessibilityTraitNone];
@@ -365,7 +370,8 @@
         @try {
             result = self.executionBlock(self, error);
         }
-        @catch (NSException *exception) {
+        @catch (id exception) {
+            // We need to catch exceptions and things like NSInternalInconsistencyException, which is actually an NSString
             KIFTestCondition(NO, error, @"Step threw exception: %@", exception);
         }
     }
