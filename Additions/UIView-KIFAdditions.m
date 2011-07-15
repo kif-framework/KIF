@@ -309,6 +309,7 @@
     }
     
     [touchDown release];
+    [touchDrag release];
     [touchUp release];
 }
 
