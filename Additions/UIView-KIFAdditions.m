@@ -309,6 +309,7 @@
     }
     
     [touchDown release];
+    [touchDrag release];
     [touchUp release];
 }
 
@@ -403,7 +404,9 @@
     eventProxy->type = 3001;	
 
     KIFTouchEvent *touchEvent = (KIFTouchEvent *)event;
+    NSSet *allTouches = [event allTouches];
     [touchEvent _clearTouches];
+    [allTouches makeObjectsPerformSelector:@selector(autorelease)];
     [touchEvent _addTouch:touch forDelayedDelivery:NO];
     [touchEvent _setGSEvent:(struct __GSEvent *)eventProxy];
     [touchEvent _addGestureRecognizersForView:touch.view toTouch:touch];

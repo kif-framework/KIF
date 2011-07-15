@@ -360,6 +360,16 @@
     return self;
 }
 
+- (void)dealloc;
+{
+    [executionBlock release];
+    executionBlock = nil;
+    [description release];
+    description = nil;
+    
+    [super dealloc];
+}
+
 #pragma mark Public Methods
 
 - (KIFTestStepResult)executeAndReturnError:(NSError **)error
