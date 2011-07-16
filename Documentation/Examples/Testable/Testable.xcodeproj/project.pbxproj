@@ -370,7 +370,6 @@
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
-					"-all_load",
 				);
 				PRODUCT_NAME = "Testable (Integration Tests)";
 				WRAPPER_EXTENSION = app;
@@ -400,7 +399,6 @@
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
-					"-all_load",
 				);
 				PRODUCT_NAME = "Testable (Integration Tests)";
 				VALIDATE_PRODUCT = YES;
