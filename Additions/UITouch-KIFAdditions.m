@@ -7,6 +7,10 @@
 //
 
 #import "UITouch-KIFAdditions.h"
+#import "LoadableCategory.h"
+
+
+MAKE_CATEGORIES_LOADABLE(UITouch_KIFAdditions)
 
 
 @implementation UITouch (KIFAdditions)
