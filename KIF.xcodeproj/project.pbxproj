@@ -8,12 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		AAB0726C139719AC008AF393 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAB0726B139719AC008AF393 /* Foundation.framework */; };
-		AAB0728213971A63008AF393 /* KIF-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = AAB0728113971A63008AF393 /* KIF-Prefix.pch */; };
-		AAB0728D13971A98008AF393 /* KIFTestController.h in Headers */ = {isa = PBXBuildFile; fileRef = AAB0728613971A98008AF393 /* KIFTestController.h */; };
+		AAB0728213971A63008AF393 /* KIF-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = AAB0728113971A63008AF393 /* KIF-Prefix.pch */; settings = {ATTRIBUTES = (); }; };
+		AAB0728D13971A98008AF393 /* KIFTestController.h in Headers */ = {isa = PBXBuildFile; fileRef = AAB0728613971A98008AF393 /* KIFTestController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AAB0728E13971A98008AF393 /* KIFTestController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB0728713971A98008AF393 /* KIFTestController.m */; };
-		AAB0728F13971A98008AF393 /* KIFTestScenario.h in Headers */ = {isa = PBXBuildFile; fileRef = AAB0728813971A98008AF393 /* KIFTestScenario.h */; };
+		AAB0728F13971A98008AF393 /* KIFTestScenario.h in Headers */ = {isa = PBXBuildFile; fileRef = AAB0728813971A98008AF393 /* KIFTestScenario.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AAB0729013971A98008AF393 /* KIFTestScenario.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB0728913971A98008AF393 /* KIFTestScenario.m */; };
-		AAB0729113971A98008AF393 /* KIFTestStep.h in Headers */ = {isa = PBXBuildFile; fileRef = AAB0728A13971A98008AF393 /* KIFTestStep.h */; };
+		AAB0729113971A98008AF393 /* KIFTestStep.h in Headers */ = {isa = PBXBuildFile; fileRef = AAB0728A13971A98008AF393 /* KIFTestStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AAB0729213971A98008AF393 /* KIFTestStep.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB0728B13971A98008AF393 /* KIFTestStep.m */; };
 		AAB072A413971AB2008AF393 /* CGGeometry-KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = AAB0729413971AB2008AF393 /* CGGeometry-KIFAdditions.h */; };
 		AAB072A513971AB2008AF393 /* CGGeometry-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB0729513971AB2008AF393 /* CGGeometry-KIFAdditions.m */; };
@@ -30,6 +30,7 @@
 		AAB072B213971AB2008AF393 /* UIWindow-KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = AAB072A213971AB2008AF393 /* UIWindow-KIFAdditions.h */; };
 		AAB072B313971AB2008AF393 /* UIWindow-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB072A313971AB2008AF393 /* UIWindow-KIFAdditions.m */; };
 		AAB072B513971AEA008AF393 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAB072B413971AEA008AF393 /* UIKit.framework */; };
+		B344666213D2073200254AB5 /* LoadableCategory.h in Headers */ = {isa = PBXBuildFile; fileRef = B344666113D2073200254AB5 /* LoadableCategory.h */; };
 		CDFD8E86139728B4008D299F /* NSFileManager-KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = CDFD8E84139728B4008D299F /* NSFileManager-KIFAdditions.h */; };
 		CDFD8E87139728B4008D299F /* NSFileManager-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CDFD8E85139728B4008D299F /* NSFileManager-KIFAdditions.m */; };
 /* End PBXBuildFile section */
@@ -60,6 +61,8 @@
 		AAB072A213971AB2008AF393 /* UIWindow-KIFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIWindow-KIFAdditions.h"; sourceTree = "<group>"; };
 		AAB072A313971AB2008AF393 /* UIWindow-KIFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWindow-KIFAdditions.m"; sourceTree = "<group>"; };
 		AAB072B413971AEA008AF393 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		B344665913D205B400254AB5 /* PortableStaticLibrary.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = PortableStaticLibrary.xcconfig; sourceTree = "<group>"; };
+		B344666113D2073200254AB5 /* LoadableCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoadableCategory.h; path = Classes/LoadableCategory.h; sourceTree = SOURCE_ROOT; };
 		CDFD8E84139728B4008D299F /* NSFileManager-KIFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFileManager-KIFAdditions.h"; sourceTree = "<group>"; };
 		CDFD8E85139728B4008D299F /* NSFileManager-KIFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager-KIFAdditions.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -80,6 +83,7 @@
 		AAB0725D139719AC008AF393 = {
 			isa = PBXGroup;
 			children = (
+				B344665913D205B400254AB5 /* PortableStaticLibrary.xcconfig */,
 				AAB072B413971AEA008AF393 /* UIKit.framework */,
 				AAB0729313971AB2008AF393 /* Additions */,
 				AAB0728413971A98008AF393 /* Classes */,
@@ -108,6 +112,7 @@
 		AAB0726E139719AC008AF393 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				B344666113D2073200254AB5 /* LoadableCategory.h */,
 				AAB0728113971A63008AF393 /* KIF-Prefix.pch */,
 			);
 			name = "Supporting Files";
@@ -158,10 +163,10 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AAB0728213971A63008AF393 /* KIF-Prefix.pch in Headers */,
 				AAB0728D13971A98008AF393 /* KIFTestController.h in Headers */,
 				AAB0728F13971A98008AF393 /* KIFTestScenario.h in Headers */,
 				AAB0729113971A98008AF393 /* KIFTestStep.h in Headers */,
+				AAB0728213971A63008AF393 /* KIF-Prefix.pch in Headers */,
 				AAB072A413971AB2008AF393 /* CGGeometry-KIFAdditions.h in Headers */,
 				AAB072A613971AB2008AF393 /* UIAccessibilityElement-KIFAdditions.h in Headers */,
 				AAB072A813971AB2008AF393 /* UIApplication-KIFAdditions.h in Headers */,
@@ -170,6 +175,7 @@
 				AAB072B013971AB2008AF393 /* UIView-KIFAdditions.h in Headers */,
 				AAB072B213971AB2008AF393 /* UIWindow-KIFAdditions.h in Headers */,
 				CDFD8E86139728B4008D299F /* NSFileManager-KIFAdditions.h in Headers */,
+				B344666213D2073200254AB5 /* LoadableCategory.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -273,6 +279,7 @@
 		};
 		AAB07273139719AC008AF393 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B344665913D205B400254AB5 /* PortableStaticLibrary.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				DSTROOT = /tmp/KIF.dst;
@@ -285,6 +292,7 @@
 		};
 		AAB07274139719AC008AF393 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B344665913D205B400254AB5 /* PortableStaticLibrary.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				DSTROOT = /tmp/KIF.dst;

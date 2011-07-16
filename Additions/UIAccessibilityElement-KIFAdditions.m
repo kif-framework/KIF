@@ -7,7 +7,9 @@
 //
 
 #import "UIAccessibilityElement-KIFAdditions.h"
+#import "LoadableCategory.h"
 
+MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
 
 @implementation UIAccessibilityElement (KIFAdditions)
 
