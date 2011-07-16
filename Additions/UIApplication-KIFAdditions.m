@@ -7,10 +7,12 @@
 //
 
 #import "UIApplication-KIFAdditions.h"
+#import "LoadableCategory.h"
 #import "UIView-KIFAdditions.h"
 #import "LoadableCategory.h"
 
 MAKE_CATEGORIES_LOADABLE(UIApplication_KIFAdditions)
+
 
 @implementation UIApplication (KIFAdditions)
 
