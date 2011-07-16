@@ -7,6 +7,10 @@
 //
 
 #import "NSFileManager-KIFAdditions.h"
+#import "LoadableCategory.h"
+
+
+MAKE_CATEGORIES_LOADABLE(NSFileManager_KIFAdditions)
 
 
 @implementation NSFileManager (CCAdditions)
