@@ -85,7 +85,7 @@ KIF relies on the built-in accessibility of iOS to perform its test steps. As su
 
 Although not required, it's recommended that you create a subclass of KIFTestController that is specific to your application. This subclass will override the -initializeScenarios method, which will contain a list of invocations for the scenarios that your test suite will run. We'll call our subclass EXTestController, and will add an initial test scenario, which we will define later.
 
-*KIFTestController.h*
+*EXTestController.h*
 
 	#import <Foundation/Foundation.h>
 	#import "KIFTestController.h"
@@ -94,7 +94,7 @@ Although not required, it's recommended that you create a subclass of KIFTestCon
 
 	@end
 
-*KIFTestController.m*
+*EXTestController.m*
 
 	#import "EXTestController.h"
 
