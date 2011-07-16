@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "KIFTestScenario.h"
+#import <KIF/KIFTestScenario.h>
 
 @interface KIFTestScenario (EXAdditions)
 

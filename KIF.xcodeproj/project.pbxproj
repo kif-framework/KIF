@@ -11,28 +11,28 @@
 		AAB0726C139719AC008AF393 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAB0726B139719AC008AF393 /* Foundation.framework */; };
 		AAB0728213971A63008AF393 /* KIF-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = AAB0728113971A63008AF393 /* KIF-Prefix.pch */; };
 		AAB0728D13971A98008AF393 /* KIFTestController.h in Headers */ = {isa = PBXBuildFile; fileRef = AAB0728613971A98008AF393 /* KIFTestController.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AAB0728E13971A98008AF393 /* KIFTestController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB0728713971A98008AF393 /* KIFTestController.m */; };
 		AAB0728F13971A98008AF393 /* KIFTestScenario.h in Headers */ = {isa = PBXBuildFile; fileRef = AAB0728813971A98008AF393 /* KIFTestScenario.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AAB0729013971A98008AF393 /* KIFTestScenario.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB0728913971A98008AF393 /* KIFTestScenario.m */; };
 		AAB0729113971A98008AF393 /* KIFTestStep.h in Headers */ = {isa = PBXBuildFile; fileRef = AAB0728A13971A98008AF393 /* KIFTestStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AAB0729213971A98008AF393 /* KIFTestStep.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB0728B13971A98008AF393 /* KIFTestStep.m */; };
 		AAB072A413971AB2008AF393 /* CGGeometry-KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = AAB0729413971AB2008AF393 /* CGGeometry-KIFAdditions.h */; };
-		AAB072A513971AB2008AF393 /* CGGeometry-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB0729513971AB2008AF393 /* CGGeometry-KIFAdditions.m */; };
 		AAB072A613971AB2008AF393 /* UIAccessibilityElement-KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = AAB0729613971AB2008AF393 /* UIAccessibilityElement-KIFAdditions.h */; };
-		AAB072A713971AB2008AF393 /* UIAccessibilityElement-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB0729713971AB2008AF393 /* UIAccessibilityElement-KIFAdditions.m */; };
 		AAB072A813971AB2008AF393 /* UIApplication-KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = AAB0729813971AB2008AF393 /* UIApplication-KIFAdditions.h */; };
-		AAB072A913971AB2008AF393 /* UIApplication-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB0729913971AB2008AF393 /* UIApplication-KIFAdditions.m */; };
 		AAB072AA13971AB2008AF393 /* UIScrollView-KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = AAB0729A13971AB2008AF393 /* UIScrollView-KIFAdditions.h */; };
-		AAB072AB13971AB2008AF393 /* UIScrollView-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB0729B13971AB2008AF393 /* UIScrollView-KIFAdditions.m */; };
 		AAB072AC13971AB2008AF393 /* UITouch-KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = AAB0729C13971AB2008AF393 /* UITouch-KIFAdditions.h */; };
-		AAB072AD13971AB2008AF393 /* UITouch-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB0729D13971AB2008AF393 /* UITouch-KIFAdditions.m */; };
 		AAB072B013971AB2008AF393 /* UIView-KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = AAB072A013971AB2008AF393 /* UIView-KIFAdditions.h */; };
-		AAB072B113971AB2008AF393 /* UIView-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB072A113971AB2008AF393 /* UIView-KIFAdditions.m */; };
 		AAB072B213971AB2008AF393 /* UIWindow-KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = AAB072A213971AB2008AF393 /* UIWindow-KIFAdditions.h */; };
-		AAB072B313971AB2008AF393 /* UIWindow-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB072A313971AB2008AF393 /* UIWindow-KIFAdditions.m */; };
 		AAB072B513971AEA008AF393 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAB072B413971AEA008AF393 /* UIKit.framework */; };
+		B35B5F8013D2223D00D30419 /* UIWindow-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB072A313971AB2008AF393 /* UIWindow-KIFAdditions.m */; };
+		B35B5F8113D2224500D30419 /* CGGeometry-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB0729513971AB2008AF393 /* CGGeometry-KIFAdditions.m */; };
+		B35B5F8213D2224500D30419 /* NSFileManager-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CDFD8E85139728B4008D299F /* NSFileManager-KIFAdditions.m */; };
+		B35B5F8313D2224500D30419 /* UIAccessibilityElement-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB0729713971AB2008AF393 /* UIAccessibilityElement-KIFAdditions.m */; };
+		B35B5F8413D2224500D30419 /* UIApplication-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB0729913971AB2008AF393 /* UIApplication-KIFAdditions.m */; };
+		B35B5F8513D2224500D30419 /* UIScrollView-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB0729B13971AB2008AF393 /* UIScrollView-KIFAdditions.m */; };
+		B35B5F8613D2224500D30419 /* UITouch-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB0729D13971AB2008AF393 /* UITouch-KIFAdditions.m */; };
+		B35B5F8713D2224500D30419 /* UIView-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB072A113971AB2008AF393 /* UIView-KIFAdditions.m */; };
+		B35B5F8813D2224D00D30419 /* KIFTestController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB0728713971A98008AF393 /* KIFTestController.m */; };
+		B35B5F8913D2224D00D30419 /* KIFTestScenario.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB0728913971A98008AF393 /* KIFTestScenario.m */; };
+		B35B5F8A13D2224D00D30419 /* KIFTestStep.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB0728B13971A98008AF393 /* KIFTestStep.m */; };
 		CDFD8E86139728B4008D299F /* NSFileManager-KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = CDFD8E84139728B4008D299F /* NSFileManager-KIFAdditions.h */; };
-		CDFD8E87139728B4008D299F /* NSFileManager-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CDFD8E85139728B4008D299F /* NSFileManager-KIFAdditions.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -229,17 +229,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AAB0728E13971A98008AF393 /* KIFTestController.m in Sources */,
-				AAB0729013971A98008AF393 /* KIFTestScenario.m in Sources */,
-				AAB0729213971A98008AF393 /* KIFTestStep.m in Sources */,
-				AAB072A513971AB2008AF393 /* CGGeometry-KIFAdditions.m in Sources */,
-				AAB072A713971AB2008AF393 /* UIAccessibilityElement-KIFAdditions.m in Sources */,
-				AAB072A913971AB2008AF393 /* UIApplication-KIFAdditions.m in Sources */,
-				AAB072AB13971AB2008AF393 /* UIScrollView-KIFAdditions.m in Sources */,
-				AAB072AD13971AB2008AF393 /* UITouch-KIFAdditions.m in Sources */,
-				AAB072B113971AB2008AF393 /* UIView-KIFAdditions.m in Sources */,
-				AAB072B313971AB2008AF393 /* UIWindow-KIFAdditions.m in Sources */,
-				CDFD8E87139728B4008D299F /* NSFileManager-KIFAdditions.m in Sources */,
+				B35B5F8013D2223D00D30419 /* UIWindow-KIFAdditions.m in Sources */,
+				B35B5F8113D2224500D30419 /* CGGeometry-KIFAdditions.m in Sources */,
+				B35B5F8213D2224500D30419 /* NSFileManager-KIFAdditions.m in Sources */,
+				B35B5F8313D2224500D30419 /* UIAccessibilityElement-KIFAdditions.m in Sources */,
+				B35B5F8413D2224500D30419 /* UIApplication-KIFAdditions.m in Sources */,
+				B35B5F8513D2224500D30419 /* UIScrollView-KIFAdditions.m in Sources */,
+				B35B5F8613D2224500D30419 /* UITouch-KIFAdditions.m in Sources */,
+				B35B5F8713D2224500D30419 /* UIView-KIFAdditions.m in Sources */,
+				B35B5F8813D2224D00D30419 /* KIFTestController.m in Sources */,
+				B35B5F8913D2224D00D30419 /* KIFTestScenario.m in Sources */,
+				B35B5F8A13D2224D00D30419 /* KIFTestStep.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
