@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "KIFTestController.h"
+#import <KIF/KIFTestController.h>
 
 
 @interface EXTestController : KIFTestController {
