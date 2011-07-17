@@ -59,19 +59,13 @@ You can also (optionally) rename the new target from the default "MyApp copy" to
 ![Rename product screen shot](https://github.com/square/KIF/raw/master/Documentation/Images/Rename Product.png)
 
 ### Configure the Testing Target
-Now that you have a target for your tests, add the tests to that target. With the project settings still selected in the Project Navigator, and the new integration tests target selected in the project settings, select the "Build Phases" tab. Under the "Link Binary With Libraries" section, hit the "+" button. In the sheet that appears, select "libKIF.a" and click "Add".
+Now that you have a target for your tests, add the tests to that target. With the project settings still selected in the Project Navigator, and the new integration tests target selected in the project settings, select the "Build Phases" tab. Expand the "Products" group in KIF, then drag "KIF.framework" to the "Link Binary With Libraries" section (select "Create groups for any added folders").
 
-![Add libKIF library screen shot](https://github.com/square/KIF/raw/master/Documentation/Images/Add Library.png)
+![Add KIF.framework screen shot](https://github.com/square/KIF/raw/master/Documentation/Images/Add Framework.png)
 
-![Add libKIF library screen shot](https://github.com/square/KIF/raw/master/Documentation/Images/Add Library Sheet.png)
+Add "-ObjC" so that the linker will properly link category code, and also add a "-framework" switch so that it includes the KIF framework in your testing code.
 
-Next, make sure that we can access the KIF header files. To do this, add the KIF directory to the "Header Search Paths" build setting. Start by selecting the "Build Settings" tab of the project settings, and from there, use the filter control to find the "Header Search Paths" setting. Double click the value, and add the search path "$(SRCROOT)/Frameworks/KIF/" to the list. Mark the entry as recursive. If it's not there already, you should add the "$(inherited)" entry as the first entry in this list.
-
-![Add header search paths screen shot](https://github.com/square/KIF/raw/master/Documentation/Images/Add Header Search Paths.png)
-
-KIF takes advantage of Objective C's ability to add categories on an object, but this isn't enabled for static libraries by default. To enable this, add the "-ObjC" and "-all_load" flags to the "Other Linker Flags" build setting as shown below.
-
-![Add category linker flags screen shot](https://github.com/square/KIF/raw/master/Documentation/Images/Add Category Linker Flags.png)
+![Add linker flags screen shot](https://github.com/square/KIF/raw/master/Documentation/Images/Link Framework.png)
 
 Finally, add a preprocessor flag to the testing target so that you can conditionally include code. This will help make sure that none of the testing code makes it into the production app. Call the flag "RUN_KIF_TESTS" and add it under the "Preprocessor Macros." Again, make sure the "$(inherited)" entry is first in the list, 
 
