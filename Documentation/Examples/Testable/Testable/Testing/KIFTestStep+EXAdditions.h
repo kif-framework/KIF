@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "KIFTestStep.h"
+#import <KIF/KIFTestStep.h>
 
 @interface KIFTestStep (EXAdditions)
 

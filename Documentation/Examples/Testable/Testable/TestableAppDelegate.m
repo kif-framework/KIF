@@ -7,7 +7,10 @@
 //
 
 #import "TestableAppDelegate.h"
+
+#if RUN_KIF_TESTS
 #import "EXTestController.h"
+#endif
 
 
 @implementation TestableAppDelegate

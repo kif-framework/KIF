@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		AA0A22A913A7D368004789C0 /* KIFTestStep+EXAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC634C313A68BF000634049 /* KIFTestStep+EXAdditions.m */; };
+		3969665613D3640100DAA54B /* KIF.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3969665513D3640100DAA54B /* KIF.framework */; };
+		3969665713D3645500DAA54B /* KIFTestStep+EXAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC634C313A68BF000634049 /* KIFTestStep+EXAdditions.m */; };
 		AA0A22AA13A7D372004789C0 /* EXTestController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB073E513997527008AF393 /* EXTestController.m */; };
 		AAB073AD139861C0008AF393 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAB073AC139861C0008AF393 /* UIKit.framework */; };
 		AAB073AF139861C0008AF393 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAB073AE139861C0008AF393 /* Foundation.framework */; };
@@ -28,10 +29,10 @@
 		AAB073DA13994E20008AF393 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = AAB073BE139861C0008AF393 /* MainWindow.xib */; };
 		AAB073DB13994E20008AF393 /* RootViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AAB073C4139861C0008AF393 /* RootViewController.xib */; };
 		AAC634C113A5EAF900634049 /* KIFTestScenario+EXAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC634BE13A5E8E200634049 /* KIFTestScenario+EXAdditions.m */; };
-		AAE8773B139DC07F0072C252 /* libKIF.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AAE8773A139DC07F0072C252 /* libKIF.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3969665513D3640100DAA54B /* KIF.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = KIF.framework; sourceTree = SOURCE_ROOT; };
 		AAB073A8139861C0008AF393 /* Testable.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Testable.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAB073AC139861C0008AF393 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		AAB073AE139861C0008AF393 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -53,7 +54,6 @@
 		AAC634BE13A5E8E200634049 /* KIFTestScenario+EXAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "KIFTestScenario+EXAdditions.m"; path = "Testable/Testing/KIFTestScenario+EXAdditions.m"; sourceTree = "<group>"; };
 		AAC634C213A68BF000634049 /* KIFTestStep+EXAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "KIFTestStep+EXAdditions.h"; path = "Testable/Testing/KIFTestStep+EXAdditions.h"; sourceTree = "<group>"; };
 		AAC634C313A68BF000634049 /* KIFTestStep+EXAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "KIFTestStep+EXAdditions.m"; path = "Testable/Testing/KIFTestStep+EXAdditions.m"; sourceTree = "<group>"; };
-		AAE8773A139DC07F0072C252 /* libKIF.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libKIF.a; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,7 +71,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AAE8773B139DC07F0072C252 /* libKIF.a in Frameworks */,
+				3969665613D3640100DAA54B /* KIF.framework in Frameworks */,
 				AAB073D513994E20008AF393 /* UIKit.framework in Frameworks */,
 				AAB073D613994E20008AF393 /* Foundation.framework in Frameworks */,
 				AAB073D713994E20008AF393 /* CoreGraphics.framework in Frameworks */,
@@ -84,7 +84,6 @@
 		AAB0739D139861C0008AF393 = {
 			isa = PBXGroup;
 			children = (
-				AAE8773A139DC07F0072C252 /* libKIF.a */,
 				AAB073B2139861C0008AF393 /* Testable */,
 				AAB073E3139974AD008AF393 /* Testing */,
 				AAB073AB139861C0008AF393 /* Frameworks */,
@@ -104,6 +103,7 @@
 		AAB073AB139861C0008AF393 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3969665513D3640100DAA54B /* KIF.framework */,
 				AAB073AC139861C0008AF393 /* UIKit.framework */,
 				AAB073AE139861C0008AF393 /* Foundation.framework */,
 				AAB073B0139861C0008AF393 /* CoreGraphics.framework */,
@@ -240,7 +240,6 @@
 				AAB073BA139861C0008AF393 /* main.m in Sources */,
 				AAB073BD139861C0008AF393 /* TestableAppDelegate.m in Sources */,
 				AAB073C3139861C0008AF393 /* RootViewController.m in Sources */,
-				AA0A22A913A7D368004789C0 /* KIFTestStep+EXAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -253,6 +252,7 @@
 				AAB073D313994E20008AF393 /* RootViewController.m in Sources */,
 				AAC634C113A5EAF900634049 /* KIFTestScenario+EXAdditions.m in Sources */,
 				AA0A22AA13A7D372004789C0 /* EXTestController.m in Sources */,
+				3969665713D3645500DAA54B /* KIFTestStep+EXAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -358,18 +358,12 @@
 					"$(inherited)",
 					RUN_KIF_TESTS,
 				);
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)/Frameworks/KIF/**",
-				);
 				INFOPLIST_FILE = "Testable/Testable-Info.plist";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)\"",
-				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
+					"-framework",
+					KIF,
 				);
 				PRODUCT_NAME = "Testable (Integration Tests)";
 				WRAPPER_EXTENSION = app;
@@ -387,18 +381,12 @@
 					"$(inherited)",
 					RUN_KIF_TESTS,
 				);
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)/Frameworks/KIF/**",
-				);
 				INFOPLIST_FILE = "Testable/Testable-Info.plist";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)\"",
-				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
+					"-framework",
+					KIF,
 				);
 				PRODUCT_NAME = "Testable (Integration Tests)";
 				VALIDATE_PRODUCT = YES;

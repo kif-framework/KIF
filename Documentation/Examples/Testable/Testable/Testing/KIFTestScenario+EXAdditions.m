@@ -7,7 +7,7 @@
 //
 
 #import "KIFTestScenario+EXAdditions.h"
-#import "KIFTestStep.h"
+#import <KIF/KIFTestStep.h>
 #import "KIFTestStep+EXAdditions.h"
 
 @implementation KIFTestScenario (EXAdditions)
