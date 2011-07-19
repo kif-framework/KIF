@@ -19,6 +19,8 @@
 @interface KIFTestStep ()
 
 @property (nonatomic, copy) KIFTestStepExecutionBlock executionBlock;
+@property BOOL notificationOccurred;
+@property (nonatomic, assign) id notificationObject;
 
 + (BOOL)_enterCharacter:(NSString *)characterString;
 + (BOOL)_enterCharacter:(NSString *)characterString history:(NSMutableDictionary *)history;
@@ -34,6 +36,8 @@
 @synthesize description;
 @synthesize executionBlock;
 @synthesize timeout;
+@synthesize notificationOccurred;
+@synthesize notificationObject;
 
 #pragma mark Static Methods
 
@@ -124,6 +128,20 @@
         CFRunLoopRunInMode(kCFRunLoopDefaultMode, interval, false);
         return KIFTestStepResultSuccess;        
     }];
+}
+
++ (id)stepToWaitForNotificationName:(NSString*)name object:(id)object;
+{
+    NSString *description = [NSString stringWithFormat:@"Wait for notification \"%@\"", name];
+    
+    KIFTestStep * step = [self stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) { 
+        KIFTestWaitCondition(step.notificationOccurred, error, @"Waiting for notification");        
+        return KIFTestStepResultSuccess;
+    }];
+    
+    step.notificationObject = object;
+    [[NSNotificationCenter defaultCenter] addObserver:step selector:@selector(_onObservedNotification:) name:name object:object];    
+    return step;
 }
 
 + (id)stepToTapViewWithAccessibilityLabel:(NSString *)label;
@@ -390,6 +408,11 @@
 }
 
 #pragma mark Private Methods
+
+- (void)_onObservedNotification:(NSNotification*)notification {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:notification.name object:notificationObject];
+    self.notificationOccurred = YES;
+}
 
 + (NSString *)_representedKeyboardStringForCharacter:(NSString *)characterString;
 {
