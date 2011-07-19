@@ -20,7 +20,7 @@
 
 @property (nonatomic, copy) KIFTestStepExecutionBlock executionBlock;
 @property BOOL notificationOccurred;
-@property (nonatomic, assign) id notificationObject;
+@property (nonatomic, retain) id notificationObject;
 
 + (BOOL)_enterCharacter:(NSString *)characterString;
 + (BOOL)_enterCharacter:(NSString *)characterString history:(NSMutableDictionary *)history;
@@ -411,6 +411,7 @@
 
 - (void)_onObservedNotification:(NSNotification*)notification {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:notification.name object:notificationObject];
+    self.notificationObject = nil;
     self.notificationOccurred = YES;
 }
 
