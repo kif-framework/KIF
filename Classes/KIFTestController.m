@@ -11,6 +11,9 @@
 #import "KIFTestStep.h"
 #import "NSFileManager-KIFAdditions.h"
 #import <QuartzCore/QuartzCore.h>
+#if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
+#import <UIKit/UIKit.h>
+#endif
 
 
 @interface KIFTestController ()
@@ -147,11 +150,13 @@ static void releaseInstance()
     
     self.testing = YES;
     self.testSuiteStartDate = [NSDate date];
-    [self _logTestingDidStart];
 
     if (!failedScenarioIndexes.count && self.scenarios.count) {
         [failedScenarioIndexes addIndexesInRange:NSMakeRange(0, self.scenarios.count)];
     }
+
+    [self _logTestingDidStart];
+
     self.currentScenario = [self _nextScenarioAfterResult:KIFTestStepResultSuccess];
     self.currentScenarioStartDate = [NSDate date];
     self.currentStep = (self.currentScenario.steps.count ? [self.currentScenario.steps objectAtIndex:0] : nil);
@@ -418,9 +423,9 @@ static void releaseInstance()
 - (void)_logTestingDidStart;
 {
     if (failedScenarioIndexes.count != self.scenarios.count) {
-        KIFLog(@"BEGIN KIF TEST RUN: re-running %lu of %lu scenarios that failed last time", failedScenarioIndexes.count, self.scenarios.count);
+        KIFLog(@"BEGIN KIF TEST RUN: re-running %d of %d scenarios that failed last time", failedScenarioIndexes.count, self.scenarios.count);
     } else {
-        KIFLog(@"BEGIN KIF TEST RUN: %ld scenarios", self.scenarios.count);
+        KIFLog(@"BEGIN KIF TEST RUN: %d scenarios", self.scenarios.count);
     }
 }
 
@@ -428,18 +433,18 @@ static void releaseInstance()
 {
     KIFLogBlankLine();
     KIFLogSeparator();
-    KIFLog(@"KIF TEST RUN FINISHED: %ld failures (duration %.2fs)", failureCount, -[self.testSuiteStartDate timeIntervalSinceNow]);
+    KIFLog(@"KIF TEST RUN FINISHED: %d failures (duration %.2fs)", failureCount, -[self.testSuiteStartDate timeIntervalSinceNow]);
     KIFLogSeparator();
     
     // Also log the failure count to stdout, for easier integration with CI tools.
-    NSLog(@"*** KIF TESTING FINISHED: %ld failures", failureCount);
+    NSLog(@"*** KIF TESTING FINISHED: %d failures", failureCount);
 }
 
 - (void)_logDidStartScenario:(KIFTestScenario *)scenario;
 {
     KIFLogBlankLine();
     KIFLogSeparator();
-    KIFLog(@"BEGIN SCENARIO %ld/%ld (%ld steps)", [self.scenarios indexOfObjectIdenticalTo:scenario] + 1, self.scenarios.count, scenario.steps.count);
+    KIFLog(@"BEGIN SCENARIO %d/%d (%d steps)", [self.scenarios indexOfObjectIdenticalTo:scenario] + 1, self.scenarios.count, scenario.steps.count);
     KIFLog(@"%@", scenario.description);
     KIFLogSeparator();
 }
@@ -448,8 +453,8 @@ static void releaseInstance()
 {
     KIFLogBlankLine();
     KIFLogSeparator();
-    NSString *reason = (scenario.skippedByFilter ? @"filter matches description" : @"only running previously-failed scenarios");
-    KIFLog(@"SKIPPING SCENARIO %ld/%ld (%@)", [self.scenarios indexOfObjectIdenticalTo:scenario] + 1, self.scenarios.count, reason);
+    NSString *reason = (scenario.skippedByFilter ? @"filter doesn't match description" : @"only running previously-failed scenarios");
+    KIFLog(@"SKIPPING SCENARIO %d/%d (%@)", [self.scenarios indexOfObjectIdenticalTo:scenario] + 1, self.scenarios.count, reason);
     KIFLog(@"%@", scenario.description);
     KIFLogSeparator();
 }
