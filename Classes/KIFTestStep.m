@@ -387,7 +387,7 @@
 }
 
 - (void)dealloc;
-{    
+{
     [executionBlock release];
     executionBlock = nil;
     [description release];
