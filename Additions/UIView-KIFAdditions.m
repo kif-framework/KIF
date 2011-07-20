@@ -254,17 +254,17 @@
     [touch setPhase:UITouchPhaseBegan];
     
     UIEvent *event = [self _eventWithTouch:touch];
-    
+
     [[UIApplication sharedApplication] sendEvent:event];
-    
+
     [touch setPhase:UITouchPhaseEnded];
     [[UIApplication sharedApplication] sendEvent:event];
-    
+
     // Dispatching the event doesn't actually update the first responder, so fake it
     if (touch.view == self && [self canBecomeFirstResponder]) {
         [self becomeFirstResponder];
     }
-    
+
     [touch release];
 }
 
@@ -326,6 +326,12 @@
     // This applies with UISegmentedControl which contains UISegment views (a private UIView
     // representing a single segment).
     if ([hitView isKindOfClass:[UIControl class]] && [self isDescendantOfView:hitView]) {
+        return YES;
+    }
+    
+    // Button views in the nav bar (a private class derived from UINavigationItemView), do not return
+    // themselves in a -hitTest:. Instead they return the nav bar.
+    if ([hitView isKindOfClass:[UINavigationBar class]] && [self isKindOfClass:NSClassFromString(@"UINavigationItemView")] && [self isDescendantOfView:hitView]) {
         return YES;
     }
     
