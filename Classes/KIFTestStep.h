@@ -81,8 +81,11 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
     KIFTestStepExecutionBlock executionBlock;
     NSString *description;
     NSTimeInterval timeout;
-    BOOL notificationOccurred;
+    
+    NSString * notificationName;
     id notificationObject;
+    BOOL observingForNotification;
+    BOOL notificationOccurred;
 }
 
 /*!
@@ -115,6 +118,13 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
  @result The result code for the result of executing the step.
  */
 - (KIFTestStepResult)executeAndReturnError:(NSError **)error;
+
+/*!
+ @method cleanup:
+ @abstract Cleanup any state and listeners once the step has completed.
+ @discussion For anything that needs to be removed at completion rather than dealloc
+ */
+- (void)cleanup;
 
 #pragma mark Factory Steps
 
