@@ -5,6 +5,8 @@ KIF, which stands for Keep It Functional, is an iOS integration test framework. 
 
 **KIF uses undocumented Apple APIs.** This is true of most iOS testing frameworks, and is safe for testing purposes, but it's important that KIF does not make it into production code, as it will get your app submission denied by Apple. Follow the instructions below to ensure that KIF is configured correctly for your project.
 
+There's [a port underway to use KIF with Mac OS X apps](https://github.com/joshaber/KIF/commits/segregate-ios), as well.
+
 Features
 --------
 
