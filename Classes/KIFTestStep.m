@@ -421,7 +421,7 @@
 
 - (void)cleanUp;
 {
-    if (notificationName) {
+    if (notificationName || notificationObject) {
         [[NSNotificationCenter defaultCenter] removeObserver:self name:notificationName object:notificationObject];    
     }
 }
