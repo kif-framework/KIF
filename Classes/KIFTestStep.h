@@ -241,6 +241,16 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
 + (id)stepToTapViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits;
 
 /*!
+ @method stepToTapScreenAtPoint:
+ @abstract A step that taps the screen at a particular point.
+ @discussion Taps the screen at a specific point. In general you should use the factory steps that tap a view based on its accessibility label, but there are situations where it's not possible to access a view using accessibility mechanisms. This step is more lenient than the steps that use the accessibility label, and does not wait for any particular view to appear, or validate that the tapped view is enabled or has interaction enabled. Because this step doesn't doesn't validate that a view is present before tapping it, it's good practice to precede this step where possible with a -stepToWaitForViewWithAccessibilityLabel: with the label for another view that should appear on the same screen.
+ 
+ @param screenPoint The point in screen coordinates to tap. Screen points originate from the top left of the screen.
+ @result A configured test step.
+ */
++ (id)stepToTapScreenAtPoint:(CGPoint)screenPoint;
+
+/*!
  @method stepToEnterText:intoViewWithAccessibilityLabel:
  @abstract A step that enters text into a particular view in the view hierarchy.
  @discussion The view or accessibility element with the given label is searched for in the view hierarchy. If the element isn't found or isn't currently tappable, then the step will attempt to wait until it is. Once the view is present and tappable, a tap event is simulated in the center of the view or element, then text is entered into the view by simulating taps on the appropriate keyboard keys.

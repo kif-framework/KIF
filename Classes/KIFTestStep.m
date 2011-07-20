@@ -183,6 +183,34 @@
     }];
 }
 
++ (id)stepToTapScreenAtPoint:(CGPoint)screenPoint;
+{
+    NSString *description = [NSString stringWithFormat:@"Tap screen at point \"%@\"", NSStringFromCGPoint(screenPoint)];
+    
+    return [self stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
+        
+        // Try all the windows until we get one back that actually has something in it at the given point
+        UIView *view = nil;
+        for (UIWindow *window in [[[UIApplication sharedApplication] windows] reverseObjectEnumerator]) {
+            CGPoint windowPoint = [window convertPoint:screenPoint fromView:nil];
+            view = [window hitTest:windowPoint withEvent:nil];
+            
+            // If we hit the window itself, then skip it.
+            if (view == window || view == nil) {
+                continue;
+            }
+        }
+        
+        KIFTestWaitCondition(view, error, @"No view was found at the point %@", NSStringFromCGPoint(screenPoint));
+        
+        // This is mostly redundant of the test in _accessibilityElementWithLabel:
+        CGPoint viewPoint = [view convertPoint:screenPoint fromView:nil];
+        [view tapAtPoint:viewPoint];
+        
+        return KIFTestStepResultSuccess;
+    }];
+}
+
 + (id)stepToEnterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label;
 {
     return [self stepToEnterText:text intoViewWithAccessibilityLabel:label traits:UIAccessibilityTraitNone expectedResult:nil];
