@@ -243,7 +243,7 @@ static void releaseInstance()
         case KIFTestStepResultFailure: {
             [self _logDidFailStep:self.currentStep duration:currentStepDuration error:error];
             [self _writeScreenshotForStep:self.currentStep];
-            [self.currentStep cleanup];
+            [self.currentStep cleanUp];
             
             self.currentScenario = [self _nextScenarioAfterResult:result];
             self.currentScenarioStartDate = [NSDate date];
@@ -254,7 +254,7 @@ static void releaseInstance()
         }
         case KIFTestStepResultSuccess: {
             [self _logDidPassStep:self.currentStep duration:currentStepDuration];
-            [self.currentStep cleanup];
+            [self.currentStep cleanUp];
             
             self.currentStep = [self _nextStep];
             if (!self.currentStep) {

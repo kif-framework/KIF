@@ -120,11 +120,11 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
 - (KIFTestStepResult)executeAndReturnError:(NSError **)error;
 
 /*!
- @method cleanup:
+ @method cleanUp:
  @abstract Cleanup any state and listeners once the step has completed.
  @discussion For anything that needs to be removed at completion rather than dealloc
  */
-- (void)cleanup;
+- (void)cleanUp;
 
 #pragma mark Factory Steps
 

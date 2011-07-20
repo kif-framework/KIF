@@ -37,11 +37,11 @@
 
 @synthesize description;
 @synthesize executionBlock;
-@synthesize timeout;
-@synthesize observingForNotification;
 @synthesize notificationName;
 @synthesize notificationObject;
 @synthesize notificationOccurred;
+@synthesize observingForNotification;
+@synthesize timeout;
 
 #pragma mark Static Methods
 
@@ -134,11 +134,11 @@
     }];
 }
 
-+ (id)stepToWaitForNotificationName:(NSString*)name object:(id)object;
++ (id)stepToWaitForNotificationName:(NSString *)name object:(id)object;
 {
     NSString *description = [NSString stringWithFormat:@"Wait for notification \"%@\"", name];
     
-    KIFTestStep * step = [self stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {  
+    KIFTestStep *step = [self stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {  
         if (!step.observingForNotification) {            
             step.notificationName = name;
             step.notificationObject = object; 
@@ -146,7 +146,7 @@
             [[NSNotificationCenter defaultCenter] addObserver:step selector:@selector(_onObservedNotification:) name:name object:object];
         }
         
-        KIFTestWaitCondition(step.notificationOccurred, error, @"Waiting for notification");        
+        KIFTestWaitCondition(step.notificationOccurred, error, @"Waiting for notification \"%@\"", name);        
         return KIFTestStepResultSuccess;
     }];   
     return step;
@@ -402,7 +402,7 @@
 
 #pragma mark Public Methods
 
-- (KIFTestStepResult)executeAndReturnError:(NSError **)error
+- (KIFTestStepResult)executeAndReturnError:(NSError **)error;
 {    
     KIFTestStepResult result = KIFTestStepResultFailure;
     
@@ -419,14 +419,15 @@
     return result;
 }
 
-- (void)cleanup;
+- (void)cleanUp;
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:notificationName object:notificationObject];    
 }
 
 #pragma mark Private Methods
 
-- (void)_onObservedNotification:(NSNotification*)notification {
+- (void)_onObservedNotification:(NSNotification*)notification;
+{
     self.notificationOccurred = YES;
 }
 
