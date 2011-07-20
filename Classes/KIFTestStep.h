@@ -80,7 +80,11 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
 @interface KIFTestStep : NSObject {
     KIFTestStepExecutionBlock executionBlock;
     NSString *description;
-    NSTimeInterval timeout;
+    NSString *notificationName;
+    id notificationObject;
+    BOOL notificationOccurred;
+    BOOL observingForNotification;
+    NSTimeInterval timeout;    
 }
 
 /*!
@@ -113,6 +117,13 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
  @result The result code for the result of executing the step.
  */
 - (KIFTestStepResult)executeAndReturnError:(NSError **)error;
+
+/*!
+ @method cleanUp:
+ @abstract Clean up any state and listeners once the step has completed.
+ @discussion For anything that needs to be removed at completion rather than dealloc
+ */
+- (void)cleanUp;
 
 #pragma mark Factory Steps
 
@@ -207,6 +218,16 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
  @result A configured test step.
  */
 + (id)stepToWaitForTimeInterval:(NSTimeInterval)interval description:(NSString *)description;
+
+/*!
+ @method stepToWaitForNotificationName:object:
+ @abstract A step that waits for an NSNotification
+ @discussion Useful when a test requires an asynchronous task to complete, especially when that task does not trigger a visible change in the view hierarchy
+ @param name The name of the NSNotification
+ @param object The object to which the step should listen. Nil value will listen to all objects.
+ @result A configured test step.
+ */
++ (id)stepToWaitForNotificationName:(NSString*)name object:(id)object;
 
 /*!
  @method stepToTapViewWithAccessibilityLabel:
