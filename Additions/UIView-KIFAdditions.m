@@ -44,7 +44,6 @@
 // This class exposes methods of UITouchesEvent so that the compiler doesn't complain
 @interface KIFTouchEvent : NSObject
 
-- (BOOL)_addGestureRecognizersForView:(UIView *)view toTouch:(UITouch *)touch;
 - (void)_addTouch:(id)arg1 forDelayedDelivery:(BOOL)arg2;
 - (void)_clearTouches;
 - (void)_setGSEvent:(struct __GSEvent *)event;
@@ -402,7 +401,6 @@
     [allTouches makeObjectsPerformSelector:@selector(autorelease)];
     [touchEvent _addTouch:touch forDelayedDelivery:NO];
     [touchEvent _setGSEvent:(struct __GSEvent *)eventProxy];
-    [touchEvent _addGestureRecognizersForView:touch.view toTouch:touch];
     
     [eventProxy release];
     return event;
