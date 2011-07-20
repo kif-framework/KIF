@@ -181,7 +181,7 @@
         UIView *view = [UIAccessibilityElement viewContainingAccessibilityElement:element];
         KIFTestWaitCondition(view, error, @"Failed to find view for accessibility element with label \"%@\"", label);
 
-        if (!view.userInteractionEnabled) {
+        if (!view.userInteractionEnabled && ![view isKindOfClass:NSClassFromString(@"UINavigationItemView")]) {
             if (error) {
                 *error = [[[NSError alloc] initWithDomain:@"KIFTest" code:KIFTestStepResultFailure userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"View with accessibility label \"%@\" is not enabled for interaction", label], NSLocalizedDescriptionKey, nil]] autorelease];
             }
