@@ -5,6 +5,8 @@ KIF, which stands for Keep It Functional, is an iOS integration test framework. 
 
 **KIF uses undocumented Apple APIs.** This is true of most iOS testing frameworks, and is safe for testing purposes, but it's important that KIF does not make it into production code, as it will get your app submission denied by Apple. Follow the instructions below to ensure that KIF is configured correctly for your project.
 
+There's [a port underway to use KIF with Mac OS X apps](https://github.com/joshaber/KIF/commits/segregate-ios), as well.
+
 Features
 --------
 
@@ -79,7 +81,7 @@ KIF relies on the built-in accessibility of iOS to perform its test steps. As su
 
 Although not required, it's recommended that you create a subclass of KIFTestController that is specific to your application. This subclass will override the -initializeScenarios method, which will contain a list of invocations for the scenarios that your test suite will run. We'll call our subclass EXTestController, and will add an initial test scenario, which we will define later.
 
-*KIFTestController.h*
+*EXTestController.h*
 
 	#import <Foundation/Foundation.h>
 	#import "KIFTestController.h"
@@ -88,7 +90,7 @@ Although not required, it's recommended that you create a subclass of KIFTestCon
 
 	@end
 
-*KIFTestController.m*
+*EXTestController.m*
 
 	#import "EXTestController.h"
 
@@ -311,3 +313,14 @@ A continuous integration (CI) process is highly recommended and is extremely use
 	grep -q "TESTING FINISHED: 0 failures" /tmp/KIF-$$.out
 	
 This should provide a strong starting point, but you'll likely want to customize the script further. For example, you may want it to run `iphone` rather than `ipad`, or perhaps both.
+
+Contributing
+------------
+
+We're glad you're interested in KIF, and we'd love to see where you take it.
+
+Any contributors to the master KIF repository must sign the [Individual Contributor License Agreement (CLA)](https://spreadsheets.google.com/spreadsheet/viewform?formkey=dDViT2xzUHAwRkI3X3k5Z0lQM091OGc6MQ&ndplr=1). It's a short form that covers our bases and makes sure you're eligible to contribute.
+
+When you have a change you'd like to see in the master repository, [send a pull request](https://github.com/square/KIF/pulls). Before we merge your request, we'll make sure you're in the list of people who have signed a CLA.
+
+Thanks, and happy testing!

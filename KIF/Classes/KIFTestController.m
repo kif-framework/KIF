@@ -147,11 +147,13 @@ static void releaseInstance()
     
     self.testing = YES;
     self.testSuiteStartDate = [NSDate date];
-    [self _logTestingDidStart];
 
     if (!failedScenarioIndexes.count && self.scenarios.count) {
         [failedScenarioIndexes addIndexesInRange:NSMakeRange(0, self.scenarios.count)];
     }
+
+    [self _logTestingDidStart];
+
     self.currentScenario = [self _nextScenarioAfterResult:KIFTestStepResultSuccess];
     self.currentScenarioStartDate = [NSDate date];
     self.currentStep = (self.currentScenario.steps.count ? [self.currentScenario.steps objectAtIndex:0] : nil);
@@ -241,6 +243,7 @@ static void releaseInstance()
         case KIFTestStepResultFailure: {
             [self _logDidFailStep:self.currentStep duration:currentStepDuration error:error];
             [self _writeScreenshotForStep:self.currentStep];
+            [self.currentStep cleanUp];
             
             self.currentScenario = [self _nextScenarioAfterResult:result];
             self.currentScenarioStartDate = [NSDate date];
@@ -251,6 +254,8 @@ static void releaseInstance()
         }
         case KIFTestStepResultSuccess: {
             [self _logDidPassStep:self.currentStep duration:currentStepDuration];
+            [self.currentStep cleanUp];
+            
             self.currentStep = [self _nextStep];
             if (!self.currentStep) {
                 self.currentScenario = [self _nextScenarioAfterResult:result];
@@ -438,7 +443,7 @@ static void releaseInstance()
 {
     KIFLogBlankLine();
     KIFLogSeparator();
-    NSString *reason = (scenario.skippedByFilter ? @"filter matches description" : @"only running previously-failed scenarios");
+    NSString *reason = (scenario.skippedByFilter ? @"filter doesn't match description" : @"only running previously-failed scenarios");
     KIFLog(@"SKIPPING SCENARIO %d/%d (%@)", [self.scenarios indexOfObjectIdenticalTo:scenario] + 1, self.scenarios.count, reason);
     KIFLog(@"%@", scenario.description);
     KIFLogSeparator();

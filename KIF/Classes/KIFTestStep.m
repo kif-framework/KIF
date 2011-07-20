@@ -19,6 +19,10 @@
 @interface KIFTestStep ()
 
 @property (nonatomic, copy) KIFTestStepExecutionBlock executionBlock;
+@property (nonatomic, copy) NSString *notificationName;
+@property (nonatomic, retain) id notificationObject;
+@property BOOL notificationOccurred;
+@property BOOL observingForNotification;
 
 + (BOOL)_enterCharacter:(NSString *)characterString;
 + (BOOL)_enterCharacter:(NSString *)characterString history:(NSMutableDictionary *)history;
@@ -33,6 +37,10 @@
 
 @synthesize description;
 @synthesize executionBlock;
+@synthesize notificationName;
+@synthesize notificationObject;
+@synthesize notificationOccurred;
+@synthesize observingForNotification;
 @synthesize timeout;
 
 #pragma mark Static Methods
@@ -124,6 +132,24 @@
         CFRunLoopRunInMode(kCFRunLoopDefaultMode, interval, false);
         return KIFTestStepResultSuccess;        
     }];
+}
+
++ (id)stepToWaitForNotificationName:(NSString *)name object:(id)object;
+{
+    NSString *description = [NSString stringWithFormat:@"Wait for notification \"%@\"", name];
+    
+    KIFTestStep *step = [self stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {  
+        if (!step.observingForNotification) {            
+            step.notificationName = name;
+            step.notificationObject = object; 
+            step.observingForNotification = YES;
+            [[NSNotificationCenter defaultCenter] addObserver:step selector:@selector(_onObservedNotification:) name:name object:object];
+        }
+        
+        KIFTestWaitCondition(step.notificationOccurred, error, @"Waiting for notification \"%@\"", name);        
+        return KIFTestStepResultSuccess;
+    }];   
+    return step;
 }
 
 + (id)stepToTapViewWithAccessibilityLabel:(NSString *)label;
@@ -366,14 +392,18 @@
     executionBlock = nil;
     [description release];
     description = nil;
+    [notificationName release];
+    notificationName = nil;
+    [notificationObject release];
+    notificationObject = nil;
     
     [super dealloc];
 }
 
 #pragma mark Public Methods
 
-- (KIFTestStepResult)executeAndReturnError:(NSError **)error
-{
+- (KIFTestStepResult)executeAndReturnError:(NSError **)error;
+{    
     KIFTestStepResult result = KIFTestStepResultFailure;
     
     if (self.executionBlock) {
@@ -389,7 +419,19 @@
     return result;
 }
 
+- (void)cleanUp;
+{
+    if (notificationName || notificationObject) {
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:notificationName object:notificationObject];    
+    }
+}
+
 #pragma mark Private Methods
+
+- (void)_onObservedNotification:(NSNotification *)notification;
+{
+    self.notificationOccurred = YES;
+}
 
 + (NSString *)_representedKeyboardStringForCharacter:(NSString *)characterString;
 {
