@@ -19,10 +19,10 @@
 @interface KIFTestStep ()
 
 @property (nonatomic, copy) KIFTestStepExecutionBlock executionBlock;
-@property (nonatomic, copy) NSString * notificationName;
+@property (nonatomic, copy) NSString *notificationName;
 @property (nonatomic, retain) id notificationObject;
-@property BOOL observingForNotification;
 @property BOOL notificationOccurred;
+@property BOOL observingForNotification;
 
 + (BOOL)_enterCharacter:(NSString *)characterString;
 + (BOOL)_enterCharacter:(NSString *)characterString history:(NSMutableDictionary *)history;
@@ -421,12 +421,14 @@
 
 - (void)cleanUp;
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:notificationName object:notificationObject];    
+    if (notificationName) {
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:notificationName object:notificationObject];    
+    }
 }
 
 #pragma mark Private Methods
 
-- (void)_onObservedNotification:(NSNotification*)notification;
+- (void)_onObservedNotification:(NSNotification *)notification;
 {
     self.notificationOccurred = YES;
 }

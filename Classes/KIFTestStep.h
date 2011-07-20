@@ -80,12 +80,11 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
 @interface KIFTestStep : NSObject {
     KIFTestStepExecutionBlock executionBlock;
     NSString *description;
-    NSTimeInterval timeout;
-    
-    NSString * notificationName;
+    NSString *notificationName;
     id notificationObject;
-    BOOL observingForNotification;
     BOOL notificationOccurred;
+    BOOL observingForNotification;
+    NSTimeInterval timeout;    
 }
 
 /*!
@@ -121,7 +120,7 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
 
 /*!
  @method cleanUp:
- @abstract Cleanup any state and listeners once the step has completed.
+ @abstract Clean up any state and listeners once the step has completed.
  @discussion For anything that needs to be removed at completion rather than dealloc
  */
 - (void)cleanUp;
@@ -221,7 +220,7 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
 + (id)stepToWaitForTimeInterval:(NSTimeInterval)interval description:(NSString *)description;
 
 /*!
- @method stepToWaitForNotificationName:object;
+ @method stepToWaitForNotificationName:object:
  @abstract A step that waits for an NSNotification
  @discussion Useful when a test requires an asynchronous task to complete, especially when that task does not trigger a visible change in the view hierarchy
  @param name The name of the NSNotification
