@@ -317,3 +317,14 @@ A continuous integration (CI) process is highly recommended and is extremely use
 	grep -q "TESTING FINISHED: 0 failures" /tmp/KIF-$$.out
 	
 This should provide a strong starting point, but you'll likely want to customize the script further. For example, you may want it to run `iphone` rather than `ipad`, or perhaps both.
+
+Contributing
+------------
+
+We're glad you're interested in KIF, and we'd love to see where you take it.
+
+Any contributors to the master KIF repository must sign the [Individual Contributor License Agreement (CLA)](https://spreadsheets.google.com/spreadsheet/viewform?formkey=dDViT2xzUHAwRkI3X3k5Z0lQM091OGc6MQ&ndplr=1). It's a short form that covers our bases and makes sure you're eligible to contribute.
+
+When you have a change you'd like to see in the master repository, [send a pull request](https://github.com/square/KIF/pulls). Before we merge your request, we'll make sure you're in the list of people who have signed a CLA.
+
+Thanks, and happy testing!
