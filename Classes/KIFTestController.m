@@ -11,6 +11,9 @@
 #import "KIFTestStep.h"
 #import "NSFileManager-KIFAdditions.h"
 #import <QuartzCore/QuartzCore.h>
+#if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
+#import <UIKit/UIKit.h>
+#endif
 
 
 @interface KIFTestController ()
@@ -189,6 +192,7 @@ static void releaseInstance()
 
 - (BOOL)_isAccessibilityInspectorEnabled;
 {
+#if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
     // This method for testing if the inspector is enabled was taken from the Frank framework.
     // https://github.com/moredip/Frank
     UIWindow *keyWindow = [[UIApplication sharedApplication] keyWindow];
@@ -198,6 +202,11 @@ static void releaseInstance()
     BOOL isInspectorEnabled = [[keyWindow accessibilityLabel] isEqualToString:@"KIF Test Label"];
     
     [keyWindow setAccessibilityLabel:originalAccessibilityLabel];
+#else
+	BOOL isInspectorEnabled = YES;
+	
+	// TODO: there's probably some check we should do on Mac OS X
+#endif
     
     return isInspectorEnabled;
 }
@@ -349,6 +358,7 @@ static void releaseInstance()
         return;
     }
     
+#if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
     NSArray *windows = [[UIApplication sharedApplication] windows];
     if (windows.count == 0) {
         return;
@@ -365,6 +375,9 @@ static void releaseInstance()
     outputPath = [outputPath stringByAppendingPathComponent:[step.description stringByReplacingOccurrencesOfString:@"/" withString:@"_"]];
     outputPath = [outputPath stringByAppendingPathExtension:@"png"];
     [UIImagePNGRepresentation(image) writeToFile:outputPath atomically:YES];
+#else
+	// TODO: actually implement this on Mac OS X
+#endif
 }
 
 #pragma mark Logging
