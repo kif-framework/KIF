@@ -261,8 +261,8 @@
     [[UIApplication sharedApplication] sendEvent:event];
 
     // Dispatching the event doesn't actually update the first responder, so fake it
-    if ([touch.view isDescendantOfView:self] && [touch.view canBecomeFirstResponder]) {
-        [touch.view becomeFirstResponder];
+    if ([touch.view isDescendantOfView:self] && [self canBecomeFirstResponder]) {
+        [self becomeFirstResponder];
     }
 
     [touch release];
