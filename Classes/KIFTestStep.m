@@ -24,6 +24,8 @@
 @property BOOL notificationOccurred;
 @property BOOL observingForNotification;
 
++ (BOOL)_isUserInteractionEnabledForView:(UIView *)view;
+
 + (BOOL)_enterCharacter:(NSString *)characterString;
 + (BOOL)_enterCharacter:(NSString *)characterString history:(NSMutableDictionary *)history;
 + (BOOL)_enterCustomKeyboardCharacter:(NSString *)characterString;
@@ -181,30 +183,30 @@
         UIView *view = [UIAccessibilityElement viewContainingAccessibilityElement:element];
         KIFTestWaitCondition(view, error, @"Failed to find view for accessibility element with label \"%@\"", label);
 
-        if (!view.userInteractionEnabled && ![view isKindOfClass:NSClassFromString(@"UINavigationItemView")]) {
+        if (![self _isUserInteractionEnabledForView:view]) {
             if (error) {
                 *error = [[[NSError alloc] initWithDomain:@"KIFTest" code:KIFTestStepResultFailure userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"View with accessibility label \"%@\" is not enabled for interaction", label], NSLocalizedDescriptionKey, nil]] autorelease];
             }
             return KIFTestStepResultWait;
         }
-        
+
         CGRect elementFrame = [view.window convertRect:element.accessibilityFrame toView:view];
         CGPoint tappablePointInElement = [view tappablePointInRect:elementFrame];
-        
+
         // This is mostly redundant of the test in _accessibilityElementWithLabel:
         KIFTestCondition(!isnan(tappablePointInElement.x), error, @"The element with accessibility label %@ is not tappable", label);
         [view tapAtPoint:tappablePointInElement];
-        
+
         // Verify that we successfully selected the view
         if (![view canBecomeFirstResponder]) {
             CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.5, false);
             return KIFTestStepResultSuccess;
         }
-        
+
         KIFTestCondition([view isAncestorOfFirstResponder], error, @"Failed to make the view %@ which contains the accessibility element \"%@\" into the first responder", view, label);
-  
+
         CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.5, false);
-        
+
         return KIFTestStepResultSuccess;
     }];
 }
@@ -459,6 +461,25 @@
 - (void)_onObservedNotification:(NSNotification *)notification;
 {
     self.notificationOccurred = YES;
+}
+
++ (BOOL)_isUserInteractionEnabledForView:(UIView *)view;
+{
+    BOOL isUserInteractionEnabled = view.userInteractionEnabled;
+    
+    // Navigation item views don't have user interaction enabled, but their parent nav bar does and will forward the event
+    if (!isUserInteractionEnabled && [view isKindOfClass:NSClassFromString(@"UINavigationItemView")]) {
+        // If this view is inside a nav bar, and the nav bar is enabled, then consider it enabled
+        UIView *navBar = [view superview];
+        while (navBar && ![navBar isKindOfClass:[UINavigationBar class]]) {
+            navBar = [navBar superview];
+        }
+        if (navBar && navBar.userInteractionEnabled) {
+            isUserInteractionEnabled = YES;
+        }
+    }
+    
+    return isUserInteractionEnabled;
 }
 
 + (NSString *)_representedKeyboardStringForCharacter:(NSString *)characterString;
