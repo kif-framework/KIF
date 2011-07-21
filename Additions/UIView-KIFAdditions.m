@@ -202,6 +202,14 @@
     return [self.superview isAncestorOfFirstResponder];
 }
 
+- (BOOL)isAncestorOfView:(UIView *)view;
+{
+    if (view == self) {
+        return YES;
+    }
+    return [self.superview isAncestorOfView:view];
+}
+
 - (void)flash;
 {
 	UIColor *originalBackgroundColor = [self.backgroundColor retain];
@@ -261,8 +269,8 @@
     [[UIApplication sharedApplication] sendEvent:event];
 
     // Dispatching the event doesn't actually update the first responder, so fake it
-    if (touch.view == self && [self canBecomeFirstResponder]) {
-        [self becomeFirstResponder];
+    if ([touch.view isAncestorOfView:self] && [touch.view canBecomeFirstResponder]) {
+        [touch.view becomeFirstResponder];
     }
 
     [touch release];
