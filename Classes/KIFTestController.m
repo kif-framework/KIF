@@ -39,6 +39,7 @@
 - (void)_logDidFinishScenario:(KIFTestScenario *)scenario duration:(NSTimeInterval)duration;
 - (void)_logDidFailStep:(KIFTestStep *)step duration:(NSTimeInterval)duration error:(NSError *)error;
 - (void)_logDidPassStep:(KIFTestStep *)step duration:(NSTimeInterval)duration;
+- (void)_logDidSkipStep:(KIFTestStep *)step duration:(NSTimeInterval)duration;
 
 @end
 
@@ -275,6 +276,19 @@ static void releaseInstance()
             }
             break;
         }
+		case KIFTestStepResultSkip: {
+			[self _logDidSkipStep:self.currentStep duration:currentStepDuration];
+			[self.currentStep cleanUp];
+
+			self.currentStep = [self _nextStep];
+			if (!self.currentStep) {
+				self.currentScenario = [self _nextScenarioAfterResult:KIFTestStepResultSuccess];
+				self.currentScenarioStartDate = [NSDate date];
+				self.currentStep  = (self.currentScenario.steps.count ? [self.currentScenario.steps objectAtIndex:0] : nil);
+			}
+			self.currentStepStartDate = [NSDate date];
+			break;
+		}
     }
     
     NSAssert(!self.currentStep || self.currentStep.description.length, @"The step following the step \"%@\" is missing a description", previousStep.description);
@@ -465,6 +479,11 @@ static void releaseInstance()
 - (void)_logDidPassStep:(KIFTestStep *)step duration:(NSTimeInterval)duration;
 {
     KIFLog(@"PASS (%.2fs): %@", duration, step);
+}
+
+- (void)_logDidSkipStep:(KIFTestStep *)step duration:(NSTimeInterval)duration;
+{
+	KIFLog(@"SKIP (%.2fs): %@", duration, step);
 }
 
 @end

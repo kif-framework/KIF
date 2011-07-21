@@ -56,6 +56,7 @@ enum {
     KIFTestStepResultFailure = 0,
     KIFTestStepResultSuccess,
     KIFTestStepResultWait,
+	KIFTestStepResultSkip,
 };
 typedef NSInteger KIFTestStepResult;
 
