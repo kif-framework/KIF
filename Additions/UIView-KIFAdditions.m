@@ -194,12 +194,12 @@
     return nil;
 }
 
-- (BOOL)isAncestorOfFirstResponder;
+- (BOOL)isDescendantOfFirstResponder;
 {
     if ([self isFirstResponder]) {
         return YES;
     }
-    return [self.superview isAncestorOfFirstResponder];
+    return [self.superview isDescendantOfFirstResponder];
 }
 
 - (void)flash;
@@ -261,7 +261,7 @@
     [[UIApplication sharedApplication] sendEvent:event];
 
     // Dispatching the event doesn't actually update the first responder, so fake it
-    if (touch.view == self && [self canBecomeFirstResponder]) {
+    if ([touch.view isDescendantOfView:self] && [self canBecomeFirstResponder]) {
         [self becomeFirstResponder];
     }
 
