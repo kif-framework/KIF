@@ -13,7 +13,7 @@
 
 @property (nonatomic, readonly, getter=isTappable) BOOL tappable;
 
-- (BOOL)isAncestorOfFirstResponder;
+- (BOOL)isDescendantOfFirstResponder;
 - (UIAccessibilityElement *)accessibilityElementWithLabel:(NSString *)label;
 - (UIAccessibilityElement *)accessibilityElementWithLabel:(NSString *)label traits:(UIAccessibilityTraits)traits;
 - (UIAccessibilityElement *)accessibilityElementWithLabel:(NSString *)label accessibilityValue:(NSString *)value traits:(UIAccessibilityTraits)traits;
