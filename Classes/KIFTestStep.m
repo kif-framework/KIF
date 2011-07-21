@@ -204,6 +204,7 @@
         }
 
         KIFTestCondition([view isDescendantOfFirstResponder], error, @"Failed to make the view %@ which contains the accessibility element \"%@\" into the first responder", view, label);
+        
         CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.5, false);
 
         return KIFTestStepResultSuccess;
