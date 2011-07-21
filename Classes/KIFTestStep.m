@@ -29,6 +29,7 @@
 + (BOOL)_enterCustomKeyboardCharacter:(NSString *)characterString;
 
 + (UIAccessibilityElement *)_accessibilityElementWithLabel:(NSString *)label accessibilityValue:(NSString *)value tappable:(BOOL)mustBeTappable traits:(UIAccessibilityTraits)traits error:(out NSError **)error;
++ (KIFTestStepResult)_tapViewWithAccessibilityLabel:(NSString *)label accessibilityValue:(NSString *)value traits:(UIAccessibilityTraits)traits error:(out NSError **)error;
 
 @end
 
@@ -173,6 +174,8 @@
     
     return [self stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
         
+		return [self _tapViewWithAccessibilityLabel:label accessibilityValue:value traits:traits error:error];
+		/*
         UIAccessibilityElement *element = [self _accessibilityElementWithLabel:label accessibilityValue:value tappable:YES traits:traits error:error];
         if (!element) {
             return KIFTestStepResultWait;
@@ -206,7 +209,36 @@
         CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.5, false);
         
         return KIFTestStepResultSuccess;
+		 */
     }];
+}
+
++ (id)stepToTapViewIfExistsWithAccessibilityLabel:(NSString *)label;
+{
+	return [self stepToTapViewIfExistsWithAccessibilityLabel:label value:nil traits:UIAccessibilityTraitNone];
+}
+
++ (id)stepToTapViewIfExistsWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits;
+{
+	return [self stepToTapViewIfExistsWithAccessibilityLabel:label value:nil traits:traits];
+}
+
++ (id)stepToTapViewIfExistsWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits;
+{
+    NSString *description = nil;
+    if (value.length) {
+        description = [NSString stringWithFormat:@"Tap view with accessibility label \"%@\" and accessibility value \"%@\"", label, value];
+    } else {
+        description = [NSString stringWithFormat:@"Tap view with accessibility label \"%@\"", label];
+    }
+    
+    return [self stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
+        if (![self _accessibilityElementWithLabel:label accessibilityValue:value tappable:YES traits:traits error:error]) {
+			return KIFTestStepResultSkip;
+		}
+
+		return [self _tapViewWithAccessibilityLabel:label accessibilityValue:value traits:traits error:error];
+	}];
 }
 
 + (id)stepToTapScreenAtPoint:(CGPoint)screenPoint;
@@ -680,6 +712,43 @@
     }
     
     return element;
+}
+
++ (KIFTestStepResult)_tapViewWithAccessibilityLabel:(NSString *)label accessibilityValue:(NSString *)value traits:(UIAccessibilityTraits)traits error:(NSError **)error;
+{
+	UIAccessibilityElement *element = [self _accessibilityElementWithLabel:label accessibilityValue:value tappable:YES traits:traits error:error];
+	if (!element) {
+		return KIFTestStepResultWait;
+	}
+	
+	UIView *view = [UIAccessibilityElement viewContainingAccessibilityElement:element];
+	KIFTestWaitCondition(view, error, @"Failed to find view for accessibility element with label \"%@\"", label);
+	
+	if (!view.userInteractionEnabled) {
+		if (error) {
+			*error = [[[NSError alloc] initWithDomain:@"KIFTest" code:KIFTestStepResultFailure userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"View with accessibility label \"%@\" is not enabled for interaction", label], NSLocalizedDescriptionKey, nil]] autorelease];
+		}
+		return KIFTestStepResultWait;
+	}
+	
+	CGRect elementFrame = [view.window convertRect:element.accessibilityFrame toView:view];
+	CGPoint tappablePointInElement = [view tappablePointInRect:elementFrame];
+	
+	// This is mostly redundant of the test in _accessibilityElementWithLabel:
+	KIFTestCondition(!isnan(tappablePointInElement.x), error, @"The element with accessibility label %@ is not tappable", label);
+	[view tapAtPoint:tappablePointInElement];
+	
+	// Verify that we successfully selected the view
+	if (![view canBecomeFirstResponder]) {
+		CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.5, false);
+		return KIFTestStepResultSuccess;
+	}
+	
+	KIFTestCondition([view isAncestorOfFirstResponder], error, @"Failed to make the view %@ which contains the accessibility element \"%@\" into the first responder", view, label);
+	
+	CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.5, false);
+	
+	return KIFTestStepResultSuccess;
 }
 
 @end
