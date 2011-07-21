@@ -175,41 +175,6 @@
     return [self stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
         
 		return [self _tapViewWithAccessibilityLabel:label accessibilityValue:value traits:traits error:error];
-		/*
-        UIAccessibilityElement *element = [self _accessibilityElementWithLabel:label accessibilityValue:value tappable:YES traits:traits error:error];
-        if (!element) {
-            return KIFTestStepResultWait;
-        }
-        
-        UIView *view = [UIAccessibilityElement viewContainingAccessibilityElement:element];
-        KIFTestWaitCondition(view, error, @"Failed to find view for accessibility element with label \"%@\"", label);
-
-        if (!view.userInteractionEnabled) {
-            if (error) {
-                *error = [[[NSError alloc] initWithDomain:@"KIFTest" code:KIFTestStepResultFailure userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"View with accessibility label \"%@\" is not enabled for interaction", label], NSLocalizedDescriptionKey, nil]] autorelease];
-            }
-            return KIFTestStepResultWait;
-        }
-        
-        CGRect elementFrame = [view.window convertRect:element.accessibilityFrame toView:view];
-        CGPoint tappablePointInElement = [view tappablePointInRect:elementFrame];
-        
-        // This is mostly redundant of the test in _accessibilityElementWithLabel:
-        KIFTestCondition(!isnan(tappablePointInElement.x), error, @"The element with accessibility label %@ is not tappable", label);
-        [view tapAtPoint:tappablePointInElement];
-        
-        // Verify that we successfully selected the view
-        if (![view canBecomeFirstResponder]) {
-            CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.5, false);
-            return KIFTestStepResultSuccess;
-        }
-        
-        KIFTestCondition([view isAncestorOfFirstResponder], error, @"Failed to make the view %@ which contains the accessibility element \"%@\" into the first responder", view, label);
-  
-        CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.5, false);
-        
-        return KIFTestStepResultSuccess;
-		 */
     }];
 }
 
