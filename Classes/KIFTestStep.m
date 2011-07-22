@@ -485,7 +485,7 @@
 }
 
 + (NSString *)_representedKeyboardStringForCharacter:(NSString *)characterString;
-{    
+{
     // Interpret control characters appropriately
     if ([characterString isEqual:@"\b"]) {
         characterString = @"Delete";
