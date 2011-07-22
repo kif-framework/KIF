@@ -269,23 +269,38 @@
     [touch release];
 }
 
+
 - (void)dragFromPoint:(CGPoint)startPoint toPoint:(CGPoint)endPoint;
 {
     // Handle touches in the normal way for other views
-    UITouch *touchDown = [[UITouch alloc] initAtPoint:startPoint inView:self];
+    CGPoint points[] = {startPoint, CGPointMidPoint(startPoint, endPoint), endPoint};
+    [self dragAlongPathWithPoints:points count:sizeof(points) / sizeof(CGPoint)];
+}
+
+- (void)dragAlongPathWithPoints:(CGPoint *)points count:(NSInteger)count;
+{
+    // we need at least two points in order to make segments
+    if (count < 2) {
+        return;
+    }
+    UITouch *touchDown = [[UITouch alloc] initAtPoint:points[0] inView:self];
     [touchDown setPhase:UITouchPhaseBegan];
     
     UIEvent *eventDown = [self _eventWithTouch:touchDown];
     [[UIApplication sharedApplication] sendEvent:eventDown];
     
-    UITouch *touchDrag = [[UITouch alloc] initAtPoint:CGPointMidPoint(startPoint, endPoint) inView:self];
-    [touchDrag setPhase:UITouchPhaseMoved];
+    for (NSInteger pointIndex = 1; pointIndex < count - 1; pointIndex++) {
+        UITouch *touchDrag = [[UITouch alloc] initAtPoint:points[pointIndex] inView:self];
+        [touchDrag setPhase:UITouchPhaseMoved];
+        
+        UIEvent *eventDrag = [self _eventWithTouch:touchDrag];
+        [[UIApplication sharedApplication] sendEvent:eventDrag];
+        
+        [touchDrag release];
+    }
     
-    UITouch *touchUp = [[UITouch alloc] initAtPoint:endPoint inView:self];
+    UITouch *touchUp = [[UITouch alloc] initAtPoint:points[count - 1] inView:self];
     [touchUp setPhase:UITouchPhaseMoved];
-    
-    UIEvent *eventDrag = [self _eventWithTouch:touchDrag];
-    [[UIApplication sharedApplication] sendEvent:eventDrag];
     
     UIEvent *eventDrag2 = [self _eventWithTouch:touchUp];
     [[UIApplication sharedApplication] sendEvent:eventDrag2];
@@ -293,7 +308,6 @@
     [touchUp setPhase:UITouchPhaseEnded];
     
     UIEvent *eventUp = [self _eventWithTouch:touchUp];
-    
     [[UIApplication sharedApplication] sendEvent:eventUp];
     
     // Dispatching the event doesn't actually update the first responder, so fake it
@@ -302,7 +316,6 @@
     }
     
     [touchDown release];
-    [touchDrag release];
     [touchUp release];
 }
 
