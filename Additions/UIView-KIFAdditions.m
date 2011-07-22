@@ -3,8 +3,9 @@
 //  KIF
 //
 //  Created by Eric Firestone on 5/20/11.
-//  Copyright 2011 Square, Inc. All rights reserved.
-//
+//  Licensed to Square, Inc. under one or more contributor license agreements.
+//  See the LICENSE file distributed with this work for the terms under
+//  which Square, Inc. licenses this file to you.
 
 #import "UIView-KIFAdditions.h"
 #import "CGGeometry-KIFAdditions.h"
