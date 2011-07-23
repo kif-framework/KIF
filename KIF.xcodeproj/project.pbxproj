@@ -68,7 +68,7 @@
 		39160B1013D1E6BB00311E38 /* LoadableCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadableCategory.h; sourceTree = "<group>"; };
 		880F675C13D5507A00BD0606 /* KIFTestStep-iOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "KIFTestStep-iOS.h"; sourceTree = "<group>"; };
 		880F675D13D5507A00BD0606 /* KIFTestStep-iOS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "KIFTestStep-iOS.m"; sourceTree = "<group>"; };
-		88837BFE13D2650E00A5CE6A /* libKIF copy.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libKIF copy.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		88837BFE13D2650E00A5CE6A /* libKIF-mac.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libKIF-mac.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8893065713DAB2F700B835F1 /* KIFApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KIFApplication.h; sourceTree = "<group>"; };
 		8893065813DAB2F700B835F1 /* KIFApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KIFApplication.m; sourceTree = "<group>"; };
 		8893065913DAB2F700B835F1 /* KIFElement-Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "KIFElement-Private.h"; sourceTree = "<group>"; };
@@ -182,7 +182,7 @@
 			isa = PBXGroup;
 			children = (
 				AAB07268139719AC008AF393 /* libKIF.a */,
-				88837BFE13D2650E00A5CE6A /* libKIF copy.a */,
+				88837BFE13D2650E00A5CE6A /* libKIF-mac.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -298,7 +298,7 @@
 			);
 			name = KITMac;
 			productName = KIF;
-			productReference = 88837BFE13D2650E00A5CE6A /* libKIF copy.a */;
+			productReference = 88837BFE13D2650E00A5CE6A /* libKIF-mac.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 		AAB07267139719AC008AF393 /* KIFTouch */ = {
@@ -392,7 +392,7 @@
 				GCC_PREFIX_HEADER = "Classes/KIF-Prefix.pch";
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = "KIF copy";
+				PRODUCT_NAME = "KIF-mac";
 				SDKROOT = macosx;
 				VALID_ARCHS = x86_64;
 			};
@@ -408,7 +408,7 @@
 				GCC_PREFIX_HEADER = "Classes/KIF-Prefix.pch";
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = "KIF copy";
+				PRODUCT_NAME = "KIF-mac";
 				SDKROOT = macosx;
 				VALID_ARCHS = x86_64;
 			};
