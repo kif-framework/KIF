@@ -16,7 +16,7 @@
 	NSString *description = [NSString stringWithFormat:@"Wait for view with accessibility identifier \"%@\"", identifier];
         
     return [self stepWithDescription:description executionBlock:^KIFTestStepResult(KIFTestStep *step, NSError **error) {
-		KIFElement *element = [[KIFApplication currentApplication].mainWindow childWithIdentifier:identifier];
+		KIFElement *element = [step elementWithIdentifier:identifier error:error];
 		return (element ? KIFTestStepResultSuccess : KIFTestStepResultWait);
     }];
 }
@@ -25,7 +25,7 @@
 	NSString *description = [NSString stringWithFormat:@"Click view with accessibility identifier \"%@\"", identifier];
     
     return [self stepWithDescription:description executionBlock:^KIFTestStepResult(KIFTestStep *step, NSError **error) {
-		KIFElement *element = [[KIFApplication currentApplication].mainWindow childWithIdentifier:identifier];
+		KIFElement *element = [step elementWithIdentifier:identifier error:error];
         if (!element) {
             return KIFTestStepResultWait;
         }
@@ -42,7 +42,7 @@
 	NSString *description = [NSString stringWithFormat:@"Wait for view with title \"%@\"", title];
 	
     return [self stepWithDescription:description executionBlock:^KIFTestStepResult(KIFTestStep *step, NSError **error) {
-		KIFElement *element = [[KIFApplication currentApplication].mainWindow childWithTitle:title];
+		KIFElement *element = [step elementWithTitle:title error:error];
 		return (element ? KIFTestStepResultSuccess : KIFTestStepResultWait);
     }];
 }
@@ -51,7 +51,7 @@
 	NSString *description = [NSString stringWithFormat:@"Click view with title \"%@\"", title];
     
     return [self stepWithDescription:description executionBlock:^KIFTestStepResult(KIFTestStep *step, NSError **error) {
-		KIFElement *element = [[KIFApplication currentApplication].mainWindow childWithTitle:title];
+		KIFElement *element = [step elementWithTitle:title error:error];
         if (!element) {
             return KIFTestStepResultWait;
         }
@@ -62,6 +62,24 @@
         
         return KIFTestStepResultSuccess;
     }];
+}
+
+- (KIFElement *)elementWithIdentifier:(NSString *)identifier error:(NSError **)error {
+	KIFElement *element = [[KIFApplication currentApplication].mainWindow childWithIdentifier:identifier];
+	if(element == nil && error != NULL) {
+		*error = [[[NSError alloc] initWithDomain:@"KIFTest" code:KIFTestStepResultFailure userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"Failed to find accessibility element with the identifier \"%@\"", identifier], NSLocalizedDescriptionKey, nil]] autorelease];
+	}
+	
+	return element;
+}
+
+- (KIFElement *)elementWithTitle:(NSString *)title error:(NSError **)error {
+	KIFElement *element = [[KIFApplication currentApplication].mainWindow childWithTitle:title];
+	if(element == nil && error != NULL) {
+		*error = [[[NSError alloc] initWithDomain:@"KIFTest" code:KIFTestStepResultFailure userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"Failed to find accessibility element with the title \"%@\"", title], NSLocalizedDescriptionKey, nil]] autorelease];
+	}
+	
+	return element;
 }
 
 @end

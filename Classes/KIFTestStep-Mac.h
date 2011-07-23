@@ -9,6 +9,8 @@
 #import <AppKit/AppKit.h>
 #import "KIFTestStep.h"
 
+@class KIFElement;
+
 
 @interface KIFTestStep (Mac)
 
@@ -49,5 +51,8 @@
  @result A configured test step.
  */
 + (id)stepToClickViewWithTitle:(NSString *)title;
+
+- (KIFElement *)elementWithIdentifier:(NSString *)identifier error:(NSError **)error;
+- (KIFElement *)elementWithTitle:(NSString *)title error:(NSError **)error;
 
 @end
