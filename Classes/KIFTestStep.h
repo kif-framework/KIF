@@ -143,3 +143,9 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
 + (void)stepFailed;
 
 @end
+
+#if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
+#import "KIFTestStep-iOS.h"
+#else
+#import "KIFTestStep-Mac.h"
+#endif
