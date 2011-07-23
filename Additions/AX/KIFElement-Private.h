@@ -13,4 +13,6 @@
 - (CFTypeRef)attributeForKey:(NSString *)key;
 - (id)wrappedAttributeForKey:(NSString *)key;
 
+- (void)logAllAttributes;
+
 @end

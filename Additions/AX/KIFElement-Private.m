@@ -37,4 +37,11 @@
 	}
 }
 
+- (void)logAllAttributes {
+	CFArrayRef names = NULL;
+	AXUIElementCopyAttributeNames(self.elementRef, &names);
+	NSLog(@"%@", names);
+	CFRelease(names);
+}
+
 @end
