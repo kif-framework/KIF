@@ -204,14 +204,14 @@ static void releaseInstance()
     NSString *originalAccessibilityLabel = [keyWindow accessibilityLabel];
     
     [keyWindow setAccessibilityLabel:@"KIF Test Label"];
-    BOOL isInspectorEnabled = [[keyWindow accessibilityLabel] isEqualToString:@"KIF Test Label"];
+    BOOL isAccessibilityEnabled = [[keyWindow accessibilityLabel] isEqualToString:@"KIF Test Label"];
     
     [keyWindow setAccessibilityLabel:originalAccessibilityLabel];
 #else
-	BOOL isInspectorEnabled = AXAPIEnabled();
+	BOOL isAccessibilityEnabled = AXAPIEnabled();
 #endif
     
-    return isInspectorEnabled;
+    return isAccessibilityEnabled;
 }
 
 - (void)_scheduleCurrentTestStep;
