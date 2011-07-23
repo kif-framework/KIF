@@ -70,9 +70,39 @@
 }
 
 - (KIFElement *)immediateChildWithIdentifier:(NSString *)identifier {
-	NSLog(@"%@, %@", self.children, identifier);
 	for(KIFElement *child in self.children) {
 		if([child.identifier isEqualToString:identifier]) {
+			return child;
+		}
+	}
+	
+	return nil;
+}
+
+- (KIFElement *)childWithTitle:(NSString *)title {
+	NSMutableArray *parentsToInvestigate = [NSMutableArray array];
+	[parentsToInvestigate addObject:self];
+	
+	while(parentsToInvestigate.count > 0) {
+		NSMutableArray *nextSetOfParents = [NSMutableArray array];
+		for(KIFElement *parent in parentsToInvestigate) {
+			KIFElement *match = [parent immediateChildWithTitle:title];
+			if(match != nil) {
+				return match;
+			} else {
+				[nextSetOfParents addObjectsFromArray:parent.children];
+			}
+		}
+		
+		parentsToInvestigate = nextSetOfParents;
+	}
+	
+	return nil;
+}
+
+- (KIFElement *)immediateChildWithTitle:(NSString *)title {
+	for(KIFElement *child in self.children) {
+		if([child.title isEqualToString:title]) {
 			return child;
 		}
 	}

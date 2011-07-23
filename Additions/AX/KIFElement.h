@@ -19,6 +19,9 @@
 - (KIFElement *)immediateChildWithIdentifier:(NSString *)identifier; // only searches in the element's immediate children
 - (KIFElement *)childWithPath:(NSString *)identifierPath;
 
+- (KIFElement *)childWithTitle:(NSString *)title; // breadth-first searches until it finds a match or runs out of children
+- (KIFElement *)immediateChildWithTitle:(NSString *)title; // only searches in the element's immediate children
+
 - (void)performPressAction;
 
 @property (nonatomic, assign, readonly) AXUIElementRef elementRef;
