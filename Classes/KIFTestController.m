@@ -211,6 +211,8 @@ static void releaseInstance()
     [keyWindow setAccessibilityLabel:originalAccessibilityLabel];
 #else
 	BOOL isAccessibilityEnabled = AXAPIEnabled();
+	
+	// TODO: We could actually use AXMakeProcessTrusted to enable AX for the app even if it's not enabled system-wide.
 #endif
     
     return isAccessibilityEnabled;
