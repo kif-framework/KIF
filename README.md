@@ -1,7 +1,7 @@
-KIF iOS Integration Testing Framework
+KIF Integration Testing Framework
 =====================================
 
-KIF, which stands for Keep It Functional, is an iOS integration test framework. It allows for easy automation of iOS apps by leveraging the accessibility attributes that the OS makes available for those with visual disabilities.
+KIF, which stands for Keep It Functional, is a Mac and iOS integration test framework. It allows for easy automation of apps by leveraging the accessibility attributes that the OS makes available for those with visual disabilities.
 
 **KIF uses undocumented Apple APIs.** This is true of most iOS testing frameworks, and is safe for testing purposes, but it's important that KIF does not make it into production code, as it will get your app submission denied by Apple. Follow the instructions below to ensure that KIF is configured correctly for your project.
 
@@ -12,7 +12,7 @@ Features
 All of the tests for KIF are written in Objective C. This allows for maximum integration with your code while minimizing the number of layers you have to build.
 
 #### Easy Configuration
-KIF integrates directly into your iOS app, so there's no need to run an additional web server or install any additional packages.
+KIF integrates directly into your Mac or iOS app, so there's no need to run an additional web server or install any additional packages.
 
 #### Test Like a User
 KIF attempts to imitate actual user input. Automation is done using tap events wherever possible.
@@ -249,7 +249,7 @@ Finally, the app needs a hook so that it actually runs the KIF tests when execut
 
 Everything should now be configured. When you run the integration tests target it will launch your app and begin running the testing scenarios. When the scenarios finish, the app will exit and return a zero if all scenarios pass, or the number of failures if any fail.
 
-KIF also generates a nicely formatted log containing the full results and timings of the test suite run. The logs can be found in 	
+KIF also generates a nicely formatted log containing the full results and timings of the test suite run. For iOS, the logs can be found in 	
 
 	~/Library/Application Support/iPhone Simulator/<iOS version>/Applications/<Application UUID>/Library/Logs/
 
