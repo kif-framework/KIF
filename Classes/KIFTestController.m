@@ -13,6 +13,8 @@
 #import <QuartzCore/QuartzCore.h>
 #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
 #import <UIKit/UIKit.h>
+#else
+#import <AppKit/AppKit.h>
 #endif
 
 
@@ -360,6 +362,9 @@ static void releaseInstance()
     if (!outputPath) {
         return;
     }
+	
+	outputPath = [outputPath stringByExpandingTildeInPath];
+    outputPath = [outputPath stringByAppendingPathComponent:[step.description stringByReplacingOccurrencesOfString:@"/" withString:@"_"]];
     
 #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
     NSArray *windows = [[UIApplication sharedApplication] windows];
@@ -374,12 +379,14 @@ static void releaseInstance()
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     
-    outputPath = [outputPath stringByExpandingTildeInPath];
-    outputPath = [outputPath stringByAppendingPathComponent:[step.description stringByReplacingOccurrencesOfString:@"/" withString:@"_"]];
     outputPath = [outputPath stringByAppendingPathExtension:@"png"];
     [UIImagePNGRepresentation(image) writeToFile:outputPath atomically:YES];
 #else
-	// TODO: actually implement this on Mac OS X
+	NSData *windowData = [[NSApp mainWindow] dataWithPDFInsideRect:NSMakeRect(0.0f, 0.0f, [[NSApp mainWindow] frame].size.width, [[NSApp mainWindow] frame].size.height)];
+	NSImage *image = [[[NSImage alloc] initWithData:windowData] autorelease];
+	
+	outputPath = [outputPath stringByAppendingPathExtension:@"tiff"];
+	[[image TIFFRepresentation] writeToFile:outputPath atomically:YES];
 #endif
 }
 
