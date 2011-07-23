@@ -36,6 +36,7 @@
 		8893066513DAB36700B835F1 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8893066413DAB36700B835F1 /* Cocoa.framework */; };
 		8893066D13DAB76800B835F1 /* KIFTestStep-Mac.h in Headers */ = {isa = PBXBuildFile; fileRef = 8893066B13DAB76800B835F1 /* KIFTestStep-Mac.h */; };
 		8893066E13DAB76800B835F1 /* KIFTestStep-Mac.m in Sources */ = {isa = PBXBuildFile; fileRef = 8893066C13DAB76800B835F1 /* KIFTestStep-Mac.m */; };
+		88B1754513DB7218006FF184 /* NSFileManager-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CDFD8E85139728B4008D299F /* NSFileManager-KIFAdditions.m */; };
 		AAB0726C139719AC008AF393 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAB0726B139719AC008AF393 /* Foundation.framework */; };
 		AAB0728213971A63008AF393 /* KIF-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = AAB0728113971A63008AF393 /* KIF-Prefix.pch */; };
 		AAB0728D13971A98008AF393 /* KIFTestController.h in Headers */ = {isa = PBXBuildFile; fileRef = AAB0728613971A98008AF393 /* KIFTestController.h */; };
@@ -158,6 +159,8 @@
 				AAB072A113971AB2008AF393 /* UIView-KIFAdditions.m */,
 				AAB072A213971AB2008AF393 /* UIWindow-KIFAdditions.h */,
 				AAB072A313971AB2008AF393 /* UIWindow-KIFAdditions.m */,
+				AAB0729413971AB2008AF393 /* CGGeometry-KIFAdditions.h */,
+				AAB0729513971AB2008AF393 /* CGGeometry-KIFAdditions.m */,
 			);
 			name = iOS;
 			sourceTree = "<group>";
@@ -224,8 +227,6 @@
 			children = (
 				8893066A13DAB6D600B835F1 /* iOS */,
 				8893065613DAB2F700B835F1 /* Mac */,
-				AAB0729413971AB2008AF393 /* CGGeometry-KIFAdditions.h */,
-				AAB0729513971AB2008AF393 /* CGGeometry-KIFAdditions.m */,
 				CDFD8E84139728B4008D299F /* NSFileManager-KIFAdditions.h */,
 				CDFD8E85139728B4008D299F /* NSFileManager-KIFAdditions.m */,
 			);
@@ -348,6 +349,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				88B1754513DB7218006FF184 /* NSFileManager-KIFAdditions.m in Sources */,
 				88837BDF13D2650E00A5CE6A /* KIFTestController.m in Sources */,
 				88837BE013D2650E00A5CE6A /* KIFTestScenario.m in Sources */,
 				88837BE113D2650E00A5CE6A /* KIFTestStep.m in Sources */,
