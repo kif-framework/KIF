@@ -79,16 +79,6 @@
 + (id)stepToWaitForTappableViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits;
 
 /*!
- @method stepToWaitForTimeInterval:description:
- @abstract A step that waits for a certain amount of time.
- @discussion In general when waiting for the app to get into a known state, it's better to use -stepToWaitForTappableViewWithAccessibilityLabel, however this step may be useful in some situations as well.
- @param interval The number of seconds to wait before executing the next step.
- @param description A description of why the wait is necessary. Required.
- @result A configured test step.
- */
-+ (id)stepToWaitForTimeInterval:(NSTimeInterval)interval description:(NSString *)description;
-
-/*!
  @method stepToTapViewWithAccessibilityLabel:
  @abstract A step that taps a particular view in the view hierarchy.
  @discussion The view or accessibility element with the given label is searched for in the view hierarchy. If the element isn't found or isn't currently tappable, then the step will attempt to wait until it is. Once the view is present and tappable, a tap event is simulated in the center of the view or element.

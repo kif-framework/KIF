@@ -130,6 +130,16 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
  */
 + (id)stepThatSucceeds;
 
+/*!
+ @method stepToWaitForTimeInterval:description:
+ @abstract A step that waits for a certain amount of time.
+ @discussion In general when waiting for the app to get into a known state, it's better to use -stepToWaitForTappableViewWithAccessibilityLabel, however this step may be useful in some situations as well.
+ @param interval The number of seconds to wait before executing the next step.
+ @param description A description of why the wait is necessary. Required.
+ @result A configured test step.
+ */
++ (id)stepToWaitForTimeInterval:(NSTimeInterval)interval description:(NSString *)description;
+
 + (void)stepFailed;
 
 @end

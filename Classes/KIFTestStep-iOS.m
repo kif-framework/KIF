@@ -79,15 +79,6 @@
     }];
 }
 
-+ (id)stepToWaitForTimeInterval:(NSTimeInterval)interval description:(NSString *)description;
-{
-    // In general, we should discourage use of a step like this. It's pragmatic to include it though.
-    return [self stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
-        CFRunLoopRunInMode(kCFRunLoopDefaultMode, interval, false);
-        return KIFTestStepResultSuccess;        
-    }];
-}
-
 + (id)stepToTapViewWithAccessibilityLabel:(NSString *)label;
 {
     return [self stepToTapViewWithAccessibilityLabel:label traits:UIAccessibilityTraitNone];

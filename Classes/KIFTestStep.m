@@ -49,6 +49,15 @@
     }];
 }
 
++ (id)stepToWaitForTimeInterval:(NSTimeInterval)interval description:(NSString *)description;
+{
+    // In general, we should discourage use of a step like this. It's pragmatic to include it though.
+    return [self stepWithDescription:description executionBlock:^KIFTestStepResult(KIFTestStep *step, NSError **error) {
+        CFRunLoopRunInMode(kCFRunLoopDefaultMode, interval, false);
+        return KIFTestStepResultSuccess;        
+    }];
+}
+
 + (void)stepFailed;
 {
     // Add a logging call here or set a breakpoint to debug failed KIFTestCondition calls
