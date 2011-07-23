@@ -28,7 +28,7 @@
 @property (nonatomic, copy) KIFTestControllerCompletionBlock completionBlock;
 
 - (void)_initializeScenariosIfNeeded;
-- (BOOL)_isAccessibilityInspectorEnabled;
+- (BOOL)_isAccessibilityEnabled;
 - (void)_scheduleCurrentTestStep;
 - (void)_performTestStep:(KIFTestStep *)step;
 - (void)_advanceWithResult:(KIFTestStepResult)result error:(NSError*) error;
@@ -146,7 +146,12 @@ static void releaseInstance()
 - (void)startTestingWithCompletionBlock:(KIFTestControllerCompletionBlock)inCompletionBlock
 {
     NSAssert(!self.testing, @"Testing is already in progress");
-    NSAssert([self _isAccessibilityInspectorEnabled], @"The accessibility inspector must be enabled in order to run KIF tests. It can be turned on in the Settings app of the simulator by going to General -> Accessibility.");
+	
+#if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
+    NSAssert([self _isAccessibilityEnabled], @"The accessibility inspector must be enabled in order to run KIF tests. It can be turned on in the Settings app of the simulator by going to General -> Accessibility.");
+#else
+	NSAssert([self _isAccessibilityEnabled], @"Universal Access must be enabled in order to run KIF tests. It can be turned on in System Preferences => Universal Access => Enable access for assistive devices.");
+#endif
     
     self.testing = YES;
     self.testSuiteStartDate = [NSDate date];
@@ -190,7 +195,7 @@ static void releaseInstance()
     }
 }
 
-- (BOOL)_isAccessibilityInspectorEnabled;
+- (BOOL)_isAccessibilityEnabled;
 {
 #if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
     // This method for testing if the inspector is enabled was taken from the Frank framework.
@@ -203,9 +208,7 @@ static void releaseInstance()
     
     [keyWindow setAccessibilityLabel:originalAccessibilityLabel];
 #else
-	BOOL isInspectorEnabled = YES;
-	
-	// TODO: there's probably some check we should do on Mac OS X
+	BOOL isInspectorEnabled = AXAPIEnabled();
 #endif
     
     return isInspectorEnabled;
