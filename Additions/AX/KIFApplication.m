@@ -1,13 +1,12 @@
 //
 //  KIFApplication.m
-//  Temperature
 //
 //  Created by Josh Abernathy on 7/16/11.
 //  Copyright 2011 Maybe Apps, LLC. All rights reserved.
 //
 
 #import "KIFApplication.h"
-#import "KIFElement+Private.h"
+#import "KIFElement-Private.h"
 
 @interface KIFApplication ()
 - (id)initWithPID:(pid_t)pid;

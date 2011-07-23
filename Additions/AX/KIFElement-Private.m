@@ -1,12 +1,11 @@
 //
-//  KIFElement+Private.m
-//  Temperature
+//  KIFElement-Private.m
 //
 //  Created by Josh Abernathy on 7/16/11.
 //  Copyright 2011 Maybe Apps, LLC. All rights reserved.
 //
 
-#import "KIFElement+Private.h"
+#import "KIFElement-Private.h"
 
 
 @implementation KIFElement (Private)

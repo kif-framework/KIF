@@ -1,13 +1,12 @@
 //
 //  KIFElement.m
-//  Temperature
 //
 //  Created by Josh Abernathy on 7/16/11.
 //  Copyright 2011 Maybe Apps, LLC. All rights reserved.
 //
 
 #import "KIFElement.h"
-#import "KIFElement+Private.h"
+#import "KIFElement-Private.h"
 
 @interface KIFElement ()
 @property (nonatomic, assign) AXUIElementRef elementRef;
