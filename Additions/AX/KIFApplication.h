@@ -12,6 +12,7 @@
 
 @interface KIFApplication : KIFElement
 
++ (KIFApplication *)currentApplication; // singleton
 + (KIFApplication *)applicationWithCurrentApplication;
 + (KIFApplication *)applicationWithBundleIdentifier:(NSString *)bundleIdentifier;
 

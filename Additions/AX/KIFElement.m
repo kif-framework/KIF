@@ -54,19 +54,17 @@
 	[parentsToInvestigate addObject:self];
 	
 	while(parentsToInvestigate.count > 0) {
-//		@autoreleasepool {
-			NSMutableArray *nextSetOfParents = [NSMutableArray array];
-			for(KIFElement *parent in parentsToInvestigate) {
-				KIFElement *match = [parent immediateChildWithIdentifier:identifier];
-				if(match != nil) {
-					return match;
-				} else {
-					[nextSetOfParents addObjectsFromArray:parent.children];
-				}
+		NSMutableArray *nextSetOfParents = [NSMutableArray array];
+		for(KIFElement *parent in parentsToInvestigate) {
+			KIFElement *match = [parent immediateChildWithIdentifier:identifier];
+			if(match != nil) {
+				return match;
+			} else {
+				[nextSetOfParents addObjectsFromArray:parent.children];
 			}
-			
-			parentsToInvestigate = nextSetOfParents;
-//		}
+		}
+		
+		parentsToInvestigate = nextSetOfParents;
 	}
 	
 	return nil;

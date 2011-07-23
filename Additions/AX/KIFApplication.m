@@ -19,6 +19,15 @@
 
 #pragma mark API
 
++ (KIFApplication *)currentApplication {
+	static dispatch_once_t once;
+    static KIFApplication *currentApplication = nil;
+    dispatch_once(&once, ^{
+		currentApplication = [[self applicationWithCurrentApplication] retain];
+	});
+    return currentApplication;
+}
+
 + (KIFApplication *)applicationWithCurrentApplication {
 	return [[[self alloc] initWithPID:[[NSRunningApplication currentApplication] processIdentifier]] autorelease];
 }
