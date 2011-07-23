@@ -28,6 +28,7 @@
 		88B1785113DB8729006FF184 /* KIFTestScenario.h in Headers */ = {isa = PBXBuildFile; fileRef = AAB0728813971A98008AF393 /* KIFTestScenario.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		88B1785213DB872B006FF184 /* KIFTestStep.h in Headers */ = {isa = PBXBuildFile; fileRef = AAB0728A13971A98008AF393 /* KIFTestStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		88B1785313DB8731006FF184 /* KIFTestStep-Mac.h in Headers */ = {isa = PBXBuildFile; fileRef = 8893066B13DAB76800B835F1 /* KIFTestStep-Mac.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		88B1785C13DB8940006FF184 /* KIFMac.h in Headers */ = {isa = PBXBuildFile; fileRef = 88B1785B13DB8940006FF184 /* KIFMac.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AAB0726C139719AC008AF393 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAB0726B139719AC008AF393 /* Foundation.framework */; };
 		AAB0728213971A63008AF393 /* KIF-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = AAB0728113971A63008AF393 /* KIF-Prefix.pch */; };
 		AAB0728D13971A98008AF393 /* KIFTestController.h in Headers */ = {isa = PBXBuildFile; fileRef = AAB0728613971A98008AF393 /* KIFTestController.h */; };
@@ -72,6 +73,7 @@
 		88B1783213DB86AC006FF184 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		88B1783313DB86AC006FF184 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		88B1783413DB86AC006FF184 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		88B1785B13DB8940006FF184 /* KIFMac.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KIFMac.h; sourceTree = "<group>"; };
 		AAB07268139719AC008AF393 /* libKIF.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = libKIF.a; path = libKIFTouch.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAB0726B139719AC008AF393 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		AAB0728113971A63008AF393 /* KIF-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "KIF-Prefix.pch"; path = "Classes/KIF-Prefix.pch"; sourceTree = SOURCE_ROOT; };
@@ -223,6 +225,7 @@
 				880F675D13D5507A00BD0606 /* KIFTestStep-iOS.m */,
 				8893066B13DAB76800B835F1 /* KIFTestStep-Mac.h */,
 				8893066C13DAB76800B835F1 /* KIFTestStep-Mac.m */,
+				88B1785B13DB8940006FF184 /* KIFMac.h */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -253,6 +256,7 @@
 				88B1784D13DB8721006FF184 /* KIFElement.h in Headers */,
 				88B1784F13DB8726006FF184 /* NSFileManager-KIFAdditions.h in Headers */,
 				88B1784E13DB8723006FF184 /* KIFElement-Private.h in Headers */,
+				88B1785C13DB8940006FF184 /* KIFMac.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
