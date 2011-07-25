@@ -27,6 +27,7 @@
 - (void)tapAtPoint:(CGPoint)point;
 - (void)dragFromPoint:(CGPoint)startPoint toPoint:(CGPoint)endPoint;
 - (void)dragAlongPathWithPoints:(CGPoint *)points count:(NSInteger)count;
+- (BOOL)isTappableWithHitTestResultView:(UIView *)hitView;
 
 /*!
  @method isTappableInRect:
