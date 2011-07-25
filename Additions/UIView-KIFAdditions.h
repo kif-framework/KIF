@@ -27,6 +27,14 @@
 - (void)tapAtPoint:(CGPoint)point;
 - (void)dragFromPoint:(CGPoint)startPoint toPoint:(CGPoint)endPoint;
 - (void)dragAlongPathWithPoints:(CGPoint *)points count:(NSInteger)count;
+
+/*!
+ @method isTappableWithHitTestResultView:
+ @abstract Easy hook to override whether a hit test result makes a view tappable.
+ @discussion Some times, your view hierarchies involve putting overlays over views that would otherwise be tappable. Since KIF doesn't know about these exceptions, you can override this method as a convenient way of hooking in to the check for something being tappable. Your implementation will probably want to call up to super.
+ @param hitView The view -hitTest: returned when trying to tap on a point inside your view's bounds
+ @result Whether or not the view is tappable.
+ */
 - (BOOL)isTappableWithHitTestResultView:(UIView *)hitView;
 
 /*!
