@@ -12,7 +12,7 @@
 #import "KIFTestStep.h"
 #import "NSFileManager-KIFAdditions.h"
 #import <QuartzCore/QuartzCore.h>
-
+#import <objc/runtime.h>
 
 @interface KIFTestController ()
 
@@ -139,6 +139,30 @@ static void releaseInstance()
     
     [self _initializeScenariosIfNeeded];
     [scenarios addObject:scenario];
+}
+
+- (void)addScenarioNamed:(NSString *)nameOfSelector
+{
+  SEL selector = NSSelectorFromString(nameOfSelector);
+  NSAssert1([[KIFTestScenario class] respondsToSelector:selector], @"Attempted to add unknown scenario: %@", nameOfSelector);
+  [self addScenario:[[KIFTestScenario class] performSelector:selector]];
+}
+
+- (void)addScenariosWithMethodPrefix:(NSString *)prefix
+{
+  unsigned int methodCount;
+  
+  Method *methodList = class_copyMethodList(object_getClass([KIFTestScenario class]), &methodCount);
+  
+  if (methodCount > 0) {
+    for (int i = 0; i < methodCount; i++) {
+      SEL selector = method_getName(methodList[i]);
+      if ([NSStringFromSelector(selector) hasPrefix:prefix]) {
+        [self addScenario:[[KIFTestScenario class] performSelector:selector]];
+      }
+    }
+  }
+  free(methodList);
 }
 
 - (void)startTestingWithCompletionBlock:(KIFTestControllerCompletionBlock)inCompletionBlock
