@@ -1,13 +1,15 @@
 //
-//  KIFTestHelperMethods.m
+//  KIFTestController.h
 //  KIF
 //
-//  Created by Luke Redpath on 25/07/2011.
-//  Copyright 2011 LJR Software Limited. All rights reserved.
-//
+//  Created by Luke Redpath on 27/07/2011
+//  Licensed to Square, Inc. under one or more contributor license agreements.
+//  See the LICENSE file distributed with this work for the terms under
+//  which Square, Inc. licenses this file to you.
 
 #import "KIFTestHelperMethods.h"
 #import "KIFTestScenario.h"
+
 
 KIFTestScenario *KIFScenarioWithDescription(NSString *description, KIFScenarioDefinitionBlock block)
 {

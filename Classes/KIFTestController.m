@@ -14,6 +14,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import <objc/runtime.h>
 
+
 @interface KIFTestController ()
 
 @property (nonatomic, retain) KIFTestScenario *currentScenario;
@@ -143,26 +144,26 @@ static void releaseInstance()
 
 - (void)addScenarioNamed:(NSString *)nameOfSelector
 {
-  SEL selector = NSSelectorFromString(nameOfSelector);
-  NSAssert1([[KIFTestScenario class] respondsToSelector:selector], @"Attempted to add unknown scenario: %@", nameOfSelector);
-  [self addScenario:[[KIFTestScenario class] performSelector:selector]];
+    SEL selector = NSSelectorFromString(nameOfSelector);
+    NSAssert1([[KIFTestScenario class] respondsToSelector:selector], @"Attempted to add unknown scenario: %@", nameOfSelector);
+    [self addScenario:[[KIFTestScenario class] performSelector:selector]];
 }
 
 - (void)addScenariosWithMethodPrefix:(NSString *)prefix
 {
-  unsigned int methodCount;
+    unsigned int methodCount;
   
-  Method *methodList = class_copyMethodList(object_getClass([KIFTestScenario class]), &methodCount);
+    Method *methodList = class_copyMethodList(object_getClass([KIFTestScenario class]), &methodCount);
   
-  if (methodCount > 0) {
-    for (int i = 0; i < methodCount; i++) {
-      SEL selector = method_getName(methodList[i]);
-      if ([NSStringFromSelector(selector) hasPrefix:prefix]) {
-        [self addScenario:[[KIFTestScenario class] performSelector:selector]];
-      }
+    if (methodCount > 0) {
+        for (int methodIndex = 0; methodIndex < methodCount; methodIndex++) {
+            SEL selector = method_getName(methodList[methodIndex]);
+            if ([NSStringFromSelector(selector) hasPrefix:prefix]) {
+                [self addScenario:[[KIFTestScenario class] performSelector:selector]];
+            }
+        }
     }
-  }
-  free(methodList);
+    free(methodList);
 }
 
 - (void)startTestingWithCompletionBlock:(KIFTestControllerCompletionBlock)inCompletionBlock
