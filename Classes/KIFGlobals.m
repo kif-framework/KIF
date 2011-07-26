@@ -1,5 +1,5 @@
 //
-//  KIFTestController.h
+//  KIFGlobals.m
 //  KIF
 //
 //  Created by Luke Redpath on 27/07/2011
@@ -7,7 +7,7 @@
 //  See the LICENSE file distributed with this work for the terms under
 //  which Square, Inc. licenses this file to you.
 
-#import "KIFTestHelperMethods.h"
+#import "KIFGlobals.h"
 #import "KIFTestScenario.h"
 
 

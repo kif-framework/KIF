@@ -1,5 +1,5 @@
 //
-//  KIFTestController.m
+//  KIFGlobals.m
 //  KIF
 //
 //  Created by Luke Redpath on 27/07/2011

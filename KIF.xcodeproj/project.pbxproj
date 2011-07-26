@@ -8,8 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		39160B1113D1E6BB00311E38 /* LoadableCategory.h in Headers */ = {isa = PBXBuildFile; fileRef = 39160B1013D1E6BB00311E38 /* LoadableCategory.h */; };
-		A32B3AB413DDCB7600FD9B67 /* KIFTestHelperMethods.h in Headers */ = {isa = PBXBuildFile; fileRef = A32B3AB213DDCB7600FD9B67 /* KIFTestHelperMethods.h */; };
-		A32B3AB513DDCB7600FD9B67 /* KIFTestHelperMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = A32B3AB313DDCB7600FD9B67 /* KIFTestHelperMethods.m */; };
+		A32B3AB413DDCB7600FD9B67 /* KIFGlobals.h in Headers */ = {isa = PBXBuildFile; fileRef = A32B3AB213DDCB7600FD9B67 /* KIFGlobals.h */; };
+		A32B3AB513DDCB7600FD9B67 /* KIFGlobals.m in Sources */ = {isa = PBXBuildFile; fileRef = A32B3AB313DDCB7600FD9B67 /* KIFGlobals.m */; };
 		AAB0726C139719AC008AF393 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAB0726B139719AC008AF393 /* Foundation.framework */; };
 		AAB0728213971A63008AF393 /* KIF-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = AAB0728113971A63008AF393 /* KIF-Prefix.pch */; };
 		AAB0728D13971A98008AF393 /* KIFTestController.h in Headers */ = {isa = PBXBuildFile; fileRef = AAB0728613971A98008AF393 /* KIFTestController.h */; };
@@ -39,8 +39,8 @@
 
 /* Begin PBXFileReference section */
 		39160B1013D1E6BB00311E38 /* LoadableCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadableCategory.h; sourceTree = "<group>"; };
-		A32B3AB213DDCB7600FD9B67 /* KIFTestHelperMethods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KIFTestHelperMethods.h; sourceTree = "<group>"; };
-		A32B3AB313DDCB7600FD9B67 /* KIFTestHelperMethods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KIFTestHelperMethods.m; sourceTree = "<group>"; };
+		A32B3AB213DDCB7600FD9B67 /* KIFGlobals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KIFGlobals.h; sourceTree = "<group>"; };
+		A32B3AB313DDCB7600FD9B67 /* KIFGlobals.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KIFGlobals.m; sourceTree = "<group>"; };
 		AAB07268139719AC008AF393 /* libKIF.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libKIF.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAB0726B139719AC008AF393 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		AAB0728113971A63008AF393 /* KIF-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "KIF-Prefix.pch"; path = "Classes/KIF-Prefix.pch"; sourceTree = SOURCE_ROOT; };
@@ -130,8 +130,8 @@
 				AAB0728913971A98008AF393 /* KIFTestScenario.m */,
 				AAB0728A13971A98008AF393 /* KIFTestStep.h */,
 				AAB0728B13971A98008AF393 /* KIFTestStep.m */,
-				A32B3AB213DDCB7600FD9B67 /* KIFTestHelperMethods.h */,
-				A32B3AB313DDCB7600FD9B67 /* KIFTestHelperMethods.m */,
+				A32B3AB213DDCB7600FD9B67 /* KIFGlobals.h */,
+				A32B3AB313DDCB7600FD9B67 /* KIFGlobals.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -180,7 +180,7 @@
 				AAB072B213971AB2008AF393 /* UIWindow-KIFAdditions.h in Headers */,
 				CDFD8E86139728B4008D299F /* NSFileManager-KIFAdditions.h in Headers */,
 				39160B1113D1E6BB00311E38 /* LoadableCategory.h in Headers */,
-				A32B3AB413DDCB7600FD9B67 /* KIFTestHelperMethods.h in Headers */,
+				A32B3AB413DDCB7600FD9B67 /* KIFGlobals.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -245,7 +245,7 @@
 				AAB072B113971AB2008AF393 /* UIView-KIFAdditions.m in Sources */,
 				AAB072B313971AB2008AF393 /* UIWindow-KIFAdditions.m in Sources */,
 				CDFD8E87139728B4008D299F /* NSFileManager-KIFAdditions.m in Sources */,
-				A32B3AB513DDCB7600FD9B67 /* KIFTestHelperMethods.m in Sources */,
+				A32B3AB513DDCB7600FD9B67 /* KIFGlobals.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
