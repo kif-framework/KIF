@@ -60,7 +60,6 @@
 
 @interface UIView (KIFAdditionsPrivate)
 
-- (BOOL)isTappableWithHitTestResultView:(UIView *)hitView;
 - (UIEvent *)_eventWithTouch:(UITouch *)touch;
 
 @end
