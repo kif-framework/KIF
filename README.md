@@ -67,11 +67,7 @@ Now that you have a target for your tests, add the tests to that target. With th
 
 ![Add libKIF library screen shot](https://github.com/square/KIF/raw/master/Documentation/Images/Add Library Sheet.png)
 
-Next, make sure that we can access the KIF header files. To do this, add the KIF directory to the "Header Search Paths" build setting. Start by selecting the "Build Settings" tab of the project settings, and from there, use the filter control to find the "Header Search Paths" setting. Double click the value, and add the search path "$(SRCROOT)/Frameworks/KIF/" to the list. Mark the entry as recursive. If it's not there already, you should add the "$(inherited)" entry as the first entry in this list.
-
-![Add header search paths screen shot](https://github.com/square/KIF/raw/master/Documentation/Images/Add Header Search Paths.png)
-
-KIF takes advantage of Objective C's ability to add categories on an object, but this isn't enabled for static libraries by default. To enable this, add the "-ObjC" and "-all_load" flags to the "Other Linker Flags" build setting as shown below.
+KIF takes advantage of Objective C's ability to add categories on an object, but this isn't enabled for static libraries by default. To enable this, add the "-ObjC" flag to the "Other Linker Flags" build setting as shown below.
 
 ![Add category linker flags screen shot](https://github.com/square/KIF/raw/master/Documentation/Images/Add Category Linker Flags.png)
 
@@ -90,7 +86,7 @@ Although not required, it's recommended that you create a subclass of KIFTestCon
 *EXTestController.h*
 
 	#import <Foundation/Foundation.h>
-	#import "KIFTestController.h"
+	#import <KIF/KIFTestController.h>
 
 	@interface EXTestController : KIFTestController {}
 
@@ -115,23 +111,23 @@ The next step is to implement a scenario to test the login (+[KIFTestScenario sc
 *KIFTestScenario+EXAdditions.h*
 
 	#import <Foundation/Foundation.h>
-	#import "KIFTestScenario.h"
+	#import <KIF/KIFTestScenario.h>
 
 	@interface KIFTestScenario (EXAdditions)
 
-	+ (id)scenarioToLogIn;
+	+ (id)scenarioToLogin;
 
 	@end
 
 *KIFTestScenario+EXAdditions.m*
 
 	#import "KIFTestScenario+EXAdditions.h"
-	#import "KIFTestStep.h"
+	#import <KIF/KIFTestStep.h>
 	#import "KIFTestStep+EXAdditions.h"
 
 	@implementation KIFTestScenario (EXAdditions)
 
-	+ (id)scenarioToLogIn;
+	+ (id)scenarioToLogin;
 	{
 	    KIFTestScenario *scenario = [KIFTestScenario scenarioWithDescription:@"Test that a user can successfully log in."];
 	    [scenario addStep:[KIFTestStep stepToReset]];
@@ -153,7 +149,7 @@ Most of the steps in the scenario are already defined by the KIF framework, but 
 *KIFTestStep+EXAdditions.h*
 
 	#import <Foundation/Foundation.h>
-	#import "KIFTestStep.h"
+	#import <KIF/KIFTestStep.h>
 
 	@interface KIFTestStep (EXAdditions)
 
@@ -187,7 +183,7 @@ The other line to notice in the sample scenario is the one that calls +[KIFTestS
 *KIFTestStep+EXAdditions.h*
 
 	#import <Foundation/Foundation.h>
-	#import "KIFTestStep.h"
+	#import <KIF/KIFTestStep.h>
 
 	@interface KIFTestStep (EXAdditions)
 

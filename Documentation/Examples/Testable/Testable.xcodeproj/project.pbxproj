@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		AA0A22A913A7D368004789C0 /* KIFTestStep+EXAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC634C313A68BF000634049 /* KIFTestStep+EXAdditions.m */; };
-		AA0A22AA13A7D372004789C0 /* EXTestController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB073E513997527008AF393 /* EXTestController.m */; };
 		AAB073AD139861C0008AF393 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAB073AC139861C0008AF393 /* UIKit.framework */; };
 		AAB073AF139861C0008AF393 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAB073AE139861C0008AF393 /* Foundation.framework */; };
 		AAB073B1139861C0008AF393 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAB073B0139861C0008AF393 /* CoreGraphics.framework */; };
@@ -18,17 +16,19 @@
 		AAB073C0139861C0008AF393 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = AAB073BE139861C0008AF393 /* MainWindow.xib */; };
 		AAB073C3139861C0008AF393 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB073C2139861C0008AF393 /* RootViewController.m */; };
 		AAB073C6139861C0008AF393 /* RootViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AAB073C4139861C0008AF393 /* RootViewController.xib */; };
-		AAB073D113994E20008AF393 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB073B9139861C0008AF393 /* main.m */; };
-		AAB073D213994E20008AF393 /* TestableAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB073BC139861C0008AF393 /* TestableAppDelegate.m */; };
-		AAB073D313994E20008AF393 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB073C2139861C0008AF393 /* RootViewController.m */; };
 		AAB073D513994E20008AF393 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAB073AC139861C0008AF393 /* UIKit.framework */; };
 		AAB073D613994E20008AF393 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAB073AE139861C0008AF393 /* Foundation.framework */; };
 		AAB073D713994E20008AF393 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAB073B0139861C0008AF393 /* CoreGraphics.framework */; };
 		AAB073D913994E20008AF393 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = AAB073B5139861C0008AF393 /* InfoPlist.strings */; };
 		AAB073DA13994E20008AF393 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = AAB073BE139861C0008AF393 /* MainWindow.xib */; };
 		AAB073DB13994E20008AF393 /* RootViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AAB073C4139861C0008AF393 /* RootViewController.xib */; };
-		AAC634C113A5EAF900634049 /* KIFTestScenario+EXAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC634BE13A5E8E200634049 /* KIFTestScenario+EXAdditions.m */; };
-		AAE8773B139DC07F0072C252 /* libKIF.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AAE8773A139DC07F0072C252 /* libKIF.a */; };
+		B35B5F8B13D2229600D30419 /* TestableAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB073BC139861C0008AF393 /* TestableAppDelegate.m */; };
+		B35B5F8C13D222A600D30419 /* EXTestController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB073E513997527008AF393 /* EXTestController.m */; };
+		B35B5F8D13D222A600D30419 /* KIFTestScenario+EXAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC634BE13A5E8E200634049 /* KIFTestScenario+EXAdditions.m */; };
+		B35B5F8E13D222A600D30419 /* KIFTestStep+EXAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC634C313A68BF000634049 /* KIFTestStep+EXAdditions.m */; };
+		B35B5F9213D222F600D30419 /* libKIF.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B35B5F9113D222F600D30419 /* libKIF.a */; };
+		B35B5F9313D2230300D30419 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB073B9139861C0008AF393 /* main.m */; };
+		B35B5F9413D2234900D30419 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB073C2139861C0008AF393 /* RootViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -53,7 +53,7 @@
 		AAC634BE13A5E8E200634049 /* KIFTestScenario+EXAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "KIFTestScenario+EXAdditions.m"; path = "Testable/Testing/KIFTestScenario+EXAdditions.m"; sourceTree = "<group>"; };
 		AAC634C213A68BF000634049 /* KIFTestStep+EXAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "KIFTestStep+EXAdditions.h"; path = "Testable/Testing/KIFTestStep+EXAdditions.h"; sourceTree = "<group>"; };
 		AAC634C313A68BF000634049 /* KIFTestStep+EXAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "KIFTestStep+EXAdditions.m"; path = "Testable/Testing/KIFTestStep+EXAdditions.m"; sourceTree = "<group>"; };
-		AAE8773A139DC07F0072C252 /* libKIF.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libKIF.a; sourceTree = SOURCE_ROOT; };
+		B35B5F9113D222F600D30419 /* libKIF.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libKIF.a; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,7 +71,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AAE8773B139DC07F0072C252 /* libKIF.a in Frameworks */,
+				B35B5F9213D222F600D30419 /* libKIF.a in Frameworks */,
 				AAB073D513994E20008AF393 /* UIKit.framework in Frameworks */,
 				AAB073D613994E20008AF393 /* Foundation.framework in Frameworks */,
 				AAB073D713994E20008AF393 /* CoreGraphics.framework in Frameworks */,
@@ -84,7 +84,7 @@
 		AAB0739D139861C0008AF393 = {
 			isa = PBXGroup;
 			children = (
-				AAE8773A139DC07F0072C252 /* libKIF.a */,
+				B35B5F9113D222F600D30419 /* libKIF.a */,
 				AAB073B2139861C0008AF393 /* Testable */,
 				AAB073E3139974AD008AF393 /* Testing */,
 				AAB073AB139861C0008AF393 /* Frameworks */,
@@ -240,7 +240,6 @@
 				AAB073BA139861C0008AF393 /* main.m in Sources */,
 				AAB073BD139861C0008AF393 /* TestableAppDelegate.m in Sources */,
 				AAB073C3139861C0008AF393 /* RootViewController.m in Sources */,
-				AA0A22A913A7D368004789C0 /* KIFTestStep+EXAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -248,11 +247,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AAB073D113994E20008AF393 /* main.m in Sources */,
-				AAB073D213994E20008AF393 /* TestableAppDelegate.m in Sources */,
-				AAB073D313994E20008AF393 /* RootViewController.m in Sources */,
-				AAC634C113A5EAF900634049 /* KIFTestScenario+EXAdditions.m in Sources */,
-				AA0A22AA13A7D372004789C0 /* EXTestController.m in Sources */,
+				B35B5F8B13D2229600D30419 /* TestableAppDelegate.m in Sources */,
+				B35B5F8C13D222A600D30419 /* EXTestController.m in Sources */,
+				B35B5F8D13D222A600D30419 /* KIFTestScenario+EXAdditions.m in Sources */,
+				B35B5F8E13D222A600D30419 /* KIFTestStep+EXAdditions.m in Sources */,
+				B35B5F9313D2230300D30419 /* main.m in Sources */,
+				B35B5F9413D2234900D30419 /* RootViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -327,6 +327,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Testable/Testable-Prefix.pch";
 				INFOPLIST_FILE = "Testable/Testable-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -340,6 +344,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Testable/Testable-Prefix.pch";
 				INFOPLIST_FILE = "Testable/Testable-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
@@ -357,10 +365,6 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					RUN_KIF_TESTS,
-				);
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)/Frameworks/KIF/**",
 				);
 				INFOPLIST_FILE = "Testable/Testable-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
@@ -386,10 +390,6 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					RUN_KIF_TESTS,
-				);
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)/Frameworks/KIF/**",
 				);
 				INFOPLIST_FILE = "Testable/Testable-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
