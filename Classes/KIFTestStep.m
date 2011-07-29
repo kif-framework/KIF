@@ -445,7 +445,7 @@
     // Tap the desired photo in the grid
     // TODO: This currently only works for the first page of photos. It should scroll appropriately at some point.
     const CGFloat headerHeight = 64.0;
-    const CGSize thumbnailSize = {75.0, 75.0};
+    const CGSize thumbnailSize = CGSizeMake(75.0, 75.0);
     const CGFloat thumbnailMargin = 5.0;
     CGPoint thumbnailCenter;
     thumbnailCenter.x = thumbnailMargin + (MAX(0, column - 1) * (thumbnailSize.width + thumbnailMargin)) + thumbnailSize.width / 2.0;
