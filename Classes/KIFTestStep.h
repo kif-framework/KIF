@@ -330,4 +330,15 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
 
 + (void)stepFailed;
 
+/*!
+ @method stepsToChoosePhotoInAlbum:atRow:column:
+ @abstract Select a certain photo from the built in photo picker.
+ @discussion This set of steps expects that the photo picker has been initiated and that the sheet is up. From there it will tap the "Choose Photo" button and select the desired photo.
+ @param albumName The name of the album to select the photo from.
+ @param row The row number in the album for the desired photo.
+ @param column The column number in the album for the desired photo.
+ @result An array of configured test steps.
+ */
++ (NSArray *)stepsToChoosePhotoInAlbum:(NSString *)albumName atRow:(NSInteger)row column:(NSInteger)column;
+
 @end

@@ -39,6 +39,18 @@ MAKE_CATEGORIES_LOADABLE(UIApplication_KIFAdditions)
     return nil;
 }
 
+- (UIAccessibilityElement *)accessibilityElementMatchingBlock:(BOOL(^)(UIAccessibilityElement *))matchBlock;
+{
+    for (UIWindow *window in [self windows]) {
+        UIAccessibilityElement *element = [window accessibilityElementMatchingBlock:matchBlock];
+        if (element) {
+            return element;
+        }
+    }
+    
+    return nil;
+}
+
 - (UIWindow *)keyboardWindow;
 {
     for (UIWindow *window in [self windows]) {
