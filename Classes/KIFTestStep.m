@@ -417,7 +417,6 @@
         
         NSString *labelPrefix = [NSString stringWithFormat:@"%@,   (", albumName];
         UIAccessibilityElement *element = [[UIApplication sharedApplication] accessibilityElementMatchingBlock:^(UIAccessibilityElement *element) {
-            NSLog(@"Testing element with label: %@", element.accessibilityLabel);
             return [element.accessibilityLabel hasPrefix:labelPrefix];
         }];
         
