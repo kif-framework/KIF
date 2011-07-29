@@ -190,10 +190,10 @@
             }
             return KIFTestStepResultWait;
         }
-
+        
         CGRect elementFrame = [view.window convertRect:element.accessibilityFrame toView:view];
         CGPoint tappablePointInElement = [view tappablePointInRect:elementFrame];
-
+        
         // This is mostly redundant of the test in _accessibilityElementWithLabel:
         KIFTestCondition(!isnan(tappablePointInElement.x), error, @"The element with accessibility label %@ is not tappable", label);
         [view tapAtPoint:tappablePointInElement];
@@ -203,11 +203,11 @@
             CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.5, false);
             return KIFTestStepResultSuccess;
         }
-
+        
         KIFTestCondition([view isDescendantOfFirstResponder], error, @"Failed to make the view %@ which contains the accessibility element \"%@\" into the first responder", view, label);
         
         CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.5, false);
-
+        
         return KIFTestStepResultSuccess;
     }];
 }
@@ -402,6 +402,61 @@
         [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationDidReceiveMemoryWarningNotification object:[UIApplication sharedApplication]];
         return KIFTestStepResultSuccess;
     }];
+}
+
+#pragma mark Step Collections
+
++ (NSArray *)stepsToChoosePhotoInAlbum:(NSString *)albumName atRow:(NSInteger)row column:(NSInteger)column;
+{
+    NSMutableArray *steps = [NSMutableArray array];
+    [steps addObject:[KIFTestStep stepToTapViewWithAccessibilityLabel:@"Choose Photo"]];
+    
+    // This is basically the same as the step to tap with an accessibility label except that the accessibility labels for the albums have the number of photos appended to the end, such as "My Photos (3)." This means that we have to do a prefix match rather than an exact match.
+    NSString *description = [NSString stringWithFormat:@"Select the \"%@\" photo album", albumName];
+    [steps addObject:[KIFTestStep stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
+        
+        NSString *labelPrefix = [NSString stringWithFormat:@"%@,   (", albumName];
+        UIAccessibilityElement *element = [[UIApplication sharedApplication] accessibilityElementMatchingBlock:^(UIAccessibilityElement *element) {
+            return [element.accessibilityLabel hasPrefix:labelPrefix];
+        }];
+        
+        KIFTestWaitCondition(element, error, @"Failed to find photo album with name %@", albumName);
+        
+        UIView *view = [UIAccessibilityElement viewContainingAccessibilityElement:element];
+        KIFTestWaitCondition(view, error, @"Failed to find view for photo album with name %@", albumName);
+        
+        if (![self _isUserInteractionEnabledForView:view]) {
+            if (error) {
+                *error = [[[NSError alloc] initWithDomain:@"KIFTest" code:KIFTestStepResultFailure userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"Album picker is not enabled for interaction"], NSLocalizedDescriptionKey, nil]] autorelease];
+            }
+            return KIFTestStepResultWait;
+        }
+        
+        CGRect elementFrame = [view.window convertRect:element.accessibilityFrame toView:view];
+        CGPoint tappablePointInElement = [view tappablePointInRect:elementFrame];
+        
+        [view tapAtPoint:tappablePointInElement];
+        
+        CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.5, false);
+        
+        return KIFTestStepResultSuccess;
+    }]];
+    
+    // Tap the desired photo in the grid
+    // TODO: This currently only works for the first page of photos. It should scroll appropriately at some point.
+    const CGFloat headerHeight = 64.0;
+    const CGSize thumbnailSize = CGSizeMake(75.0, 75.0);
+    const CGFloat thumbnailMargin = 5.0;
+    CGPoint thumbnailCenter;
+    thumbnailCenter.x = thumbnailMargin + (MAX(0, column - 1) * (thumbnailSize.width + thumbnailMargin)) + thumbnailSize.width / 2.0;
+    thumbnailCenter.y = headerHeight + thumbnailMargin + (MAX(0, row - 1) * (thumbnailSize.height + thumbnailMargin)) + thumbnailSize.height / 2.0;
+    [steps addObject:[KIFTestStep stepToTapScreenAtPoint:thumbnailCenter]];
+    
+    // Dismiss the resize UI
+    [steps addObject:[KIFTestStep stepToTapViewWithAccessibilityLabel:@"Choose"]];
+    [steps addObject:[KIFTestStep stepToTapViewWithAccessibilityLabel:@"Done"]];
+    
+    return steps;
 }
 
 #pragma mark Initialization
@@ -645,7 +700,7 @@
         }
         return nil;
     }
-    
+
     // Make sure the element is visible
     UIView *view = [UIAccessibilityElement viewContainingAccessibilityElement:element];
     if (!view) {
@@ -654,7 +709,7 @@
         }
         return nil;
     }
-    
+
     // Scroll the view to be visible if necessary
     UIScrollView *scrollView = (UIScrollView *)view;
     while (scrollView && ![scrollView isKindOfClass:[UIScrollView class]]) {
@@ -671,14 +726,13 @@
         // Give the scroll view a small amount of time to perform the scroll.
         CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.3, false);
     }
-    
+
     if ([[UIApplication sharedApplication] isIgnoringInteractionEvents]) {
         if (error) {
             *error = [[[NSError alloc] initWithDomain:@"KIFTest" code:KIFTestStepResultFailure userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"Application is ignoring interaction events", NSLocalizedDescriptionKey, nil]] autorelease];
         }
         return nil;
     }
-    
 
     if (mustBeTappable) {
         // Make sure the view is tappable
@@ -697,7 +751,7 @@
             return nil;
         }
     }
-    
+
     return element;
 }
 

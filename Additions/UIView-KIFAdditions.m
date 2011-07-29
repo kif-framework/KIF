@@ -79,6 +79,17 @@
 
 - (UIAccessibilityElement *)accessibilityElementWithLabel:(NSString *)label accessibilityValue:(NSString *)value traits:(UIAccessibilityTraits)traits;
 {
+    return [self accessibilityElementMatchingBlock:^(UIAccessibilityElement *element) {
+        BOOL labelsMatch = [element.accessibilityLabel isEqual:label];
+        BOOL traitsMatch = ((element.accessibilityTraits) & traits) == traits;
+        BOOL valuesMatch = !value || [value isEqual:element.accessibilityValue];
+
+        return (BOOL)(labelsMatch && traitsMatch && valuesMatch);
+    }];
+}
+
+- (UIAccessibilityElement *)accessibilityElementMatchingBlock:(BOOL(^)(UIAccessibilityElement *))matchBlock;
+{
     if (self.hidden) {
         return nil;
     }
@@ -86,11 +97,9 @@
     // In case multiple elements with the same label exist, prefer ones that are currently visible
     UIAccessibilityElement *matchingButOccludedElement = nil;
     
-    BOOL labelsMatch = [self.accessibilityLabel isEqual:label];
-    BOOL traitsMatch = ((self.accessibilityTraits) & traits) == traits;
-    BOOL valuesMatch = !value || [value isEqual:self.accessibilityValue];
-    
-    if (labelsMatch && valuesMatch && traitsMatch) {
+    BOOL elementMatches = matchBlock((UIAccessibilityElement *)self);
+
+    if (elementMatches) {
         if (self.tappable) {
             return (UIAccessibilityElement *)self;
         } else {
@@ -103,7 +112,7 @@
     // rather than the real subviews it contains. We want the real views if possible.
     // UITableViewCell is such an offender.
     for (UIView *view in self.subviews) {
-        UIAccessibilityElement *element = [view accessibilityElementWithLabel:label accessibilityValue:value traits:traits];
+        UIAccessibilityElement *element = [view accessibilityElementMatchingBlock:matchBlock];
         if (!element) {
             continue;
         }
@@ -123,12 +132,10 @@
     while (elementStack.count) {
         UIAccessibilityElement *element = [elementStack lastObject];
         [elementStack removeLastObject];
-        
-        BOOL labelsMatch = [element.accessibilityLabel isEqual:label];
-        BOOL traitsMatch = ((element.accessibilityTraits) & traits) == traits;
-        BOOL valuesMatch = !value || [value isEqual:element.accessibilityValue];
-        
-        if (labelsMatch && valuesMatch && traitsMatch) {
+
+        BOOL elementMatches = matchBlock(element);
+
+        if (elementMatches) {
             UIView *viewForElement = [UIAccessibilityElement viewContainingAccessibilityElement:element];
             CGRect accessibilityFrame = [viewForElement.window convertRect:element.accessibilityFrame toView:viewForElement];
 
