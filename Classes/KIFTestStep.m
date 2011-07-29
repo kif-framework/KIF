@@ -265,7 +265,7 @@
         KIFTestCondition(!isnan(tappablePointInElement.x), error, @"The element with accessibility label %@ is not tappable", label);
         [view tapAtPoint:tappablePointInElement];
         
-        KIFTestCondition([view isDescendantOfFirstResponder], error, @"Failed to make the view with accessibility label \"%@\" the first responder. First responder is %@", label, [[[UIApplication sharedApplication] keyWindow] firstResponder]);
+        KIFTestWaitCondition([view isDescendantOfFirstResponder], error, @"Failed to make the view with accessibility label \"%@\" the first responder. First responder is %@", label, [[[UIApplication sharedApplication] keyWindow] firstResponder]);
         
         // Wait for the keyboard
         CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.5, false);
