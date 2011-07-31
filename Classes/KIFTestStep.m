@@ -454,7 +454,6 @@
     
     // Dismiss the resize UI
     [steps addObject:[KIFTestStep stepToTapViewWithAccessibilityLabel:@"Choose"]];
-    [steps addObject:[KIFTestStep stepToTapViewWithAccessibilityLabel:@"Done"]];
     
     return steps;
 }
