@@ -103,6 +103,31 @@
     }];
 }
 
++ (id)stepToWaitForAbsenceOfViewWithAccessibilityLabel:(NSString *)label;
+{
+    return [self stepToWaitForAbsenceOfViewWithAccessibilityLabel:label traits:UIAccessibilityTraitNone];
+}
+
++ (id)stepToWaitForAbsenceOfViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits;
+{
+    return [self stepToWaitForAbsenceOfViewWithAccessibilityLabel:label value:nil traits:traits];
+}
+
++ (id)stepToWaitForAbsenceOfViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits;
+{
+    NSString *description = nil;
+    if (value.length) {
+        description = [NSString stringWithFormat:@"Wait for view with accessibility label \"%@\" and accessibility value \"%@\" to be gone", label, value];
+    } else {
+        description = [NSString stringWithFormat:@"Wait for view with accessibility label \"%@\" to be gone", label];
+    }
+    
+    return [self stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
+        UIAccessibilityElement *element = [self _accessibilityElementWithLabel:label accessibilityValue:value tappable:NO traits:traits error:error];
+        return (element ? KIFTestStepResultWait : KIFTestStepResultSuccess);
+    }];
+}
+
 + (id)stepToWaitForTappableViewWithAccessibilityLabel:(NSString *)label;
 {
     return [self stepToWaitForTappableViewWithAccessibilityLabel:label traits:UIAccessibilityTraitNone];
