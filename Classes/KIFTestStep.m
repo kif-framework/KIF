@@ -16,6 +16,13 @@
 #import "UIView-KIFAdditions.h"
 #import "UIWindow-KIFAdditions.h"
 
+enum {
+	KIFTestStepAsyncSignalFailure = KIFTestStepResultFailure,
+	KIFTestStepAsyncSignalSuccess,
+	KIFtestStepAsyncSignalWait,
+	KIFTestStepAsyncSignalNone,
+};
+typedef NSInteger KIFTestStepAsyncSignal;
 
 @interface KIFTestStep ()
 
@@ -24,6 +31,8 @@
 @property (nonatomic, retain) id notificationObject;
 @property BOOL notificationOccurred;
 @property BOOL observingForNotification;
+@property (nonatomic, retain) NSError *asyncError;
+@property KIFTestStepAsyncSignal asyncSignal;
 
 + (BOOL)_isUserInteractionEnabledForView:(UIView *)view;
 
@@ -45,6 +54,8 @@
 @synthesize notificationOccurred;
 @synthesize observingForNotification;
 @synthesize timeout;
+@synthesize asyncError;
+@synthesize asyncSignal;
 
 #pragma mark Static Methods
 
@@ -491,9 +502,10 @@
     if (!self) {
         return nil;
     }
-    
+
     self.timeout = 30.0f;
-    
+	self.asyncSignal = KIFTestStepAsyncSignalNone;
+
     return self;
 }
 
@@ -507,7 +519,9 @@
     notificationName = nil;
     [notificationObject release];
     notificationObject = nil;
-    
+	[asyncError release];
+	asyncError = nil;
+
     [super dealloc];
 }
 
@@ -518,15 +532,22 @@
     KIFTestStepResult result = KIFTestStepResultFailure;
     
     if (self.executionBlock) {
-        @try {
-            result = self.executionBlock(self, error);
-        }
-        @catch (id exception) {
-            // We need to catch exceptions and things like NSInternalInconsistencyException, which is actually an NSString
-            KIFTestCondition(NO, error, @"Step threw exception: %@", exception);
-        }
+		if (self.asyncSignal == KIFTestStepAsyncSignalNone) {
+			@try {
+				result = self.executionBlock(self, error);
+			}
+			@catch (id exception) {
+				// We need to catch exceptions and things like NSInternalInconsistencyException, which is actually an NSString
+				KIFTestCondition(NO, error, @"Step threw exception: %@", exception);
+			}
+		} else {
+			result = self.asyncSignal;
+			if (self.asyncError) {
+				*error = [[self.asyncError copy] autorelease];
+			}
+		}
     }
-    
+
     return result;
 }
 
@@ -535,6 +556,23 @@
     if (notificationName || notificationObject) {
         [[NSNotificationCenter defaultCenter] removeObserver:self name:notificationName object:notificationObject];    
     }
+}
+
+- (void)succeed;
+{
+	self.asyncSignal = KIFTestStepAsyncSignalSuccess;
+}
+
+- (void)failWithError:(NSError *)error
+{
+	self.asyncSignal = KIFTestStepAsyncSignalFailure;
+	self.asyncError = error;
+}
+
+- (void)waitWithError:(NSError *)error
+{
+	self.asyncSignal = KIFtestStepAsyncSignalWait;
+	self.asyncError = error;
 }
 
 #pragma mark Private Methods
