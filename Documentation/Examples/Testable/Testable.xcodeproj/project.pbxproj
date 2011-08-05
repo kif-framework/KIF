@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		A868094B13E32D51005DDA1F /* libKIF.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A868094613E32C77005DDA1F /* libKIF.a */; };
 		A868094C13E32D55005DDA1F /* libKIF.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A868094613E32C77005DDA1F /* libKIF.a */; };
-		AA0A22A913A7D368004789C0 /* KIFTestStep+EXAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC634C313A68BF000634049 /* KIFTestStep+EXAdditions.m */; };
 		AA0A22AA13A7D372004789C0 /* EXTestController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB073E513997527008AF393 /* EXTestController.m */; };
 		AAB073AD139861C0008AF393 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAB073AC139861C0008AF393 /* UIKit.framework */; };
 		AAB073AF139861C0008AF393 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAB073AE139861C0008AF393 /* Foundation.framework */; };
@@ -30,6 +29,7 @@
 		AAB073DA13994E20008AF393 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = AAB073BE139861C0008AF393 /* MainWindow.xib */; };
 		AAB073DB13994E20008AF393 /* RootViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AAB073C4139861C0008AF393 /* RootViewController.xib */; };
 		AAC634C113A5EAF900634049 /* KIFTestScenario+EXAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC634BE13A5E8E200634049 /* KIFTestScenario+EXAdditions.m */; };
+		AADF7E2413EC7211006410B2 /* KIFTestStep+EXAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC634C313A68BF000634049 /* KIFTestStep+EXAdditions.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -287,7 +287,6 @@
 				AAB073BA139861C0008AF393 /* main.m in Sources */,
 				AAB073BD139861C0008AF393 /* TestableAppDelegate.m in Sources */,
 				AAB073C3139861C0008AF393 /* RootViewController.m in Sources */,
-				AA0A22A913A7D368004789C0 /* KIFTestStep+EXAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -300,6 +299,7 @@
 				AAB073D313994E20008AF393 /* RootViewController.m in Sources */,
 				AAC634C113A5EAF900634049 /* KIFTestScenario+EXAdditions.m in Sources */,
 				AA0A22AA13A7D372004789C0 /* EXTestController.m in Sources */,
+				AADF7E2413EC7211006410B2 /* KIFTestStep+EXAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

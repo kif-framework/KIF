@@ -28,10 +28,13 @@
     return scenario;
 }
 
-+ (id)scenarioToSelectColor:(NSString *)colorName;
++ (id)scenarioToSelectDifferentColors;
 {
-    KIFTestScenario *scenario = [KIFTestScenario scenarioWithDescription:[NSString stringWithFormat:@"Select the color %@", colorName]];
+    KIFTestScenario *scenario = [KIFTestScenario scenarioWithDescription:[NSString stringWithFormat:@"Select the a few different colors."]];
+    [scenario addStep:[KIFTestStep stepToTapViewWithAccessibilityLabel:@"Purple"]];
+    [scenario addStep:[KIFTestStep stepToTapViewWithAccessibilityLabel:@"Blue"]];
     [scenario addStep:[KIFTestStep stepToTapViewWithAccessibilityLabel:@"Red"]];
+    [scenario addStep:[KIFTestStep stepToWaitForTimeInterval:5.0 description:@"An arbitrary wait just to demonstrate adding an additional step"]];
     [scenario addStep:[KIFTestStep stepToWaitForViewWithAccessibilityLabel:@"Selected: Red"]];
     
     return scenario;
