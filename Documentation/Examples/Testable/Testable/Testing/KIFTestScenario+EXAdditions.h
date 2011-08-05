@@ -14,6 +14,6 @@
 
 + (id)scenarioToLogin;
 
-+ (id)scenarioToSelectColor:(NSString *)colorName;
++ (id)scenarioToSelectDifferentColors;
 
 @end

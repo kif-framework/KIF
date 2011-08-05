@@ -15,7 +15,7 @@
 - (void)initializeScenarios;
 {
 //    [self addScenario:[KIFTestScenario scenarioToLogin]];
-    [self addScenario:[KIFTestScenario scenarioToSelectColor:@"Red"]];
+    [self addScenario:[KIFTestScenario scenarioToSelectDifferentColors]];
 }
 
 @end

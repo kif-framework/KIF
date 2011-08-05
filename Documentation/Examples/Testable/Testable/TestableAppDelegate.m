@@ -8,8 +8,10 @@
 //  which Square, Inc. licenses this file to you.
 
 #import "TestableAppDelegate.h"
-#import "EXTestController.h"
 
+#if RUN_KIF_TESTS
+#import "EXTestController.h"
+#endif
 
 @implementation TestableAppDelegate
 
