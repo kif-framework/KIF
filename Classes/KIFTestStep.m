@@ -353,13 +353,6 @@
                     // Tap in the middle of the picker view to select the item
                     [pickerView tap];
                     
-                    // Tap the done button
-                    UIButton *doneButton = (UIButton *)[[[UIApplication sharedApplication] pickerViewWindow] accessibilityElementWithLabel:@"Done"];
-                    KIFTestCondition(doneButton, error, @"Failed to find the \"Done\" button after selecting the picker value \"%@\"", title);
-                    
-                    [doneButton tap];
-                    CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.5, false);                    
-                    
                     return KIFTestStepResultSuccess;
                 }
             }
