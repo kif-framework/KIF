@@ -103,6 +103,20 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
 @property (nonatomic, retain) NSString *description;
 
 /*!
+ @method defaultTimeout
+ @abstract The default amount of time to assign to new steps before assuming they failed.
+ @discussion To change the default value of the timeout property, either subclass KIFTestStep and override this method or call +setDefaultTimeout: with a different value.
+ */
++ (NSTimeInterval)defaultTimeout;
+
+/*!
+ @method setDefaultTimeout:
+ @abstract Sets the default amount of time to assign to new steps before assuming they failed.
+ @discussion To change the default value of the timeout property, either subclass KIFTestStep and override +defaultTimeout or call this method with a different value.
+ */
++ (void)setDefaultTimeout:(NSTimeInterval)newDefaultTimeout;
+
+/*!
  @method stepWithDescription:executionBlock:
  @abstract Convenience initializer to create a new custom step.
  @param description A description of the what the step does. Required.

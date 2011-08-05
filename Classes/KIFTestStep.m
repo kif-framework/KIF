@@ -17,6 +17,8 @@
 #import "UIWindow-KIFAdditions.h"
 
 
+static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
+
 @interface KIFTestStep ()
 
 @property (nonatomic, copy) KIFTestStepExecutionBlock executionBlock;
@@ -46,7 +48,17 @@
 @synthesize observingForNotification;
 @synthesize timeout;
 
-#pragma mark Static Methods
+#pragma mark Class Methods
+
++ (NSTimeInterval)defaultTimeout;
+{
+    return KIFTestStepDefaultTimeout;
+}
+
++ (void)setDefaultTimeout:(NSTimeInterval)newDefaultTimeout;
+{
+    KIFTestStepDefaultTimeout = newDefaultTimeout;
+}
 
 + (id)stepWithDescription:(NSString *)description executionBlock:(KIFTestStepExecutionBlock)executionBlock;
 {
@@ -485,7 +497,7 @@
         return nil;
     }
     
-    self.timeout = 30.0f;
+    self.timeout = [[self class] defaultTimeout];
     
     return self;
 }
