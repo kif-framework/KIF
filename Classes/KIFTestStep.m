@@ -137,7 +137,7 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
     return [self stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
         UIAccessibilityElement *element = [self _accessibilityElementWithLabel:label accessibilityValue:value tappable:NO traits:traits error:error];
         KIFTestWaitCondition(!element, error, @"Waiting for absence of accessibility element with the label \"%@\"", label);        
-        return (element ? KIFTestStepResultWait : KIFTestStepResultSuccess);
+        return KIFTestStepResultSuccess;
     }];
 }
 
