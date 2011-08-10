@@ -91,6 +91,13 @@ typedef void (^KIFTestControllerCompletionBlock)();
 + (id)sharedInstance;
 
 /*!
+ @method runAllTests
+ @abstract runs all scenarios deriving from KIFTestScenario class
+ @discussion This method runs all test scenarios existing in the project. It only runs methods starting with test and ignores other methods. Each KIFTestScenario derived class can define setup/teardown that gets called before each test
+ */
+- (void)runAllTests;
+
+/*!
  @method initializeScenarios
  @abstract Configures the scenarios to run for the test suite.
  @discussion The default implementation of this method does nothing. Subclasses should override it so that it configures the scenarios for the test controller to run. This method is invoked automatically and should never need to be invoked manually.

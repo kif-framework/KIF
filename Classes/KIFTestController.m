@@ -12,7 +12,33 @@
 #import "KIFTestStep.h"
 #import "NSFileManager-KIFAdditions.h"
 #import <QuartzCore/QuartzCore.h>
+#import <objc/runtime.h>
 
+// Doesn't want to expose this publicly
+@interface KIFTestScenario (Private)
+- (void)addSetupStepsFromArray:(NSArray *)steps;
+- (void)addTeardownStepsFromArray:(NSArray *)steps;
+@end
+
+@implementation KIFTestScenario (Private)
+- (void)addSetupStepsFromArray:(NSArray *)setupSteps
+{
+    NSMutableArray *newSteps = [NSMutableArray arrayWithArray:setupSteps];
+    [newSteps addObjectsFromArray:steps];
+    
+    [steps release];
+    steps = [newSteps retain];
+}
+
+- (void)addTeardownStepsFromArray:(NSArray *)tearDownSteps
+{
+    NSMutableArray *newSteps = [steps mutableCopy];
+    [newSteps addObjectsFromArray:tearDownSteps];
+    
+    [steps release];
+    steps = [newSteps retain];
+}
+@end
 
 @interface KIFTestController ()
 
@@ -40,6 +66,7 @@
 - (void)_logDidFinishScenario:(KIFTestScenario *)scenario duration:(NSTimeInterval)duration;
 - (void)_logDidFailStep:(KIFTestStep *)step duration:(NSTimeInterval)duration error:(NSError *)error;
 - (void)_logDidPassStep:(KIFTestStep *)step duration:(NSTimeInterval)duration;
+- (void)_runTestScenarios:(Class)cls;
 
 @end
 
@@ -124,6 +151,29 @@ static void releaseInstance()
 - (void)initializeScenarios;
 {
     // For subclassers
+    [self runAllTests];
+}
+
+- (void)runAllTests
+{
+    int numClasses;
+    Class *classes = NULL;
+    
+    numClasses = objc_getClassList(NULL, 0);
+    
+    if (numClasses > 0)
+    {
+        classes = malloc(sizeof(Class) * numClasses);
+        numClasses = objc_getClassList(classes, numClasses);
+        
+        for (int i = 0; i < numClasses; i++) {
+            if (class_getSuperclass(classes[i]) && [classes[i] isSubclassOfClass:[KIFTestScenario class]]) {
+                [self _runTestScenarios:classes[i]];
+            }
+        }
+        
+        free(classes);
+    }
 }
 
 - (NSArray *)scenarios
@@ -179,6 +229,37 @@ static void releaseInstance()
 }
 
 #pragma mark Private Methods
+
+- (void)_runTestScenarios:(Class)cls
+{
+    unsigned int count;
+    
+    Method *methods = class_copyMethodList(object_getClass(cls), &count);
+    for (int i = 0; i < count; i++) {
+        SEL sel = method_getName(methods[i]);
+        
+        NSString *str = NSStringFromSelector(sel);
+        if ([str hasPrefix:@"test"]) {
+            KIFTestScenario *scenario = (KIFTestScenario *)objc_msgSend(cls, sel);
+            
+            if (class_getClassMethod(cls, @selector(setUp)) != NULL) {
+                NSArray *testSteps = (NSArray *)[cls performSelector:@selector(setUp)];
+                if (testSteps && [testSteps count] > 0) {
+                    [scenario addSetupStepsFromArray:testSteps];
+                }
+            }
+            
+            if (class_getClassMethod(cls, @selector(tearDown)) != NULL) {
+                NSArray *testSteps = (NSArray *)[cls performSelector:@selector(tearDown)];
+                if (testSteps && [testSteps count] > 0) {
+                    [scenario addTeardownStepsFromArray:testSteps];
+                }
+            }
+            
+            [self addScenario:scenario];
+        }
+    }
+}
 
 - (void)_initializeScenariosIfNeeded
 {
