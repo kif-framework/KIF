@@ -57,7 +57,7 @@ if (!(condition)) { \
 if (!(condition)) { \
 if (error) { \
 *error = [[[NSError alloc] initWithDomain:@"KIFTest" code:KIFTestStepResultWait userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:__VA_ARGS__], NSLocalizedDescriptionKey, nil]] autorelease]; \
-[step waitWithError:*error]; \
+[step asyncWaitWithError:*error]; \
 } \
 return KIFTestStepResultWait; \
 } \
@@ -159,27 +159,27 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
 - (void)cleanUp;
 
 /*!
- @method succeed:
+ @method asyncSucceed:
  @abstract Override a currently waiting step to return a successful result on next execution attempt.
  @discussion This method allows asynchronous processes started by a step to signal success.
  */
-- (void)succeed;
+- (void)asyncSucceed;
 
 /*!
- @method failWithError:
+ @method asyncFailWithError:
  @abstract Override a currently waiting step to return a failing result on next execution attempt.
  @discussion This method allows asynchronous processes started by a step to signal failure.
  @param error The error corresponding to the failure.
  */
-- (void)failWithError:(NSError *)error;
+- (void)asyncFailWithError:(NSError *)error;
 
 /*!
- @method waitWithError:
+ @method asyncWaitWithError:
  @abstract Override a currently waiting step to wait until another async signal is sent.
  @discussion This method allows an asynchronous processes to make a step wait until it can finish.
  @param error The error identifying the reason for waiting.
  */
-- (void)waitWithError:(NSError *)error;
+- (void)asyncWaitWithError:(NSError *)error;
 
 #pragma mark Factory Steps
 

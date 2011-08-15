@@ -17,10 +17,10 @@
 #import "UIWindow-KIFAdditions.h"
 
 enum {
-	KIFTestStepAsyncSignalFailure = KIFTestStepResultFailure,
-	KIFTestStepAsyncSignalSuccess,
-	KIFtestStepAsyncSignalWait,
-	KIFTestStepAsyncSignalNone,
+    KIFTestStepAsyncSignalFailure = KIFTestStepResultFailure,
+    KIFTestStepAsyncSignalSuccess,
+    KIFtestStepAsyncSignalWait,
+    KIFTestStepAsyncSignalNone,
 };
 typedef NSInteger KIFTestStepAsyncSignal;
 
@@ -579,7 +579,7 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
     }
 
     self.timeout = [[self class] defaultTimeout];
-	self.asyncSignal = KIFTestStepAsyncSignalNone;
+    self.asyncSignal = KIFTestStepAsyncSignalNone;
 
     return self;
 }
@@ -594,8 +594,8 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
     notificationName = nil;
     [notificationObject release];
     notificationObject = nil;
-	[asyncError release];
-	asyncError = nil;
+    [asyncError release];
+    asyncError = nil;
 
     [super dealloc];
 }
@@ -607,20 +607,20 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
     KIFTestStepResult result = KIFTestStepResultFailure;
     
     if (self.executionBlock) {
-		if (self.asyncSignal == KIFTestStepAsyncSignalNone) {
-			@try {
-				result = self.executionBlock(self, error);
-			}
-			@catch (id exception) {
-				// We need to catch exceptions and things like NSInternalInconsistencyException, which is actually an NSString
-				KIFTestCondition(NO, error, @"Step threw exception: %@", exception);
-			}
-		} else {
-			result = self.asyncSignal;
-			if (self.asyncError) {
-				*error = [[self.asyncError copy] autorelease];
-			}
-		}
+        if (self.asyncSignal == KIFTestStepAsyncSignalNone) {
+            @try {
+                result = self.executionBlock(self, error);
+            }
+            @catch (id exception) {
+                // We need to catch exceptions and things like NSInternalInconsistencyException, which is actually an NSString
+                KIFTestCondition(NO, error, @"Step threw exception: %@", exception);
+            }
+        } else {
+            result = self.asyncSignal;
+            if (self.asyncError) {
+                *error = [[self.asyncError copy] autorelease];
+            }
+        }
     }
 
     return result;
@@ -633,21 +633,21 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
     }
 }
 
-- (void)succeed;
+- (void)asyncSucceed;
 {
-	self.asyncSignal = KIFTestStepAsyncSignalSuccess;
+    self.asyncSignal = KIFTestStepAsyncSignalSuccess;
 }
 
-- (void)failWithError:(NSError *)error
+- (void)asyncFailWithError:(NSError *)error
 {
-	self.asyncSignal = KIFTestStepAsyncSignalFailure;
-	self.asyncError = error;
+    self.asyncSignal = KIFTestStepAsyncSignalFailure;
+    self.asyncError = error;
 }
 
-- (void)waitWithError:(NSError *)error
+- (void)asyncWaitWithError:(NSError *)error
 {
-	self.asyncSignal = KIFtestStepAsyncSignalWait;
-	self.asyncError = error;
+    self.asyncSignal = KIFtestStepAsyncSignalWait;
+    self.asyncError = error;
 }
 
 #pragma mark Private Methods
