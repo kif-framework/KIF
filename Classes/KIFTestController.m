@@ -165,9 +165,8 @@ static void releaseInstance()
     {
         classes = malloc(sizeof(Class) * numClasses);
         numClasses = objc_getClassList(classes, numClasses);
-        
         for (int i = 0; i < numClasses; i++) {
-            if (class_getSuperclass(classes[i]) && [classes[i] isSubclassOfClass:[KIFTestScenario class]]) {
+            if (class_getSuperclass(classes[i]) && [classes[i] respondsToSelector:@selector(isSubclassOfClass:)] && [classes[i] isSubclassOfClass:[KIFTestScenario class]]) {
                 [self _runTestScenarios:classes[i]];
             }
         }
