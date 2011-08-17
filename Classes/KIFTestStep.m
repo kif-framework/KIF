@@ -111,7 +111,17 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
     
     return [self stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
         UIAccessibilityElement *element = [self _accessibilityElementWithLabel:label accessibilityValue:value tappable:NO traits:traits error:error];
-        return (element ? KIFTestStepResultSuccess : KIFTestStepResultWait);
+        
+        NSString *waitDescription = nil;
+        if (value.length) {
+            waitDescription = [NSString stringWithFormat:@"Waiting for presence of accessibility element with label \"%@\" and accessibility value \"%@\"", label, value];
+        } else {
+            waitDescription = [NSString stringWithFormat:@"Waiting for presence of accessibility element with label \"%@\"", label];
+        }
+        
+        KIFTestWaitCondition(element, error, @"%@", waitDescription);
+        
+        return KIFTestStepResultSuccess;
     }];
 }
 
@@ -135,8 +145,24 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
     }
     
     return [self stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
-        UIAccessibilityElement *element = [self _accessibilityElementWithLabel:label accessibilityValue:value tappable:NO traits:traits error:error];
-        KIFTestWaitCondition(!element, error, @"Waiting for absence of accessibility element with the label \"%@\"", label);        
+        
+        // If the app is ignoring interaction events, then wait before doing our analysis
+        KIFTestWaitCondition(![[UIApplication sharedApplication] isIgnoringInteractionEvents], error, @"Application is ignoring interaction events.");
+
+        // If the element can't be found, then we're done
+        UIAccessibilityElement *element = [[UIApplication sharedApplication] accessibilityElementWithLabel:label accessibilityValue:value traits:traits];
+        if (!element) {
+            return KIFTestStepResultSuccess;
+        }
+
+        UIView *view = [UIAccessibilityElement viewContainingAccessibilityElement:element];
+
+        // If we found an element, but it's not associated with a view, then something's wrong. Wait it out and try again.
+        KIFTestWaitCondition(view, error, @"Cannot find view containing accessibility element with the label \"%@\"", label);
+
+        // Hidden views count as absent
+        KIFTestWaitCondition([view isHidden], error, @"Accessibility element with label \"%@\" is visible and not hidden.", label);
+
         return KIFTestStepResultSuccess;
     }];
 }
@@ -169,10 +195,13 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
 + (id)stepToWaitForTimeInterval:(NSTimeInterval)interval description:(NSString *)description;
 {
     // In general, we should discourage use of a step like this. It's pragmatic to include it though.
-    return [self stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
-        CFRunLoopRunInMode(kCFRunLoopDefaultMode, interval, false);
-        return KIFTestStepResultSuccess;        
+    KIFTestStep *step = [self stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
+        NSLog(@"Wait run loop exited with %d", CFRunLoopRunInMode(kCFRunLoopDefaultMode, interval, false));
+        return KIFTestStepResultSuccess;
     }];
+    step.timeout = interval + 1.0;
+    
+    return step;
 }
 
 + (id)stepToWaitForNotificationName:(NSString *)name object:(id)object;
