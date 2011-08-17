@@ -262,7 +262,7 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
         CGPoint tappablePointInElement = [view tappablePointInRect:elementFrame];
         
         // This is mostly redundant of the test in _accessibilityElementWithLabel:
-        KIFTestCondition(!isnan(tappablePointInElement.x), error, @"The element with accessibility label %@ is not tappable", label);
+        KIFTestWaitCondition(!isnan(tappablePointInElement.x), error, @"The element with accessibility label %@ is not tappable", label);
         [view tapAtPoint:tappablePointInElement];
 
         // Verify that we successfully selected the view
