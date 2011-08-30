@@ -464,6 +464,26 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
     }];
 }
 
++ (id)stepToTapRowInTableViewWithAccessibilityLabel:(NSString*)tableViewLabel atIndexPath:(NSIndexPath *)indexPath
+{
+    NSString *description = [[NSString alloc] initWithFormat:@"Step to tap row %d in tableView with label %@", [indexPath row], tableViewLabel];
+    return [KIFTestStep stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
+        UIAccessibilityElement *element = [[UIApplication sharedApplication] accessibilityElementWithLabel:tableViewLabel];
+        KIFTestCondition(element, error, @"View with label %@ not found", tableViewLabel);
+        UITableView *tableView = (UITableView*)[UIAccessibilityElement viewContainingAccessibilityElement:element];
+        
+        KIFTestCondition([tableView isKindOfClass:[UITableView class]], error, @"Specified view is not a UITableView");
+        
+        KIFTestCondition(tableView, error, @"Table view with label %@ not found", tableViewLabel);
+        
+        UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+        CGRect cellFrame = [cell.contentView convertRect:[cell.contentView frame] toView:tableView];
+        [tableView tapAtPoint:CGPointCenteredInRect(cellFrame)];
+        
+        return KIFTestStepResultSuccess;
+    }];
+}
+
 #pragma mark Step Collections
 
 + (NSArray *)stepsToChoosePhotoInAlbum:(NSString *)albumName atRow:(NSInteger)row column:(NSInteger)column;
