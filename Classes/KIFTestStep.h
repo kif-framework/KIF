@@ -385,4 +385,14 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
  */
 + (NSArray *)stepsToChoosePhotoInAlbum:(NSString *)albumName atRow:(NSInteger)row column:(NSInteger)column;
 
+/*!
+ @method stepToTapRowInTableViewWithAccessibilityLabel:atIndexPath:
+ @abstract A step that taps the row at IndexPath in a view with the given label.
+ @discussion This step will get the view with the specified accessibility label and tap the row at indexPath.
+ @param tableViewLabel Accessibility label of the table view.
+ @param indexPath Index path of the row to tap.
+ @result A configured test step.
+ */
++ (id)stepToTapRowInTableViewWithAccessibilityLabel:(NSString*)tableViewLabel atIndexPath:(NSIndexPath *)indexPath;
+
 @end
