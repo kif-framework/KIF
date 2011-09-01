@@ -395,6 +395,12 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
                     // Tap in the middle of the picker view to select the item
                     [pickerView tap];
                     
+                    // The combination of selectRow:inComponent:animated: and tap does not consistently result in
+                    // pickerView:didSelectRow:inComponent: being called on the delegate. We need to do it explicitly.
+                    if ([pickerView.delegate respondsToSelector:@selector(pickerView:didSelectRow:inComponent:)]) {
+                        [pickerView.delegate pickerView:pickerView didSelectRow:rowIndex inComponent:componentIndex];
+                    }
+                    
                     return KIFTestStepResultSuccess;
                 }
             }
