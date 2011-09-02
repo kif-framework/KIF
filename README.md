@@ -104,7 +104,7 @@ Although not required, it's recommended that you create a subclass of KIFTestCon
 
 	- (void)initializeScenarios;
 	{
-	    [self addScenario:[KIFTestScenario scenarioToLogin]];
+	    [self addScenario:[KIFTestScenario scenarioToLogIn]];
 		// Add additional scenarios you want to test here
 	}
 
