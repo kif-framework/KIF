@@ -621,6 +621,18 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
         }
     }
     
+    // UIActionsheet Buttons have UIButtonLabels with userInteractionEnabled=NO inside,
+    // grab the superview UINavigationButton instead.
+    if (!isUserInteractionEnabled && [view isKindOfClass:NSClassFromString(@"UIButtonLabel")]) {
+        UIView *button = [view superview];
+        while (button && ![button isKindOfClass:NSClassFromString(@"UINavigationButton")]) {
+            button = [button superview];
+        }
+        if (button && button.userInteractionEnabled) {
+            isUserInteractionEnabled = YES;
+        }
+    }
+    
     return isUserInteractionEnabled;
 }
 
