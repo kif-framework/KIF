@@ -472,7 +472,7 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
 
 + (id)stepToTapRowInTableViewWithAccessibilityLabel:(NSString*)tableViewLabel atIndexPath:(NSIndexPath *)indexPath
 {
-    NSString *description = [[NSString alloc] initWithFormat:@"Step to tap row %d in tableView with label %@", [indexPath row], tableViewLabel];
+    NSString *description = [NSString stringWithFormat:@"Step to tap row %d in tableView with label %@", [indexPath row], tableViewLabel];
     return [KIFTestStep stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
         UIAccessibilityElement *element = [[UIApplication sharedApplication] accessibilityElementWithLabel:tableViewLabel];
         KIFTestCondition(element, error, @"View with label %@ not found", tableViewLabel);
