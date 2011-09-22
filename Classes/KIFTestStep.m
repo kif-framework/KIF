@@ -257,38 +257,39 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
     
     return [self stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
 
-        KIFTestWaitCondition(!view || (([NSDate timeIntervalSinceReferenceDate] - quiesceStartTime) >= quiesceWaitInterval), error, @"Waiting for view to become the first responder.");
-
-        if (!view) {
-            UIAccessibilityElement *element = [self _accessibilityElementWithLabel:label accessibilityValue:value tappable:YES traits:traits error:error];
-            if (!element) {
-                return KIFTestStepResultWait;
-            }
-
-            view = [UIAccessibilityElement viewContainingAccessibilityElement:element];
-            KIFTestWaitCondition(view, error, @"Failed to find view for accessibility element with label \"%@\"", label);
-
-            if (![self _isUserInteractionEnabledForView:view]) {
-                if (error) {
-                    *error = [[[NSError alloc] initWithDomain:@"KIFTest" code:KIFTestStepResultFailure userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"View with accessibility label \"%@\" is not enabled for interaction", label], NSLocalizedDescriptionKey, nil]] autorelease];
-                }
-                return KIFTestStepResultWait;
-            }
-
-            CGRect elementFrame = [view.window convertRect:element.accessibilityFrame toView:view];
-            CGPoint tappablePointInElement = [view tappablePointInRect:elementFrame];
-
-            // This is mostly redundant of the test in _accessibilityElementWithLabel:
-            KIFTestWaitCondition(!isnan(tappablePointInElement.x), error, @"The element with accessibility label %@ is not tappable", label);
-            [view tapAtPoint:tappablePointInElement];
-
-            quiesceStartTime = [NSDate timeIntervalSinceReferenceDate];
-            KIFTestWaitCondition(NO, error, @"Waiting for the view to settle.");
+        // If we've already tapped the view and stored it to a variable, and we've waited for the quiesce time to elapse, then we're done.
+        if (view) {
+            KIFTestWaitCondition(([NSDate timeIntervalSinceReferenceDate] - quiesceStartTime) >= quiesceWaitInterval, error, @"Waiting for view to become the first responder.");
+            return KIFTestStepResultSuccess;
         }
+
+        UIAccessibilityElement *element = [self _accessibilityElementWithLabel:label accessibilityValue:value tappable:YES traits:traits error:error];
+        if (!element) {
+            return KIFTestStepResultWait;
+        }
+
+        view = [UIAccessibilityElement viewContainingAccessibilityElement:element];
+        KIFTestWaitCondition(view, error, @"Failed to find view for accessibility element with label \"%@\"", label);
+
+        if (![self _isUserInteractionEnabledForView:view]) {
+            if (error) {
+                *error = [[[NSError alloc] initWithDomain:@"KIFTest" code:KIFTestStepResultFailure userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"View with accessibility label \"%@\" is not enabled for interaction", label], NSLocalizedDescriptionKey, nil]] autorelease];
+            }
+            return KIFTestStepResultWait;
+        }
+
+        CGRect elementFrame = [view.window convertRect:element.accessibilityFrame toView:view];
+        CGPoint tappablePointInElement = [view tappablePointInRect:elementFrame];
+
+        // This is mostly redundant of the test in _accessibilityElementWithLabel:
+        KIFTestWaitCondition(!isnan(tappablePointInElement.x), error, @"The element with accessibility label %@ is not tappable", label);
+        [view tapAtPoint:tappablePointInElement];
 
         KIFTestCondition(![view canBecomeFirstResponder] || [view isDescendantOfFirstResponder], error, @"Failed to make the view %@ which contains the accessibility element \"%@\" into the first responder", view, label);
 
-        return KIFTestStepResultSuccess;
+        quiesceStartTime = [NSDate timeIntervalSinceReferenceDate];
+
+        KIFTestWaitCondition(NO, error, @"Waiting for the view to settle.");
     }];
 }
 
