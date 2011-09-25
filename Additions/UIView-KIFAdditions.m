@@ -166,40 +166,81 @@
 
 - (UIView *)subviewWithClassNamePrefix:(NSString *)prefix;
 {
-    for (UIView *view in self.subviews) {
-        if ([NSStringFromClass([view class]) hasPrefix:prefix]) {
-            return view;
-        }
-        
-        UIView *matchingSubview = [view subviewWithClassNamePrefix:prefix];
-        if (matchingSubview) {
-            return matchingSubview;
+    NSArray * subviews = [self subviewsWithClassNamePrefix:prefix];
+    if( 0 == [subviews count] )
+    {
+        return nil;
+    }
+    
+    return [ subviews objectAtIndex:0];
+}
+
+// Breadth-first population of subviews matching
+- (NSArray *)subviewsWithClassNamePrefix:(NSString *)prefix;
+{
+    NSMutableArray * result = [NSMutableArray array];
+    
+    // First travers the next level of subviews, adding matches.
+    for (UIView *view in self.subviews) 
+    {
+        if ([NSStringFromClass([view class]) hasPrefix:prefix]) 
+        {
+            [result addObject:view];
         }
     }
     
-    return nil;
+    // Now traverse the subviews of the subviews, adding matches.
+    for (UIView *view in self.subviews) 
+    {
+        NSArray * matchingSubviews = [view subviewsWithClassNamePrefix:prefix];
+        [result addObjectsFromArray:matchingSubviews];
+    }
+
+    return result;
 }
 
 - (UIView *)subviewWithClassNameOrSuperClassNamePrefix:(NSString *)prefix;
 {
-    for (UIView *view in self.subviews) {
+    NSArray * subviews = [self subviewsWithClassNameOrSuperClassNamePrefix:prefix];
+    if( 0 == [subviews count] )
+    {
+        return nil;
+    }
+    
+    return [ subviews objectAtIndex:0];
+}
+
+// Breadth-first population of subviews matching
+- (UIView *)subviewsWithClassNameOrSuperClassNamePrefix:(NSString *)prefix;
+{
+    NSMutableArray * result = [NSMutableArray array];
+    
+    // First traverse the next level of subviews, adding matches
+    for (UIView *view in self.subviews) 
+    {
         Class klass = [view class];
-        while (klass) {
-            if ([NSStringFromClass(klass) hasPrefix:prefix]) {
-                return view;
+        while (klass) 
+        {
+            if ([NSStringFromClass(klass) hasPrefix:prefix]) 
+            {
+                [result addObject:view];
+                break;
             }
             
             klass = [klass superclass];
         }
-        
-        UIView *matchingSubview = [view subviewWithClassNameOrSuperClassNamePrefix:prefix];
-        if (matchingSubview) {
-            return matchingSubview;
-        }
     }
     
-    return nil;
+    // Now traverse the subviews of the subviews, adding matches
+    for (UIView *view in self.subviews) 
+    {
+        NSArray * matchingSubviews = [view subviewsWithClassNameOrSuperClassNamePrefix:prefix];
+        [result addObjectsFromArray:matchingSubviews];
+    }
+
+    return result;
 }
+
 
 - (BOOL)isDescendantOfFirstResponder;
 {
