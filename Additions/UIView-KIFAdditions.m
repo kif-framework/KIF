@@ -174,11 +174,11 @@
     return [subviews objectAtIndex:0];
 }
 
-// Breadth-first population of subviews matching
 - (NSArray *)subviewsWithClassNamePrefix:(NSString *)prefix;
 {
     NSMutableArray *result = [NSMutableArray array];
     
+    // Breadth-first population of matching subviews
     // First travers the next level of subviews, adding matches.
     for (UIView *view in self.subviews) {
         if ([NSStringFromClass([view class]) hasPrefix:prefix]) {
@@ -205,11 +205,11 @@
     return [subviews objectAtIndex:0];
 }
 
-// Breadth-first population of subviews matching
 - (NSArray *)subviewsWithClassNameOrSuperClassNamePrefix:(NSString *)prefix;
 {
     NSMutableArray * result = [NSMutableArray array];
     
+    // Breadth-first population of matching subviews
     // First traverse the next level of subviews, adding matches
     for (UIView *view in self.subviews) {
         Class klass = [view class];
