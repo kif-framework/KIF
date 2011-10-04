@@ -307,6 +307,17 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
 + (id)stepToTapViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits;
 
 /*!
+ @method  stepToTapScreenAtPoint:description:
+ @abstract  A step that taps the screen at a particular point.
+ @param  screenPoint  The point in screen coordinates to tap. Screen points originate from the top left of the screen.
+ @param  description  A custom description for this event.
+ @result  A configured test step.
+ @discussion
+ Taps the screen at a specific point. In general you should use the factory steps that tap a view based on its accessibility label, but there are situations where it's not possible to access a view using accessibility mechanisms. This step is more lenient than the steps that use the accessibility label, and does not wait for any particular view to appear, or validate that the tapped view is enabled or has interaction enabled. Because this step doesn't doesn't validate that a view is present before tapping it, it's good practice to precede this step where possible with a -stepToWaitForViewWithAccessibilityLabel: with the label for another view that should appear on the same screen. 
+ */
++ (id)stepToTapScreenAtPoint:(CGPoint)screenPoint description:(NSString *)description;
+
+/*!
  @method stepToTapScreenAtPoint:
  @abstract A step that taps the screen at a particular point.
  @discussion Taps the screen at a specific point. In general you should use the factory steps that tap a view based on its accessibility label, but there are situations where it's not possible to access a view using accessibility mechanisms. This step is more lenient than the steps that use the accessibility label, and does not wait for any particular view to appear, or validate that the tapped view is enabled or has interaction enabled. Because this step doesn't doesn't validate that a view is present before tapping it, it's good practice to precede this step where possible with a -stepToWaitForViewWithAccessibilityLabel: with the label for another view that should appear on the same screen.

@@ -294,11 +294,9 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
     }];
 }
 
-+ (id)stepToTapScreenAtPoint:(CGPoint)screenPoint;
-{
-    NSString *description = [NSString stringWithFormat:@"Tap screen at point \"%@\"", NSStringFromCGPoint(screenPoint)];
-    
-    return [self stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
++ (id)stepToTapScreenAtPoint:(CGPoint)screenPoint description:(NSString *)description;
+{    
+    return [KIFTestStep  stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
         
         // Try all the windows until we get one back that actually has something in it at the given point
         UIView *view = nil;
@@ -320,6 +318,13 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
         
         return KIFTestStepResultSuccess;
     }];
+}
+
++ (id)stepToTapScreenAtPoint:(CGPoint)screenPoint;
+{
+    NSString *description = [NSString stringWithFormat:@"Tap screen at point \"%@\"", NSStringFromCGPoint(screenPoint)];
+    
+    return [self stepToTapScreenAtPoint:screenPoint description:description];
 }
 
 + (id)stepToEnterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label;
