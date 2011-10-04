@@ -7,6 +7,7 @@
 //  See the LICENSE file distributed with this work for the terms under
 //  which Square, Inc. licenses this file to you.
 
+#import <QuartzCore/QuartzCore.h>
 #import "KIFTestStep.h"
 #import "CGGeometry-KIFAdditions.h"
 #import "UIAccessibilityElement-KIFAdditions.h"
@@ -379,8 +380,12 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
 
 + (id)stepToSelectPickerViewRowWithTitle:(NSString *)title;
 {
+    
     NSString *description = [NSString stringWithFormat:@"Select the \"%@\" item from the picker", title];
-    return [self stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
+    
+    return [self stepWithDescription:description 
+                      executionBlock:^(KIFTestStep *step, NSError **error) 
+    {
         
         // Find the picker view
         UIPickerView *pickerView = (UIPickerView *)[[[UIApplication sharedApplication] pickerViewWindow] subviewWithClassNameOrSuperClassNamePrefix:@"UIPickerView"];
@@ -390,19 +395,28 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
         KIFTestCondition(componentCount == 1, error, @"The picker view has multiple columns, which is not supported in testing.");
         
         for (NSInteger componentIndex = 0; componentIndex < componentCount; componentIndex++) {
+            
             NSInteger rowCount = [pickerView.dataSource pickerView:pickerView numberOfRowsInComponent:componentIndex];
+            
             for (NSInteger rowIndex = 0; rowIndex < rowCount; rowIndex++) {
+            
                 NSString *rowTitle = nil;
+                
                 if ([pickerView.delegate respondsToSelector:@selector(pickerView:titleForRow:forComponent:)]) {
+                
                     rowTitle = [pickerView.delegate pickerView:pickerView titleForRow:rowIndex forComponent:componentIndex];  
+                
                 } else if ([pickerView.delegate respondsToSelector:@selector(pickerView:viewForRow:forComponent:reusingView:)]) {
+                    
                     // This delegate inserts views directly, so try to figure out what the title is by looking for a label
                     UIView *rowView = [pickerView.delegate pickerView:pickerView viewForRow:rowIndex forComponent:componentIndex reusingView:nil];
                     UILabel *label = (UILabel *)[rowView subviewWithClassNameOrSuperClassNamePrefix:@"UILabel"];
                     rowTitle = label.text;
+                
                 }
                 
                 if ([rowTitle isEqual:title]) {
+                
                     [pickerView selectRow:rowIndex inComponent:componentIndex animated:YES];
                     CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.5, false);
                     
@@ -412,6 +426,7 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
                     // The combination of selectRow:inComponent:animated: and tap does not consistently result in
                     // pickerView:didSelectRow:inComponent: being called on the delegate. We need to do it explicitly.
                     if ([pickerView.delegate respondsToSelector:@selector(pickerView:didSelectRow:inComponent:)]) {
+                    
                         [pickerView.delegate pickerView:pickerView didSelectRow:rowIndex inComponent:componentIndex];
                     }
                     
@@ -428,6 +443,7 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
 + (id)stepToSetOn:(BOOL)switchIsOn forSwitchWithAccessibilityLabel:(NSString *)label;
 {
     NSString *description = [NSString stringWithFormat:@"Toggle the switch with accessibility label \"%@\" to %@", label, switchIsOn ? @"ON" : @"OFF"];
+    
     return [self stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
         
         UIAccessibilityElement *element = [self _accessibilityElementWithLabel:label accessibilityValue:nil tappable:YES traits:UIAccessibilityTraitNone error:error];
@@ -502,6 +518,56 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
         
         return KIFTestStepResultSuccess;
     }];
+}
+
++ (id)stepToCaptureScreenshotWithName:(NSString *)name
+                          description:(NSString *)description
+{
+    return [self  stepWithDescription:description  
+                       executionBlock:^(KIFTestStep *step, NSError **error) {
+
+                NSString * outputPath = [[[NSProcessInfo processInfo] environment] objectForKey:@"KIF_SCREENSHOTS"];
+                
+                if (!outputPath) {
+                    outputPath = @"~/Documents";
+                    
+                    // /Users/<USER>/Library/Application Support/iPhone Simulator/<IOS_VERSION>/Applications/<APP_GUID>/Documents
+                    
+                }
+                
+                NSArray *windows = [[UIApplication sharedApplication] windows];
+                if (windows.count == 0) {
+                    
+                    if (error) {
+                        *error = [[[NSError alloc] initWithDomain:@"KIFTest" code:KIFTestStepResultFailure userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"Failed to capture screenshot \"%@\"; no windows found.", name], NSLocalizedDescriptionKey, nil]] autorelease];
+                    }
+                    
+                    return KIFTestStepResultFailure;
+                }
+                
+                UIGraphicsBeginImageContext([[windows objectAtIndex:0] bounds].size);
+                           
+                for (UIWindow *window in windows) {
+                    [window.layer renderInContext:UIGraphicsGetCurrentContext()];
+                }
+                           
+                UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+                UIGraphicsEndImageContext();
+                
+                outputPath = [outputPath stringByExpandingTildeInPath];
+                outputPath = [outputPath stringByAppendingPathComponent:[name stringByReplacingOccurrencesOfString:@"/" withString:@"_"]];
+                outputPath = [outputPath stringByAppendingPathExtension:@"png"];
+                
+                [UIImagePNGRepresentation(image) writeToFile:outputPath atomically:YES];
+                
+                return KIFTestStepResultSuccess;
+            }];
+}
+
++ (id)stepToCaptureScreenshotWithName:(NSString *)name
+{
+    return [self  stepToCaptureScreenshotWithName:name
+                                      description:[NSString  stringWithFormat:@"Capture screenshot \"%@\"", name]];
 }
 
 #pragma mark Step Collections

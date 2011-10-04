@@ -80,6 +80,7 @@
 - (UIAccessibilityElement *)accessibilityElementWithLabel:(NSString *)label accessibilityValue:(NSString *)value traits:(UIAccessibilityTraits)traits;
 {
     return [self accessibilityElementMatchingBlock:^(UIAccessibilityElement *element) {
+                
         BOOL labelsMatch = [element.accessibilityLabel isEqual:label];
         BOOL traitsMatch = ((element.accessibilityTraits) & traits) == traits;
         BOOL valuesMatch = !value || [value isEqual:element.accessibilityValue];
@@ -112,33 +113,131 @@
     // rather than the real subviews it contains. We want the real views if possible.
     // UITableViewCell is such an offender.
     for (UIView *view in self.subviews) {
+        
         UIAccessibilityElement *element = [view accessibilityElementMatchingBlock:matchBlock];
+        
         if (!element) {
             continue;
         }
         
         UIView *viewForElement = [UIAccessibilityElement viewContainingAccessibilityElement:element];
-        CGRect accessibilityFrame = [viewForElement.window convertRect:element.accessibilityFrame toView:viewForElement];
+        CGRect elementAccessibilityFrame = element.accessibilityFrame;
+        CGRect accessibilityFrame = [viewForElement.window convertRect:elementAccessibilityFrame toView:viewForElement];
         
         if ([viewForElement isTappableInRect:accessibilityFrame]) {
             return element;
         } else {
             matchingButOccludedElement = element;
         }
+    
     }
     
     NSMutableArray *elementStack = [NSMutableArray arrayWithObject:self];
     
     while (elementStack.count) {
+        
         UIAccessibilityElement *element = [elementStack lastObject];
         [elementStack removeLastObject];
 
         BOOL elementMatches = matchBlock(element);
 
         if (elementMatches) {
+            
             UIView *viewForElement = [UIAccessibilityElement viewContainingAccessibilityElement:element];
             CGRect accessibilityFrame = [viewForElement.window convertRect:element.accessibilityFrame toView:viewForElement];
 
+            if ([viewForElement isTappableInRect:accessibilityFrame]) {
+                return element;
+            } else {
+                matchingButOccludedElement = element;
+                continue;
+            }
+        }
+        
+        // If the view is an accessibility container, and we didn't find a matching subview,
+        // then check the actual accessibility elements
+        NSInteger accessibilityElementCount = element.accessibilityElementCount;
+        
+        if (accessibilityElementCount == 0 || accessibilityElementCount == NSNotFound) {
+            continue;
+        }
+        
+        for (NSInteger accessibilityElementIndex = 0; accessibilityElementIndex < accessibilityElementCount; accessibilityElementIndex++) {
+        
+            UIAccessibilityElement *subelement = [element accessibilityElementAtIndex:accessibilityElementIndex];
+            [elementStack addObject:subelement];
+            
+        }
+        
+    }
+        
+    return matchingButOccludedElement;
+}
+
+
+
+/*
+- (UIView *)viewMatchingBlock:(BOOL(^)(UIView *))matchBlock;
+{
+    if (self.hidden) {
+        return nil;
+    }
+    
+    // In case multiple elements with the same label exist, prefer ones that are currently visible
+    UIView * matchingButOccludedElement = nil;
+    
+    BOOL elementMatches = matchBlock(self);
+    
+    if (elementMatches) {
+        if (self.tappable) {
+            return self;
+        } else {
+            matchingButOccludedElement = self;
+        }
+    }
+    
+    // Check the subviews first. Even if the receiver says it's an accessibility container,
+    // the returned objects are UIAccessibilityElementMockViews (which aren't actually views)
+    // rather than the real subviews it contains. We want the real views if possible.
+    // UITableViewCell is such an offender.
+    for (UIView *view in self.subviews) 
+    {
+        
+        UIView * element = [view viewMatchingBlock:matchBlock];
+        if (!element) 
+        {
+            continue;
+        }
+        
+        CGRect frame = [element.window convertRect:element.accessibilityFrame toView:element];
+        
+        //UIView *viewForElement = [UIAccessibilityElement viewContainingAccessibilityElement:element];
+        //CGRect accessibilityFrame = [viewForElement.window convertRect:element.accessibilityFrame toView:viewForElement];
+        
+        if ([element isTappableInRect:frame]) 
+        {
+            return element;
+        } 
+        else 
+        {
+            matchingButOccludedElement = element;
+        }
+    }
+    
+    NSMutableArray *elementStack = [NSMutableArray arrayWithObject:self];
+    
+    while (elementStack.count) 
+    {
+        
+        UIView * element = [elementStack lastObject];
+        [elementStack removeLastObject];
+        
+        BOOL elementMatches = matchBlock(element);
+        
+        if (elementMatches) {
+            // UIView * viewForElement = [UIAccessibilityElement viewContainingAccessibilityElement:element];
+            // CGRect accessibilityFrame = [viewForElement.window convertRect:element.accessibilityFrame toView:viewForElement];
+            
             if ([viewForElement isTappableInRect:accessibilityFrame]) {
                 return element;
             } else {
@@ -160,9 +259,11 @@
             [elementStack addObject:subelement];
         }
     }
-        
+    
     return matchingButOccludedElement;
 }
+// */
+
 
 - (UIView *)subviewWithClassNamePrefix:(NSString *)prefix;
 {
