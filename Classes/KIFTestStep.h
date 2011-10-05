@@ -418,20 +418,19 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
 
 /*!
  @abstract  Captures a screenshot.
- @param  name  The name of the current UI state.  Required.
- @param  description  The description of the step.
- @discussion
- Captures the current state of the UI to a image file with a name of the name specified.
- */
-+ (id)stepToCaptureScreenshotWithName:(NSString *)name  
-                          description:(NSString *)description;
-
-/*!
- @abstract  Captures a screenshot.
  @param  name  The name of the current UI state.
  @discussion
  Captures the current state of the UI to a image file with a name of the name specified.
  */
 + (id)stepToCaptureScreenshotWithName:(NSString *)name;
+
+/*!
+ @abstract  Captures a screenshot.
+ @param  name  The name of the current UI state.  Required.
+ @param  description  The description of the step.
+ @discussion
+ Captures the current state of the UI to a image file with a name of the name specified.
+ */
++ (id)stepToCaptureScreenshotWithName:(NSString *)name  description:(NSString *)description;
 
 @end

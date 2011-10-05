@@ -566,7 +566,7 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
     }];
 }
 
-+ (id)stepToTapRowInTableViewWithAccessibilityLabel:(NSString*)tableViewLabel atIndexPath:(NSIndexPath *)indexPath
++ (id)stepToTapRowInTableViewWithAccessibilityLabel:(NSString*)tableViewLabel atIndexPath:(NSIndexPath *)indexPath;
 {
     NSString *description = [NSString stringWithFormat:@"Step to tap row %d in tableView with label %@", [indexPath row], tableViewLabel];
     return [KIFTestStep stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
@@ -586,8 +586,13 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
     }];
 }
 
-+ (id)stepToCaptureScreenshotWithName:(NSString *)name
-                          description:(NSString *)description
++ (id)stepToCaptureScreenshotWithName:(NSString *)name;
+{
+    return [self  stepToCaptureScreenshotWithName:name
+                                      description:[NSString  stringWithFormat:@"Capture screenshot \"%@\"", name]];
+}
+
++ (id)stepToCaptureScreenshotWithName:(NSString *)name  description:(NSString *)description;
 {
     return [self  stepWithDescription:description  
                        executionBlock:^(KIFTestStep *step, NSError **error) {
@@ -628,12 +633,6 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
                 
                 return KIFTestStepResultSuccess;
             }];
-}
-
-+ (id)stepToCaptureScreenshotWithName:(NSString *)name
-{
-    return [self  stepToCaptureScreenshotWithName:name
-                                      description:[NSString  stringWithFormat:@"Capture screenshot \"%@\"", name]];
 }
 
 #pragma mark Step Collections
