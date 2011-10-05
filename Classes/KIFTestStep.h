@@ -358,6 +358,16 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
  */
 + (id)stepToSelectPickerViewRowWithTitle:(NSString *)title;
 
+/*
+ @method stepToSelectPickerViewRowWithTitle:inComponent
+ @abstract A step that selects an item 'title' from the specified component in the currently visible picker view.
+ @discussion With a picker view already visible, this step will find an item with the given title, select that item.  This will NOT tap the 'done' button.
+ @param title The title of the row to select.
+ @param componentIndex The index of the component
+ @result A configured test step.
+ */
++ (id)stepToSelectPickerViewRowWithTitle:(NSString *)title inComponent:(NSUInteger)componentIndex;
+
 /*!
  @method stepToSetOn:forSwitchWithAccessibilityLabel:
  @abstract A step that toggles a UISwitch into a specified position.
