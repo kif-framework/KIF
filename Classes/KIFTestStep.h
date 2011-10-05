@@ -45,6 +45,43 @@ if (!(condition)) { \
 } \
 })
 
+/*!
+ @definen  WSTestConditionBlock
+ @abstract  Simplifies adding test condition steps.
+ @param  condition  The condition to test.  Will be wrapped in a block and executed later.
+ @discussion
+ This macro can be used to simplify adding a test step that is evaluating a condition.  It may be used as an alternative to the verbose and cryptic syntax that it hides.
+ 
+ Example of use:
+ 
+ [KIFTestStep stepWithDescription:@"Description"  executionBlock:TestConditionBlock( 1 == 1 )];
+ */
+#define KIFTestConditionBlock(condition) ({ \
+^(KIFTestStep *step, NSError **error) \
+{ \
+    KIFTestCondition( ( condition ) , error, [step description], @""); \
+    return KIFTestStepResultSuccess; \
+}; \
+})
+
+/*!
+ @definen  KIFTestWaitConditionBlock
+ @abstract  Simplifies adding test condition steps.
+ @param  condition  The condition to test.  Will be wrapped in a block and executed later.
+ @discussion
+ This macro can be used to simplify adding a test step that is evaluating a condition.  It may be used as an alternative to the verbose and cryptic syntax that it hides.
+ 
+ Example of use:
+ 
+ [KIFTestStep stepWithDescription:@"Description"  executionBlock:KIFTestWaitConditionBlock( 1 == 1 )];
+ */
+#define KIFTestWaitConditionBlock(condition) ({ \
+^(KIFTestStep *step, NSError **error) \
+{ \
+    KIFTestWaitCondition( ( condition ) , error, [step description], @""); \
+    return KIFTestStepResultSuccess; \
+}; \
+})
 
 /*!
  @enum KIFTestStepResult
