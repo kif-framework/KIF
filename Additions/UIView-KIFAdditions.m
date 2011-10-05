@@ -88,6 +88,14 @@
     }];
 }
 
+- (UIView *)viewWithClassName:(NSString *)className;
+{
+    return (UIView *)[self accessibilityElementMatchingBlock:^(UIAccessibilityElement *element) {
+        
+        return (BOOL) ( NSOrderedSame == [className compare:NSStringFromClass([element class])] );
+    }];
+}
+
 - (UIAccessibilityElement *)accessibilityElementMatchingBlock:(BOOL(^)(UIAccessibilityElement *))matchBlock;
 {
     if (self.hidden) {

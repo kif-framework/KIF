@@ -231,6 +231,17 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
     return step;
 }
 
++ (id)stepToWaitSeconds:(NSUInteger)seconds;
+{
+
+    return [self stepWithDescription:[NSString  stringWithFormat:@"Wait %d seconds (NOT IMPLEMENTED)", seconds]  executionBlock:^KIFTestStepResult(KIFTestStep *step, NSError **error) {
+        
+        // TODO nperry: This should return KIFTestStepResultWait until (seconds) passes and then return KIFTestStepResultSuccess.
+        
+        return KIFTestStepResultSuccess;
+    }];
+}
+
 + (id)stepToTapViewWithAccessibilityLabel:(NSString *)label;
 {
     return [self stepToTapViewWithAccessibilityLabel:label traits:UIAccessibilityTraitNone];

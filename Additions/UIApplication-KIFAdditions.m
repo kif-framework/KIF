@@ -41,6 +41,18 @@ MAKE_CATEGORIES_LOADABLE(UIApplication_KIFAdditions)
     return nil;
 }
 
+- (UIView *)viewWithClassName:(NSString *)className;
+{
+    for (UIWindow *window in [self windows]) {
+        UIView * view = [window viewWithClassName:className];
+        if (view) {
+            return view;
+        }
+    }
+    
+    return nil;
+}
+
 - (UIAccessibilityElement *)accessibilityElementMatchingBlock:(BOOL(^)(UIAccessibilityElement *))matchBlock;
 {
     for (UIWindow *window in [self windows]) {
