@@ -316,7 +316,7 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
  @abstract  Waits the number of seconds and then continues executing steps.
  @param  seconds  The number of seconds to wait.
  */
-+ (id)stepToWaitSeconds:(NSUInteger)seconds;
++ (id)stepToWaitSeconds:(NSTimeInterval)seconds;
 
 /*!
  @method stepToTapViewWithAccessibilityLabel:

@@ -231,15 +231,44 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
     return step;
 }
 
-+ (id)stepToWaitSeconds:(NSUInteger)seconds;
++ (id)stepToWaitSeconds:(NSTimeInterval)seconds;
 {
-
-    return [self stepWithDescription:[NSString  stringWithFormat:@"Wait %d seconds (NOT IMPLEMENTED)", seconds]  executionBlock:^KIFTestStepResult(KIFTestStep *step, NSError **error) {
-        
-        // TODO nperry: This should return KIFTestStepResultWait until (seconds) passes and then return KIFTestStepResultSuccess.
-        
-        return KIFTestStepResultSuccess;
-    }];
+    NSAssert( seconds <= [self defaultTimeout], @"seconds must be less then the default timeout.");
+    
+    __block NSDate * start = nil;
+    
+    return [self stepWithDescription:[NSString  stringWithFormat:@"Wait %d seconds", seconds]  
+                      executionBlock:^KIFTestStepResult(KIFTestStep *step, NSError **error) 
+                {
+                    
+                    if (!start)
+                    {
+                        start = [NSDate date];
+                        [start retain];
+                    }
+                    
+                    //NSTimeInterval currentStepDuration = -[self.currentStepStartDate timeIntervalSinceNow];
+                    //if (currentStepDuration > self.currentStep.timeout) {
+                    
+                    NSTimeInterval timePassed = -[start  timeIntervalSinceNow];
+                    
+                    if ( seconds < timePassed )
+                    {
+                        [start release];
+                        start = nil;
+                        
+                        return KIFTestStepResultSuccess;
+                    }
+                    else
+                    {
+                        if (error) {
+                            *error = [[[NSError alloc] initWithDomain:@"KIFTest" code:KIFTestStepResultWait userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"Step to wait is waiting for timeout."], NSLocalizedDescriptionKey, nil]] autorelease];
+                        }
+                        
+                        return KIFTestStepResultWait;
+                    }
+                    
+                }];
 }
 
 + (id)stepToTapViewWithAccessibilityLabel:(NSString *)label;
