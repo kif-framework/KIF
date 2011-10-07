@@ -360,12 +360,14 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
     }];
 }
 
+/*
 + (id)stepToTapScreenAtPoint:(CGPoint)screenPoint  expectingToTap:(NSString *)name;
 {
     NSString * description = [NSString  stringWithFormat:@"Tap screen at point \"%@\" expecting to tap \"%@\"", screenPoint, name];
 
     return [KIFTestStep  stepToTapScreenAtPoint:screenPoint  description:description];
 }
+*/
 
 + (id)stepToTapScreenAtPoint:(CGPoint)screenPoint;
 {
