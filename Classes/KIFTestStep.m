@@ -360,9 +360,16 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
     }];
 }
 
++ (id)stepToTapScreenAtPoint:(CGPoint)screenPoint  expectingToTap:(NSString *)name;
+{
+    NSString * description = [NSString  stringWithFormat:@"Tap screen at point \"%@\" expecting to tap \"%@\"", screenPoint, name];
+
+    return [KIFTestStep  stepToTapScreenAtPoint:screenPoint  description:description];
+}
+
 + (id)stepToTapScreenAtPoint:(CGPoint)screenPoint;
 {
-    NSString *description = [NSString stringWithFormat:@"Tap screen at point \"%@\"", NSStringFromCGPoint(screenPoint)];
+    NSString * description = [NSString  stringWithFormat:@"Tap screen at point \"%@\"", NSStringFromCGPoint(screenPoint)];
     
     return [self stepToTapScreenAtPoint:screenPoint description:description];
 }
@@ -727,6 +734,19 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
     [steps addObject:[KIFTestStep stepToTapViewWithAccessibilityLabel:@"Choose"]];
     
     return steps;
+}
+
++ (NSArray *)stepsToTapString:(NSString *)string;
+{
+	NSMutableArray * steps = [NSMutableArray arrayWithCapacity:[string length]];
+    
+	for (NSUInteger i = 0; i < [string length]; i++)
+	{
+		unichar character = [string characterAtIndex:i];
+		[steps addObject:[KIFTestStep stepToTapViewWithAccessibilityLabel:[NSString stringWithCharacters:&character length:1]]];
+	}
+    
+	return steps;
 }
 
 #pragma mark Initialization
