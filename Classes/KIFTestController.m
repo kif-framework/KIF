@@ -12,6 +12,7 @@
 #import "KIFTestStep.h"
 #import "NSFileManager-KIFAdditions.h"
 #import <QuartzCore/QuartzCore.h>
+#import <dlfcn.h>
 
 
 @interface KIFTestController ()
@@ -24,6 +25,8 @@
 @property (nonatomic, retain) NSDate *currentScenarioStartDate;
 @property (nonatomic, retain) NSDate *currentStepStartDate;
 @property (nonatomic, copy) KIFTestControllerCompletionBlock completionBlock;
+
++ (void)_enableAccessibilityInSimulator;
 
 - (void)_initializeScenariosIfNeeded;
 - (BOOL)_isAccessibilityInspectorEnabled;
@@ -57,6 +60,33 @@
 @synthesize completionBlock;
 
 #pragma mark Static Methods
+
++ (void)load
+{
+    [KIFTestController _enableAccessibilityInSimulator];
+}
+
++ (void)_enableAccessibilityInSimulator;
+{
+    NSAutoreleasePool *autoReleasePool = [[NSAutoreleasePool alloc] init];
+    
+    NSString *simulatorRoot = [[[NSProcessInfo processInfo] environment] objectForKey:@"IPHONE_SIMULATOR_ROOT"];
+    if (simulatorRoot) {
+        void *appSupportLibrary = dlopen([[simulatorRoot stringByAppendingPathComponent:@"/System/Library/PrivateFrameworks/AppSupport.framework/AppSupport"] fileSystemRepresentation], RTLD_LAZY);
+        CFStringRef (*copySharedResourcesPreferencesDomainForDomain)(CFStringRef domain) = dlsym(appSupportLibrary, "CPCopySharedResourcesPreferencesDomainForDomain");
+        
+        if (copySharedResourcesPreferencesDomainForDomain) {
+            CFStringRef accessibilityDomain = copySharedResourcesPreferencesDomainForDomain(CFSTR("com.apple.Accessibility"));
+            
+            if (accessibilityDomain) {
+                CFPreferencesSetValue(CFSTR("ApplicationAccessibilityEnabled"), kCFBooleanTrue, accessibilityDomain, kCFPreferencesAnyUser, kCFPreferencesAnyHost);
+                CFRelease(accessibilityDomain);
+            }
+        }
+    }
+    
+    [autoReleasePool drain];
+}
 
 static KIFTestController *sharedInstance = nil;
 
