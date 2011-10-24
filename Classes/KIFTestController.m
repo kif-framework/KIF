@@ -305,7 +305,9 @@ static void releaseInstance()
     KIFTestScenario *nextScenario = nil;
     NSUInteger nextScenarioIndex = NSNotFound;
     NSUInteger currentScenarioIndex = NSNotFound;
-    if (self.currentScenario) {
+    if (result == KIFTestStepResultFailure && [[[[NSProcessInfo processInfo] environment] objectForKey:@"KIF_EXIT_ON_FAILURE"] boolValue]) {
+        return nil;
+    } else if (self.currentScenario) {
         currentScenarioIndex = [self.scenarios indexOfObjectIdenticalTo:self.currentScenario];
         NSAssert(currentScenarioIndex != NSNotFound, @"Current scenario %@ not found in test scenarios %@, but should be!", self.currentScenario, self.scenarios);
         
@@ -317,8 +319,8 @@ static void releaseInstance()
         nextScenarioIndex = [failedScenarioIndexes indexGreaterThanIndex:currentScenarioIndex];
         currentScenarioIndex++;
     } else {
-        currentScenarioIndex = 0;
-        nextScenarioIndex = [failedScenarioIndexes firstIndex];
+        currentScenarioIndex = [[[[NSProcessInfo processInfo] environment] objectForKey:@"KIF_START_SKIP"] integerValue];
+        nextScenarioIndex = MAX([failedScenarioIndexes firstIndex], currentScenarioIndex);
     }
     
     do {
