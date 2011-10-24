@@ -7,6 +7,7 @@
 //  See the LICENSE file distributed with this work for the terms under
 //  which Square, Inc. licenses this file to you.
 
+#import <QuartzCore/QuartzCore.h>
 #import "KIFTestStep.h"
 #import "CGGeometry-KIFAdditions.h"
 #import "UIAccessibilityElement-KIFAdditions.h"
@@ -230,6 +231,111 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
     return step;
 }
 
++ (id)stepToWaitSeconds:(NSTimeInterval)seconds;
+{
+    NSAssert( seconds <= [self defaultTimeout], @"seconds must be less then the default timeout.");
+    
+    __block NSDate * start = nil;
+    
+    return [self stepWithDescription:[NSString  stringWithFormat:@"Wait %d seconds", seconds]  
+                      executionBlock:^KIFTestStepResult(KIFTestStep *step, NSError **error) 
+                {
+                    
+                    if (!start)
+                    {
+                        start = [NSDate date];
+                        [start retain];
+                    }
+                    
+                    //NSTimeInterval currentStepDuration = -[self.currentStepStartDate timeIntervalSinceNow];
+                    //if (currentStepDuration > self.currentStep.timeout) {
+                    
+                    NSTimeInterval timePassed = -[start  timeIntervalSinceNow];
+                    
+                    if ( seconds < timePassed )
+                    {
+                        [start release];
+                        start = nil;
+                        
+                        return KIFTestStepResultSuccess;
+                    }
+                    else
+                    {
+                        if (error) {
+                            *error = [[[NSError alloc] initWithDomain:@"KIFTest" code:KIFTestStepResultWait userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"Step to wait is waiting for timeout."], NSLocalizedDescriptionKey, nil]] autorelease];
+                        }
+                        
+                        return KIFTestStepResultWait;
+                    }
+                    
+                }];
+}
+
++ (id)stepToTapViewWithAccessibilityLabelMatchingBlock:(NSString *(^)(void))labelBlock;
+{
+    return [self stepToTapViewWithAccessibilityLabelMatchingBlock:labelBlock traits:UIAccessibilityTraitNone];
+}
+
++ (id)stepToTapViewWithAccessibilityLabelMatchingBlock:(NSString *(^)(void))labelBlock traits:(UIAccessibilityTraits)traits;
+{
+    return [self stepToTapViewWithAccessibilityLabelMatchingBlock:labelBlock value:nil traits:traits];
+}
+
++ (id)stepToTapViewWithAccessibilityLabelMatchingBlock:(NSString *(^)(void))labelBlock value:(NSString *)value traits:(UIAccessibilityTraits)traits;
+{
+    NSString *description = nil;
+    if (value.length) {
+        description = [NSString stringWithFormat:@"Tap view with accessibility label matching a block and accessibility value \"%@\"", value];
+    } else {
+        description = [NSString stringWithFormat:@"Tap view with accessibility label matching a block"];
+    }
+    
+    // After tapping the view we want to wait a short period to allow things to settle (animations and such). We can't do this using CFRunLoopRunInMode() because certain things, such as the built-in media picker, do things with the run loop that are not compatible with this kind of wait. Instead we leverage the way KIF hooks into the existing run loop by returning "wait" results for the desired period.
+    const NSTimeInterval quiesceWaitInterval = 0.5;
+    __block NSTimeInterval quiesceStartTime = 0.0;
+    
+    __block UIView *view = nil;
+    
+    return [self stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
+        
+        NSString * label = labelBlock();
+        
+        // If we've already tapped the view and stored it to a variable, and we've waited for the quiesce time to elapse, then we're done.
+        if (view) {
+            KIFTestWaitCondition(([NSDate timeIntervalSinceReferenceDate] - quiesceStartTime) >= quiesceWaitInterval, error, @"Waiting for view to become the first responder.");
+            return KIFTestStepResultSuccess;
+        }
+        
+        UIAccessibilityElement *element = [self _accessibilityElementWithLabel:label accessibilityValue:value tappable:YES traits:traits error:error];
+        if (!element) {
+            return KIFTestStepResultWait;
+        }
+        
+        view = [UIAccessibilityElement viewContainingAccessibilityElement:element];
+        KIFTestWaitCondition(view, error, @"Failed to find view for accessibility element with label \"%@\"", label);
+        
+        if (![self _isUserInteractionEnabledForView:view]) {
+            if (error) {
+                *error = [[[NSError alloc] initWithDomain:@"KIFTest" code:KIFTestStepResultFailure userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"View with accessibility label \"%@\" is not enabled for interaction", label], NSLocalizedDescriptionKey, nil]] autorelease];
+            }
+            return KIFTestStepResultWait;
+        }
+        
+        CGRect elementFrame = [view.window convertRect:element.accessibilityFrame toView:view];
+        CGPoint tappablePointInElement = [view tappablePointInRect:elementFrame];
+        
+        // This is mostly redundant of the test in _accessibilityElementWithLabel:
+        KIFTestWaitCondition(!isnan(tappablePointInElement.x), error, @"The element with accessibility label %@ is not tappable", label);
+        [view tapAtPoint:tappablePointInElement];
+        
+        KIFTestCondition(![view canBecomeFirstResponder] || [view isDescendantOfFirstResponder], error, @"Failed to make the view %@ which contains the accessibility element \"%@\" into the first responder", view, label);
+        
+        quiesceStartTime = [NSDate timeIntervalSinceReferenceDate];
+        
+        KIFTestWaitCondition(NO, error, @"Waiting for the view to settle.");
+    }];
+}
+
 + (id)stepToTapViewWithAccessibilityLabel:(NSString *)label;
 {
     return [self stepToTapViewWithAccessibilityLabel:label traits:UIAccessibilityTraitNone];
@@ -293,11 +399,9 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
     }];
 }
 
-+ (id)stepToTapScreenAtPoint:(CGPoint)screenPoint;
-{
-    NSString *description = [NSString stringWithFormat:@"Tap screen at point \"%@\"", NSStringFromCGPoint(screenPoint)];
-    
-    return [self stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
++ (id)stepToTapScreenAtPoint:(CGPoint)screenPoint description:(NSString *)description;
+{    
+    return [KIFTestStep  stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
         
         // Try all the windows until we get one back that actually has something in it at the given point
         UIView *view = nil;
@@ -319,6 +423,22 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
         
         return KIFTestStepResultSuccess;
     }];
+}
+
+/*
++ (id)stepToTapScreenAtPoint:(CGPoint)screenPoint  expectingToTap:(NSString *)name;
+{
+    NSString * description = [NSString  stringWithFormat:@"Tap screen at point \"%@\" expecting to tap \"%@\"", screenPoint, name];
+
+    return [KIFTestStep  stepToTapScreenAtPoint:screenPoint  description:description];
+}
+*/
+
++ (id)stepToTapScreenAtPoint:(CGPoint)screenPoint;
+{
+    NSString * description = [NSString  stringWithFormat:@"Tap screen at point \"%@\"", NSStringFromCGPoint(screenPoint)];
+    
+    return [self stepToTapScreenAtPoint:screenPoint description:description];
 }
 
 + (id)stepToEnterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label;
@@ -379,30 +499,45 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
 
 + (id)stepToSelectPickerViewRowWithTitle:(NSString *)title;
 {
+    
     NSString *description = [NSString stringWithFormat:@"Select the \"%@\" item from the picker", title];
-    return [self stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
+    
+    return [self stepWithDescription:description 
+                      executionBlock:^(KIFTestStep *step, NSError **error) 
+    {
         
         // Find the picker view
         UIPickerView *pickerView = (UIPickerView *)[[[UIApplication sharedApplication] pickerViewWindow] subviewWithClassNameOrSuperClassNamePrefix:@"UIPickerView"];
         KIFTestCondition(pickerView, error, @"No picker view is present");
         
         NSInteger componentCount = [pickerView.dataSource numberOfComponentsInPickerView:pickerView];
+        // TODO: Remove or change condition or description.
+        // Either the condition is wrong, or the wording of this error...
         KIFTestCondition(componentCount == 1, error, @"The picker view has multiple columns, which is not supported in testing.");
         
         for (NSInteger componentIndex = 0; componentIndex < componentCount; componentIndex++) {
+            
             NSInteger rowCount = [pickerView.dataSource pickerView:pickerView numberOfRowsInComponent:componentIndex];
+            
             for (NSInteger rowIndex = 0; rowIndex < rowCount; rowIndex++) {
+            
                 NSString *rowTitle = nil;
+                
                 if ([pickerView.delegate respondsToSelector:@selector(pickerView:titleForRow:forComponent:)]) {
+                
                     rowTitle = [pickerView.delegate pickerView:pickerView titleForRow:rowIndex forComponent:componentIndex];  
+                
                 } else if ([pickerView.delegate respondsToSelector:@selector(pickerView:viewForRow:forComponent:reusingView:)]) {
+                    
                     // This delegate inserts views directly, so try to figure out what the title is by looking for a label
                     UIView *rowView = [pickerView.delegate pickerView:pickerView viewForRow:rowIndex forComponent:componentIndex reusingView:nil];
                     UILabel *label = (UILabel *)[rowView subviewWithClassNameOrSuperClassNamePrefix:@"UILabel"];
                     rowTitle = label.text;
+                
                 }
                 
                 if ([rowTitle isEqual:title]) {
+                
                     [pickerView selectRow:rowIndex inComponent:componentIndex animated:YES];
                     CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.5, false);
                     
@@ -412,6 +547,7 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
                     // The combination of selectRow:inComponent:animated: and tap does not consistently result in
                     // pickerView:didSelectRow:inComponent: being called on the delegate. We need to do it explicitly.
                     if ([pickerView.delegate respondsToSelector:@selector(pickerView:didSelectRow:inComponent:)]) {
+                    
                         [pickerView.delegate pickerView:pickerView didSelectRow:rowIndex inComponent:componentIndex];
                     }
                     
@@ -425,9 +561,69 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
     }];
 }
 
++ (id)stepToSelectPickerViewRowWithTitle:(NSString *)title inComponent:(NSUInteger)componentIndex;
+{
+    
+    NSString *description = [NSString stringWithFormat:@"Select the \"%@\" item from the picker", title];
+    
+    return [self stepWithDescription:description 
+                      executionBlock:^(KIFTestStep *step, NSError **error) 
+            {
+                
+                // Find the picker view
+                UIPickerView *pickerView = (UIPickerView *)[[[UIApplication sharedApplication] pickerViewWindow] subviewWithClassNameOrSuperClassNamePrefix:@"UIPickerView"];
+                KIFTestCondition(pickerView, error, @"No picker view is present");
+                
+                NSInteger componentCount = [pickerView.dataSource numberOfComponentsInPickerView:pickerView];
+                KIFTestCondition(componentIndex <= componentCount, error, @"The picker view does not have that many components; componentIndex == \"%@\", componentCount == \"%@\".", componentIndex, componentCount);
+                
+                NSInteger rowCount = [pickerView.dataSource pickerView:pickerView numberOfRowsInComponent:componentIndex];
+                
+                for (NSInteger rowIndex = 0; rowIndex < rowCount; rowIndex++) {
+                    
+                    NSString *rowTitle = nil;
+                    
+                    if ([pickerView.delegate respondsToSelector:@selector(pickerView:titleForRow:forComponent:)]) {
+                        
+                        rowTitle = [pickerView.delegate pickerView:pickerView titleForRow:rowIndex forComponent:componentIndex];  
+                        
+                    } else if ([pickerView.delegate respondsToSelector:@selector(pickerView:viewForRow:forComponent:reusingView:)]) {
+                        
+                        // This delegate inserts views directly, so try to figure out what the title is by looking for a label
+                        UIView *rowView = [pickerView.delegate pickerView:pickerView viewForRow:rowIndex forComponent:componentIndex reusingView:nil];
+                        UILabel *label = (UILabel *)[rowView subviewWithClassNameOrSuperClassNamePrefix:@"UILabel"];
+                        rowTitle = label.text;
+                        
+                    }
+                    
+                    if ([rowTitle isEqual:title]) {
+                        
+                        [pickerView selectRow:rowIndex inComponent:componentIndex animated:YES];
+                        CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.5, false);
+                        
+                        // Tap in the middle of the picker view to select the item
+                        [pickerView tap];
+                        
+                        // The combination of selectRow:inComponent:animated: and tap does not consistently result in
+                        // pickerView:didSelectRow:inComponent: being called on the delegate. We need to do it explicitly.
+                        if ([pickerView.delegate respondsToSelector:@selector(pickerView:didSelectRow:inComponent:)]) {
+                            
+                            [pickerView.delegate pickerView:pickerView didSelectRow:rowIndex inComponent:componentIndex];
+                        }
+                        
+                        return KIFTestStepResultSuccess;
+                    }
+                }
+                
+                KIFTestCondition(NO, error, @"Failed to find picker view value with title \"%@\"", title);
+                return KIFTestStepResultFailure;
+            }];
+}
+
 + (id)stepToSetOn:(BOOL)switchIsOn forSwitchWithAccessibilityLabel:(NSString *)label;
 {
     NSString *description = [NSString stringWithFormat:@"Toggle the switch with accessibility label \"%@\" to %@", label, switchIsOn ? @"ON" : @"OFF"];
+    
     return [self stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
         
         UIAccessibilityElement *element = [self _accessibilityElementWithLabel:label accessibilityValue:nil tappable:YES traits:UIAccessibilityTraitNone error:error];
@@ -484,7 +680,7 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
     }];
 }
 
-+ (id)stepToTapRowInTableViewWithAccessibilityLabel:(NSString*)tableViewLabel atIndexPath:(NSIndexPath *)indexPath
++ (id)stepToTapRowInTableViewWithAccessibilityLabel:(NSString*)tableViewLabel atIndexPath:(NSIndexPath *)indexPath;
 {
     NSString *description = [NSString stringWithFormat:@"Step to tap row %d in tableView with label %@", [indexPath row], tableViewLabel];
     return [KIFTestStep stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
@@ -502,6 +698,55 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
         
         return KIFTestStepResultSuccess;
     }];
+}
+
++ (id)stepToCaptureScreenshotWithName:(NSString *)name;
+{
+    return [self  stepToCaptureScreenshotWithName:name
+                                      description:[NSString  stringWithFormat:@"Capture screenshot \"%@\"", name]];
+}
+
++ (id)stepToCaptureScreenshotWithName:(NSString *)name  description:(NSString *)description;
+{
+    return [self  stepWithDescription:description  
+                       executionBlock:^(KIFTestStep *step, NSError **error) {
+
+                NSString * outputPath = [[[NSProcessInfo processInfo] environment] objectForKey:@"KIF_SCREENSHOTS"];
+                
+                if (!outputPath) {
+                    outputPath = @"~/Documents";
+                    
+                    // /Users/<USER>/Library/Application Support/iPhone Simulator/<IOS_VERSION>/Applications/<APP_GUID>/Documents
+                    
+                }
+                
+                NSArray *windows = [[UIApplication sharedApplication] windows];
+                if (windows.count == 0) {
+                    
+                    if (error) {
+                        *error = [[[NSError alloc] initWithDomain:@"KIFTest" code:KIFTestStepResultFailure userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"Failed to capture screenshot \"%@\"; no windows found.", name], NSLocalizedDescriptionKey, nil]] autorelease];
+                    }
+                    
+                    return KIFTestStepResultFailure;
+                }
+                
+                UIGraphicsBeginImageContext([[windows objectAtIndex:0] bounds].size);
+                           
+                for (UIWindow *window in windows) {
+                    [window.layer renderInContext:UIGraphicsGetCurrentContext()];
+                }
+                           
+                UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+                UIGraphicsEndImageContext();
+                
+                outputPath = [outputPath stringByExpandingTildeInPath];
+                outputPath = [outputPath stringByAppendingPathComponent:[name stringByReplacingOccurrencesOfString:@"/" withString:@"_"]];
+                outputPath = [outputPath stringByAppendingPathExtension:@"png"];
+                
+                [UIImagePNGRepresentation(image) writeToFile:outputPath atomically:YES];
+                
+                return KIFTestStepResultSuccess;
+            }];
 }
 
 #pragma mark Step Collections
@@ -556,6 +801,19 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
     [steps addObject:[KIFTestStep stepToTapViewWithAccessibilityLabel:@"Choose"]];
     
     return steps;
+}
+
++ (NSArray *)stepsToTapString:(NSString *)string;
+{
+	NSMutableArray * steps = [NSMutableArray arrayWithCapacity:[string length]];
+    
+	for (NSUInteger i = 0; i < [string length]; i++)
+	{
+		unichar character = [string characterAtIndex:i];
+		[steps addObject:[KIFTestStep stepToTapViewWithAccessibilityLabel:[NSString stringWithCharacters:&character length:1]]];
+	}
+    
+	return steps;
 }
 
 #pragma mark Initialization

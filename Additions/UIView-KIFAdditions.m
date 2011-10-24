@@ -83,8 +83,16 @@
         BOOL labelsMatch = [element.accessibilityLabel isEqual:label];
         BOOL traitsMatch = ((element.accessibilityTraits) & traits) == traits;
         BOOL valuesMatch = !value || [value isEqual:element.accessibilityValue];
-
+        
         return (BOOL)(labelsMatch && traitsMatch && valuesMatch);
+    }];
+}
+
+- (UIView *)viewWithClassName:(NSString *)className;
+{
+    return (UIView *)[self accessibilityElementMatchingBlock:^(UIAccessibilityElement *element) {
+        
+        return (BOOL) ( NSOrderedSame == [className compare:NSStringFromClass([element class])] );
     }];
 }
 
@@ -98,7 +106,7 @@
     UIAccessibilityElement *matchingButOccludedElement = nil;
     
     BOOL elementMatches = matchBlock((UIAccessibilityElement *)self);
-
+    
     if (elementMatches) {
         if (self.tappable) {
             return (UIAccessibilityElement *)self;
@@ -132,13 +140,13 @@
     while (elementStack.count) {
         UIAccessibilityElement *element = [elementStack lastObject];
         [elementStack removeLastObject];
-
+        
         BOOL elementMatches = matchBlock(element);
-
+        
         if (elementMatches) {
             UIView *viewForElement = [UIAccessibilityElement viewContainingAccessibilityElement:element];
             CGRect accessibilityFrame = [viewForElement.window convertRect:element.accessibilityFrame toView:viewForElement];
-
+            
             if ([viewForElement isTappableInRect:accessibilityFrame]) {
                 return element;
             } else {
@@ -160,7 +168,7 @@
             [elementStack addObject:subelement];
         }
     }
-        
+    
     return matchingButOccludedElement;
 }
 
@@ -261,17 +269,17 @@
     [touch setPhase:UITouchPhaseBegan];
     
     UIEvent *event = [self _eventWithTouch:touch];
-
+    
     [[UIApplication sharedApplication] sendEvent:event];
-
+    
     [touch setPhase:UITouchPhaseEnded];
     [[UIApplication sharedApplication] sendEvent:event];
-
+    
     // Dispatching the event doesn't actually update the first responder, so fake it
     if ([touch.view isDescendantOfView:self] && [self canBecomeFirstResponder]) {
         [self becomeFirstResponder];
     }
-
+    
     [touch release];
 }
 
@@ -420,7 +428,7 @@
     eventProxy->sizeY = 1.0;
     eventProxy->flags = ([touch phase] == UITouchPhaseEnded) ? 0x1010180 : 0x3010180;
     eventProxy->type = 3001;	
-
+    
     NSSet *allTouches = [event allTouches];
     [event _clearTouches];
     [allTouches makeObjectsPerformSelector:@selector(autorelease)];

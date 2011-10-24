@@ -45,6 +45,43 @@ if (!(condition)) { \
 } \
 })
 
+/*!
+ @definen  WSTestConditionBlock
+ @abstract  Simplifies adding test condition steps.
+ @param  condition  The condition to test.  Will be wrapped in a block and executed later.
+ @discussion
+ This macro can be used to simplify adding a test step that is evaluating a condition.  It may be used as an alternative to the verbose and cryptic syntax that it hides.
+ 
+ Example of use:
+ 
+ [KIFTestStep stepWithDescription:@"Description"  executionBlock:TestConditionBlock( 1 == 1 )];
+ */
+#define KIFTestConditionBlock(condition) ({ \
+^(KIFTestStep *step, NSError **error) \
+{ \
+    KIFTestCondition( ( condition ) , error, [step description], @""); \
+    return KIFTestStepResultSuccess; \
+}; \
+})
+
+/*!
+ @definen  KIFTestWaitConditionBlock
+ @abstract  Simplifies adding test condition steps.
+ @param  condition  The condition to test.  Will be wrapped in a block and executed later.
+ @discussion
+ This macro can be used to simplify adding a test step that is evaluating a condition.  It may be used as an alternative to the verbose and cryptic syntax that it hides.
+ 
+ Example of use:
+ 
+ [KIFTestStep stepWithDescription:@"Description"  executionBlock:KIFTestWaitConditionBlock( 1 == 1 )];
+ */
+#define KIFTestWaitConditionBlock(condition) ({ \
+^(KIFTestStep *step, NSError **error) \
+{ \
+    KIFTestWaitCondition( ( condition ) , error, [step description], @""); \
+    return KIFTestStepResultSuccess; \
+}; \
+})
 
 /*!
  @enum KIFTestStepResult
@@ -275,6 +312,51 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
 + (id)stepToWaitForNotificationName:(NSString*)name object:(id)object;
 
 /*!
+ @method  stepToWaitSeconds:
+ @abstract  Waits the number of seconds and then continues executing steps.
+ @param  seconds  The number of seconds to wait.
+ */
++ (id)stepToWaitSeconds:(NSTimeInterval)seconds;
+
+/*!
+ @abstract  A step that taps a particular view in the view hierarchy.
+ @param  labelBlock  A block that will return the accessibility label of the element to tap.
+ @result  A configured test step.
+ @discussion
+ The view or accessibility element with the given label is searched for in the view hierarchy. If the element isn't found or isn't currently tappable, then the step will attempt to wait until it is. Once the view is present and tappable, a tap event is simulated in the center of the view or element.
+ 
+ This method is useful if you don't know what the accessibility label will be until the step is executed.
+ */
++ (id)stepToTapViewWithAccessibilityLabelMatchingBlock:(NSString *(^)(void))labelBlock;
+
+/*!
+ @abstract  A step that taps a particular view in the view hierarchy.
+ @param  labelBlock  A block that will return the accessibility label of the element to tap.
+ @param  traits  The accessibility traits of the element to tap. Elements that do not include at least these traits are ignored.
+ @result  A configured test step.
+ @discussion  The view or accessibility element with the given label is searched for in the view hierarchy. If the element isn't found or isn't currently tappable, then the step will attempt to wait until it is. Once the view is present and tappable, a tap event is simulated in the center of the view or element.
+
+ This method is useful if you don't know what the accessibility label will be until the step is executed.
+ */
++ (id)stepToTapViewWithAccessibilityLabelMatchingBlock:(NSString *(^)(void))labelBlock traits:(UIAccessibilityTraits)traits;
+
+/*!
+ @method  stepToTapViewWithAccessibilityLabel:value:traits:
+ @abstract  A step that taps a particular view in the view hierarchy.
+ @param  labelBlock  A block that will return the accessibility label of the element to tap.
+ @param  value  The accessibility value of the element to tap.
+ @param  traits  The accessibility traits of the element to tap. Elements that do not include at least these traits are ignored.
+ @result  A configured test step.
+ @discussion
+ The view or accessibility element with the given label is searched for in the view hierarchy. If the element isn't found or isn't currently tappable, then the step will attempt to wait until it is. Once the view is present and tappable, a tap event is simulated in the center of the view or element.
+ 
+ This variation allows finding a particular instance of an accessibility element. For example, a table view might have multiple elements with the accessibility label of "Employee", but only one that also has the accessibility value of "Bob".
+
+ This method is useful if you don't know what the accessibility label will be until the step is executed.
+ */
++ (id)stepToTapViewWithAccessibilityLabelMatchingBlock:(NSString *(^)(void))labelBlock value:(NSString *)value traits:(UIAccessibilityTraits)traits;
+
+/*!
  @method stepToTapViewWithAccessibilityLabel:
  @abstract A step that taps a particular view in the view hierarchy.
  @discussion The view or accessibility element with the given label is searched for in the view hierarchy. If the element isn't found or isn't currently tappable, then the step will attempt to wait until it is. Once the view is present and tappable, a tap event is simulated in the center of the view or element.
@@ -305,6 +387,28 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
  @result A configured test step.
  */
 + (id)stepToTapViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits;
+
+/*!
+ @method  stepToTapScreenAtPoint:description:
+ @abstract  A step that taps the screen at a particular point.
+ @param  screenPoint  The point in screen coordinates to tap. Screen points originate from the top left of the screen.
+ @param  description  A custom description for this event.
+ @result  A configured test step.
+ @discussion
+ Taps the screen at a specific point. In general you should use the factory steps that tap a view based on its accessibility label, but there are situations where it's not possible to access a view using accessibility mechanisms. This step is more lenient than the steps that use the accessibility label, and does not wait for any particular view to appear, or validate that the tapped view is enabled or has interaction enabled. Because this step doesn't doesn't validate that a view is present before tapping it, it's good practice to precede this step where possible with a -stepToWaitForViewWithAccessibilityLabel: with the label for another view that should appear on the same screen. 
+ */
++ (id)stepToTapScreenAtPoint:(CGPoint)screenPoint description:(NSString *)description;
+
+/* !
+ @method stepToTapScreenAtPoint:
+ @abstract A step that taps the screen at a particular point.
+ @param  screenPoint  The point in screen coordinates to tap. Screen points originate from the top left of the screen.
+ @param  name  The control, view or whatever you expect this keypress to hit.  Used only in the step description.
+ @result A configured test step.
+ @discussion Taps the screen at a specific point. In general you should use the factory steps that tap a view based on its accessibility label, but there are situations where it's not possible to access a view using accessibility mechanisms. This step is more lenient than the steps that use the accessibility label, and does not wait for any particular view to appear, or validate that the tapped view is enabled or has interaction enabled. Because this step doesn't doesn't validate that a view is present before tapping it, it's good practice to precede this step where possible with a -stepToWaitForViewWithAccessibilityLabel: with the label for another view that should appear on the same screen.
+ * /
++ (id)stepToTapScreenAtPoint:(CGPoint)screenPoint  expectingToTap:(NSString *)name;
+*/
 
 /*!
  @method stepToTapScreenAtPoint:
@@ -347,6 +451,16 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
  */
 + (id)stepToSelectPickerViewRowWithTitle:(NSString *)title;
 
+/*
+ @method stepToSelectPickerViewRowWithTitle:inComponent
+ @abstract A step that selects an item 'title' from the specified component in the currently visible picker view.
+ @discussion With a picker view already visible, this step will find an item with the given title, select that item.  This will NOT tap the 'done' button.
+ @param title The title of the row to select.
+ @param componentIndex The index of the component
+ @result A configured test step.
+ */
++ (id)stepToSelectPickerViewRowWithTitle:(NSString *)title inComponent:(NSUInteger)componentIndex;
+
 /*!
  @method stepToSetOn:forSwitchWithAccessibilityLabel:
  @abstract A step that toggles a UISwitch into a specified position.
@@ -372,6 +486,12 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
  */
 + (id)stepToSimulateMemoryWarning;
 
+/*!
+ @method  stepFailed
+ @abstract  Called when a step fails during execution.
+ @discussion
+ Not a step to be used in a scenario or a step collection.
+ */
 + (void)stepFailed;
 
 /*!
@@ -386,6 +506,16 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
 + (NSArray *)stepsToChoosePhotoInAlbum:(NSString *)albumName atRow:(NSInteger)row column:(NSInteger)column;
 
 /*!
+ @method  stepsToTapString:
+ @abstract  Taps an accessibility label for each character in the string.
+ @param  string  The string to tap out.
+ @discussion
+ Adds a step stepToTapViewWithAccessibilityLabel for each character in the string.
+ */
+
++ (NSArray *)stepsToTapString:(NSString *)string;
+
+/*!
  @method stepToTapRowInTableViewWithAccessibilityLabel:atIndexPath:
  @abstract A step that taps the row at IndexPath in a view with the given label.
  @discussion This step will get the view with the specified accessibility label and tap the row at indexPath.
@@ -394,5 +524,22 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
  @result A configured test step.
  */
 + (id)stepToTapRowInTableViewWithAccessibilityLabel:(NSString*)tableViewLabel atIndexPath:(NSIndexPath *)indexPath;
+
+/*!
+ @abstract  Captures a screenshot.
+ @param  name  The name of the current UI state.
+ @discussion
+ Captures the current state of the UI to a image file with a name of the name specified.
+ */
++ (id)stepToCaptureScreenshotWithName:(NSString *)name;
+
+/*!
+ @abstract  Captures a screenshot.
+ @param  name  The name of the current UI state.  Required.
+ @param  description  The description of the step.
+ @discussion
+ Captures the current state of the UI to a image file with a name of the name specified.
+ */
++ (id)stepToCaptureScreenshotWithName:(NSString *)name  description:(NSString *)description;
 
 @end

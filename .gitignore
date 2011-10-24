@@ -26,3 +26,6 @@ xcuserdata/
 *.xcworkspace/
 
 *.orig
+
+# Ignore subversion folders
+*.svn

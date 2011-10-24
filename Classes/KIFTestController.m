@@ -215,15 +215,15 @@ static void releaseInstance()
 
 - (void)_performTestStep:(KIFTestStep *)step;
 {
-    NSError *error = nil;
+    NSAssert([step isKindOfClass:[KIFTestStep class]], @"step must be a KIFTestStep but was \"%@\".", NSStringFromClass([step class]));
     
     if (!step) {
         [self _testingDidFinish];
         return;
     }
     
+    NSError *error = nil;
     KIFTestStepResult result = [step executeAndReturnError:&error];
-    
     [self _advanceWithResult:result error:error];
     
     if (self.currentStep) {
