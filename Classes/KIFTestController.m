@@ -319,7 +319,7 @@ static void releaseInstance()
         nextScenarioIndex = [failedScenarioIndexes indexGreaterThanIndex:currentScenarioIndex];
         currentScenarioIndex++;
     } else {
-        currentScenarioIndex = [[[[NSProcessInfo processInfo] environment] objectForKey:@"KIF_START_SKIP"] integerValue];
+        currentScenarioIndex = [[[[NSProcessInfo processInfo] environment] objectForKey:@"KIF_INITIAL_SKIP_COUNT"] integerValue];
         nextScenarioIndex = MAX([failedScenarioIndexes firstIndex], currentScenarioIndex);
     }
     
