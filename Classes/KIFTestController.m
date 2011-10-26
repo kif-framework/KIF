@@ -305,7 +305,11 @@ static void releaseInstance()
     KIFTestScenario *nextScenario = nil;
     NSUInteger nextScenarioIndex = NSNotFound;
     NSUInteger currentScenarioIndex = NSNotFound;
-    if (result == KIFTestStepResultFailure && [[[[NSProcessInfo processInfo] environment] objectForKey:@"KIF_EXIT_ON_FAILURE"] boolValue]) {
+    NSInteger scenarioLimit = [[[[NSProcessInfo processInfo] environment] objectForKey:@"KIF_SCENARIO_LIMIT"] integerValue];
+    
+    if (scenarioLimit > 0 && completeScenarioCount++ >= scenarioLimit) {
+        return nil;
+    } else if (result == KIFTestStepResultFailure && [[[[NSProcessInfo processInfo] environment] objectForKey:@"KIF_EXIT_ON_FAILURE"] boolValue]) {
         return nil;
     } else if (self.currentScenario) {
         currentScenarioIndex = [self.scenarios indexOfObjectIdenticalTo:self.currentScenario];

@@ -451,14 +451,18 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
         // This is mostly redundant of the test in _accessibilityElementWithLabel:
         KIFTestCondition(!isnan(tappablePointInElement.x), error, @"The element with accessibility label %@ is not tappable", label);
         [switchView tapAtPoint:tappablePointInElement];
-                
+
         // This is a UISwitch, so make sure it worked
-        BOOL expected = switchIsOn;
-        BOOL actual = switchView.on;
-        KIFTestCondition(actual == expected, error, @"Failed to toggle switch to \"%@\"; instead, it was \"%@\"", expected ? @"ON" : @"OFF", actual ? @"ON" : @"OFF");
+        if (switchIsOn != switchView.on) {
+            NSLog(@"Faking turning switch %@ with accessibility label %@", switchIsOn ? @"ON" : @"OFF", label);
+            [switchView setOn:switchIsOn animated:YES];
+            [switchView sendActionsForControlEvents:UIControlEventValueChanged];
+        }
         
         // The switch animation takes a second to finish, and the action callback doesn't get called until it does.
         CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.5f, false);
+        
+        KIFTestCondition(switchView.on == switchIsOn, error, @"Failed to toggle switch to \"%@\"; instead, it was \"%@\"", switchIsOn ? @"ON" : @"OFF", switchView.on ? @"ON" : @"OFF");
         
         return KIFTestStepResultSuccess;
     }];
