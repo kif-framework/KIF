@@ -68,7 +68,7 @@
 
 + (void)_enableAccessibilityInSimulator;
 {
-    NSAutoreleasePool *autoReleasePool = [[NSAutoreleasePool alloc] init];
+    NSAutoreleasePool *autoreleasePool = [[NSAutoreleasePool alloc] init];
     
     NSString *simulatorRoot = [[[NSProcessInfo processInfo] environment] objectForKey:@"IPHONE_SIMULATOR_ROOT"];
     if (simulatorRoot) {
@@ -85,7 +85,7 @@
         }
     }
     
-    [autoReleasePool drain];
+    [autoreleasePool drain];
 }
 
 static KIFTestController *sharedInstance = nil;
