@@ -102,7 +102,7 @@ Although not required, it's recommended that you create a subclass of KIFTestCon
 
 	@implementation EXTestController
 
-	- (void)initializeScenarios;
+	- (void)initializeScenarios
 	{
 	    [self addScenario:[KIFTestScenario scenarioToLogIn]];
 		// Add additional scenarios you want to test here
