@@ -89,6 +89,24 @@
     [steps addObjectsFromArray:inSteps];
 }
 
+- (void)addSetupStepsFromArray:(NSArray *)setupSteps
+{
+    NSMutableArray *newSteps = [NSMutableArray arrayWithArray:setupSteps];
+    [newSteps addObjectsFromArray:steps];
+    
+    [steps release];
+    steps = [newSteps retain];
+}
+
+- (void)addTeardownStepsFromArray:(NSArray *)tearDownSteps
+{
+    NSMutableArray *newSteps = [steps mutableCopy];
+    [newSteps addObjectsFromArray:tearDownSteps];
+    
+    [steps release];
+    steps = [newSteps retain];
+}
+
 #pragma mark Private Methods
 
 - (void)_initializeStepsIfNeeded
