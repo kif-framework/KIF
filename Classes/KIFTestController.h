@@ -107,6 +107,21 @@ typedef void (^KIFTestControllerCompletionBlock)();
 - (void)addScenario:(KIFTestScenario *)scenario;
 
 /*!
+ @method addScenarioNamed:
+ @abstract Add a scenario with a selector matching nameOfSelector to the test suite.
+ @param nameOfSelector The name of the selector for your scenario class method.
+ */
+- (void)addScenarioNamed:(NSString *)nameOfSelector;
+
+/*!
+ @method addScenariosWithMethodPrefix:
+ @abstract Uses reflection to add all scenarios added to KIFTestScenario (using categories) with the given prefix.
+ @discussion This avoids the need to explicitly add each scenario you want to test. For this to work, your scenarios must be category methods on KIFTestScenario.
+ @param prefix Used to limit the methods added - you should pick something sensible that won't conflict with the internal API, like 'scenarioTo'.
+ */
+- (void)addScenariosWithMethodPrefix:(NSString *)prefix;
+
+/*!
  @method startTestingWithCompletionBlock:
  @abstract Start the test suite.
  @discussion Testing is done asynchronously by inserting itself into the run loop at appropriate times. As such, this method will not block. To be notified when testing is complete, implement the completionBlock.
