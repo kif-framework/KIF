@@ -111,7 +111,7 @@
     // the returned objects are UIAccessibilityElementMockViews (which aren't actually views)
     // rather than the real subviews it contains. We want the real views if possible.
     // UITableViewCell is such an offender.
-    for (UIView *view in self.subviews) {
+    for (UIView *view in [self.subviews reverseObjectEnumerator]) {
         UIAccessibilityElement *element = [view accessibilityElementMatchingBlock:matchBlock];
         if (!element) {
             continue;
