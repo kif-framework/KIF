@@ -82,7 +82,6 @@
 		AAB0725D139719AC008AF393 = {
 			isa = PBXGroup;
 			children = (
-				AAB072B413971AEA008AF393 /* UIKit.framework */,
 				AAB0729313971AB2008AF393 /* Additions */,
 				AAB0728413971A98008AF393 /* Classes */,
 				AAB0726E139719AC008AF393 /* Supporting Files */,
@@ -102,6 +101,7 @@
 		AAB0726A139719AC008AF393 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				AAB072B413971AEA008AF393 /* UIKit.framework */,
 				AAB0726B139719AC008AF393 /* Foundation.framework */,
 			);
 			name = Frameworks;
