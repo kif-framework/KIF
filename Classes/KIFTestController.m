@@ -13,6 +13,10 @@
 #import "NSFileManager-KIFAdditions.h"
 #import <QuartzCore/QuartzCore.h>
 #import <dlfcn.h>
+#import <objc/runtime.h>
+
+
+extern id objc_msgSend(id theReceiver, SEL theSelector, ...);
 
 
 @interface KIFTestController ()
@@ -40,6 +44,7 @@
 - (void)_logTestingDidFinish;
 - (void)_logDidStartScenario:(KIFTestScenario *)scenario;
 - (void)_logDidSkipScenario:(KIFTestScenario *)scenario;
+- (void)_logDidSkipAddingScenarioGenerator:(NSString *)selectorString;
 - (void)_logDidFinishScenario:(KIFTestScenario *)scenario duration:(NSTimeInterval)duration;
 - (void)_logDidFailStep:(KIFTestStep *)step duration:(NSTimeInterval)duration error:(NSError *)error;
 - (void)_logDidPassStep:(KIFTestStep *)step duration:(NSTimeInterval)duration;
@@ -153,13 +158,55 @@ static void releaseInstance()
 
 - (void)initializeScenarios;
 {
-    // For subclassers
+    [self addAllScenarios];
 }
 
 - (NSArray *)scenarios
 {
     [self _initializeScenariosIfNeeded];
     return scenarios;
+}
+
+- (void)addAllScenarios;
+{
+    [self addAllScenariosWithSelectorPrefix:@"scenario" fromClass:[KIFTestScenario class]];
+}
+
+- (void)addAllScenariosWithSelectorPrefix:(NSString *)selectorPrefix fromClass:(Class)klass;
+{
+    unsigned int count;
+    Method *methods = class_copyMethodList(object_getClass(klass), &count);
+    
+    if (!count) {
+        return;
+    }
+    
+    NSMutableArray *selectorStrings = [NSMutableArray array];
+
+    for (NSInteger index = 0; index < count; index++) {
+        SEL selector = method_getName(methods[index]);
+        NSString *selectorString = NSStringFromSelector(selector);
+        if ([selectorString hasPrefix:selectorPrefix]) {
+            if ([selectorString hasSuffix:@":"]) {
+                if (![selectorString isEqualToString:@"scenarioWithDescription:"]) {
+                    // Logging about -scenarioWithDescription: would just be noise.
+                    // But log that we're skipping the rest to not confuse people who would expect their scenario to get run automatically.
+                    [self _logDidSkipAddingScenarioGenerator:selectorString];
+                }
+                continue;
+            }
+            
+            [selectorStrings addObject:selectorString];
+        }
+    }
+    
+    [selectorStrings sortUsingSelector:@selector(compare:)];
+    [selectorStrings enumerateObjectsUsingBlock:^(id selectorString, NSUInteger idx, BOOL *stop) {
+        KIFTestScenario *scenario = (KIFTestScenario *)objc_msgSend(klass, NSSelectorFromString(selectorString));
+        [self addScenario:scenario];
+    }];
+    
+    free(methods);
 }
 
 - (void)addScenario:(KIFTestScenario *)scenario;
@@ -484,6 +531,11 @@ static void releaseInstance()
     KIFLog(@"SKIPPING SCENARIO %d/%d (%@)", [self.scenarios indexOfObjectIdenticalTo:scenario] + 1, self.scenarios.count, reason);
     KIFLog(@"%@", scenario.description);
     KIFLogSeparator();
+}
+
+- (void)_logDidSkipAddingScenarioGenerator:(NSString *)selectorString;
+{
+    KIFLog(@"Skipping scenario generator %@ because it takes arguments", selectorString);
 }
 
 - (void)_logDidFinishScenario:(KIFTestScenario *)scenario duration:(NSTimeInterval)duration

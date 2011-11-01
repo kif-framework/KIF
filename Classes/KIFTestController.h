@@ -99,6 +99,22 @@ typedef void (^KIFTestControllerCompletionBlock)();
 - (void)initializeScenarios;
 
 /*!
+ @method addAllScenarios
+ @abstract Add all scenarios to the test suite.
+ @discussion This enumerates the list of class methods on KIFTestScenario and adds those starting with "scenario" alphabetically.
+ */
+- (void)addAllScenarios;
+
+/*!
+ @method addScenariosWithSelectorPrefix:fromClass:
+ @abstract Add all scenarios to the test suite with a selector prefix.
+ @discussion This enumerates the list of class methods on the given class and adds those starting with the given prefix alphabetically.
+ @param selectorPrefix Added selectors must have this prefix.
+ @param klass The class to search for scenarios.
+ */
+- (void)addAllScenariosWithSelectorPrefix:(NSString *)selectorPrefix fromClass:(Class)klass;
+
+/*!
  @method addScenario:
  @abstract Add a scenario to the test suite.
  @discussion Scenarios will be run in the order that they're added.
