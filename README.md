@@ -5,7 +5,7 @@ KIF, which stands for Keep It Functional, is an iOS integration test framework. 
 
 **KIF uses undocumented Apple APIs.** This is true of most iOS testing frameworks, and is safe for testing purposes, but it's important that KIF does not make it into production code, as it will get your app submission denied by Apple. Follow the instructions below to ensure that KIF is configured correctly for your project.
 
-There's [a port underway to use KIF with Mac OS X apps](https://github.com/joshaber/KIF/commits/segregate-ios), as well.
+There's [a port underway to use KIF with Mac OS X apps](https://github.com/joshaber/KIF), as well.
 
 Features
 --------
@@ -28,16 +28,16 @@ To install KIF, you'll need to link the libKIF static library directly into your
 *NOTE* These instruction assume you are using Xcode 4. For Xcode 3 you won't be able to take advantage of Workspaces, so the instructions will differ slightly.
 
 ### Add KIF to your project files
-The first step is to add the KIF project into the ./Frameworks/KIF subdirectory of your existing app. If your project is stored in GitHub then you can use submodules to make updating in the future easier:
+The first step is to add the KIF project into the ./Frameworks/KIF subdirectory of your existing app. If your project uses Git for version control, you can use submodules to make updating in the future easier:
 
 	cd /path/to/MyApplicationSource
 	mkdir Frameworks
 	git submodule add https://github.com/square/KIF.git Frameworks/KIF
 
-If you're not using GitHub, simply download the source and copy it into the ./Frameworks/KIF directory.
+If you're not using Git, simply download the source and copy it into the ./Frameworks/KIF directory.
 
 ### Add KIF to Your Workspace
-Let your project know about KIF by adding the KIF project into a workspace along with your main project. Find the KIF.xcodeproj file in Finder and drag it into the Project Navigator (⌘+1). If you don't already have a workspace, Xcode will ask if you want to create a new one. Click "Save" when it does.
+Let your project know about KIF by adding the KIF project into a workspace along with your main project. Find the KIF.xcodeproj file in Finder and drag it into the Project Navigator (⌘1). If you don't already have a workspace, Xcode will ask if you want to create a new one. Click "Save" when it does.
 
 ![Create workspace screen shot](https://github.com/square/KIF/raw/master/Documentation/Images/Create Workspace.png)
 
@@ -67,25 +67,25 @@ Now that you have a target for your tests, add the tests to that target. With th
 
 ![Add libKIF library screen shot](https://github.com/square/KIF/raw/master/Documentation/Images/Add Library Sheet.png)
 
-Next, make sure that we can access the KIF header files. To do this, add the KIF directory to the "Header Search Paths" build setting. Start by selecting the "Build Settings" tab of the project settings, and from there, use the filter control to find the "Header Search Paths" setting. Double click the value, and add the search path "$(SRCROOT)/Frameworks/KIF/" to the list. Mark the entry as recursive. If it's not there already, you should add the "$(inherited)" entry as the first entry in this list.
+Next, make sure that we can access the KIF header files. To do this, add the KIF directory to the "Header Search Paths" build setting. Start by selecting the "Build Settings" tab of the project settings, and from there, use the filter control to find the "Header Search Paths" setting. Double click the value, and add the search path `$(SRCROOT)/Frameworks/KIF/` to the list. Mark the entry as recursive. If it's not there already, you should add the `$(inherited)` entry as the first entry in this list.
 
 ![Add header search paths screen shot](https://github.com/square/KIF/raw/master/Documentation/Images/Add Header Search Paths.png)
 
-KIF takes advantage of Objective C's ability to add categories on an object, but this isn't enabled for static libraries by default. To enable this, add the "-ObjC" and "-all_load" flags to the "Other Linker Flags" build setting as shown below.
+KIF takes advantage of Objective C's ability to add categories on an object, but this isn't enabled for static libraries by default. To enable this, add the `-ObjC` and `-all_load` flags to the "Other Linker Flags" build setting as shown below.
 
 ![Add category linker flags screen shot](https://github.com/square/KIF/raw/master/Documentation/Images/Add Category Linker Flags.png)
 
-Finally, add a preprocessor flag to the testing target so that you can conditionally include code. This will help make sure that none of the testing code makes it into the production app. Call the flag "RUN_KIF_TESTS" and add it under the "Preprocessor Macros." Again, make sure the "$(inherited)" entry is first in the list, 
+Finally, add a preprocessor flag to the testing target so that you can conditionally include code. This will help make sure that none of the testing code makes it into the production app. Call the flag `RUN_KIF_TESTS` and add it under the "Preprocessor Macros." Again, make sure the `$(inherited)` entry is first in the list, 
 
 ![Add preprocessor macro screen shot](https://github.com/square/KIF/raw/master/Documentation/Images/Add KIF Preprocessor Macro.png)
 
 Example
 -------
-With your project configured to use KIF, it's time to start writing tests. There are three main classes used in KIF testing: the test runner (KIFTestController), a testable scenario (KIFTestScenario), and a test step (KIFTestStep). The test runner is composed of a list of scenarios that it runs, and in turn each scenario is composed of a list of steps. A step is a small and simple action which is generally used to imitate a user interaction. Three of the most common steps are "tap this view," "enter text into this view," and "wait for this view." These steps are included as factory methods on KIFTestStep in the base KIF implementation.
+With your project configured to use KIF, it's time to start writing tests. There are three main classes used in KIF testing: the test runner (`KIFTestController`), a testable scenario (`KIFTestScenario`), and a test step (`KIFTestStep`). The test runner is composed of a list of scenarios that it runs, and in turn each scenario is composed of a list of steps. A step is a small and simple action which is generally used to imitate a user interaction. Three of the most common steps are "tap this view," "enter text into this view," and "wait for this view." These steps are included as factory methods on `KIFTestStep` in the base KIF implementation.
 
 KIF relies on the built-in accessibility of iOS to perform its test steps. As such, it's important that your app is fully accessible. This is also a great way to ensure that your app is usable by the sight impaired. Making your application accessible is usually as easy as giving your views reasonable labels. More details are available in [Apple's Documentation](http://developer.apple.com/library/ios/#documentation/UserExperience/Conceptual/iPhoneAccessibility/Making_Application_Accessible/Making_Application_Accessible.html#//apple_ref/doc/uid/TP40008785-CH102-SW5).
 
-Although not required, it's recommended that you create a subclass of KIFTestController that is specific to your application. This subclass will override the -initializeScenarios method, which will contain a list of invocations for the scenarios that your test suite will run. We'll call our subclass EXTestController, and will add an initial test scenario, which we will define later.
+Although not required, it's recommended that you create a subclass of `KIFTestController` that is specific to your application. This subclass will override the `-initializeScenarios` method, which will contain a list of invocations for the scenarios that your test suite will run. We'll call our subclass `EXTestController`, and will add an initial test scenario, which we will define later.
 
 *EXTestController.h*
 
@@ -110,7 +110,7 @@ Although not required, it's recommended that you create a subclass of KIFTestCon
 
 	@end
 
-The next step is to implement a scenario to test the login (+[KIFTestScenario scenarioToLogin]). We'll implement the scenarios as category class methods on KIFTestScenario. This will allow us to easily add on these category methods without needing additional subclasses, and the method name provides a unique identifier for referencing each scenario. Your KIFTestScenario category should look something like this:
+The next step is to implement a scenario to test the login (`+[KIFTestScenario scenarioToLogin]`). We'll implement the scenarios as category class methods on `KIFTestScenario`. This will allow us to easily add on these category methods without needing additional subclasses, and the method name provides a unique identifier for referencing each scenario. Your `KIFTestScenario` category should look something like this:
 
 *KIFTestScenario+EXAdditions.h*
 
@@ -148,7 +148,7 @@ The next step is to implement a scenario to test the login (+[KIFTestScenario sc
 
 	@end
 
-Most of the steps in the scenario are already defined by the KIF framework, but +stepToReset is not. This is an example of a custom step which is specific to your application. Adding such a step is easy, and is done using a factory method in a category of KIFTestStep, similar to how we added the scenario.
+Most of the steps in the scenario are already defined by the KIF framework, but `+stepToReset` is not. This is an example of a custom step which is specific to your application. Adding such a step is easy, and is done using a factory method in a category of `KIFTestStep`, similar to how we added the scenario.
 
 *KIFTestStep+EXAdditions.h*
 
@@ -182,7 +182,7 @@ Most of the steps in the scenario are already defined by the KIF framework, but 
 
 	@end
 
-The other line to notice in the sample scenario is the one that calls +[KIFTestStep stepsToGoToLoginPage]. This is an example of an organizational technique which allows for easy code reuse. If you have a set of steps that are reused in a number of your scenarios, then you can group them together as a factory method that returns them as an array. Here's the KIFTestStep category again, this time including the step collection array:
+The other line to notice in the sample scenario is the one that calls `+[KIFTestStep stepsToGoToLoginPage]`. This is an example of an organizational technique which allows for easy code reuse. If you have a set of steps that are reused in a number of your scenarios, then you can group them together as a factory method that returns them as an array. Here's the `KIFTestStep` category again, this time including the step collection array:
 
 *KIFTestStep+EXAdditions.h*
 
@@ -240,7 +240,7 @@ The other line to notice in the sample scenario is the one that calls +[KIFTestS
 
 	@end
 
-Finally, the app needs a hook so that it actually runs the KIF tests when executing the Integration Tests target. To do this we'll take advantage of the `RUN_KIF_TESTS` macro that was defined earlier. This macro is only defined in the testing target, so the tests won't run in the regular target. To invoke the test suite, add the following code to the end of the -application:didFinishLaunchingWithOptions: method in your application delegate:
+Finally, the app needs a hook so that it actually runs the KIF tests when executing the Integration Tests target. To do this we'll take advantage of the `RUN_KIF_TESTS` macro that was defined earlier. This macro is only defined in the testing target, so the tests won't run in the regular target. To invoke the test suite, add the following code to the end of the `-application:didFinishLaunchingWithOptions:` method in your application delegate:
 
 	#if RUN_KIF_TESTS
 	    [[EXTestController sharedInstance] startTestingWithCompletionBlock:^{
@@ -274,6 +274,18 @@ Set `KIF_FAILURE_FILE` to the full path to a file on your computer -- that need 
 
 Set `KIF_SCENARIO_FILTER` to a regular expression and KIF will only run scenarios with descriptions matching the expression. This can be useful to skip straight to a particular point in your testing suite.
 
+### `KIF_SCENARIO_LIMIT`
+
+Set `KIF_SCENARIO_LIMIT` to exit after a certain number of scenarios. This can be useful if you want to divide your test suite among several machines or several devices when combined with `KIF_INITIAL_SKIP_COUNT` below.
+
+### `KIF_INITIAL_SKIP_COUNT`
+
+Set `KIF_INITIAL_SKIP_COUNT` to skip a certain number of scenarios at the beginning of the testing run. For example, if you wanted to split your suite of 100 scenarios between two iPads, you could set `KIF_SCENARIO_LIMIT` to 50, start the first iPad, then set `KIF_INITIAL_SKIP_COUNT` to 50 and start the second iPad.
+
+### `KIF_EXIT_ON_FAILURE`
+
+Set this to a value that evaluates to true to make KIF exit on the first failing scenario. This may be useful if you want to isolate failures or if your app doesn't properly recover when a test fails.
+
 Troubleshooting
 ---------------
 
@@ -281,7 +293,7 @@ Troubleshooting
 
 If KIF is failing to find a view, the most likely cause is that the view doesn't have its accessibility label set. If the view is defined in a xib, then the label can be set using the inspector. If it's created programmatically, simply set the accessibilityLabel attribute to the desired label.
 
-If the label is definitely set correctly, take a closer look at the error given by KIF. This error should tell you more specifically why the view was not accessible. If you are using -stepToWaitForTappableViewWithAccessibilityLabel:, then make sure the view is actually tappable. For items such as labels which cannot become the first responder, you may need to use -stepToWaitForViewWithAccessibilityLabel: instead.
+If the label is definitely set correctly, take a closer look at the error given by KIF. This error should tell you more specifically why the view was not accessible. If you are using `-stepToWaitForTappableViewWithAccessibilityLabel:`, then make sure the view is actually tappable. For items such as labels which cannot become the first responder, you may need to use `-stepToWaitForViewWithAccessibilityLabel:` instead.
 
 ### Project fails to build because KIF classes are missing
 
