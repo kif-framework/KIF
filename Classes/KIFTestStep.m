@@ -196,7 +196,7 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
 {
     // In general, we should discourage use of a step like this. It's pragmatic to include it though.
     KIFTestStep *step = [self stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
-        NSLog(@"Wait run loop exited with %d", CFRunLoopRunInMode(kCFRunLoopDefaultMode, interval, false));
+        NSLog(@"Wait run loop exited with %ld", CFRunLoopRunInMode(kCFRunLoopDefaultMode, interval, false));
         return KIFTestStepResultSuccess;
     }];
     step.timeout = interval + 1.0;
@@ -745,11 +745,11 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
     UIAccessibilityElement *element = [[UIApplication sharedApplication] accessibilityElementWithLabel:label accessibilityValue:value traits:traits];
     if (!element) {
         if (error) {
-            // For purposes of a better error message, see if we can find the view, just not a view with the specified value
+            // For purposes of a better error message, see if we can find the view, just not a view with the specified value.
             if (value && [[UIApplication sharedApplication] accessibilityElementWithLabel:label accessibilityValue:nil traits:traits]) {
                 *error = [[[NSError alloc] initWithDomain:@"KIFTest" code:KIFTestStepResultFailure userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"Found an accessibility element with the label \"%@\", but not with the value \"%@\"", label, value], NSLocalizedDescriptionKey, nil]] autorelease];
                 
-                // Check the traits too
+            // Check the traits, too.
             } else if (traits != UIAccessibilityTraitNone && [[UIApplication sharedApplication] accessibilityElementWithLabel:label accessibilityValue:nil traits:UIAccessibilityTraitNone]) {
                 *error = [[[NSError alloc] initWithDomain:@"KIFTest" code:KIFTestStepResultFailure userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"Found an accessibility element with the label \"%@\", but not with the traits \"%d\"", label, traits], NSLocalizedDescriptionKey, nil]] autorelease];
                 
@@ -779,7 +779,7 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
             [scrollView scrollViewToVisible:view animated:YES];
         } else {
             CGRect elementFrame = [view.window convertRect:element.accessibilityFrame toView:scrollView];            
-            [scrollView setContentOffset:CGPointMake(0,  elementFrame.origin.y - elementFrame.size.height) animated:YES];
+            [scrollView setContentOffset:CGPointMake(0,  elementFrame.origin.y) animated:YES];
         }
         
         // Give the scroll view a small amount of time to perform the scroll.
@@ -793,27 +793,26 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
         return nil;
     }
     
-    //There are some issues with the tappability check in UIWebViews, so if the view is a UIWebView we will just skip the check.
-    Class classView = [view class];
-    NSString *className = [classView description];
-    if( ![className isEqualToString:@"UIWebBrowserView"] )
-    {
-        if (mustBeTappable) {
-            // Make sure the view is tappable
-            if (![view isTappable]) {
-                if (error) {
-                    *error = [[[NSError alloc] initWithDomain:@"KIFTest" code:KIFTestStepResultFailure userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"Accessibility element with label \"%@\" is not tappable. It may be blocked by other views.", label], NSLocalizedDescriptionKey, nil]] autorelease];
-                }
-                return nil;
+    // There are some issues with the tappability check in UIWebViews, so if the view is a UIWebView we will just skip the check.
+    if ([NSStringFromClass([view class]) isEqualToString:@"UIWebBrowserView"]) {
+        return element;
+    }
+
+    if (mustBeTappable) {
+        // Make sure the view is tappable
+        if (![view isTappable]) {
+            if (error) {
+                *error = [[[NSError alloc] initWithDomain:@"KIFTest" code:KIFTestStepResultFailure userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"Accessibility element with label \"%@\" is not tappable. It may be blocked by other views.", label], NSLocalizedDescriptionKey, nil]] autorelease];
             }
-        } else {
-            // If we don't require tappability, at least make sure it's not hidden
-            if ([view isHidden]) {
-                if (error) {
-                    *error = [[[NSError alloc] initWithDomain:@"KIFTest" code:KIFTestStepResultFailure userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"Accessibility element with label \"%@\" is hidden.", label], NSLocalizedDescriptionKey, nil]] autorelease];
-                }
-                return nil;
+            return nil;
+        }
+    } else {
+        // If we don't require tappability, at least make sure it's not hidden
+        if ([view isHidden]) {
+            if (error) {
+                *error = [[[NSError alloc] initWithDomain:@"KIFTest" code:KIFTestStepResultFailure userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"Accessibility element with label \"%@\" is hidden.", label], NSLocalizedDescriptionKey, nil]] autorelease];
             }
+            return nil;
         }
     }
     
