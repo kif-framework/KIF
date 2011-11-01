@@ -13,6 +13,10 @@
 #import "NSFileManager-KIFAdditions.h"
 #import <QuartzCore/QuartzCore.h>
 #import <dlfcn.h>
+#import <objc/runtime.h>
+
+
+extern id objc_msgSend(id theReceiver, SEL theSelector, ...);
 
 
 @interface KIFTestController ()
@@ -153,13 +157,32 @@ static void releaseInstance()
 
 - (void)initializeScenarios;
 {
-    // For subclassers
+    [self addAllScenarios];
 }
 
 - (NSArray *)scenarios
 {
     [self _initializeScenariosIfNeeded];
     return scenarios;
+}
+
+- (void)addAllScenarios;
+{
+    [self addAllScenariosWithSelectorPrefix:@"scenario" fromClass:[KIFTestScenario class]];
+}
+
+- (void)addAllScenariosWithSelectorPrefix:(NSString *)selectorPrefix fromClass:(Class)klass;
+{
+    unsigned int count;
+    Method *methods = class_copyMethodList(object_getClass(klass), &count);
+    for (NSInteger index = 0; index < count; index++) {
+        SEL selector = method_getName(methods[index]);
+        NSString *selectorString = NSStringFromSelector(selector);
+        if ([selectorString hasPrefix:selectorPrefix] && ![selectorString hasSuffix:@":"]) {
+            KIFTestScenario *scenario = (KIFTestScenario *)objc_msgSend(klass, selector);
+            [self addScenario:scenario];
+        }
+    }
 }
 
 - (void)addScenario:(KIFTestScenario *)scenario;
