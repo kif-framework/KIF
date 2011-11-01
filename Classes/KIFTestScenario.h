@@ -52,7 +52,8 @@
  @property stepsToTearDown
  @abstract Steps that will be executed at the end of the scenario.
  @discussion The steps to tear down are an array of KIFTestStep (or subclass) instances that will be executed at the end of the scenario, after the steps specified in the -steps property. When initializing the scenario these steps are defaulted to the steps specified by +defaultStepsToTearDown, but may be overridden by setting them directly using this property.
- */@property (nonatomic, copy) NSArray *stepsToTearDown;
+ */
+@property (nonatomic, copy) NSArray *stepsToTearDown;
 
 /*!
  @property skippedByFilter
