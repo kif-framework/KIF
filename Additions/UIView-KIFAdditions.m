@@ -179,7 +179,7 @@
     NSMutableArray *result = [NSMutableArray array];
     
     // Breadth-first population of matching subviews
-    // First travers the next level of subviews, adding matches.
+    // First traverse the next level of subviews, adding matches.
     for (UIView *view in self.subviews) {
         if ([NSStringFromClass([view class]) hasPrefix:prefix]) {
             [result addObject:view];
