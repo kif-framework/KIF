@@ -27,9 +27,9 @@
  */
 - (UIAccessibilityElement *)accessibilityElementMatchingBlock:(BOOL(^)(UIAccessibilityElement *))matchBlock;
 
-- (UIView *)subviewWithClassNamePrefix:(NSString *)prefix;
+- (UIView *)subviewWithClassNamePrefix:(NSString *)prefix __deprecated;
 - (NSArray *)subviewsWithClassNamePrefix:(NSString *)prefix;
-- (UIView *)subviewWithClassNameOrSuperClassNamePrefix:(NSString *)prefix;
+- (UIView *)subviewWithClassNameOrSuperClassNamePrefix:(NSString *)prefix __deprecated;
 - (NSArray *)subviewsWithClassNameOrSuperClassNamePrefix:(NSString *)prefix;
 
 - (void)flash;
