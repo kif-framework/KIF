@@ -383,7 +383,7 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
     return [self stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
         
         // Find the picker view
-        UIPickerView *pickerView = (UIPickerView *)[[[UIApplication sharedApplication] pickerViewWindow] subviewWithClassNameOrSuperClassNamePrefix:@"UIPickerView"];
+        UIPickerView *pickerView = [[[[UIApplication sharedApplication] pickerViewWindow] subviewsWithClassNameOrSuperClassNamePrefix:@"UIPickerView"] lastObject];
         KIFTestCondition(pickerView, error, @"No picker view is present");
         
         NSInteger componentCount = [pickerView.dataSource numberOfComponentsInPickerView:pickerView];
@@ -398,7 +398,8 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
                 } else if ([pickerView.delegate respondsToSelector:@selector(pickerView:viewForRow:forComponent:reusingView:)]) {
                     // This delegate inserts views directly, so try to figure out what the title is by looking for a label
                     UIView *rowView = [pickerView.delegate pickerView:pickerView viewForRow:rowIndex forComponent:componentIndex reusingView:nil];
-                    UILabel *label = (UILabel *)[rowView subviewWithClassNameOrSuperClassNamePrefix:@"UILabel"];
+                    NSArray *labels = [rowView subviewsWithClassNameOrSuperClassNamePrefix:@"UILabel"];
+                    UILabel *label = (labels.count > 0 ? [labels objectAtIndex:0] : nil);
                     rowTitle = label.text;
                 }
                 
@@ -474,7 +475,8 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
         const NSTimeInterval tapDelay = 0.05;
         NSArray *windows = [[UIApplication sharedApplication] windows];
         KIFTestCondition(windows.count, error, @"Failed to find any windows in the application");
-        [[[windows objectAtIndex:0] subviewWithClassNamePrefix:@"UIDimmingView"] tapAtPoint:CGPointMake(50.0f, 50.0f)];
+        UIView *dimmingView = [[[windows objectAtIndex:0] subviewsWithClassNamePrefix:@"UIDimmingView"] lastObject];
+        [dimmingView tapAtPoint:CGPointMake(50.0f, 50.0f)];
         CFRunLoopRunInMode(kCFRunLoopDefaultMode, tapDelay, false);
         return KIFTestStepResultSuccess;
     }];
@@ -680,7 +682,7 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
     }
     
     UIWindow *keyboardWindow = [[UIApplication sharedApplication] keyboardWindow];
-    UIView *keyboardView = [keyboardWindow subviewWithClassNamePrefix:@"UIKBKeyplaneView"];
+    UIView *keyboardView = [[keyboardWindow subviewsWithClassNamePrefix:@"UIKBKeyplaneView"] lastObject];
     
     // If we didn't find the standard keyboard view, then we may have a custom keyboard
     if (!keyboardView) {
