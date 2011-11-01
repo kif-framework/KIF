@@ -67,8 +67,8 @@ MAKE_CATEGORIES_LOADABLE(UIApplication_KIFAdditions)
 - (UIWindow *)pickerViewWindow;
 {
     for (UIWindow *window in [self windows]) {
-        UIView *pickerView = [window subviewWithClassNameOrSuperClassNamePrefix:@"UIPickerView"];
-        if (pickerView) {
+        NSArray *pickerViews = [window subviewsWithClassNameOrSuperClassNamePrefix:@"UIPickerView"];
+        if (pickerViews.count > 0) {
             return window;
         }
     }
