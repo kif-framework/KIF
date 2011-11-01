@@ -12,6 +12,7 @@
 #import "KIFTestStep.h"
 #import "NSFileManager-KIFAdditions.h"
 #import <QuartzCore/QuartzCore.h>
+#import <dlfcn.h>
 
 
 @interface KIFTestController ()
@@ -24,6 +25,8 @@
 @property (nonatomic, retain) NSDate *currentScenarioStartDate;
 @property (nonatomic, retain) NSDate *currentStepStartDate;
 @property (nonatomic, copy) KIFTestControllerCompletionBlock completionBlock;
+
++ (void)_enableAccessibilityInSimulator;
 
 - (void)_initializeScenariosIfNeeded;
 - (BOOL)_isAccessibilityInspectorEnabled;
@@ -57,6 +60,33 @@
 @synthesize completionBlock;
 
 #pragma mark Static Methods
+
++ (void)load
+{
+    [KIFTestController _enableAccessibilityInSimulator];
+}
+
++ (void)_enableAccessibilityInSimulator;
+{
+    NSAutoreleasePool *autoreleasePool = [[NSAutoreleasePool alloc] init];
+    
+    NSString *simulatorRoot = [[[NSProcessInfo processInfo] environment] objectForKey:@"IPHONE_SIMULATOR_ROOT"];
+    if (simulatorRoot) {
+        void *appSupportLibrary = dlopen([[simulatorRoot stringByAppendingPathComponent:@"/System/Library/PrivateFrameworks/AppSupport.framework/AppSupport"] fileSystemRepresentation], RTLD_LAZY);
+        CFStringRef (*copySharedResourcesPreferencesDomainForDomain)(CFStringRef domain) = dlsym(appSupportLibrary, "CPCopySharedResourcesPreferencesDomainForDomain");
+        
+        if (copySharedResourcesPreferencesDomainForDomain) {
+            CFStringRef accessibilityDomain = copySharedResourcesPreferencesDomainForDomain(CFSTR("com.apple.Accessibility"));
+            
+            if (accessibilityDomain) {
+                CFPreferencesSetValue(CFSTR("ApplicationAccessibilityEnabled"), kCFBooleanTrue, accessibilityDomain, kCFPreferencesAnyUser, kCFPreferencesAnyHost);
+                CFRelease(accessibilityDomain);
+            }
+        }
+    }
+    
+    [autoreleasePool drain];
+}
 
 static KIFTestController *sharedInstance = nil;
 
@@ -305,7 +335,13 @@ static void releaseInstance()
     KIFTestScenario *nextScenario = nil;
     NSUInteger nextScenarioIndex = NSNotFound;
     NSUInteger currentScenarioIndex = NSNotFound;
-    if (self.currentScenario) {
+    NSInteger scenarioLimit = [[[[NSProcessInfo processInfo] environment] objectForKey:@"KIF_SCENARIO_LIMIT"] integerValue];
+    
+    if (scenarioLimit > 0 && completeScenarioCount++ >= scenarioLimit) {
+        return nil;
+    } else if (result == KIFTestStepResultFailure && [[[[NSProcessInfo processInfo] environment] objectForKey:@"KIF_EXIT_ON_FAILURE"] boolValue]) {
+        return nil;
+    } else if (self.currentScenario) {
         currentScenarioIndex = [self.scenarios indexOfObjectIdenticalTo:self.currentScenario];
         NSAssert(currentScenarioIndex != NSNotFound, @"Current scenario %@ not found in test scenarios %@, but should be!", self.currentScenario, self.scenarios);
         
@@ -317,8 +353,8 @@ static void releaseInstance()
         nextScenarioIndex = [failedScenarioIndexes indexGreaterThanIndex:currentScenarioIndex];
         currentScenarioIndex++;
     } else {
-        currentScenarioIndex = 0;
-        nextScenarioIndex = [failedScenarioIndexes firstIndex];
+        currentScenarioIndex = [[[[NSProcessInfo processInfo] environment] objectForKey:@"KIF_INITIAL_SKIP_COUNT"] integerValue];
+        nextScenarioIndex = MAX([failedScenarioIndexes firstIndex], currentScenarioIndex);
     }
     
     do {

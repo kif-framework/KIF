@@ -195,10 +195,18 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
 + (id)stepToWaitForTimeInterval:(NSTimeInterval)interval description:(NSString *)description;
 {
     // In general, we should discourage use of a step like this. It's pragmatic to include it though.
+    __block NSTimeInterval startTime = 0;
     KIFTestStep *step = [self stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
-        NSLog(@"Wait run loop exited with %ld", CFRunLoopRunInMode(kCFRunLoopDefaultMode, interval, false));
+        if (startTime == 0) {
+            startTime = [NSDate timeIntervalSinceReferenceDate];
+        }
+
+        KIFTestWaitCondition((([NSDate timeIntervalSinceReferenceDate] - startTime) >= interval), error, @"Waiting for time interval to expire.");
+
         return KIFTestStepResultSuccess;
     }];
+    
+    // Make sure that the timeout is set so that it doesn't timeout prematurely.
     step.timeout = interval + 1.0;
     
     return step;
@@ -240,15 +248,27 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
     } else {
         description = [NSString stringWithFormat:@"Tap view with accessibility label \"%@\"", label];
     }
+
+    // After tapping the view we want to wait a short period to allow things to settle (animations and such). We can't do this using CFRunLoopRunInMode() because certain things, such as the built-in media picker, do things with the run loop that are not compatible with this kind of wait. Instead we leverage the way KIF hooks into the existing run loop by returning "wait" results for the desired period.
+    const NSTimeInterval quiesceWaitInterval = 0.5;
+    __block NSTimeInterval quiesceStartTime = 0.0;
+    
+    __block UIView *view = nil;
     
     return [self stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
-        
+
+        // If we've already tapped the view and stored it to a variable, and we've waited for the quiesce time to elapse, then we're done.
+        if (view) {
+            KIFTestWaitCondition(([NSDate timeIntervalSinceReferenceDate] - quiesceStartTime) >= quiesceWaitInterval, error, @"Waiting for view to become the first responder.");
+            return KIFTestStepResultSuccess;
+        }
+
         UIAccessibilityElement *element = [self _accessibilityElementWithLabel:label accessibilityValue:value tappable:YES traits:traits error:error];
         if (!element) {
             return KIFTestStepResultWait;
         }
-        
-        UIView *view = [UIAccessibilityElement viewContainingAccessibilityElement:element];
+
+        view = [UIAccessibilityElement viewContainingAccessibilityElement:element];
         KIFTestWaitCondition(view, error, @"Failed to find view for accessibility element with label \"%@\"", label);
 
         if (![self _isUserInteractionEnabledForView:view]) {
@@ -257,25 +277,19 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
             }
             return KIFTestStepResultWait;
         }
-        
+
         CGRect elementFrame = [view.window convertRect:element.accessibilityFrame toView:view];
         CGPoint tappablePointInElement = [view tappablePointInRect:elementFrame];
-        
+
         // This is mostly redundant of the test in _accessibilityElementWithLabel:
         KIFTestWaitCondition(!isnan(tappablePointInElement.x), error, @"The element with accessibility label %@ is not tappable", label);
         [view tapAtPoint:tappablePointInElement];
 
-        // Verify that we successfully selected the view
-        if (![view canBecomeFirstResponder]) {
-            CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.5, false);
-            return KIFTestStepResultSuccess;
-        }
-        
-        KIFTestCondition([view isDescendantOfFirstResponder], error, @"Failed to make the view %@ which contains the accessibility element \"%@\" into the first responder", view, label);
-        
-        CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.5, false);
-        
-        return KIFTestStepResultSuccess;
+        KIFTestCondition(![view canBecomeFirstResponder] || [view isDescendantOfFirstResponder], error, @"Failed to make the view %@ which contains the accessibility element \"%@\" into the first responder", view, label);
+
+        quiesceStartTime = [NSDate timeIntervalSinceReferenceDate];
+
+        KIFTestWaitCondition(NO, error, @"Waiting for the view to settle.");
     }];
 }
 
@@ -369,7 +383,7 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
     return [self stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
         
         // Find the picker view
-        UIPickerView *pickerView = (UIPickerView *)[[[UIApplication sharedApplication] pickerViewWindow] subviewWithClassNameOrSuperClassNamePrefix:@"UIPickerView"];
+        UIPickerView *pickerView = [[[[UIApplication sharedApplication] pickerViewWindow] subviewsWithClassNameOrSuperClassNamePrefix:@"UIPickerView"] lastObject];
         KIFTestCondition(pickerView, error, @"No picker view is present");
         
         NSInteger componentCount = [pickerView.dataSource numberOfComponentsInPickerView:pickerView];
@@ -384,7 +398,8 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
                 } else if ([pickerView.delegate respondsToSelector:@selector(pickerView:viewForRow:forComponent:reusingView:)]) {
                     // This delegate inserts views directly, so try to figure out what the title is by looking for a label
                     UIView *rowView = [pickerView.delegate pickerView:pickerView viewForRow:rowIndex forComponent:componentIndex reusingView:nil];
-                    UILabel *label = (UILabel *)[rowView subviewWithClassNameOrSuperClassNamePrefix:@"UILabel"];
+                    NSArray *labels = [rowView subviewsWithClassNameOrSuperClassNamePrefix:@"UILabel"];
+                    UILabel *label = (labels.count > 0 ? [labels objectAtIndex:0] : nil);
                     rowTitle = label.text;
                 }
                 
@@ -394,6 +409,12 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
                     
                     // Tap in the middle of the picker view to select the item
                     [pickerView tap];
+                    
+                    // The combination of selectRow:inComponent:animated: and tap does not consistently result in
+                    // pickerView:didSelectRow:inComponent: being called on the delegate. We need to do it explicitly.
+                    if ([pickerView.delegate respondsToSelector:@selector(pickerView:didSelectRow:inComponent:)]) {
+                        [pickerView.delegate pickerView:pickerView didSelectRow:rowIndex inComponent:componentIndex];
+                    }
                     
                     return KIFTestStepResultSuccess;
                 }
@@ -431,14 +452,18 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
         // This is mostly redundant of the test in _accessibilityElementWithLabel:
         KIFTestCondition(!isnan(tappablePointInElement.x), error, @"The element with accessibility label %@ is not tappable", label);
         [switchView tapAtPoint:tappablePointInElement];
-                
+
         // This is a UISwitch, so make sure it worked
-        BOOL expected = switchIsOn;
-        BOOL actual = switchView.on;
-        KIFTestCondition(actual == expected, error, @"Failed to toggle switch to \"%@\"; instead, it was \"%@\"", expected ? @"ON" : @"OFF", actual ? @"ON" : @"OFF");
+        if (switchIsOn != switchView.on) {
+            NSLog(@"Faking turning switch %@ with accessibility label %@", switchIsOn ? @"ON" : @"OFF", label);
+            [switchView setOn:switchIsOn animated:YES];
+            [switchView sendActionsForControlEvents:UIControlEventValueChanged];
+        }
         
         // The switch animation takes a second to finish, and the action callback doesn't get called until it does.
         CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.5f, false);
+        
+        KIFTestCondition(switchView.on == switchIsOn, error, @"Failed to toggle switch to \"%@\"; instead, it was \"%@\"", switchIsOn ? @"ON" : @"OFF", switchView.on ? @"ON" : @"OFF");
         
         return KIFTestStepResultSuccess;
     }];
@@ -450,7 +475,8 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
         const NSTimeInterval tapDelay = 0.05;
         NSArray *windows = [[UIApplication sharedApplication] windows];
         KIFTestCondition(windows.count, error, @"Failed to find any windows in the application");
-        [[[windows objectAtIndex:0] subviewWithClassNamePrefix:@"UIDimmingView"] tapAtPoint:CGPointMake(50.0f, 50.0f)];
+        UIView *dimmingView = [[[windows objectAtIndex:0] subviewsWithClassNamePrefix:@"UIDimmingView"] lastObject];
+        [dimmingView tapAtPoint:CGPointMake(50.0f, 50.0f)];
         CFRunLoopRunInMode(kCFRunLoopDefaultMode, tapDelay, false);
         return KIFTestStepResultSuccess;
     }];
@@ -460,6 +486,26 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
 {
     return [KIFTestStep stepWithDescription:@"Simulate a memory warning" executionBlock:^(KIFTestStep *step, NSError **error) {
         [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationDidReceiveMemoryWarningNotification object:[UIApplication sharedApplication]];
+        return KIFTestStepResultSuccess;
+    }];
+}
+
++ (id)stepToTapRowInTableViewWithAccessibilityLabel:(NSString*)tableViewLabel atIndexPath:(NSIndexPath *)indexPath
+{
+    NSString *description = [NSString stringWithFormat:@"Step to tap row %d in tableView with label %@", [indexPath row], tableViewLabel];
+    return [KIFTestStep stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
+        UIAccessibilityElement *element = [[UIApplication sharedApplication] accessibilityElementWithLabel:tableViewLabel];
+        KIFTestCondition(element, error, @"View with label %@ not found", tableViewLabel);
+        UITableView *tableView = (UITableView*)[UIAccessibilityElement viewContainingAccessibilityElement:element];
+        
+        KIFTestCondition([tableView isKindOfClass:[UITableView class]], error, @"Specified view is not a UITableView");
+        
+        KIFTestCondition(tableView, error, @"Table view with label %@ not found", tableViewLabel);
+        
+        UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+        CGRect cellFrame = [cell.contentView convertRect:[cell.contentView frame] toView:tableView];
+        [tableView tapAtPoint:CGPointCenteredInRect(cellFrame)];
+        
         return KIFTestStepResultSuccess;
     }];
 }
@@ -497,10 +543,10 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
         
         [view tapAtPoint:tappablePointInElement];
         
-        CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.5, false);
-        
         return KIFTestStepResultSuccess;
     }]];
+    
+    [steps addObject:[KIFTestStep stepToWaitForTimeInterval:0.5 description:@"Wait for media picker view controller to be pushed."]];
     
     // Tap the desired photo in the grid
     // TODO: This currently only works for the first page of photos. It should scroll appropriately at some point.
@@ -595,6 +641,18 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
         }
     }
     
+    // UIActionsheet Buttons have UIButtonLabels with userInteractionEnabled=NO inside,
+    // grab the superview UINavigationButton instead.
+    if (!isUserInteractionEnabled && [view isKindOfClass:NSClassFromString(@"UIButtonLabel")]) {
+        UIView *button = [view superview];
+        while (button && ![button isKindOfClass:NSClassFromString(@"UINavigationButton")]) {
+            button = [button superview];
+        }
+        if (button && button.userInteractionEnabled) {
+            isUserInteractionEnabled = YES;
+        }
+    }
+    
     return isUserInteractionEnabled;
 }
 
@@ -624,7 +682,7 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
     }
     
     UIWindow *keyboardWindow = [[UIApplication sharedApplication] keyboardWindow];
-    UIView *keyboardView = [keyboardWindow subviewWithClassNamePrefix:@"UIKBKeyplaneView"];
+    UIView *keyboardView = [[keyboardWindow subviewsWithClassNamePrefix:@"UIKBKeyplaneView"] lastObject];
     
     // If we didn't find the standard keyboard view, then we may have a custom keyboard
     if (!keyboardView) {
