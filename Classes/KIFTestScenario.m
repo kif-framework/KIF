@@ -35,7 +35,8 @@
     if (filter) {
         scenario.skippedByFilter = ([description rangeOfString:filter options:NSRegularExpressionSearch].location == NSNotFound);
     }
-    return [scenario autorelease];
+    
+    return scenario;
 }
 
 #pragma mark Initialization

@@ -211,7 +211,7 @@
 
 - (void)flash;
 {
-	UIColor *originalBackgroundColor = [self.backgroundColor retain];
+	UIColor *originalBackgroundColor = self.backgroundColor;
     for (NSUInteger i = 0; i < 5; i++) {
         self.backgroundColor = [UIColor yellowColor];
         CFRunLoopRunInMode(kCFRunLoopDefaultMode, .05, false);
@@ -219,7 +219,7 @@
         CFRunLoopRunInMode(kCFRunLoopDefaultMode, .05, false);
     }
     self.backgroundColor = originalBackgroundColor;
-    [originalBackgroundColor release];
+
 }
 
 - (void)tap;
@@ -272,7 +272,6 @@
         [self becomeFirstResponder];
     }
 
-    [touch release];
 }
 
 
@@ -301,8 +300,7 @@
         
         UIEvent *eventDrag = [self _eventWithTouch:touchDrag];
         [[UIApplication sharedApplication] sendEvent:eventDrag];
-        
-        [touchDrag release];
+              
     }
     
     UITouch *touchUp = [[UITouch alloc] initAtPoint:points[count - 1] inView:self];
@@ -321,8 +319,6 @@
         [self becomeFirstResponder];
     }
     
-    [touchDown release];
-    [touchUp release];
 }
 
 // Is this view currently on screen?
@@ -421,13 +417,10 @@
     eventProxy->flags = ([touch phase] == UITouchPhaseEnded) ? 0x1010180 : 0x3010180;
     eventProxy->type = 3001;	
 
-    NSSet *allTouches = [event allTouches];
     [event _clearTouches];
-    [allTouches makeObjectsPerformSelector:@selector(autorelease)];
     [event _setGSEvent:(struct __GSEvent *)eventProxy];
     [event _addTouch:touch forDelayedDelivery:NO];
     
-    [eventProxy release];
     return event;
 }
 
