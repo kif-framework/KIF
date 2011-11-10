@@ -62,7 +62,6 @@ static KIFTestController *sharedInstance = nil;
 
 static void releaseInstance()
 {
-    [sharedInstance release];
     sharedInstance = nil;
 }
 
@@ -110,12 +109,9 @@ static void releaseInstance()
     self.currentStepStartDate = nil;
     self.completionBlock = nil;
     
-    [failedScenarioFile release];
     failedScenarioFile = nil;
 
-    [failedScenarioIndexes release];
     failedScenarioIndexes = nil;
-    
     [super dealloc];
 }
 

@@ -39,13 +39,13 @@ MAKE_CATEGORIES_LOADABLE(UITouch_KIFAdditions)
     
 	UIView *target = [view.window hitTest:_locationInWindow withEvent:nil];
     
-    _window = [view.window retain];
-    _view = [target retain];
+    _window = view.window;
+    _view = target;
     _phase = UITouchPhaseBegan;
     _touchFlags._firstTouchForView = 1;
     _touchFlags._isTap = 1;
     _timestamp = [NSDate timeIntervalSinceReferenceDate];
-    _gestureView = [view retain];
+    _gestureView = view;
     
     // The gesture recognizers for the touch are the compiled list from all of the views in the view stack at the touch point
     NSMutableArray *gestureRecognizers = [[NSMutableArray alloc] init];
