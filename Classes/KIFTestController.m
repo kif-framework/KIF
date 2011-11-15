@@ -30,7 +30,7 @@ extern id objc_msgSend(id theReceiver, SEL theSelector, ...);
 @property (nonatomic, retain) NSDate *currentStepStartDate;
 @property (nonatomic, copy) KIFTestControllerCompletionBlock completionBlock;
 
-+ (void)_enableAccessibilityInSimulator;
++ (void)_enableAccessibility;
 
 - (void)_initializeScenariosIfNeeded;
 - (BOOL)_isAccessibilityInspectorEnabled;
@@ -68,10 +68,10 @@ extern id objc_msgSend(id theReceiver, SEL theSelector, ...);
 
 + (void)load
 {
-    [KIFTestController _enableAccessibilityInSimulator];
+    [KIFTestController _enableAccessibility];
 }
 
-+ (void)_enableAccessibilityInSimulator;
++ (void)_enableAccessibility;
 {
     NSAutoreleasePool *autoreleasePool = [[NSAutoreleasePool alloc] init];
     NSString *appSupportLocation = @"/System/Library/PrivateFrameworks/AppSupport.framework/AppSupport";
