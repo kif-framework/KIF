@@ -74,19 +74,24 @@ extern id objc_msgSend(id theReceiver, SEL theSelector, ...);
 + (void)_enableAccessibilityInSimulator;
 {
     NSAutoreleasePool *autoreleasePool = [[NSAutoreleasePool alloc] init];
+    NSString *appSupportLocation = @"/System/Library/PrivateFrameworks/AppSupport.framework/AppSupport";
     
-    NSString *simulatorRoot = [[[NSProcessInfo processInfo] environment] objectForKey:@"IPHONE_SIMULATOR_ROOT"];
+    NSDictionary *environment = [[NSProcessInfo processInfo] environment];
+    NSString *simulatorRoot = [environment objectForKey:@"IPHONE_SIMULATOR_ROOT"];
     if (simulatorRoot) {
-        void *appSupportLibrary = dlopen([[simulatorRoot stringByAppendingPathComponent:@"/System/Library/PrivateFrameworks/AppSupport.framework/AppSupport"] fileSystemRepresentation], RTLD_LAZY);
-        CFStringRef (*copySharedResourcesPreferencesDomainForDomain)(CFStringRef domain) = dlsym(appSupportLibrary, "CPCopySharedResourcesPreferencesDomainForDomain");
+        appSupportLocation = [simulatorRoot stringByAppendingString:appSupportLocation];
+    }
+    
+    void *appSupportLibrary = dlopen([appSupportLocation fileSystemRepresentation], RTLD_LAZY);
+    
+    CFStringRef (*copySharedResourcesPreferencesDomainForDomain)(CFStringRef domain) = dlsym(appSupportLibrary, "CPCopySharedResourcesPreferencesDomainForDomain");
+    
+    if (copySharedResourcesPreferencesDomainForDomain) {
+        CFStringRef accessibilityDomain = copySharedResourcesPreferencesDomainForDomain(CFSTR("com.apple.Accessibility"));
         
-        if (copySharedResourcesPreferencesDomainForDomain) {
-            CFStringRef accessibilityDomain = copySharedResourcesPreferencesDomainForDomain(CFSTR("com.apple.Accessibility"));
-            
-            if (accessibilityDomain) {
-                CFPreferencesSetValue(CFSTR("ApplicationAccessibilityEnabled"), kCFBooleanTrue, accessibilityDomain, kCFPreferencesAnyUser, kCFPreferencesAnyHost);
-                CFRelease(accessibilityDomain);
-            }
+        if (accessibilityDomain) {
+            CFPreferencesSetValue(CFSTR("ApplicationAccessibilityEnabled"), kCFBooleanTrue, accessibilityDomain, kCFPreferencesAnyUser, kCFPreferencesAnyHost);
+            CFRelease(accessibilityDomain);
         }
     }
     
