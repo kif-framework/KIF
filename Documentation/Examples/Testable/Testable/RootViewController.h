@@ -13,6 +13,6 @@
     NSArray *titles;
 }
 
-@property (nonatomic, retain) NSArray *titles;
+@property (nonatomic, strong) NSArray *titles;
 
 @end
