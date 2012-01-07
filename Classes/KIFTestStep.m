@@ -26,6 +26,7 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
 @property (nonatomic, retain) id notificationObject;
 @property BOOL notificationOccurred;
 @property BOOL observingForNotification;
+@property (nonatomic, retain) KIFTestStep *childStep;
 
 + (BOOL)_isUserInteractionEnabledForView:(UIView *)view;
 
@@ -47,6 +48,7 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
 @synthesize notificationOccurred;
 @synthesize observingForNotification;
 @synthesize timeout;
+@synthesize childStep;
 
 #pragma mark Class Methods
 
@@ -224,9 +226,33 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
             [[NSNotificationCenter defaultCenter] addObserver:step selector:@selector(_onObservedNotification:) name:name object:object];
         }
         
-        KIFTestWaitCondition(step.notificationOccurred, error, @"Waiting for notification \"%@\"", name);        
+        KIFTestWaitCondition(step.notificationOccurred, error, @"Waiting for notification \"%@\"", name);
         return KIFTestStepResultSuccess;
     }];   
+    return step;
+}
+
++ (id)stepToWaitForNotificationName:(NSString *)name object:(id)object whileExecutingStep:(KIFTestStep *)childStep;
+{
+    NSString *description = [NSString stringWithFormat:@"Wait for notification \"%@\" while executing child step \"%@\"", name, childStep];
+    
+    KIFTestStep *step = [self stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {  
+        if (!step.observingForNotification) {            
+            step.notificationName = name;
+            step.notificationObject = object; 
+            step.observingForNotification = YES;
+            [[NSNotificationCenter defaultCenter] addObserver:step selector:@selector(_onObservedNotification:) name:name object:object];
+        }
+        
+        // Execute the step we are observing for changes
+        KIFTestStepResult result = [step.childStep executeAndReturnError:error];
+        KIFTestWaitCondition(result != KIFTestStepResultWait, error, @"Waiting for completion of child step \"%@\"", step.childStep);
+        
+        // Wait for the actual notification
+        KIFTestWaitCondition(step.notificationOccurred, error, @"Waiting for notification \"%@\"", name);
+        return KIFTestStepResultSuccess;
+    }];    
+    step.childStep = childStep;    
     return step;
 }
 
@@ -588,6 +614,8 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
     notificationName = nil;
     [notificationObject release];
     notificationObject = nil;
+    [childStep release];
+    childStep = nil;
     
     [super dealloc];
 }
