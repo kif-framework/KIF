@@ -881,6 +881,8 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
                 traits:(UIAccessibilityTraits)traits 
         expectedResult:(NSString *)expectedResult;
 {
+    const NSTimeInterval keystrokeDelay = 0.05f;
+    
     NSString *description = [NSString stringWithFormat:@"Clear the text in the view with accessibility label \"%@\"", label];
     
     return [self stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
@@ -891,20 +893,47 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
         }
         
         UIView *view = [UIAccessibilityElement viewContainingAccessibilityElement:element];
+        
         KIFTestWaitCondition(view, error, @"Cannot find view with accessibility label \"%@\"", label);
         
-        //XXX: need to change this to use the keyboard and press the Delete key till everything is wiped
-        //     from the textfield
+        CGRect elementFrame = [view.window convertRect:element.accessibilityFrame toView:view];
+        CGPoint tappablePointInElement = [view tappablePointInRect:elementFrame];
+        
+        // This is mostly redundant of the test in _accessibilityElementWithLabel:
+        KIFTestCondition(!isnan(tappablePointInElement.x), error, @"The element with accessibility label %@ is not tappable", label);
+        [view tapAtPoint:tappablePointInElement];
+        
+        KIFTestWaitCondition([view isDescendantOfFirstResponder], error, @"Failed to make the view with accessibility label \"%@\" the first responder. First responder is %@", label, [[[UIApplication sharedApplication] keyWindow] firstResponder]);
+        
+        // Wait for the keyboard
+        CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.5, false);
         
         // This is probably a UITextField- or UITextView-ish view, so make sure it worked
         if ([view respondsToSelector:@selector(text)]) {
-            ((UITextField*)view).text = @"";
+            NSString *actual = [[view performSelector:@selector(text)] stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
             
-            // We trim \n and \r because they trigger the return key, so they won't show up in the final product on single-line inputs
-            //            NSString *expected = [expectedResult ? expectedResult : text stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
-            //            NSString *actual = [[view performSelector:@selector(text)] stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
-            //            KIFTestCondition([actual isEqualToString:expected], error, @"Failed to actually enter text \"%@\" in field; instead, it was \"%@\"", text, actual);
+            UIAccessibilityElement *delElement = [self _accessibilityElementWithLabel:@"Delete" accessibilityValue:nil tappable:YES traits:traits error:error];
+            
+            if (!delElement) {
+                return KIFTestStepResultWait;
+            }
+            
+            UIView *delView = [UIAccessibilityElement viewContainingAccessibilityElement:delElement];
+            KIFTestWaitCondition(delView, error, @"Cannot find view with accessibility label \"Delete\"");
+            
+            CGRect delElementFrame = [delView.window convertRect:delElement.accessibilityFrame toView:delView];
+            CGPoint delTappablePointInElement = [delView tappablePointInRect:delElementFrame];
+            
+            // This is mostly redundant of the test in _accessibilityElementWithLabel:
+            KIFTestCondition(!isnan(delTappablePointInElement.x), error, @"The element with accessibility label Delete is not tappable");
+            
+            for(int i = 0; i < [actual length]; i++) { 
+                [delView tapAtPoint:delTappablePointInElement];
+                CFRunLoopRunInMode(kCFRunLoopDefaultMode, keystrokeDelay, false);
+            }
         }
+
+        
         
         return KIFTestStepResultSuccess;
     }];
