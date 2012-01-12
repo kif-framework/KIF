@@ -877,4 +877,43 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
     return element;
 }
 
++ (id)stepToClearField: (NSString *)label 
+                traits:(UIAccessibilityTraits)traits 
+        expectedResult:(NSString *)expectedResult;
+{
+    NSString *description = [NSString stringWithFormat:@"Clear the text in the view with accessibility label \"%@\"", label];
+    
+    return [self stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
+        
+        UIAccessibilityElement *element = [self _accessibilityElementWithLabel:label accessibilityValue:nil tappable:YES traits:traits error:error];
+        if (!element) {
+            return KIFTestStepResultWait;
+        }
+        
+        UIView *view = [UIAccessibilityElement viewContainingAccessibilityElement:element];
+        KIFTestWaitCondition(view, error, @"Cannot find view with accessibility label \"%@\"", label);
+        
+        //XXX: need to change this to use the keyboard and press the Delete key till everything is wiped
+        //     from the textfield
+        
+        // This is probably a UITextField- or UITextView-ish view, so make sure it worked
+        if ([view respondsToSelector:@selector(text)]) {
+            ((UITextField*)view).text = @"";
+            
+            // We trim \n and \r because they trigger the return key, so they won't show up in the final product on single-line inputs
+            //            NSString *expected = [expectedResult ? expectedResult : text stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+            //            NSString *actual = [[view performSelector:@selector(text)] stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+            //            KIFTestCondition([actual isEqualToString:expected], error, @"Failed to actually enter text \"%@\" in field; instead, it was \"%@\"", text, actual);
+        }
+        
+        return KIFTestStepResultSuccess;
+    }];
+}
+
++ (id)stepToClearField: (NSString *)label;
+{
+    return [self stepToClearField:label traits:UIAccessibilityTraitNone expectedResult:nil];
+}
+
+
 @end
