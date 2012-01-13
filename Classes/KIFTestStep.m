@@ -877,9 +877,14 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
     return element;
 }
 
-+ (id)stepToClearField: (NSString *)label 
-                traits:(UIAccessibilityTraits)traits 
-        expectedResult:(NSString *)expectedResult;
++ (id)stepToClearFieldWithAccessibilityLabel:(NSString *)label;
+{
+    return [self stepToClearFieldWithAccessibilityLabel:label traits:UIAccessibilityTraitNone expectedResult:nil];
+}
+
++ (id)stepToClearFieldWithAccessibilityLabel: (NSString *)label 
+                                      traits:(UIAccessibilityTraits)traits 
+                              expectedResult:(NSString *)expectedResult;
 {
     const NSTimeInterval keystrokeDelay = 0.05f;
     
@@ -939,10 +944,13 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
     }];
 }
 
-+ (id)stepToClearField: (NSString *)label;
++ (id)stepToSleepForInterval:(NSTimeInterval) interval;
 {
-    return [self stepToClearField:label traits:UIAccessibilityTraitNone expectedResult:nil];
+    return [KIFTestStep stepWithDescription:[NSString stringWithFormat:@"Sleeping for %d",interval]
+                             executionBlock:^(KIFTestStep *step, NSError **error) {
+                                 [NSThread sleepForTimeInterval:interval];
+                                 return KIFTestStepResultSuccess;
+                             }];
 }
-
 
 @end
