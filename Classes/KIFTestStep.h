@@ -9,6 +9,14 @@
 
 #import <UIKit/UIKit.h>
 
+typedef enum DragDirection
+{
+    DRAG_RIGHT = 0,
+    DRAG_LEFT = 1,
+    DRAG_UP = 2,
+    DRAG_DOWN = 3
+} DragDirection;
+
 
 /*!
  @define KIFTestCondition
@@ -400,5 +408,15 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
 
 
 + (id)stepToClearField: (NSString *)label; 
+
++ (id)stepToDragViewWithAccessibilityLabel:(NSString *)label direction:(DragDirection) direction;
+
++ (id)stepToDragViewWithAccessibilityLabel:(NSString *)label direction:(DragDirection) direction traits:(UIAccessibilityTraits)traits;
+
++ (id)stepToDragViewWithAccessibilityLabel:(NSString *)label 
+                                direction:(DragDirection) direction
+                                    value:(NSString *)value 
+                                   traits:(UIAccessibilityTraits)traits;
+
 
 @end
