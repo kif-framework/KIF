@@ -322,7 +322,6 @@
         return;
     }
     UITouch *touchDown = [[UITouch alloc] initAtPoint:points[0] inView:self];
-    [NSThread sleepForTimeInterval:0.1];
     [touchDown setPhase:UITouchPhaseBegan];
     
     UIEvent *eventDown = [self _eventWithTouch:touchDown];
@@ -330,7 +329,6 @@
     
     for (NSInteger pointIndex = 1; pointIndex < count - 1; pointIndex++) {
         UITouch *touchDrag = [[UITouch alloc] initAtPoint:points[pointIndex] inView:self];
-        [NSThread sleepForTimeInterval:0.1];
         [touchDrag setPhase:UITouchPhaseMoved];
         
         UIEvent *eventDrag = [self _eventWithTouch:touchDrag];
@@ -340,7 +338,6 @@
     }
     
     UITouch *touchUp = [[UITouch alloc] initAtPoint:points[count - 1] inView:self];
-    [NSThread sleepForTimeInterval:0.1];
     [touchUp setPhase:UITouchPhaseMoved];
     
     UIEvent *eventDrag2 = [self _eventWithTouch:touchUp];
