@@ -403,20 +403,34 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
  */
 + (id)stepToTapRowInTableViewWithAccessibilityLabel:(NSString*)tableViewLabel atIndexPath:(NSIndexPath *)indexPath;
 
+/*!
+ @method stepToSleepForInterval:interval:
+ @abstract A step that sleeps for a specified interval of time.
+ @discussion This step will sleep for the amount of time specified in the interval argument.
+ @param interval the amount of time to sleep.
+ @result A pause in the application for the time specified
+ */
++ (id)stepToSleepForInterval:(NSTimeInterval) interval;
 
-+ (id)stepToClearField: (NSString *)label traits:(UIAccessibilityTraits)traits expectedResult:(NSString *)expectedResult;
+/*!
+ @method stepToClearFieldWithAccessibilityLabel:label:traits:expectedResult
+ @abstract A step that deletes the contents of an input field (ie TextField or TextView).
+ @discussion This step will get the view with the specified accessibility label and clear its contents using the Delete key.
+ @param label Accessibility label of the input view.
+ @param traits The accessibility traits of the element to type into. Elements that do not include at least these traits are ignored.
+ @param expectedResult What the text value should be after entry, including any formatting done by the field. If this is nil, the "text" parameter will be used.
+ @result A clear input field.
+ */
++ (id)stepToClearFieldWithAccessibilityLabel: (NSString *)label traits:(UIAccessibilityTraits)traits expectedResult:(NSString *)expectedResult;
 
+/*!
+ @method stepToClearFieldWithAccessibilityLabel:label:traits:expectedResult
+ @abstract A step that deletes the contents of an input field (ie TextField or TextView).
+ @discussion This step will get the view with the specified accessibility label and clear its contents using the Delete key.
+ @param label Accessibility label of the input view.
+ @result A clear input field.
 
-+ (id)stepToClearField: (NSString *)label; 
-
-+ (id)stepToDragViewWithAccessibilityLabel:(NSString *)label direction:(DragDirection) direction;
-
-+ (id)stepToDragViewWithAccessibilityLabel:(NSString *)label direction:(DragDirection) direction traits:(UIAccessibilityTraits)traits;
-
-+ (id)stepToDragViewWithAccessibilityLabel:(NSString *)label 
-                                direction:(DragDirection) direction
-                                    value:(NSString *)value 
-                                   traits:(UIAccessibilityTraits)traits;
-
+ */
++ (id)stepToClearFieldWithAccessibilityLabel: (NSString *)label; 
 
 @end
