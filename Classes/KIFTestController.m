@@ -140,7 +140,7 @@ static void releaseInstance()
     }
     
     loggers = [[NSMutableArray alloc] init];
-    [self registerLogger: [[KIFTestLogger alloc] init]];
+    [self registerLogger:[[[KIFTestLogger alloc] init] autorelease]];
     
     return self;    
 }
@@ -474,7 +474,7 @@ static void releaseInstance()
 
 - (void) registerLogger:(id) logger
 {
-    [logger initWithController: self];
+    [logger setupController: self];
     [loggers addObject:logger];
 }
 

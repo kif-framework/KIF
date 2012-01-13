@@ -18,7 +18,7 @@
 
 @property (nonatomic,retain) KIFTestController *controller;
 
-- (KIFTestLogger*) initWithController: (KIFTestController*) controller;
+- (void) setupController: (KIFTestController*) controller;
 
 - (void)logTestingDidStart;
 

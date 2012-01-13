@@ -12,11 +12,9 @@
 
 @synthesize controller;
 
-- (KIFTestLogger*) initWithController: (KIFTestController*) controller;
+- (void) setupController: (KIFTestController*) controller;
 {
-    self = [super init];
     self.controller = controller;
-    return self;
 }
 
 #define KIFLog(...) [[self logFileHandleForWriting] writeData:[[NSString stringWithFormat:@"%@\n", [NSString stringWithFormat:__VA_ARGS__]] dataUsingEncoding:NSUTF8StringEncoding]]; NSLog(__VA_ARGS__);
