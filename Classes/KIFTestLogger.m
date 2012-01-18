@@ -12,7 +12,7 @@
 
 @synthesize controller;
 
-- (void) setupController: (KIFTestController*) controller;
+- (void)setupController: (KIFTestController*) controller;
 {
     self.controller = controller;
 }

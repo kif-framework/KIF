@@ -16,9 +16,9 @@ static NSMutableDictionary* durations = nil;
 static NSMutableDictionary* errors = nil;
 static KIFTestScenario* currentScenario = nil;
 
-- (void) initFileHandle;
+- (void)initFileHandle;
 {
-    if ( !fileHandle ) {
+    if (!fileHandle) {
         NSString *logsDirectory = [[NSFileManager defaultManager] createUserDirectory:NSLibraryDirectory];
         
         if (logsDirectory) {
@@ -49,13 +49,14 @@ static KIFTestScenario* currentScenario = nil;
     return fileHandle;
 }
 
-- (void) appendToLog:(NSString*) data
+- (void)appendToLog:(NSString*) data;
 {
     [self initFileHandle];
     [self.fileHandle writeData:[data dataUsingEncoding:NSUTF8StringEncoding]];
 }
 
-- (void)dealloc {
+- (void)dealloc;
+{
     [fileHandle closeFile];
     [fileHandle release];
     [errors release];
@@ -64,13 +65,13 @@ static KIFTestScenario* currentScenario = nil;
 }
 
 
-- (void) _init
+- (void)_init;
 {
-    if ( durations == nil ) {
+    if (durations == nil) {
         durations = [[NSMutableDictionary alloc] init];
     }
     
-    if ( errors == nil ) { 
+    if (errors == nil) { 
         errors = [[NSMutableDictionary alloc] init];
     }
 }
@@ -88,7 +89,7 @@ static KIFTestScenario* currentScenario = nil;
     
     [self appendToLog:data];
     
-    for(KIFTestScenario* scenario in self.controller.scenarios) { 
+    for (KIFTestScenario* scenario in self.controller.scenarios) { 
         NSNumber* duration = [durations objectForKey: [scenario description]];
         NSError* error = [errors objectForKey: [scenario description]];
         

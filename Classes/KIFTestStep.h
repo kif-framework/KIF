@@ -404,15 +404,6 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
 + (id)stepToTapRowInTableViewWithAccessibilityLabel:(NSString*)tableViewLabel atIndexPath:(NSIndexPath *)indexPath;
 
 /*!
- @method stepToSleepForInterval:interval:
- @abstract A step that sleeps for a specified interval of time.
- @discussion This step will sleep for the amount of time specified in the interval argument.
- @param interval the amount of time to sleep.
- @result A pause in the application for the time specified
- */
-+ (id)stepToSleepForInterval:(NSTimeInterval) interval;
-
-/*!
  @method stepToClearFieldWithAccessibilityLabel:label:traits:expectedResult
  @abstract A step that deletes the contents of an input field (ie TextField or TextView).
  @discussion This step will get the view with the specified accessibility label and clear its contents using the Delete key.

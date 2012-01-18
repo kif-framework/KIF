@@ -944,13 +944,4 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
     }];
 }
 
-+ (id)stepToSleepForInterval:(NSTimeInterval) interval;
-{
-    return [KIFTestStep stepWithDescription:[NSString stringWithFormat:@"Sleeping for %d",interval]
-                             executionBlock:^(KIFTestStep *step, NSError **error) {
-                                 [NSThread sleepForTimeInterval:interval];
-                                 return KIFTestStepResultSuccess;
-                             }];
-}
-
 @end

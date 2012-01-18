@@ -11,6 +11,8 @@
 #import "KIFTestScenario.h"
 #import "KIFTestStep.h"
 
+@class KIFTestLogger;
+@protocol KIFTestLogger;
 
 typedef void (^KIFTestControllerCompletionBlock)();
 
@@ -134,8 +136,17 @@ typedef void (^KIFTestControllerCompletionBlock)();
  */
 - (void)startTestingWithCompletionBlock:(KIFTestControllerCompletionBlock)completionBlock;
 
-- (NSInteger) failureCount;
+/*!
+ @method failureCount:
+ @abstract returns the failure count as of right now.
+*/
+- (NSInteger)failureCount;
 
-- (void) registerLogger:(id) logger;
+/*!
+ @method registerLogger:logger:
+ @abstract Register another KIFTestLogger which will be used during test execution to report results.
+ @param logger A KIFTestLogger implementation.
+ */
+- (void)registerLogger:(KIFTestLogger*) logger;
 
 @end

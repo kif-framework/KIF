@@ -10,7 +10,6 @@
 #import "KIFTestController.h"
 #import "KIFTestScenario.h"
 #import "KIFTestStep.h"
-#import "KIFTestLogger.h"
 
 #import "NSFileManager-KIFAdditions.h"
 #import <QuartzCore/QuartzCore.h>
@@ -467,12 +466,12 @@ static void releaseInstance()
     [UIImagePNGRepresentation(image) writeToFile:outputPath atomically:YES];
 }
 
-- (NSInteger) failureCount;
+- (NSInteger)failureCount;
 {
     return failureCount;
 }
 
-- (void) registerLogger:(id) logger
+- (void)registerLogger:(KIFTestLogger*) logger
 {
     [logger setupController: self];
     [loggers addObject:logger];
