@@ -10,6 +10,7 @@
 #import "KIFTestController.h"
 #import "KIFTestScenario.h"
 #import "KIFTestStep.h"
+#import "KIFTestLogger.h"
 
 #import "NSFileManager-KIFAdditions.h"
 #import <QuartzCore/QuartzCore.h>

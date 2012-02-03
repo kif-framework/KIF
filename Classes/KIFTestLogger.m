@@ -7,14 +7,15 @@
 //
 
 #import "KIFTestLogger.h"
+#import "NSFileManager-KIFAdditions.h"
 
 @implementation KIFTestLogger
 
 @synthesize controller;
 
-- (void)setupController: (KIFTestController*) controller;
+- (void)setupController: (KIFTestController*) theController;
 {
-    self.controller = controller;
+    self.controller = theController;
 }
 
 #define KIFLog(...) [[self logFileHandleForWriting] writeData:[[NSString stringWithFormat:@"%@\n", [NSString stringWithFormat:__VA_ARGS__]] dataUsingEncoding:NSUTF8StringEncoding]]; NSLog(__VA_ARGS__);

@@ -11,6 +11,7 @@
 @implementation KIFJunitTestLogger
 
 @synthesize fileHandle;
+@synthesize logDirectoryPath;
 
 static NSMutableDictionary* durations = nil;
 static NSMutableDictionary* errors = nil;
@@ -19,16 +20,24 @@ static KIFTestScenario* currentScenario = nil;
 - (void)initFileHandle;
 {
     if (!fileHandle) {
-        NSString *logsDirectory = [[NSFileManager defaultManager] createUserDirectory:NSLibraryDirectory];
-        
-        if (logsDirectory) {
-            logsDirectory = [logsDirectory stringByAppendingPathComponent:@"Logs"];
+        NSString *logsDirectory;
+        if (!self.logDirectoryPath) {
+            logsDirectory = [[NSFileManager defaultManager] createUserDirectory:NSLibraryDirectory];
+            if (logsDirectory) {
+                logsDirectory = [logsDirectory stringByAppendingPathComponent:@"Logs"];
+            }
         }
+        else{
+            logsDirectory = self.logDirectoryPath;
+        }
+
+        
         if (![[NSFileManager defaultManager] recursivelyCreateDirectory:logsDirectory]) {
             logsDirectory = nil;
         }
         
-        NSString *dateString = [NSDateFormatter localizedStringFromDate:[NSDate date] dateStyle:NSDateFormatterMediumStyle timeStyle:NSDateFormatterLongStyle];
+        NSString *dateString = [NSDateFormatter localizedStringFromDate:[NSDate date] dateStyle:NSDateFormatterMediumStyle 
+                                                              timeStyle:NSDateFormatterLongStyle];
         dateString = [dateString stringByReplacingOccurrencesOfString:@"/" withString:@"."];
         dateString = [dateString stringByReplacingOccurrencesOfString:@":" withString:@"."];
         NSString *fileName = [NSString stringWithFormat:@"KIF Tests %@.junit.xml", dateString];
@@ -45,8 +54,6 @@ static KIFTestScenario* currentScenario = nil;
             NSLog(@"JUNIT XML RESULTS AT %@", logFilePath);
         }
     }
-    
-    return fileHandle;
 }
 
 - (void)appendToLog:(NSString*) data;
@@ -59,6 +66,7 @@ static KIFTestScenario* currentScenario = nil;
 {
     [fileHandle closeFile];
     [fileHandle release];
+    self.logDirectoryPath = nil;
     [errors release];
     [durations release];
     [super dealloc];
@@ -100,7 +108,7 @@ static KIFTestScenario* currentScenario = nil;
                                @"");
         
         NSString* description = [scenario description];
-        NSString* classString = [scenario class];
+        NSString* classString = NSStringFromClass([scenario class]);
         
         data = [NSString stringWithFormat:@"<testcase name=\"%@\" class=\"%@\" time=\"%0.4f\">%@</testcase>\n",
                                           description, classString, [duration doubleValue], errorMsg];

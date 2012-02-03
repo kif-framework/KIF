@@ -85,7 +85,7 @@ typedef void (^KIFTestControllerCompletionBlock)();
  */
 @property (nonatomic, readonly) NSInteger failureCount;
 
-@property (nonatomic, readonly) NSDate *testSuiteStartDate;
+@property (nonatomic, retain, readonly) NSDate *testSuiteStartDate;
 
 
 /*!
