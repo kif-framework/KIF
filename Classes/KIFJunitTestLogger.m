@@ -11,6 +11,7 @@
 @implementation KIFJunitTestLogger
 
 @synthesize fileHandle;
+@synthesize logDirectoryPath;
 
 static NSMutableDictionary* durations = nil;
 static NSMutableDictionary* errors = nil;
@@ -19,7 +20,14 @@ static KIFTestScenario* currentScenario = nil;
 - (void)initFileHandle;
 {
     if (!fileHandle) {
-        NSString *logsDirectory = [[NSFileManager defaultManager] createUserDirectory:NSLibraryDirectory];
+        NSString *logsDirectory;
+        if (!self.logDirectoryPath) {
+            logsDirectory = [[NSFileManager defaultManager] createUserDirectory:NSLibraryDirectory];
+        }
+        else{
+            logsDirectory = self.logDirectoryPath;
+        }
+
         
         if (logsDirectory) {
             logsDirectory = [logsDirectory stringByAppendingPathComponent:@"Logs"];
@@ -58,6 +66,7 @@ static KIFTestScenario* currentScenario = nil;
 {
     [fileHandle closeFile];
     [fileHandle release];
+    self.logDirectoryPath = nil;
     [errors release];
     [durations release];
     [super dealloc];

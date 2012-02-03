@@ -14,6 +14,7 @@
 }
 
 @property (nonatomic, retain) NSFileHandle *fileHandle;
+@property (nonatomic, retain) NSString *logDirectoryPath;
 
 - (void)logTestingDidStart;
 
