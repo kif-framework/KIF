@@ -275,6 +275,10 @@ static void releaseInstance()
     // This method for testing if the inspector is enabled was taken from the Frank framework.
     // https://github.com/moredip/Frank
     UIWindow *keyWindow = [[UIApplication sharedApplication] keyWindow];
+    NSAssert(keyWindow, @"There is no key window set. This can be caused by starting your KIFTestController from your AppDelegat's "
+             @"application:didFinishLaunchingWithOptions method instead of applicationDidBecomeActive method.  Move this code to applicationDidBecomeActive.");
+    
+
     NSString *originalAccessibilityLabel = [keyWindow accessibilityLabel];
     
     [keyWindow setAccessibilityLabel:@"KIF Test Label"];
