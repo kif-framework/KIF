@@ -16,6 +16,8 @@
 - (UIAccessibilityElement *)accessibilityElementWithLabel:(NSString *)label traits:(UIAccessibilityTraits)traits;
 - (UIAccessibilityElement *)accessibilityElementWithLabel:(NSString *)label accessibilityValue:(NSString *)value traits:(UIAccessibilityTraits)traits;
 - (UIAccessibilityElement *)accessibilityElementMatchingBlock:(BOOL(^)(UIAccessibilityElement *))matchBlock;
+- (NSArray *)subviewsWithClassNamePrefix:(NSString *)prefix;
+
 
 - (UIWindow *)keyboardWindow;
 - (UIWindow *)pickerViewWindow;

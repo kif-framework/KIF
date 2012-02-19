@@ -76,4 +76,16 @@ MAKE_CATEGORIES_LOADABLE(UIApplication_KIFAdditions)
     return nil;
 }
 
+- (NSArray *)subviewsWithClassNamePrefix:(NSString *)prefix
+{
+    NSMutableArray * result = [[NSMutableArray alloc] init];
+    for( UIView * view in [self windows] )
+    {
+        [result addObjectsFromArray:[view subviewsWithClassNamePrefix:prefix]];
+    }
+    
+    return result;
+}
+
+
 @end
