@@ -324,15 +324,19 @@ static void releaseInstance()
     
     switch (result) {
         case KIFTestStepResultFailure: {
-            [self _logDidFailStep:self.currentStep duration:currentStepDuration error:error];
-            [self _writeScreenshotForStep:self.currentStep];
+            if(!self.currentStep.skipFailureLogging)
+            {
+                [self _logDidFailStep:self.currentStep duration:currentStepDuration error:error];
+                [self _writeScreenshotForStep:self.currentStep];
+                failureCount++;
+            }
             [self.currentStep cleanUp];
             
             self.currentScenario = [self _nextScenarioAfterResult:result];
             self.currentScenarioStartDate = [NSDate date];
             self.currentStep = (self.currentScenario.steps.count ? [self.currentScenario.steps objectAtIndex:0] : nil);
             self.currentStepStartDate = [NSDate date];
-            failureCount++;
+                        
             break;
         }
         case KIFTestStepResultSuccess: {
@@ -352,9 +356,16 @@ static void releaseInstance()
             // Don't do anything; the current step will be scheduled for execution again.
             // If there's a timeout, then fail.
             if (currentStepDuration > self.currentStep.timeout) {
-                NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:error, NSUnderlyingErrorKey, [NSString stringWithFormat:@"The step timed out after %.2f seconds.", self.currentStep.timeout], NSLocalizedDescriptionKey, nil];
-                error = [NSError errorWithDomain:@"KIFTest" code:KIFTestStepResultFailure userInfo:userInfo];
-                [self _advanceWithResult:KIFTestStepResultFailure error:error];
+                if(self.currentStep.succeedOnTimeout)
+                {
+                    [self _advanceWithResult:KIFTestStepResultSuccess error:nil];
+                }
+                else
+                {
+                    NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:error, NSUnderlyingErrorKey, [NSString stringWithFormat:@"The step timed out after %.2f seconds.", self.currentStep.timeout], NSLocalizedDescriptionKey, nil];
+                    error = [NSError errorWithDomain:@"KIFTest" code:KIFTestStepResultFailure userInfo:userInfo];
+                    [self _advanceWithResult:KIFTestStepResultFailure error:error];
+                }
             }
             break;
         }

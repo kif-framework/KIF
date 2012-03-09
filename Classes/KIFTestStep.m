@@ -47,6 +47,8 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
 @synthesize notificationOccurred;
 @synthesize observingForNotification;
 @synthesize timeout;
+@synthesize succeedOnTimeout;
+@synthesize skipFailureLogging;
 
 #pragma mark Class Methods
 
@@ -590,6 +592,24 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
     notificationObject = nil;
     
     [super dealloc];
+}
+
+- (id)willSucceedOnTimeout
+{
+    self.succeedOnTimeout = YES;
+    return self;
+}
+
+- (id)willSkipFailureLogging
+{
+    self.skipFailureLogging = YES;
+    return self;
+}
+
+- (id)withCustomTimeout:(NSTimeInterval)newTimeout
+{
+    self.timeout = newTimeout;
+    return self;
 }
 
 #pragma mark Public Methods

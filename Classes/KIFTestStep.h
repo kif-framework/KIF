@@ -85,7 +85,9 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
     id notificationObject;
     BOOL notificationOccurred;
     BOOL observingForNotification;
-    NSTimeInterval timeout;    
+    NSTimeInterval timeout;
+    BOOL succeedOnTimeout;
+    BOOL skipFailureLogging;
 }
 
 /*!
@@ -101,6 +103,20 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
  @discussion This is used to help describe what the test script is doing and where it may have failed.
  */
 @property (nonatomic, retain) NSString *description;
+
+/*!
+ @property succeedOnTimeout
+ @abstract If true, this step will succeed if it times out after waiting.
+ @discussion Sometimes a step waits for something that may not happen, and that's not always a failure case.
+ */
+@property (nonatomic, assign) BOOL succeedOnTimeout;
+
+/*!
+ @property skipFailureLogging
+ @abstract If true, this step will not count as a failure when it fails, but still ends the scenario.
+ @discussion Some steps are not important, so if they fail then they don't count but still end the scenario.
+ */
+@property (nonatomic, assign) BOOL skipFailureLogging;
 
 /*!
  @method defaultTimeout
@@ -394,5 +410,30 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
  @result A configured test step.
  */
 + (id)stepToTapRowInTableViewWithAccessibilityLabel:(NSString*)tableViewLabel atIndexPath:(NSIndexPath *)indexPath;
+
+/*!
+ @method willSucceedOnTimeout
+ @abstract Sets the succeedOnTimeout property to true and returns itself.
+ @discussion Convenience method to be used when adding steps to scenarios.
+ @result A test step that will succeed if it times out.
+ */
+- (id)willSucceedOnTimeout;
+
+/*!
+ @method willSkipFailureLogging
+ @abstract Sets the skipFailureLogging property to true and returns itself.
+ @discussion Convenience method to be used when adding steps to scenarios.
+ @result A test step that will skip failure logging when it fails.
+ */
+- (id)willSkipFailureLogging;
+
+/*!
+ @method withCustomTimeout:
+ @abstract Changes the timeout value of the step without affecting the default.
+ @discussion Convenience method to be used when adding steps to scenarios.
+ @param newTimeout New timeout value that will be applied to this step only.
+ @result A test step with a custom timeout value.
+ */
+- (id)withCustomTimeout:(NSTimeInterval)newTimeout;
 
 @end
