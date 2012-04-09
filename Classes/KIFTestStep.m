@@ -269,6 +269,7 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
         }
 
         view = [UIAccessibilityElement viewContainingAccessibilityElement:element];
+
         KIFTestWaitCondition(view, error, @"Failed to find view for accessibility element with label \"%@\"", label);
 
         if (![self _isUserInteractionEnabledForView:view]) {
@@ -337,6 +338,7 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
         }
         
         UIView *view = [UIAccessibilityElement viewContainingAccessibilityElement:element];
+        [(UITextField *)view setText:nil];
         KIFTestWaitCondition(view, error, @"Cannot find view with accessibility label \"%@\"", label);
                 
         CGRect elementFrame = [view.window convertRect:element.accessibilityFrame toView:view];
