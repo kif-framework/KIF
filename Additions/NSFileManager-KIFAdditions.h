@@ -10,7 +10,7 @@
 #import <Foundation/Foundation.h>
 
 
-@interface NSFileManager (CCAdditions)
+@interface NSFileManager (KIFAdditions)
 
 - (NSString *)createUserDirectory:(NSSearchPathDirectory)searchPath;
 - (BOOL)recursivelyCreateDirectory:(NSString *)path;
