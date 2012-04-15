@@ -14,7 +14,7 @@
 MAKE_CATEGORIES_LOADABLE(NSFileManager_KIFAdditions)
 
 
-@implementation NSFileManager (CCAdditions)
+@implementation NSFileManager (KIFAdditions)
 
 #pragma mark Public Methods
 
