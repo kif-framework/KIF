@@ -269,6 +269,7 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
         }
 
         view = [UIAccessibilityElement viewContainingAccessibilityElement:element];
+
         KIFTestWaitCondition(view, error, @"Failed to find view for accessibility element with label \"%@\"", label);
 
         if (![self _isUserInteractionEnabledForView:view]) {
@@ -425,6 +426,55 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
         return KIFTestStepResultFailure;
     }];
 }
+
++ (id)stepToSelectPickerViewRowWithTitle:(NSString *)title forColumn:(NSInteger)componentIndex
+{
+    NSString *description = [NSString stringWithFormat:@"Select the \"%@\" item from the picker", title];
+    return [self stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
+        
+        // Find the picker view
+        UIPickerView *pickerView = [[[[UIApplication sharedApplication] pickerViewWindow] subviewsWithClassNameOrSuperClassNamePrefix:@"UIPickerView"] lastObject];
+        KIFTestCondition(pickerView, error, @"No picker view is present");
+        
+        NSInteger componentCount = [pickerView.dataSource numberOfComponentsInPickerView:pickerView];
+        
+        KIFTestCondition(componentIndex < componentCount, error, @"The picker view has less columns than has been requested");
+        
+        NSInteger rowCount = [pickerView.dataSource pickerView:pickerView numberOfRowsInComponent:componentIndex];
+        for (NSInteger rowIndex = 0; rowIndex < rowCount; rowIndex++) {
+               NSString *rowTitle = nil;
+               if ([pickerView.delegate respondsToSelector:@selector(pickerView:titleForRow:forComponent:)]) {
+                    rowTitle = [pickerView.delegate pickerView:pickerView titleForRow:rowIndex forComponent:componentIndex];  
+                } else if ([pickerView.delegate respondsToSelector:@selector(pickerView:viewForRow:forComponent:reusingView:)]) {
+                    // This delegate inserts views directly, so try to figure out what the title is by looking for a label
+                    UIView *rowView = [pickerView.delegate pickerView:pickerView viewForRow:rowIndex forComponent:componentIndex reusingView:nil];
+                    NSArray *labels = [rowView subviewsWithClassNameOrSuperClassNamePrefix:@"UILabel"];
+                    UILabel *label = (labels.count > 0 ? [labels objectAtIndex:0] : nil);
+                    rowTitle = label.text;
+                }
+                
+                if ([rowTitle isEqual:title]) {
+                    [pickerView selectRow:rowIndex inComponent:componentIndex animated:YES];
+                    CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.5, false);
+                    
+                    // Tap in the middle of the picker view to select the item
+                    [pickerView tap];
+                    
+                    // The combination of selectRow:inComponent:animated: and tap does not consistently result in
+                    // pickerView:didSelectRow:inComponent: being called on the delegate. We need to do it explicitly.
+                    if ([pickerView.delegate respondsToSelector:@selector(pickerView:didSelectRow:inComponent:)]) {
+                        [pickerView.delegate pickerView:pickerView didSelectRow:rowIndex inComponent:componentIndex];
+                    }
+                    
+                    return KIFTestStepResultSuccess;
+                }
+            }
+
+        KIFTestCondition(NO, error, @"Failed to find picker view value with title \"%@\"", title);
+        return KIFTestStepResultFailure;
+    }];
+}
+
 
 + (id)stepToSetOn:(BOOL)switchIsOn forSwitchWithAccessibilityLabel:(NSString *)label;
 {
@@ -876,5 +926,74 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
     
     return element;
 }
+
+
++ (id)stepToClearField: (NSString *)label 
+                traits:(UIAccessibilityTraits)traits 
+        expectedResult:(NSString *)expectedResult;
+{
+    const NSTimeInterval keystrokeDelay = 0.05f;
+    
+    NSString *description = [NSString stringWithFormat:@"Clear the text in the view with accessibility label \"%@\"", label];
+    
+    return [self stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
+        
+        UIAccessibilityElement *element = [self _accessibilityElementWithLabel:label accessibilityValue:nil tappable:YES traits:traits error:error];
+        if (!element) {
+            return KIFTestStepResultWait;
+        }
+        
+        UIView *view = [UIAccessibilityElement viewContainingAccessibilityElement:element];
+        
+        KIFTestWaitCondition(view, error, @"Cannot find view with accessibility label \"%@\"", label);
+        
+        CGRect elementFrame = [view.window convertRect:element.accessibilityFrame toView:view];
+        CGPoint tappablePointInElement = [view tappablePointInRect:elementFrame];
+        
+        // This is mostly redundant of the test in _accessibilityElementWithLabel:
+        KIFTestCondition(!isnan(tappablePointInElement.x), error, @"The element with accessibility label %@ is not tappable", label);
+        [view tapAtPoint:tappablePointInElement];
+        
+        KIFTestWaitCondition([view isDescendantOfFirstResponder], error, @"Failed to make the view with accessibility label \"%@\" the first responder. First responder is %@", label, [[[UIApplication sharedApplication] keyWindow] firstResponder]);
+        
+        // Wait for the keyboard
+        CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.5, false);
+        
+        // This is probably a UITextField- or UITextView-ish view, so make sure it worked
+        if ([view respondsToSelector:@selector(text)]) {
+            NSString *actual = [[view performSelector:@selector(text)] stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+            
+            UIAccessibilityElement *delElement = [self _accessibilityElementWithLabel:@"Delete" accessibilityValue:nil tappable:YES traits:traits error:error];
+            
+            if (!delElement) {
+                return KIFTestStepResultWait;
+            }
+            
+            UIView *delView = [UIAccessibilityElement viewContainingAccessibilityElement:delElement];
+            KIFTestWaitCondition(delView, error, @"Cannot find view with accessibility label \"Delete\"");
+            
+            CGRect delElementFrame = [delView.window convertRect:delElement.accessibilityFrame toView:delView];
+            CGPoint delTappablePointInElement = [delView tappablePointInRect:delElementFrame];
+            
+            // This is mostly redundant of the test in _accessibilityElementWithLabel:
+            KIFTestCondition(!isnan(delTappablePointInElement.x), error, @"The element with accessibility label Delete is not tappable");
+            
+            for(int i = 0; i < [actual length]; i++) { 
+                [delView tapAtPoint:delTappablePointInElement];
+                CFRunLoopRunInMode(kCFRunLoopDefaultMode, keystrokeDelay, false);
+            }
+        }
+
+        
+        
+        return KIFTestStepResultSuccess;
+    }];
+}
+
++ (id)stepToClearField: (NSString *)label;
+{
+    return [self stepToClearField:label traits:UIAccessibilityTraitNone expectedResult:nil];
+}
+
 
 @end

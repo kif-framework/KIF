@@ -348,6 +348,16 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
 + (id)stepToSelectPickerViewRowWithTitle:(NSString *)title;
 
 /*!
+ @method stepToSelectPickerViewRowWithTitle:forColumn:
+ @abstract A step that selects an item from a currently visible picker view for the given column index.
+ @discussion With a picker view already visible, this step will find an item with the given title for the given column index, and select that item.
+ @param title The title of the row to select.
+ @param componentIndex The zero-indexed component index on which to act.
+ @result A configured test step.
+ */
++ (id)stepToSelectPickerViewRowWithTitle:(NSString *)title forColumn:(NSInteger)componentIndex;
+
+/*!
  @method stepToSetOn:forSwitchWithAccessibilityLabel:
  @abstract A step that toggles a UISwitch into a specified position.
  @discussion The UISwitch with the given label is searched for in the view hierarchy. If the element isn't found or isn't currently tappable, then the step will attempt to wait until it is. Once the view is present, the step will return if it's already in the desired position. If the switch is tappable but not in the desired position, a tap event is simulated in the center of the view or element, toggling the switch into the desired position.
@@ -394,5 +404,11 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
  @result A configured test step.
  */
 + (id)stepToTapRowInTableViewWithAccessibilityLabel:(NSString*)tableViewLabel atIndexPath:(NSIndexPath *)indexPath;
+
+
+
++ (id)stepToClearField: (NSString *)label traits:(UIAccessibilityTraits)traits expectedResult:(NSString *)expectedResult;
+
++ (id)stepToClearField: (NSString *)label; 
 
 @end
