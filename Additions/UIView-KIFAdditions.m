@@ -13,6 +13,7 @@
 #import "UITouch-KIFAdditions.h"
 #import <objc/runtime.h>
 
+typedef struct __GSEvent * GSEventRef;
 
 //
 // GSEvent is an undeclared object. We don't need to use it ourselves but some
@@ -47,7 +48,7 @@
 
 - (void)_addTouch:(id)arg1 forDelayedDelivery:(BOOL)arg2;
 - (void)_clearTouches;
-- (void)_setGSEvent:(struct __GSEvent *)event;
+- (void)_setGSEvent:(GSEventRef)event;
 
 @end
 
