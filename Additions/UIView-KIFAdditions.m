@@ -256,14 +256,7 @@
 
 - (void)tap;
 {
-    CGRect frame;
-    if ([self isKindOfClass:[UIWindow class]]) {
-        frame = self.frame;
-    } else {
-        frame = [self.window convertRect:self.frame fromView:self.superview];
-    }
-    
-    CGPoint centerPoint = CGPointMake(frame.size.width * 0.5f, frame.size.height * 0.5f);
+    CGPoint centerPoint = CGPointMake(self.frame.size.width * 0.5f, self.frame.size.height * 0.5f);
     
     [self tapAtPoint:centerPoint];
 }
