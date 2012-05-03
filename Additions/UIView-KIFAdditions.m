@@ -315,46 +315,45 @@
     [self dragAlongPathWithPoints:points count:sizeof(points) / sizeof(CGPoint)];
 }
 
+#define DRAG_TOUCH_DELAY 0.01
+
 - (void)dragAlongPathWithPoints:(CGPoint *)points count:(NSInteger)count;
 {
     // we need at least two points in order to make segments
     if (count < 2) {
         return;
     }
-    UITouch *touchDown = [[UITouch alloc] initAtPoint:points[0] inView:self];
-    [touchDown setPhase:UITouchPhaseBegan];
+
+    // Create the touch (there should only be one touch object for the whole drag)
+    UITouch *touch = [[UITouch alloc] initAtPoint:points[0] inView:self];
+    [touch setPhase:UITouchPhaseBegan];
     
-    UIEvent *eventDown = [self _eventWithTouch:touchDown];
+    UIEvent *eventDown = [self _eventWithTouch:touch];
     [[UIApplication sharedApplication] sendEvent:eventDown];
+
+    CFRunLoopRunInMode(kCFRunLoopDefaultMode, DRAG_TOUCH_DELAY, false);
     
     for (NSInteger pointIndex = 1; pointIndex < count - 1; pointIndex++) {
-        UITouch *touchDrag = [[UITouch alloc] initAtPoint:points[pointIndex] inView:self];
-        [touchDrag setPhase:UITouchPhaseMoved];
+        [touch setLocationInWindow:[self.window convertPoint:points[pointIndex] fromView:self]];
+        [touch setPhase:UITouchPhaseMoved];
         
-        UIEvent *eventDrag = [self _eventWithTouch:touchDrag];
+        UIEvent *eventDrag = [self _eventWithTouch:touch];
         [[UIApplication sharedApplication] sendEvent:eventDrag];
-        
-        [touchDrag release];
+
+        CFRunLoopRunInMode(kCFRunLoopDefaultMode, DRAG_TOUCH_DELAY, false);
     }
     
-    UITouch *touchUp = [[UITouch alloc] initAtPoint:points[count - 1] inView:self];
-    [touchUp setPhase:UITouchPhaseMoved];
+    [touch setPhase:UITouchPhaseEnded];
     
-    UIEvent *eventDrag2 = [self _eventWithTouch:touchUp];
-    [[UIApplication sharedApplication] sendEvent:eventDrag2];
-    
-    [touchUp setPhase:UITouchPhaseEnded];
-    
-    UIEvent *eventUp = [self _eventWithTouch:touchUp];
+    UIEvent *eventUp = [self _eventWithTouch:touch];
     [[UIApplication sharedApplication] sendEvent:eventUp];
     
     // Dispatching the event doesn't actually update the first responder, so fake it
-    if (touchUp.view == self && [self canBecomeFirstResponder]) {
+    if (touch.view == self && [self canBecomeFirstResponder]) {
         [self becomeFirstResponder];
     }
     
-    [touchDown release];
-    [touchUp release];
+    [touch release];
 }
 
 // Is this view currently on screen?

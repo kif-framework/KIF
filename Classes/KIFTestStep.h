@@ -395,4 +395,29 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
  */
 + (id)stepToTapRowInTableViewWithAccessibilityLabel:(NSString*)tableViewLabel atIndexPath:(NSIndexPath *)indexPath;
 
+/*!
+ @enum KIFSwipeDirection
+ @abstract Directions in which to swipe.
+ @constant KIFSwipeDirectionRight Swipe to the right.
+ @constant KIFSwipeDirectionLeft Swipe to the left.
+ @constant KIFSwipeDirectionUp Swipe up.
+ @constant KIFSwipeDirectionDown Swipe down.
+ */
+typedef enum {
+    KIFSwipeDirectionRight,
+    KIFSwipeDirectionLeft,
+    KIFSwipeDirectionUp,
+    KIFSwipeDirectionDown
+} KIFSwipeDirection;
+
+/*!
+ @method stepToSwipeViewWithAccessibilityLabel:inDirection:
+ @abstract A step that swipes a particular view in the view hierarchy in the given direction.
+ @discussion The view will get the view with the specified accessibility label and swipe the screen in the given direction from the view's center.
+ @param label The accessibility label of the view to swipe.
+ @param direction The direction in which to swipe.
+ @result A configured test step.
+ */
++ (id)stepToSwipeViewWithAccessibilityLabel:(NSString *)label inDirection:(KIFSwipeDirection)direction;
+
 @end
