@@ -928,9 +928,7 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
 }
 
 
-+ (id)stepToClearField: (NSString *)label 
-                traits:(UIAccessibilityTraits)traits 
-        expectedResult:(NSString *)expectedResult;
++ (id)stepToClearField:(NSString *)label traits:(UIAccessibilityTraits)traits expectedResult:(NSString *)expectedResult;
 {
     const NSTimeInterval keystrokeDelay = 0.05f;
     
@@ -990,7 +988,7 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
     }];
 }
 
-+ (id)stepToClearField: (NSString *)label;
++ (id)stepToClearField:(NSString *)label;
 {
     return [self stepToClearField:label traits:UIAccessibilityTraitNone expectedResult:nil];
 }
