@@ -405,10 +405,22 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
  */
 + (id)stepToTapRowInTableViewWithAccessibilityLabel:(NSString*)tableViewLabel atIndexPath:(NSIndexPath *)indexPath;
 
+/*!
+@method stepToClearField:traits:expectedResult:
+@abstract A step that clears any existing text from a text field with the given label.
+@discussion This step will get the view with the specified label, and if of type UITextField, will call setText:nil to remove any existing input.
+@param label Accessibility label of the text field.
+@param traits The accessibility traits of the element to type into. Elements that do not include at least these traits are ignored.
+@param expectedResult What the text value should be after entry, including any formatting done by the field.
+*/
++ (id)stepToClearField:(NSString *)label traits:(UIAccessibilityTraits)traits expectedResult:(NSString *)expectedResult;
 
-
-+ (id)stepToClearField: (NSString *)label traits:(UIAccessibilityTraits)traits expectedResult:(NSString *)expectedResult;
-
-+ (id)stepToClearField: (NSString *)label; 
+/*!
+@method stepToClearField:traits:expectedResult:
+@abstract A step that clears any existing text from a text field with the given label.
+@discussion This step will get the view with the specified label, and if of type UITextField, will call setText:nil to remove any existing input.
+@param label Accessibility label of the text field.
+*/
++ (id)stepToClearField:(NSString *)label; 
 
 @end
