@@ -211,8 +211,8 @@ typedef CGPoint KIFDisplacement;
         return KIFTestStepResultSuccess;
     }];
     
-    // Make sure that the timeout is set so that it doesn't timeout prematurely.
-    step.timeout = interval + 1.0;
+    // Increase timeout by interval so that the step doesn't timeout prematurely.
+    step.timeout += ceil(interval);
     
     return step;
 }
