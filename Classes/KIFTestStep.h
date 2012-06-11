@@ -377,6 +377,15 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
 + (id)stepToDismissPopover;
 
 /*!
+ @method stepToDismissAlertViewWithButtonTitle:
+ @abstract A step that dismisses an alert on screen
+ @discussion The UIAlertView contains one or more UIThreePartButton instances that represent the buttons. The UIThreePartButton class has a 'title' property which is the button's title.
+ @param title The title of the button in the UIAlertView to tap
+ @result A configured test step.
+ */
++ (id)stepToDismissAlertViewWithButtonTitle:(NSString *)title;
+
+/*!
  @method stepToSimulateMemoryWarning
  @abstract Simulates a memory warning.
  @result A configured test step.

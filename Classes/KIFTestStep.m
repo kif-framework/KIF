@@ -511,6 +511,36 @@ typedef CGPoint KIFDisplacement;
     }];
 }
 
++ (id)stepToDismissAlertViewWithButtonTitle:(NSString *)title
+{
+    return [self stepWithDescription:[NSString stringWithFormat:@"Dismiss the alert with button titled: %@", title] executionBlock:^(KIFTestStep *step, NSError **error) {
+                          
+        const NSTimeInterval tapDelay = 0.05;
+        NSArray *windows = [[UIApplication sharedApplication] windows];
+        KIFTestCondition(windows.count, error, @"Failed to find any windows in the application");
+        
+        UIWindow *alertViewWindow = [[UIApplication sharedApplication] alertViewWindow];
+        KIFTestCondition(alertViewWindow, error, @"Failed to find any windows containing an UIAlertView in the application");
+        
+
+        UIView *alertView = [alertViewWindow subviewWithClassNameOrSuperClassNamePrefix:@"UIAlertView"];
+        id buttonView = nil;
+        for (id subview in alertView.subviews) {
+            if ([NSStringFromClass([subview class]) isEqualToString:@"UIThreePartButton"]) {
+                if ([subview respondsToSelector:@selector(title)] && [[subview title] isEqualToString:title]) {
+                    buttonView = subview;
+                    break;
+                }
+            }
+        }
+        
+        KIFTestCondition(buttonView, error, @"Failed to find a button within the UIAlertView titled \"%@\"", title);
+        [buttonView tapAtPoint:CGPointMake(5, 5)];
+        CFRunLoopRunInMode(kCFRunLoopDefaultMode, tapDelay, false);
+        return KIFTestStepResultSuccess;
+    }];
+}
+
 + (id)stepToSimulateMemoryWarning;
 {
     return [KIFTestStep stepWithDescription:@"Simulate a memory warning" executionBlock:^(KIFTestStep *step, NSError **error) {
