@@ -923,8 +923,8 @@ typedef CGPoint KIFDisplacement;
         if ((UIAccessibilityElement *)view == element) {
             [scrollView scrollViewToVisible:view animated:YES];
         } else {
-            CGRect elementFrame = [view.window convertRect:element.accessibilityFrame toView:scrollView];            
-            [scrollView setContentOffset:CGPointMake(0,  elementFrame.origin.y) animated:YES];
+            CGRect elementFrame = [view.window convertRect:element.accessibilityFrame toView:scrollView];
+            [scrollView scrollRectToVisible:elementFrame animated:YES];
         }
         
         // Give the scroll view a small amount of time to perform the scroll.
