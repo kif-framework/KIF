@@ -13,7 +13,10 @@
 
 MAKE_CATEGORIES_LOADABLE(UITouch_KIFAdditions)
 
+
 @interface UITouch () {
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 60000
+    // ivars declarations removed in 6.0
     NSTimeInterval  _timestamp;
     UITouchPhase    _phase;
     UITouchPhase    _savedPhase;
@@ -38,6 +41,7 @@ MAKE_CATEGORIES_LOADABLE(UITouch_KIFAdditions)
         unsigned int _sentTouchesEnded:1;
         unsigned int _abandonForwardingRecord:1;
     } _touchFlags;
+#endif
 }
 @end
 
