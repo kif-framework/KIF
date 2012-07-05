@@ -539,6 +539,50 @@ typedef CGPoint KIFDisplacement;
     }];
 }
 
++ (id)stepToPresentModalViewControllerWithIdentifier:(NSString *)controllerIdentifier fromStoryboardWithName:(NSString *)storyboardName configurationBlock:(void (^)(UIViewController *viewController))configurationBlock;
+{
+    NSString *description = [NSString stringWithFormat:@"Presents modal view controller with Identififer '%@' from Storyboard with Name '%@'", controllerIdentifier, storyboardName];
+    return [KIFTestStep stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:storyboardName bundle:nil];
+        
+        UIViewController *controller = [storyboard instantiateViewControllerWithIdentifier:controllerIdentifier];
+        if (configurationBlock) configurationBlock(controller);
+        KIFTestCondition(controller != nil, error, @"Expected a view controller, but got nil");
+        UIViewController *viewController = [[UIViewController alloc] initWithNibName:nil bundle:nil];
+        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:viewController];
+        [[[UIApplication sharedApplication].windows objectAtIndex:0] setRootViewController:navController];
+        [navController presentModalViewController:controller animated:NO];
+        
+        return KIFTestStepResultSuccess;
+    }];
+}
+
++ (id)stepToPresentModalViewControllerWithIdentifier:(NSString *)controllerIdentifier fromStoryboardWithName:(NSString *)storyboardName;
+{
+    return [self stepToPresentModalViewControllerWithIdentifier:controllerIdentifier fromStoryboardWithName:storyboardName configurationBlock:nil];
+}
+
++ (id)stepToPresentViewControllerWithIdentifier:(NSString *)controllerIdentifier fromStoryboardWithName:(NSString *)storyboardName configurationBlock:(void (^)(UIViewController *viewController))configurationBlock;
+{
+    NSString *description = [NSString stringWithFormat:@"Presents view controller with Identififer '%@' from Storyboard with Name '%@'", controllerIdentifier, storyboardName];
+    return [KIFTestStep stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:storyboardName bundle:nil];
+        
+        UIViewController *controller = [storyboard instantiateViewControllerWithIdentifier:controllerIdentifier];
+        if (configurationBlock) configurationBlock(controller);
+        KIFTestCondition(controller != nil, error, @"Expected a view controller, but got nil");
+        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
+        [[[UIApplication sharedApplication].windows objectAtIndex:0] setRootViewController:navController];
+        
+        return KIFTestStepResultSuccess;
+    }];
+}
+
++ (id)stepToPresentViewControllerWithIdentifier:(NSString *)controllerIdentifier fromStoryboardWithName:(NSString *)storyboardName;
+{
+    return [self stepToPresentViewControllerWithIdentifier:controllerIdentifier fromStoryboardWithName:storyboardName configurationBlock:nil];
+}
+
 #define NUM_POINTS_IN_SWIPE_PATH 20
 
 + (id)stepToSwipeViewWithAccessibilityLabel:(NSString *)label inDirection:(KIFSwipeDirection)direction
