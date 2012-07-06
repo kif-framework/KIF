@@ -431,4 +431,15 @@ typedef enum {
  */
 + (id)stepToSwipeViewWithAccessibilityLabel:(NSString *)label inDirection:(KIFSwipeDirection)direction;
 
+/*!
+ @method stepToWaitForFirstResponderWithAccessibilityLabel:
+ @abstract A step that waits until a view or accessibility element is the first responder.
+ @discussion The first responder is found by searching the view hierarchy of the application's
+    main window and its accessibility label is compared to the given value. If they match, the
+    step returns success else it will attempt to wait until they do.
+ @param label The accessibility label of the element to wait for.
+ @result A configured test step.
+ */
++ (id)stepToWaitForFirstResponderWithAccessibilityLabel:(NSString *)label;
+
 @end
