@@ -240,7 +240,7 @@ The other line to notice in the sample scenario is the one that calls `+[KIFTest
 
 	@end
 
-Finally, the app needs a hook so that it actually runs the KIF tests when executing the Integration Tests target. To do this we'll take advantage of the `RUN_KIF_TESTS` macro that was defined earlier. This macro is only defined in the testing target, so the tests won't run in the regular target. To invoke the test suite, add the following code to the end of the `-application:didFinishLaunchingWithOptions:` method in your application delegate:
+Finally, the app needs a hook so that it actually runs the KIF tests when executing the Integration Tests target. To do this we'll take advantage of the `RUN_KIF_TESTS` macro that was defined earlier. This macro is only defined in the testing target, so the tests won't run in the regular target. To invoke the test suite, add the following code to the end of the `-applicationDidBecomeActive:` method in your application delegate:
 
 	#if RUN_KIF_TESTS
 	    [[EXTestController sharedInstance] startTestingWithCompletionBlock:^{
@@ -248,6 +248,8 @@ Finally, the app needs a hook so that it actually runs the KIF tests when execut
 	        exit([[EXTestController sharedInstance] failureCount]);
 	    }];
 	#endif
+
+Be careful to avoid placing this code in the application:didFinishLaunchingWithOptions: since during this method the key window may not have been assigned and will cause KIF to fail with an error stating this.
 
 Everything should now be configured. When you run the integration tests target it will launch your app and begin running the testing scenarios. When the scenarios finish, the app will exit and return a zero if all scenarios pass, or the number of failures if any fail.
 
