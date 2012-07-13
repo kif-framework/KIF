@@ -595,6 +595,17 @@ typedef CGPoint KIFDisplacement;
     }];
 }
 
++ (id)stepToWaitForFirstResponderWithAccessibilityLabel:(NSString *)label;
+{
+    NSString *description = [NSString stringWithFormat:@"Verify that the first responder is the view with accessibility label '%@'", label];
+    return [KIFTestStep stepWithDescription:description executionBlock:^KIFTestStepResult(KIFTestStep *step, NSError *__autoreleasing *error) {
+        UIResponder *firstResponder = [[[UIApplication sharedApplication] keyWindow] firstResponder];
+        KIFTestWaitCondition([[firstResponder accessibilityLabel] isEqualToString:label], error, @"Expected accessibility label for first responder to be '%@', got '%@'", label, [firstResponder accessibilityLabel]);
+
+        return KIFTestStepResultSuccess;
+    }];
+}
+
 #pragma mark Step Collections
 
 + (NSArray *)stepsToChoosePhotoInAlbum:(NSString *)albumName atRow:(NSInteger)row column:(NSInteger)column;
