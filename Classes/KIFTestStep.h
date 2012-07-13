@@ -431,4 +431,66 @@ typedef enum {
  */
 + (id)stepToSwipeViewWithAccessibilityLabel:(NSString *)label inDirection:(KIFSwipeDirection)direction;
 
+/*!
+ @method stepToPresentViewControllerWithIdentifier:fromStoryboardWithName:configurationBlock:
+ @abstract A step that presents a view controller with a given identifier from a Storyboard
+    with a given name.
+ @discussion The view controller will be instantiated through the Storyboard and presented within a
+    new UINavigationController, which will be configured as the root view controller of the 
+    application's primary window. The UIViewController is yielded to the configuration block before 
+    presentation so that any required setup work may be done (i.e. setting required properties).
+ @param controllerIdentifier The identifier of the desired controller within the Storyboard.
+ @param storyboardName The name of the Storyboard from which to instantiate the view controller.
+ @param configurationBlock An optional configuration block which is invoked with the view controller
+    before it is presented.
+ @result A configured test step.
+ */
++ (id)stepToPresentViewControllerWithIdentifier:(NSString *)controllerIdentifier fromStoryboardWithName:(NSString *)storyboardName configurationBlock:(void (^)(UIViewController *viewController))configurationBlock;
+
+/*!
+ @method stepToPresentViewControllerWithIdentifier:fromStoryboardWithName:
+ @abstract A step that presents a view controller with a given identifier from a Storyboard
+ with a given name.
+ @discussion The view controller will be instantiated through the Storyboard and presented within a
+ new UINavigationController, which will be configured as the root view controller of the
+ application's primary window.
+ @param controllerIdentifier The identifier of the desired controller within the Storyboard.
+ @param storyboardName The name of the Storyboard from which to instantiate the view controller.
+ @result A configured test step.
+ */
++ (id)stepToPresentViewControllerWithIdentifier:(NSString *)controllerIdentifier fromStoryboardWithName:(NSString *)storyboardName;
+
+/*!
+ @method stepToPresentModalViewControllerWithIdentifier:fromStoryboardWithName:configurationBlock:
+ @abstract A step that modally presents a view controller with a given identifier from a Storyboard
+ with a given name.
+ @discussion The view controller will be instantiated through the Storyboard and presented
+ modally over a vanilla UIViewController configured as the root view controller of a new
+ UINavigationController, which will be configured as the root view controller of the
+ application's primary window. The UIViewController is yielded to the configuration block before
+ presentation so that any required setup work may be done (i.e. setting required properties).
+ @param controllerIdentifier The identifier of the desired controller within the Storyboard.
+ @param storyboardName The name of the Storyboard from which to instantiate the view controller.
+ @param configurationBlock An optional configuration block which is invoked with the view controller
+ before it is presented.
+ @result A configured test step.
+ */
++ (id)stepToPresentModalViewControllerWithIdentifier:(NSString *)controllerIdentifier fromStoryboardWithName:(NSString *)storyboardName configurationBlock:(void (^)(UIViewController *viewController))configurationBlock;
+
+/*!
+ @method stepToPresentModalViewControllerWithIdentifier:fromStoryboardWithName:
+ @abstract A step that modally presents a view controller with a given identifier from a Storyboard
+ with a given name.
+ @discussion The view controller will be instantiated through the Storyboard and presented
+ modally over a vanilla UIViewController configured as the root view controller of a new
+ UINavigationController, which will be configured as the root view controller of the
+ application's primary window.
+ @param controllerIdentifier The identifier of the desired controller within the Storyboard.
+ @param storyboardName The name of the Storyboard from which to instantiate the view controller.
+ @param configurationBlock An optional configuration block which is invoked with the view controller
+ before it is presented.
+ @result A configured test step.
+ */
++ (id)stepToPresentModalViewControllerWithIdentifier:(NSString *)controllerIdentifier fromStoryboardWithName:(NSString *)storyboardName;
+
 @end
