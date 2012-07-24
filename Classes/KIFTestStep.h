@@ -414,11 +414,12 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
 @param expectedResult What the text value should be after entry, including any formatting done by the field.
 */
 + (id)stepToClearTextFromViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits expectedResult:(NSString *)expectedResult;
+
 /*!
 @method stepToClearTextFromViewWithAccessibilityLabel:
 @abstract A step that clears any existing text from a text field with the given label.
 @discussion This step will get the view with the specified label, and if of type UITextField, will call setText:nil to remove any existing input.
 @param label Accessibility label of the text field.
 */
-+ (id)stepToClearTextFromViewWithAccessibilityLabel:
++ (id)stepToClearTextFromViewWithAccessibilityLabel:(NSString *)label;
 @end
