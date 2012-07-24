@@ -456,4 +456,35 @@ typedef struct __GSEvent * GSEventRef;
     return event;
 }
 
+static inline void RunBlockAfterDelay( NSTimeInterval delay, void (^block)(void) )
+{
+	dispatch_after( dispatch_time( DISPATCH_TIME_NOW, NSEC_PER_SEC * delay), dispatch_get_current_queue(), block );
+}
+
+
+- (void)longTapAtPoint:(CGPoint)point withDelay:(NSInteger)delay andCompletion:(void(^)(void))completion;
+{
+    // Handle touches in the normal way for other views
+    UITouch *touch = [[UITouch alloc] initAtPoint:point inView:self];
+    [touch setPhase:UITouchPhaseBegan];
+    
+    UIEvent *event = [self _eventWithTouch:touch];
+	
+    [[UIApplication sharedApplication] sendEvent:event];
+	
+	RunBlockAfterDelay( delay, ^{
+		[touch setPhase:UITouchPhaseEnded];
+		[[UIApplication sharedApplication] sendEvent:event];
+		
+		// Dispatching the event doesn't actually update the first responder, so fake it
+		if ([touch.view isDescendantOfView:self] && [self canBecomeFirstResponder]) {
+			[self becomeFirstResponder];
+		}
+		
+		if (completion) completion();
+	});
+	
+    [touch release];
+}
+
 @end
