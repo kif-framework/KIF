@@ -989,7 +989,7 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
 
 + (id)stepToClearTextFromViewWithAccessibilityLabel:(NSString *)label
 {
-    return [self stepToClearField:label traits:UIAccessibilityTraitNone expectedResult:nil];
+    return [self stepToClearTextFromViewWithAccessibilityLabel:label traits:nil expectedResult:nil];
 }
 
 @end
