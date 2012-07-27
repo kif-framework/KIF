@@ -581,7 +581,7 @@ typedef CGPoint KIFDisplacement;
     }];
 }
 
-+ (id)stepToWaitForSwitchWithAccessibilityLabel:(NSString *)label withValue:(BOOL)switchIsOn
++ (id)stepToWaitForSwitchWithAccessibilityLabel:(NSString *)label value:(BOOL)switchIsOn
 {
     NSString *description = [NSString stringWithFormat:@"Verify that the switch with accessibility label \"%@\" is %@", label, switchIsOn ? @"ON" : @"OFF"];
     return [self stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {

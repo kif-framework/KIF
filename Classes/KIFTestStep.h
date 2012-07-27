@@ -423,7 +423,7 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
  @param label The accessibility label of the UISwitch element.
  @result A configured test step.
  */
-+ (id)stepToWaitForSwitchWithAccessibilityLabel:(NSString *)label withValue:(BOOL)switchIsOn;
++ (id)stepToWaitForSwitchWithAccessibilityLabel:(NSString *)label value:(BOOL)switchIsOn;
 
 /*!
  @method stepToDismissPopover
