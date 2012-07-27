@@ -369,14 +369,14 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
 + (id)stepToSetOn:(BOOL)switchIsOn forSwitchWithAccessibilityLabel:(NSString *)label;
 
 /*!
- @method stepToVerifySwitchWithAccessibilityLabel:isOn:
+ @method stepToWaitForSwitchWithAccessibilityLabel:withValue:
  @abstract A step that verifies that a UISwitch is in a specified position.
  @discussion The UISwitch with the given label is searched for in the view hierarchy. If the element isn't found or isn't currently tappable, then the step will attempt to wait until it is. Once the view is present, the step will succeed if it's in the specified position and fail if it's not.
  @param switchIsOn The expected position of the UISwitch.
  @param label The accessibility label of the UISwitch element.
  @result A configured test step.
  */
-+ (id)stepToVerifySwitchWithAccessibilityLabel:(NSString *)label isOn:(BOOL)switchIsOn;
++ (id)stepToWaitForSwitchWithAccessibilityLabel:(NSString *)label withValue:(BOOL)switchIsOn;
 
 /*!
  @method stepToDismissPopover
