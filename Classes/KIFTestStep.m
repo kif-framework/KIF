@@ -357,6 +357,18 @@ typedef CGPoint KIFDisplacement;
 
 + (id)stepToEnterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits expectedResult:(NSString *)expectedResult;
 {
+    return [self stepToEnterText:text intoViewWithAccessibilityLabel:label traits:traits expectedResult:expectedResult clearTextFirst:NO];
+}
+
++ (id)stepToEnterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits expectedResult:(NSString *)expectedResult clearTextFirst:(BOOL)clearTextFirst
+{
+    __block BOOL performedInitialEmptinessCheck = NO;
+    __block BOOL viewInitiallyContainsText = NO;
+    
+    __block UIAccessibilityElement *clearTextElement = nil;
+    __block NSTimeInterval clearTextQuiesceStartTime = 0.0;
+    const NSTimeInterval clearTextQuiesceWaitInterval = 0.5;
+    
     NSString *description = [NSString stringWithFormat:@"Type the text \"%@\" into the view with accessibility label \"%@\"", text, label];
     return [self stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
         
@@ -367,7 +379,7 @@ typedef CGPoint KIFDisplacement;
         
         UIView *view = [UIAccessibilityElement viewContainingAccessibilityElement:element];
         KIFTestWaitCondition(view, error, @"Cannot find view with accessibility label \"%@\"", label);
-                
+        
         CGRect elementFrame = [view.window convertRect:element.accessibilityFrame toView:view];
         CGPoint tappablePointInElement = [view tappablePointInRect:elementFrame];
         
@@ -379,6 +391,61 @@ typedef CGPoint KIFDisplacement;
         
         // Wait for the keyboard
         CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.5, false);
+        
+        // Tap to clear any existing text first, if specified
+        if (clearTextFirst) {
+
+            // First check if the field has any text in it.
+            if (!performedInitialEmptinessCheck) {
+                // This is probably a UITextField- or UITextView-ish view, so make sure it's non-empty before looking for the clear text button.
+                if ([view respondsToSelector:@selector(text)]) {
+                    NSString *actual = [view performSelector:@selector(text)];
+
+                    viewInitiallyContainsText = [actual length] != 0;
+                }
+                
+                performedInitialEmptinessCheck = YES;
+            }
+
+            // We only need to clear text if the view is non-empty.
+            if (viewInitiallyContainsText) {
+                if (!clearTextElement) {
+                    // We haven't tapped the button yet.
+                    
+                    // NOTE: Using a hard-coded English accessibility label to grab the clear text element is not robust.
+                    // But it's good enough for now.
+                    NSString *clearTextLabel = @"Clear text";
+                    clearTextElement = [self _accessibilityElementWithLabel:clearTextLabel accessibilityValue:nil tappable:YES traits:UIAccessibilityTraitButton error:error];
+                    if (!clearTextElement) {
+                        return KIFTestStepResultWait;
+                    }
+                    
+                    UIView *clearTextView = [UIAccessibilityElement viewContainingAccessibilityElement:clearTextElement];
+                    KIFTestWaitCondition(clearTextView, error, @"Failed to find view for accessibility element with label \"%@\"", clearTextLabel);
+                    
+                    if (![self _isUserInteractionEnabledForView:clearTextView]) {
+                        if (error) {
+                            *error = [[[NSError alloc] initWithDomain:@"KIFTest" code:KIFTestStepResultFailure userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"View with accessibility label \"%@\" is not enabled for interaction", clearTextLabel], NSLocalizedDescriptionKey, nil]] autorelease];
+                        }
+                        return KIFTestStepResultWait;
+                    }
+                    
+                    CGRect elementFrame = [clearTextView.window convertRect:clearTextElement.accessibilityFrame toView:clearTextView];
+                    CGPoint tappablePointInElement = [clearTextView tappablePointInRect:elementFrame];
+                    
+                    // This is mostly redundant of the test in _accessibilityElementWithLabel:
+                    KIFTestWaitCondition(!isnan(tappablePointInElement.x), error, @"The element with accessibility label %@ is not tappable", clearTextLabel);
+                    [clearTextView tapAtPoint:tappablePointInElement];
+                    
+                    KIFTestCondition(![clearTextView canBecomeFirstResponder] || [clearTextView isDescendantOfFirstResponder], error, @"Failed to make the view %@ which contains the accessibility element \"%@\" into the first responder", clearTextView, clearTextLabel);
+                    KIFTestWaitCondition(NO, error, @"Waiting for the view to settle.");
+                    
+                } else {
+                    // We've already tapped the clear text button; wait for the quiesce interval.
+                    KIFTestWaitCondition(([NSDate timeIntervalSinceReferenceDate] - clearTextQuiesceStartTime) >= clearTextQuiesceWaitInterval, error, @"Waiting for things to stabilize after tapping the clear text button.");        
+                }
+            }
+        }
         
         for (NSUInteger characterIndex = 0; characterIndex < [text length]; characterIndex++) {
             NSString *characterString = [text substringWithRange:NSMakeRange(characterIndex, 1)];

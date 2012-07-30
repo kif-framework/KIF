@@ -350,6 +350,19 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
 + (id)stepToEnterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits expectedResult:(NSString *)expectedResult;
 
 /*!
+ @method stepToEnterText:intoViewWithAccessibilityLabel:traits:
+ @abstract A step that enters text into a particular view in the view hierarchy.
+ @discussion The view or accessibility element with the given label is searched for in the view hierarchy. If the element isn't found or isn't currently tappable, then the step will attempt to wait until it is. Once the view is present and tappable, a tap event is simulated in the center of the view or element, then text is entered into the view by simulating taps on the appropriate keyboard keys.
+ @param text The text to enter.
+ @param label The accessibility label of the element to type into.
+ @param traits The accessibility traits of the element to type into. Elements that do not include at least these traits are ignored.
+ @param expectedResult What the text value should be after entry, including any formatting done by the field. If this is nil, the "text" parameter will be used.
+ @param clearTextFirst Whether to look for and tap the clear text button on the text field. This will be ignored if the "text" selector on the view returns nil or empty string. If the text is non-empty and for some reason the clear text button can't be found and tapped, this step will return an error.
+ @result A configured test step.
+ */
++ (id)stepToEnterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits expectedResult:(NSString *)expectedResult clearTextFirst:(BOOL)clearTextFirst;
+
+/*!
  @method stepToSelectPickerViewRowWithTitle:
  @abstract A step that selects an item from a currently visible picker view.
  @discussion With a picker view already visible, this step will find an item with the given title, select that item, and tap the Done button.
