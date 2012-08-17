@@ -309,8 +309,8 @@ typedef CGPoint KIFDisplacement;
 
         // If the accessibilityFrame is not set, fallback to the view frame.
         CGRect elementFrame;
-        if (element.accessibilityFrame.origin.x == 0 && element.accessibilityFrame.origin.y == 0 && element.accessibilityFrame.size.width == 0 && element.accessibilityFrame.size.height == 0) {
-            elementFrame.origin.x = elementFrame.origin.y = 0;
+        if (CGRectEqualToRect(CGRectZero, element.accessibilityFrame)) {
+            elementFrame.origin = CGPointZero;
             elementFrame.size = view.frame.size;
         } else {
             elementFrame = [view.window convertRect:element.accessibilityFrame toView:view];
