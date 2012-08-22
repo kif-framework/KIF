@@ -72,6 +72,15 @@ typedef NSInteger KIFTestStepResult;
 typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSError **error);
 
 /*!
+ @typedef KIFTestStepExecutionBlockWithView
+ @param step The step object itself. This is passed back to the block to ensure that there is a pointer to the fully initialized step at the time of execution.
+ @param view The view which the step targets. The block should perform the logic of the step and can assume the view has the properties specified during the step construction.
+ @param error An error to fill out in the case of a failure or wait condition. Filling out this error is mandatory in these cases to ensure that testing output is useful.
+ @result A test result code. Returning KIFTestStepResultWait will cause the step to be tried again on the next iteration.
+ */
+typedef KIFTestStepResult (^KIFTestStepExecutionBlockWithView)(KIFTestStep *step, UIView *view, NSError **error);
+
+/*!
  @class KIFTestStep
  @abstract A step in a testing sequence.
  @discussion Steps are the most basic element of a test, and are added together to create the scenarios to be tested.
@@ -316,6 +325,19 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
  @result A configured test step.
  */
 + (id)stepToTapViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits;
+
+/*!
+ @method stepForViewWithAccessibilityLabel:description:executionBlock:
+ @abstract A step to perform arbitrary logic on a view with a certain accessibility label.
+ @discussion The view or accessibility element with the given label is searched for in the view hierarchy. If the element isn't found, then the step will attempt to wait until it is. Once the view is present, the view is passed to the given execution block which should perform the logic of the step.
+ 
+ This method is here to allow arbitrary operations and verifications on views, which is useful if there are properties of the view to verify other than the accessibility properties, or if the app under test requires custom logic to simulate user interaction.
+ @param label The accessibility label of the element to tap.
+ @param description A description of the what the step does. Required.
+ @param executionBlock A block to execute which performs the step. Required.
+ @result A configured test step.
+ */
++ (id)stepForViewWithAccessibilityLabel:(NSString *)label description:(NSString *)description executionBlock:(KIFTestStepExecutionBlockWithView)executionBlock;
 
 /*!
  @method stepToTapScreenAtPoint:
