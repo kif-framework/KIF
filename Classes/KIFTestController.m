@@ -530,6 +530,7 @@ static void releaseInstance()
 
 - (void)_logDidSkipScenario:(KIFTestScenario *)scenario;
 {
+    if ([[[[NSProcessInfo processInfo] environment] objectForKey:@"KIF_SILENT_FILTERING"] boolValue]) return; // Don't want filter skipping noise
     KIFLogBlankLine();
     KIFLogSeparator();
     NSString *reason = (scenario.skippedByFilter ? @"filter doesn't match description" : @"only running previously-failed scenarios");
