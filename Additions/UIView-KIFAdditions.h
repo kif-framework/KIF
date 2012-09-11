@@ -35,6 +35,14 @@
 - (void)flash;
 - (void)tap;
 - (void)tapAtPoint:(CGPoint)point;
+
+/*!
+ @method dragFromPoint:toPoint:
+ @abstract Simulates dragging a finger on the screen between the given points.
+ @discussion Causes the application to dispatch a sequence of touch events which simulate dragging a finger from startPoint to endPoint.
+ @param startPoint The point at which to start the drag, in the coordinate system of the receiver.
+ @param endPoint The point at which to end the drag, in the coordinate system of the receiver.
+ */
 - (void)dragFromPoint:(CGPoint)startPoint toPoint:(CGPoint)endPoint;
 - (void)dragAlongPathWithPoints:(CGPoint *)points count:(NSInteger)count;
 

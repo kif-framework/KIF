@@ -26,6 +26,7 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
 @property (nonatomic, retain) id notificationObject;
 @property BOOL notificationOccurred;
 @property BOOL observingForNotification;
+@property (nonatomic, retain) KIFTestStep *childStep;
 
 + (BOOL)_isUserInteractionEnabledForView:(UIView *)view;
 
@@ -34,6 +35,9 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
 + (BOOL)_enterCustomKeyboardCharacter:(NSString *)characterString;
 
 + (UIAccessibilityElement *)_accessibilityElementWithLabel:(NSString *)label accessibilityValue:(NSString *)value tappable:(BOOL)mustBeTappable traits:(UIAccessibilityTraits)traits error:(out NSError **)error;
+
+typedef CGPoint KIFDisplacement;
++ (KIFDisplacement)_displacementForSwipingInDirection:(KIFSwipeDirection)direction;
 
 @end
 
@@ -48,6 +52,7 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
 @synthesize observingForNotification;
 @synthesize timeout;
 @synthesize succeedOnTimeout;
+@synthesize childStep;
 @synthesize skipFailureLogging;
 
 #pragma mark Class Methods
@@ -208,8 +213,8 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
         return KIFTestStepResultSuccess;
     }];
     
-    // Make sure that the timeout is set so that it doesn't timeout prematurely.
-    step.timeout = interval + 1.0;
+    // Increase timeout by interval so that the step doesn't timeout prematurely.
+    step.timeout += ceil(interval);
     
     return step;
 }
@@ -226,9 +231,33 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
             [[NSNotificationCenter defaultCenter] addObserver:step selector:@selector(_onObservedNotification:) name:name object:object];
         }
         
-        KIFTestWaitCondition(step.notificationOccurred, error, @"Waiting for notification \"%@\"", name);        
+        KIFTestWaitCondition(step.notificationOccurred, error, @"Waiting for notification \"%@\"", name);
         return KIFTestStepResultSuccess;
     }];   
+    return step;
+}
+
++ (id)stepToWaitForNotificationName:(NSString *)name object:(id)object whileExecutingStep:(KIFTestStep *)childStep;
+{
+    NSString *description = [NSString stringWithFormat:@"Wait for notification \"%@\" while executing child step \"%@\"", name, childStep];
+    
+    KIFTestStep *step = [self stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {  
+        if (!step.observingForNotification) {            
+            step.notificationName = name;
+            step.notificationObject = object; 
+            step.observingForNotification = YES;
+            [[NSNotificationCenter defaultCenter] addObserver:step selector:@selector(_onObservedNotification:) name:name object:object];
+        }
+        
+        // Execute the step we are observing for changes
+        KIFTestStepResult result = [step.childStep executeAndReturnError:error];
+        KIFTestWaitCondition(result != KIFTestStepResultWait, error, @"Waiting for completion of child step \"%@\"", step.childStep);
+        
+        // Wait for the actual notification
+        KIFTestWaitCondition(step.notificationOccurred, error, @"Waiting for notification \"%@\"", name);
+        return KIFTestStepResultSuccess;
+    }];    
+    step.childStep = childStep;    
     return step;
 }
 
@@ -505,9 +534,85 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
         KIFTestCondition(tableView, error, @"Table view with label %@ not found", tableViewLabel);
         
         UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+        if (!cell) {
+            KIFTestCondition([indexPath section] < [tableView numberOfSections], error, @"Section %d is not found in '%@' table view", [indexPath section], tableViewLabel);
+            KIFTestCondition([indexPath row] < [tableView numberOfRowsInSection:[indexPath section]], error, @"Row %d is not found in section %d of '%@' table view", [indexPath row], [indexPath section], tableViewLabel);
+            [tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+            [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.25]];
+            cell = [tableView cellForRowAtIndexPath:indexPath];
+        }
+        KIFTestCondition(cell, error, @"Table view cell at index path %@ not found", indexPath);
+
         CGRect cellFrame = [cell.contentView convertRect:[cell.contentView frame] toView:tableView];
         [tableView tapAtPoint:CGPointCenteredInRect(cellFrame)];
         
+        return KIFTestStepResultSuccess;
+    }];
+}
+
+#define NUM_POINTS_IN_SWIPE_PATH 20
+
++ (id)stepToSwipeViewWithAccessibilityLabel:(NSString *)label inDirection:(KIFSwipeDirection)direction
+{
+    // The original version of this came from http://groups.google.com/group/kif-framework/browse_thread/thread/df3f47eff9f5ac8c
+    NSString *directionDescription = nil;
+
+    switch(direction)
+    {
+        case KIFSwipeDirectionRight:
+            directionDescription = @"right";
+            break;
+        case KIFSwipeDirectionLeft:
+            directionDescription = @"left";
+            break;
+        case KIFSwipeDirectionUp:
+            directionDescription = @"up";
+            break;
+        case KIFSwipeDirectionDown:
+            directionDescription = @"down";
+            break;
+    }
+
+    NSString *description = [NSString stringWithFormat:@"Step to swipe %@ on view with accessibility label %@", directionDescription, label];
+    return [KIFTestStep stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
+        UIAccessibilityElement *element = [self _accessibilityElementWithLabel:label accessibilityValue:nil tappable:NO traits:UIAccessibilityTraitNone error:error];
+        if (!element) {
+            return KIFTestStepResultWait;
+        }
+
+        UIView *viewToSwipe = [UIAccessibilityElement viewContainingAccessibilityElement:element];
+        KIFTestWaitCondition(viewToSwipe, error, @"Cannot find view with accessibility label \"%@\"", label);
+
+        // Within this method, all geometry is done in the coordinate system of
+        // the view to swipe.
+
+        CGRect elementFrame = [viewToSwipe.window convertRect:element.accessibilityFrame toView:viewToSwipe];
+        CGPoint swipeStart = CGPointCenteredInRect(elementFrame);
+
+        KIFDisplacement swipeDisplacement = [self _displacementForSwipingInDirection:direction];
+
+        CGPoint swipePath[NUM_POINTS_IN_SWIPE_PATH];
+
+        for (int pointIndex = 0; pointIndex < NUM_POINTS_IN_SWIPE_PATH; pointIndex++)
+        {
+            CGFloat swipeProgress = ((CGFloat)pointIndex)/(NUM_POINTS_IN_SWIPE_PATH - 1);
+            swipePath[pointIndex] = CGPointMake(swipeStart.x + (swipeProgress * swipeDisplacement.x),
+                                                swipeStart.y + (swipeProgress * swipeDisplacement.y));
+        }
+
+        [viewToSwipe dragAlongPathWithPoints:swipePath count:NUM_POINTS_IN_SWIPE_PATH];
+
+        return KIFTestStepResultSuccess;
+    }];
+}
+
++ (id)stepToWaitForFirstResponderWithAccessibilityLabel:(NSString *)label;
+{
+    NSString *description = [NSString stringWithFormat:@"Verify that the first responder is the view with accessibility label '%@'", label];
+    return [KIFTestStep stepWithDescription:description executionBlock:^KIFTestStepResult(KIFTestStep *step, NSError *__autoreleasing *error) {
+        UIResponder *firstResponder = [[[UIApplication sharedApplication] keyWindow] firstResponder];
+        KIFTestWaitCondition([[firstResponder accessibilityLabel] isEqualToString:label], error, @"Expected accessibility label for first responder to be '%@', got '%@'", label, [firstResponder accessibilityLabel]);
+
         return KIFTestStepResultSuccess;
     }];
 }
@@ -590,6 +695,8 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
     notificationName = nil;
     [notificationObject release];
     notificationObject = nil;
+    [childStep release];
+    childStep = nil;
     
     [super dealloc];
 }
@@ -829,7 +936,7 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
                 
             // Check the traits, too.
             } else if (traits != UIAccessibilityTraitNone && [[UIApplication sharedApplication] accessibilityElementWithLabel:label accessibilityValue:nil traits:UIAccessibilityTraitNone]) {
-                *error = [[[NSError alloc] initWithDomain:@"KIFTest" code:KIFTestStepResultFailure userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"Found an accessibility element with the label \"%@\", but not with the traits \"%d\"", label, traits], NSLocalizedDescriptionKey, nil]] autorelease];
+                *error = [[[NSError alloc] initWithDomain:@"KIFTest" code:KIFTestStepResultFailure userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"Found an accessibility element with the label \"%@\", but not with the traits \"%llu\"", label, traits], NSLocalizedDescriptionKey, nil]] autorelease];
                 
             } else {
                 *error = [[[NSError alloc] initWithDomain:@"KIFTest" code:KIFTestStepResultFailure userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"Failed to find accessibility element with the label \"%@\"", label], NSLocalizedDescriptionKey, nil]] autorelease];
@@ -856,8 +963,8 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
         if ((UIAccessibilityElement *)view == element) {
             [scrollView scrollViewToVisible:view animated:YES];
         } else {
-            CGRect elementFrame = [view.window convertRect:element.accessibilityFrame toView:scrollView];            
-            [scrollView setContentOffset:CGPointMake(0,  elementFrame.origin.y) animated:YES];
+            CGRect elementFrame = [view.window convertRect:element.accessibilityFrame toView:scrollView];
+            [scrollView scrollRectToVisible:elementFrame animated:YES];
         }
         
         // Give the scroll view a small amount of time to perform the scroll.
@@ -895,6 +1002,33 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
     }
     
     return element;
+}
+
+#define MAJOR_SWIPE_DISPLACEMENT 200
+#define MINOR_SWIPE_DISPLACEMENT 5
+
++ (KIFDisplacement)_displacementForSwipingInDirection:(KIFSwipeDirection)direction
+{
+    switch (direction)
+    {
+        // As discovered on the Frank mailing lists, it won't register as a
+        // swipe if you move purely horizontally or vertically, so need a
+        // slight orthogonal offset too.
+        case KIFSwipeDirectionRight:
+            return CGPointMake(MAJOR_SWIPE_DISPLACEMENT, MINOR_SWIPE_DISPLACEMENT);
+            break;
+        case KIFSwipeDirectionLeft:
+            return CGPointMake(-MAJOR_SWIPE_DISPLACEMENT, MINOR_SWIPE_DISPLACEMENT);
+            break;
+        case KIFSwipeDirectionUp:
+            return CGPointMake(MINOR_SWIPE_DISPLACEMENT, -MAJOR_SWIPE_DISPLACEMENT);
+            break;
+        case KIFSwipeDirectionDown:
+            return CGPointMake(MINOR_SWIPE_DISPLACEMENT, MAJOR_SWIPE_DISPLACEMENT);
+            break;
+        default:
+            return CGPointZero;
+    }
 }
 
 @end
