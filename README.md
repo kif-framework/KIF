@@ -266,6 +266,10 @@ You can set a number of environment variables to unlock hidden features of KIF.
 
 Set `KIF_SCREENSHOTS` to the full path to a folder on your computer to have KIF output a screenshot of your app as it appears when any given step fails.
 
+### `KIF_SCREENSHOTS_DATE_FORMAT`
+
+Set `KIF_SCREENSHOTS_DATE_FORMAT` to a date format string to prepend the screenshot filename with a timestamp. If this value is not set, default date format is used: HH-mm-ss.
+
 ### `KIF_FAILURE_FILE`
 
 Set `KIF_FAILURE_FILE` to the full path to a file on your computer -- that need not exist -- to have KIF keep track of the failing scenarios it encounters during a test run. If any scenarios fail during a run and `KIF_FAILURE_FILE` is set, the next run will only run the scenarios that failed the previous time. Once all of the scenarios succeed again, KIF will return to running all scenarios. This is useful if you're fixing a failing scenario, as it allows you to jump right back to where the problem was.
@@ -285,6 +289,7 @@ Set `KIF_INITIAL_SKIP_COUNT` to skip a certain number of scenarios at the beginn
 ### `KIF_EXIT_ON_FAILURE`
 
 Set this to a value that evaluates to true to make KIF exit on the first failing scenario. This may be useful if you want to isolate failures or if your app doesn't properly recover when a test fails.
+
 
 Troubleshooting
 ---------------
