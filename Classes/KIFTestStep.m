@@ -273,11 +273,20 @@ typedef CGPoint KIFDisplacement;
 
 + (id)stepToTapViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits;
 {
+    return [self stepToTapViewWithAccessibilityLabel:label value:value traits:traits successResultOnFailure:NO];
+}
+
+//Z2Live addition PRIVATE
++ (id)stepToTapViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits successResultOnFailure:(BOOL)successResultOnFailure;
+{
     NSString *description = nil;
     if (value.length) {
         description = [NSString stringWithFormat:@"Tap view with accessibility label \"%@\" and accessibility value \"%@\"", label, value];
     } else {
-        description = [NSString stringWithFormat:@"Tap view with accessibility label \"%@\"", label];
+        if(successResultOnFailure)
+            description = [NSString stringWithFormat:@"Tap view IF EXISTS with accessibility label \"%@\"", label];
+        else
+            description = [NSString stringWithFormat:@"Tap view with accessibility label \"%@\"", label];
     }
 
     // After tapping the view we want to wait a short period to allow things to settle (animations and such). We can't do this using CFRunLoopRunInMode() because certain things, such as the built-in media picker, do things with the run loop that are not compatible with this kind of wait. Instead we leverage the way KIF hooks into the existing run loop by returning "wait" results for the desired period.
@@ -296,11 +305,21 @@ typedef CGPoint KIFDisplacement;
 
         UIAccessibilityElement *element = [self _accessibilityElementWithLabel:label accessibilityValue:value tappable:YES traits:traits error:error];
         if (!element) {
-            return KIFTestStepResultWait;
+            //Z2Live addition: If we don't want to fail on not finding the view, return success on a timeout
+            if(successResultOnFailure && ([NSDate timeIntervalSinceReferenceDate] - quiesceStartTime) >= [self defaultTimeout])
+                return KIFTestStepResultSuccess;
+            else
+                return KIFTestStepResultWait;
         }
 
         view = [UIAccessibilityElement viewContainingAccessibilityElement:element];
-        KIFTestWaitCondition(view, error, @"Failed to find view for accessibility element with label \"%@\"", label);
+        if(!view){
+            //Z2Live Addition: If we don't want to fail on not finding the view, return success on timeout
+            if(successResultOnFailure && ([NSDate timeIntervalSinceReferenceDate] - quiesceStartTime) >= [self defaultTimeout])
+                return KIFTestStepResultSuccess;
+            else
+                KIFTestWaitCondition(view, error, @"Failed to find view for accessibility element with label \"%@\"", label);
+        }
 
         if (![self _isUserInteractionEnabledForView:view]) {
             if (error) {
@@ -322,6 +341,12 @@ typedef CGPoint KIFDisplacement;
 
         KIFTestWaitCondition(NO, error, @"Waiting for the view to settle.");
     }];
+}
+
+//Z2Live Addition
++ (id)stepToTapViewIfExistsWithAccessibilityLabel:(NSString *)label
+{
+    return [self stepToTapViewWithAccessibilityLabel:label value:nil traits:UIAccessibilityTraitNone successResultOnFailure:YES];
 }
 
 + (id)stepToTapScreenAtPoint:(CGPoint)screenPoint;
@@ -1028,6 +1053,131 @@ typedef CGPoint KIFDisplacement;
             break;
         default:
             return CGPointZero;
+    }
+}
+
+#pragma mark Z2Live Additions
+
+//Z2Live Addition
++ (id)stepToVerifyLabelContentsMatch:(NSString*)textData withAccessibilityLabel:(NSString*)label
+{
+    NSString *description = [NSString stringWithFormat:@"Verify label matches text:\"%@\" with accessibility label \"%@\"", textData, label];
+    
+    __block UIView *view = nil;
+    
+    return [self stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
+        
+        UIAccessibilityElement *element = [self _accessibilityElementWithLabel:label accessibilityValue:nil tappable:NO traits:UIAccessibilityTraitNone error:error];
+        if (!element) {
+            return KIFTestStepResultWait;
+        }
+        
+        view = [UIAccessibilityElement viewContainingAccessibilityElement:element];
+        if(!view){
+            KIFTestWaitCondition(view, error, @"Failed to find view for accessibility element with label \"%@\"", label);
+        }
+        
+        UILabel* viewAsLabel = nil;
+        if([view isKindOfClass:[UILabel class]])
+            viewAsLabel = (UILabel*)view;
+        else
+            KIFTestWaitCondition(view, error, @"Failed to find UILabel for accessibility element with label \"%@\", found element was a non-UILabel", label);
+        
+        NSString* labelText = [viewAsLabel text];
+        
+        KIFTestCondition([labelText isEqualToString:textData], error, @"UILabel of accessibility element \"%@\" does not match \nexpected text: \n\"%@\", \nactual text: \n\"%@\"", label, textData, labelText);
+        
+        return KIFTestStepResultSuccess;
+    }];
+}
+
+//Z2Live Addition
++ (id)stepToVerifyTextWithAlignment:(UITextAlignment)alignment withAccessibilityLabel:(NSString*)label
+{
+    NSString *description = [NSString stringWithFormat:@"Verify text within accessibility label \"%@\" is %@", label, [KIFTestStep convertToStringWithUITextAlignment:alignment]];
+    
+    __block UIView *view = nil;
+    
+    return [self stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
+        
+        UIAccessibilityElement *element = [self _accessibilityElementWithLabel:label accessibilityValue:nil tappable:NO traits:UIAccessibilityTraitNone error:error];
+        if (!element) {
+            return KIFTestStepResultWait;
+        }
+        
+        view = [UIAccessibilityElement viewContainingAccessibilityElement:element];
+        if(!view){
+            KIFTestWaitCondition(view, error, @"Failed to find view for accessibility element with label \"%@\"", label);
+        }
+        
+        UILabel* viewAsLabel = nil;
+        if([view isKindOfClass:[UILabel class]])
+            viewAsLabel = (UILabel*)view;
+        else
+            KIFTestWaitCondition(view, error, @"Failed to find UILabel for accessibility element with label \"%@\", found element was a non-UILabel", label);
+        
+        KIFTestCondition((viewAsLabel.textAlignment == alignment), error, @"UILabel of accessibility element \"%@\" does not match expected alignment %@, alignment is%@", label, [KIFTestStep convertToStringWithUITextAlignment:alignment], [KIFTestStep convertToStringWithUITextAlignment:viewAsLabel.textAlignment]);
+        
+        return KIFTestStepResultSuccess;
+    }];
+}
+
+//Z2Live Addition
++ (id)stepToClearTextFieldWithAccessibilityLabel:(NSString*)label
+{
+    NSString *description = [NSString stringWithFormat:@"Clear the textField with accessibility label \"%@\"", label];
+    return [self stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
+        
+        NSString* blankString = @"";
+        
+        UIAccessibilityElement *element = [self _accessibilityElementWithLabel:label accessibilityValue:nil tappable:YES traits:UIAccessibilityTraitNone error:error];
+        if (!element) {
+            return KIFTestStepResultWait;
+        }
+        
+        UIView *view = [UIAccessibilityElement viewContainingAccessibilityElement:element];
+        KIFTestWaitCondition(view, error, @"Cannot find view with accessibility label \"%@\"", label);
+        
+        CGRect elementFrame = [view.window convertRect:element.accessibilityFrame toView:view];
+        CGPoint tappablePointInElement = [view tappablePointInRect:elementFrame];
+        
+        // This is mostly redundant of the test in _accessibilityElementWithLabel:
+        KIFTestCondition(!isnan(tappablePointInElement.x), error, @"The element with accessibility label %@ is not tappable", label);
+        [view tapAtPoint:tappablePointInElement];
+        
+        KIFTestWaitCondition([view isDescendantOfFirstResponder], error, @"Failed to make the view with accessibility label \"%@\" the first responder. First responder is %@", label, [[[UIApplication sharedApplication] keyWindow] firstResponder]);
+        
+        [(UITextField *)view setText:blankString];
+        
+        // This is probably a UITextField- or UITextView-ish view, so make sure it worked
+        if ([view respondsToSelector:@selector(blankString)]) {
+            // We trim \n and \r because they trigger the return key, so they won't show up in the final product on single-line inputs
+            NSString *actual = [[view performSelector:@selector(text)] stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+            KIFTestCondition([actual isEqualToString:blankString], error, @"Failed to actually clear text in field; instead, it was \"%@\"", actual);
+        }
+        
+        return KIFTestStepResultSuccess;
+    }];
+}
+
+#pragma mark Z2Live Additions Private
+
+//Z2Live Addition
++ (NSString*)convertToStringWithUITextAlignment:(UITextAlignment)alignment
+{
+    switch(alignment)
+    {
+        case UITextAlignmentCenter:
+            return @"UITextAlignmentCenter";
+            break;
+        case UITextAlignmentLeft:
+            return @"UITextAlignmentLeft";
+            break;
+        case UITextAlignmentRight:
+            return @"UITextAlignmentRight";
+            break;
+        default:
+            return nil;
     }
 }
 

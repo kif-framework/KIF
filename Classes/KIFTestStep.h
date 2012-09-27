@@ -334,6 +334,31 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
 + (id)stepToTapViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits;
 
 /*!
+ Z2Live Addition
+ @method stepToTapViewWithAccessibilityLabel:value:traits:
+ @abstract A step that taps a particular view in the view hierarchy.
+ @discussion The view or accessibility element with the given label is searched for in the view hierarchy. If the element isn't found or isn't currently tappable, then the step will attempt to wait until it is. Once the view is present and tappable, a tap event is simulated in the center of the view or element.
+ 
+ This variation allows attempting to tap a label if it exists, and will not error on failure
+ @param label The accessibility label of the element to tap.
+ @param value The accessibility value of the element to tap.
+ @param traits The accessibility traits of the element to tap. Elements that do not include at least these traits are ignored.
+ @param successResultOnFailure If YES, then the test will return a KIFTestStepSuccess at all times. If it cannot tap the view, it will return KIFTestStepFailure
+ @result A configured test step.
+ */
++ (id)stepToTapViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits successResultOnFailure:(BOOL)successResultOnFailure;
+
+/*!
+ Z2Live Addition
+ @method stepToTapViewIfExistsWithAccessibilityLabel:
+ @abstract A step that taps a particular view in the view hierarchy, if it exists
+ @discussion The view or accessibility element with the given label is searched for in the view hierarchy. If the element isn't found or isn't currently tappable, then the step will attempt to wait until it is. Once the view is present and tappable, a tap event is simulated in the center of the view or element. If the view does not exist, it will return success.
+ @param label The accessibility label of the element to tap.
+ @result A configured test step.
+ */
++ (id)stepToTapViewIfExistsWithAccessibilityLabel:(NSString *)label;
+
+/*!
  @method stepToTapScreenAtPoint:
  @abstract A step that taps the screen at a particular point.
  @discussion Taps the screen at a specific point. In general you should use the factory steps that tap a view based on its accessibility label, but there are situations where it's not possible to access a view using accessibility mechanisms. This step is more lenient than the steps that use the accessibility label, and does not wait for any particular view to appear, or validate that the tapped view is enabled or has interaction enabled. Because this step doesn't doesn't validate that a view is present before tapping it, it's good practice to precede this step where possible with a -stepToWaitForViewWithAccessibilityLabel: with the label for another view that should appear on the same screen.
@@ -484,7 +509,33 @@ typedef enum {
  */
 + (id)stepToWaitForFirstResponderWithAccessibilityLabel:(NSString *)label;
 
+/*!
+ Z2Live Addition
+ @method stepToVerifyLabelContentsMatch:withAccessibilityLabel
+ @abstract A step that verifies a UITextField matches specific text that we desire
+ @param textData The data that should be in the UITextField
+ @param label The accessibility label of the element to verify.
+ @result A configured test step.
+ */
++ (id)stepToVerifyLabelContentsMatch:(NSString*)textData withAccessibilityLabel:(NSString*)label;
 
+/*!
+ Z2Live Addition
+ @method stepToVerifyTextWithAlignment:withAccessibilityLabel
+ @abstract A step that verifies alignment of the UIView 
+ @param alignment What alignment the element should be in
+ @param label The accessibility label of the element to verify.
+ @result A configured test step.
+ */
++ (id)stepToVerifyTextWithAlignment:(UITextAlignment)alignment withAccessibilityLabel:(NSString*)label;
 
+/*!
+ Z2Live Addition
+ @method stepToClearTextFieldWithAccessibilityLabel
+ @abstract A step that clears the UITextField of all text, since the KIFTestStep that enters text doesn't clear fields
+ @param label The accessibility label of the element to clear
+ @result A configured test step.
+ */
++ (id)stepToClearTextFieldWithAccessibilityLabel:(NSString*)label;
 
 @end

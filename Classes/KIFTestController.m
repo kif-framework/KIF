@@ -30,6 +30,10 @@ extern id objc_msgSend(id theReceiver, SEL theSelector, ...);
 @property (nonatomic, retain) NSDate *currentStepStartDate;
 @property (nonatomic, copy) KIFTestControllerCompletionBlock completionBlock;
 
+//Z2Live Addition
+//Stores information on failedScenarios for end of testrun output
+@property (nonatomic, retain) NSMutableArray* failedScenarios;
+
 + (void)_enableAccessibility;
 
 - (void)_initializeScenariosIfNeeded;
@@ -63,8 +67,15 @@ extern id objc_msgSend(id theReceiver, SEL theSelector, ...);
 @synthesize currentScenarioStartDate;
 @synthesize currentStepStartDate;
 @synthesize completionBlock;
+@synthesize failedScenarios = _failedScenarios;
 
 #pragma mark Static Methods
+
+
+//Z2Live Addition: Some KIF tests can load an explanation on what it means if a KIF test has failed at a specific location, which will help external users debug the workflow.
+static NSString* inCaseOfFailureString;
+static NSString* lastKIFLogStep;
+
 
 + (void)load
 {
@@ -457,6 +468,9 @@ static void releaseInstance()
         return;
     }
     
+    //Z2Live Addition: Ensure directory is created
+    [[NSFileManager defaultManager] createDirectoryAtPath:outputPath withIntermediateDirectories:YES attributes:nil error:nil];
+    
     UIGraphicsBeginImageContext([[windows objectAtIndex:0] bounds].size);
     for (UIWindow *window in windows) {
         [window.layer renderInContext:UIGraphicsGetCurrentContext()];
@@ -526,6 +540,22 @@ static void releaseInstance()
     KIFLog(@"KIF TEST RUN FINISHED: %d failures (duration %.2fs)", failureCount, -[self.testSuiteStartDate timeIntervalSinceNow]);
     KIFLogSeparator();
     
+    //Z2Live Addition: Output failing scenarios
+    if(failureCount)
+    {
+        KIFLog(@"KIF TEST RUN FINISHED: PRINTING %d FAILURES", failureCount);
+        for(NSDictionary* failedScenario in self.failedScenarios)
+        {
+            [self _printDidFailScenarioIndex:[[failedScenario objectForKey:@"scenarioIndex"] autorelease]
+                             withDescription:[[failedScenario objectForKey:@"scenarioDesc"] autorelease]
+                                withDuration:[[failedScenario objectForKey:@"duration"] autorelease]
+                              withFailedStep:[[failedScenario objectForKey:@"scenarioStep"] autorelease]
+                                   withError:[[failedScenario objectForKey:@"stepError"] autorelease]
+                                 withLastLog:[[failedScenario objectForKey:@"lastKIFLogStep"] autorelease]
+             ];
+        }
+    }
+    
     // Also log the failure count to stdout, for easier integration with CI tools.
     NSLog(@"*** KIF TESTING FINISHED: %d failures", failureCount);
 }
@@ -561,15 +591,101 @@ static void releaseInstance()
     KIFLogSeparator();
 }
 
+//Z2Live Modification: This is an override of KIFTestController's failure handling in order to improve readability on fail
 - (void)_logDidFailStep:(KIFTestStep *)step duration:(NSTimeInterval)duration error:(NSError *)error;
 {
-    KIFLog(@"FAIL (%.2fs): %@", duration, step);
+    NSNumber* indexOfFailedTest = [NSNumber numberWithInt:[self.scenarios indexOfObjectIdenticalTo:self->currentScenario] + 1 ];
+    NSString* failedScenarioDescription = [NSString stringWithString:[self->currentScenario description]];
+    NSNumber* stepDuration = [NSNumber numberWithDouble:duration];
+    NSString* failedScenarioStep = [NSString stringWithString:[step description]];
+    NSString* failingError = [NSString stringWithString:[error localizedDescription]];
+    
+    //Take the last logged message, which is either the scenario description or an actual logged step
+    NSString* lastKIFTestLog = nil;
+    if(lastKIFLogStep)
+        lastKIFTestLog = [NSString stringWithString:lastKIFLogStep];
+    else
+        lastKIFTestLog = failedScenarioDescription;
+    
+    if(inCaseOfFailureString)
+    {
+        lastKIFTestLog = [[NSString stringWithFormat:@"\n%@ \nPossible Explanation for failure is: %@", lastKIFTestLog, inCaseOfFailureString] retain];
+        //We release the original inCaseOfFailureString because it should only apply once. We have to release it now because the unload step will not be reached through normal flow, we have already failed the scenario.
+        [KIFTestController unloadInCaseOfFailureMessage];
+    }
+    else
+        [lastKIFTestLog retain];
+    
+    //Retain values for printing at the end of the program
+    [indexOfFailedTest retain];
+    [failedScenarioDescription retain];
+    [stepDuration retain];
+    [failedScenarioStep retain];
+    [failingError retain];
+    //lastKIFTestLog already retained
+    
+    [self _printDidFailScenarioIndex:indexOfFailedTest withDescription:failedScenarioDescription withDuration:stepDuration withFailedStep:failedScenarioStep withError:failingError withLastLog:lastKIFTestLog];
+    
+    if(self.failedScenarios == nil)
+        self.failedScenarios = [[NSMutableArray alloc] init];
+    
+    [self.failedScenarios addObject:[NSDictionary dictionaryWithObjectsAndKeys:
+                                               indexOfFailedTest, @"scenarioIndex",
+                                               failedScenarioDescription, @"scenarioDesc",
+                                               stepDuration, @"duration",
+                                               failedScenarioStep, @"scenarioStep",
+                                               failingError, @"stepError",
+                                               lastKIFTestLog, @"lastKIFLogStep",
+                                               nil
+                                               ]];
+}
+
+//Z2Live Addition: Expand information presented on scenario failure
+- (void)_printDidFailScenarioIndex:(NSNumber*)index withDescription:(NSString*)scenarioDescription withDuration:(NSNumber*)duration withFailedStep:(NSString*)step withError:(NSString*)error withLastLog:(NSString*)lastKIFTestLog;
+{
+    KIFLogBlankLine();
+    KIFLogSeparator();
+    KIFLogSeparator();
+    KIFLogBlankLine();
+    KIFLog(@"THE FAILED SCENARIO:");
+    KIFLog(@"SCENARIO %d/%d", [index intValue], [[self scenarios] count]);
+    KIFLog(@"SCENARIO DESCRIPTION: %@", scenarioDescription);
+    KIFLogBlankLine();
+    KIFLog(@"FAIL STEP (%.2fs): %@", [duration doubleValue], step);
     KIFLog(@"FAILING ERROR: %@", error);
+    KIFLog(@"LAST USER DEFINED STEP LOG: %@", lastKIFTestLog);
+    KIFLogBlankLine();
+    KIFLogSeparator();
+    KIFLogSeparator();
+    KIFLogBlankLine();
 }
 
 - (void)_logDidPassStep:(KIFTestStep *)step duration:(NSTimeInterval)duration;
 {
     KIFLog(@"PASS (%.2fs): %@", duration, step);
+}
+
++ (void)debugLog:(NSString *)message
+{
+    NSLog(@"KIF Step Log: %@", message);
+    if(lastKIFLogStep != nil)
+        [lastKIFLogStep autorelease];
+    
+    lastKIFLogStep = [message retain];
+}
+
++ (void)loadInCaseOfFailureMessage:(NSString*)message
+{
+    inCaseOfFailureString = [message retain];
+}
+
++ (void)unloadInCaseOfFailureMessage
+{
+    if(inCaseOfFailureString != nil)
+    {
+        [inCaseOfFailureString release];
+        inCaseOfFailureString = nil;
+    }
 }
 
 @end
