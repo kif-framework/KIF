@@ -328,8 +328,11 @@ typedef CGPoint KIFDisplacement;
     // invoke the |executionBlock|.
     id viewFinderBlock = ^(KIFTestStep *step, NSError **error) {
         UIApplication *app = [UIApplication sharedApplication];
-        UIAccessibilityElement *element = [app accessibilityElementWithLabel:label accessibilityValue:nil traits:UIAccessibilityTraitNone];
+        // Scroll to make sure the view is visible, otherwise we will get an accessibilityElement that maps to the first visible parent view of the view we want.
+        UIAccessibilityElement *element = [self _accessibilityElementWithLabel:label accessibilityValue:nil tappable:NO traits:UIAccessibilityTraitNone error:error];
         KIFTestWaitCondition(element, error, @"Wait for view with accessibility label \"%@\"", label);
+        // Now that the view is scrolled onto the screen, get the element again.
+        element = [app accessibilityElementWithLabel:label accessibilityValue:nil traits:UIAccessibilityTraitNone];
         UIView *view = [UIAccessibilityElement viewContainingAccessibilityElement:element];
         if (!view) {
             return KIFTestStepResultFailure;
