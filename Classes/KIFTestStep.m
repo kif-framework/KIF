@@ -273,11 +273,11 @@ typedef CGPoint KIFDisplacement;
 
 + (id)stepToTapViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits;
 {
-    return [self stepToTapViewWithAccessibilityLabel:label value:value traits:traits successResultOnFailure:NO];
+    return [self stepToTapViewWithAccessibilityLabel:label value:value traits:traits successResultOnFailure:NO withAnimationDelay:0.5];
 }
 
 //Z2Live addition PRIVATE
-+ (id)stepToTapViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits successResultOnFailure:(BOOL)successResultOnFailure;
++ (id)stepToTapViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits successResultOnFailure:(BOOL)successResultOnFailure withAnimationDelay:(float)animationDelay;
 {
     NSString *description = nil;
     if (value.length) {
@@ -290,7 +290,7 @@ typedef CGPoint KIFDisplacement;
     }
 
     // After tapping the view we want to wait a short period to allow things to settle (animations and such). We can't do this using CFRunLoopRunInMode() because certain things, such as the built-in media picker, do things with the run loop that are not compatible with this kind of wait. Instead we leverage the way KIF hooks into the existing run loop by returning "wait" results for the desired period.
-    const NSTimeInterval quiesceWaitInterval = 0.5;
+    const NSTimeInterval quiesceWaitInterval = animationDelay;
     __block NSTimeInterval quiesceStartTime = 0.0;
     
     __block UIView *view = nil;
@@ -346,7 +346,12 @@ typedef CGPoint KIFDisplacement;
 //Z2Live Addition
 + (id)stepToTapViewIfExistsWithAccessibilityLabel:(NSString *)label
 {
-    return [self stepToTapViewWithAccessibilityLabel:label value:nil traits:UIAccessibilityTraitNone successResultOnFailure:YES];
+    return [self stepToTapViewWithAccessibilityLabel:label value:nil traits:UIAccessibilityTraitNone successResultOnFailure:YES withAnimationDelay:0.5];
+}
+
++ (id)stepToTapViewWithAccessibilityLabel:(NSString *)label withAnimationDelay:(float)animationDelay
+{
+    return [self stepToTapViewWithAccessibilityLabel:label value:nil traits:UIAccessibilityTraitNone successResultOnFailure:YES withAnimationDelay:animationDelay];
 }
 
 + (id)stepToTapScreenAtPoint:(CGPoint)screenPoint;
