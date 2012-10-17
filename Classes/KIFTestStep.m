@@ -941,14 +941,11 @@ typedef CGPoint KIFDisplacement;
     }
     if (scrollView) {
         if ((UIAccessibilityElement *)view == element) {
-            [scrollView scrollViewToVisible:view animated:YES];
+            [scrollView scrollViewToVisible:view animated:NO];
         } else {
             CGRect elementFrame = [view.window convertRect:element.accessibilityFrame toView:scrollView];
-            [scrollView scrollRectToVisible:elementFrame animated:YES];
+            [scrollView scrollRectToVisible:elementFrame animated:NO];
         }
-        
-        // Give the scroll view a small amount of time to perform the scroll.
-        CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.3, false);
     }
     
     if ([[UIApplication sharedApplication] isIgnoringInteractionEvents]) {
