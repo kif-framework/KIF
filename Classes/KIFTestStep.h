@@ -455,6 +455,17 @@ typedef enum {
 + (id)stepToSwipeViewWithAccessibilityLabel:(NSString *)label inDirection:(KIFSwipeDirection)direction;
 
 /*!
+ @method stepToSwipeViewWithAccessibilityLabel:inDirection:withDisplacement:
+ @abstract A step that swipes a particular view in the view hierarchy in the given direction.
+ @discussion The view will get the view with the specified accessibility label and swipe the screen in the given direction from the view's center.
+ @param label The accessibility label of the view to swipe.
+ @param direction The direction in which to swipe.
+ @PARAM displacement The amount of displacement in the path of the swipe.
+ @result A configured test step.
+ */
++ (id)stepToSwipeViewWithAccessibilityLabel:(NSString *)label inDirection:(KIFSwipeDirection)direction withDisplacement:(CGFloat)displacement;
+
+/*!
  @method stepToWaitForFirstResponderWithAccessibilityLabel:
  @abstract A step that waits until a view or accessibility element is the first responder.
  @discussion The first responder is found by searching the view hierarchy of the application's

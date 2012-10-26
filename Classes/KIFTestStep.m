@@ -37,7 +37,7 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
 + (UIAccessibilityElement *)_accessibilityElementWithLabel:(NSString *)label accessibilityValue:(NSString *)value tappable:(BOOL)mustBeTappable traits:(UIAccessibilityTraits)traits error:(out NSError **)error;
 
 typedef CGPoint KIFDisplacement;
-+ (KIFDisplacement)_displacementForSwipingInDirection:(KIFSwipeDirection)direction;
++ (KIFDisplacement)_displacementForSwipingInDirection:(KIFSwipeDirection)direction withDisplacement:(CGFloat)displacement;
 
 @end
 
@@ -635,8 +635,14 @@ typedef CGPoint KIFDisplacement;
 }
 
 #define NUM_POINTS_IN_SWIPE_PATH 20
+#define MAJOR_SWIPE_DISPLACEMENT 200
 
 + (id)stepToSwipeViewWithAccessibilityLabel:(NSString *)label inDirection:(KIFSwipeDirection)direction
+{
+    return [self stepToSwipeViewWithAccessibilityLabel:label inDirection:direction withDisplacement:MAJOR_SWIPE_DISPLACEMENT];
+}
+
++ (id)stepToSwipeViewWithAccessibilityLabel:(NSString *)label inDirection:(KIFSwipeDirection)direction withDisplacement:(CGFloat)displacement
 {
     // The original version of this came from http://groups.google.com/group/kif-framework/browse_thread/thread/df3f47eff9f5ac8c
     NSString *directionDescription = nil;
@@ -673,7 +679,7 @@ typedef CGPoint KIFDisplacement;
         CGRect elementFrame = [viewToSwipe.window convertRect:element.accessibilityFrame toView:viewToSwipe];
         CGPoint swipeStart = CGPointCenteredInRect(elementFrame);
 
-        KIFDisplacement swipeDisplacement = [self _displacementForSwipingInDirection:direction];
+        KIFDisplacement swipeDisplacement = [self _displacementForSwipingInDirection:direction withDisplacement:displacement];
 
         CGPoint swipePath[NUM_POINTS_IN_SWIPE_PATH];
 
@@ -1070,10 +1076,9 @@ typedef CGPoint KIFDisplacement;
     return element;
 }
 
-#define MAJOR_SWIPE_DISPLACEMENT 200
 #define MINOR_SWIPE_DISPLACEMENT 5
 
-+ (KIFDisplacement)_displacementForSwipingInDirection:(KIFSwipeDirection)direction
++ (KIFDisplacement)_displacementForSwipingInDirection:(KIFSwipeDirection)direction withDisplacement:(CGFloat)displacement
 {
     switch (direction)
     {
@@ -1081,16 +1086,16 @@ typedef CGPoint KIFDisplacement;
         // swipe if you move purely horizontally or vertically, so need a
         // slight orthogonal offset too.
         case KIFSwipeDirectionRight:
-            return CGPointMake(MAJOR_SWIPE_DISPLACEMENT, MINOR_SWIPE_DISPLACEMENT);
+            return CGPointMake(displacement, MINOR_SWIPE_DISPLACEMENT);
             break;
         case KIFSwipeDirectionLeft:
-            return CGPointMake(-MAJOR_SWIPE_DISPLACEMENT, MINOR_SWIPE_DISPLACEMENT);
+            return CGPointMake(-displacement, MINOR_SWIPE_DISPLACEMENT);
             break;
         case KIFSwipeDirectionUp:
-            return CGPointMake(MINOR_SWIPE_DISPLACEMENT, -MAJOR_SWIPE_DISPLACEMENT);
+            return CGPointMake(MINOR_SWIPE_DISPLACEMENT, -displacement);
             break;
         case KIFSwipeDirectionDown:
-            return CGPointMake(MINOR_SWIPE_DISPLACEMENT, MAJOR_SWIPE_DISPLACEMENT);
+            return CGPointMake(MINOR_SWIPE_DISPLACEMENT, displacement);
             break;
         default:
             return CGPointZero;
