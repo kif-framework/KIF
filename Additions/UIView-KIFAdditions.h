@@ -35,6 +35,7 @@
 - (void)flash;
 - (void)tap;
 - (void)tapAtPoint:(CGPoint)point;
+- (void)tapAtPoint:(CGPoint)point numberOfTaps:(NSUInteger)numberOfTaps;
 
 /*!
  @method dragFromPoint:toPoint:
