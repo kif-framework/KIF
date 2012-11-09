@@ -165,6 +165,35 @@ typedef struct __GSEvent * GSEventRef;
     return matchingButOccludedElement;
 }
 
+- (UIAccessibilityElement *)accessibilityElementWithLabelLike:(NSString *)label
+{
+    return [self accessibilityElementWithLabelLike:label traits:UIAccessibilityTraitNone];
+}
+
+- (UIAccessibilityElement *)accessibilityElementWithLabelLike:(NSString *)label traits:(UIAccessibilityTraits)traits;
+{
+    return [self accessibilityElementWithLabelLike:label accessibilityValue:nil traits:traits];
+}
+
+- (UIAccessibilityElement *)accessibilityElementWithLabelLike:(NSString *)label accessibilityValue:(NSString *)value traits:(UIAccessibilityTraits)traits;
+{
+    return [self accessibilityElementMatchingBlock:^(UIAccessibilityElement *element) {
+		NSRange substringLabelRange;
+		substringLabelRange = [[element.accessibilityLabel lowercaseString] rangeOfString:[label lowercaseString]];
+		NSRange substringIdentifierRange;
+		substringIdentifierRange = [[element.accessibilityIdentifier lowercaseString] rangeOfString:[label lowercaseString]];
+		
+		BOOL labelsMatch = ( (substringLabelRange.length > 0) ||  (substringIdentifierRange.length > 0) );
+		
+		// BOOL labelsMatch = [element.accessibilityLabel isEqual:label] || [element.accessibilityIdentifier isEqual:label];
+        BOOL traitsMatch = ((element.accessibilityTraits) & traits) == traits;
+        BOOL valuesMatch = !value || [value isEqual:element.accessibilityValue];
+		
+        return (BOOL)(labelsMatch && traitsMatch && valuesMatch);
+    }];
+}
+
+
 - (UIView *)subviewWithClassNamePrefix:(NSString *)prefix;
 {
     NSArray *subviews = [self subviewsWithClassNamePrefix:prefix];

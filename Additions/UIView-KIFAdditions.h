@@ -32,6 +32,10 @@
 - (UIView *)subviewWithClassNameOrSuperClassNamePrefix:(NSString *)prefix __deprecated;
 - (NSArray *)subviewsWithClassNameOrSuperClassNamePrefix:(NSString *)prefix;
 
+- (UIAccessibilityElement *)accessibilityElementWithLabelLike:(NSString *)label;
+- (UIAccessibilityElement *)accessibilityElementWithLabelLike:(NSString *)label traits:(UIAccessibilityTraits)traits;
+- (UIAccessibilityElement *)accessibilityElementWithLabelLike:(NSString *)label accessibilityValue:(NSString *)value traits:(UIAccessibilityTraits)traits;
+
 - (void)flash;
 - (void)tap;
 - (void)tapAtPoint:(CGPoint)point;
