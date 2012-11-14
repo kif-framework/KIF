@@ -907,6 +907,8 @@ typedef CGPoint KIFDisplacement;
 
 + (UIAccessibilityElement *)_accessibilityElementWithLabel:(NSString *)label accessibilityValue:(NSString *)value tappable:(BOOL)mustBeTappable traits:(UIAccessibilityTraits)traits error:(out NSError **)error;
 {
+    if ([label isKindOfClass:NSClassFromString(@"NSBlock")]) label = ((NSString *(^)())(label))();
+    if ([value isKindOfClass:NSClassFromString(@"NSBlock")]) value = ((NSString *(^)())(value))();
     UIAccessibilityElement *element = [[UIApplication sharedApplication] accessibilityElementWithLabel:label accessibilityValue:value traits:traits];
     if (!element) {
         if (error) {
