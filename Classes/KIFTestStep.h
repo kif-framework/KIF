@@ -194,6 +194,10 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
  */
 + (id)stepToWaitForViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits;
 
++ (id)stepToWaitForViewWithAccessibilityLabelLike:(NSString *)label;
++ (id)stepToWaitForViewWithAccessibilityLabelLike:(NSString *)label value:(NSString *)value;
++ (id)stepToWaitForViewWithAccessibilityLabelLike:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits;
+
 /*!
  @method stepToWaitForAbsenceOfViewWithAccessibilityLabel:
  @abstract A step that waits until a view or accessibility element is no longer present.
@@ -316,6 +320,10 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
  @result A configured test step.
  */
 + (id)stepToTapViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits;
+
++ (id)stepToTapViewWithAccessibilityLabelLike:(NSString *)label;
++ (id)stepToTapViewWithAccessibilityLabelLike:(NSString *)label value:(NSString *)value;
++ (id)stepToTapViewWithAccessibilityLabelLike:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits;
 
 /*!
  @method stepToTapScreenAtPoint:
