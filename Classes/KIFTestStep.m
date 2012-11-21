@@ -207,6 +207,52 @@ typedef CGPoint KIFDisplacement;
     }];
 }
 
++ (id)stepToWaitForAbsenceOfViewWithAccessibilityLabelLike:(NSString *)label
+{
+    return [self stepToWaitForAbsenceOfViewWithAccessibilityLabelLike:label traits:UIAccessibilityTraitNone];
+}
+
++ (id)stepToWaitForAbsenceOfViewWithAccessibilityLabelLike:(NSString *)label traits:(UIAccessibilityTraits)traits
+{
+    return [self stepToWaitForAbsenceOfViewWithAccessibilityLabelLike:label value:nil traits:traits];
+}
+
++ (id)stepToWaitForAbsenceOfViewWithAccessibilityLabelLike:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits
+{
+    NSString *description = nil;
+    if (value.length) {
+        description = [NSString stringWithFormat:@"Wait for view with accessibility label \"%@\" and accessibility value \"%@\" to be gone", label, value];
+    } else {
+        description = [NSString stringWithFormat:@"Wait for view with accessibility label \"%@\" to be gone", label];
+    }
+    
+    return [self stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
+        
+        // If the app is ignoring interaction events, then wait before doing our analysis
+        KIFTestWaitCondition(![[UIApplication sharedApplication] isIgnoringInteractionEvents], error, @"Application is ignoring interaction events.");
+		
+        // If the element can't be found, then we're done
+        UIAccessibilityElement *element = [[UIApplication sharedApplication] accessibilityElementWithLabelLike:label accessibilityValue:value traits:traits];
+        if (!element) {
+            return KIFTestStepResultSuccess;
+        }
+		
+        UIView *view = [UIAccessibilityElement viewContainingAccessibilityElement:element];
+		// Non-tappable views count as absent
+		if(![view isTappable]){
+			return KIFTestStepResultSuccess;
+		}
+		
+        // If we found an element, but it's not associated with a view, then something's wrong. Wait it out and try again.
+        KIFTestWaitCondition(view, error, @"Cannot find view containing accessibility element with the label \"%@\"", label);
+		
+        // Hidden views count as absent
+        KIFTestWaitCondition([view isHidden], error, @"Accessibility element with label \"%@\" is visible and not hidden.", label);
+		
+        return KIFTestStepResultSuccess;
+    }];
+}
+
 + (id)stepToWaitForTappableViewWithAccessibilityLabel:(NSString *)label;
 {
     return [self stepToWaitForTappableViewWithAccessibilityLabel:label traits:UIAccessibilityTraitNone];
@@ -465,7 +511,7 @@ typedef CGPoint KIFDisplacement;
         }
         
         UIView *view = [UIAccessibilityElement viewContainingAccessibilityElement:element];
-		[(UITextField *) view setText:nil];
+		((UITextField *)view).text = nil;
         KIFTestWaitCondition(view, error, @"Cannot find view with accessibility label \"%@\"", label);
                 
         CGRect elementFrame = [view.window convertRect:element.accessibilityFrame toView:view];
@@ -505,6 +551,64 @@ typedef CGPoint KIFDisplacement;
         return KIFTestStepResultSuccess;
     }];
 }
+
+
++ (id)stepToEnterText:(NSString *)text intoViewWithAccessibilityLabelLike:(NSString *)label
+{
+    return [self stepToEnterText:text intoViewWithAccessibilityLabelLike:label traits:UIAccessibilityTraitNone expectedResult:nil];
+}
+
++ (id)stepToEnterText:(NSString *)text intoViewWithAccessibilityLabelLike:(NSString *)label traits:(UIAccessibilityTraits)traits expectedResult:(NSString *)expectedResult
+{
+    NSString *description = [NSString stringWithFormat:@"Type the text \"%@\" into the view with accessibility label \"%@\"", text, label];
+    return [self stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
+        
+        UIAccessibilityElement *element = [[UIApplication sharedApplication] accessibilityElementWithLabelLike:label];
+        if (!element) {
+            return KIFTestStepResultWait;
+        }
+        
+        UIView *view = [UIAccessibilityElement viewContainingAccessibilityElement:element];
+        KIFTestWaitCondition(view, error, @"Cannot find view with accessibility label \"%@\"", label);
+		
+        CGRect elementFrame = [view.window convertRect:element.accessibilityFrame toView:view];
+        CGPoint tappablePointInElement = [view tappablePointInRect:elementFrame];
+        
+        // This is mostly redundant of the test in _accessibilityElementWithLabel:
+        KIFTestCondition(!isnan(tappablePointInElement.x), error, @"The element with accessibility label %@ is not tappable", label);
+        [view tapAtPoint:tappablePointInElement];
+        
+        KIFTestWaitCondition([view isDescendantOfFirstResponder], error, @"Failed to make the view with accessibility label \"%@\" the first responder", label);
+        
+        // Wait for the keyboard
+        CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.5, false);
+        
+        for (NSUInteger characterIndex = 0; characterIndex < [text length]; characterIndex++) {
+            NSString *characterString = [text substringWithRange:NSMakeRange(characterIndex, 1)];
+            
+            if (![self _enterCharacter:characterString]) {
+                // Attempt to cheat if we couldn't find the character
+                if ([view isKindOfClass:[UITextField class]] || [view isKindOfClass:[UITextView class]]) {
+                    NSLog(@"KIF: Unable to find keyboard key for %@. Inserting manually.", characterString);
+                    [(UITextField *)view setText:[[(UITextField *)view text] stringByAppendingString:characterString]];
+                } else {
+                    KIFTestCondition(NO, error, @"Failed to find key for character \"%@\"", characterString);
+                }
+            }
+        }
+        
+        // This is probably a UITextField- or UITextView-ish view, so make sure it worked
+        if ([view respondsToSelector:@selector(text)]) {
+            // We trim \n and \r because they trigger the return key, so they won't show up in the final product on single-line inputs
+            NSString *expected = [expectedResult ? expectedResult : text stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+            NSString *actual = [[view performSelector:@selector(text)] stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+            KIFTestCondition([actual isEqualToString:expected], error, @"Failed to actually enter text \"%@\" in field; instead, it was \"%@\"", text, actual);
+        }
+        
+        return KIFTestStepResultSuccess;
+    }];
+}
+
 
 + (id)stepToSelectPickerViewRowWithTitle:(NSString *)title;
 {
