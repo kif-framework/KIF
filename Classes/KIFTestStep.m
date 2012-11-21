@@ -366,11 +366,12 @@ typedef CGPoint KIFDisplacement;
         }
         
         UIView *view = [UIAccessibilityElement viewContainingAccessibilityElement:element];
+		[(UITextField *) view setText:nil];
         KIFTestWaitCondition(view, error, @"Cannot find view with accessibility label \"%@\"", label);
                 
         CGRect elementFrame = [view.window convertRect:element.accessibilityFrame toView:view];
         CGPoint tappablePointInElement = [view tappablePointInRect:elementFrame];
-        
+		
         // This is mostly redundant of the test in _accessibilityElementWithLabel:
         KIFTestCondition(!isnan(tappablePointInElement.x), error, @"The element with accessibility label %@ is not tappable", label);
         [view tapAtPoint:tappablePointInElement];
