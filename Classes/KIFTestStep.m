@@ -609,6 +609,23 @@ typedef CGPoint KIFDisplacement;
     }];
 }
 
++ (id)stepToClearTextFromViewWithAccessibilityLabel:(NSString *)label
+{
+	 NSString *description = [NSString stringWithFormat:@"Clearing text from the view with accessibility label \"%@\"", label];
+
+	return [self stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
+		UIAccessibilityElement *element = [[UIApplication sharedApplication] accessibilityElementWithLabelLike:label];
+		if (!element) {
+			return KIFTestStepResultWait;
+		}
+		
+		UIView *view = [UIAccessibilityElement viewContainingAccessibilityElement:element];
+		((UITextField *)view).text = @"";
+		
+        return KIFTestStepResultSuccess;
+	}];
+
+}
 
 + (id)stepToSelectPickerViewRowWithTitle:(NSString *)title;
 {

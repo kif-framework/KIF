@@ -363,6 +363,9 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
 + (id)stepToEnterText:(NSString *)text intoViewWithAccessibilityLabelLike:(NSString *)label;
 + (id)stepToEnterText:(NSString *)text intoViewWithAccessibilityLabelLike:(NSString *)label traits:(UIAccessibilityTraits)traits expectedResult:(NSString *)expectedResult;
 
+
++ (id)stepToClearTextFromViewWithAccessibilityLabel:(NSString *)label;
+
 /*!
  @method stepToSelectPickerViewRowWithTitle:
  @abstract A step that selects an item from a currently visible picker view.
