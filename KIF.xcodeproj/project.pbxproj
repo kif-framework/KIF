@@ -244,7 +244,7 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		AAB07270139719AC008AF393 /* Debug */ = {
+		AAB07270139719AC008AF393 /* Dev */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
@@ -259,7 +259,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				SDKROOT = iphoneos;
 			};
-			name = Debug;
+			name = Dev;
 		};
 		AAB07271139719AC008AF393 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -275,7 +275,7 @@
 			};
 			name = Release;
 		};
-		AAB07273139719AC008AF393 /* Debug */ = {
+		AAB07273139719AC008AF393 /* Dev */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -290,7 +290,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
-			name = Debug;
+			name = Dev;
 		};
 		AAB07274139719AC008AF393 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -309,26 +309,62 @@
 			};
 			name = Release;
 		};
+		C4DAB5971663CB4600487B96 /* Staging */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				SDKROOT = iphoneos;
+			};
+			name = Staging;
+		};
+		C4DAB5981663CB4600487B96 /* Staging */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = (
+					armv6,
+					"$(ARCHS_STANDARD_32_BIT)",
+				);
+				DSTROOT = /tmp/KIF.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Classes/KIF-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Staging;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
 		AAB07262139719AC008AF393 /* Build configuration list for PBXProject "KIF" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				AAB07270139719AC008AF393 /* Debug */,
+				AAB07270139719AC008AF393 /* Dev */,
+				C4DAB5971663CB4600487B96 /* Staging */,
 				AAB07271139719AC008AF393 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Dev;
 		};
 		AAB07272139719AC008AF393 /* Build configuration list for PBXNativeTarget "KIF" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				AAB07273139719AC008AF393 /* Debug */,
+				AAB07273139719AC008AF393 /* Dev */,
+				C4DAB5981663CB4600487B96 /* Staging */,
 				AAB07274139719AC008AF393 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Dev;
 		};
 /* End XCConfigurationList section */
 	};
