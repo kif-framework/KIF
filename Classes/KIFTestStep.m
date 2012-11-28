@@ -100,12 +100,22 @@ typedef CGPoint KIFDisplacement;
     return [self stepToWaitForViewWithAccessibilityLabel:label traits:UIAccessibilityTraitNone];
 }
 
++ (id)stepToWaitForViewWithAccessibilityLabel:(NSString *)label titleOrText:(NSString*)titleOrText;
+{
+    return [self stepToWaitForViewWithAccessibilityLabel:label value:nil traits:UIAccessibilityTraitNone titleOrText:titleOrText];
+}
+
 + (id)stepToWaitForViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits;
 {
     return [self stepToWaitForViewWithAccessibilityLabel:label value:nil traits:traits];
 }
 
 + (id)stepToWaitForViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits;
+{
+    return [self stepToWaitForViewWithAccessibilityLabel:label value:nil traits:traits titleOrText:nil];
+}
+
++ (id)stepToWaitForViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits titleOrText:(NSString*)titleOrText;
 {
     NSString *description = nil;
     if (value.length) {
@@ -117,13 +127,27 @@ typedef CGPoint KIFDisplacement;
     return [self stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
         UIAccessibilityElement *element = [self _accessibilityElementWithLabel:label accessibilityValue:value tappable:NO traits:traits error:error];
         
-        NSString *waitDescription = nil;
-        if (value.length) {
-            waitDescription = [NSString stringWithFormat:@"Waiting for presence of accessibility element with label \"%@\" and accessibility value \"%@\"", label, value];
-        } else {
-            waitDescription = [NSString stringWithFormat:@"Waiting for presence of accessibility element with label \"%@\"", label];
+        if (element && titleOrText.length) {
+            // TODO This is somewhat kludgy, and I expect it to evolve. For now, it's covering the cases I know I need.
+            if ([element respondsToSelector:@selector(currentTitle)]) {
+                if (![[((id)element) currentTitle] isEqualToString:titleOrText]) {
+                    element = nil;
+                }
+            } else if ([element respondsToSelector:@selector(text)]) {
+                if (![[((id)element) text] isEqualToString:titleOrText]) {
+                    element = nil;
+                }
+            } else if ([element respondsToSelector:@selector(title)]) {
+                if (![[((id)element) title] isEqualToString:titleOrText]) {
+                    element = nil;
+                }
+            }
         }
         
+        NSString *waitDescription = [NSString stringWithFormat:@"Waiting for presence of accessibility element with label \"%@\"", label];
+        if (value.length) waitDescription = [NSString stringWithFormat:@"%@ and accessibility value \"%@\"", waitDescription, value];
+        if (titleOrText.length) waitDescription = [NSString stringWithFormat:@"%@ and title or text \"%@\"", waitDescription, titleOrText];
+
         KIFTestWaitCondition(element, error, @"%@", waitDescription);
         
         return KIFTestStepResultSuccess;
