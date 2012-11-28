@@ -128,7 +128,6 @@ typedef CGPoint KIFDisplacement;
         UIAccessibilityElement *element = [self _accessibilityElementWithLabel:label accessibilityValue:value tappable:NO traits:traits error:error];
         
         if (element && titleOrText.length) {
-            NSLog(@"=== label %@     title %@", label, titleOrText);
             // TODO This is somewhat kludgy, and I expect it to evolve. For now, it's covering the cases I know I need.
             if ([element respondsToSelector:@selector(currentTitle)]) {
                 if ([[((id)element) currentTitle] rangeOfString:titleOrText].location == NSNotFound) {
