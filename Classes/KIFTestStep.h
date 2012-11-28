@@ -170,16 +170,16 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
 + (id)stepToWaitForViewWithAccessibilityLabel:(NSString *)label;
 
 /*!
- @method stepToWaitForViewWithAccessibilityLabel:titleOrText:
+ @method stepToWaitForViewWithAccessibilityLabel:containsTitleOrText:
  @abstract A step that waits until a view or accessibility element is present.
  @discussion The view or accessibility element with the given label is found in the view hierarchy. If the element isn't found, then the step will attempt to wait until it is. Note that the view does not necessarily have to be visible on the screen, and may be behind another view or offscreen. Views with their hidden property set to YES are ignored.
  
  If the view you want to wait for is tappable, use the -stepToWaitForTappableViewWithAccessibilityLabel: methods instead as they provide a more strict test.
  @param label The accessibility label of the element to wait for.
- @param titleOrText The title (e.g. of a view) or text (e.g. of a textview) of the specified interface element
+ @param titleOrText Title (e.g. of a view) or text (e.g. of a textview) of the specified interface element
  @result A configured test step.
  */
-+ (id)stepToWaitForViewWithAccessibilityLabel:(NSString *)label titleOrText:(NSString*)titleOrText;
++ (id)stepToWaitForViewWithAccessibilityLabel:(NSString *)label containsTitleOrText:(NSString*)titleOrText;
 
 /*!
  @method stepToWaitForViewWithAccessibilityLabel:traits:
@@ -207,7 +207,7 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
 + (id)stepToWaitForViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits;
 
 /*!
- @method stepToWaitForViewWithAccessibilityLabel:value:traits:titleOrText:
+ @method stepToWaitForViewWithAccessibilityLabel:value:traits:containsTitleOrText:
  @abstract A step that waits until a view or accessibility element is present.
  @discussionThe view or accessibility element with the given label is found in the view hierarchy. If the element isn't found, then the step will attempt to wait until it is. Note that the view does not necessarily have to be visible on the screen, and may be behind another view or offscreen. Views with their hidden property set to YES are ignored.
  
@@ -215,10 +215,10 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
  @param label The accessibility label of the element to wait for.
  @param value The accessibility value of the element to tap.
  @param traits The accessibility traits of the element to wait for. Elements that do not include at least these traits are ignored.
- @param titleOrText The title (e.g. of a view) or text (e.g. of a textview) of the specified interface element
+ @param titleOrText Title (e.g. of a view) or text (e.g. of a textview) of the specified interface element
  @result A configured test step.
  */
-+ (id)stepToWaitForViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits titleOrText:(NSString*)titleOrText;
++ (id)stepToWaitForViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits containsTitleOrText:(NSString*)titleOrText;
 
 /*!
  @method stepToWaitForAbsenceOfViewWithAccessibilityLabel:

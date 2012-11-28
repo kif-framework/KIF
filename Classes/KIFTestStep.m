@@ -100,9 +100,9 @@ typedef CGPoint KIFDisplacement;
     return [self stepToWaitForViewWithAccessibilityLabel:label traits:UIAccessibilityTraitNone];
 }
 
-+ (id)stepToWaitForViewWithAccessibilityLabel:(NSString *)label titleOrText:(NSString*)titleOrText;
++ (id)stepToWaitForViewWithAccessibilityLabel:(NSString *)label containsTitleOrText:(NSString*)titleOrText;
 {
-    return [self stepToWaitForViewWithAccessibilityLabel:label value:nil traits:UIAccessibilityTraitNone titleOrText:titleOrText];
+    return [self stepToWaitForViewWithAccessibilityLabel:label value:nil traits:UIAccessibilityTraitNone containsTitleOrText:titleOrText];
 }
 
 + (id)stepToWaitForViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits;
@@ -112,10 +112,10 @@ typedef CGPoint KIFDisplacement;
 
 + (id)stepToWaitForViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits;
 {
-    return [self stepToWaitForViewWithAccessibilityLabel:label value:nil traits:traits titleOrText:nil];
+    return [self stepToWaitForViewWithAccessibilityLabel:label value:nil traits:traits containsTitleOrText:nil];
 }
 
-+ (id)stepToWaitForViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits titleOrText:(NSString*)titleOrText;
++ (id)stepToWaitForViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits containsTitleOrText:(NSString*)titleOrText;
 {
     NSString *description = nil;
     if (value.length) {
@@ -128,19 +128,22 @@ typedef CGPoint KIFDisplacement;
         UIAccessibilityElement *element = [self _accessibilityElementWithLabel:label accessibilityValue:value tappable:NO traits:traits error:error];
         
         if (element && titleOrText.length) {
+            NSLog(@"=== label %@     title %@", label, titleOrText);
             // TODO This is somewhat kludgy, and I expect it to evolve. For now, it's covering the cases I know I need.
             if ([element respondsToSelector:@selector(currentTitle)]) {
-                if (![[((id)element) currentTitle] isEqualToString:titleOrText]) {
+                if ([[((id)element) currentTitle] rangeOfString:titleOrText].location == NSNotFound) {
                     element = nil;
                 }
             } else if ([element respondsToSelector:@selector(text)]) {
-                if (![[((id)element) text] isEqualToString:titleOrText]) {
+                if (![[((id)element) text] rangeOfString:titleOrText].location == NSNotFound) {
                     element = nil;
                 }
             } else if ([element respondsToSelector:@selector(title)]) {
-                if (![[((id)element) title] isEqualToString:titleOrText]) {
+                if (![[((id)element) title] rangeOfString:titleOrText].location == NSNotFound) {
                     element = nil;
                 }
+            } else {
+                element = nil;
             }
         }
         
