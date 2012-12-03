@@ -17,7 +17,7 @@
 #import "UIWindow-KIFAdditions.h"
 
 
-static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
+static NSTimeInterval KIFTestStepDefaultTimeout = 20.0;
 
 @interface KIFTestStep ()
 
@@ -295,7 +295,12 @@ typedef CGPoint KIFDisplacement;
     
     __block UIView *view = nil;
     
+    __block NSTimeInterval blockStartTime = 0.0;
+    
     return [self stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
+        
+        if(successResultOnFailure && blockStartTime < 1.0)
+            blockStartTime = [NSDate timeIntervalSinceReferenceDate];
 
         // If we've already tapped the view and stored it to a variable, and we've waited for the quiesce time to elapse, then we're done.
         if (view) {
@@ -306,7 +311,7 @@ typedef CGPoint KIFDisplacement;
         UIAccessibilityElement *element = [self _accessibilityElementWithLabel:label accessibilityValue:value tappable:YES traits:traits error:error];
         if (!element) {
             //Z2Live addition: If we don't want to fail on not finding the view, return success on a timeout
-            if(successResultOnFailure && ([NSDate timeIntervalSinceReferenceDate] - quiesceStartTime) >= [self defaultTimeout])
+            if(successResultOnFailure && ([NSDate timeIntervalSinceReferenceDate] - blockStartTime) >= ([self defaultTimeout] / 4.0))
                 return KIFTestStepResultSuccess;
             else
                 return KIFTestStepResultWait;
@@ -315,7 +320,7 @@ typedef CGPoint KIFDisplacement;
         view = [UIAccessibilityElement viewContainingAccessibilityElement:element];
         if(!view){
             //Z2Live Addition: If we don't want to fail on not finding the view, return success on timeout
-            if(successResultOnFailure && ([NSDate timeIntervalSinceReferenceDate] - quiesceStartTime) >= [self defaultTimeout])
+            if(successResultOnFailure && ([NSDate timeIntervalSinceReferenceDate] - blockStartTime) >= ([self defaultTimeout] / 4.0))
                 return KIFTestStepResultSuccess;
             else
                 KIFTestWaitCondition(view, error, @"Failed to find view for accessibility element with label \"%@\"", label);
