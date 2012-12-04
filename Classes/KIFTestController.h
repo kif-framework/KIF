@@ -130,4 +130,27 @@ typedef void (^KIFTestControllerCompletionBlock)();
  */
 - (void)startTestingWithCompletionBlock:(KIFTestControllerCompletionBlock)completionBlock;
 
+/*!
+ Z2Live Addition
+ @method debugLog:
+ @abstract Logs a message as well as saved logged message
+ @param message The message to store and log
+ */
++ (void)debugLog:(NSString*)message;
+
+/*!
+ Z2Live Addition
+ @method loadInCaseOfFailureMessage:
+ @abstract Stores a user defined message to add onto a failure statement, to help debugging purposes
+ @param message The message to append to the failure statement
+ */
++ (void)loadInCaseOfFailureMessage:(NSString*)message;
+
+/*!
+ Z2Live Addition
+ @method unloadInCaseOfFailureMessage:
+ @abstract Releases the stored message that adds onto a failure statement, since it's not useful now
+ */
++ (void)unloadInCaseOfFailureMessage;
+
 @end

@@ -85,7 +85,9 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
     id notificationObject;
     BOOL notificationOccurred;
     BOOL observingForNotification;
-    NSTimeInterval timeout;    
+    NSTimeInterval timeout;
+    BOOL succeedOnTimeout;
+    BOOL skipFailureLogging;
 }
 
 /*!
@@ -101,6 +103,20 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
  @discussion This is used to help describe what the test script is doing and where it may have failed.
  */
 @property (nonatomic, retain) NSString *description;
+
+/*!
+ @property succeedOnTimeout
+ @abstract If true, this step will succeed if it times out after waiting.
+ @discussion Sometimes a step waits for something that may not happen, and that's not always a failure case.
+ */
+@property (nonatomic, assign) BOOL succeedOnTimeout;
+
+/*!
+ @property skipFailureLogging
+ @abstract If true, this step will not count as a failure when it fails, but still ends the scenario.
+ @discussion Some steps are not important, so if they fail then they don't count but still end the scenario.
+ */
+@property (nonatomic, assign) BOOL skipFailureLogging;
 
 /*!
  @method defaultTimeout
@@ -318,6 +334,27 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
 + (id)stepToTapViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits;
 
 /*!
+ Z2Live Addition
+ @method stepToTapViewIfExistsWithAccessibilityLabel:
+ @abstract A step that taps a particular view in the view hierarchy, if it exists
+ @discussion The view or accessibility element with the given label is searched for in the view hierarchy. If the element isn't found or isn't currently tappable, then the step will attempt to wait until it is. Once the view is present and tappable, a tap event is simulated in the center of the view or element. If the view does not exist, it will return success.
+ @param label The accessibility label of the element to tap.
+ @result A configured test step.
+ */
++ (id)stepToTapViewIfExistsWithAccessibilityLabel:(NSString *)label;
+
+/*!
+ Z2Live Addition
+ @method stepToTapViewWithAccessibilityLabel:withAnimationDelay
+ @abstract A step that taps a particular view in the view hierarchy, with a custom delay after tap
+ @discussion The view or accessibility element with the given label is searched for in the view hierarchy. If the element isn't found or isn't currently tappable, then the step will attempt to wait until it is. Once the view is present and tappable, a tap event is simulated in the center of the view or element.
+ @param label The accessibility label of the element to tap.
+ @param animationDelay The delay after tap to let animations settle
+ @result A configured test step.
+ */
++ (id)stepToTapViewWithAccessibilityLabel:(NSString *)label withAnimationDelay:(float)animationDelay;
+
+/*!
  @method stepToTapScreenAtPoint:
  @abstract A step that taps the screen at a particular point.
  @discussion Taps the screen at a specific point. In general you should use the factory steps that tap a view based on its accessibility label, but there are situations where it's not possible to access a view using accessibility mechanisms. This step is more lenient than the steps that use the accessibility label, and does not wait for any particular view to appear, or validate that the tapped view is enabled or has interaction enabled. Because this step doesn't doesn't validate that a view is present before tapping it, it's good practice to precede this step where possible with a -stepToWaitForViewWithAccessibilityLabel: with the label for another view that should appear on the same screen.
@@ -416,6 +453,32 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
 + (id)stepToTapRowInTableViewWithAccessibilityLabel:(NSString*)tableViewLabel atIndexPath:(NSIndexPath *)indexPath;
 
 /*!
+ @method willSucceedOnTimeout
+ @abstract Sets the succeedOnTimeout property to true and returns itself.
+ @discussion Convenience method to be used when adding steps to scenarios.
+ @result A test step that will succeed if it times out.
+ */
+- (id)willSucceedOnTimeout;
+
+/*!
+ @method willSkipFailureLogging
+ @abstract Sets the skipFailureLogging property to true and returns itself.
+ @discussion Convenience method to be used when adding steps to scenarios.
+ @result A test step that will skip failure logging when it fails.
+ */
+- (id)willSkipFailureLogging;
+
+/*!
+ @method withCustomTimeout:
+ @abstract Changes the timeout value of the step without affecting the default.
+ @discussion Convenience method to be used when adding steps to scenarios.
+ @param newTimeout New timeout value that will be applied to this step only.
+ @result A test step with a custom timeout value.
+ */
+- (id)withCustomTimeout:(NSTimeInterval)newTimeout;
+
+ 
+/*!
  @enum KIFSwipeDirection
  @abstract Directions in which to swipe.
  @constant KIFSwipeDirectionRight Swipe to the right.
@@ -450,5 +513,34 @@ typedef enum {
  @result A configured test step.
  */
 + (id)stepToWaitForFirstResponderWithAccessibilityLabel:(NSString *)label;
+
+/*!
+ Z2Live Addition
+ @method stepToVerifyLabelContentsMatch:withAccessibilityLabel
+ @abstract A step that verifies a UITextField matches specific text that we desire
+ @param textData The data that should be in the UITextField
+ @param label The accessibility label of the element to verify.
+ @result A configured test step.
+ */
++ (id)stepToVerifyLabelContentsMatch:(NSString*)textData withAccessibilityLabel:(NSString*)label;
+
+/*!
+ Z2Live Addition
+ @method stepToVerifyTextWithAlignment:withAccessibilityLabel
+ @abstract A step that verifies alignment of the UIView 
+ @param alignment What alignment the element should be in
+ @param label The accessibility label of the element to verify.
+ @result A configured test step.
+ */
++ (id)stepToVerifyTextWithAlignment:(UITextAlignment)alignment withAccessibilityLabel:(NSString*)label;
+
+/*!
+ Z2Live Addition
+ @method stepToClearTextFieldWithAccessibilityLabel
+ @abstract A step that clears the UITextField of all text, since the KIFTestStep that enters text doesn't clear fields
+ @param label The accessibility label of the element to clear
+ @result A configured test step.
+ */
++ (id)stepToClearTextFieldWithAccessibilityLabel:(NSString*)label;
 
 @end
