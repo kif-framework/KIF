@@ -546,12 +546,12 @@ static void releaseInstance()
         KIFLog(@"KIF TEST RUN FINISHED: PRINTING %d FAILURES", failureCount);
         for(NSDictionary* failedScenario in self.failedScenarios)
         {
-            [self _printDidFailScenarioIndex:[[failedScenario objectForKey:@"scenarioIndex"] autorelease]
-                             withDescription:[[failedScenario objectForKey:@"scenarioDesc"] autorelease]
-                                withDuration:[[failedScenario objectForKey:@"duration"] autorelease]
-                              withFailedStep:[[failedScenario objectForKey:@"scenarioStep"] autorelease]
-                                   withError:[[failedScenario objectForKey:@"stepError"] autorelease]
-                                 withLastLog:[[failedScenario objectForKey:@"lastKIFLogStep"] autorelease]
+            [self _printDidFailScenarioIndex:[failedScenario objectForKey:@"scenarioIndex"]
+                             withDescription:[failedScenario objectForKey:@"scenarioDesc"]
+                                withDuration:[failedScenario objectForKey:@"duration"]
+                              withFailedStep:[failedScenario objectForKey:@"scenarioStep"]
+                                   withError:[failedScenario objectForKey:@"stepError"]
+                                 withLastLog:[failedScenario objectForKey:@"lastKIFLogStep"]
              ];
         }
     }
@@ -609,20 +609,10 @@ static void releaseInstance()
     
     if(inCaseOfFailureString)
     {
-        lastKIFTestLog = [[NSString stringWithFormat:@"\n%@ \nPossible Explanation for failure is: %@", lastKIFTestLog, inCaseOfFailureString] retain];
+        lastKIFTestLog = [NSString stringWithFormat:@"\n%@ \nPossible Explanation for failure is: %@", lastKIFTestLog, inCaseOfFailureString];
         //We release the original inCaseOfFailureString because it should only apply once. We have to release it now because the unload step will not be reached through normal flow, we have already failed the scenario.
         [KIFTestController unloadInCaseOfFailureMessage];
     }
-    else
-        [lastKIFTestLog retain];
-    
-    //Retain values for printing at the end of the program
-    [indexOfFailedTest retain];
-    [failedScenarioDescription retain];
-    [stepDuration retain];
-    [failedScenarioStep retain];
-    [failingError retain];
-    //lastKIFTestLog already retained
     
     [self _printDidFailScenarioIndex:indexOfFailedTest withDescription:failedScenarioDescription withDuration:stepDuration withFailedStep:failedScenarioStep withError:failingError withLastLog:lastKIFTestLog];
     
