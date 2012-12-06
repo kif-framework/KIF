@@ -264,6 +264,11 @@ typedef struct __GSEvent * GSEventRef;
 
 - (void)tapAtPoint:(CGPoint)point;
 {
+    [self tapAtPoint:point numberOfTaps:1];
+}
+
+- (void)tapAtPoint:(CGPoint)point numberOfTaps:(NSUInteger)numberOfTaps
+{
     // Web views don't handle touches in a normal fashion, but they do have a method we can call to tap them
     // This may not be necessary anymore. We didn't properly support controls that used gesture recognizers
     // when this was added, but we now do. It needs to be tested before we can get rid of it.
@@ -277,28 +282,31 @@ typedef struct __GSEvent * GSEventRef;
         object_getInstanceVariable(webViewInternal, "browserView", (void **)&webBrowserView);
     }
     
-    if (webBrowserView) {
-        [webBrowserView tapInteractionWithLocation:point];
-        return;
+    for (NSUInteger i = 0; i < numberOfTaps; i++)
+    {
+        if (webBrowserView) {
+            [webBrowserView tapInteractionWithLocation:point];
+            return;
+        }
+        
+        // Handle touches in the normal way for other views
+        UITouch *touch = [[UITouch alloc] initAtPoint:point inView:self];
+        [touch setPhase:UITouchPhaseBegan];
+        
+        UIEvent *event = [self _eventWithTouch:touch];
+        
+        [[UIApplication sharedApplication] sendEvent:event];
+        
+        [touch setPhase:UITouchPhaseEnded];
+        [[UIApplication sharedApplication] sendEvent:event];
+        
+        // Dispatching the event doesn't actually update the first responder, so fake it
+        if ([touch.view isDescendantOfView:self] && [self canBecomeFirstResponder]) {
+            [self becomeFirstResponder];
+        }
+        
+        [touch release];
     }
-    
-    // Handle touches in the normal way for other views
-    UITouch *touch = [[UITouch alloc] initAtPoint:point inView:self];
-    [touch setPhase:UITouchPhaseBegan];
-    
-    UIEvent *event = [self _eventWithTouch:touch];
-
-    [[UIApplication sharedApplication] sendEvent:event];
-
-    [touch setPhase:UITouchPhaseEnded];
-    [[UIApplication sharedApplication] sendEvent:event];
-
-    // Dispatching the event doesn't actually update the first responder, so fake it
-    if ([touch.view isDescendantOfView:self] && [self canBecomeFirstResponder]) {
-        [self becomeFirstResponder];
-    }
-
-    [touch release];
 }
 
 

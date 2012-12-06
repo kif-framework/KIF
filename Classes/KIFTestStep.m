@@ -271,6 +271,11 @@ typedef CGPoint KIFDisplacement;
 
 + (id)stepToTapViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits;
 {
+    return [self stepToTapViewWithAccessibilityLabel:label value:value traits:traits numberOfTaps:1];
+}
+
++ (id)stepToTapViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits numberOfTaps:(NSUInteger)numberOfTaps
+{
     NSString *description = nil;
     if (value.length) {
         description = [NSString stringWithFormat:@"Tap view with accessibility label \"%@\" and accessibility value \"%@\"", label, value];
@@ -312,7 +317,7 @@ typedef CGPoint KIFDisplacement;
 
         // This is mostly redundant of the test in _accessibilityElementWithLabel:
         KIFTestWaitCondition(!isnan(tappablePointInElement.x), error, @"The element with accessibility label %@ is not tappable", label);
-        [view tapAtPoint:tappablePointInElement];
+        [view tapAtPoint:tappablePointInElement numberOfTaps:numberOfTaps];
 
         KIFTestCondition(![view canBecomeFirstResponder] || [view isDescendantOfFirstResponder], error, @"Failed to make the view %@ which contains the accessibility element \"%@\" into the first responder", view, label);
 
