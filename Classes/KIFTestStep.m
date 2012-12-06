@@ -37,7 +37,7 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
 + (UIAccessibilityElement *)_accessibilityElementWithLabel:(NSString *)label accessibilityValue:(NSString *)value tappable:(BOOL)mustBeTappable traits:(UIAccessibilityTraits)traits error:(out NSError **)error;
 
 typedef CGPoint KIFDisplacement;
-+ (KIFDisplacement)_displacementForSwipingInDirection:(KIFSwipeDirection)direction;
++ (KIFDisplacement)_displacementForSwipingInDirection:(KIFSwipeDirection)direction withDisplacement:(CGFloat)displacement;
 
 @end
 
@@ -374,6 +374,18 @@ typedef CGPoint KIFDisplacement;
 
 + (id)stepToEnterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits expectedResult:(NSString *)expectedResult;
 {
+    return [self stepToEnterText:text intoViewWithAccessibilityLabel:label traits:traits expectedResult:expectedResult clearTextFirst:NO];
+}
+
++ (id)stepToEnterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits expectedResult:(NSString *)expectedResult clearTextFirst:(BOOL)clearTextFirst
+{
+    __block BOOL performedInitialEmptinessCheck = NO;
+    __block BOOL viewInitiallyContainsText = NO;
+    
+    __block UIAccessibilityElement *clearTextElement = nil;
+    __block NSTimeInterval clearTextQuiesceStartTime = 0.0;
+    const NSTimeInterval clearTextQuiesceWaitInterval = 0.5;
+    
     NSString *description = [NSString stringWithFormat:@"Type the text \"%@\" into the view with accessibility label \"%@\"", text, label];
     return [self stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
         
@@ -384,7 +396,7 @@ typedef CGPoint KIFDisplacement;
         
         UIView *view = [UIAccessibilityElement viewContainingAccessibilityElement:element];
         KIFTestWaitCondition(view, error, @"Cannot find view with accessibility label \"%@\"", label);
-                
+        
         CGRect elementFrame = [view.window convertRect:element.accessibilityFrame toView:view];
         CGPoint tappablePointInElement = [view tappablePointInRect:elementFrame];
         
@@ -396,6 +408,61 @@ typedef CGPoint KIFDisplacement;
         
         // Wait for the keyboard
         CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.5, false);
+        
+        // Tap to clear any existing text first, if specified
+        if (clearTextFirst) {
+
+            // First check if the field has any text in it.
+            if (!performedInitialEmptinessCheck) {
+                // This is probably a UITextField- or UITextView-ish view, so make sure it's non-empty before looking for the clear text button.
+                if ([view respondsToSelector:@selector(text)]) {
+                    NSString *actual = [view performSelector:@selector(text)];
+
+                    viewInitiallyContainsText = [actual length] != 0;
+                }
+                
+                performedInitialEmptinessCheck = YES;
+            }
+
+            // We only need to clear text if the view is non-empty.
+            if (viewInitiallyContainsText) {
+                if (!clearTextElement) {
+                    // We haven't tapped the button yet.
+                    
+                    // NOTE: Using a hard-coded English accessibility label to grab the clear text element is not robust.
+                    // But it's good enough for now.
+                    NSString *clearTextLabel = @"Clear text";
+                    clearTextElement = [self _accessibilityElementWithLabel:clearTextLabel accessibilityValue:nil tappable:YES traits:UIAccessibilityTraitButton error:error];
+                    if (!clearTextElement) {
+                        return KIFTestStepResultWait;
+                    }
+                    
+                    UIView *clearTextView = [UIAccessibilityElement viewContainingAccessibilityElement:clearTextElement];
+                    KIFTestWaitCondition(clearTextView, error, @"Failed to find view for accessibility element with label \"%@\"", clearTextLabel);
+                    
+                    if (![self _isUserInteractionEnabledForView:clearTextView]) {
+                        if (error) {
+                            *error = [[[NSError alloc] initWithDomain:@"KIFTest" code:KIFTestStepResultFailure userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"View with accessibility label \"%@\" is not enabled for interaction", clearTextLabel], NSLocalizedDescriptionKey, nil]] autorelease];
+                        }
+                        return KIFTestStepResultWait;
+                    }
+                    
+                    CGRect elementFrame = [clearTextView.window convertRect:clearTextElement.accessibilityFrame toView:clearTextView];
+                    CGPoint tappablePointInElement = [clearTextView tappablePointInRect:elementFrame];
+                    
+                    // This is mostly redundant of the test in _accessibilityElementWithLabel:
+                    KIFTestWaitCondition(!isnan(tappablePointInElement.x), error, @"The element with accessibility label %@ is not tappable", clearTextLabel);
+                    [clearTextView tapAtPoint:tappablePointInElement];
+                    
+                    KIFTestCondition(![clearTextView canBecomeFirstResponder] || [clearTextView isDescendantOfFirstResponder], error, @"Failed to make the view %@ which contains the accessibility element \"%@\" into the first responder", clearTextView, clearTextLabel);
+                    KIFTestWaitCondition(NO, error, @"Waiting for the view to settle.");
+                    
+                } else {
+                    // We've already tapped the clear text button; wait for the quiesce interval.
+                    KIFTestWaitCondition(([NSDate timeIntervalSinceReferenceDate] - clearTextQuiesceStartTime) >= clearTextQuiesceWaitInterval, error, @"Waiting for things to stabilize after tapping the clear text button.");        
+                }
+            }
+        }
         
         for (NSUInteger characterIndex = 0; characterIndex < [text length]; characterIndex++) {
             NSString *characterString = [text substringWithRange:NSMakeRange(characterIndex, 1)];
@@ -515,6 +582,25 @@ typedef CGPoint KIFDisplacement;
     }];
 }
 
++ (id)stepToWaitForSwitchWithAccessibilityLabel:(NSString *)label value:(BOOL)switchIsOn
+{
+    NSString *description = [NSString stringWithFormat:@"Verify that the switch with accessibility label \"%@\" is %@", label, switchIsOn ? @"ON" : @"OFF"];
+    return [self stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
+        
+        UIAccessibilityElement *element = [self _accessibilityElementWithLabel:label accessibilityValue:nil tappable:YES traits:UIAccessibilityTraitNone error:error];
+        if (!element) {
+            return KIFTestStepResultWait;
+        }
+        
+        UISwitch *switchView = (UISwitch *)[UIAccessibilityElement viewContainingAccessibilityElement:element];
+        KIFTestWaitCondition(switchView, error, @"Cannot find switch with accessibility label \"%@\"", label);
+        KIFTestWaitCondition([switchView isKindOfClass:[UISwitch class]], error, @"View with accessibility label \"%@\" is a %@, not a UISwitch", label, NSStringFromClass([switchView class]));
+        
+        BOOL current = switchView.on;
+        return current == switchIsOn ? KIFTestStepResultSuccess : KIFTestStepResultFailure;
+    }];
+}
+
 + (id)stepToDismissPopover;
 {
     return [self stepWithDescription:@"Dismiss the popover" executionBlock:^(KIFTestStep *step, NSError **error) {
@@ -566,8 +652,14 @@ typedef CGPoint KIFDisplacement;
 }
 
 #define NUM_POINTS_IN_SWIPE_PATH 20
+#define MAJOR_SWIPE_DISPLACEMENT 200
 
 + (id)stepToSwipeViewWithAccessibilityLabel:(NSString *)label inDirection:(KIFSwipeDirection)direction
+{
+    return [self stepToSwipeViewWithAccessibilityLabel:label inDirection:direction withDisplacement:MAJOR_SWIPE_DISPLACEMENT];
+}
+
++ (id)stepToSwipeViewWithAccessibilityLabel:(NSString *)label inDirection:(KIFSwipeDirection)direction withDisplacement:(CGFloat)displacement
 {
     // The original version of this came from http://groups.google.com/group/kif-framework/browse_thread/thread/df3f47eff9f5ac8c
     NSString *directionDescription = nil;
@@ -604,7 +696,7 @@ typedef CGPoint KIFDisplacement;
         CGRect elementFrame = [viewToSwipe.window convertRect:element.accessibilityFrame toView:viewToSwipe];
         CGPoint swipeStart = CGPointCenteredInRect(elementFrame);
 
-        KIFDisplacement swipeDisplacement = [self _displacementForSwipingInDirection:direction];
+        KIFDisplacement swipeDisplacement = [self _displacementForSwipingInDirection:direction withDisplacement:displacement];
 
         CGPoint swipePath[NUM_POINTS_IN_SWIPE_PATH];
 
@@ -1001,10 +1093,9 @@ typedef CGPoint KIFDisplacement;
     return element;
 }
 
-#define MAJOR_SWIPE_DISPLACEMENT 200
 #define MINOR_SWIPE_DISPLACEMENT 5
 
-+ (KIFDisplacement)_displacementForSwipingInDirection:(KIFSwipeDirection)direction
++ (KIFDisplacement)_displacementForSwipingInDirection:(KIFSwipeDirection)direction withDisplacement:(CGFloat)displacement
 {
     switch (direction)
     {
@@ -1012,16 +1103,16 @@ typedef CGPoint KIFDisplacement;
         // swipe if you move purely horizontally or vertically, so need a
         // slight orthogonal offset too.
         case KIFSwipeDirectionRight:
-            return CGPointMake(MAJOR_SWIPE_DISPLACEMENT, MINOR_SWIPE_DISPLACEMENT);
+            return CGPointMake(displacement, MINOR_SWIPE_DISPLACEMENT);
             break;
         case KIFSwipeDirectionLeft:
-            return CGPointMake(-MAJOR_SWIPE_DISPLACEMENT, MINOR_SWIPE_DISPLACEMENT);
+            return CGPointMake(-displacement, MINOR_SWIPE_DISPLACEMENT);
             break;
         case KIFSwipeDirectionUp:
-            return CGPointMake(MINOR_SWIPE_DISPLACEMENT, -MAJOR_SWIPE_DISPLACEMENT);
+            return CGPointMake(MINOR_SWIPE_DISPLACEMENT, -displacement);
             break;
         case KIFSwipeDirectionDown:
-            return CGPointMake(MINOR_SWIPE_DISPLACEMENT, MAJOR_SWIPE_DISPLACEMENT);
+            return CGPointMake(MINOR_SWIPE_DISPLACEMENT, displacement);
             break;
         default:
             return CGPointZero;

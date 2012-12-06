@@ -359,6 +359,19 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
 + (id)stepToEnterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits expectedResult:(NSString *)expectedResult;
 
 /*!
+ @method stepToEnterText:intoViewWithAccessibilityLabel:traits:
+ @abstract A step that enters text into a particular view in the view hierarchy.
+ @discussion The view or accessibility element with the given label is searched for in the view hierarchy. If the element isn't found or isn't currently tappable, then the step will attempt to wait until it is. Once the view is present and tappable, a tap event is simulated in the center of the view or element, then text is entered into the view by simulating taps on the appropriate keyboard keys.
+ @param text The text to enter.
+ @param label The accessibility label of the element to type into.
+ @param traits The accessibility traits of the element to type into. Elements that do not include at least these traits are ignored.
+ @param expectedResult What the text value should be after entry, including any formatting done by the field. If this is nil, the "text" parameter will be used.
+ @param clearTextFirst Whether to look for and tap the clear text button on the text field. This will be ignored if the "text" selector on the view returns nil or empty string. If the text is non-empty and for some reason the clear text button can't be found and tapped, this step will return an error.
+ @result A configured test step.
+ */
++ (id)stepToEnterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits expectedResult:(NSString *)expectedResult clearTextFirst:(BOOL)clearTextFirst;
+
+/*!
  @method stepToSelectPickerViewRowWithTitle:
  @abstract A step that selects an item from a currently visible picker view.
  @discussion With a picker view already visible, this step will find an item with the given title, select that item, and tap the Done button.
@@ -376,6 +389,16 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
  @result A configured test step.
  */
 + (id)stepToSetOn:(BOOL)switchIsOn forSwitchWithAccessibilityLabel:(NSString *)label;
+
+/*!
+ @method stepToWaitForSwitchWithAccessibilityLabel:withValue:
+ @abstract A step that verifies that a UISwitch is in a specified position.
+ @discussion The UISwitch with the given label is searched for in the view hierarchy. If the element isn't found or isn't currently tappable, then the step will attempt to wait until it is. Once the view is present, the step will succeed if it's in the specified position and fail if it's not.
+ @param switchIsOn The expected position of the UISwitch.
+ @param label The accessibility label of the UISwitch element.
+ @result A configured test step.
+ */
++ (id)stepToWaitForSwitchWithAccessibilityLabel:(NSString *)label value:(BOOL)switchIsOn;
 
 /*!
  @method stepToDismissPopover
@@ -439,6 +462,17 @@ typedef enum {
  @result A configured test step.
  */
 + (id)stepToSwipeViewWithAccessibilityLabel:(NSString *)label inDirection:(KIFSwipeDirection)direction;
+
+/*!
+ @method stepToSwipeViewWithAccessibilityLabel:inDirection:withDisplacement:
+ @abstract A step that swipes a particular view in the view hierarchy in the given direction.
+ @discussion The view will get the view with the specified accessibility label and swipe the screen in the given direction from the view's center.
+ @param label The accessibility label of the view to swipe.
+ @param direction The direction in which to swipe.
+ @PARAM displacement The amount of displacement in the path of the swipe.
+ @result A configured test step.
+ */
++ (id)stepToSwipeViewWithAccessibilityLabel:(NSString *)label inDirection:(KIFSwipeDirection)direction withDisplacement:(CGFloat)displacement;
 
 /*!
  @method stepToWaitForFirstResponderWithAccessibilityLabel:
