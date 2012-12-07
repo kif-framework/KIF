@@ -26,3 +26,6 @@ xcuserdata/
 *.xcworkspace/
 
 *.orig
+
+# Ignore .idea files that come from AppCode
+.idea/
