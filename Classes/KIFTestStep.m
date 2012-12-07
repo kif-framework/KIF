@@ -307,7 +307,14 @@ typedef CGPoint KIFDisplacement;
             return KIFTestStepResultWait;
         }
 
-        CGRect elementFrame = [view.window convertRect:element.accessibilityFrame toView:view];
+        // If the accessibilityFrame is not set, fallback to the view frame.
+        CGRect elementFrame;
+        if (CGRectEqualToRect(CGRectZero, element.accessibilityFrame)) {
+            elementFrame.origin = CGPointZero;
+            elementFrame.size = view.frame.size;
+        } else {
+            elementFrame = [view.window convertRect:element.accessibilityFrame toView:view];
+        }
         CGPoint tappablePointInElement = [view tappablePointInRect:elementFrame];
 
         // This is mostly redundant of the test in _accessibilityElementWithLabel:
