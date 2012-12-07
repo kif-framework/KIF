@@ -326,6 +326,28 @@ typedef CGPoint KIFDisplacement;
     }];
 }
 
++ (id)stepForViewWithAccessibilityLabel:(NSString *)label description:(NSString *)description executionBlock:(KIFTestStepExecutionBlockWithView)executionBlock
+{
+    // viewFinderBlock will first try to find the view with the given |accessibilityLabel| then will
+    // invoke the |executionBlock|.
+    id viewFinderBlock = ^(KIFTestStep *step, NSError **error) {
+        UIApplication *app = [UIApplication sharedApplication];
+        // Scroll to make sure the view is visible, otherwise we will get an accessibilityElement that maps to the first visible parent view of the view we want.
+        UIAccessibilityElement *element = [self _accessibilityElementWithLabel:label accessibilityValue:nil tappable:NO traits:UIAccessibilityTraitNone error:error];
+        KIFTestWaitCondition(element, error, @"Wait for view with accessibility label \"%@\"", label);
+        // Now that the view is scrolled onto the screen, get the element again.
+        element = [app accessibilityElementWithLabel:label accessibilityValue:nil traits:UIAccessibilityTraitNone];
+        UIView *view = [UIAccessibilityElement viewContainingAccessibilityElement:element];
+        if (!view) {
+            return KIFTestStepResultFailure;
+        }
+        // Execute the block.
+        return executionBlock(step, view, error);
+    };
+
+    return [KIFTestStep stepWithDescription:description executionBlock:viewFinderBlock];
+}
+
 + (id)stepToTapScreenAtPoint:(CGPoint)screenPoint;
 {
     NSString *description = [NSString stringWithFormat:@"Tap screen at point \"%@\"", NSStringFromCGPoint(screenPoint)];
