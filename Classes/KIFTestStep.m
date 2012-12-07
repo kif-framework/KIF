@@ -416,7 +416,7 @@ typedef CGPoint KIFDisplacement;
             // We trim \n and \r because they trigger the return key, so they won't show up in the final product on single-line inputs
             NSString *expected = [expectedResult ? expectedResult : text stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
             NSString *actual = [[view performSelector:@selector(text)] stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
-            KIFTestCondition([actual isEqualToString:expected], error, @"Failed to actually enter text \"%@\" in field; instead, it was \"%@\"", text, actual);
+            KIFTestCondition([actual isEqualToString:expected], error, @"Failed to get text \"%@\" in field; instead, it was \"%@\"", expected, actual);
         }
         
         return KIFTestStepResultSuccess;
@@ -743,6 +743,12 @@ typedef CGPoint KIFDisplacement;
 }
 
 #pragma mark Private Methods
+
+- (void)stepFailed;
+{
+    [[self class] stepFailed];
+}
+
 
 - (void)_onObservedNotification:(NSNotification *)notification;
 {
