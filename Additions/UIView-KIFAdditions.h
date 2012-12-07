@@ -73,4 +73,14 @@
  */
 - (CGPoint)tappablePointInRect:(CGRect)rect;
 
+/*!
+ @method longTapAtPoint:(CGPoint)point withDelay:(NSInteger) delay andCompletion:(void(^)(void)) completion
+ @abstract Performs a long tap on a point in the receiver
+ @discussion Performs a long tap on a point in the receiver 
+ @param point Point to tap on
+ @param delay How much time should ellapse before releasing
+ @param completion Completion block to be executed once tap down - wait - tap release is complete
+ */
+- (void)longTapAtPoint:(CGPoint)point withDelay:(NSInteger)delay andCompletion:(void(^)(void))completion;
+
 @end

@@ -437,7 +437,8 @@ static void releaseInstance()
 
 - (void)_writeScreenshotForStep:(KIFTestStep *)step;
 {
-    NSString *outputPath = [[[NSProcessInfo processInfo] environment] objectForKey:@"KIF_SCREENSHOTS"];
+    NSDictionary *env = [[NSProcessInfo processInfo] environment];
+    NSString *outputPath = [env objectForKey:@"KIF_SCREENSHOTS"];
     if (!outputPath) {
         return;
     }
@@ -447,6 +448,38 @@ static void releaseInstance()
         return;
     }
     
+    NSString *fileName = nil;
+    
+    // if folder does not exist, create it
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    if (![fileManager fileExistsAtPath:outputPath isDirectory:NULL]) {
+        BOOL dirCreated = [fileManager createDirectoryAtPath:outputPath withIntermediateDirectories:YES attributes:nil error:NULL];
+        if (!dirCreated) {
+            return;
+        }
+    }
+    
+    // generate file name
+    // see if a file name format was specified
+    NSString *fileNameFormat = [env objectForKey:@"KIF_SCREENSHOTS_DATE_FORMAT"];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    if (fileNameFormat) {
+        // use format to generate file name
+        [formatter setDateFormat:fileNameFormat];
+        NSString *dateStr = [formatter stringFromDate:[NSDate date]];
+        fileName = dateStr;
+    }
+    else {
+        // use default format: mm-dd-yy - step description.png
+        [formatter setDateFormat:@"HH-mm-ss"];
+        fileName = [formatter stringFromDate:[NSDate date]];
+    }
+    
+    [formatter release];
+    
+    fileName = [fileName stringByAppendingFormat:@" - %@", step.description];
+    fileName = [fileName stringByAppendingPathExtension:@"png"];
+    
     UIGraphicsBeginImageContext([[windows objectAtIndex:0] bounds].size);
     for (UIWindow *window in windows) {
         [window.layer renderInContext:UIGraphicsGetCurrentContext()];
@@ -455,8 +488,7 @@ static void releaseInstance()
     UIGraphicsEndImageContext();
     
     outputPath = [outputPath stringByExpandingTildeInPath];
-    outputPath = [outputPath stringByAppendingPathComponent:[step.description stringByReplacingOccurrencesOfString:@"/" withString:@"_"]];
-    outputPath = [outputPath stringByAppendingPathExtension:@"png"];
+    outputPath = [outputPath stringByAppendingPathComponent:fileName];
     [UIImagePNGRepresentation(image) writeToFile:outputPath atomically:YES];
 }
 
