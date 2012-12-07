@@ -326,6 +326,7 @@ static void releaseInstance()
         case KIFTestStepResultFailure: {
             [self _logDidFailStep:self.currentStep duration:currentStepDuration error:error];
             [self _writeScreenshotForStep:self.currentStep];
+            [[self.currentStep class] stepFailed];
             [self.currentStep cleanUp];
             
             self.currentScenario = [self _nextScenarioAfterResult:result];
