@@ -274,7 +274,7 @@ static void releaseInstance()
 {
     // This method for testing if the inspector is enabled was taken from the Frank framework.
     // https://github.com/moredip/Frank
-    UIWindow *keyWindow = [[UIApplication sharedApplication] keyWindow];
+    UIWindow *keyWindow = [[[UIApplication sharedApplication] delegate] window];
     NSString *originalAccessibilityLabel = [keyWindow accessibilityLabel];
     
     [keyWindow setAccessibilityLabel:@"KIF Test Label"];
