@@ -99,6 +99,7 @@ Although not required, it's recommended that you create a subclass of `KIFTestCo
 *EXTestController.m*
 
 	#import "EXTestController.h"
+	#import "KIFTestScenario+EXAdditions.h
 
 	@implementation EXTestController
 
@@ -240,7 +241,13 @@ The other line to notice in the sample scenario is the one that calls `+[KIFTest
 
 	@end
 
-Finally, the app needs a hook so that it actually runs the KIF tests when executing the Integration Tests target. To do this we'll take advantage of the `RUN_KIF_TESTS` macro that was defined earlier. This macro is only defined in the testing target, so the tests won't run in the regular target. To invoke the test suite, add the following code to the end of the `-application:didFinishLaunchingWithOptions:` method in your application delegate:
+Finally, the app needs a hook so that it actually runs the KIF tests when executing the Integration Tests target. To do this we'll take advantage of the `RUN_KIF_TESTS` macro that was defined earlier. This macro is only defined in the testing target, so the tests won't run in the regular target. To invoke the test suite, add the following code to your application delegate
+
+	#if RUN_KIF_TESTS
+	#import "EXTestController.h"
+	#endif
+
+and the following code to the end of its `-application:didFinishLaunchingWithOptions:` method
 
 	#if RUN_KIF_TESTS
 	    [[EXTestController sharedInstance] startTestingWithCompletionBlock:^{

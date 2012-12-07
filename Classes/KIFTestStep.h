@@ -23,7 +23,7 @@ if (!(condition)) { \
     if (error) { \
         *error = [NSError errorWithDomain:@"KIFTest" code:KIFTestStepResultFailure userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:__VA_ARGS__], NSLocalizedDescriptionKey, nil]]; \
     } \
-    [KIFTestStep stepFailed]; \
+    [self stepFailed]; \
     return KIFTestStepResultFailure; \
 } \
 })
@@ -364,6 +364,15 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
  @result A configured test step.
  */
 + (id)stepToLongPressViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits duration:(NSTimeInterval)duration;
+
+/*!
+ @method stepToEnterTextIntoCurrentFirstResponder:
+ @abstract A step that enters text into a the current first responder.
+ @discussion Text is entered into the view by simulating taps on the appropriate keyboard keys if the keyboard is already displayed. Useful to enter text in UIWebViews or components with no accessibility labels.
+ @param text The text to enter.
+ @result A configured test step.
+ */
++ (id)stepToEnterTextIntoCurrentFirstResponder:(NSString *)text;
 
 /*!
  @method stepToEnterText:intoViewWithAccessibilityLabel:
