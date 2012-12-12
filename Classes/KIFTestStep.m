@@ -425,7 +425,7 @@ typedef CGPoint KIFDisplacement;
         for (NSUInteger characterIndex = 0; characterIndex < [text length]; characterIndex++) {
             NSString *characterString = [text substringWithRange:NSMakeRange(characterIndex, 1)];
 
-            if (![self _enterCharacter:characterString]) {
+            if (![KIFTypist enterCharacter:characterString]) {
                 KIFTestCondition(NO, error, @"Failed to find key for character \"%@\"", characterString);
             }
         }
