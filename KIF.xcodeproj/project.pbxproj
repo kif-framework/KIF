@@ -307,6 +307,40 @@
 			};
 			name = Release;
 		};
+		E2956C74167A7FF600202048 /* KIFDebug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				SDKROOT = iphoneos;
+			};
+			name = KIFDebug;
+		};
+		E2956C75167A7FF600202048 /* KIFDebug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = (
+					armv6,
+					"$(ARCHS_STANDARD_32_BIT)",
+				);
+				DSTROOT = /tmp/KIF.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Classes/KIF-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = KIFDebug;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -314,6 +348,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				AAB07270139719AC008AF393 /* Debug */,
+				E2956C74167A7FF600202048 /* KIFDebug */,
 				AAB07271139719AC008AF393 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -323,6 +358,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				AAB07273139719AC008AF393 /* Debug */,
+				E2956C75167A7FF600202048 /* KIFDebug */,
 				AAB07274139719AC008AF393 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
