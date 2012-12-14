@@ -481,12 +481,6 @@ typedef CGPoint KIFDisplacement;
         if ([view respondsToSelector:@selector(text)]) {
             // We trim \n and \r because they trigger the return key, so they won't show up in the final product on single-line inputs
             NSString *expected = [expectedResult ? expectedResult : text stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
-            
-            // If there are backspace characters, it is more complex to evaluate to accuracy of the string.  For now don't bother evaluating it.
-            if ([expected rangeOfString:@"\b"].location != NSNotFound) {
-                return KIFTestStepResultSuccess;
-            }
-            
             NSString *actual = [[view performSelector:@selector(text)] stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
             KIFTestCondition([actual isEqualToString:expected], error, @"Failed to get text \"%@\" in field; instead, it was \"%@\"", expected, actual);
         }
