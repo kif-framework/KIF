@@ -10,8 +10,15 @@
 
 @interface KIFTester (Generic)
 
+- (void)succeed;
 - (void)fail;
+
 - (void)waitForTimeInterval:(NSTimeInterval)timeInterval;
+- (void)waitForNotificationName:(NSString*)name object:(id)object;
+- (void)waitForNotificationName:(NSString *)name object:(id)object whileExecutingStep:(KIFTestStep *)childStep;
+
+- (void)simulateMemoryWarning;
+
 - (void)giveUpOnAllTestsAndRunAppForever;
 
 @end

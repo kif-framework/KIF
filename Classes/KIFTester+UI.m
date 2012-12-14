@@ -11,27 +11,49 @@
 
 @implementation KIFTester (UI)
 
-- (void)clearTextFromViewWithAccessibilityLabel:(NSString *)label
+- (void)waitForViewWithAccessibilityLabel:(NSString *)label
 {
-    UIAccessibilityElement *element = [[UIApplication sharedApplication] accessibilityElementWithLabel:label accessibilityValue:nil traits:UIAccessibilityTraitNone];
-    
-    NSMutableString *text = [NSMutableString string];
-    for (NSInteger i = 0; i < element.accessibilityValue.length; i ++) {
-        [text appendString:@"\b"];
-    }
-    
-    [self enterText:text intoViewWithAccessibilityLabel:label];
+    [self run:[KIFTestStep stepToWaitForViewWithAccessibilityLabel:label]];
 }
 
-- (void)enterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label
+- (void)waitForViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits
 {
-    [self run:[KIFTestStep stepToEnterText:text intoViewWithAccessibilityLabel:label]];
+    [self run:[KIFTestStep stepToWaitForViewWithAccessibilityLabel:label traits:traits]];
 }
 
-- (void)clearTextFromAndThenEnterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label
+- (void)waitForViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits
 {
-    [self clearTextFromViewWithAccessibilityLabel:label];
-    [self enterText:text intoViewWithAccessibilityLabel:label];
+    [self run:[KIFTestStep stepToWaitForViewWithAccessibilityLabel:label value:value traits:traits]];
+}
+
+- (void)waitForAbsenceOfViewWithAccessibilityLabel:(NSString *)label
+{
+    [self run:[KIFTestStep stepToWaitForAbsenceOfViewWithAccessibilityLabel:label]];
+}
+
+- (void)waitForAbsenceOfViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits
+{
+    [self run:[KIFTestStep stepToWaitForAbsenceOfViewWithAccessibilityLabel:label traits:traits]];
+}
+
+- (void)waitForAbsenceOfViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits
+{
+    [self run:[KIFTestStep stepToWaitForAbsenceOfViewWithAccessibilityLabel:label value:value traits:traits]];
+}
+
+- (void)waitForTappableViewWithAccessibilityLabel:(NSString *)label
+{
+    [self run:[KIFTestStep stepToWaitForTappableViewWithAccessibilityLabel:label]];
+}
+
+- (void)waitForTappableViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits
+{
+    [self run:[KIFTestStep stepToWaitForTappableViewWithAccessibilityLabel:label traits:traits]];
+}
+
+- (void)waitForTappableViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits
+{
+    [self run:[KIFTestStep stepToWaitForTappableViewWithAccessibilityLabel:label value:value traits:traits]];
 }
 
 - (void)tapViewWithAccessibilityLabel:(NSString *)label
@@ -44,60 +66,93 @@
     [self run:[KIFTestStep stepToTapViewWithAccessibilityLabel:label traits:traits]];
 }
 
-- (void)waitForViewWithAccessibilityLabel:(NSString *)label
+- (void)tapViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits
 {
-    [self run:[KIFTestStep stepToWaitForViewWithAccessibilityLabel:label]];
+    [self run:[KIFTestStep stepToTapViewWithAccessibilityLabel:label value:value traits:traits]];
+}
+
+- (void)tapScreenAtPoint:(CGPoint)screenPoint
+{
+    [self run:[KIFTestStep stepToTapScreenAtPoint:screenPoint]];
+}
+
+- (void)enterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label
+{
+    [self run:[KIFTestStep stepToEnterText:text intoViewWithAccessibilityLabel:label]];
+}
+
+- (void)enterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits expectedResult:(NSString *)expectedResult
+{
+    [self run:[KIFTestStep stepToEnterText:text intoViewWithAccessibilityLabel:label traits:traits expectedResult:expectedResult]];
+}
+
+- (void)clearTextFromViewWithAccessibilityLabel:(NSString *)label
+{
+    [self clearTextFromViewWithAccessibilityLabel:label traits:UIAccessibilityTraitNone];
+}
+
+- (void)clearTextFromViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits
+{
+    [self waitForViewWithAccessibilityLabel:label traits:traits];
+    
+    UIAccessibilityElement *element = [[UIApplication sharedApplication] accessibilityElementWithLabel:label accessibilityValue:nil traits:traits];
+
+    NSMutableString *text = [NSMutableString string];
+    for (NSInteger i = 0; i < element.accessibilityValue.length; i ++) {
+        [text appendString:@"\b"];
+    }
+
+    [self enterText:text intoViewWithAccessibilityLabel:label traits:UIAccessibilityTraitNone expectedResult:@""];
+}
+
+- (void)clearTextFromAndThenEnterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label
+{
+    [self clearTextFromViewWithAccessibilityLabel:label];
+    [self enterText:text intoViewWithAccessibilityLabel:label];
+}
+
+- (void)clearTextFromAndThenEnterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits expectedResult:(NSString *)expectedResult
+{
+    [self clearTextFromViewWithAccessibilityLabel:label traits:traits];
+    [self enterText:text intoViewWithAccessibilityLabel:label traits:traits expectedResult:expectedResult];
+}
+
+- (void)selectPickerViewRowWithTitle:(NSString *)title
+{
+    [self run:[KIFTestStep stepToSelectPickerViewRowWithTitle:title]];
+}
+
+- (void)setOn:(BOOL)switchIsOn forSwitchWithAccessibilityLabel:(NSString *)label
+{
+    [self run:[KIFTestStep stepToSetOn:switchIsOn forSwitchWithAccessibilityLabel:label]];
+}
+
+- (void)dismissPopover
+{
+    [self run:[KIFTestStep stepToDismissPopover]];
+}
+
+- (void)choosePhotoInAlbum:(NSString *)albumName atRow:(NSInteger)row column:(NSInteger)column
+{
+    for (KIFTestStep *step in [KIFTestStep stepsToChoosePhotoInAlbum:albumName atRow:row column:column]) {
+        [self run:step];
+    }
+}
+
+- (void)tapRowInTableViewWithAccessibilityLabel:(NSString*)tableViewLabel atIndexPath:(NSIndexPath *)indexPath
+{
+    [self run:[KIFTestStep stepToTapRowInTableViewWithAccessibilityLabel:tableViewLabel atIndexPath:indexPath]];
+}
+
+- (void)swipeViewWithAccessibilityLabel:(NSString *)label inDirection:(KIFSwipeDirection)direction
+{
+    [self run:[KIFTestStep stepToSwipeViewWithAccessibilityLabel:label inDirection:direction]];
+}
+
+- (void)waitForFirstResponderWithAccessibilityLabel:(NSString *)label
+{
+    [self run:[KIFTestStep stepToWaitForFirstResponderWithAccessibilityLabel:label]];
 }
 
 @end
 
-/*
-+ (id)stepWithDescription:(NSString *)description executionBlock:(KIFTestStepExecutionBlock)executionBlock;
-+ (id)stepToWaitForViewWithAccessibilityLabel:(NSString *)label;
-+ (id)stepToWaitForViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits;
-+ (id)stepToWaitForViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits;
-+ (id)stepToWaitForAbsenceOfViewWithAccessibilityLabel:(NSString *)label;
-
-+ (id)stepToWaitForAbsenceOfViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits;
-
-
-+ (id)stepToWaitForAbsenceOfViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits;
-
-
-+ (id)stepToWaitForTappableViewWithAccessibilityLabel:(NSString *)label;
-
-+ (id)stepToWaitForTappableViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits;
-
-+ (id)stepToWaitForTappableViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits;
-
-+ (id)stepToWaitForTimeInterval:(NSTimeInterval)interval description:(NSString *)description;
-
-+ (id)stepToWaitForNotificationName:(NSString*)name object:(id)object;
-
-+ (id)stepToWaitForNotificationName:(NSString *)name object:(id)object whileExecutingStep:(KIFTestStep *)childStep;
-
-+ (id)stepToTapViewWithAccessibilityLabel:(NSString *)label;
-
-+ (id)stepToTapViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits;
-+ (id)stepToTapViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits;
-+ (id)stepToTapScreenAtPoint:(CGPoint)screenPoint;
-+ (id)stepToEnterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label;
-
-+ (id)stepToEnterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits expectedResult:(NSString *)expectedResult;
-
-+ (id)stepToClearTextFromViewWithAccessibilityLabel:(NSString *)label;
-+ (id)stepToClearTextFromViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits;
-
-+ (NSArray *)stepsToClearAndEnterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label;
-
-+ (NSArray *)stepsToClearAndEnterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits;
-+ (id)stepToSelectPickerViewRowWithTitle:(NSString *)title;
-+ (id)stepToSetOn:(BOOL)switchIsOn forSwitchWithAccessibilityLabel:(NSString *)label;
-+ (id)stepToDismissPopover;
-+ (id)stepToSimulateMemoryWarning;
-+ (void)stepFailed;
-+ (NSArray *)stepsToChoosePhotoInAlbum:(NSString *)albumName atRow:(NSInteger)row column:(NSInteger)column;
-+ (id)stepToTapRowInTableViewWithAccessibilityLabel:(NSString*)tableViewLabel atIndexPath:(NSIndexPath *)indexPath;
-+ (id)stepToSwipeViewWithAccessibilityLabel:(NSString *)label inDirection:(KIFSwipeDirection)direction;
-+ (id)stepToWaitForFirstResponderWithAccessibilityLabel:(NSString *)label;
-*/
