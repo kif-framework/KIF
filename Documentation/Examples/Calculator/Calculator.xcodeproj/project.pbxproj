@@ -74,7 +74,7 @@
 		EB4C3158167BA99D00E31109 /* HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeViewController.m; sourceTree = "<group>"; };
 		EB4C3159167BA99E00E31109 /* HomeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HomeViewController.xib; sourceTree = "<group>"; };
 		EB4C315F167BAE6100E31109 /* BasicCalculatorTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BasicCalculatorTests.m; sourceTree = "<group>"; };
-		EB4C3163167BAF0000E31109 /* libKIF.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libKIF.a; path = "libKIF.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		EB4C3163167BAF0000E31109 /* libKIF.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libKIF.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
