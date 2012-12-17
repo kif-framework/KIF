@@ -8,12 +8,18 @@
 //
 
 #import "KIFTestCase.h"
+#import "KIFTester.h"
 
 #define SIG(class, selector) [class instanceMethodSignatureForSelector:selector]
 
-KIFTestContext *KIFTestCaseSharedContext = nil;
-
 @implementation KIFTestCase
+
+- (id) initWithInvocation:(NSInvocation *) anInvocation
+{
+    self = [super initWithInvocation:anInvocation];
+    [self raiseAfterFailure];
+    return self;
+}
 
 - (void)beforeEach { }
 - (void)afterEach  { }
@@ -21,26 +27,18 @@ KIFTestContext *KIFTestCaseSharedContext = nil;
 - (void)setUp
 {
     [super setUp];
-    if (KIFTestCaseSharedContext == nil) {
-        KIFTestCaseSharedContext = [[KIFTestContext alloc] init];
-    }
     
     if ([self isNotBeforeOrAfter]) {
-        [KIFTestCaseSharedContext resetWithTest:self];
         [self beforeEach];
     }
-    
-    [KIFTestCaseSharedContext resetWithTest:self];
 }
 
 - (void)tearDown
 {
     if ([self isNotBeforeOrAfter]) {
-        [KIFTestCaseSharedContext resetWithTest:self];
         [self afterEach];
     }
     
-    [KIFTestCaseSharedContext resetWithTest:nil];
     [super tearDown];
 }
 
@@ -71,6 +69,13 @@ KIFTestContext *KIFTestCaseSharedContext = nil;
 {
     SEL selector = self.invocation.selector;
     return selector != @selector(beforeAll) && selector != @selector(afterAll);
+}
+
+- (KIFTester *)testerInFile:(NSString *)file atLine:(NSInteger)line
+{
+    KIFTester *myTester = [[[KIFTester alloc] initWithFile:file line:line] autorelease];
+    myTester.delegate = self;
+    return myTester;
 }
 
 @end

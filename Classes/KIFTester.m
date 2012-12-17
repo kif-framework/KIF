@@ -7,6 +7,7 @@
 //
 
 #import "KIFTester.h"
+#import <SenTestingKit/SenTestingKit.h>
 
 @implementation KIFTester
 
@@ -40,7 +41,8 @@
         error = [NSError errorWithDomain:@"KIFTest" code:KIFTestStepResultFailure userInfo:userInfo];
     }
     
-    [self.delegate tester:self didFailTestStep:KIFTestStepResultFailure error:error];
+    [self.delegate failWithException:[NSException failureInFile:self.file atLine:self.line withDescription:error.localizedDescription]];
+    
     return KIFTestStepResultFailure;
 }
 

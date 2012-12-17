@@ -91,6 +91,7 @@
 - (void)testToFail
 {
     [tester fail];
+    NSLog(@"This line never executes.");
 }
 
 @end

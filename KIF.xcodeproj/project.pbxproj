@@ -37,8 +37,6 @@
 		CDFD8E87139728B4008D299F /* NSFileManager-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CDFD8E85139728B4008D299F /* NSFileManager-KIFAdditions.m */; };
 		EB4C3129167BA37B00E31109 /* KIFTester.h in Headers */ = {isa = PBXBuildFile; fileRef = EB4C3123167BA37B00E31109 /* KIFTester.h */; };
 		EB4C312A167BA37B00E31109 /* KIFTester.m in Sources */ = {isa = PBXBuildFile; fileRef = EB4C3124167BA37B00E31109 /* KIFTester.m */; };
-		EB4C312B167BA37B00E31109 /* KIFTestContext.h in Headers */ = {isa = PBXBuildFile; fileRef = EB4C3125167BA37B00E31109 /* KIFTestContext.h */; };
-		EB4C312C167BA37B00E31109 /* KIFTestContext.m in Sources */ = {isa = PBXBuildFile; fileRef = EB4C3126167BA37B00E31109 /* KIFTestContext.m */; };
 		EB4C312D167BA37B00E31109 /* KIFTestCase.h in Headers */ = {isa = PBXBuildFile; fileRef = EB4C3127167BA37B00E31109 /* KIFTestCase.h */; };
 		EB4C312E167BA37B00E31109 /* KIFTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = EB4C3128167BA37B00E31109 /* KIFTestCase.m */; };
 		EB4C3134167BA3AC00E31109 /* KIFTester+Generic.h in Headers */ = {isa = PBXBuildFile; fileRef = EB4C3130167BA3AC00E31109 /* KIFTester+Generic.h */; };
@@ -53,7 +51,6 @@
 		EB4C316D167BAFFF00E31109 /* KIFTester+Generic.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = EB4C3130167BA3AC00E31109 /* KIFTester+Generic.h */; };
 		EB4C316E167BAFFF00E31109 /* KIFTester+UI.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = EB4C3132167BA3AC00E31109 /* KIFTester+UI.h */; };
 		EB4C316F167BAFFF00E31109 /* KIFTester.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = EB4C3123167BA37B00E31109 /* KIFTester.h */; };
-		EB4C3170167BAFFF00E31109 /* KIFTestContext.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = EB4C3125167BA37B00E31109 /* KIFTestContext.h */; };
 		EB4C3171167BAFFF00E31109 /* KIFTestCase.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = EB4C3127167BA37B00E31109 /* KIFTestCase.h */; };
 		EB4C3172167BB00800E31109 /* LoadableCategory.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 39160B1013D1E6BB00311E38 /* LoadableCategory.h */; };
 		EB4C3173167BB00800E31109 /* CGGeometry-KIFAdditions.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AAB0729413971AB2008AF393 /* CGGeometry-KIFAdditions.h */; };
@@ -85,7 +82,6 @@
 				EB4C316D167BAFFF00E31109 /* KIFTester+Generic.h in CopyFiles */,
 				EB4C316E167BAFFF00E31109 /* KIFTester+UI.h in CopyFiles */,
 				EB4C316F167BAFFF00E31109 /* KIFTester.h in CopyFiles */,
-				EB4C3170167BAFFF00E31109 /* KIFTestContext.h in CopyFiles */,
 				EB4C3171167BAFFF00E31109 /* KIFTestCase.h in CopyFiles */,
 				EB4C3169167BAFF000E31109 /* KIFTestController.h in CopyFiles */,
 				EB4C316A167BAFF000E31109 /* KIFTestScenario.h in CopyFiles */,
@@ -129,8 +125,6 @@
 		CDFD8E85139728B4008D299F /* NSFileManager-KIFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager-KIFAdditions.m"; sourceTree = "<group>"; };
 		EB4C3123167BA37B00E31109 /* KIFTester.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KIFTester.h; sourceTree = "<group>"; };
 		EB4C3124167BA37B00E31109 /* KIFTester.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KIFTester.m; sourceTree = "<group>"; };
-		EB4C3125167BA37B00E31109 /* KIFTestContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KIFTestContext.h; sourceTree = "<group>"; };
-		EB4C3126167BA37B00E31109 /* KIFTestContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KIFTestContext.m; sourceTree = "<group>"; };
 		EB4C3127167BA37B00E31109 /* KIFTestCase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KIFTestCase.h; sourceTree = "<group>"; };
 		EB4C3128167BA37B00E31109 /* KIFTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KIFTestCase.m; sourceTree = "<group>"; };
 		EB4C3130167BA3AC00E31109 /* KIFTester+Generic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "KIFTester+Generic.h"; sourceTree = "<group>"; };
@@ -239,8 +233,6 @@
 				EB4C312F167BA39200E31109 /* Behaviors */,
 				EB4C3123167BA37B00E31109 /* KIFTester.h */,
 				EB4C3124167BA37B00E31109 /* KIFTester.m */,
-				EB4C3125167BA37B00E31109 /* KIFTestContext.h */,
-				EB4C3126167BA37B00E31109 /* KIFTestContext.m */,
 				EB4C3127167BA37B00E31109 /* KIFTestCase.h */,
 				EB4C3128167BA37B00E31109 /* KIFTestCase.m */,
 			);
@@ -280,7 +272,6 @@
 				39160B1113D1E6BB00311E38 /* LoadableCategory.h in Headers */,
 				C194255815D83DE9004FC314 /* KIFTypist.h in Headers */,
 				EB4C3129167BA37B00E31109 /* KIFTester.h in Headers */,
-				EB4C312B167BA37B00E31109 /* KIFTestContext.h in Headers */,
 				EB4C312D167BA37B00E31109 /* KIFTestCase.h in Headers */,
 				EB4C3134167BA3AC00E31109 /* KIFTester+Generic.h in Headers */,
 				EB4C3136167BA3AC00E31109 /* KIFTester+UI.h in Headers */,
@@ -351,7 +342,6 @@
 				CDFD8E87139728B4008D299F /* NSFileManager-KIFAdditions.m in Sources */,
 				C194255915D83DE9004FC314 /* KIFTypist.m in Sources */,
 				EB4C312A167BA37B00E31109 /* KIFTester.m in Sources */,
-				EB4C312C167BA37B00E31109 /* KIFTestContext.m in Sources */,
 				EB4C312E167BA37B00E31109 /* KIFTestCase.m in Sources */,
 				EB4C3135167BA3AC00E31109 /* KIFTester+Generic.m in Sources */,
 				EB4C3137167BA3AC00E31109 /* KIFTester+UI.m in Sources */,

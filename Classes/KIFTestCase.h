@@ -7,15 +7,15 @@
 //
 
 #import <SenTestingKit/SenTestingKit.h>
-#import "KIFTestContext.h"
 #import "KIFTester+Generic.h"
 #import "KIFTester+UI.h"
 
-#define tester [KIFTestCaseSharedContext testerInFile:[NSString stringWithUTF8String:__FILE__] atLine:__LINE__]
+#define tester [self testerInFile:[NSString stringWithUTF8String:__FILE__] atLine:__LINE__]
 
-extern KIFTestContext *KIFTestCaseSharedContext;
+@interface KIFTestCase : SenTestCase<KIFTesterDelegate>
 
-@interface KIFTestCase : SenTestCase
+- (KIFTester *)testerInFile:(NSString *)file atLine:(NSInteger)line;
+
 @end
 
 @interface KIFTestCase (Setup_and_Teardown)

@@ -26,6 +26,6 @@
 
 @protocol KIFTesterDelegate <NSObject>
 
-- (void)tester:(KIFTester *)tester didFailTestStep:(KIFTestStep *)step error:(NSError *)error;
+- (void)failWithException:(NSException *)exception;
 
 @end
