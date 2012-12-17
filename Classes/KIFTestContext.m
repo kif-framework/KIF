@@ -21,21 +21,34 @@
         return nil;
     }
     
-    KIFTester *tester = [[KIFTester alloc] initWithFile:file line:line];
+    KIFTester *tester = [[[KIFTester alloc] initWithFile:file line:line] autorelease];
     tester.delegate = self;
     return tester;
 }
 
 - (void)resetWithTest:(id)test
 {
-    _test = test;
     _hasEncounteredAnError = NO;
+    
+    if (_test == test) {
+        return;
+    }
+    
+    [_test release];
+    _test = test;
+    [test retain];
 }
 
 - (void)tester:(KIFTester *)tester didFailTestStep:(KIFTestStep *)step error:(NSError *)error
 {
     _hasEncounteredAnError = YES;
     [self.test failWithException:[NSException failureInFile:tester.file atLine:tester.line withDescription:error.localizedDescription]];
+}
+
+- (void)dealloc
+{
+    [_test release];
+    [super dealloc];
 }
 
 @end
