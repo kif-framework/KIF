@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 Brian Nickel. All rights reserved.
 //
 
-#import <KIF/KIFTestCase.h>
+#import <KIFTestCase/KIFTestCase.h>
 
 @interface KIFTester (BasicCalculator)
 

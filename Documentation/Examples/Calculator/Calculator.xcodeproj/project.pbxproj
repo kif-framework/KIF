@@ -31,8 +31,8 @@
 		EB4C315C167BA99E00E31109 /* HomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EB4C3159167BA99E00E31109 /* HomeViewController.xib */; };
 		EB4C315D167BA99E00E31109 /* HomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EB4C3159167BA99E00E31109 /* HomeViewController.xib */; };
 		EB4C3160167BAE6100E31109 /* BasicCalculatorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EB4C315F167BAE6100E31109 /* BasicCalculatorTests.m */; };
-		EB4C3164167BAF0000E31109 /* libKIF.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EB4C3163167BAF0000E31109 /* libKIF.a */; };
 		EB4C317B167BB0A900E31109 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB4C30E1167B9E3A00E31109 /* CoreGraphics.framework */; };
+		EB7204871680E02800278DA2 /* libKIFTestCase.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EB7204861680E02800278DA2 /* libKIFTestCase.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,7 +74,7 @@
 		EB4C3158167BA99D00E31109 /* HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeViewController.m; sourceTree = "<group>"; };
 		EB4C3159167BA99E00E31109 /* HomeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HomeViewController.xib; sourceTree = "<group>"; };
 		EB4C315F167BAE6100E31109 /* BasicCalculatorTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BasicCalculatorTests.m; sourceTree = "<group>"; };
-		EB4C3163167BAF0000E31109 /* libKIF.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libKIF.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		EB7204861680E02800278DA2 /* libKIFTestCase.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libKIFTestCase.a; path = "libKIFTestCase.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,7 +96,7 @@
 				EB4C3140167BA79700E31109 /* SenTestingKit.framework in Frameworks */,
 				EB4C3141167BA79700E31109 /* UIKit.framework in Frameworks */,
 				EB4C3142167BA79700E31109 /* Foundation.framework in Frameworks */,
-				EB4C3164167BAF0000E31109 /* libKIF.a in Frameworks */,
+				EB7204871680E02800278DA2 /* libKIFTestCase.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -125,7 +125,7 @@
 		EB4C30DC167B9E3A00E31109 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				EB4C3163167BAF0000E31109 /* libKIF.a */,
+				EB7204861680E02800278DA2 /* libKIFTestCase.a */,
 				EB4C30DD167B9E3A00E31109 /* UIKit.framework */,
 				EB4C30DF167B9E3A00E31109 /* Foundation.framework */,
 				EB4C30E1167B9E3A00E31109 /* CoreGraphics.framework */,
