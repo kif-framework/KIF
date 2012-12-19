@@ -281,6 +281,16 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
 + (id)stepToWaitForTimeInterval:(NSTimeInterval)interval description:(NSString *)description;
 
 /*!
+ @method stepToWaitForAbsenceOfNotificationName:overTime:
+ @abstract A step that waits a period of time to make sure a notification is not fired
+ @discussion Useful when a notification could fire that should not be fired during a time period after a trigger.
+ @param name The name of the NSNotification
+ @param time The amount of time to wait for the notification. Will instantly return failure if time > defaultTimeout.
+ @result A configured test step.
+ */
++ (id)stepToWaitForAbsenceOfNotificationName:(NSString*)notificationName overTime:(NSTimeInterval)time;
+
+/*!
  @method stepToWaitForNotificationName:object:
  @abstract A step that waits for an NSNotification
  @discussion Useful when a test requires an asynchronous task to complete, especially when that task does not trigger a visible change in the view hierarchy

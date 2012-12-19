@@ -219,6 +219,53 @@ typedef CGPoint KIFDisplacement;
     return step;
 }
 
++ (id)stepToWaitForAbsenceOfNotificationName:(NSString*)notificationName overTime:(NSTimeInterval)time
+{
+    NSString *description = [NSString stringWithFormat:@"Making sure that notification \"%@\" doesn't occur over %f", notificationName, time];
+    
+    __block NSTimeInterval blockStartTime = 0.0;
+    
+    KIFTestStep *step = [self stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
+        if(time >= [self defaultTimeout])
+        {
+            if (error) {
+                *error = [[[NSError alloc] initWithDomain:@"KIFTest" code:KIFTestStepResultFailure userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"Time given is greater than default time out of KIF Test! Invalid parameter!"], NSLocalizedDescriptionKey, nil]] autorelease];
+            }
+            return KIFTestStepResultFailure;
+        }
+        
+        //Seed block start time
+        if(blockStartTime < 1.0)
+            blockStartTime = [NSDate timeIntervalSinceReferenceDate];
+        
+        //If time passed without notification, we're good
+        if(([NSDate timeIntervalSinceReferenceDate] - blockStartTime) >= time)
+            return KIFTestStepResultSuccess;
+        
+        //If not observing for notification yet, observe it
+        if (!step.observingForNotification) {
+            step.notificationName = notificationName;
+            step.notificationObject = nil;
+            step.observingForNotification = YES;
+            [[NSNotificationCenter defaultCenter] addObserver:step selector:@selector(_onObservedNotification:) name:notificationName object:nil];
+        }
+        
+        if(step.notificationOccurred)
+        {
+            if (error) {
+                *error = [[[NSError alloc] initWithDomain:@"KIFTest" code:KIFTestStepResultFailure userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"Notification %@ occurred when it wasn't supposed to occur!", notificationName], NSLocalizedDescriptionKey, nil]] autorelease];
+            }
+            return KIFTestStepResultFailure;
+        }
+        
+        if (error) {
+            *error = [[[NSError alloc] initWithDomain:@"KIFTest" code:KIFTestStepResultFailure userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"Shouldn't ever hit this point, stepToWaitForAbsenceOfNotificationName timed out too early"  ], NSLocalizedDescriptionKey, nil]] autorelease];
+        }
+        return KIFTestStepResultWait;
+    }];
+    return step;
+}
+
 + (id)stepToWaitForNotificationName:(NSString *)name object:(id)object;
 {
     NSString *description = [NSString stringWithFormat:@"Wait for notification \"%@\"", name];
