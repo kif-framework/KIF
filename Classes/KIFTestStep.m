@@ -400,7 +400,7 @@ typedef CGPoint KIFDisplacement;
 
 + (id)stepToEnterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label replaceExistingText:(BOOL)replace;
 {
-    return [self stepToEnterText:text intoViewWithAccessibilityLabel:label traits:UIAccessibilityTraitNone expectedResult:nil replaceExistingText:YES];
+    return [self stepToEnterText:text intoViewWithAccessibilityLabel:label traits:UIAccessibilityTraitNone expectedResult:nil replaceExistingText:replace];
 }
 
 + (id)stepToEnterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits expectedResult:(NSString *)expectedResult;
