@@ -39,7 +39,7 @@ static NSArray *defaultStepsToTearDown = nil;
 {
     KIFTestScenario *scenario = [[self alloc] init];
     scenario.description = description;
-    NSString *filter = [[[NSProcessInfo processInfo] environment] objectForKey:@"KIF_SCENARIO_FILTER"];
+    NSString *filter = [[NSProcessInfo processInfo] environment][@"KIF_SCENARIO_FILTER"];
     if (filter) {
         scenario.skippedByFilter = ([description rangeOfString:filter options:NSRegularExpressionSearch].location == NSNotFound);
     }

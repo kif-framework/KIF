@@ -38,7 +38,7 @@ typedef NS_ENUM(NSInteger, CalculatorOperation) {
 
 - (void)setAccessibilityLabel:(NSString *)label forSegment:(NSInteger)segment
 {
-    UIView *view = [self.operationInput.subviews objectAtIndex:self.operationInput.subviews.count - segment - 1];
+    UIView *view = (self.operationInput.subviews)[self.operationInput.subviews.count - segment - 1];
     view.accessibilityLabel = label;
 }
 

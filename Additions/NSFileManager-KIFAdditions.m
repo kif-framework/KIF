@@ -25,7 +25,7 @@ MAKE_CATEGORIES_LOADABLE(NSFileManager_KIFAdditions)
         return nil;
     }
     
-    NSString *rootDirectory = [paths objectAtIndex:0];
+    NSString *rootDirectory = paths[0];
 
     BOOL isDir;
     BOOL created = NO;

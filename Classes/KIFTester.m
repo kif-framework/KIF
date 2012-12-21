@@ -38,7 +38,7 @@
     }
     
     if (result == KIFTestStepResultWait) {
-        NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:error, NSUnderlyingErrorKey, [NSString stringWithFormat:@"The step timed out after %.2f seconds: %@", step.timeout, error.localizedDescription], NSLocalizedDescriptionKey, nil];
+        NSDictionary *userInfo = @{NSUnderlyingErrorKey: error, NSLocalizedDescriptionKey: [NSString stringWithFormat:@"The step timed out after %.2f seconds: %@", step.timeout, error.localizedDescription]};
         error = [NSError errorWithDomain:@"KIFTest" code:KIFTestStepResultFailure userInfo:userInfo];
     }
     
