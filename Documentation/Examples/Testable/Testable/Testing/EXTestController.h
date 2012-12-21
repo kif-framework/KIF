@@ -8,8 +8,7 @@
 //  which Square, Inc. licenses this file to you.
 
 #import <Foundation/Foundation.h>
-#import "KIFTestController.h"
-
+#import <KIF/KIFTestController.h>
 
 @interface EXTestController : KIFTestController {
     

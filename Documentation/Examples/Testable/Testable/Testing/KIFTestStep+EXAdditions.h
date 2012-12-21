@@ -8,7 +8,7 @@
 //  which Square, Inc. licenses this file to you.
 
 #import <Foundation/Foundation.h>
-#import "KIFTestStep.h"
+#import <KIF/KIFTestStep.h>
 
 @interface KIFTestStep (EXAdditions)
 
