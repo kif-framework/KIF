@@ -1,0 +1,8 @@
+//
+// Prefix header for all source files of the 'Integration Tests with KIFTestCase' target in the 'Integration Tests with KIFTestCase' project
+//
+
+#ifdef __OBJC__
+    #import <UIKit/UIKit.h>
+    #import <Foundation/Foundation.h>
+#endif
