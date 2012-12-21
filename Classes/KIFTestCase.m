@@ -14,17 +14,23 @@
 
 @implementation KIFTestCase
 
-- (id) initWithInvocation:(NSInvocation *) anInvocation
+- (id)initWithInvocation:(NSInvocation *)anInvocation;
 {
     self = [super initWithInvocation:anInvocation];
+    if (!self) {
+        return nil;
+    }
+
     [self raiseAfterFailure];
     return self;
 }
 
 - (void)beforeEach { }
 - (void)afterEach  { }
+- (void)beforeAll  { }
+- (void)afterAll   { }
 
-- (void)setUp
+- (void)setUp;
 {
     [super setUp];
     
@@ -33,7 +39,7 @@
     }
 }
 
-- (void)tearDown
+- (void)tearDown;
 {
     if ([self isNotBeforeOrAfter]) {
         [self afterEach];
@@ -42,7 +48,7 @@
     [super tearDown];
 }
 
-+ (NSArray *)testInvocations
++ (NSArray *)testInvocations;
 {
     if (self == [KIFTestCase class]) {
         return nil;
@@ -65,13 +71,13 @@
     return testInvocations;
 }
 
-- (BOOL)isNotBeforeOrAfter
+- (BOOL)isNotBeforeOrAfter;
 {
     SEL selector = self.invocation.selector;
     return selector != @selector(beforeAll) && selector != @selector(afterAll);
 }
 
-- (KIFTester *)testerInFile:(NSString *)file atLine:(NSInteger)line
+- (KIFTester *)testerInFile:(NSString *)file atLine:(NSInteger)line;
 {
     KIFTester *myTester = [[[KIFTester alloc] initWithFile:file line:line] autorelease];
     myTester.delegate = self;

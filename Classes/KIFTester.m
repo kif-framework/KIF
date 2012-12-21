@@ -9,8 +9,42 @@
 
 #import "KIFTester.h"
 #import <SenTestingKit/SenTestingKit.h>
+#import <dlfcn.h>
+#import <objc/runtime.h>
 
 @implementation KIFTester
+
++ (void)load
+{
+    [KIFTester _enableAccessibility];
+}
+
++ (void)_enableAccessibility;
+{
+    NSAutoreleasePool *autoreleasePool = [[NSAutoreleasePool alloc] init];
+    NSString *appSupportLocation = @"/System/Library/PrivateFrameworks/AppSupport.framework/AppSupport";
+    
+    NSDictionary *environment = [[NSProcessInfo processInfo] environment];
+    NSString *simulatorRoot = [environment objectForKey:@"IPHONE_SIMULATOR_ROOT"];
+    if (simulatorRoot) {
+        appSupportLocation = [simulatorRoot stringByAppendingString:appSupportLocation];
+    }
+    
+    void *appSupportLibrary = dlopen([appSupportLocation fileSystemRepresentation], RTLD_LAZY);
+    
+    CFStringRef (*copySharedResourcesPreferencesDomainForDomain)(CFStringRef domain) = dlsym(appSupportLibrary, "CPCopySharedResourcesPreferencesDomainForDomain");
+    
+    if (copySharedResourcesPreferencesDomainForDomain) {
+        CFStringRef accessibilityDomain = copySharedResourcesPreferencesDomainForDomain(CFSTR("com.apple.Accessibility"));
+        
+        if (accessibilityDomain) {
+            CFPreferencesSetValue(CFSTR("ApplicationAccessibilityEnabled"), kCFBooleanTrue, accessibilityDomain, kCFPreferencesAnyUser, kCFPreferencesAnyHost);
+            CFRelease(accessibilityDomain);
+        }
+    }
+    
+    [autoreleasePool drain];
+}
 
 - (instancetype)initWithFile:(NSString *)file line:(NSInteger)line
 {

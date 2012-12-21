@@ -77,6 +77,26 @@
     [self run:[KIFTestStep stepToTapScreenAtPoint:screenPoint]];
 }
 
+- (void)longPressViewWithAccessibilityLabel:(NSString *)label duration:(NSTimeInterval)duration;
+{
+    [self run:[KIFTestStep stepToLongPressViewWithAccessibilityLabel:label duration:duration]];
+}
+
+- (void)longPressViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value duration:(NSTimeInterval)duration;
+{
+    [self run:[KIFTestStep stepToLongPressViewWithAccessibilityLabel:label value:value duration:duration]];
+}
+
+- (void)longPressViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits duration:(NSTimeInterval)duration;
+{
+    [self run:[KIFTestStep stepToLongPressViewWithAccessibilityLabel:label value:value traits:traits duration:duration]];
+}
+
+- (void)enterTextIntoCurrentFirstResponder:(NSString *)text;
+{
+    [self run:[KIFTestStep stepToEnterTextIntoCurrentFirstResponder:text]];
+}
+
 - (void)enterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label
 {
     [self run:[KIFTestStep stepToEnterText:text intoViewWithAccessibilityLabel:label]];

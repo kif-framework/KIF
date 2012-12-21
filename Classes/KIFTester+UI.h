@@ -30,6 +30,12 @@
 
 - (void)tapScreenAtPoint:(CGPoint)screenPoint;
 
+- (void)longPressViewWithAccessibilityLabel:(NSString *)label duration:(NSTimeInterval)duration;
+- (void)longPressViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value duration:(NSTimeInterval)duration;
+- (void)longPressViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits duration:(NSTimeInterval)duration;
+
+- (void)enterTextIntoCurrentFirstResponder:(NSString *)text;
+
 - (void)enterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label;
 - (void)enterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits expectedResult:(NSString *)expectedResult;
 
