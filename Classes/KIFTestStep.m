@@ -687,6 +687,53 @@ typedef CGPoint KIFDisplacement;
     }];
 }
 
+#define NUM_POINTS_IN_SCROLL_PATH 5
+
++ (id)stepToScrollViewWithAccessibilityLabel:(NSString *)label byFractionOfSizeHorizontal:(CGFloat)horizontalFraction vertical:(CGFloat)verticalFraction;
+{
+    NSString *description = [NSString
+                             stringWithFormat:@"Step to scroll by {%0.2f, %0.2f} of the size on view with accessibility label %@",
+                             horizontalFraction, verticalFraction, label];
+    
+    return [KIFTestStep stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
+        UIAccessibilityElement *element = [self _accessibilityElementWithLabel:label
+                                                            accessibilityValue:nil
+                                                                      tappable:NO
+                                                                        traits:UIAccessibilityTraitNone
+                                                                         error:error];
+        if (!element) {
+            return KIFTestStepResultWait;
+        }
+        
+        UIView *viewToScroll = [UIAccessibilityElement viewContainingAccessibilityElement:element];
+        KIFTestWaitCondition(viewToScroll, error, @"Cannot find view with accessibility label \"%@\"", label);
+        
+        // Within this method, all geometry is done in the coordinate system of
+        // the view to scroll.
+        
+        CGRect elementFrame = [viewToScroll.window convertRect:element.accessibilityFrame toView:viewToScroll];
+        
+        CGSize scrollDisplacement = CGSizeMake(elementFrame.size.width * horizontalFraction, elementFrame.size.height * verticalFraction);
+        
+        CGPoint scrollStart = CGPointCenteredInRect(elementFrame);
+        scrollStart.x -= scrollDisplacement.width / 2;
+        scrollStart.y -= scrollDisplacement.height / 2;
+        
+        CGPoint scrollPath[NUM_POINTS_IN_SCROLL_PATH];
+        
+        for (int pointIndex = 0; pointIndex < NUM_POINTS_IN_SCROLL_PATH; pointIndex++)
+        {
+            CGFloat scrollProgress = ((CGFloat)pointIndex)/(NUM_POINTS_IN_SCROLL_PATH - 1);
+            scrollPath[pointIndex] = CGPointMake(scrollStart.x + (scrollProgress * scrollDisplacement.width),
+                                                 scrollStart.y + (scrollProgress * scrollDisplacement.height));
+        }
+        
+        [viewToScroll dragAlongPathWithPoints:scrollPath count:NUM_POINTS_IN_SCROLL_PATH];
+        
+        return KIFTestStepResultSuccess;
+    }];
+}
+
 + (id)stepToWaitForFirstResponderWithAccessibilityLabel:(NSString *)label;
 {
     NSString *description = [NSString stringWithFormat:@"Verify that the first responder is the view with accessibility label '%@'", label];

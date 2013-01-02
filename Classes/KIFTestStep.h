@@ -479,6 +479,17 @@ typedef enum {
 + (id)stepToSwipeViewWithAccessibilityLabel:(NSString *)label inDirection:(KIFSwipeDirection)direction;
 
 /*!
+ @method stepToScrollViewWithAccessibilityLabel:byFractionOfSizeHorizontal:vertical:
+ @abstract A step that scrolls a particular view in the view hierarchy by an amount indicated as a fraction of its size.
+ @discussion The view will get the view with the specified accessibility label and scroll it by the indicated fraction of its size, with the scroll centered on the center of the view.
+ @param label The accessibility label of the view to scroll.
+ @param horizontalFraction The horizontal displacement of the scroll action, as a fraction of the width of the view.
+ @param verticalFraction The vertical displacement of the scroll action, as a fraction of the height of the view.
+ @result A configured test step.
+ */
++ (id)stepToScrollViewWithAccessibilityLabel:(NSString *)label byFractionOfSizeHorizontal:(CGFloat)horizontalFraction vertical:(CGFloat)verticalFraction;
+
+/*!
  @method stepToWaitForFirstResponderWithAccessibilityLabel:
  @abstract A step that waits until a view or accessibility element is the first responder.
  @discussion The first responder is found by searching the view hierarchy of the application's
