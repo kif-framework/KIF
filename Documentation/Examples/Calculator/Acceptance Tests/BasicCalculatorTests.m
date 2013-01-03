@@ -7,6 +7,8 @@
 //  See the LICENSE file distributed with this work for the terms under
 //  which Square, Inc. licenses this file to you.
 
+#import <KIF/KIF.h>
+
 @interface KIFTester (BasicCalculator)
 
 - (void)enterValue1:(NSString *)value;
