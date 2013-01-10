@@ -330,6 +330,39 @@ typedef struct __GSEvent * GSEventRef;
     [touch release];
 }
 
+#define DRAG_TOUCH_DELAY 0.01
+
+- (void)longPressAtPoint:(CGPoint)point duration:(NSTimeInterval)duration
+{
+    UITouch *touch = [[UITouch alloc] initAtPoint:point inView:self];
+    [touch setPhase:UITouchPhaseBegan];
+    
+    UIEvent *eventDown = [self _eventWithTouch:touch];
+    [[UIApplication sharedApplication] sendEvent:eventDown];
+    
+    CFRunLoopRunInMode(kCFRunLoopDefaultMode, DRAG_TOUCH_DELAY, false);
+    
+    for (NSTimeInterval timeSpent = DRAG_TOUCH_DELAY; timeSpent < duration; timeSpent += DRAG_TOUCH_DELAY)
+    {
+        [touch setPhase:UITouchPhaseStationary];
+        
+        UIEvent *eventStillDown = [self _eventWithTouch:touch];
+        [[UIApplication sharedApplication] sendEvent:eventStillDown];
+        
+        CFRunLoopRunInMode(kCFRunLoopDefaultMode, DRAG_TOUCH_DELAY, false);
+    }
+    
+    [touch setPhase:UITouchPhaseEnded];
+    UIEvent *eventUp = [self _eventWithTouch:touch];
+    [[UIApplication sharedApplication] sendEvent:eventUp];
+    
+    // Dispatching the event doesn't actually update the first responder, so fake it
+    if ([touch.view isDescendantOfView:self] && [self canBecomeFirstResponder]) {
+        [self becomeFirstResponder];
+    }
+    
+    [touch release];
+}
 
 - (void)dragFromPoint:(CGPoint)startPoint toPoint:(CGPoint)endPoint;
 {
@@ -337,8 +370,6 @@ typedef struct __GSEvent * GSEventRef;
     CGPoint points[] = {startPoint, CGPointMidPoint(startPoint, endPoint), endPoint};
     [self dragAlongPathWithPoints:points count:sizeof(points) / sizeof(CGPoint)];
 }
-
-#define DRAG_TOUCH_DELAY 0.01
 
 - (void)dragAlongPathWithPoints:(CGPoint *)points count:(NSInteger)count;
 {

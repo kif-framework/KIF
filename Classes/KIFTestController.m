@@ -274,7 +274,7 @@ static void releaseInstance()
 {
     // This method for testing if the inspector is enabled was taken from the Frank framework.
     // https://github.com/moredip/Frank
-    UIWindow *keyWindow = [[UIApplication sharedApplication] keyWindow];
+    UIWindow *keyWindow = [[[UIApplication sharedApplication] delegate] window];
     NSString *originalAccessibilityLabel = [keyWindow accessibilityLabel];
     
     [keyWindow setAccessibilityLabel:@"KIF Test Label"];
@@ -326,6 +326,7 @@ static void releaseInstance()
         case KIFTestStepResultFailure: {
             [self _logDidFailStep:self.currentStep duration:currentStepDuration error:error];
             [self _writeScreenshotForStep:self.currentStep];
+            [[self.currentStep class] stepFailed];
             [self.currentStep cleanUp];
             
             self.currentScenario = [self _nextScenarioAfterResult:result];
@@ -530,6 +531,7 @@ static void releaseInstance()
 
 - (void)_logDidSkipScenario:(KIFTestScenario *)scenario;
 {
+    if ([[[[NSProcessInfo processInfo] environment] objectForKey:@"KIF_SILENT_FILTERING"] boolValue]) return; // Don't want filter skipping noise
     KIFLogBlankLine();
     KIFLogSeparator();
     NSString *reason = (scenario.skippedByFilter ? @"filter doesn't match description" : @"only running previously-failed scenarios");

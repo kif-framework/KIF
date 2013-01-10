@@ -15,6 +15,7 @@
 #import "UITouch-KIFAdditions.h"
 #import "UIView-KIFAdditions.h"
 #import "UIWindow-KIFAdditions.h"
+#import "KIFTypist.h"
 
 
 static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
@@ -29,10 +30,6 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
 @property (nonatomic, retain) KIFTestStep *childStep;
 
 + (BOOL)_isUserInteractionEnabledForView:(UIView *)view;
-
-+ (BOOL)_enterCharacter:(NSString *)characterString;
-+ (BOOL)_enterCharacter:(NSString *)characterString history:(NSMutableDictionary *)history;
-+ (BOOL)_enterCustomKeyboardCharacter:(NSString *)characterString;
 
 + (UIAccessibilityElement *)_accessibilityElementWithLabel:(NSString *)label accessibilityValue:(NSString *)value tappable:(BOOL)mustBeTappable traits:(UIAccessibilityTraits)traits error:(out NSError **)error;
 
@@ -388,7 +385,14 @@ typedef CGPoint KIFDisplacement;
             return KIFTestStepResultWait;
         }
 
-        CGRect elementFrame = [view.window convertRect:element.accessibilityFrame toView:view];
+        // If the accessibilityFrame is not set, fallback to the view frame.
+        CGRect elementFrame;
+        if (CGRectEqualToRect(CGRectZero, element.accessibilityFrame)) {
+            elementFrame.origin = CGPointZero;
+            elementFrame.size = view.frame.size;
+        } else {
+            elementFrame = [view.window convertRect:element.accessibilityFrame toView:view];
+        }
         CGPoint tappablePointInElement = [view tappablePointInRect:elementFrame];
 
         // This is mostly redundant of the test in _accessibilityElementWithLabel:
@@ -495,6 +499,85 @@ typedef CGPoint KIFDisplacement;
     }];
 }
 
++ (id)stepToLongPressViewWithAccessibilityLabel:(NSString *)label duration:(NSTimeInterval)duration
+{
+    return [self stepToLongPressViewWithAccessibilityLabel:label value:nil duration:duration];
+}
+
++ (id)stepToLongPressViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value duration:(NSTimeInterval)duration
+{
+    return [self stepToLongPressViewWithAccessibilityLabel:label value:value traits:UIAccessibilityTraitNone duration:duration];
+}
+
++ (id)stepToLongPressViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits duration:(NSTimeInterval)duration
+{
+    NSString *description = nil;
+    if (value.length) {
+        description = [NSString stringWithFormat:@"Long press view with accessibility label \"%@\" and accessibility value \"%@\"", label, value];
+    } else {
+        description = [NSString stringWithFormat:@"Long press view with accessibility label \"%@\"", label];
+    }
+    // After tapping the view we want to wait a short period to allow things to settle (animations and such). We can't do this using CFRunLoopRunInMode() because certain things, such as the built-in media picker, do things with the run loop that are not compatible with this kind of wait. Instead we leverage the way KIF hooks into the existing run loop by returning "wait" results for the desired period.
+    const NSTimeInterval quiesceWaitInterval = 0.5;
+    __block NSTimeInterval quiesceStartTime = 0.0;
+    
+    __block UIView *view = nil;
+    
+    return [self stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
+        
+        // If we've already tapped the view and stored it to a variable, and we've waited for the quiesce time to elapse, then we're done.
+        if (view) {
+            KIFTestWaitCondition(([NSDate timeIntervalSinceReferenceDate] - quiesceStartTime) >= quiesceWaitInterval, error, @"Waiting for view to become the first responder.");
+            return KIFTestStepResultSuccess;
+        }
+        
+        UIAccessibilityElement *element = [self _accessibilityElementWithLabel:label accessibilityValue:value tappable:YES traits:traits error:error];
+        if (!element) {
+            return KIFTestStepResultWait;
+        }
+        
+        view = [UIAccessibilityElement viewContainingAccessibilityElement:element];
+        KIFTestWaitCondition(view, error, @"Failed to find view for accessibility element with label \"%@\"", label);
+        
+        if (![self _isUserInteractionEnabledForView:view]) {
+            if (error) {
+                *error = [[[NSError alloc] initWithDomain:@"KIFTest" code:KIFTestStepResultFailure userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"View with accessibility label \"%@\" is not enabled for interaction", label], NSLocalizedDescriptionKey, nil]] autorelease];
+            }
+            return KIFTestStepResultWait;
+        }
+        
+        CGRect elementFrame = [view.window convertRect:element.accessibilityFrame toView:view];
+        CGPoint tappablePointInElement = [view tappablePointInRect:elementFrame];
+        
+        // This is mostly redundant of the test in _accessibilityElementWithLabel:
+        KIFTestWaitCondition(!isnan(tappablePointInElement.x), error, @"The element with accessibility label %@ is not tappable", label);
+        [view longPressAtPoint:tappablePointInElement duration:duration];
+        
+        KIFTestCondition(![view canBecomeFirstResponder] || [view isDescendantOfFirstResponder], error, @"Failed to make the view %@ which contains the accessibility element \"%@\" into the first responder", view, label);
+        
+        quiesceStartTime = [NSDate timeIntervalSinceReferenceDate];
+        
+        KIFTestWaitCondition(NO, error, @"Waiting for the view to settle.");
+    }];
+}
+
++ (id)stepToEnterTextIntoCurrentFirstResponder:(NSString *)text {
+    NSString *description = [NSString stringWithFormat:@"Type the text \"%@\" into the current first responder", text];
+    return [self stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
+        // Wait for the keyboard
+        CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.5, false);
+
+        for (NSUInteger characterIndex = 0; characterIndex < [text length]; characterIndex++) {
+            NSString *characterString = [text substringWithRange:NSMakeRange(characterIndex, 1)];
+
+            if (![KIFTypist enterCharacter:characterString]) {
+                KIFTestCondition(NO, error, @"Failed to find key for character \"%@\"", characterString);
+            }
+        }
+        return KIFTestStepResultSuccess;
+    }];
+}
+
 + (id)stepToEnterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label;
 {
     return [self stepToEnterText:text intoViewWithAccessibilityLabel:label traits:UIAccessibilityTraitNone expectedResult:nil];
@@ -529,7 +612,7 @@ typedef CGPoint KIFDisplacement;
         for (NSUInteger characterIndex = 0; characterIndex < [text length]; characterIndex++) {
             NSString *characterString = [text substringWithRange:NSMakeRange(characterIndex, 1)];
             
-            if (![self _enterCharacter:characterString]) {
+            if (![KIFTypist enterCharacter:characterString]) {
                 // Attempt to cheat if we couldn't find the character
                 if ([view isKindOfClass:[UITextField class]] || [view isKindOfClass:[UITextView class]]) {
                     NSLog(@"KIF: Unable to find keyboard key for %@. Inserting manually.", characterString);
@@ -545,7 +628,7 @@ typedef CGPoint KIFDisplacement;
             // We trim \n and \r because they trigger the return key, so they won't show up in the final product on single-line inputs
             NSString *expected = [expectedResult ? expectedResult : text stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
             NSString *actual = [[view performSelector:@selector(text)] stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
-            KIFTestCondition([actual isEqualToString:expected], error, @"Failed to actually enter text \"%@\" in field; instead, it was \"%@\"", text, actual);
+            KIFTestCondition([actual isEqualToString:expected], error, @"Failed to get text \"%@\" in field; instead, it was \"%@\"", expected, actual);
         }
         
         return KIFTestStepResultSuccess;
@@ -825,6 +908,53 @@ typedef CGPoint KIFDisplacement;
     }];
 }
 
+#define NUM_POINTS_IN_SCROLL_PATH 5
+
++ (id)stepToScrollViewWithAccessibilityLabel:(NSString *)label byFractionOfSizeHorizontal:(CGFloat)horizontalFraction vertical:(CGFloat)verticalFraction;
+{
+    NSString *description = [NSString
+                             stringWithFormat:@"Step to scroll by {%0.2f, %0.2f} of the size on view with accessibility label %@",
+                             horizontalFraction, verticalFraction, label];
+    
+    return [KIFTestStep stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
+        UIAccessibilityElement *element = [self _accessibilityElementWithLabel:label
+                                                            accessibilityValue:nil
+                                                                      tappable:NO
+                                                                        traits:UIAccessibilityTraitNone
+                                                                         error:error];
+        if (!element) {
+            return KIFTestStepResultWait;
+        }
+        
+        UIView *viewToScroll = [UIAccessibilityElement viewContainingAccessibilityElement:element];
+        KIFTestWaitCondition(viewToScroll, error, @"Cannot find view with accessibility label \"%@\"", label);
+        
+        // Within this method, all geometry is done in the coordinate system of
+        // the view to scroll.
+        
+        CGRect elementFrame = [viewToScroll.window convertRect:element.accessibilityFrame toView:viewToScroll];
+        
+        CGSize scrollDisplacement = CGSizeMake(elementFrame.size.width * horizontalFraction, elementFrame.size.height * verticalFraction);
+        
+        CGPoint scrollStart = CGPointCenteredInRect(elementFrame);
+        scrollStart.x -= scrollDisplacement.width / 2;
+        scrollStart.y -= scrollDisplacement.height / 2;
+        
+        CGPoint scrollPath[NUM_POINTS_IN_SCROLL_PATH];
+        
+        for (int pointIndex = 0; pointIndex < NUM_POINTS_IN_SCROLL_PATH; pointIndex++)
+        {
+            CGFloat scrollProgress = ((CGFloat)pointIndex)/(NUM_POINTS_IN_SCROLL_PATH - 1);
+            scrollPath[pointIndex] = CGPointMake(scrollStart.x + (scrollProgress * scrollDisplacement.width),
+                                                 scrollStart.y + (scrollProgress * scrollDisplacement.height));
+        }
+        
+        [viewToScroll dragAlongPathWithPoints:scrollPath count:NUM_POINTS_IN_SCROLL_PATH];
+        
+        return KIFTestStepResultSuccess;
+    }];
+}
+
 + (id)stepToWaitForFirstResponderWithAccessibilityLabel:(NSString *)label;
 {
     NSString *description = [NSString stringWithFormat:@"Verify that the first responder is the view with accessibility label '%@'", label];
@@ -948,6 +1078,12 @@ typedef CGPoint KIFDisplacement;
 
 #pragma mark Private Methods
 
+- (void)stepFailed;
+{
+    [[self class] stepFailed];
+}
+
+
 - (void)_onObservedNotification:(NSNotification *)notification;
 {
     self.notificationOccurred = YES;
@@ -994,137 +1130,6 @@ typedef CGPoint KIFDisplacement;
     return characterString;
 }
 
-+ (BOOL)_enterCharacter:(NSString *)characterString;
-{
-    return [self _enterCharacter:characterString history:[NSMutableDictionary dictionary]];
-}
-
-+ (BOOL)_enterCharacter:(NSString *)characterString history:(NSMutableDictionary *)history;
-{
-    const NSTimeInterval keystrokeDelay = 0.05f;
-    
-    // Each key on the keyboard does not have its own view, so we have to ask for the list of keys,
-    // find the appropriate one, and tap inside the frame of that key on the main keyboard view.
-    if (!characterString.length) {
-        return YES;
-    }
-    
-    UIWindow *keyboardWindow = [[UIApplication sharedApplication] keyboardWindow];
-    UIView *keyboardView = [[keyboardWindow subviewsWithClassNamePrefix:@"UIKBKeyplaneView"] lastObject];
-    
-    // If we didn't find the standard keyboard view, then we may have a custom keyboard
-    if (!keyboardView) {
-        return [self _enterCustomKeyboardCharacter:characterString];
-    }
-    id /*UIKBKeyplane*/ keyplane = [keyboardView valueForKey:@"keyplane"];
-    BOOL isShiftKeyplane = [[keyplane valueForKey:@"isShiftKeyplane"] boolValue];
-    
-    NSMutableArray *unvisitedForKeyplane = [history objectForKey:[NSValue valueWithNonretainedObject:keyplane]];
-    if (!unvisitedForKeyplane) {
-        unvisitedForKeyplane = [NSMutableArray arrayWithObjects:@"More", @"International", nil];
-        if (!isShiftKeyplane) {
-            [unvisitedForKeyplane insertObject:@"Shift" atIndex:0];
-        }
-        [history setObject:unvisitedForKeyplane forKey:[NSValue valueWithNonretainedObject:keyplane]];
-    }
-    
-    NSArray *keys = [keyplane valueForKey:@"keys"];
-    
-    // Interpret control characters appropriately
-    characterString = [self _representedKeyboardStringForCharacter:characterString];
-    
-    id keyToTap = nil;
-    id modifierKey = nil;
-    NSString *selectedModifierRepresentedString = nil;
-    
-    while (YES) {
-        for (id/*UIKBKey*/ key in keys) {
-            NSString *representedString = [key valueForKey:@"representedString"];
-            
-            // Find the key based on the key's represented string
-            if ([representedString isEqual:characterString]) {
-                keyToTap = key;
-            }
-            
-            if (!modifierKey && unvisitedForKeyplane.count && [[unvisitedForKeyplane objectAtIndex:0] isEqual:representedString]) {
-                modifierKey = key;
-                selectedModifierRepresentedString = representedString;
-                [unvisitedForKeyplane removeObjectAtIndex:0];
-            }
-        }
-        
-        if (keyToTap) {
-            break;
-        }
-        
-        if (modifierKey) {
-            break;
-        }
-        
-        if (!unvisitedForKeyplane.count) {
-            return NO;
-        }
-        
-        // If we didn't find the key or the modifier, then this modifier must not exist on this keyboard. Remove it.
-        [unvisitedForKeyplane removeObjectAtIndex:0];
-    }
-    
-    if (keyToTap) {
-        [keyboardView tapAtPoint:CGPointCenteredInRect([keyToTap frame])];
-        CFRunLoopRunInMode(kCFRunLoopDefaultMode, keystrokeDelay, false);
-        
-        return YES;
-    }
-    
-    // We didn't find anything, so try the symbols pane
-    if (modifierKey) {
-        [keyboardView tapAtPoint:CGPointCenteredInRect([modifierKey frame])];
-        CFRunLoopRunInMode(kCFRunLoopDefaultMode, keystrokeDelay, false);
-        
-        // If we're back at a place we've been before, and we still have things to explore in the previous
-        id /*UIKBKeyplane*/ newKeyplane = [keyboardView valueForKey:@"keyplane"];
-        id /*UIKBKeyplane*/ previousKeyplane = [history valueForKey:@"previousKeyplane"];
-        
-        if (newKeyplane == previousKeyplane) {
-            // Come back to the keyplane that we just tested so that we can try the other modifiers
-            NSMutableArray *previousKeyplaneHistory = [history objectForKey:[NSValue valueWithNonretainedObject:newKeyplane]];
-            [previousKeyplaneHistory insertObject:[history valueForKey:@"lastModifierRepresentedString"] atIndex:0];
-        } else {
-            [history setValue:keyplane forKey:@"previousKeyplane"];
-            [history setValue:selectedModifierRepresentedString forKey:@"lastModifierRepresentedString"];
-        }
-        
-        return [self _enterCharacter:characterString history:history];
-    }
-    
-    return NO;
-}
-
-+ (BOOL)_enterCustomKeyboardCharacter:(NSString *)characterString;
-{
-    const NSTimeInterval keystrokeDelay = 0.05f;
-    
-    if (!characterString.length) {
-        return YES;
-    }
-    
-    characterString = [self _representedKeyboardStringForCharacter:characterString];
-    
-    // For custom keyboards, use the classic methods of looking up views based on accessibility labels
-    UIWindow *keyboardWindow = [[UIApplication sharedApplication] keyboardWindow];
-    
-    UIAccessibilityElement *element = [keyboardWindow accessibilityElementWithLabel:characterString];
-    if (!element) {
-        return NO;
-    }
-    
-    UIView *view = [UIAccessibilityElement viewContainingAccessibilityElement:element];
-    CGRect keyFrame = [view.window convertRect:[element accessibilityFrame] toView:view];
-    [view tapAtPoint:CGPointCenteredInRect(keyFrame)];
-    CFRunLoopRunInMode(kCFRunLoopDefaultMode, keystrokeDelay, false);
-    
-    return YES;
-}
 
 + (UIAccessibilityElement *)_accessibilityElementWithLabel:(NSString *)label accessibilityValue:(NSString *)value tappable:(BOOL)mustBeTappable traits:(UIAccessibilityTraits)traits error:(out NSError **)error;
 {

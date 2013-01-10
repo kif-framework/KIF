@@ -23,7 +23,7 @@ if (!(condition)) { \
     if (error) { \
         *error = [NSError errorWithDomain:@"KIFTest" code:KIFTestStepResultFailure userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:__VA_ARGS__], NSLocalizedDescriptionKey, nil]]; \
     } \
-    [KIFTestStep stepFailed]; \
+    [self stepFailed]; \
     return KIFTestStepResultFailure; \
 } \
 })
@@ -339,6 +339,53 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
 + (id)stepToTapScreenAtPoint:(CGPoint)screenPoint;
 
 /*!
+ @method stepToLongPressViewWithAccessibilityLabel:duration:
+ @abstract A step that performs a long press on a particular view in the view hierarchy.
+ @discussion The view or accessibility element with the given label is searched for in the view hierarchy. If the element isn't found or isn't currently tappable, then the step will attempt to wait until it is. Once the view is present and tappable, touch events are simulated in the center of the view or element.
+ 
+ @param label The accessibility label of the element to tap.
+ @param duration The length of time to long press the element.
+ @result A configured test step.
+ */
++ (id)stepToLongPressViewWithAccessibilityLabel:(NSString *)label duration:(NSTimeInterval)duration;
+
+/*!
+ @method stepToLongPressViewWithAccessibilityLabel:value:duration:
+ @abstract A step that performs a long press on a particular view in the view hierarchy.
+ @discussion The view or accessibility element with the given label is searched for in the view hierarchy. If the element isn't found or isn't currently tappable, then the step will attempt to wait until it is. Once the view is present and tappable, touch events are simulated in the center of the view or element.
+ 
+ This variation allows finding a particular instance of an accessibility element. For example, a table view might have multiple elements with the accessibility label of "Employee", but only one that also has the accessibility value of "Bob".
+ @param label The accessibility label of the element to tap.
+ @param value The accessibility value of the element to tap.
+ @param duration The length of time to long press the element.
+ @result A configured test step.
+ */
++ (id)stepToLongPressViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value duration:(NSTimeInterval)duration;
+
+/*!
+ @method stepToLongPressViewWithAccessibilityLabel:value:traits:duration:
+ @abstract A step that performs a long press on a particular view in the view hierarchy.
+ @discussion The view or accessibility element with the given label is searched for in the view hierarchy. If the element isn't found or isn't currently tappable, then the step will attempt to wait until it is. Once the view is present and tappable, touch events are simulated in the center of the view or element.
+ 
+ This variation allows finding a particular instance of an accessibility element. For example, a table view might have multiple elements with the accessibility label of "Employee", but only one that also has the accessibility value of "Bob".
+ @param label The accessibility label of the element to tap.
+ @param value The accessibility value of the element to tap.
+ @param traits The accessibility traits of the element to tap. Elements that do not include at least these traits are ignored.
+ @param duration The length of time to long press the element.
+ @result A configured test step.
+ */
++ (id)stepToLongPressViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits duration:(NSTimeInterval)duration;
+
+/*!
+ @method stepToEnterTextIntoCurrentFirstResponder:
+ @abstract A step that enters text into a the current first responder.
+ @discussion Text is entered into the view by simulating taps on the appropriate keyboard keys if the keyboard is already displayed. Useful to enter text in UIWebViews or components with no accessibility labels.
+ @param text The text to enter.
+ @result A configured test step.
+ */
++ (id)stepToEnterTextIntoCurrentFirstResponder:(NSString *)text;
+
+/*!
  @method stepToEnterText:intoViewWithAccessibilityLabel:
  @abstract A step that enters text into a particular view in the view hierarchy.
  @discussion The view or accessibility element with the given label is searched for in the view hierarchy. If the element isn't found or isn't currently tappable, then the step will attempt to wait until it is. Once the view is present and tappable, a tap event is simulated in the center of the view or element, then text is entered into the view by simulating taps on the appropriate keyboard keys.
@@ -447,6 +494,17 @@ typedef enum {
  @result A configured test step.
  */
 + (id)stepToSwipeViewWithAccessibilityLabel:(NSString *)label inDirection:(KIFSwipeDirection)direction;
+
+/*!
+ @method stepToScrollViewWithAccessibilityLabel:byFractionOfSizeHorizontal:vertical:
+ @abstract A step that scrolls a particular view in the view hierarchy by an amount indicated as a fraction of its size.
+ @discussion The view will get the view with the specified accessibility label and scroll it by the indicated fraction of its size, with the scroll centered on the center of the view.
+ @param label The accessibility label of the view to scroll.
+ @param horizontalFraction The horizontal displacement of the scroll action, as a fraction of the width of the view.
+ @param verticalFraction The vertical displacement of the scroll action, as a fraction of the height of the view.
+ @result A configured test step.
+ */
++ (id)stepToScrollViewWithAccessibilityLabel:(NSString *)label byFractionOfSizeHorizontal:(CGFloat)horizontalFraction vertical:(CGFloat)verticalFraction;
 
 /*!
  @method stepToWaitForFirstResponderWithAccessibilityLabel:
