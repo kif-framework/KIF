@@ -470,17 +470,17 @@ typedef CGPoint KIFDisplacement;
     }];
 }
 
-+ (id)stepToTapViewWithAccessibilityLabelLikeWithClass:(NSString *)label class:(Class)class
++ (id)stepToTapViewWithAccessibilityLabelLike:(NSString *)label class:(Class)class
 {
-    return [self stepToTapViewWithAccessibilityLabelLikeWithClass:label traits:UIAccessibilityTraitNone class:class];
+    return [self stepToTapViewWithAccessibilityLabelLike:label traits:UIAccessibilityTraitNone class:class];
 }
 
-+ (id)stepToTapViewWithAccessibilityLabelLikeWithClass:(NSString *)label traits:(UIAccessibilityTraits)traits class:(Class)class
++ (id)stepToTapViewWithAccessibilityLabelLike:(NSString *)label traits:(UIAccessibilityTraits)traits class:(Class)class
 {
-    return [self stepToTapViewWithAccessibilityLabelLikeWithClass:label value:nil traits:traits class:class];
+    return [self stepToTapViewWithAccessibilityLabelLike:label value:nil traits:traits class:class];
 }
 
-+ (id)stepToTapViewWithAccessibilityLabelLikeWithClass:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits class:(Class)class
++ (id)stepToTapViewWithAccessibilityLabelLike:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits class:(Class)class
 {
     NSString *description = nil;
     if (value.length) {
@@ -503,7 +503,7 @@ typedef CGPoint KIFDisplacement;
             return KIFTestStepResultSuccess;
         }
 		
-        UIAccessibilityElement *element = [self _accessibilityElementWithLabelLikeWithClass:label accessibilityValue:value tappable:YES traits:traits error:error class:class];
+        UIAccessibilityElement *element = [self _accessibilityElementWithLabelLike:label accessibilityValue:value tappable:YES traits:traits class:class error:error];
         if (!element) {
             return KIFTestStepResultWait;
         }
@@ -1197,85 +1197,11 @@ typedef CGPoint KIFDisplacement;
 
 + (UIAccessibilityElement *)_accessibilityElementWithLabel:(NSString *)label accessibilityValue:(NSString *)value tappable:(BOOL)mustBeTappable traits:(UIAccessibilityTraits)traits error:(out NSError **)error;
 {
-    UIAccessibilityElement *element = [[UIApplication sharedApplication] accessibilityElementWithLabel:label accessibilityValue:value traits:traits];
-    if (!element) {
-        if (error) {
-            // For purposes of a better error message, see if we can find the view, just not a view with the specified value.
-            if (value && [[UIApplication sharedApplication] accessibilityElementWithLabel:label accessibilityValue:nil traits:traits]) {
-                *error = [[[NSError alloc] initWithDomain:@"KIFTest" code:KIFTestStepResultFailure userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"Found an accessibility element with the label \"%@\", but not with the value \"%@\"", label, value], NSLocalizedDescriptionKey, nil]] autorelease];
-                
-            // Check the traits, too.
-            } else if (traits != UIAccessibilityTraitNone && [[UIApplication sharedApplication] accessibilityElementWithLabel:label accessibilityValue:nil traits:UIAccessibilityTraitNone]) {
-                *error = [[[NSError alloc] initWithDomain:@"KIFTest" code:KIFTestStepResultFailure userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"Found an accessibility element with the label \"%@\", but not with the traits \"%llu\"", label, traits], NSLocalizedDescriptionKey, nil]] autorelease];
-                
-            } else {
-                *error = [[[NSError alloc] initWithDomain:@"KIFTest" code:KIFTestStepResultFailure userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"Failed to find accessibility element with the label \"%@\"", label], NSLocalizedDescriptionKey, nil]] autorelease];
-            }
-        }
-        return nil;
-    }
-    
-    // Make sure the element is visible
-    UIView *view = [UIAccessibilityElement viewContainingAccessibilityElement:element];
-    if (!view) {
-        if (error) {
-            *error = [[[NSError alloc] initWithDomain:@"KIFTest" code:KIFTestStepResultFailure userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat: @"Cannot find view containing accessibility element with the label \"%@\"", label], NSLocalizedDescriptionKey, nil]] autorelease];
-        }
-        return nil;
-    }
-    
-    // Scroll the view to be visible if necessary
-    UIScrollView *scrollView = (UIScrollView *)view;
-    while (scrollView && ![scrollView isKindOfClass:[UIScrollView class]]) {
-        scrollView = (UIScrollView *)scrollView.superview;
-    }
-    if (scrollView) {
-        if ((UIAccessibilityElement *)view == element) {
-            [scrollView scrollViewToVisible:view animated:YES];
-        } else {
-            CGRect elementFrame = [view.window convertRect:element.accessibilityFrame toView:scrollView];
-            [scrollView scrollRectToVisible:elementFrame animated:YES];
-        }
-        
-        // Give the scroll view a small amount of time to perform the scroll.
-        CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.3, false);
-    }
-    
-    if ([[UIApplication sharedApplication] isIgnoringInteractionEvents]) {
-        if (error) {
-            *error = [[[NSError alloc] initWithDomain:@"KIFTest" code:KIFTestStepResultFailure userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"Application is ignoring interaction events", NSLocalizedDescriptionKey, nil]] autorelease];
-        }
-        return nil;
-    }
-    
-    // There are some issues with the tappability check in UIWebViews, so if the view is a UIWebView we will just skip the check.
-    if ([NSStringFromClass([view class]) isEqualToString:@"UIWebBrowserView"]) {
-        return element;
-    }
-
-    if (mustBeTappable) {
-        // Make sure the view is tappable
-        if (![view isTappable]) {
-            if (error) {
-                *error = [[[NSError alloc] initWithDomain:@"KIFTest" code:KIFTestStepResultFailure userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"Accessibility element with label \"%@\" is not tappable. It may be blocked by other views.", label], NSLocalizedDescriptionKey, nil]] autorelease];
-            }
-            return nil;
-        }
-    } else {
-        // If we don't require tappability, at least make sure it's not hidden
-        if ([view isHidden]) {
-            if (error) {
-                *error = [[[NSError alloc] initWithDomain:@"KIFTest" code:KIFTestStepResultFailure userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"Accessibility element with label \"%@\" is hidden.", label], NSLocalizedDescriptionKey, nil]] autorelease];
-            }
-            return nil;
-        }
-    }
-    
-    return element;
+	return [self _accessibilityElementWithLabelLike:label accessibilityValue:value tappable:mustBeTappable traits:traits class:nil error:error];
 }
 
 
-+ (UIAccessibilityElement *)_accessibilityElementWithLabelLikeWithClass:(NSString *)label accessibilityValue:(NSString *)value tappable:(BOOL)mustBeTappable traits:(UIAccessibilityTraits)traits error:(out NSError **)error class:(Class)class;
++ (UIAccessibilityElement *)_accessibilityElementWithLabelLike:(NSString *)label accessibilityValue:(NSString *)value tappable:(BOOL)mustBeTappable traits:(UIAccessibilityTraits)traits class:(Class)class error:(out NSError **)error;
 {
     UIAccessibilityElement *element = [[UIApplication sharedApplication] accessibilityElementWithLabelLike:label accessibilityValue:value traits:traits class:class];
     if (!element) {

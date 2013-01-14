@@ -329,7 +329,7 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
 + (id)stepToTapViewWithAccessibilityLabelLike:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits;
 
 /*!
- @method stepToTapViewWithAccessibilityLabelLikeWithClass:
+ @method stepToTapViewWithAccessibilityLabelLike: class:
  @abstract A step that taps a particular view in the view hierarchy with a certain class type.
  @discussion The view or accessibility element with the given label is searched for in the view hierarchy. If the element isn't found or isn't currently tappable, then the step will attempt to wait until it is. Once the view is present and tappable, a tap event is simulated in the center of the view or element. It also chooses based on class.
  
@@ -340,7 +340,7 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
  @param class The class of the element to choose.
  @result A configured test step.
  */
-+ (id)stepToTapViewWithAccessibilityLabelLikeWithClass:(NSString *)label class:(Class)class;
++ (id)stepToTapViewWithAccessibilityLabelLike:(NSString *)label class:(Class)class;
 
 /*!
  @method stepToTapScreenAtPoint:
