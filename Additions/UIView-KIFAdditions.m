@@ -165,82 +165,6 @@ typedef struct __GSEvent * GSEventRef;
     return matchingButOccludedElement;
 }
 
-- (UIAccessibilityElement *)accessibilityElementMatchingBlock:(BOOL(^)(UIAccessibilityElement *))matchBlock class:(Class)class;
-{
-    if (self.hidden) {
-        return nil;
-    }
-    
-    // In case multiple elements with the same label exist, prefer ones that are currently visible
-    UIAccessibilityElement *matchingButOccludedElement = nil;
-    
-    BOOL elementMatches = matchBlock((UIAccessibilityElement *)self);
-    
-    if (elementMatches) {
-        if (self.tappable) {
-            return (UIAccessibilityElement *)self;
-        } else {
-            matchingButOccludedElement = (UIAccessibilityElement *)self;
-        }
-    }
-    
-    // Check the subviews first. Even if the receiver says it's an accessibility container,
-    // the returned objects are UIAccessibilityElementMockViews (which aren't actually views)
-    // rather than the real subviews it contains. We want the real views if possible.
-    // UITableViewCell is such an offender.
-    for (UIView *view in [self.subviews reverseObjectEnumerator]) {
-        UIAccessibilityElement *element = [view accessibilityElementMatchingBlock:matchBlock];
-        if (!element) {
-            continue;
-        }
-        
-        UIView *viewForElement = [UIAccessibilityElement viewContainingAccessibilityElement:element];
-        CGRect accessibilityFrame = [viewForElement.window convertRect:element.accessibilityFrame toView:viewForElement];
-        
-        if ([viewForElement isTappableInRect:accessibilityFrame] && [element isKindOfClass:class]) {
-            return element;
-        } else {
-            matchingButOccludedElement = element;
-        }
-    }
-    
-    NSMutableArray *elementStack = [NSMutableArray arrayWithObject:self];
-    
-    while (elementStack.count) {
-        UIAccessibilityElement *element = [elementStack lastObject];
-        [elementStack removeLastObject];
-        
-        BOOL elementMatches = matchBlock(element);
-        
-        if (elementMatches) {
-            UIView *viewForElement = [UIAccessibilityElement viewContainingAccessibilityElement:element];
-            CGRect accessibilityFrame = [viewForElement.window convertRect:element.accessibilityFrame toView:viewForElement];
-            
-            if ([viewForElement isTappableInRect:accessibilityFrame] && [element isKindOfClass:class]) {
-                return element;
-            } else {
-                matchingButOccludedElement = element;
-                continue;
-            }
-        }
-        
-        // If the view is an accessibility container, and we didn't find a matching subview,
-        // then check the actual accessibility elements
-        NSInteger accessibilityElementCount = element.accessibilityElementCount;
-        if (accessibilityElementCount == 0 || accessibilityElementCount == NSNotFound) {
-            continue;
-        }
-        
-        for (NSInteger accessibilityElementIndex = 0; accessibilityElementIndex < accessibilityElementCount; accessibilityElementIndex++) {
-            UIAccessibilityElement *subelement = [element accessibilityElementAtIndex:accessibilityElementIndex];
-            
-            [elementStack addObject:subelement];
-        }
-    }
-    
-    return matchingButOccludedElement;
-}
-
 - (UIAccessibilityElement *)accessibilityElementWithLabelLike:(NSString *)label
 {
     return [self accessibilityElementWithLabelLike:label traits:UIAccessibilityTraitNone];
@@ -251,22 +175,9 @@ typedef struct __GSEvent * GSEventRef;
     return [self accessibilityElementWithLabelLike:label accessibilityValue:nil traits:traits];
 }
 
-- (UIAccessibilityElement *)accessibilityElementWithLabelLike:(NSString *)label accessibilityValue:(NSString *)value traits:(UIAccessibilityTraits)traits;
+- (UIAccessibilityElement *)accessibilityElementWithLabelLike:(NSString *)label accessibilityValue:(NSString *)value traits:(UIAccessibilityTraits)traits
 {
-    return [self accessibilityElementMatchingBlock:^(UIAccessibilityElement *element) {
-		NSRange substringLabelRange;
-		substringLabelRange = [[element.accessibilityLabel lowercaseString] rangeOfString:[label lowercaseString]];
-		NSRange substringIdentifierRange;
-		substringIdentifierRange = [[element.accessibilityIdentifier lowercaseString] rangeOfString:[label lowercaseString]];
-		
-		BOOL labelsMatch = ( (substringLabelRange.length > 0) ||  (substringIdentifierRange.length > 0) );
-		
-		// BOOL labelsMatch = [element.accessibilityLabel isEqual:label] || [element.accessibilityIdentifier isEqual:label];
-        BOOL traitsMatch = ((element.accessibilityTraits) & traits) == traits;
-        BOOL valuesMatch = !value || [value isEqual:element.accessibilityValue];
-		
-        return (BOOL)(labelsMatch && traitsMatch && valuesMatch);
-    }];
+    return [self accessibilityElementWithLabelLike:label accessibilityValue:value traits:traits class:nil];
 }
 
 - (UIAccessibilityElement *)accessibilityElementWithLabelLike:(NSString *)label accessibilityValue:(NSString *)value traits:(UIAccessibilityTraits)traits class:(Class)class;
@@ -278,13 +189,12 @@ typedef struct __GSEvent * GSEventRef;
 		substringIdentifierRange = [[element.accessibilityIdentifier lowercaseString] rangeOfString:[label lowercaseString]];
 		
 		BOOL labelsMatch = ( (substringLabelRange.length > 0) ||  (substringIdentifierRange.length > 0) );
-		
-		// BOOL labelsMatch = [element.accessibilityLabel isEqual:label] || [element.accessibilityIdentifier isEqual:label];
         BOOL traitsMatch = ((element.accessibilityTraits) & traits) == traits;
         BOOL valuesMatch = !value || [value isEqual:element.accessibilityValue];
+		BOOL classesMatch = !class || (element.class == class);
 		
-        return (BOOL)(labelsMatch && traitsMatch && valuesMatch);
-    } class:class];
+        return (BOOL)(labelsMatch && traitsMatch && valuesMatch && classesMatch);
+    }];
 }
 
 
