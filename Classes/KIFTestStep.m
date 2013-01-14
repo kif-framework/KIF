@@ -1197,17 +1197,17 @@ typedef CGPoint KIFDisplacement;
 
 + (UIAccessibilityElement *)_accessibilityElementWithLabel:(NSString *)label accessibilityValue:(NSString *)value tappable:(BOOL)mustBeTappable traits:(UIAccessibilityTraits)traits error:(out NSError **)error;
 {
-	return [self _accessibilityElementWithLabelLike:label accessibilityValue:value tappable:mustBeTappable traits:traits class:nil error:error];
+	return [self _accessibilityElementWithLabel:label accessibilityValue:value tappable:mustBeTappable traits:traits class:nil error:error];
 }
 
 
-+ (UIAccessibilityElement *)_accessibilityElementWithLabelLike:(NSString *)label accessibilityValue:(NSString *)value tappable:(BOOL)mustBeTappable traits:(UIAccessibilityTraits)traits class:(Class)class error:(out NSError **)error;
++ (UIAccessibilityElement *)_accessibilityElementWithLabel:(NSString *)label accessibilityValue:(NSString *)value tappable:(BOOL)mustBeTappable traits:(UIAccessibilityTraits)traits class:(Class)class error:(out NSError **)error;
 {
-    UIAccessibilityElement *element = [[UIApplication sharedApplication] accessibilityElementWithLabelLike:label accessibilityValue:value traits:traits class:class];
+    UIAccessibilityElement *element = [[UIApplication sharedApplication] accessibilityElementWithLabel:label accessibilityValue:value traits:traits class:class];
     if (!element) {
         if (error) {
             // For purposes of a better error message, see if we can find the view, just not a view with the specified value.
-            if (value && [[UIApplication sharedApplication] accessibilityElementWithLabelLike:label accessibilityValue:nil traits:traits]) {
+            if (value && [[UIApplication sharedApplication] accessibilityElementWithLabel:label accessibilityValue:nil traits:traits]) {
                 *error = [[NSError alloc] initWithDomain:@"KIFTest" code:KIFTestStepResultFailure userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"Found an accessibility element with the label \"%@\", but not with the value \"%@\"", label, value], NSLocalizedDescriptionKey, nil]];
                 
 				// Check the traits, too.
