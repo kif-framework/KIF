@@ -29,10 +29,15 @@ MAKE_CATEGORIES_LOADABLE(UIApplication_KIFAdditions)
 
 - (UIAccessibilityElement *)accessibilityElementWithLabel:(NSString *)label accessibilityValue:(NSString *)value traits:(UIAccessibilityTraits)traits;
 {
-    // Go through the array of windows in reverse order to process the frontmost window first.
+	return [self accessibilityElementWithLabelLike:label accessibilityValue:value traits:traits class:nil];
+}
+
+- (UIAccessibilityElement *)accessibilityElementWithLabelLike:(NSString *)label accessibilityValue:(NSString *)value traits:(UIAccessibilityTraits)traits class:(Class)class;
+{
+	// Go through the array of windows in reverse order to process the frontmost window first.
     // When several elements with the same accessibilitylabel are present the one in front will be picked.
     for (UIWindow *window in [self.windows reverseObjectEnumerator]) {
-        UIAccessibilityElement *element = [window accessibilityElementWithLabel:label accessibilityValue:value traits:traits];
+        UIAccessibilityElement *element = [window accessibilityElementWithLabelLike:label accessibilityValue:value traits:traits class:class];
         if (element) {
             return element;
         }

@@ -20,7 +20,7 @@
 - (UIAccessibilityElement *)accessibilityElementWithLabelLike:(NSString *)label;
 - (UIAccessibilityElement *)accessibilityElementWithLabelLike:(NSString *)label traits:(UIAccessibilityTraits)traits;
 - (UIAccessibilityElement *)accessibilityElementWithLabelLike:(NSString *)label accessibilityValue:(NSString *)value traits:(UIAccessibilityTraits)traits;
-
+- (UIAccessibilityElement *)accessibilityElementWithLabelLike:(NSString *)label accessibilityValue:(NSString *)value traits:(UIAccessibilityTraits)traits class:(Class)class;
 
 - (UIWindow *)keyboardWindow;
 - (UIWindow *)pickerViewWindow;
