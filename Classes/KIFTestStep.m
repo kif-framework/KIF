@@ -275,6 +275,33 @@ typedef CGPoint KIFDisplacement;
     }];
 }
 
++ (id)stepToWaitForDisabledViewWithAccessibilityLabel:(NSString *)label;
+{
+    return [self stepToWaitForDisabledViewWithAccessibilityLabel:label traits:UIAccessibilityTraitNone];
+}
+
++ (id)stepToWaitForDisabledViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits;
+{
+    return [self stepToWaitForDisabledViewWithAccessibilityLabel:label value:nil traits:traits];
+}
+
++ (id)stepToWaitForDisabledViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits;
+{
+    NSString *description = nil;
+    if (value.length) {
+        description = [NSString stringWithFormat:@"Wait for tappable view with accessibility label \"%@\" and accessibility value \"%@\"", label, value];
+    } else {
+        description = [NSString stringWithFormat:@"Wait for tappable view with accessibility label \"%@\"", label];
+    }
+    
+    return [self stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
+        UIAccessibilityElement *element = [self _accessibilityElementWithLabel:label accessibilityValue:value tappable:NO traits:traits error:error];
+		UIView *view = [UIAccessibilityElement viewContainingAccessibilityElement:element];
+		KIFTestWaitCondition([view isKindOfClass:[UIControl class]], error, @"Checking view is a type of UIControl.");
+        return (element ? KIFTestStepResultSuccess : KIFTestStepResultWait);
+    }];
+}
+
 + (id)stepToWaitForTimeInterval:(NSTimeInterval)interval description:(NSString *)description;
 {
     // In general, we should discourage use of a step like this. It's pragmatic to include it though.
