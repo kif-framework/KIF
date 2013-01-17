@@ -296,9 +296,11 @@ typedef CGPoint KIFDisplacement;
     
     return [self stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
         UIAccessibilityElement *element = [self _accessibilityElementWithLabel:label accessibilityValue:value tappable:NO traits:traits error:error];
+		KIFTestWaitCondition(element != nil, error, @"Unable to find element with label %@", label);
 		UIView *view = [UIAccessibilityElement viewContainingAccessibilityElement:element];
-		KIFTestWaitCondition([view isKindOfClass:[UIControl class]], error, @"Checking view is a type of UIControl.");
-        return (element ? KIFTestStepResultSuccess : KIFTestStepResultWait);
+		KIFTestCondition([view isKindOfClass:[UIControl class]], error, @"Checking view is a type of UIControl.");
+		KIFTestCondition(![(UIControl *)view isEnabled], error, @"Control is enabled");
+        return KIFTestStepResultSuccess;
     }];
 }
 
