@@ -262,6 +262,36 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
 + (id)stepToWaitForTappableViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits;
 
 /*!
+ @method stepToWaitForDisabledViewWithAccessibilityLabel:
+ @abstract A step that waits until a view or accessibility element is present and disabled.
+ @discussion The view or accessibility element with the given label is found in the view hierarchy. If the element isn't found or isn't currently disabled, then the step will attempt to wait until it is. Whether or not a view is tappable is based on -[UIView hitTest:].
+ @param label The accessibility label of the element to wait for.
+ @result A configured test step.
+ */
++ (id)stepToWaitForDisabledViewWithAccessibilityLabel:(NSString *)label;
+
+/*!
+ @method stepToWaitForDisabledViewWithAccessibilityLabel:traits:
+ @abstract A step that waits until a view or accessibility element is present and disabled.
+ @discussion The view or accessibility element with the given label is searched for in the view hierarchy. If the element isn't found or isn't currently disabled, then the step will attempt to wait until it is. Whether or not a view is tappable is based on -[UIView hitTest:].
+ @param label The accessibility label of the element to wait for.
+ @param traits The accessibility traits of the element to wait for. Elements that do not include at least these traits are ignored.
+ @result A configured test step.
+ */
++ (id)stepToWaitForDisabledViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits;
+
+/*!
+ @method stepToWaitForDisabledViewWithAccessibilityLabel:value:traits:
+ @abstract A step that waits until a view or accessibility element is present and disabled.
+ @discussion The view or accessibility element with the given label is searched for in the view hierarchy. If the element isn't found or isn't currently disabled, then the step will attempt to wait until it is. Whether or not a view is tappable is based on -[UIView hitTest:].
+ @param label The accessibility label of the element to wait for.
+ @param value The accessibility value of the element to tap.
+ @param traits The accessibility traits of the element to wait for. Elements that do not include at least these traits are ignored.
+ @result A configured test step.
+ */
++ (id)stepToWaitForDisabledViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits;
+
+/*!
  @method stepToWaitForTimeInterval:description:
  @abstract A step that waits for a certain amount of time.
  @discussion In general when waiting for the app to get into a known state, it's better to use -stepToWaitForTappableViewWithAccessibilityLabel, however this step may be useful in some situations as well.
