@@ -1307,9 +1307,14 @@ typedef CGPoint KIFDisplacement;
     return element;
 }
 
-+ (UIAccessibilityElement *)_accessibilityElementWithLabelLike:(NSString *)label accessibilityValue:(NSString *)value tappable:(BOOL)mustBeTappable traits:(UIAccessibilityTraits)traits error:(out NSError **)error;
++ (UIAccessibilityElement *)_accessibilityElementWithLabelLike:(NSString *)label accessibilityValue:(NSString *)value tappable:(BOOL)mustBeTappable traits:(UIAccessibilityTraits)traits error:(out NSError **)error
 {
-    UIAccessibilityElement *element = [[UIApplication sharedApplication] accessibilityElementWithLabelLike:label accessibilityValue:value traits:traits];
+	return [self _accessibilityElementWithLabelLike:label accessibilityValue:value tappable:mustBeTappable traits:traits class:nil error:error];
+}
+
++ (UIAccessibilityElement *)_accessibilityElementWithLabelLike:(NSString *)label accessibilityValue:(NSString *)value tappable:(BOOL)mustBeTappable traits:(UIAccessibilityTraits)traits class:(Class)class error:(out NSError **)error
+{
+    UIAccessibilityElement *element = [[UIApplication sharedApplication] accessibilityElementWithLabelLike:label accessibilityValue:value traits:traits class:class];
     if (!element) {
         if (error) {
             // For purposes of a better error message, see if we can find the view, just not a view with the specified value.
