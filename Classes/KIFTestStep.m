@@ -739,7 +739,7 @@ typedef CGPoint KIFDisplacement;
     NSString *description = [NSString stringWithFormat:@"Type the text \"%@\" into the view with accessibility label \"%@\"", text, label];
     return [self stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
         
-        UIAccessibilityElement *element = [[UIApplication sharedApplication] accessibilityElementWithLabelLike:label];
+        UIAccessibilityElement *element = [[UIApplication sharedApplication] accessibilityElementWithLabelLike:label traits:traits];
         if (!element) {
             return KIFTestStepResultWait;
         }
@@ -762,7 +762,7 @@ typedef CGPoint KIFDisplacement;
         for (NSUInteger characterIndex = 0; characterIndex < [text length]; characterIndex++) {
             NSString *characterString = [text substringWithRange:NSMakeRange(characterIndex, 1)];
             
-            if (![self _enterCharacter:characterString]) {
+            if (![KIFTypist enterCharacter:characterString]) {
                 // Attempt to cheat if we couldn't find the character
                 if ([view isKindOfClass:[UITextField class]] || [view isKindOfClass:[UITextView class]]) {
                     NSLog(@"KIF: Unable to find keyboard key for %@. Inserting manually.", characterString);
