@@ -7,15 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A885A90F1694C6C100CA6E1B /* libKIF.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A88930001684F0A400FC7C63 /* libKIF.a */; };
-		A885A9101694C6C100CA6E1B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB4C30E1167B9E3A00E31109 /* CoreGraphics.framework */; };
-		A885A9111694C6C100CA6E1B /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB4C3101167B9E3A00E31109 /* SenTestingKit.framework */; };
-		A885A9121694C6C100CA6E1B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB4C30DD167B9E3A00E31109 /* UIKit.framework */; };
-		A885A9131694C6C100CA6E1B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB4C30DF167B9E3A00E31109 /* Foundation.framework */; };
-		A885A9151694C6C100CA6E1B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = EB4C3146167BA79700E31109 /* InfoPlist.strings */; };
-		A885A9161694C6C100CA6E1B /* AboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EB4C3152167BA89B00E31109 /* AboutViewController.xib */; };
-		A885A9171694C6C100CA6E1B /* HomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EB4C3159167BA99E00E31109 /* HomeViewController.xib */; };
-		A885A91E1694C6CC00CA6E1B /* Recorder.m in Sources */ = {isa = PBXBuildFile; fileRef = A885A8FC1694B85D00CA6E1B /* Recorder.m */; };
 		A88930681685133100FC7C63 /* libKIF.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A88930001684F0A400FC7C63 /* libKIF.a */; };
 		EB4C30DE167B9E3A00E31109 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB4C30DD167B9E3A00E31109 /* UIKit.framework */; };
 		EB4C30E0167B9E3A00E31109 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB4C30DF167B9E3A00E31109 /* Foundation.framework */; };
@@ -43,20 +34,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		A885A9091694C6C100CA6E1B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = A8892FF71684F0A400FC7C63 /* KIF.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = EB72043E1680DDAD00278DA2;
-			remoteInfo = KIFTestCase;
-		};
-		A885A90B1694C6C100CA6E1B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = EB4C30D0167B9E3A00E31109 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = EB4C30D8167B9E3A00E31109;
-			remoteInfo = Calculator;
-		};
 		A8892FFF1684F0A400FC7C63 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = A8892FF71684F0A400FC7C63 /* KIF.xcodeproj */;
@@ -81,12 +58,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		A885A8F71694B85D00CA6E1B /* Recorder-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Recorder-Info.plist"; sourceTree = "<group>"; };
-		A885A8F91694B85D00CA6E1B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		A885A8FB1694B85D00CA6E1B /* Recorder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Recorder.h; sourceTree = "<group>"; };
-		A885A8FC1694B85D00CA6E1B /* Recorder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Recorder.m; sourceTree = "<group>"; };
-		A885A8FE1694B85D00CA6E1B /* Recorder-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Recorder-Prefix.pch"; sourceTree = "<group>"; };
-		A885A91C1694C6C100CA6E1B /* Acceptance Tests copy.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Acceptance Tests copy.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A885A91D1694C6C100CA6E1B /* Acceptance Tests copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Acceptance Tests copy-Info.plist"; path = "/Users/puls/Development/Wallet/Frameworks/KIF/Documentation/Examples/Calculator/Acceptance Tests copy-Info.plist"; sourceTree = "<absolute>"; };
 		A8892FF71684F0A400FC7C63 /* KIF.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = KIF.xcodeproj; path = ../../../KIF.xcodeproj; sourceTree = "<group>"; };
 		EB4C30D9167B9E3A00E31109 /* Calculator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Calculator.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -121,18 +92,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		A885A90E1694C6C100CA6E1B /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				A885A90F1694C6C100CA6E1B /* libKIF.a in Frameworks */,
-				A885A9101694C6C100CA6E1B /* CoreGraphics.framework in Frameworks */,
-				A885A9111694C6C100CA6E1B /* SenTestingKit.framework in Frameworks */,
-				A885A9121694C6C100CA6E1B /* UIKit.framework in Frameworks */,
-				A885A9131694C6C100CA6E1B /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		EB4C30D6167B9E3A00E31109 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -158,26 +117,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		A885A8F51694B85D00CA6E1B /* Recorder */ = {
-			isa = PBXGroup;
-			children = (
-				A885A8FB1694B85D00CA6E1B /* Recorder.h */,
-				A885A8FC1694B85D00CA6E1B /* Recorder.m */,
-				A885A8F61694B85D00CA6E1B /* Supporting Files */,
-			);
-			path = Recorder;
-			sourceTree = "<group>";
-		};
-		A885A8F61694B85D00CA6E1B /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				A885A8F71694B85D00CA6E1B /* Recorder-Info.plist */,
-				A885A8F81694B85D00CA6E1B /* InfoPlist.strings */,
-				A885A8FE1694B85D00CA6E1B /* Recorder-Prefix.pch */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
 		A8892FF81684F0A400FC7C63 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -191,7 +130,6 @@
 			children = (
 				EB4C30E3167B9E3A00E31109 /* Calculator */,
 				EB4C3143167BA79700E31109 /* Acceptance Tests */,
-				A885A8F51694B85D00CA6E1B /* Recorder */,
 				EB4C30DC167B9E3A00E31109 /* Frameworks */,
 				EB4C30DA167B9E3A00E31109 /* Products */,
 				A885A91D1694C6C100CA6E1B /* Acceptance Tests copy-Info.plist */,
@@ -203,7 +141,6 @@
 			children = (
 				EB4C30D9167B9E3A00E31109 /* Calculator.app */,
 				EB4C313F167BA79700E31109 /* Acceptance Tests.octest */,
-				A885A91C1694C6C100CA6E1B /* Acceptance Tests copy.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -276,26 +213,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		A885A9071694C6C100CA6E1B /* Recorder */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = A885A9191694C6C100CA6E1B /* Build configuration list for PBXNativeTarget "Recorder" */;
-			buildPhases = (
-				A885A90C1694C6C100CA6E1B /* Sources */,
-				A885A90E1694C6C100CA6E1B /* Frameworks */,
-				A885A9141694C6C100CA6E1B /* Resources */,
-				A885A9181694C6C100CA6E1B /* ShellScript */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				A885A9081694C6C100CA6E1B /* PBXTargetDependency */,
-				A885A90A1694C6C100CA6E1B /* PBXTargetDependency */,
-			);
-			name = Recorder;
-			productName = "Acceptance Tests";
-			productReference = A885A91C1694C6C100CA6E1B /* Acceptance Tests copy.octest */;
-			productType = "com.apple.product-type.bundle";
-		};
 		EB4C30D8167B9E3A00E31109 /* Calculator */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = EB4C3112167B9E3A00E31109 /* Build configuration list for PBXNativeTarget "Calculator" */;
@@ -362,7 +279,6 @@
 			targets = (
 				EB4C30D8167B9E3A00E31109 /* Calculator */,
 				EB4C313E167BA79700E31109 /* Acceptance Tests */,
-				A885A9071694C6C100CA6E1B /* Recorder */,
 			);
 		};
 /* End PBXProject section */
@@ -378,16 +294,6 @@
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
-		A885A9141694C6C100CA6E1B /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				A885A9151694C6C100CA6E1B /* InfoPlist.strings in Resources */,
-				A885A9161694C6C100CA6E1B /* AboutViewController.xib in Resources */,
-				A885A9171694C6C100CA6E1B /* HomeViewController.xib in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		EB4C30D7167B9E3A00E31109 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -415,19 +321,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		A885A9181694C6C100CA6E1B /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
-		};
 		EB4C313D167BA79700E31109 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -444,14 +337,6 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		A885A90C1694C6C100CA6E1B /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				A885A91E1694C6CC00CA6E1B /* Recorder.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		EB4C30D5167B9E3A00E31109 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -475,16 +360,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		A885A9081694C6C100CA6E1B /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = KIFTestCase;
-			targetProxy = A885A9091694C6C100CA6E1B /* PBXContainerItemProxy */;
-		};
-		A885A90A1694C6C100CA6E1B /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = EB4C30D8167B9E3A00E31109 /* Calculator */;
-			targetProxy = A885A90B1694C6C100CA6E1B /* PBXContainerItemProxy */;
-		};
 		A88930071684F0B300FC7C63 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = KIFTestCase;
@@ -498,14 +373,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		A885A8F81694B85D00CA6E1B /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				A885A8F91694B85D00CA6E1B /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
 		EB4C30E6167B9E3A00E31109 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -533,48 +400,6 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		A885A91A1694C6C100CA6E1B /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Calculator.app/Calculator";
-				FRAMEWORK_SEARCH_PATHS = (
-					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
-					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Acceptance Tests/Acceptance Tests-Prefix.pch";
-				INFOPLIST_FILE = "Acceptance Tests copy-Info.plist";
-				OTHER_LDFLAGS = (
-					"${inherit}",
-					"-all_load",
-				);
-				PRODUCT_NAME = "Acceptance Tests copy";
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = octest;
-			};
-			name = Debug;
-		};
-		A885A91B1694C6C100CA6E1B /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Calculator.app/Calculator";
-				FRAMEWORK_SEARCH_PATHS = (
-					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
-					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Acceptance Tests/Acceptance Tests-Prefix.pch";
-				INFOPLIST_FILE = "Acceptance Tests copy-Info.plist";
-				OTHER_LDFLAGS = (
-					"${inherit}",
-					"-all_load",
-				);
-				PRODUCT_NAME = "Acceptance Tests copy";
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = octest;
-			};
-			name = Release;
-		};
 		EB4C3110167B9E3A00E31109 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -692,15 +517,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		A885A9191694C6C100CA6E1B /* Build configuration list for PBXNativeTarget "Recorder" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				A885A91A1694C6C100CA6E1B /* Debug */,
-				A885A91B1694C6C100CA6E1B /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		EB4C30D3167B9E3A00E31109 /* Build configuration list for PBXProject "Calculator" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

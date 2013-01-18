@@ -16,12 +16,19 @@
 
 + (void)load
 {
-    [KIFTester _enableAccessibility];
+    @autoreleasepool {
+        NSLog(@"KIFTester loaded");
+        [KIFTester _enableAccessibility];
+        
+        if ([[NSProcessInfo processInfo] environment][@"StartKIFManually"]) {
+            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:SenTestToolKey];
+            SenSelfTestMain();
+        }
+    }
 }
 
 + (void)_enableAccessibility;
 {
-    NSAutoreleasePool *autoreleasePool = [[NSAutoreleasePool alloc] init];
     NSString *appSupportLocation = @"/System/Library/PrivateFrameworks/AppSupport.framework/AppSupport";
     
     NSDictionary *environment = [[NSProcessInfo processInfo] environment];
@@ -42,8 +49,6 @@
             CFRelease(accessibilityDomain);
         }
     }
-    
-    [autoreleasePool drain];
 }
 
 - (instancetype)initWithFile:(NSString *)file line:(NSInteger)line

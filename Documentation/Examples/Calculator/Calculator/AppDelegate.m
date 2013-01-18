@@ -8,7 +8,6 @@
 //  which Square, Inc. licenses this file to you.
 
 #import "AppDelegate.h"
-
 #import "HomeViewController.h"
 
 @implementation AppDelegate
@@ -22,6 +21,23 @@
     UIViewController *navController = [[UINavigationController alloc] initWithRootViewController:homeController];
     self.window.rootViewController = navController;
     [self.window makeKeyAndVisible];
+    
+#if DEBUG
+#import <dlfcn.h>
+    NSLog(@"Did finish launching, environment is %@", [[NSProcessInfo processInfo] environment]);
+    NSString *bundlePath = [[NSProcessInfo processInfo] environment][@"XCInjectBundle"];
+    if (bundlePath) {
+        BOOL isDirectory = NO;
+        if ([[NSFileManager defaultManager] fileExistsAtPath:bundlePath isDirectory:&isDirectory] && isDirectory) {
+            NSString *basename = [[bundlePath lastPathComponent] stringByDeletingPathExtension];
+            bundlePath = [bundlePath stringByAppendingPathComponent:basename];
+        }
+        NSLog(@"Loading %@", bundlePath);
+        void *loadedBundle = dlopen([bundlePath fileSystemRepresentation], RTLD_NOW);
+        assert(loadedBundle);
+    }
+#endif
+    
     return YES;
 }
 

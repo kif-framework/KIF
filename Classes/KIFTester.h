@@ -16,9 +16,9 @@
 
 - (instancetype)initWithFile:(NSString *)file line:(NSInteger)line;
 
-@property(nonatomic,readonly)NSString *file;
-@property(nonatomic,readonly)NSInteger line;
-@property(nonatomic,assign)id<KIFTesterDelegate> delegate;
+@property (nonatomic, readonly) NSString *file;
+@property (nonatomic, readonly) NSInteger line;
+@property (nonatomic, assign) id<KIFTesterDelegate> delegate;
 
 - (KIFTestStepResult)run:(KIFTestStep *)step;
 - (KIFTestStepResult)runBlock:(KIFTestStepExecutionBlock)block;
