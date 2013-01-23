@@ -74,7 +74,7 @@ MAKE_CATEGORIES_LOADABLE(UITouch_KIFAdditions)
     _phase = UITouchPhaseBegan;
     _touchFlags._firstTouchForView = 1;
     _touchFlags._isTap = 1;
-    _timestamp = [NSDate timeIntervalSinceReferenceDate];
+    _timestamp = [[NSProcessInfo processInfo] systemUptime];
 
 	return self;
 }
@@ -87,7 +87,7 @@ MAKE_CATEGORIES_LOADABLE(UITouch_KIFAdditions)
 - (void)setPhase:(UITouchPhase)phase;
 {
 	_phase = phase;
-	_timestamp = [NSDate timeIntervalSinceReferenceDate];
+	_timestamp = [[NSProcessInfo processInfo] systemUptime];
 }
 
 //
@@ -99,7 +99,7 @@ MAKE_CATEGORIES_LOADABLE(UITouch_KIFAdditions)
 {
 	_previousLocationInWindow = _locationInWindow;
 	_locationInWindow = location;
-	_timestamp = [NSDate timeIntervalSinceReferenceDate];
+	_timestamp = [[NSProcessInfo processInfo] systemUptime];
 }
 
 @end
