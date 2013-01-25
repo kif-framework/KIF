@@ -618,6 +618,14 @@ typedef CGPoint KIFDisplacement;
         if (!cell) {
             KIFTestCondition([indexPath section] < [tableView numberOfSections], error, @"Section %d is not found in '%@' table view", [indexPath section], tableViewLabel);
             KIFTestCondition([indexPath row] < [tableView numberOfRowsInSection:[indexPath section]], error, @"Row %d is not found in section %d of '%@' table view", [indexPath row], [indexPath section], tableViewLabel);
+        }
+        // if cell is not completely visible, the tapAtPoint: executed below might actually
+        // tap something outside of the tableView (if the cell is barely visible at the bottom
+        // of the table view and a tab bar is under the tableView, for example)
+        CGRect cellRect = [tableView rectForRowAtIndexPath:indexPath];
+        cellRect = [tableView convertRect:cellRect toView:tableView.superview];
+        BOOL cellCompletelyVisible = CGRectContainsRect(tableView.frame, cellRect);
+        if (!cell || !cellCompletelyVisible) {
             [tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
             [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.25]];
             cell = [tableView cellForRowAtIndexPath:indexPath];
