@@ -194,6 +194,10 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
  */
 + (id)stepToWaitForViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits;
 
++ (id)stepToWaitForViewWithAccessibilityLabelLike:(NSString *)label;
++ (id)stepToWaitForViewWithAccessibilityLabelLike:(NSString *)label value:(NSString *)value;
++ (id)stepToWaitForViewWithAccessibilityLabelLike:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits;
+
 /*!
  @method stepToWaitForAbsenceOfViewWithAccessibilityLabel:
  @abstract A step that waits until a view or accessibility element is no longer present.
@@ -224,6 +228,9 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
  */
 + (id)stepToWaitForAbsenceOfViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits;
 
++ (id)stepToWaitForAbsenceOfViewWithAccessibilityLabelLike:(NSString *)label;
++ (id)stepToWaitForAbsenceOfViewWithAccessibilityLabelLike:(NSString *)label traits:(UIAccessibilityTraits)traits;
++ (id)stepToWaitForAbsenceOfViewWithAccessibilityLabelLike:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits;
 /*!
  @method stepToWaitForTappableViewWithAccessibilityLabel:
  @abstract A step that waits until a view or accessibility element is present and available for tapping.
@@ -317,6 +324,10 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
  */
 + (id)stepToTapViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits;
 
++ (id)stepToTapViewWithAccessibilityLabelLike:(NSString *)label;
++ (id)stepToTapViewWithAccessibilityLabelLike:(NSString *)label value:(NSString *)value;
++ (id)stepToTapViewWithAccessibilityLabelLike:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits;
+
 /*!
  @method stepToTapScreenAtPoint:
  @abstract A step that taps the screen at a particular point.
@@ -395,6 +406,12 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
  @result A configured test step.
  */
 + (id)stepToEnterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits expectedResult:(NSString *)expectedResult;
+
++ (id)stepToEnterText:(NSString *)text intoViewWithAccessibilityLabelLike:(NSString *)label;
++ (id)stepToEnterText:(NSString *)text intoViewWithAccessibilityLabelLike:(NSString *)label traits:(UIAccessibilityTraits)traits expectedResult:(NSString *)expectedResult;
+
+
++ (id)stepToClearTextFromViewWithAccessibilityLabel:(NSString *)label;
 
 /*!
  @method stepToSelectPickerViewRowWithTitle:
