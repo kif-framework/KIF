@@ -143,9 +143,9 @@ typedef CGPoint KIFDisplacement;
 {
     NSString *description = nil;
     if (value.length) {
-        description = [NSString stringWithFormat:@"Wait for view with accessibility label \"%@\" and accessibility value \"%@\"", label, value];
+        description = [NSString stringWithFormat:@"Wait for view with accessibility label like \"%@\" and accessibility value \"%@\"", label, value];
     } else {
-        description = [NSString stringWithFormat:@"Wait for view with accessibility label \"%@\"", label];
+        description = [NSString stringWithFormat:@"Wait for view with accessibility label like \"%@\"", label];
     }
     
     return [self stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
@@ -153,9 +153,9 @@ typedef CGPoint KIFDisplacement;
         
         NSString *waitDescription = nil;
         if (value.length) {
-            waitDescription = [NSString stringWithFormat:@"Waiting for presence of accessibility element with label \"%@\" and accessibility value \"%@\"", label, value];
+            waitDescription = [NSString stringWithFormat:@"Waiting for presence of accessibility element with label like \"%@\" and accessibility value \"%@\"", label, value];
         } else {
-            waitDescription = [NSString stringWithFormat:@"Waiting for presence of accessibility element with label \"%@\"", label];
+            waitDescription = [NSString stringWithFormat:@"Waiting for presence of accessibility element with label like \"%@\"", label];
         }
         
         KIFTestWaitCondition(element, error, @"%@", waitDescription);
