@@ -132,6 +132,11 @@ typedef CGPoint KIFDisplacement;
     return [self stepToWaitForViewWithAccessibilityLabelLike:label traits:UIAccessibilityTraitNone];
 }
 
++ (id)stepToWaitForViewWithAccessibilityLabelLike:(NSString *)label value:(NSString *)value
+{
+	return [self stepToWaitForViewWithAccessibilityLabel:label value:value traits:UIAccessibilityTraitNone];
+}
+
 + (id)stepToWaitForViewWithAccessibilityLabelLike:(NSString *)label traits:(UIAccessibilityTraits)traits {
     return [self stepToWaitForViewWithAccessibilityLabelLike:label value:nil traits:traits];
 }
@@ -439,6 +444,11 @@ typedef CGPoint KIFDisplacement;
 + (id)stepToTapViewWithAccessibilityLabelLike:(NSString *)label
 {
     return [self stepToTapViewWithAccessibilityLabelLike:label traits:UIAccessibilityTraitNone];
+}
+
++ (id)stepToTapViewWithAccessibilityLabelLike:(NSString *)label value:(NSString *)value
+{
+	return [self stepToTapViewWithAccessibilityLabelLike:label value:value traits:UIAccessibilityTraitNone];
 }
 
 + (id)stepToTapViewWithAccessibilityLabelLike:(NSString *)label traits:(UIAccessibilityTraits)traits
