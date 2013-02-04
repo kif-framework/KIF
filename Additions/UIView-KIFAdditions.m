@@ -80,7 +80,7 @@ typedef struct __GSEvent * GSEventRef;
 
 - (UIAccessibilityElement *)accessibilityElementWithLabel:(NSString *)label accessibilityValue:(NSString *)value traits:(UIAccessibilityTraits)traits;
 {
-	return [self accessibilityElementWithLabelLike:label accessibilityValue:value traits:traits class:nil];
+	return [self accessibilityElementWithLabel:label accessibilityValue:value traits:traits class:nil];
 }
 
 - (UIAccessibilityElement *)accessibilityElementWithLabel:(NSString *)label accessibilityValue:(NSString *)value traits:(UIAccessibilityTraits)traits class:(Class)class;
