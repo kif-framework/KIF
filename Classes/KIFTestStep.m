@@ -491,48 +491,48 @@ typedef CGPoint KIFDisplacement;
 
 + (id)stepToSelectPickerViewRowWithTitle:(NSString *)title;
 {
+    return [KIFTestStep stepToSelectPickerViewRowWithTitle:title inComponent:0];
+}
+
++ (id)stepToSelectPickerViewRowWithTitle:(NSString *)title inComponent:(NSInteger)componentIndex;
+{
     NSString *description = [NSString stringWithFormat:@"Select the \"%@\" item from the picker", title];
     return [self stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
-        
+
         // Find the picker view
         UIPickerView *pickerView = [[[[UIApplication sharedApplication] pickerViewWindow] subviewsWithClassNameOrSuperClassNamePrefix:@"UIPickerView"] lastObject];
         KIFTestCondition(pickerView, error, @"No picker view is present");
-        
-        NSInteger componentCount = [pickerView.dataSource numberOfComponentsInPickerView:pickerView];
-        KIFTestCondition(componentCount == 1, error, @"The picker view has multiple columns, which is not supported in testing.");
-        
-        for (NSInteger componentIndex = 0; componentIndex < componentCount; componentIndex++) {
-            NSInteger rowCount = [pickerView.dataSource pickerView:pickerView numberOfRowsInComponent:componentIndex];
-            for (NSInteger rowIndex = 0; rowIndex < rowCount; rowIndex++) {
-                NSString *rowTitle = nil;
-                if ([pickerView.delegate respondsToSelector:@selector(pickerView:titleForRow:forComponent:)]) {
-                    rowTitle = [pickerView.delegate pickerView:pickerView titleForRow:rowIndex forComponent:componentIndex];  
-                } else if ([pickerView.delegate respondsToSelector:@selector(pickerView:viewForRow:forComponent:reusingView:)]) {
-                    // This delegate inserts views directly, so try to figure out what the title is by looking for a label
-                    UIView *rowView = [pickerView.delegate pickerView:pickerView viewForRow:rowIndex forComponent:componentIndex reusingView:nil];
-                    NSArray *labels = [rowView subviewsWithClassNameOrSuperClassNamePrefix:@"UILabel"];
-                    UILabel *label = (labels.count > 0 ? [labels objectAtIndex:0] : nil);
-                    rowTitle = label.text;
+
+        NSInteger rowCount = [pickerView.dataSource pickerView:pickerView numberOfRowsInComponent:componentIndex];
+        for (NSInteger rowIndex = 0; rowIndex < rowCount; rowIndex++) {
+            NSString *rowTitle = nil;
+            if ([pickerView.delegate respondsToSelector:@selector(pickerView:titleForRow:forComponent:)]) {
+                rowTitle = [pickerView.delegate pickerView:pickerView titleForRow:rowIndex forComponent:componentIndex];
+            } else if ([pickerView.delegate respondsToSelector:@selector(pickerView:viewForRow:forComponent:reusingView:)]) {
+                // This delegate inserts views directly, so try to figure out what the title is by looking for a label
+                UIView *rowView = [pickerView.delegate pickerView:pickerView viewForRow:rowIndex forComponent:componentIndex reusingView:nil];
+                NSArray *labels = [rowView subviewsWithClassNameOrSuperClassNamePrefix:@"UILabel"];
+                UILabel *label = (labels.count > 0 ? [labels objectAtIndex:0] : nil);
+                rowTitle = label.text;
+            }
+
+            if ([rowTitle isEqual:title]) {
+                [pickerView selectRow:rowIndex inComponent:componentIndex animated:YES];
+                CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.5, false);
+
+                // Tap in the middle of the picker view to select the item
+                [pickerView tap];
+
+                // The combination of selectRow:inComponent:animated: and tap does not consistently result in
+                // pickerView:didSelectRow:inComponent: being called on the delegate. We need to do it explicitly.
+                if ([pickerView.delegate respondsToSelector:@selector(pickerView:didSelectRow:inComponent:)]) {
+                    [pickerView.delegate pickerView:pickerView didSelectRow:rowIndex inComponent:componentIndex];
                 }
-                
-                if ([rowTitle isEqual:title]) {
-                    [pickerView selectRow:rowIndex inComponent:componentIndex animated:YES];
-                    CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.5, false);
-                    
-                    // Tap in the middle of the picker view to select the item
-                    [pickerView tap];
-                    
-                    // The combination of selectRow:inComponent:animated: and tap does not consistently result in
-                    // pickerView:didSelectRow:inComponent: being called on the delegate. We need to do it explicitly.
-                    if ([pickerView.delegate respondsToSelector:@selector(pickerView:didSelectRow:inComponent:)]) {
-                        [pickerView.delegate pickerView:pickerView didSelectRow:rowIndex inComponent:componentIndex];
-                    }
-                    
-                    return KIFTestStepResultSuccess;
-                }
+
+                return KIFTestStepResultSuccess;
             }
         }
-        
+
         KIFTestCondition(NO, error, @"Failed to find picker view value with title \"%@\"", title);
         return KIFTestStepResultFailure;
     }];
