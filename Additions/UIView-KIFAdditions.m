@@ -383,6 +383,16 @@ typedef struct __GSEvent * GSEventRef;
     [touch release];
 }
 
+- (BOOL)isVisibleInApplicationFrame
+{
+    CGRect frame = [self convertRect:self.frame toView:nil];
+    CGRect screenFrame = [UIScreen mainScreen].applicationFrame;
+    
+    CGRect frameIntersection = CGRectIntersection(frame, screenFrame);
+    
+    return (!CGRectIsNull(frameIntersection));
+}
+
 // Is this view currently on screen?
 - (BOOL)isTappable;
 {
