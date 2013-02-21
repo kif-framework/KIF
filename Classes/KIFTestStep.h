@@ -569,4 +569,13 @@ typedef enum {
  @result A path of points, a point array.
  */
 + (CGPoint*)swipePathForFlick:(UIView *)viewToSwipe;
+
+/*!
+ @method typeIntoField:
+ @abstract A method to type the "text" into the view if UITextField.
+ @discussion The text is typed into the view.
+ @param The text to type.
+ @param The view to type into.
+ */
++ (void)typeIntoField:(NSString*)text view:(UIView*)view;
 @end
