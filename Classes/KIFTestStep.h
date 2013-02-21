@@ -561,4 +561,12 @@ typedef enum {
  */
 + (id)stepToWaitForFirstResponderWithAccessibilityLabel:(NSString *)label;
 
+/*!
+ @method swipePathForFlick:
+ @abstract A method to get a swipePath for flicking.
+ @discussion The swipe path is found by determining points between 2 end points.
+ @param The view to swipe, used for determining the points.
+ @result A path of points, a point array.
+ */
++ (CGPoint*)swipePathForFlick:(UIView *)viewToSwipe;
 @end
