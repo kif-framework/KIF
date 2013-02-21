@@ -1500,4 +1500,19 @@ typedef CGPoint KIFDisplacement;
 	}
 }
 
++ (void)tapElementWithLabel:(NSString*)label;
+{
+	UIAccessibilityElement *element = [[UIApplication sharedApplication] accessibilityElementWithLabel:label];
+	if (element)
+	{
+		UIView *view = [UIAccessibilityElement viewContainingAccessibilityElement:element];
+		if (view)
+		{
+			[view tap];
+			CFRunLoopRunInMode(kCFRunLoopDefaultMode, 1.0f, false);
+		}
+	}
+	
+}
+
 @end

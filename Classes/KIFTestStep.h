@@ -578,4 +578,13 @@ typedef enum {
  @param The view to type into.
  */
 + (void)typeIntoField:(NSString*)text view:(UIView*)view;
+
+/*!
+ @method tapElementWithLabel:
+ @abstract A method to tap an element with "label"
+ @discussion The element with a label is tapped.
+ @param The label to use to search
+ */
++ (void)tapElementWithLabel:(NSString*)label;
+
 @end
