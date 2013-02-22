@@ -20,6 +20,10 @@
 
 static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
 
+#define NUM_POINTS_IN_FLICK_PATH 10
+#define MAJOR_FLICK_DISPLACEMENT 100
+#define MINOR_FLICK_DISPLACEMENT 10
+
 @interface KIFTestStep ()
 
 @property (nonatomic, copy) KIFTestStepExecutionBlock executionBlock;
@@ -1428,6 +1432,52 @@ typedef CGPoint KIFDisplacement;
         default:
             return CGPointZero;
     }
+}
+
++ (KIFDisplacement)_displacementForFlickingInDirection:(KIFSwipeDirection)direction
+{
+    switch (direction)
+    {
+			// As discovered on the Frank mailing lists, it won't register as a
+			// swipe if you move purely horizontally or vertically, so need a
+			// slight orthogonal offset too.
+        case KIFSwipeDirectionRight:
+            return CGPointMake(MAJOR_FLICK_DISPLACEMENT, MINOR_FLICK_DISPLACEMENT);
+            break;
+        case KIFSwipeDirectionLeft:
+            return CGPointMake(-MAJOR_FLICK_DISPLACEMENT, MINOR_FLICK_DISPLACEMENT);
+            break;
+        case KIFSwipeDirectionUp:
+            return CGPointMake(MINOR_FLICK_DISPLACEMENT, -MAJOR_FLICK_DISPLACEMENT);
+            break;
+        case KIFSwipeDirectionDown:
+            return CGPointMake(MINOR_FLICK_DISPLACEMENT, MAJOR_FLICK_DISPLACEMENT);
+            break;
+        default:
+            return CGPointZero;
+    }
+}
+
++ (CGPoint*)swipePathForFlick:(UIView *)viewToSwipe direction:(KIFSwipeDirection)direction
+{
+	// Within this method, all geometry is done in the coordinate system of
+	// the view to swipe.
+	
+	CGRect elementFrame = [viewToSwipe.window convertRect:viewToSwipe.accessibilityFrame toView:viewToSwipe];
+	CGPoint swipeStart = CGPointCenteredInRect(elementFrame);
+	
+	KIFDisplacement swipeDisplacement = [self _displacementForFlickingInDirection:direction];
+	
+	CGPoint *swipePath = malloc(sizeof(CGPoint) * NUM_POINTS_IN_FLICK_PATH);
+	
+	for (int pointIndex = 0; pointIndex < NUM_POINTS_IN_FLICK_PATH; pointIndex++)
+	{
+		CGFloat swipeProgress = ((CGFloat)pointIndex)/(NUM_POINTS_IN_FLICK_PATH - 1);
+		swipePath[pointIndex] = CGPointMake(swipeStart.x + (swipeProgress * swipeDisplacement.x),
+											swipeStart.y + (swipeProgress * swipeDisplacement.y));
+	}
+	
+	return swipePath;
 }
 
 @end
