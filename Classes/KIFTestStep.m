@@ -1480,4 +1480,39 @@ typedef CGPoint KIFDisplacement;
 	return swipePath;
 }
 
++ (void)typeIntoField:(NSString*)text view:(UIView*)view
+{
+	[view tap];
+	CFRunLoopRunInMode(kCFRunLoopDefaultMode, 1.0f, false);
+	//NSString *expectedResult = text;
+	for (NSUInteger characterIndex = 0; characterIndex < [text length]; characterIndex++) {
+		NSString *characterString = [text substringWithRange:NSMakeRange(characterIndex, 1)];
+		if (![KIFTypist enterCharacter:characterString]) {
+			// Attempt to cheat if we couldn't find the character
+			if ([view isKindOfClass:[UITextField class]] || [view isKindOfClass:[UITextView class]]) {
+				NSLog(@"KIF: Unable to find keyboard key for %@. Inserting manually.", characterString);
+				[(UITextField *)view setText:[[(UITextField *)view text] stringByAppendingString:characterString]];
+			} else {
+				// TODO: Failure to find key label.
+				//KIFTestCondition(NO, error, @"Failed to find key for character \"%@\"", characterString);
+			}
+		}
+	}
+}
+
++ (void)tapElementWithLabel:(NSString*)label;
+{
+	UIAccessibilityElement *element = [[UIApplication sharedApplication] accessibilityElementWithLabel:label];
+	if (element)
+	{
+		UIView *view = [UIAccessibilityElement viewContainingAccessibilityElement:element];
+		if (view)
+		{
+			[view tap];
+			CFRunLoopRunInMode(kCFRunLoopDefaultMode, 1.0f, false);
+		}
+	}
+	
+}
+
 @end

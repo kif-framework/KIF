@@ -570,4 +570,23 @@ typedef enum {
  @result A path of points, a point array.
  */
 + (CGPoint*)swipePathForFlick:(UIView *)viewToSwipe direction:(KIFSwipeDirection)direction;
+
+/*!
+ @method typeIntoField:
+ @abstract A method to type the "text" into the view if UITextField.
+ @discussion The text is typed into the view.
+ @param The text to type.
+ @param The view to type into.
+ */
++ (void)typeIntoField:(NSString*)text view:(UIView*)view;
+
+/*!
+ @method tapElementWithLabel:
+ @abstract A method to tap an element with "label"
+ @discussion The element with a label is tapped.
+ @param The label to use to search
+ */
++ (void)tapElementWithLabel:(NSString*)label;
+
+
 @end
