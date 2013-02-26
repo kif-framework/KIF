@@ -1458,7 +1458,7 @@ typedef CGPoint KIFDisplacement;
     }
 }
 
-+ (CGPoint*)swipePathForFlick:(UIView *)viewToSwipe
++ (CGPoint*)swipePathForFlick:(UIView *)viewToSwipe direction:(KIFSwipeDirection)direction
 {
 	// Within this method, all geometry is done in the coordinate system of
 	// the view to swipe.
@@ -1466,7 +1466,7 @@ typedef CGPoint KIFDisplacement;
 	CGRect elementFrame = [viewToSwipe.window convertRect:viewToSwipe.accessibilityFrame toView:viewToSwipe];
 	CGPoint swipeStart = CGPointCenteredInRect(elementFrame);
 	
-	KIFDisplacement swipeDisplacement = [self _displacementForFlickingInDirection:KIFSwipeDirectionLeft];
+	KIFDisplacement swipeDisplacement = [self _displacementForFlickingInDirection:direction];
 	
 	CGPoint *swipePath = malloc(sizeof(CGPoint) * NUM_POINTS_IN_FLICK_PATH);
 	

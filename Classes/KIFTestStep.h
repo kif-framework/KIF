@@ -566,9 +566,10 @@ typedef enum {
  @abstract A method to get a swipePath for flicking.
  @discussion The swipe path is found by determining points between 2 end points.
  @param The view to swipe, used for determining the points.
+  @param The direction to swipe.
  @result A path of points, a point array.
  */
-+ (CGPoint*)swipePathForFlick:(UIView *)viewToSwipe;
++ (CGPoint*)swipePathForFlick:(UIView *)viewToSwipe direction:(KIFSwipeDirection)direction;
 
 /*!
  @method typeIntoField:
@@ -586,5 +587,6 @@ typedef enum {
  @param The label to use to search
  */
 + (void)tapElementWithLabel:(NSString*)label;
+
 
 @end
