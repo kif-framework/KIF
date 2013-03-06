@@ -454,6 +454,7 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
 + (id)stepToEnterText:(NSString *)text intoViewWithAccessibilityLabelLike:(NSString *)label;
 + (id)stepToEnterText:(NSString *)text intoViewWithAccessibilityLabelLike:(NSString *)label traits:(UIAccessibilityTraits)traits expectedResult:(NSString *)expectedResult;
 
++ (id)stepToCheckText:(NSString *)text inViewWithAccessibilityLabelLike:(NSString *)label;
 
 + (id)stepToClearTextFromViewWithAccessibilityLabel:(NSString *)label;
 
