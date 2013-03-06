@@ -29,10 +29,15 @@ MAKE_CATEGORIES_LOADABLE(UIApplication_KIFAdditions)
 
 - (UIAccessibilityElement *)accessibilityElementWithLabel:(NSString *)label accessibilityValue:(NSString *)value traits:(UIAccessibilityTraits)traits;
 {
-    // Go through the array of windows in reverse order to process the frontmost window first.
+	return [self accessibilityElementWithLabel:label accessibilityValue:value traits:traits class:nil];
+}
+
+- (UIAccessibilityElement *)accessibilityElementWithLabel:(NSString *)label accessibilityValue:(NSString *)value traits:(UIAccessibilityTraits)traits class:(Class)class;
+{
+	// Go through the array of windows in reverse order to process the frontmost window first.
     // When several elements with the same accessibilitylabel are present the one in front will be picked.
     for (UIWindow *window in [self.windows reverseObjectEnumerator]) {
-        UIAccessibilityElement *element = [window accessibilityElementWithLabel:label accessibilityValue:value traits:traits];
+        UIAccessibilityElement *element = [window accessibilityElementWithLabel:label accessibilityValue:value traits:traits class:class];
         if (element) {
             return element;
         }
@@ -45,6 +50,34 @@ MAKE_CATEGORIES_LOADABLE(UIApplication_KIFAdditions)
 {
     for (UIWindow *window in [self.windows reverseObjectEnumerator]) {
         UIAccessibilityElement *element = [window accessibilityElementMatchingBlock:matchBlock];
+        if (element) {
+            return element;
+        }
+    }
+    
+    return nil;
+}
+
+- (UIAccessibilityElement *)accessibilityElementWithLabelLike:(NSString *)label;
+{
+    return [self accessibilityElementWithLabelLike:label traits:UIAccessibilityTraitNone];
+}
+
+- (UIAccessibilityElement *)accessibilityElementWithLabelLike:(NSString *)label traits:(UIAccessibilityTraits)traits;
+{
+    return [self accessibilityElementWithLabelLike:label accessibilityValue:nil traits:traits];
+}
+
+- (UIAccessibilityElement *)accessibilityElementWithLabelLike:(NSString *)label accessibilityValue:(NSString *)value traits:(UIAccessibilityTraits)traits;
+{
+	return [self accessibilityElementWithLabelLike:label accessibilityValue:nil traits:traits class:nil];
+}
+- (UIAccessibilityElement *)accessibilityElementWithLabelLike:(NSString *)label accessibilityValue:(NSString *)value traits:(UIAccessibilityTraits)traits class:(Class)class;
+{
+	// Go through the array of windows in reverse order to process the frontmost window first.
+    // When several elements with the same accessibilitylabel are present the one in front will be picked.
+    for (UIWindow *window in [self.windows reverseObjectEnumerator]) {
+        UIAccessibilityElement *element = [window accessibilityElementWithLabelLike:label accessibilityValue:value traits:traits class:class];
         if (element) {
             return element;
         }
