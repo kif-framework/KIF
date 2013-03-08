@@ -393,22 +393,27 @@ typedef CGPoint KIFDisplacement;
     }];
 }
 
++ (id)stepToEnterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label ignoreResultText:(BOOL)ignore
+{
+    return [self stepToEnterText:text intoViewWithAccessibilityLabel:label traits:UIAccessibilityTraitNone expectedResult:nil replaceExistingText:NO ignoreResultText:ignore];
+}
+
 + (id)stepToEnterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label;
 {
-    return [self stepToEnterText:text intoViewWithAccessibilityLabel:label traits:UIAccessibilityTraitNone expectedResult:nil replaceExistingText:NO];
+    return [self stepToEnterText:text intoViewWithAccessibilityLabel:label traits:UIAccessibilityTraitNone expectedResult:nil replaceExistingText:NO ignoreResultText:NO];
 }
 
 + (id)stepToEnterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label replaceExistingText:(BOOL)replace;
 {
-    return [self stepToEnterText:text intoViewWithAccessibilityLabel:label traits:UIAccessibilityTraitNone expectedResult:nil replaceExistingText:replace];
+    return [self stepToEnterText:text intoViewWithAccessibilityLabel:label traits:UIAccessibilityTraitNone expectedResult:nil replaceExistingText:replace ignoreResultText:NO];
 }
 
 + (id)stepToEnterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits expectedResult:(NSString *)expectedResult;
 {
-    return [self stepToEnterText:text intoViewWithAccessibilityLabel:label traits:traits expectedResult:expectedResult replaceExistingText:NO];
+    return [self stepToEnterText:text intoViewWithAccessibilityLabel:label traits:traits expectedResult:expectedResult replaceExistingText:NO ignoreResultText:NO];
 }
 
-+ (id)stepToEnterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits expectedResult:(NSString *)expectedResult replaceExistingText:(BOOL)replace;
++ (id)stepToEnterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits expectedResult:(NSString *)expectedResult replaceExistingText:(BOOL)replace ignoreResultText:(BOOL)ignoreResult;
 {
     NSString *description = [NSString stringWithFormat:@"Type the text \"%@\" into the view with accessibility label \"%@\"", text, label];
     return [self stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
@@ -451,7 +456,7 @@ typedef CGPoint KIFDisplacement;
         }
         
         // This is probably a UITextField- or UITextView-ish view, so make sure it worked
-        if ([view respondsToSelector:@selector(text)]) {
+        if (!ignoreResult && [view respondsToSelector:@selector(text)]) {
             // We trim \n and \r because they trigger the return key, so they won't show up in the final product on single-line inputs
             NSString *expected = [expectedResult ? expectedResult : text stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
             NSString *actual = [[view performSelector:@selector(text)] stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];

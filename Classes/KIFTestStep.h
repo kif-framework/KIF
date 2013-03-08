@@ -384,6 +384,16 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
 + (id)stepToEnterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label replaceExistingText:(BOOL)replace;
 
 /*!
+ @method stepToEnterText:intoViewWithAccessibilityLabel:ignoreResultText:
+ @abstract A step that enters text into a particular view in the view hierarchy.
+ @discussion Same as the basic stepToEnterText, except this blocks the checking of the end result. This is useful for views that mutate the text entered.
+ @param label The accessibility label of the element to type into.
+ @param ignore Ignores the final check between entered and displayed value.
+ @result A configured test step.
+ */
++ (id)stepToEnterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label ignoreResultText:(BOOL)ignore;
+
+/*!
  @method stepToEnterText:intoViewWithAccessibilityLabel:traits:
  @abstract A step that enters text into a particular view in the view hierarchy.
  @discussion The view or accessibility element with the given label is searched for in the view hierarchy. If the element isn't found or isn't currently tappable, then the step will attempt to wait until it is. Once the view is present and tappable, a tap event is simulated in the center of the view or element, then text is entered into the view by simulating taps on the appropriate keyboard keys.
