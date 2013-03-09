@@ -461,10 +461,12 @@ typedef enum {
  @param label The accessibility label of the view to swipe.
  @param direction The direction in which to swipe.
  @PARAM displacement The amount of displacement in the path of the swipe.
+ @param offset An offset from center inside the view
  @result A configured test step.
  */
 + (id)stepToSwipeViewWithAccessibilityLabel:(NSString *)label inDirection:(KIFSwipeDirection)direction withDisplacement:(CGFloat)displacement;
 
++ (id)stepToSwipeViewWithAccessibilityLabel:(NSString *)label inDirection:(KIFSwipeDirection)direction withDisplacement:(CGFloat)displacement atOffset:(UIOffset)offset;
 /*!
  @method stepToWaitForFirstResponderWithAccessibilityLabel:
  @abstract A step that waits until a view or accessibility element is the first responder.
