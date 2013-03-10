@@ -30,6 +30,7 @@
 		AAB073DB13994E20008AF393 /* RootViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AAB073C4139861C0008AF393 /* RootViewController.xib */; };
 		AAC634C113A5EAF900634049 /* KIFTestScenario+EXAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC634BE13A5E8E200634049 /* KIFTestScenario+EXAdditions.m */; };
 		AADF7E2413EC7211006410B2 /* KIFTestStep+EXAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC634C313A68BF000634049 /* KIFTestStep+EXAdditions.m */; };
+		DD59412A16ED45F1006C56CB /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DD59412916ED45F1006C56CB /* Default-568h@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,6 +73,7 @@
 		AAC634BE13A5E8E200634049 /* KIFTestScenario+EXAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "KIFTestScenario+EXAdditions.m"; path = "Testable/Testing/KIFTestScenario+EXAdditions.m"; sourceTree = "<group>"; };
 		AAC634C213A68BF000634049 /* KIFTestStep+EXAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "KIFTestStep+EXAdditions.h"; path = "Testable/Testing/KIFTestStep+EXAdditions.h"; sourceTree = "<group>"; };
 		AAC634C313A68BF000634049 /* KIFTestStep+EXAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "KIFTestStep+EXAdditions.m"; path = "Testable/Testing/KIFTestStep+EXAdditions.m"; sourceTree = "<group>"; };
+		DD59412916ED45F1006C56CB /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +113,7 @@
 		AAB0739D139861C0008AF393 = {
 			isa = PBXGroup;
 			children = (
+				DD59412916ED45F1006C56CB /* Default-568h@2x.png */,
 				A868094113E32C77005DDA1F /* KIF.xcodeproj */,
 				AAB073B2139861C0008AF393 /* Testable */,
 				AAB073E3139974AD008AF393 /* Testing */,
@@ -274,6 +277,7 @@
 				AAB073D913994E20008AF393 /* InfoPlist.strings in Resources */,
 				AAB073DA13994E20008AF393 /* MainWindow.xib in Resources */,
 				AAB073DB13994E20008AF393 /* RootViewController.xib in Resources */,
+				DD59412A16ED45F1006C56CB /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

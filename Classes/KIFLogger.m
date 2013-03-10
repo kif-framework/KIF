@@ -14,6 +14,7 @@
 @interface KIFLogger ()
 
 @property (nonatomic, retain) NSFileHandle *fileHandle;
+@property (nonatomic, retain) NSString *filePath;
 
 @end
 
@@ -44,19 +45,20 @@
 			dateString = [dateString stringByReplacingOccurrencesOfString:@":" withString:@"."];
 			self.logFile = [NSString stringWithFormat:@"KIF Tests %@.%@", dateString, _fileExt];
 		}
-        NSString *logFilePath = [_logDirectory stringByAppendingPathComponent:_logFile];
-        if (![fm fileExistsAtPath:logFilePath]) {
-            [fm createFileAtPath:logFilePath contents:[NSData data] attributes:nil];
+        self.filePath = [_logDirectory stringByAppendingPathComponent:_logFile];
+        if (![fm fileExistsAtPath:_filePath]) {
+            [fm createFileAtPath:_filePath contents:[NSData data] attributes:nil];
         }
-        self.fileHandle = [[NSFileHandle fileHandleForWritingAtPath:logFilePath] retain];
-        if (_fileHandle) {
-            NSLog(@"Logging KIF test activity to %@", logFilePath);
-        }
+        self.fileHandle = [[NSFileHandle fileHandleForWritingAtPath:_filePath] retain];
     }
     return _fileHandle;
 }
 
 -(void)logTestingDidStart {
+	NSFileHandle *fh = [self logFileHandle];
+	if (fh) {
+		NSLog(@"Logging KIF test activity to %@", _filePath);
+	}
     if (_controller.failedScenarioIndexes.count != _controller.scenarios.count) {
         KIFLog(@"BEGIN KIF TEST RUN: re-running %d of %d scenarios that failed last time", _controller.failedScenarioIndexes.count, _controller.scenarios.count);
     } else {
