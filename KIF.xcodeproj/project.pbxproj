@@ -35,6 +35,10 @@
 		C194255915D83DE9004FC314 /* KIFTypist.m in Sources */ = {isa = PBXBuildFile; fileRef = C194255715D83DE9004FC314 /* KIFTypist.m */; };
 		CDFD8E86139728B4008D299F /* NSFileManager-KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = CDFD8E84139728B4008D299F /* NSFileManager-KIFAdditions.h */; };
 		CDFD8E87139728B4008D299F /* NSFileManager-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CDFD8E85139728B4008D299F /* NSFileManager-KIFAdditions.m */; };
+		DD59412116ECAC3A006C56CB /* KIFLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = DD59411F16ECAC3A006C56CB /* KIFLogger.h */; };
+		DD59412216ECAC3A006C56CB /* KIFLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = DD59412016ECAC3A006C56CB /* KIFLogger.m */; };
+		DD59412516ECAC66006C56CB /* KIFJUnitLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = DD59412316ECAC66006C56CB /* KIFJUnitLogger.h */; };
+		DD59412616ECAC66006C56CB /* KIFJUnitLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = DD59412416ECAC66006C56CB /* KIFJUnitLogger.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -68,6 +72,10 @@
 		C194255715D83DE9004FC314 /* KIFTypist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KIFTypist.m; sourceTree = "<group>"; };
 		CDFD8E84139728B4008D299F /* NSFileManager-KIFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFileManager-KIFAdditions.h"; sourceTree = "<group>"; };
 		CDFD8E85139728B4008D299F /* NSFileManager-KIFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager-KIFAdditions.m"; sourceTree = "<group>"; };
+		DD59411F16ECAC3A006C56CB /* KIFLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KIFLogger.h; sourceTree = "<group>"; };
+		DD59412016ECAC3A006C56CB /* KIFLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KIFLogger.m; sourceTree = "<group>"; };
+		DD59412316ECAC66006C56CB /* KIFJUnitLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KIFJUnitLogger.h; sourceTree = "<group>"; };
+		DD59412416ECAC66006C56CB /* KIFJUnitLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KIFJUnitLogger.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,6 +140,10 @@
 				AAB0728B13971A98008AF393 /* KIFTestStep.m */,
 				C194255615D83DE9004FC314 /* KIFTypist.h */,
 				C194255715D83DE9004FC314 /* KIFTypist.m */,
+				DD59411F16ECAC3A006C56CB /* KIFLogger.h */,
+				DD59412016ECAC3A006C56CB /* KIFLogger.m */,
+				DD59412316ECAC66006C56CB /* KIFJUnitLogger.h */,
+				DD59412416ECAC66006C56CB /* KIFJUnitLogger.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -181,6 +193,8 @@
 				CDFD8E86139728B4008D299F /* NSFileManager-KIFAdditions.h in Headers */,
 				39160B1113D1E6BB00311E38 /* LoadableCategory.h in Headers */,
 				C194255815D83DE9004FC314 /* KIFTypist.h in Headers */,
+				DD59412116ECAC3A006C56CB /* KIFLogger.h in Headers */,
+				DD59412516ECAC66006C56CB /* KIFJUnitLogger.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -246,6 +260,8 @@
 				AAB072B313971AB2008AF393 /* UIWindow-KIFAdditions.m in Sources */,
 				CDFD8E87139728B4008D299F /* NSFileManager-KIFAdditions.m in Sources */,
 				C194255915D83DE9004FC314 /* KIFTypist.m in Sources */,
+				DD59412216ECAC3A006C56CB /* KIFLogger.m in Sources */,
+				DD59412616ECAC66006C56CB /* KIFJUnitLogger.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
