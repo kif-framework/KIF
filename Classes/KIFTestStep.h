@@ -427,6 +427,8 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
  */
 + (id)stepToSelectPickerViewRowWithTitle:(NSString *)title;
 
++ (id)stepToSelectRowInPickerWithAccessibilityLabel:(NSString*)pickerLabel row:(NSInteger)row component:(NSInteger)component;
+
 /*!
  @method stepToSetOn:forSwitchWithAccessibilityLabel:
  @abstract A step that toggles a UISwitch into a specified position.

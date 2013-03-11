@@ -516,6 +516,26 @@ typedef CGPoint KIFDisplacement;
     }];
 }
 
++ (id)stepToSelectRowInPickerWithAccessibilityLabel:(NSString*)pickerLabel row:(NSInteger)row component:(NSInteger)component {
+    NSString *description = [NSString stringWithFormat:@"Step to tap row %d in component %d in picker with label %@", row, component, pickerLabel];
+    return [KIFTestStep stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
+        UIAccessibilityElement *element = [[UIApplication sharedApplication] accessibilityElementWithLabel:pickerLabel];
+        KIFTestCondition(element, error, @"View with label %@ not found", pickerLabel);
+        UIPickerView *picker = (UIPickerView*)[UIAccessibilityElement viewContainingAccessibilityElement:element];
+        
+        KIFTestCondition([picker isKindOfClass:[UIPickerView class]], error, @"Specified view is not a UITableView");
+        
+        KIFTestCondition(picker, error, @"Picker with label %@ not found", pickerLabel);
+        
+        KIFTestCondition([picker.dataSource numberOfComponentsInPickerView:picker] > component, error, @"Component %d out of range in picker %@", component, pickerLabel);
+        KIFTestCondition([picker.dataSource pickerView:picker numberOfRowsInComponent:component] > row, error, @"Row %d out of range in picker %@ component %d", row, pickerLabel, component);
+        
+        [picker selectRow:row inComponent:component animated:NO];
+        
+        return KIFTestStepResultSuccess;
+    }];
+}
+
 + (id)stepToSetOn:(BOOL)switchIsOn forSwitchWithAccessibilityLabel:(NSString *)label;
 {
     NSString *description = [NSString stringWithFormat:@"Toggle the switch with accessibility label \"%@\" to %@", label, switchIsOn ? @"ON" : @"OFF"];
