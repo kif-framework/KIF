@@ -46,10 +46,10 @@
 	for (KIFTestScenario *s in self.controller.scenarios) {
 		// Error message
 		NSError *err = _errors[s.description];
-		NSString *errStr = [err localizedDescription];
+		NSString *errStr = [[err localizedDescription] stringByReplacingOccurrencesOfString:@"'" withString:@""];
 		err = err.userInfo[NSUnderlyingErrorKey];
 		if (err) {
-			errStr = [NSString stringWithFormat:@"%@ %@", errStr, [err localizedDescription]];
+			errStr = [NSString stringWithFormat:@"%@ %@", errStr, [[err localizedDescription] stringByReplacingOccurrencesOfString:@"'" withString:@""]];
 		}
 		// Time
 		double time = [_times[s.description] doubleValue];
