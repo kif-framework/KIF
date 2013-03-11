@@ -137,7 +137,6 @@ static void releaseInstance()
     // Create loggers array & add base logger
 	loggers = [[NSMutableArray alloc] init];
 	KIFLogger *logger = [[KIFLogger alloc] init];
-	logger.controller = self;
 	[self addLogger:logger];
     return self;
 }
@@ -251,6 +250,7 @@ static void releaseInstance()
 
 -(void)addLogger:(KIFLogger *)logger {
 	// Add logger to loggers array
+	logger.controller = self;
 	[loggers addObject:logger];
 }
 

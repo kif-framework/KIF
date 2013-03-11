@@ -14,7 +14,6 @@
 @interface KIFLogger ()
 
 @property (nonatomic, retain) NSFileHandle *fileHandle;
-@property (nonatomic, retain) NSString *filePath;
 
 @end
 

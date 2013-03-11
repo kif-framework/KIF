@@ -18,6 +18,7 @@
 @property (nonatomic, retain) NSString *logDirectory;
 @property (nonatomic, retain) NSString *logFile;
 @property (nonatomic, retain) NSString *fileExt;
+@property (nonatomic, retain) NSString *filePath;
 
 -(NSFileHandle *)logFileHandle;
 -(void)logTestingDidStart;
