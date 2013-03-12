@@ -786,6 +786,9 @@ typedef CGPoint KIFDisplacement;
                 }
             }
         }
+		
+		// Wait for the keyboard
+        CFRunLoopRunInMode(kCFRunLoopDefaultMode, 1.0, false);
         
         // This is probably a UITextField- or UITextView-ish view, so make sure it worked
         if ([view respondsToSelector:@selector(text)]) {
@@ -793,6 +796,36 @@ typedef CGPoint KIFDisplacement;
             NSString *expected = [expectedResult ? expectedResult : text stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
             NSString *actual = [[view performSelector:@selector(text)] stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
             KIFTestCondition([actual isEqualToString:expected], error, @"Failed to actually enter text \"%@\" in field; instead, it was \"%@\"", text, actual);
+        }
+        
+        return KIFTestStepResultSuccess;
+    }];
+}
+
++ (id)stepToCheckText:(NSString *)expectedResult inViewWithAccessibilityLabelLike:(NSString *)label
+{
+    return [self stepToCheckText:expectedResult inViewWithAccessibilityLabelLike:label traits:UIAccessibilityTraitNone];
+}
+
++ (id)stepToCheckText:(NSString *)expectedResult inViewWithAccessibilityLabelLike:(NSString *)label traits:(UIAccessibilityTraits)traits
+{
+    NSString *description = [NSString stringWithFormat:@"Check that the text is \"%@\" in the view with accessibility label \"%@\"", expectedResult, label];
+    return [self stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
+        
+        UIAccessibilityElement *element = [[UIApplication sharedApplication] accessibilityElementWithLabelLike:label traits:traits];
+        if (!element) {
+            return KIFTestStepResultWait;
+        }
+        
+        UIView *view = [UIAccessibilityElement viewContainingAccessibilityElement:element];
+        KIFTestWaitCondition(view, error, @"Cannot find view with accessibility label \"%@\"", label);
+        
+        // This is probably a UITextField- or UITextView-ish view, so make sure it worked
+        if ([view respondsToSelector:@selector(text)]) {
+            // We trim \n and \r because they trigger the return key, so they won't show up in the final product on single-line inputs
+            NSString *expected = [expectedResult ? expectedResult : expectedResult stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+            NSString *actual = [[view performSelector:@selector(text)] stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+            KIFTestCondition([actual isEqualToString:expected], error, @"Failed to check text \"%@\" in field; instead, it was \"%@\"", expected, actual);
         }
         
         return KIFTestStepResultSuccess;
