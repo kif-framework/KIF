@@ -698,6 +698,25 @@ typedef CGPoint KIFDisplacement;
 
 #pragma mark Step Collections
 
++ (id)stepToVerifyThatViewWithLabel:(NSString*)label containsNoMoreThan:(NSUInteger)subviewCount subViewsOfClass:(Class)subviewClass {
+    return [KIFTestStep stepWithDescription:@"Check that there is no more than one MatchView living under MatchesViewController main view" executionBlock:^(KIFTestStep *step, NSError **error){
+        UIAccessibilityElement *element = [self _accessibilityElementWithLabel:label accessibilityValue:nil tappable:NO traits:UIAccessibilityTraitNone error:error];
+        UIView *view = [UIAccessibilityElement viewContainingAccessibilityElement:element];
+        
+        NSUInteger c = 0;
+        for (UIView *v in view.subviews) {
+            if ([v isKindOfClass:subviewClass]) {
+                ++c;
+            }
+        }
+        
+        KIFTestCondition(c <= subviewCount, error, @"Expected %d or fewer subviews of type %@ in view %@, found %d", subviewCount, NSStringFromClass(subviewClass), label, c);
+
+        return KIFTestStepResultSuccess;
+    }];
+}
+
+
 + (NSArray *)stepsToChoosePhotoInAlbum:(NSString *)albumName atRow:(NSInteger)row column:(NSInteger)column;
 {
     NSMutableArray *steps = [NSMutableArray array];

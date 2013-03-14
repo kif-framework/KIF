@@ -456,6 +456,8 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
 
 + (void)stepFailed;
 
++ (id)stepToVerifyThatViewWithLabel:(NSString*)label containsNoMoreThan:(NSUInteger)subviewCount subViewsOfClass:(Class)subviewClass;
+
 /*!
  @method stepsToChoosePhotoInAlbum:atRow:column:
  @abstract Select a certain photo from the built in photo picker.
