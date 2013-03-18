@@ -31,6 +31,8 @@
 		AAB072B213971AB2008AF393 /* UIWindow-KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = AAB072A213971AB2008AF393 /* UIWindow-KIFAdditions.h */; };
 		AAB072B313971AB2008AF393 /* UIWindow-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB072A313971AB2008AF393 /* UIWindow-KIFAdditions.m */; };
 		AAB072B513971AEA008AF393 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAB072B413971AEA008AF393 /* UIKit.framework */; };
+		C194255815D83DE9004FC314 /* KIFTypist.h in Headers */ = {isa = PBXBuildFile; fileRef = C194255615D83DE9004FC314 /* KIFTypist.h */; };
+		C194255915D83DE9004FC314 /* KIFTypist.m in Sources */ = {isa = PBXBuildFile; fileRef = C194255715D83DE9004FC314 /* KIFTypist.m */; };
 		CDFD8E86139728B4008D299F /* NSFileManager-KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = CDFD8E84139728B4008D299F /* NSFileManager-KIFAdditions.h */; };
 		CDFD8E87139728B4008D299F /* NSFileManager-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CDFD8E85139728B4008D299F /* NSFileManager-KIFAdditions.m */; };
 /* End PBXBuildFile section */
@@ -62,6 +64,8 @@
 		AAB072A213971AB2008AF393 /* UIWindow-KIFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIWindow-KIFAdditions.h"; sourceTree = "<group>"; };
 		AAB072A313971AB2008AF393 /* UIWindow-KIFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWindow-KIFAdditions.m"; sourceTree = "<group>"; };
 		AAB072B413971AEA008AF393 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		C194255615D83DE9004FC314 /* KIFTypist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KIFTypist.h; sourceTree = "<group>"; };
+		C194255715D83DE9004FC314 /* KIFTypist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KIFTypist.m; sourceTree = "<group>"; };
 		CDFD8E84139728B4008D299F /* NSFileManager-KIFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFileManager-KIFAdditions.h"; sourceTree = "<group>"; };
 		CDFD8E85139728B4008D299F /* NSFileManager-KIFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager-KIFAdditions.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -126,6 +130,8 @@
 				AAB0728913971A98008AF393 /* KIFTestScenario.m */,
 				AAB0728A13971A98008AF393 /* KIFTestStep.h */,
 				AAB0728B13971A98008AF393 /* KIFTestStep.m */,
+				C194255615D83DE9004FC314 /* KIFTypist.h */,
+				C194255715D83DE9004FC314 /* KIFTypist.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -174,6 +180,7 @@
 				AAB072B213971AB2008AF393 /* UIWindow-KIFAdditions.h in Headers */,
 				CDFD8E86139728B4008D299F /* NSFileManager-KIFAdditions.h in Headers */,
 				39160B1113D1E6BB00311E38 /* LoadableCategory.h in Headers */,
+				C194255815D83DE9004FC314 /* KIFTypist.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -203,7 +210,7 @@
 		AAB0725F139719AC008AF393 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0430;
+				LastUpgradeCheck = 0450;
 			};
 			buildConfigurationList = AAB07262139719AC008AF393 /* Build configuration list for PBXProject "KIF" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -238,6 +245,7 @@
 				AAB072B113971AB2008AF393 /* UIView-KIFAdditions.m in Sources */,
 				AAB072B313971AB2008AF393 /* UIWindow-KIFAdditions.m in Sources */,
 				CDFD8E87139728B4008D299F /* NSFileManager-KIFAdditions.m in Sources */,
+				C194255915D83DE9004FC314 /* KIFTypist.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -286,6 +294,7 @@
 				DSTROOT = /tmp/KIF.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Classes/KIF-Prefix.pch";
+				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -303,6 +312,7 @@
 				DSTROOT = /tmp/KIF.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Classes/KIF-Prefix.pch";
+				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";

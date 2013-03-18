@@ -117,6 +117,9 @@ static NSArray *defaultStepsToTearDown = nil;
 
 - (void)addStep:(KIFTestStep *)step;
 {
+    if (self.skippedByFilter) {
+        return;
+    }
     NSAssert(![steps containsObject:step], @"The step %@ is already added", step);
     
     [self _initializeStepsIfNeeded];
@@ -125,6 +128,9 @@ static NSArray *defaultStepsToTearDown = nil;
 
 - (void)addStepsFromArray:(NSArray *)inSteps;
 {
+    if (self.skippedByFilter) {
+        return;
+    }
     for (KIFTestStep *step in inSteps) {
         NSAssert(![steps containsObject:step], @"The step %@ is already added", step);
     }

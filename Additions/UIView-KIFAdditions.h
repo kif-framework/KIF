@@ -35,6 +35,7 @@
 - (void)flash;
 - (void)tap;
 - (void)tapAtPoint:(CGPoint)point;
+- (void)longPressAtPoint:(CGPoint)point duration:(NSTimeInterval)duration;
 
 /*!
  @method dragFromPoint:toPoint:
