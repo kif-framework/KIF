@@ -97,12 +97,22 @@ typedef CGPoint KIFDisplacement;
     return [self stepToWaitForViewWithAccessibilityLabel:label traits:UIAccessibilityTraitNone];
 }
 
++ (id)stepToWaitForViewWithAccessibilityLabel:(NSString *)label containsTitleOrText:(NSString*)titleOrText;
+{
+    return [self stepToWaitForViewWithAccessibilityLabel:label value:nil traits:UIAccessibilityTraitNone containsTitleOrText:titleOrText];
+}
+
 + (id)stepToWaitForViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits;
 {
     return [self stepToWaitForViewWithAccessibilityLabel:label value:nil traits:traits];
 }
 
 + (id)stepToWaitForViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits;
+{
+    return [self stepToWaitForViewWithAccessibilityLabel:label value:value traits:traits containsTitleOrText:nil];
+}
+
++ (id)stepToWaitForViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits containsTitleOrText:(NSString*)titleOrText;
 {
     NSString *description = nil;
     if (value.length) {
@@ -114,13 +124,29 @@ typedef CGPoint KIFDisplacement;
     return [self stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
         UIAccessibilityElement *element = [self _accessibilityElementWithLabel:label accessibilityValue:value tappable:NO traits:traits error:error];
         
-        NSString *waitDescription = nil;
-        if (value.length) {
-            waitDescription = [NSString stringWithFormat:@"Waiting for presence of accessibility element with label \"%@\" and accessibility value \"%@\"", label, value];
-        } else {
-            waitDescription = [NSString stringWithFormat:@"Waiting for presence of accessibility element with label \"%@\"", label];
+        if (element && titleOrText.length) {
+            // TODO This is somewhat kludgy, and I expect it to evolve. For now, it's covering the cases I know I need.
+            if ([element respondsToSelector:@selector(currentTitle)]) {
+                if ([[((id)element) currentTitle] rangeOfString:titleOrText].location == NSNotFound) {
+                    element = nil;
+                }
+            } else if ([element respondsToSelector:@selector(text)]) {
+                if (![[((id)element) text] rangeOfString:titleOrText].location == NSNotFound) {
+                    element = nil;
+                }
+            } else if ([element respondsToSelector:@selector(title)]) {
+                if (![[((id)element) title] rangeOfString:titleOrText].location == NSNotFound) {
+                    element = nil;
+                }
+            } else {
+                element = nil;
+            }
         }
         
+        NSString *waitDescription = [NSString stringWithFormat:@"Waiting for presence of accessibility element with label \"%@\"", label];
+        if (value.length) waitDescription = [NSString stringWithFormat:@"%@ and accessibility value \"%@\"", waitDescription, value];
+        if (titleOrText.length) waitDescription = [NSString stringWithFormat:@"%@ and title or text \"%@\"", waitDescription, titleOrText];
+
         KIFTestWaitCondition(element, error, @"%@", waitDescription);
         
         return KIFTestStepResultSuccess;
@@ -263,10 +289,10 @@ typedef CGPoint KIFDisplacement;
 
 + (id)stepToTapViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits;
 {
-    return [self stepToTapViewWithAccessibilityLabel:label value:nil traits:traits];
+    return [self stepToTapViewWithAccessibilityLabel:label value:nil traits:traits atPoint:CGPointZero];
 }
 
-+ (id)stepToTapViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits;
++ (id)stepToTapViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits atPoint:(CGPoint)preferredTapPoint
 {
     NSString *description = nil;
     if (value.length) {
@@ -313,6 +339,9 @@ typedef CGPoint KIFDisplacement;
             elementFrame = [view.window convertRect:element.accessibilityFrame toView:view];
         }
         CGPoint tappablePointInElement = [view tappablePointInRect:elementFrame];
+        if (!CGPointEqualToPoint(preferredTapPoint, CGPointZero)) {
+            tappablePointInElement = preferredTapPoint;
+        }
 
         // This is mostly redundant of the test in _accessibilityElementWithLabel:
         KIFTestWaitCondition(!isnan(tappablePointInElement.x), error, @"The element with accessibility label %@ is not tappable", label);
@@ -433,12 +462,27 @@ typedef CGPoint KIFDisplacement;
     }];
 }
 
++ (id)stepToEnterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label ignoreResultText:(BOOL)ignore
+{
+    return [self stepToEnterText:text intoViewWithAccessibilityLabel:label traits:UIAccessibilityTraitNone expectedResult:nil replaceExistingText:NO ignoreResultText:ignore];
+}
+
 + (id)stepToEnterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label;
 {
-    return [self stepToEnterText:text intoViewWithAccessibilityLabel:label traits:UIAccessibilityTraitNone expectedResult:nil];
+    return [self stepToEnterText:text intoViewWithAccessibilityLabel:label traits:UIAccessibilityTraitNone expectedResult:nil replaceExistingText:NO ignoreResultText:NO];
+}
+
++ (id)stepToEnterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label replaceExistingText:(BOOL)replace;
+{
+    return [self stepToEnterText:text intoViewWithAccessibilityLabel:label traits:UIAccessibilityTraitNone expectedResult:nil replaceExistingText:replace ignoreResultText:NO];
 }
 
 + (id)stepToEnterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits expectedResult:(NSString *)expectedResult;
+{
+    return [self stepToEnterText:text intoViewWithAccessibilityLabel:label traits:traits expectedResult:expectedResult replaceExistingText:NO ignoreResultText:NO];
+}
+
++ (id)stepToEnterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits expectedResult:(NSString *)expectedResult replaceExistingText:(BOOL)replace ignoreResultText:(BOOL)ignoreResult;
 {
     NSString *description = [NSString stringWithFormat:@"Type the text \"%@\" into the view with accessibility label \"%@\"", text, label];
     return [self stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
@@ -450,6 +494,9 @@ typedef CGPoint KIFDisplacement;
         
         UIView *view = [UIAccessibilityElement viewContainingAccessibilityElement:element];
         KIFTestWaitCondition(view, error, @"Cannot find view with accessibility label \"%@\"", label);
+        
+        if (replace)
+            [(UITextField *) view setText:nil];
                 
         CGRect elementFrame = [view.window convertRect:element.accessibilityFrame toView:view];
         CGPoint tappablePointInElement = [view tappablePointInRect:elementFrame];
@@ -478,7 +525,7 @@ typedef CGPoint KIFDisplacement;
         }
         
         // This is probably a UITextField- or UITextView-ish view, so make sure it worked
-        if ([view respondsToSelector:@selector(text)]) {
+        if (!ignoreResult && [view respondsToSelector:@selector(text)]) {
             // We trim \n and \r because they trigger the return key, so they won't show up in the final product on single-line inputs
             NSString *expected = [expectedResult ? expectedResult : text stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
             NSString *actual = [[view performSelector:@selector(text)] stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
@@ -535,6 +582,26 @@ typedef CGPoint KIFDisplacement;
         
         KIFTestCondition(NO, error, @"Failed to find picker view value with title \"%@\"", title);
         return KIFTestStepResultFailure;
+    }];
+}
+
++ (id)stepToSelectRowInPickerWithAccessibilityLabel:(NSString*)pickerLabel row:(NSInteger)row component:(NSInteger)component {
+    NSString *description = [NSString stringWithFormat:@"Step to tap row %d in component %d in picker with label %@", row, component, pickerLabel];
+    return [KIFTestStep stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
+        UIAccessibilityElement *element = [[UIApplication sharedApplication] accessibilityElementWithLabel:pickerLabel];
+        KIFTestCondition(element, error, @"View with label %@ not found", pickerLabel);
+        UIPickerView *picker = (UIPickerView*)[UIAccessibilityElement viewContainingAccessibilityElement:element];
+        
+        KIFTestCondition([picker isKindOfClass:[UIPickerView class]], error, @"Specified view is not a UITableView");
+        
+        KIFTestCondition(picker, error, @"Picker with label %@ not found", pickerLabel);
+        
+        KIFTestCondition([picker.dataSource numberOfComponentsInPickerView:picker] > component, error, @"Component %d out of range in picker %@", component, pickerLabel);
+        KIFTestCondition([picker.dataSource pickerView:picker numberOfRowsInComponent:component] > row, error, @"Row %d out of range in picker %@ component %d", row, pickerLabel, component);
+        
+        [picker selectRow:row inComponent:component animated:NO];
+        
+        return KIFTestStepResultSuccess;
     }];
 }
 
@@ -746,6 +813,25 @@ typedef CGPoint KIFDisplacement;
 }
 
 #pragma mark Step Collections
+
++ (id)stepToVerifyThatViewWithLabel:(NSString*)label containsNoMoreThan:(NSUInteger)subviewCount subViewsOfClass:(Class)subviewClass {
+    return [KIFTestStep stepWithDescription:@"Check that there is no more than one MatchView living under MatchesViewController main view" executionBlock:^(KIFTestStep *step, NSError **error){
+        UIAccessibilityElement *element = [self _accessibilityElementWithLabel:label accessibilityValue:nil tappable:NO traits:UIAccessibilityTraitNone error:error];
+        UIView *view = [UIAccessibilityElement viewContainingAccessibilityElement:element];
+        
+        NSUInteger c = 0;
+        for (UIView *v in view.subviews) {
+            if ([v isKindOfClass:subviewClass]) {
+                ++c;
+            }
+        }
+        
+        KIFTestCondition(c <= subviewCount, error, @"Expected %d or fewer subviews of type %@ in view %@, found %d", subviewCount, NSStringFromClass(subviewClass), label, c);
+
+        return KIFTestStepResultSuccess;
+    }];
+}
+
 
 + (NSArray *)stepsToChoosePhotoInAlbum:(NSString *)albumName atRow:(NSInteger)row column:(NSInteger)column;
 {

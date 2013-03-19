@@ -23,7 +23,7 @@ if (!(condition)) { \
     if (error) { \
         *error = [NSError errorWithDomain:@"KIFTest" code:KIFTestStepResultFailure userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:__VA_ARGS__], NSLocalizedDescriptionKey, nil]]; \
     } \
-    [self stepFailed]; \
+    [KIFTestStep stepFailed]; \
     return KIFTestStepResultFailure; \
 } \
 })
@@ -170,6 +170,18 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
 + (id)stepToWaitForViewWithAccessibilityLabel:(NSString *)label;
 
 /*!
+ @method stepToWaitForViewWithAccessibilityLabel:containsTitleOrText:
+ @abstract A step that waits until a view or accessibility element is present.
+ @discussion The view or accessibility element with the given label is found in the view hierarchy. If the element isn't found, then the step will attempt to wait until it is. Note that the view does not necessarily have to be visible on the screen, and may be behind another view or offscreen. Views with their hidden property set to YES are ignored.
+ 
+ If the view you want to wait for is tappable, use the -stepToWaitForTappableViewWithAccessibilityLabel: methods instead as they provide a more strict test.
+ @param label The accessibility label of the element to wait for.
+ @param titleOrText Title (e.g. of a view) or text (e.g. of a textview) of the specified interface element
+ @result A configured test step.
+ */
++ (id)stepToWaitForViewWithAccessibilityLabel:(NSString *)label containsTitleOrText:(NSString*)titleOrText;
+
+/*!
  @method stepToWaitForViewWithAccessibilityLabel:traits:
  @abstract A step that waits until a view or accessibility element is present.
  @discussionThe view or accessibility element with the given label is found in the view hierarchy. If the element isn't found, then the step will attempt to wait until it is. Note that the view does not necessarily have to be visible on the screen, and may be behind another view or offscreen. Views with their hidden property set to YES are ignored.
@@ -193,6 +205,20 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
  @result A configured test step.
  */
 + (id)stepToWaitForViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits;
+
+/*!
+ @method stepToWaitForViewWithAccessibilityLabel:value:traits:containsTitleOrText:
+ @abstract A step that waits until a view or accessibility element is present.
+ @discussionThe view or accessibility element with the given label is found in the view hierarchy. If the element isn't found, then the step will attempt to wait until it is. Note that the view does not necessarily have to be visible on the screen, and may be behind another view or offscreen. Views with their hidden property set to YES are ignored.
+ 
+ If the view you want to wait for is tappable, use the -stepToWaitForTappableViewWithAccessibilityLabel: methods instead as they provide a more strict test.
+ @param label The accessibility label of the element to wait for.
+ @param value The accessibility value of the element to tap.
+ @param traits The accessibility traits of the element to wait for. Elements that do not include at least these traits are ignored.
+ @param titleOrText Title (e.g. of a view) or text (e.g. of a textview) of the specified interface element
+ @result A configured test step.
+ */
++ (id)stepToWaitForViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits containsTitleOrText:(NSString*)titleOrText;
 
 /*!
  @method stepToWaitForAbsenceOfViewWithAccessibilityLabel:
@@ -313,9 +339,10 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
  @param label The accessibility label of the element to tap.
  @param value The accessibility value of the element to tap.
  @param traits The accessibility traits of the element to tap. Elements that do not include at least these traits are ignored.
+ @param preferredTapPoint Optional. If not CGRectZero, will use this point specifically when tapping.
  @result A configured test step.
  */
-+ (id)stepToTapViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits;
++ (id)stepToTapViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits atPoint:(CGPoint)preferredTapPoint;
 
 /*!
  @method stepToTapScreenAtPoint:
@@ -385,6 +412,27 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
 + (id)stepToEnterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label;
 
 /*!
+ @method stepToEnterText:intoViewWithAccessibilityLabel:replaceExistingText:
+ @abstract A step that enters text into a particular view in the view hierarchy.
+ @discussion The view or accessibility element with the given label is searched for in the view hierarchy. If the element isn't found or isn't currently tappable, then the step will attempt to wait until it is. Once the view is present and tappable, a tap event is simulated in the center of the view or element, then text is entered into the view by simulating taps on the appropriate keyboard keys.
+ @param text The text to enter.
+ @param label The accessibility label of the element to type into.
+ @param replace Whether or not to erase the previous contents of the field before typing.
+ @result A configured test step.
+ */
++ (id)stepToEnterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label replaceExistingText:(BOOL)replace;
+
+/*!
+ @method stepToEnterText:intoViewWithAccessibilityLabel:ignoreResultText:
+ @abstract A step that enters text into a particular view in the view hierarchy.
+ @discussion Same as the basic stepToEnterText, except this blocks the checking of the end result. This is useful for views that mutate the text entered.
+ @param label The accessibility label of the element to type into.
+ @param ignore Ignores the final check between entered and displayed value.
+ @result A configured test step.
+ */
++ (id)stepToEnterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label ignoreResultText:(BOOL)ignore;
+
+/*!
  @method stepToEnterText:intoViewWithAccessibilityLabel:traits:
  @abstract A step that enters text into a particular view in the view hierarchy.
  @discussion The view or accessibility element with the given label is searched for in the view hierarchy. If the element isn't found or isn't currently tappable, then the step will attempt to wait until it is. Once the view is present and tappable, a tap event is simulated in the center of the view or element, then text is entered into the view by simulating taps on the appropriate keyboard keys.
@@ -397,6 +445,19 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
 + (id)stepToEnterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits expectedResult:(NSString *)expectedResult;
 
 /*!
+ @method stepToEnterText:intoViewWithAccessibilityLabel:traits:
+ @abstract A step that enters text into a particular view in the view hierarchy.
+ @discussion The view or accessibility element with the given label is searched for in the view hierarchy. If the element isn't found or isn't currently tappable, then the step will attempt to wait until it is. Once the view is present and tappable, a tap event is simulated in the center of the view or element, then text is entered into the view by simulating taps on the appropriate keyboard keys.
+ @param text The text to enter.
+ @param label The accessibility label of the element to type into.
+ @param traits The accessibility traits of the element to type into. Elements that do not include at least these traits are ignored.
+ @param expectedResult What the text value should be after entry, including any formatting done by the field. If this is nil, the "text" parameter will be used.
+ @param replace Whether or not to erase the previous contents of the field before typing.
+ @result A configured test step.
+ */
++ (id)stepToEnterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits expectedResult:(NSString *)expectedResult replaceExistingText:(BOOL)replace;
+
+/*!
  @method stepToSelectPickerViewRowWithTitle:
  @abstract A step that selects an item from a currently visible picker view.
  @discussion With a picker view already visible, this step will find an item with the given title, select that item, and tap the Done button.
@@ -404,6 +465,8 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
  @result A configured test step.
  */
 + (id)stepToSelectPickerViewRowWithTitle:(NSString *)title;
+
++ (id)stepToSelectRowInPickerWithAccessibilityLabel:(NSString*)pickerLabel row:(NSInteger)row component:(NSInteger)component;
 
 /*!
  @method stepToSetOn:forSwitchWithAccessibilityLabel:
@@ -431,6 +494,8 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
 + (id)stepToSimulateMemoryWarning;
 
 + (void)stepFailed;
+
++ (id)stepToVerifyThatViewWithLabel:(NSString*)label containsNoMoreThan:(NSUInteger)subviewCount subViewsOfClass:(Class)subviewClass;
 
 /*!
  @method stepsToChoosePhotoInAlbum:atRow:column:
