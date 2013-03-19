@@ -109,7 +109,7 @@ typedef CGPoint KIFDisplacement;
 
 + (id)stepToWaitForViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits;
 {
-    return [self stepToWaitForViewWithAccessibilityLabel:label value:nil traits:traits containsTitleOrText:nil];
+    return [self stepToWaitForViewWithAccessibilityLabel:label value:value traits:traits containsTitleOrText:nil];
 }
 
 + (id)stepToWaitForViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits containsTitleOrText:(NSString*)titleOrText;
