@@ -17,8 +17,7 @@
 		C112AC2E16FA0E6200F26FEF /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C112AC2D16FA0E6200F26FEF /* Default@2x.png */; };
 		C112AC3016FA0E6200F26FEF /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C112AC2F16FA0E6200F26FEF /* Default-568h@2x.png */; };
 		C112AC3316FA0E6200F26FEF /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C112AC3216FA0E6200F26FEF /* ViewController.m */; };
-		C112AC3616FA0E6200F26FEF /* ViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = C112AC3416FA0E6200F26FEF /* ViewController_iPhone.xib */; };
-		C112AC3916FA0E6200F26FEF /* ViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = C112AC3716FA0E6200F26FEF /* ViewController_iPad.xib */; };
+		C112AC3616FA0E6200F26FEF /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C112AC3416FA0E6200F26FEF /* ViewController.xib */; };
 		C112AC4116FA0E6300F26FEF /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C112AC4016FA0E6300F26FEF /* SenTestingKit.framework */; };
 		C112AC4216FA0E6300F26FEF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C112AC1916FA0E6200F26FEF /* UIKit.framework */; };
 		C112AC4316FA0E6300F26FEF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C112AC1B16FA0E6200F26FEF /* Foundation.framework */; };
@@ -52,8 +51,7 @@
 		C112AC2F16FA0E6200F26FEF /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		C112AC3116FA0E6200F26FEF /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		C112AC3216FA0E6200F26FEF /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		C112AC3516FA0E6200F26FEF /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController_iPhone.xib; sourceTree = "<group>"; };
-		C112AC3816FA0E6200F26FEF /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController_iPad.xib; sourceTree = "<group>"; };
+		C112AC3516FA0E6200F26FEF /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController.xib; sourceTree = "<group>"; };
 		C112AC3F16FA0E6300F26FEF /* TypistBugTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TypistBugTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C112AC4016FA0E6300F26FEF /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		C112AC4816FA0E6300F26FEF /* TypistBugTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "TypistBugTests-Info.plist"; sourceTree = "<group>"; };
@@ -123,8 +121,7 @@
 				C112AC2916FA0E6200F26FEF /* AppDelegate.m */,
 				C112AC3116FA0E6200F26FEF /* ViewController.h */,
 				C112AC3216FA0E6200F26FEF /* ViewController.m */,
-				C112AC3416FA0E6200F26FEF /* ViewController_iPhone.xib */,
-				C112AC3716FA0E6200F26FEF /* ViewController_iPad.xib */,
+				C112AC3416FA0E6200F26FEF /* ViewController.xib */,
 				C112AC2016FA0E6200F26FEF /* Supporting Files */,
 			);
 			path = TypistBug;
@@ -238,8 +235,7 @@
 				C112AC2C16FA0E6200F26FEF /* Default.png in Resources */,
 				C112AC2E16FA0E6200F26FEF /* Default@2x.png in Resources */,
 				C112AC3016FA0E6200F26FEF /* Default-568h@2x.png in Resources */,
-				C112AC3616FA0E6200F26FEF /* ViewController_iPhone.xib in Resources */,
-				C112AC3916FA0E6200F26FEF /* ViewController_iPad.xib in Resources */,
+				C112AC3616FA0E6200F26FEF /* ViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -307,20 +303,12 @@
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
-		C112AC3416FA0E6200F26FEF /* ViewController_iPhone.xib */ = {
+		C112AC3416FA0E6200F26FEF /* ViewController.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				C112AC3516FA0E6200F26FEF /* en */,
 			);
-			name = ViewController_iPhone.xib;
-			sourceTree = "<group>";
-		};
-		C112AC3716FA0E6200F26FEF /* ViewController_iPad.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				C112AC3816FA0E6200F26FEF /* en */,
-			);
-			name = ViewController_iPad.xib;
+			name = ViewController.xib;
 			sourceTree = "<group>";
 		};
 		C112AC4916FA0E6300F26FEF /* InfoPlist.strings */ = {
@@ -460,6 +448,7 @@
 				C112AC5316FA0E6300F26FEF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		C112AC5416FA0E6300F26FEF /* Build configuration list for PBXNativeTarget "TypistBugTests" */ = {
 			isa = XCConfigurationList;
@@ -468,6 +457,7 @@
 				C112AC5616FA0E6300F26FEF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
