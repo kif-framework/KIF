@@ -563,6 +563,15 @@ typedef enum {
 + (id)stepToWaitForFirstResponderWithAccessibilityLabel:(NSString *)label;
 
 /*!
+ @method stepToDismissAlertViewWithLabel:byTappingButton:
+ @abstract A step that dismisses an alert view by tapping on the specified button.  NOTE: This may not work with system-provided alter views, such as requesting location information, etc.
+ @param label The accessibility label of the Alert View's title
+ @param buttonLabel The accessibility label of the button to tap, ie OK, Cancel, etc
+ @result A configured test step
+ */
++ (id)stepToDismissAlertViewWithLabel:(NSString *)label byTappingButton:(NSString *)buttonLabel;
+
+/*!
  @method swipePathForFlick:
  @abstract A method to get a swipePath for flicking.
  @discussion The swipe path is found by determining points between 2 end points.
@@ -589,5 +598,7 @@ typedef enum {
  */
 + (void)tapElementWithLabel:(NSString*)label;
 
+
++ (KIFTestStepResult)dismissAlertWithLabel:(NSString *)label buttonLabel:(NSString *)buttonLabel error:(NSError**)error;
 
 @end

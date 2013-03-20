@@ -1107,6 +1107,13 @@ typedef CGPoint KIFDisplacement;
     }];
 }
 
++ (id)stepToDismissAlertViewWithLabel:(NSString *)label byTappingButton:(NSString *)buttonLabel
+{
+	return [KIFTestStep stepWithDescription:[NSString stringWithFormat:@"Find the alert dialog with label '%@' and dismiss it with button '%@'", label, buttonLabel] executionBlock:^KIFTestStepResult(KIFTestStep *step, NSError **error) {
+        return [self dismissAlertWithLabel:label buttonLabel:buttonLabel error:error];
+    }];
+}
+
 #pragma mark Step Collections
 
 + (NSArray *)stepsToChoosePhotoInAlbum:(NSString *)albumName atRow:(NSInteger)row column:(NSInteger)column;
@@ -1215,6 +1222,30 @@ typedef CGPoint KIFDisplacement;
     if (notificationName || notificationObject) {
         [[NSNotificationCenter defaultCenter] removeObserver:self name:notificationName object:notificationObject];    
     }
+}
+
++ (KIFTestStepResult)dismissAlertWithLabel:(NSString *)label buttonLabel:(NSString *)buttonLabel error:(NSError**)error
+{
+	UIAlertView* alert = [self getAlertView];
+	KIFTestWaitCondition(alert, error, @"No UIAlert window was not found among available windows.");
+    
+    UIButton *matchingButton = nil;
+    NSString *alertTitle = [alert title];
+    for (UIView *view in [alert subviews]) {
+        if ([[[view class] description] isEqualToString:@"UIAlertButton"]) {
+            UIButton *btn = (UIButton*)view;
+            if ([[btn accessibilityLabel] isEqual:buttonLabel]) {
+				matchingButton = btn;
+                break;
+            }
+        }
+    }
+     
+    KIFTestCondition([alertTitle isEqual:label], error, @"Current alert title didn't match search title. Expected '%@' but got '%@'", label, [alert title]);
+    KIFTestCondition(matchingButton, error, @"Button with label '%@' not found", buttonLabel);
+	[matchingButton tap];
+    
+    return (*error) ? KIFTestStepResultFailure : KIFTestStepResultSuccess;
 }
 
 #pragma mark Private Methods
@@ -1548,5 +1579,20 @@ typedef CGPoint KIFDisplacement;
 	}
 	
 }
+
++ (UIAlertView *)getAlertView
+{
+    NSArray* windows = [[UIApplication sharedApplication] windows];
+    for (UIWindow *window in windows) {
+        for (UIView *view in [window subviews]) {
+            if ([view isKindOfClass:[UIAlertView class]]) {
+                return (UIAlertView*) view;
+            }
+        }
+    }
+    return nil;
+}
+
+
 
 @end
