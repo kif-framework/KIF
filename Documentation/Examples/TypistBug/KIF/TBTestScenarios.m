@@ -11,12 +11,15 @@
 
 @implementation KIFTestScenario (TBTestScenarios)
 
-+ (id)scenarioToEnterTextWithoutCapitalization;
++ (id)scenarioToEnterTextWithCapitalization:(BOOL)autoCapitalize;
 {
-    KIFTestScenario *scenario = [KIFTestScenario scenarioWithDescription:@"Text field works without auto-capitalization."];
-    [scenario addStep:[KIFTestStep stepToSetOn:NO forSwitchWithAccessibilityLabel:@"auto-capitalize"]];
-    [scenario addStep:[KIFTestStep stepToTypeIntoTheTextField:@"foo bar baz"]];
+    NSString *scenarioDescription = autoCapitalize ? @"Text field works WITH auto-capitalization." : @"Text field works WITHOUT auto-capitalization.";
+    
+    KIFTestScenario *scenario = [KIFTestScenario scenarioWithDescription:scenarioDescription];
+    [scenario addStep:[KIFTestStep stepToSetOn:autoCapitalize forSwitchWithAccessibilityLabel:@"auto-capitalize"]];
+    [scenario addStep:[KIFTestStep stepToTypeIntoTheTextField:@"foo Bar baz"]];
     return scenario;
 }
+
 
 @end

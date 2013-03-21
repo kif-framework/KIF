@@ -11,6 +11,6 @@
 
 @interface KIFTestScenario (TBTestScenarios)
 
-+ (id)scenarioToEnterTextWithoutCapitalization;
++ (id)scenarioToEnterTextWithCapitalization:(BOOL)autoCapitalize;
 
 @end

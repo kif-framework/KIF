@@ -13,8 +13,8 @@
 
 - (void)initializeScenarios;
 {
-    [self addScenario:[KIFTestScenario scenarioToEnterTextWithoutCapitalization]];
-    // Add additional scenarios you want to test here
+    [self addScenario:[KIFTestScenario scenarioToEnterTextWithCapitalization:YES]];
+    [self addScenario:[KIFTestScenario scenarioToEnterTextWithCapitalization:NO]];
 }
 
 @end

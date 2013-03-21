@@ -14,7 +14,8 @@
 
 + (id)stepToTypeIntoTheTextField:(NSString*)textToType;
 {
-    return [self stepToEnterText:[textToType stringByAppendingString:@"\n"] intoViewWithAccessibilityLabel:@"example text field"];
+    NSString *stringWithDeletes = [@"\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b" stringByAppendingString:textToType];
+    return [self stepToEnterText:stringWithDeletes intoViewWithAccessibilityLabel:@"example text field" traits:UIAccessibilityTraitNone expectedResult:textToType];
 }
 
 @end
