@@ -26,5 +26,6 @@
 
 - (UIWindow *)keyboardWindow;
 - (UIWindow *)pickerViewWindow;
+- (UIAlertView *)alertView;
 
 @end

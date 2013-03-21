@@ -563,6 +563,14 @@ typedef enum {
 + (id)stepToWaitForFirstResponderWithAccessibilityLabel:(NSString *)label;
 
 /*!
+ @method stepToDismissAlertViewIfPresent:
+ @abstract A step that dismisses an alert view using the Cancel button if present.
+ @param required If YES, we verify that an alert view is present before dismissing it, if NO, we just attempt to close any alert view that may be presented.
+ @result A configured test step
+ */
++ (id)stepToDismissAlertViewIfPresent:(BOOL)required;
+
+/*!
  @method stepToDismissAlertViewWithLabel:byTappingButton:
  @abstract A step that dismisses an alert view by tapping on the specified button.  NOTE: This may not work with system-provided alter views, such as requesting location information, etc.
  @param label The accessibility label of the Alert View's title
@@ -597,8 +605,5 @@ typedef enum {
  @param The label to use to search
  */
 + (void)tapElementWithLabel:(NSString*)label;
-
-
-+ (KIFTestStepResult)dismissAlertWithLabel:(NSString *)label buttonLabel:(NSString *)buttonLabel error:(NSError**)error;
 
 @end

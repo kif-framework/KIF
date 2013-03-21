@@ -1107,6 +1107,18 @@ typedef CGPoint KIFDisplacement;
     }];
 }
 
++ (id)stepToDismissAlertViewIfPresent:(BOOL)required
+{
+	NSString *description = [NSString stringWithFormat:@"Dismissing alert view with cancel button. Required: %@", required ? @"YES" : @"NO"];
+	return [KIFTestStep stepWithDescription:description executionBlock:^KIFTestStepResult(KIFTestStep *step, NSError **error) {
+		UIAlertView *alert = [[UIApplication sharedApplication] alertView];
+		if (required){
+			KIFTestWaitCondition(alert, error, @"Required alert view is not present");
+		}
+		return [self dismissAlertView:alert withButtonAtIndex:[alert cancelButtonIndex]];
+	}];
+}
+
 + (id)stepToDismissAlertViewWithLabel:(NSString *)label byTappingButton:(NSString *)buttonLabel
 {
 	return [KIFTestStep stepWithDescription:[NSString stringWithFormat:@"Find the alert dialog with label '%@' and dismiss it with button '%@'", label, buttonLabel] executionBlock:^KIFTestStepResult(KIFTestStep *step, NSError **error) {
@@ -1224,28 +1236,37 @@ typedef CGPoint KIFDisplacement;
     }
 }
 
++ (KIFTestStepResult)dismissAlertView:(UIAlertView *)alert withButtonAtIndex:(NSInteger)index
+{
+	return [self dismissAlertView:alert withButtonAtIndex:index animated:YES];
+}
+
++ (KIFTestStepResult)dismissAlertView:(UIAlertView *)alert withButtonAtIndex:(NSInteger)index animated:(BOOL)animated
+{
+	[alert dismissWithClickedButtonIndex:index animated:animated];
+	return KIFTestStepResultSuccess;
+}
+
 + (KIFTestStepResult)dismissAlertWithLabel:(NSString *)label buttonLabel:(NSString *)buttonLabel error:(NSError**)error
 {
-	UIAlertView* alert = [self getAlertView];
-	KIFTestWaitCondition(alert, error, @"No UIAlert window was not found among available windows.");
+	UIAlertView *alertView = [[UIApplication sharedApplication] alertView];
+	KIFTestWaitCondition(alertView, error, @"No UIAlert window was not found among available windows.");
     
-    UIButton *matchingButton = nil;
-    NSString *alertTitle = [alert title];
-    for (UIView *view in [alert subviews]) {
-        if ([[[view class] description] isEqualToString:@"UIAlertButton"]) {
-            UIButton *btn = (UIButton*)view;
-            if ([[btn accessibilityLabel] isEqual:buttonLabel]) {
-				matchingButton = btn;
-                break;
-            }
-        }
-    }
+    NSString *alertTitle = [alertView title];
+	NSInteger buttons = [alertView numberOfButtons];
+	NSInteger buttonIndex = -1;
+	for (NSInteger i = 0; i < buttons; i++){
+		NSString *btnTitle = [alertView buttonTitleAtIndex:i];
+		if ([btnTitle isEqualToString:buttonLabel]) {
+			buttonIndex = i;
+			break;
+		}
+	}
      
-    KIFTestCondition([alertTitle isEqual:label], error, @"Current alert title didn't match search title. Expected '%@' but got '%@'", label, [alert title]);
-    KIFTestCondition(matchingButton, error, @"Button with label '%@' not found", buttonLabel);
-	[matchingButton tap];
+    KIFTestCondition([alertTitle isEqual:label], error, @"Current alert title didn't match search title. Expected '%@' but got '%@'", label, [alertView title]);
+    KIFTestCondition((buttonIndex >= 0), error, @"Button with label '%@' not found", buttonLabel);
     
-    return (*error) ? KIFTestStepResultFailure : KIFTestStepResultSuccess;
+    return (*error) ? KIFTestStepResultFailure : [self dismissAlertView:alertView withButtonAtIndex:buttonIndex];
 }
 
 #pragma mark Private Methods
@@ -1579,20 +1600,5 @@ typedef CGPoint KIFDisplacement;
 	}
 	
 }
-
-+ (UIAlertView *)getAlertView
-{
-    NSArray* windows = [[UIApplication sharedApplication] windows];
-    for (UIWindow *window in windows) {
-        for (UIView *view in [window subviews]) {
-            if ([view isKindOfClass:[UIAlertView class]]) {
-                return (UIAlertView*) view;
-            }
-        }
-    }
-    return nil;
-}
-
-
 
 @end
