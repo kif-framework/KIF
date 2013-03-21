@@ -10,6 +10,7 @@
 
 @interface ViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *exampleTextField;
+@property (weak, nonatomic) IBOutlet UILabel *outputLabel;
 @property (weak, nonatomic) IBOutlet UISwitch *capitalizationSwitch;
 
 - (void) updateCapitalization;
@@ -21,6 +22,7 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+    self.exampleTextField.delegate = self;
     [self updateCapitalization];
 }
 
@@ -29,8 +31,20 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+
+- (IBAction)didEndEditing:(id)sender {
+    [self.outputLabel setText:[NSString stringWithFormat:@"text entered into text field:\n%@", self.exampleTextField.text]];
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [textField resignFirstResponder];
+    return YES;
+}
+
 - (IBAction)capitalizationDidChange:(id)sender {
     [self updateCapitalization];
+    [self.exampleTextField resignFirstResponder];
 }
 
 - (void) updateCapitalization{

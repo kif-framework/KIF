@@ -14,6 +14,7 @@
 + (id)scenarioToEnterTextWithoutCapitalization;
 {
     KIFTestScenario *scenario = [KIFTestScenario scenarioWithDescription:@"Text field works without auto-capitalization."];
+    [scenario addStep:[KIFTestStep stepToSetOn:NO forSwitchWithAccessibilityLabel:@"auto-capitalize"]];
     [scenario addStep:[KIFTestStep stepToTypeIntoTheTextField:@"foo bar baz"]];
     return scenario;
 }

@@ -14,7 +14,7 @@
 
 + (id)stepToTypeIntoTheTextField:(NSString*)textToType;
 {
-    return [self stepToEnterText:textToType intoViewWithAccessibilityLabel:@"Type into me"];
+    return [self stepToEnterText:[textToType stringByAppendingString:@"\n"] intoViewWithAccessibilityLabel:@"example text field"];
 }
 
 @end
