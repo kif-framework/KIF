@@ -10,6 +10,10 @@
 
 #import "ViewController.h"
 
+#if RUN_KIF_TESTS
+#import "TBTestController.h"
+#endif
+
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -20,6 +24,14 @@
     self.viewController = [[ViewController alloc] initWithNibName:@"ViewController" bundle:nil];
     self.window.rootViewController = self.viewController;
     [self.window makeKeyAndVisible];
+    
+    
+#if RUN_KIF_TESTS
+    [[TBTestController sharedInstance] startTestingWithCompletionBlock:^{
+        exit([[TBTestController sharedInstance] failureCount]);
+    }];
+#endif
+    
     return YES;
 }
 

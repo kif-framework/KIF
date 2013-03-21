@@ -23,6 +23,21 @@
 		C112AC4316FA0E6300F26FEF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C112AC1B16FA0E6200F26FEF /* Foundation.framework */; };
 		C112AC4B16FA0E6300F26FEF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C112AC4916FA0E6300F26FEF /* InfoPlist.strings */; };
 		C112AC4E16FA0E6300F26FEF /* TypistBugTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C112AC4D16FA0E6300F26FEF /* TypistBugTests.m */; };
+		C112AC5E16FAADAF00F26FEF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C112AC2516FA0E6200F26FEF /* main.m */; };
+		C112AC5F16FAADAF00F26FEF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C112AC2916FA0E6200F26FEF /* AppDelegate.m */; };
+		C112AC6016FAADAF00F26FEF /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C112AC3216FA0E6200F26FEF /* ViewController.m */; };
+		C112AC6216FAADAF00F26FEF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C112AC1916FA0E6200F26FEF /* UIKit.framework */; };
+		C112AC6316FAADAF00F26FEF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C112AC1B16FA0E6200F26FEF /* Foundation.framework */; };
+		C112AC6416FAADAF00F26FEF /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C112AC1D16FA0E6200F26FEF /* CoreGraphics.framework */; };
+		C112AC6616FAADAF00F26FEF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C112AC2216FA0E6200F26FEF /* InfoPlist.strings */; };
+		C112AC6716FAADAF00F26FEF /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = C112AC2B16FA0E6200F26FEF /* Default.png */; };
+		C112AC6816FAADAF00F26FEF /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C112AC2D16FA0E6200F26FEF /* Default@2x.png */; };
+		C112AC6916FAADAF00F26FEF /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C112AC2F16FA0E6200F26FEF /* Default-568h@2x.png */; };
+		C112AC6A16FAADAF00F26FEF /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C112AC3416FA0E6200F26FEF /* ViewController.xib */; };
+		C112AC7C16FAAEBB00F26FEF /* TBTestController.m in Sources */ = {isa = PBXBuildFile; fileRef = C112AC7B16FAAEBB00F26FEF /* TBTestController.m */; };
+		C112AC8216FAB0D200F26FEF /* TBTestScenarios.m in Sources */ = {isa = PBXBuildFile; fileRef = C112AC8116FAB0D200F26FEF /* TBTestScenarios.m */; };
+		C112AC8516FAB0EC00F26FEF /* TBTestSteps.m in Sources */ = {isa = PBXBuildFile; fileRef = C112AC8416FAB0EC00F26FEF /* TBTestSteps.m */; };
+		C112AC8616FAB1E600F26FEF /* libKIF.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C112AC7616FAAE0900F26FEF /* libKIF.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,6 +47,20 @@
 			proxyType = 1;
 			remoteGlobalIDString = C112AC1416FA0E6200F26FEF;
 			remoteInfo = TypistBug;
+		};
+		C112AC7516FAAE0900F26FEF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C112AC7116FAAE0900F26FEF /* KIF.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = AAB07268139719AC008AF393;
+			remoteInfo = KIF;
+		};
+		C112AC7716FAAE1A00F26FEF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C112AC7116FAAE0900F26FEF /* KIF.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = AAB07267139719AC008AF393;
+			remoteInfo = KIF;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -58,6 +87,15 @@
 		C112AC4A16FA0E6300F26FEF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		C112AC4C16FA0E6300F26FEF /* TypistBugTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TypistBugTests.h; sourceTree = "<group>"; };
 		C112AC4D16FA0E6300F26FEF /* TypistBugTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TypistBugTests.m; sourceTree = "<group>"; };
+		C112AC6E16FAADAF00F26FEF /* TypistBug copy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "TypistBug copy.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C112AC7016FAADAF00F26FEF /* TypistBug copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "TypistBug copy-Info.plist"; path = "/Users/pete/git/KIF/Documentation/Examples/TypistBug/TypistBug copy-Info.plist"; sourceTree = "<absolute>"; };
+		C112AC7116FAAE0900F26FEF /* KIF.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = KIF.xcodeproj; path = ../../../KIF.xcodeproj; sourceTree = "<group>"; };
+		C112AC7A16FAAEBB00F26FEF /* TBTestController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TBTestController.h; path = KIF/TBTestController.h; sourceTree = "<group>"; };
+		C112AC7B16FAAEBB00F26FEF /* TBTestController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TBTestController.m; path = KIF/TBTestController.m; sourceTree = "<group>"; };
+		C112AC8016FAB0D200F26FEF /* TBTestScenarios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TBTestScenarios.h; path = KIF/TBTestScenarios.h; sourceTree = "<group>"; };
+		C112AC8116FAB0D200F26FEF /* TBTestScenarios.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TBTestScenarios.m; path = KIF/TBTestScenarios.m; sourceTree = "<group>"; };
+		C112AC8316FAB0EC00F26FEF /* TBTestSteps.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TBTestSteps.h; path = KIF/TBTestSteps.h; sourceTree = "<group>"; };
+		C112AC8416FAB0EC00F26FEF /* TBTestSteps.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TBTestSteps.m; path = KIF/TBTestSteps.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,16 +119,29 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C112AC6116FAADAF00F26FEF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C112AC8616FAB1E600F26FEF /* libKIF.a in Frameworks */,
+				C112AC6216FAADAF00F26FEF /* UIKit.framework in Frameworks */,
+				C112AC6316FAADAF00F26FEF /* Foundation.framework in Frameworks */,
+				C112AC6416FAADAF00F26FEF /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		C112AC0A16FA0E6200F26FEF = {
 			isa = PBXGroup;
 			children = (
+				C112AC7916FAAE6800F26FEF /* KIF */,
 				C112AC1F16FA0E6200F26FEF /* TypistBug */,
 				C112AC4616FA0E6300F26FEF /* TypistBugTests */,
 				C112AC1816FA0E6200F26FEF /* Frameworks */,
 				C112AC1616FA0E6200F26FEF /* Products */,
+				C112AC7016FAADAF00F26FEF /* TypistBug copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -99,6 +150,7 @@
 			children = (
 				C112AC1516FA0E6200F26FEF /* TypistBug.app */,
 				C112AC3F16FA0E6300F26FEF /* TypistBugTests.octest */,
+				C112AC6E16FAADAF00F26FEF /* TypistBug copy.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -160,6 +212,28 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		C112AC7216FAAE0900F26FEF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C112AC7616FAAE0900F26FEF /* libKIF.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C112AC7916FAAE6800F26FEF /* KIF */ = {
+			isa = PBXGroup;
+			children = (
+				C112AC7116FAAE0900F26FEF /* KIF.xcodeproj */,
+				C112AC8316FAB0EC00F26FEF /* TBTestSteps.h */,
+				C112AC8416FAB0EC00F26FEF /* TBTestSteps.m */,
+				C112AC7A16FAAEBB00F26FEF /* TBTestController.h */,
+				C112AC7B16FAAEBB00F26FEF /* TBTestController.m */,
+				C112AC8016FAB0D200F26FEF /* TBTestScenarios.h */,
+				C112AC8116FAB0D200F26FEF /* TBTestScenarios.m */,
+			);
+			name = KIF;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -199,6 +273,24 @@
 			productReference = C112AC3F16FA0E6300F26FEF /* TypistBugTests.octest */;
 			productType = "com.apple.product-type.bundle";
 		};
+		C112AC5C16FAADAF00F26FEF /* TypistBug KIF */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C112AC6B16FAADAF00F26FEF /* Build configuration list for PBXNativeTarget "TypistBug KIF" */;
+			buildPhases = (
+				C112AC5D16FAADAF00F26FEF /* Sources */,
+				C112AC6116FAADAF00F26FEF /* Frameworks */,
+				C112AC6516FAADAF00F26FEF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C112AC7816FAAE1A00F26FEF /* PBXTargetDependency */,
+			);
+			name = "TypistBug KIF";
+			productName = TypistBug;
+			productReference = C112AC6E16FAADAF00F26FEF /* TypistBug copy.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -218,13 +310,30 @@
 			mainGroup = C112AC0A16FA0E6200F26FEF;
 			productRefGroup = C112AC1616FA0E6200F26FEF /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = C112AC7216FAAE0900F26FEF /* Products */;
+					ProjectRef = C112AC7116FAAE0900F26FEF /* KIF.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				C112AC1416FA0E6200F26FEF /* TypistBug */,
 				C112AC3E16FA0E6300F26FEF /* TypistBugTests */,
+				C112AC5C16FAADAF00F26FEF /* TypistBug KIF */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		C112AC7616FAAE0900F26FEF /* libKIF.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libKIF.a;
+			remoteRef = C112AC7516FAAE0900F26FEF /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		C112AC1316FA0E6200F26FEF /* Resources */ = {
@@ -244,6 +353,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				C112AC4B16FA0E6300F26FEF /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C112AC6516FAADAF00F26FEF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C112AC6616FAADAF00F26FEF /* InfoPlist.strings in Resources */,
+				C112AC6716FAADAF00F26FEF /* Default.png in Resources */,
+				C112AC6816FAADAF00F26FEF /* Default@2x.png in Resources */,
+				C112AC6916FAADAF00F26FEF /* Default-568h@2x.png in Resources */,
+				C112AC6A16FAADAF00F26FEF /* ViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -284,6 +405,19 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C112AC5D16FAADAF00F26FEF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C112AC5E16FAADAF00F26FEF /* main.m in Sources */,
+				C112AC5F16FAADAF00F26FEF /* AppDelegate.m in Sources */,
+				C112AC6016FAADAF00F26FEF /* ViewController.m in Sources */,
+				C112AC7C16FAAEBB00F26FEF /* TBTestController.m in Sources */,
+				C112AC8216FAB0D200F26FEF /* TBTestScenarios.m in Sources */,
+				C112AC8516FAB0EC00F26FEF /* TBTestSteps.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -291,6 +425,11 @@
 			isa = PBXTargetDependency;
 			target = C112AC1416FA0E6200F26FEF /* TypistBug */;
 			targetProxy = C112AC4416FA0E6300F26FEF /* PBXContainerItemProxy */;
+		};
+		C112AC7816FAAE1A00F26FEF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = KIF;
+			targetProxy = C112AC7716FAAE1A00F26FEF /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -429,6 +568,37 @@
 			};
 			name = Release;
 		};
+		C112AC6C16FAADAF00F26FEF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "TypistBug/TypistBug-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					RUN_KIF_TESTS,
+					"DEBUG=1",
+				);
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/../../../Classes";
+				INFOPLIST_FILE = "TypistBug copy-Info.plist";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "TypistBug copy";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		C112AC6D16FAADAF00F26FEF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "TypistBug/TypistBug-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = RUN_KIF_TESTS;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/../../../Classes";
+				INFOPLIST_FILE = "TypistBug copy-Info.plist";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "TypistBug copy";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -455,6 +625,15 @@
 			buildConfigurations = (
 				C112AC5516FA0E6300F26FEF /* Debug */,
 				C112AC5616FA0E6300F26FEF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C112AC6B16FAADAF00F26FEF /* Build configuration list for PBXNativeTarget "TypistBug KIF" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C112AC6C16FAADAF00F26FEF /* Debug */,
+				C112AC6D16FAADAF00F26FEF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
