@@ -17,7 +17,7 @@
     
     KIFTestScenario *scenario = [KIFTestScenario scenarioWithDescription:scenarioDescription];
     [scenario addStep:[KIFTestStep stepToSetOn:autoCapitalize forSwitchWithAccessibilityLabel:@"auto-capitalize"]];
-    [scenario addStep:[KIFTestStep stepToTypeIntoTheTextField:@"foo Bar baz"]];
+    [scenario addStepsFromArray:[KIFTestStep stepsToTypeIntoTheTextField:@"foo bar baz"]];
     return scenario;
 }
 

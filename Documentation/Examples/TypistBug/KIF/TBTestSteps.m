@@ -12,10 +12,12 @@
 
 #pragma mark - Factory Steps
 
-+ (id)stepToTypeIntoTheTextField:(NSString*)textToType;
++ (NSArray *)stepsToTypeIntoTheTextField:(NSString*)textToType;
 {
-    NSString *stringWithDeletes = [@"\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b" stringByAppendingString:textToType];
-    return [self stepToEnterText:stringWithDeletes intoViewWithAccessibilityLabel:@"example text field" traits:UIAccessibilityTraitNone expectedResult:textToType];
+    return @[
+        [self stepToEnterText:@"\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b" intoViewWithAccessibilityLabel:@"example text field" traits:UIAccessibilityTraitNone expectedResult:@""],
+        [self stepToEnterText:textToType intoViewWithAccessibilityLabel:@"example text field"]
+    ];
 }
 
 @end

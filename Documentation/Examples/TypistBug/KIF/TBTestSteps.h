@@ -13,6 +13,6 @@
 
 @interface KIFTestStep (TBTestSteps)
 
-+ (id)stepToTypeIntoTheTextField:(NSString*)textToType;
++ (NSArray *)stepsToTypeIntoTheTextField:(NSString*)textToType;
 
 @end
