@@ -632,8 +632,17 @@ typedef CGPoint KIFDisplacement;
 }
 
 #define NUM_POINTS_IN_SWIPE_PATH 20
-
 + (id)stepToSwipeViewWithAccessibilityLabel:(NSString *)label inDirection:(KIFSwipeDirection)direction
+{
+	return [self stepToSwipeViewWithAccessibilityLabel:label inDirection:direction duration:((CGFloat)DRAG_TOUCH_DELAY) * ((CGFloat)NUM_POINTS_IN_SWIPE_PATH)];
+}
+
++ (id)stepToSwipeViewWithAccessibilityLabel:(NSString *)label inDirection:(KIFSwipeDirection)direction duration:(CGFloat)seconds
+{
+	return [self stepToSwipeViewWithAccessibilityLabel:label inDirection:direction numberOfPoints:NUM_POINTS_IN_SWIPE_PATH duration:seconds];
+}
+
++ (id)stepToSwipeViewWithAccessibilityLabel:(NSString *)label inDirection:(KIFSwipeDirection)direction numberOfPoints:(NSUInteger)numberOfPoints duration:(CGFloat)seconds
 {
     // The original version of this came from http://groups.google.com/group/kif-framework/browse_thread/thread/df3f47eff9f5ac8c
     NSString *directionDescription = nil;
@@ -672,16 +681,17 @@ typedef CGPoint KIFDisplacement;
 
         KIFDisplacement swipeDisplacement = [self _displacementForSwipingInDirection:direction];
 
-        CGPoint swipePath[NUM_POINTS_IN_SWIPE_PATH];
+        CGPoint swipePath[numberOfPoints];
 
-        for (int pointIndex = 0; pointIndex < NUM_POINTS_IN_SWIPE_PATH; pointIndex++)
+        for (int pointIndex = 0; pointIndex < numberOfPoints; pointIndex++)
         {
-            CGFloat swipeProgress = ((CGFloat)pointIndex)/(NUM_POINTS_IN_SWIPE_PATH - 1);
+            CGFloat swipeProgress = ((CGFloat)pointIndex)/(numberOfPoints - 1);
             swipePath[pointIndex] = CGPointMake(swipeStart.x + (swipeProgress * swipeDisplacement.x),
                                                 swipeStart.y + (swipeProgress * swipeDisplacement.y));
         }
 
-        [viewToSwipe dragAlongPathWithPoints:swipePath count:NUM_POINTS_IN_SWIPE_PATH];
+		CGFloat subduration = seconds/((CGFloat)numberOfPoints);
+        [viewToSwipe dragAlongPathWithPoints:swipePath count:numberOfPoints subduration:subduration];
 
         return KIFTestStepResultSuccess;
     }];

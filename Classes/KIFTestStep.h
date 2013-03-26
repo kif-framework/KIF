@@ -477,6 +477,8 @@ typedef enum {
  @result A configured test step.
  */
 + (id)stepToSwipeViewWithAccessibilityLabel:(NSString *)label inDirection:(KIFSwipeDirection)direction;
++ (id)stepToSwipeViewWithAccessibilityLabel:(NSString *)label inDirection:(KIFSwipeDirection)direction duration:(CGFloat)seconds;
++ (id)stepToSwipeViewWithAccessibilityLabel:(NSString *)label inDirection:(KIFSwipeDirection)direction numberOfPoints:(NSUInteger)numberOfPoints duration:(CGFloat)seconds;
 
 /*!
  @method stepToScrollViewWithAccessibilityLabel:byFractionOfSizeHorizontal:vertical:
