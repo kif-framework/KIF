@@ -9,6 +9,7 @@
 
 #import <UIKit/UIKit.h>
 
+#define DRAG_TOUCH_DELAY 0.01
 
 @interface UIView (KIFAdditions)
 
@@ -46,6 +47,7 @@
  */
 - (void)dragFromPoint:(CGPoint)startPoint toPoint:(CGPoint)endPoint;
 - (void)dragAlongPathWithPoints:(CGPoint *)points count:(NSInteger)count;
+- (void)dragAlongPathWithPoints:(CGPoint *)points count:(NSInteger)count subduration:(CGFloat)seconds;
 
 /*!
  @method isTappableWithHitTestResultView:

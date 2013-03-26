@@ -303,8 +303,6 @@ typedef struct __GSEvent * GSEventRef;
     [touch release];
 }
 
-#define DRAG_TOUCH_DELAY 0.01
-
 - (void)longPressAtPoint:(CGPoint)point duration:(NSTimeInterval)duration
 {
     UITouch *touch = [[UITouch alloc] initAtPoint:point inView:self];
@@ -344,7 +342,12 @@ typedef struct __GSEvent * GSEventRef;
     [self dragAlongPathWithPoints:points count:sizeof(points) / sizeof(CGPoint)];
 }
 
-- (void)dragAlongPathWithPoints:(CGPoint *)points count:(NSInteger)count;
+- (void)dragAlongPathWithPoints:(CGPoint *)points count:(NSInteger)count
+{
+	[self dragAlongPathWithPoints:points count:count subduration:DRAG_TOUCH_DELAY];
+}
+
+- (void)dragAlongPathWithPoints:(CGPoint *)points count:(NSInteger)count subduration:(CGFloat)seconds
 {
     // we need at least two points in order to make segments
     if (count < 2) {
@@ -358,7 +361,7 @@ typedef struct __GSEvent * GSEventRef;
     UIEvent *eventDown = [self _eventWithTouch:touch];
     [[UIApplication sharedApplication] sendEvent:eventDown];
 
-    CFRunLoopRunInMode(kCFRunLoopDefaultMode, DRAG_TOUCH_DELAY, false);
+    CFRunLoopRunInMode(kCFRunLoopDefaultMode, seconds, false);
     
     for (NSInteger pointIndex = 1; pointIndex < count - 1; pointIndex++) {
         [touch setLocationInWindow:[self.window convertPoint:points[pointIndex] fromView:self]];
@@ -367,7 +370,7 @@ typedef struct __GSEvent * GSEventRef;
         UIEvent *eventDrag = [self _eventWithTouch:touch];
         [[UIApplication sharedApplication] sendEvent:eventDrag];
 
-        CFRunLoopRunInMode(kCFRunLoopDefaultMode, DRAG_TOUCH_DELAY, false);
+        CFRunLoopRunInMode(kCFRunLoopDefaultMode, seconds, false);
     }
     
     [touch setPhase:UITouchPhaseEnded];
