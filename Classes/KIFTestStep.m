@@ -581,6 +581,25 @@ typedef CGPoint KIFDisplacement;
     }];
 }
 
++ (id)stepToWaitForSwitchWithAccessibilityLabel:(NSString *)label value:(BOOL)switchIsOn
+{
+    NSString *description = [NSString stringWithFormat:@"Verify that the switch with accessibility label \"%@\" is %@", label, switchIsOn ? @"ON" : @"OFF"];
+    return [self stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
+        
+        UIAccessibilityElement *element = [self _accessibilityElementWithLabel:label accessibilityValue:nil tappable:YES traits:UIAccessibilityTraitNone error:error];
+        if (!element) {
+            return KIFTestStepResultWait;
+        }
+        
+        UISwitch *switchView = (UISwitch *)[UIAccessibilityElement viewContainingAccessibilityElement:element];
+        KIFTestWaitCondition(switchView, error, @"Cannot find switch with accessibility label \"%@\"", label);
+        KIFTestWaitCondition([switchView isKindOfClass:[UISwitch class]], error, @"View with accessibility label \"%@\" is a %@, not a UISwitch", label, NSStringFromClass([switchView class]));
+        
+        BOOL current = switchView.on;
+        return current == switchIsOn ? KIFTestStepResultSuccess : KIFTestStepResultFailure;
+    }];
+}
+
 + (id)stepToDismissPopover;
 {
     return [self stepWithDescription:@"Dismiss the popover" executionBlock:^(KIFTestStep *step, NSError **error) {
