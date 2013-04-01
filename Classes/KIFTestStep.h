@@ -606,4 +606,41 @@ typedef enum {
  */
 + (void)tapElementWithLabel:(NSString*)label;
 
+/*!
+ @method tapView:withLabel:
+ @abstract A method to tap a view with "label"
+ @discussion The element with a label is tapped by accessing the view, and tapping a point in it.
+ @param The label to use to search, the view used to search
+ @result A KIF Result.
+ */
++ (KIFTestStepResult)tapView:(UIView *)view withLabel:(NSString*)label;
+
+/*!
+ @method tapElement:withLabel:
+ @abstract A method to tap an element with "label"
+ @discussion The element with a label is tapped by accessing the view, and tapping a point in it.
+ @param The label to use to search, the element used to search
+ @result A KIF Result.
+ */
++ (KIFTestStepResult)tapElement:(UIAccessibilityElement *)element withLabel:(NSString*)label;
+
+/*!
+ @method tapButton:
+ @abstract A method to tap a button with "label"
+ @discussion The button with a label is tapped by accessing the view, and tapping a point in it.
+ @param The label to use to search.
+ @result A KIF Result.
+ */
++ (KIFTestStepResult)tapButton:(NSString* )label;
+
+/*!
+ @method tapButton:failsIfNotPresent:
+ @abstract A method to tap a button with "label"
+ @discussion The button with a label is tapped by accessing the view, and tapping a point in it.
+ @param The label to use to search.
+ @param Bool to indicate if the method returns a failure if the button is not present.
+ @result A KIF Result.
+ */
++ (KIFTestStepResult)tapButton:(NSString* )label failsIfNotPresent:(BOOL)failsIfNotPresent;
+
 @end

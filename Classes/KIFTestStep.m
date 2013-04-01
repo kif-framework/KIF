@@ -1601,4 +1601,78 @@ typedef CGPoint KIFDisplacement;
 	
 }
 
+
++ (KIFTestStepResult)tapElement:(UIAccessibilityElement *)element withLabel:(NSString*)label
+{
+	//If the element is viewable (i.e. on current page) add it.
+	if (element) {
+		UIView *cell = [UIAccessibilityElement viewContainingAccessibilityElement:element];
+		if (cell) {
+			return [self tapView:cell withLabel:label];
+		}
+	}
+	
+	NSLog(@"The element was nil for label %@", label);
+	return KIFTestStepResultFailure;
+}
+
++ (KIFTestStepResult)tapView:(UIView *)view withLabel:(NSString*)label
+{
+	//If the element is viewable (i.e. on current page) add it.
+	if (view) {
+		// Tap button on screen, use frame, because KIF hates [view tap]
+		// If the accessibilityFrame is not set, fallback to the view frame.
+		CGRect elementFrame;
+		if (CGRectEqualToRect(CGRectZero, view.accessibilityFrame)) {
+			elementFrame.origin = CGPointZero;
+			elementFrame.size = view.frame.size;
+		} else {
+			elementFrame = [view.window convertRect:view.accessibilityFrame toView:view];
+		}
+		CGPoint tappablePointInElement = [view tappablePointInRect:elementFrame];
+		
+		// This is mostly redundant of the test in _accessibilityElementWithLabel:
+		if (!isnan(tappablePointInElement.x)) {
+			[view tapAtPoint:tappablePointInElement];
+		} else {
+			NSLog(@"The element with accessibility label %@ is not tappable", label);
+			return KIFTestStepResultFailure;
+		}
+		
+		CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.5f, false);
+		return KIFTestStepResultSuccess;
+	}
+	
+	NSLog(@"The view was nil for label %@", label);
+	return KIFTestStepResultFailure;
+}
+
++ (KIFTestStepResult)tapButton:(NSString *)label
+{
+	return [self tapButton:label failsIfNotPresent:YES];
+}
+
++ (KIFTestStepResult)tapButton:(NSString* )label failsIfNotPresent:(BOOL)failsIfNotPresent
+{
+	UIAccessibilityElement *buttonElement = [[UIApplication sharedApplication] accessibilityElementWithLabelLike:label accessibilityValue:nil traits:UIAccessibilityTraitButton];
+	if(buttonElement != nil) {
+		UIView *buttonView = [UIAccessibilityElement viewContainingAccessibilityElement:buttonElement];
+		if(buttonView == nil) {
+			NSLog(@"Unable to find view for payment: '%@'", label);
+			return KIFTestStepResultFailure;
+		}
+		
+		if (((UIButton *)buttonView).enabled) {
+			return [self tapView:buttonView withLabel:label];
+		} else {
+			return KIFTestStepResultFailure;
+		}
+	} else if(failsIfNotPresent == NO) {
+		return KIFTestStepResultSuccess;
+	} else {
+		return KIFTestStepResultFailure;
+	}
+}
+
+
 @end
