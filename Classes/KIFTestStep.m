@@ -1667,12 +1667,15 @@ typedef CGPoint KIFDisplacement;
 		} else {
 			return KIFTestStepResultFailure;
 		}
-	} else if(failsIfNotPresent == NO) {
+	}
+	
+	//If we get to this point, the element is not present.
+	if(failsIfNotPresent == NO) {
 		return KIFTestStepResultSuccess;
 	} else {
 		return KIFTestStepResultFailure;
 	}
-}
 
+}
 
 @end
