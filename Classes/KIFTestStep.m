@@ -882,7 +882,9 @@ typedef CGPoint KIFDisplacement;
                     CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.5, false);
                     
                     // Tap in the middle of the picker view to select the item
-                    [pickerView tap];
+                    if ([self tapView:pickerView withLabel:pickerView.accessibilityLabel] == KIFTestStepResultFailure) {
+						return KIFTestStepResultFailure;
+					}
                     
                     // The combination of selectRow:inComponent:animated: and tap does not consistently result in
                     // pickerView:didSelectRow:inComponent: being called on the delegate. We need to do it explicitly.
@@ -1568,19 +1570,20 @@ typedef CGPoint KIFDisplacement;
 
 + (void)typeIntoField:(NSString*)text view:(UIView*)view
 {
-	[view tap];
-	CFRunLoopRunInMode(kCFRunLoopDefaultMode, 1.0f, false);
-	//NSString *expectedResult = text;
+	[self tapView:view withLabel:view.accessibilityLabel];
+	CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.5, false);
+	
 	for (NSUInteger characterIndex = 0; characterIndex < [text length]; characterIndex++) {
 		NSString *characterString = [text substringWithRange:NSMakeRange(characterIndex, 1)];
+		
 		if (![KIFTypist enterCharacter:characterString]) {
 			// Attempt to cheat if we couldn't find the character
 			if ([view isKindOfClass:[UITextField class]] || [view isKindOfClass:[UITextView class]]) {
 				NSLog(@"KIF: Unable to find keyboard key for %@. Inserting manually.", characterString);
 				[(UITextField *)view setText:[[(UITextField *)view text] stringByAppendingString:characterString]];
 			} else {
-				// TODO: Failure to find key label.
-				//KIFTestCondition(NO, error, @"Failed to find key for character \"%@\"", characterString);
+				NSLog(@"Failed to find key for character \"%@\"", characterString);
+				return;
 			}
 		}
 	}
