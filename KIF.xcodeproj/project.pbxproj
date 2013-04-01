@@ -35,6 +35,8 @@
 		C194255915D83DE9004FC314 /* KIFTypist.m in Sources */ = {isa = PBXBuildFile; fileRef = C194255715D83DE9004FC314 /* KIFTypist.m */; };
 		CDFD8E86139728B4008D299F /* NSFileManager-KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = CDFD8E84139728B4008D299F /* NSFileManager-KIFAdditions.h */; };
 		CDFD8E87139728B4008D299F /* NSFileManager-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CDFD8E85139728B4008D299F /* NSFileManager-KIFAdditions.m */; };
+		FFB9B7571702390E000CE4DE /* NSObject+MGSupersequentImplementation.h in Headers */ = {isa = PBXBuildFile; fileRef = FFB9B7551702390E000CE4DE /* NSObject+MGSupersequentImplementation.h */; };
+		FFB9B7581702390E000CE4DE /* NSObject+MGSupersequentImplementation.m in Sources */ = {isa = PBXBuildFile; fileRef = FFB9B7561702390E000CE4DE /* NSObject+MGSupersequentImplementation.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -68,6 +70,8 @@
 		C194255715D83DE9004FC314 /* KIFTypist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KIFTypist.m; sourceTree = "<group>"; };
 		CDFD8E84139728B4008D299F /* NSFileManager-KIFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFileManager-KIFAdditions.h"; sourceTree = "<group>"; };
 		CDFD8E85139728B4008D299F /* NSFileManager-KIFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager-KIFAdditions.m"; sourceTree = "<group>"; };
+		FFB9B7551702390E000CE4DE /* NSObject+MGSupersequentImplementation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+MGSupersequentImplementation.h"; sourceTree = "<group>"; };
+		FFB9B7561702390E000CE4DE /* NSObject+MGSupersequentImplementation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+MGSupersequentImplementation.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +90,7 @@
 		AAB0725D139719AC008AF393 = {
 			isa = PBXGroup;
 			children = (
+				FFB9B754170238E5000CE4DE /* Helpers */,
 				AAB0729313971AB2008AF393 /* Additions */,
 				AAB0728413971A98008AF393 /* Classes */,
 				AAB0726E139719AC008AF393 /* Supporting Files */,
@@ -160,6 +165,15 @@
 			path = Additions;
 			sourceTree = "<group>";
 		};
+		FFB9B754170238E5000CE4DE /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				FFB9B7551702390E000CE4DE /* NSObject+MGSupersequentImplementation.h */,
+				FFB9B7561702390E000CE4DE /* NSObject+MGSupersequentImplementation.m */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -181,6 +195,7 @@
 				CDFD8E86139728B4008D299F /* NSFileManager-KIFAdditions.h in Headers */,
 				39160B1113D1E6BB00311E38 /* LoadableCategory.h in Headers */,
 				C194255815D83DE9004FC314 /* KIFTypist.h in Headers */,
+				FFB9B7571702390E000CE4DE /* NSObject+MGSupersequentImplementation.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -246,6 +261,7 @@
 				AAB072B313971AB2008AF393 /* UIWindow-KIFAdditions.m in Sources */,
 				CDFD8E87139728B4008D299F /* NSFileManager-KIFAdditions.m in Sources */,
 				C194255915D83DE9004FC314 /* KIFTypist.m in Sources */,
+				FFB9B7581702390E000CE4DE /* NSObject+MGSupersequentImplementation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
