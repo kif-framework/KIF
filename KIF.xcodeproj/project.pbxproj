@@ -37,6 +37,8 @@
 		CDFD8E87139728B4008D299F /* NSFileManager-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CDFD8E85139728B4008D299F /* NSFileManager-KIFAdditions.m */; };
 		FF38249A170B237800025F75 /* UIEvent+KIFAssociations.h in Headers */ = {isa = PBXBuildFile; fileRef = FF382498170B237800025F75 /* UIEvent+KIFAssociations.h */; };
 		FF38249B170B237800025F75 /* UIEvent+KIFAssociations.m in Sources */ = {isa = PBXBuildFile; fileRef = FF382499170B237800025F75 /* UIEvent+KIFAssociations.m */; };
+		FF3824B9170B772800025F75 /* KIFUIPanGestureVelocitySample.h in Headers */ = {isa = PBXBuildFile; fileRef = FF3824B7170B772800025F75 /* KIFUIPanGestureVelocitySample.h */; };
+		FF3824BA170B772800025F75 /* KIFUIPanGestureVelocitySample.m in Sources */ = {isa = PBXBuildFile; fileRef = FF3824B8170B772800025F75 /* KIFUIPanGestureVelocitySample.m */; };
 		FF76E3A917033D4A00444AB8 /* NSObject+BNRAssociatedDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = FF76E3A717033D4A00444AB8 /* NSObject+BNRAssociatedDictionary.h */; };
 		FF76E3AA17033D4A00444AB8 /* NSObject+BNRAssociatedDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = FF76E3A817033D4A00444AB8 /* NSObject+BNRAssociatedDictionary.m */; };
 		FFB9B7571702390E000CE4DE /* NSObject+MGSupersequentImplementation.h in Headers */ = {isa = PBXBuildFile; fileRef = FFB9B7551702390E000CE4DE /* NSObject+MGSupersequentImplementation.h */; };
@@ -76,6 +78,8 @@
 		CDFD8E85139728B4008D299F /* NSFileManager-KIFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager-KIFAdditions.m"; sourceTree = "<group>"; };
 		FF382498170B237800025F75 /* UIEvent+KIFAssociations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIEvent+KIFAssociations.h"; sourceTree = "<group>"; };
 		FF382499170B237800025F75 /* UIEvent+KIFAssociations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIEvent+KIFAssociations.m"; sourceTree = "<group>"; };
+		FF3824B7170B772800025F75 /* KIFUIPanGestureVelocitySample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KIFUIPanGestureVelocitySample.h; path = Helpers/KIFUIPanGestureVelocitySample.h; sourceTree = SOURCE_ROOT; };
+		FF3824B8170B772800025F75 /* KIFUIPanGestureVelocitySample.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KIFUIPanGestureVelocitySample.m; path = Helpers/KIFUIPanGestureVelocitySample.m; sourceTree = SOURCE_ROOT; };
 		FF76E3A717033D4A00444AB8 /* NSObject+BNRAssociatedDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+BNRAssociatedDictionary.h"; sourceTree = "<group>"; };
 		FF76E3A817033D4A00444AB8 /* NSObject+BNRAssociatedDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+BNRAssociatedDictionary.m"; sourceTree = "<group>"; };
 		FFB9B7551702390E000CE4DE /* NSObject+MGSupersequentImplementation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+MGSupersequentImplementation.h"; sourceTree = "<group>"; };
@@ -98,6 +102,7 @@
 		AAB0725D139719AC008AF393 = {
 			isa = PBXGroup;
 			children = (
+				FF3824A2170B2B4100025F75 /* KVCHelpers */,
 				FFB9B754170238E5000CE4DE /* Helpers */,
 				FF382493170B232700025F75 /* Associations */,
 				AAB0729313971AB2008AF393 /* Additions */,
@@ -183,6 +188,15 @@
 			path = Associations;
 			sourceTree = "<group>";
 		};
+		FF3824A2170B2B4100025F75 /* KVCHelpers */ = {
+			isa = PBXGroup;
+			children = (
+				FF3824B7170B772800025F75 /* KIFUIPanGestureVelocitySample.h */,
+				FF3824B8170B772800025F75 /* KIFUIPanGestureVelocitySample.m */,
+			);
+			path = KVCHelpers;
+			sourceTree = "<group>";
+		};
 		FFB9B754170238E5000CE4DE /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
@@ -218,6 +232,7 @@
 				FFB9B7571702390E000CE4DE /* NSObject+MGSupersequentImplementation.h in Headers */,
 				FF76E3A917033D4A00444AB8 /* NSObject+BNRAssociatedDictionary.h in Headers */,
 				FF38249A170B237800025F75 /* UIEvent+KIFAssociations.h in Headers */,
+				FF3824B9170B772800025F75 /* KIFUIPanGestureVelocitySample.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -286,6 +301,7 @@
 				FFB9B7581702390E000CE4DE /* NSObject+MGSupersequentImplementation.m in Sources */,
 				FF76E3AA17033D4A00444AB8 /* NSObject+BNRAssociatedDictionary.m in Sources */,
 				FF38249B170B237800025F75 /* UIEvent+KIFAssociations.m in Sources */,
+				FF3824BA170B772800025F75 /* KIFUIPanGestureVelocitySample.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
