@@ -591,12 +591,13 @@ typedef enum {
 
 /*!
  @method typeIntoField:
- @abstract A method to type the "text" into the view if UITextField.
- @discussion The text is typed into the view.
+ @abstract A method to type the "text" into the view/element if UITextField.
+ @discussion The text is typed into the view/element.
  @param The text to type.
- @param The view to type into.
+ @param The view/element to type into.
  */
 + (void)typeIntoField:(NSString*)text view:(UIView*)view;
++ (void)typeIntoField:(NSString*)text element:(UIAccessibilityElement*)element;
 
 /*!
  @method tapElementWithLabel:
@@ -642,5 +643,14 @@ typedef enum {
  @result A KIF Result.
  */
 + (KIFTestStepResult)tapButton:(NSString* )label failsIfNotPresent:(BOOL)failsIfNotPresent;
+
+/*!
+ @method tapCharactersInString:
+ @abstract A method to tap characters in a string
+ @discussion Finds views for each character in a string, and taps it
+ @param The string to use.
+ @result A KIF Result.
+ */
++ (KIFTestStepResult)tapCharactersInString:(NSString *)string;
 
 @end

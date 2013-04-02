@@ -1589,6 +1589,12 @@ typedef CGPoint KIFDisplacement;
 	}
 }
 
++ (void)typeIntoField:(NSString*)text element:(UIAccessibilityElement*)element
+{
+    UIView *view = [UIAccessibilityElement viewContainingAccessibilityElement:element];
+	[self typeIntoField:text view:view];
+}
+
 + (void)tapElementWithLabel:(NSString*)label;
 {
 	UIAccessibilityElement *element = [[UIApplication sharedApplication] accessibilityElementWithLabel:label];
@@ -1617,6 +1623,30 @@ typedef CGPoint KIFDisplacement;
 	
 	NSLog(@"The element was nil for label %@", label);
 	return KIFTestStepResultFailure;
+}
+
++ (KIFTestStepResult)tapCharactersInString:(NSString *)string
+{
+	for (NSUInteger i = 0; i < [string length]; i++){
+		NSString *character = [NSString stringWithFormat:@"%c", [string characterAtIndex:i]];
+        
+        UIAccessibilityElement *element = [[UIApplication sharedApplication] accessibilityElementWithLabel:character];
+        //If the element is viewable (i.e. on current page) add it.
+        if (element) {
+            UIView *cell = [UIAccessibilityElement viewContainingAccessibilityElement:element];
+            if (cell) {
+                if ([self tapView:cell withLabel:character] == KIFTestStepResultFailure) {
+                    return KIFTestStepResultFailure;
+                }
+            } else {
+                return KIFTestStepResultFailure;
+            }
+        } else {
+            return KIFTestStepResultFailure;
+        }
+    }
+    
+    return KIFTestStepResultSuccess;
 }
 
 + (KIFTestStepResult)tapView:(UIView *)view withLabel:(NSString*)label
