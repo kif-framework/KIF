@@ -51,6 +51,8 @@
 		FF76E3AA17033D4A00444AB8 /* NSObject+BNRAssociatedDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = FF76E3A817033D4A00444AB8 /* NSObject+BNRAssociatedDictionary.m */; };
 		FFB9B7571702390E000CE4DE /* NSObject+MGSupersequentImplementation.h in Headers */ = {isa = PBXBuildFile; fileRef = FFB9B7551702390E000CE4DE /* NSObject+MGSupersequentImplementation.h */; };
 		FFB9B7581702390E000CE4DE /* NSObject+MGSupersequentImplementation.m in Sources */ = {isa = PBXBuildFile; fileRef = FFB9B7561702390E000CE4DE /* NSObject+MGSupersequentImplementation.m */; };
+		FFB9B75B17023D55000CE4DE /* UIPanGestureRecognizer+KIFOverrides.h in Headers */ = {isa = PBXBuildFile; fileRef = FFB9B75917023D55000CE4DE /* UIPanGestureRecognizer+KIFOverrides.h */; };
+		FFB9B75C17023D55000CE4DE /* UIPanGestureRecognizer+KIFOverrides.m in Sources */ = {isa = PBXBuildFile; fileRef = FFB9B75A17023D55000CE4DE /* UIPanGestureRecognizer+KIFOverrides.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -100,6 +102,8 @@
 		FF76E3A817033D4A00444AB8 /* NSObject+BNRAssociatedDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+BNRAssociatedDictionary.m"; sourceTree = "<group>"; };
 		FFB9B7551702390E000CE4DE /* NSObject+MGSupersequentImplementation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+MGSupersequentImplementation.h"; sourceTree = "<group>"; };
 		FFB9B7561702390E000CE4DE /* NSObject+MGSupersequentImplementation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+MGSupersequentImplementation.m"; sourceTree = "<group>"; };
+		FFB9B75917023D55000CE4DE /* UIPanGestureRecognizer+KIFOverrides.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIPanGestureRecognizer+KIFOverrides.h"; sourceTree = "<group>"; };
+		FFB9B75A17023D55000CE4DE /* UIPanGestureRecognizer+KIFOverrides.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIPanGestureRecognizer+KIFOverrides.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +126,7 @@
 				FFB9B754170238E5000CE4DE /* Helpers */,
 				FF38249D170B2A9100025F75 /* Exposers */,
 				FF382493170B232700025F75 /* Associations */,
+				FFB9B743170237EB000CE4DE /* Overrides */,
 				AAB0729313971AB2008AF393 /* Additions */,
 				AAB0728413971A98008AF393 /* Classes */,
 				AAB0726E139719AC008AF393 /* Supporting Files */,
@@ -225,6 +230,15 @@
 			path = KVCHelpers;
 			sourceTree = "<group>";
 		};
+		FFB9B743170237EB000CE4DE /* Overrides */ = {
+			isa = PBXGroup;
+			children = (
+				FFB9B75917023D55000CE4DE /* UIPanGestureRecognizer+KIFOverrides.h */,
+				FFB9B75A17023D55000CE4DE /* UIPanGestureRecognizer+KIFOverrides.m */,
+			);
+			path = Overrides;
+			sourceTree = "<group>";
+		};
 		FFB9B754170238E5000CE4DE /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
@@ -262,6 +276,7 @@
 				39160B1113D1E6BB00311E38 /* LoadableCategory.h in Headers */,
 				C194255815D83DE9004FC314 /* KIFTypist.h in Headers */,
 				FFB9B7571702390E000CE4DE /* NSObject+MGSupersequentImplementation.h in Headers */,
+				FFB9B75B17023D55000CE4DE /* UIPanGestureRecognizer+KIFOverrides.h in Headers */,
 				FF76E3A917033D4A00444AB8 /* NSObject+BNRAssociatedDictionary.h in Headers */,
 				FF38249A170B237800025F75 /* UIEvent+KIFAssociations.h in Headers */,
 				FF3824A0170B2ACF00025F75 /* UITouch+KIFExposers.h in Headers */,
@@ -335,6 +350,7 @@
 				CDFD8E87139728B4008D299F /* NSFileManager-KIFAdditions.m in Sources */,
 				C194255915D83DE9004FC314 /* KIFTypist.m in Sources */,
 				FFB9B7581702390E000CE4DE /* NSObject+MGSupersequentImplementation.m in Sources */,
+				FFB9B75C17023D55000CE4DE /* UIPanGestureRecognizer+KIFOverrides.m in Sources */,
 				FF76E3AA17033D4A00444AB8 /* NSObject+BNRAssociatedDictionary.m in Sources */,
 				FF38249B170B237800025F75 /* UIEvent+KIFAssociations.m in Sources */,
 				FF3824A1170B2ACF00025F75 /* UITouch+KIFExposers.m in Sources */,
