@@ -41,6 +41,8 @@
 		FF3824A1170B2ACF00025F75 /* UITouch+KIFExposers.m in Sources */ = {isa = PBXBuildFile; fileRef = FF38249F170B2ACF00025F75 /* UITouch+KIFExposers.m */; };
 		FF3824B9170B772800025F75 /* KIFUIPanGestureVelocitySample.h in Headers */ = {isa = PBXBuildFile; fileRef = FF3824B7170B772800025F75 /* KIFUIPanGestureVelocitySample.h */; };
 		FF3824BA170B772800025F75 /* KIFUIPanGestureVelocitySample.m in Sources */ = {isa = PBXBuildFile; fileRef = FF3824B8170B772800025F75 /* KIFUIPanGestureVelocitySample.m */; };
+		FF3824BD170B799900025F75 /* UIPanGestureRecognizer+KIFExposers.h in Headers */ = {isa = PBXBuildFile; fileRef = FF3824BB170B799900025F75 /* UIPanGestureRecognizer+KIFExposers.h */; };
+		FF3824BE170B799900025F75 /* UIPanGestureRecognizer+KIFExposers.m in Sources */ = {isa = PBXBuildFile; fileRef = FF3824BC170B799900025F75 /* UIPanGestureRecognizer+KIFExposers.m */; };
 		FF76E3A917033D4A00444AB8 /* NSObject+BNRAssociatedDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = FF76E3A717033D4A00444AB8 /* NSObject+BNRAssociatedDictionary.h */; };
 		FF76E3AA17033D4A00444AB8 /* NSObject+BNRAssociatedDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = FF76E3A817033D4A00444AB8 /* NSObject+BNRAssociatedDictionary.m */; };
 		FFB9B7571702390E000CE4DE /* NSObject+MGSupersequentImplementation.h in Headers */ = {isa = PBXBuildFile; fileRef = FFB9B7551702390E000CE4DE /* NSObject+MGSupersequentImplementation.h */; };
@@ -84,6 +86,8 @@
 		FF38249F170B2ACF00025F75 /* UITouch+KIFExposers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITouch+KIFExposers.m"; sourceTree = "<group>"; };
 		FF3824B7170B772800025F75 /* KIFUIPanGestureVelocitySample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KIFUIPanGestureVelocitySample.h; path = Helpers/KIFUIPanGestureVelocitySample.h; sourceTree = SOURCE_ROOT; };
 		FF3824B8170B772800025F75 /* KIFUIPanGestureVelocitySample.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KIFUIPanGestureVelocitySample.m; path = Helpers/KIFUIPanGestureVelocitySample.m; sourceTree = SOURCE_ROOT; };
+		FF3824BB170B799900025F75 /* UIPanGestureRecognizer+KIFExposers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIPanGestureRecognizer+KIFExposers.h"; sourceTree = "<group>"; };
+		FF3824BC170B799900025F75 /* UIPanGestureRecognizer+KIFExposers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIPanGestureRecognizer+KIFExposers.m"; sourceTree = "<group>"; };
 		FF76E3A717033D4A00444AB8 /* NSObject+BNRAssociatedDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+BNRAssociatedDictionary.h"; sourceTree = "<group>"; };
 		FF76E3A817033D4A00444AB8 /* NSObject+BNRAssociatedDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+BNRAssociatedDictionary.m"; sourceTree = "<group>"; };
 		FFB9B7551702390E000CE4DE /* NSObject+MGSupersequentImplementation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+MGSupersequentImplementation.h"; sourceTree = "<group>"; };
@@ -198,6 +202,8 @@
 			children = (
 				FF38249E170B2ACF00025F75 /* UITouch+KIFExposers.h */,
 				FF38249F170B2ACF00025F75 /* UITouch+KIFExposers.m */,
+				FF3824BB170B799900025F75 /* UIPanGestureRecognizer+KIFExposers.h */,
+				FF3824BC170B799900025F75 /* UIPanGestureRecognizer+KIFExposers.m */,
 			);
 			path = Exposers;
 			sourceTree = "<group>";
@@ -248,6 +254,7 @@
 				FF38249A170B237800025F75 /* UIEvent+KIFAssociations.h in Headers */,
 				FF3824A0170B2ACF00025F75 /* UITouch+KIFExposers.h in Headers */,
 				FF3824B9170B772800025F75 /* KIFUIPanGestureVelocitySample.h in Headers */,
+				FF3824BD170B799900025F75 /* UIPanGestureRecognizer+KIFExposers.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -318,6 +325,7 @@
 				FF38249B170B237800025F75 /* UIEvent+KIFAssociations.m in Sources */,
 				FF3824A1170B2ACF00025F75 /* UITouch+KIFExposers.m in Sources */,
 				FF3824BA170B772800025F75 /* KIFUIPanGestureVelocitySample.m in Sources */,
+				FF3824BE170B799900025F75 /* UIPanGestureRecognizer+KIFExposers.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
