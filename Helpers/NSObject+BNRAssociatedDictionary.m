@@ -27,7 +27,7 @@ static char NSObjectADDLAssociatedDictionaryAssociatedDictionaryAssociatedObject
 {
 	NSMutableDictionary *res = [[NSMutableDictionary alloc] init];
 	[self bnr_setAssociatedDictionaryPrimitive:res];
-	return res;
+	return [res autorelease];
 }
 
 - (NSMutableDictionary *)bnr_associatedDictionary
@@ -46,7 +46,11 @@ static char NSObjectADDLAssociatedDictionaryAssociatedDictionaryAssociatedObject
 
 - (void)bnr_setAssociatedObject:(id)object forKey:(id<NSCopying>)key
 {
-	self.bnr_associatedDictionary[key] = object;
+	if (object) {
+		self.bnr_associatedDictionary[key] = object;
+	} else {
+		[self.bnr_associatedDictionary removeObjectForKey:key];
+	}
 }
 
 @end
