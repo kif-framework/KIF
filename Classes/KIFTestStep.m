@@ -637,6 +637,11 @@ typedef CGPoint KIFDisplacement;
 	return [self stepToSwipeViewWithAccessibilityLabel:label inDirection:direction duration:((CGFloat)DRAG_TOUCH_DELAY) * ((CGFloat)NUM_POINTS_IN_SWIPE_PATH)];
 }
 
++ (id)stepToSwipeViewWithAccessibilityLabel:(NSString *)label displacement:(CGPoint)displacement
+{
+	return [self stepToSwipeViewWithAccessibilityLabel:label displacement:displacement numberOfPoints:NUM_POINTS_IN_SWIPE_PATH duration:((CGFloat)DRAG_TOUCH_DELAY) * ((CGFloat)NUM_POINTS_IN_SWIPE_PATH)];
+}
+
 + (id)stepToSwipeViewWithAccessibilityLabel:(NSString *)label inDirection:(KIFSwipeDirection)direction duration:(CGFloat)seconds
 {
 	return [self stepToSwipeViewWithAccessibilityLabel:label inDirection:direction numberOfPoints:NUM_POINTS_IN_SWIPE_PATH duration:seconds];
@@ -644,26 +649,14 @@ typedef CGPoint KIFDisplacement;
 
 + (id)stepToSwipeViewWithAccessibilityLabel:(NSString *)label inDirection:(KIFSwipeDirection)direction numberOfPoints:(NSUInteger)numberOfPoints duration:(CGFloat)seconds
 {
+	return [self stepToSwipeViewWithAccessibilityLabel:label displacement:[self _displacementForSwipingInDirection:direction] numberOfPoints:numberOfPoints duration:seconds];
+}
+
++ (id)stepToSwipeViewWithAccessibilityLabel:(NSString *)label displacement:(CGPoint)displacement numberOfPoints:(NSUInteger)numberOfPoints duration:(CGFloat)seconds
+{
     // The original version of this came from http://groups.google.com/group/kif-framework/browse_thread/thread/df3f47eff9f5ac8c
-    NSString *directionDescription = nil;
 
-    switch(direction)
-    {
-        case KIFSwipeDirectionRight:
-            directionDescription = @"right";
-            break;
-        case KIFSwipeDirectionLeft:
-            directionDescription = @"left";
-            break;
-        case KIFSwipeDirectionUp:
-            directionDescription = @"up";
-            break;
-        case KIFSwipeDirectionDown:
-            directionDescription = @"down";
-            break;
-    }
-
-    NSString *description = [NSString stringWithFormat:@"Step to swipe %@ on view with accessibility label %@", directionDescription, label];
+    NSString *description = [NSString stringWithFormat:@"Step to swipe with displacement %@ on view with accessibility label %@", NSStringFromCGPoint(displacement), label];
     return [KIFTestStep stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
         UIAccessibilityElement *element = [self _accessibilityElementWithLabel:label accessibilityValue:nil tappable:NO traits:UIAccessibilityTraitNone error:error];
         if (!element) {
@@ -679,7 +672,7 @@ typedef CGPoint KIFDisplacement;
         CGRect elementFrame = [viewToSwipe.window convertRect:element.accessibilityFrame toView:viewToSwipe];
         CGPoint swipeStart = CGPointCenteredInRect(elementFrame);
 
-        KIFDisplacement swipeDisplacement = [self _displacementForSwipingInDirection:direction];
+        KIFDisplacement swipeDisplacement = displacement;
 
         CGPoint swipePath[numberOfPoints];
 
