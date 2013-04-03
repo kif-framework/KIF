@@ -882,7 +882,9 @@ typedef CGPoint KIFDisplacement;
                     CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.5, false);
                     
                     // Tap in the middle of the picker view to select the item
-                    [pickerView tap];
+                    if ([self tapView:pickerView withLabel:pickerView.accessibilityLabel] == KIFTestStepResultFailure) {
+						return KIFTestStepResultFailure;
+					}
                     
                     // The combination of selectRow:inComponent:animated: and tap does not consistently result in
                     // pickerView:didSelectRow:inComponent: being called on the delegate. We need to do it explicitly.
@@ -1568,22 +1570,29 @@ typedef CGPoint KIFDisplacement;
 
 + (void)typeIntoField:(NSString*)text view:(UIView*)view
 {
-	[view tap];
-	CFRunLoopRunInMode(kCFRunLoopDefaultMode, 1.0f, false);
-	//NSString *expectedResult = text;
+	[self tapView:view withLabel:view.accessibilityLabel];
+	CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.5, false);
+	
 	for (NSUInteger characterIndex = 0; characterIndex < [text length]; characterIndex++) {
 		NSString *characterString = [text substringWithRange:NSMakeRange(characterIndex, 1)];
+		
 		if (![KIFTypist enterCharacter:characterString]) {
 			// Attempt to cheat if we couldn't find the character
 			if ([view isKindOfClass:[UITextField class]] || [view isKindOfClass:[UITextView class]]) {
 				NSLog(@"KIF: Unable to find keyboard key for %@. Inserting manually.", characterString);
 				[(UITextField *)view setText:[[(UITextField *)view text] stringByAppendingString:characterString]];
 			} else {
-				// TODO: Failure to find key label.
-				//KIFTestCondition(NO, error, @"Failed to find key for character \"%@\"", characterString);
+				NSLog(@"Failed to find key for character \"%@\"", characterString);
+				return;
 			}
 		}
 	}
+}
+
++ (void)typeIntoField:(NSString*)text element:(UIAccessibilityElement*)element
+{
+    UIView *view = [UIAccessibilityElement viewContainingAccessibilityElement:element];
+	[self typeIntoField:text view:view];
 }
 
 + (void)tapElementWithLabel:(NSString*)label;
@@ -1599,6 +1608,107 @@ typedef CGPoint KIFDisplacement;
 		}
 	}
 	
+}
+
+
++ (KIFTestStepResult)tapElement:(UIAccessibilityElement *)element withLabel:(NSString*)label
+{
+	//If the element is viewable (i.e. on current page) add it.
+	if (element) {
+		UIView *cell = [UIAccessibilityElement viewContainingAccessibilityElement:element];
+		if (cell) {
+			return [self tapView:cell withLabel:label];
+		}
+	}
+	
+	NSLog(@"The element was nil for label %@", label);
+	return KIFTestStepResultFailure;
+}
+
++ (KIFTestStepResult)tapCharactersInString:(NSString *)string
+{
+	for (NSUInteger i = 0; i < [string length]; i++){
+		NSString *character = [NSString stringWithFormat:@"%c", [string characterAtIndex:i]];
+        
+        UIAccessibilityElement *element = [[UIApplication sharedApplication] accessibilityElementWithLabel:character];
+        //If the element is viewable (i.e. on current page) add it.
+        if (element) {
+            UIView *cell = [UIAccessibilityElement viewContainingAccessibilityElement:element];
+            if (cell) {
+                if ([self tapView:cell withLabel:character] == KIFTestStepResultFailure) {
+                    return KIFTestStepResultFailure;
+                }
+            } else {
+                return KIFTestStepResultFailure;
+            }
+        } else {
+            return KIFTestStepResultFailure;
+        }
+    }
+    
+    return KIFTestStepResultSuccess;
+}
+
++ (KIFTestStepResult)tapView:(UIView *)view withLabel:(NSString*)label
+{
+	//If the element is viewable (i.e. on current page) add it.
+	if (view) {
+		// Tap button on screen, use frame, because KIF hates [view tap]
+		// If the accessibilityFrame is not set, fallback to the view frame.
+		CGRect elementFrame;
+		if (CGRectEqualToRect(CGRectZero, view.accessibilityFrame)) {
+			elementFrame.origin = CGPointZero;
+			elementFrame.size = view.frame.size;
+		} else {
+			elementFrame = [view.window convertRect:view.accessibilityFrame toView:view];
+		}
+		CGPoint tappablePointInElement = [view tappablePointInRect:elementFrame];
+		
+		// This is mostly redundant of the test in _accessibilityElementWithLabel:
+		if (!isnan(tappablePointInElement.x)) {
+			[view tapAtPoint:tappablePointInElement];
+		} else {
+			NSLog(@"The element with accessibility label %@ is not tappable", label);
+			return KIFTestStepResultFailure;
+		}
+		
+		CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.5f, false);
+		return KIFTestStepResultSuccess;
+	}
+	
+	NSLog(@"The view was nil for label %@", label);
+	return KIFTestStepResultFailure;
+}
+
++ (KIFTestStepResult)tapButton:(NSString *)label
+{
+	return [self tapButton:label failsIfNotPresent:YES];
+}
+
++ (KIFTestStepResult)tapButton:(NSString* )label failsIfNotPresent:(BOOL)failsIfNotPresent
+{
+	UIAccessibilityElement *buttonElement = [[UIApplication sharedApplication] accessibilityElementWithLabelLike:label accessibilityValue:nil traits:UIAccessibilityTraitButton];
+	if(buttonElement != nil) {
+		UIView *buttonView = [UIAccessibilityElement viewContainingAccessibilityElement:buttonElement];
+		if(buttonView == nil) {
+			NSLog(@"Unable to find view for payment: '%@'", label);
+			return KIFTestStepResultFailure;
+		}
+		
+		if (((UIButton *)buttonView).enabled) {
+			return [self tapView:buttonView withLabel:label];
+		} else {
+			return KIFTestStepResultFailure;
+		}
+	}
+	
+	//If we get to this point, the element is not present.
+	if(failsIfNotPresent == NO) {
+		return KIFTestStepResultSuccess;
+	} else {
+		return KIFTestStepResultFailure;
+	}
+
 }
 
 @end

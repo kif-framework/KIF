@@ -591,12 +591,13 @@ typedef enum {
 
 /*!
  @method typeIntoField:
- @abstract A method to type the "text" into the view if UITextField.
- @discussion The text is typed into the view.
+ @abstract A method to type the "text" into the view/element if UITextField.
+ @discussion The text is typed into the view/element.
  @param The text to type.
- @param The view to type into.
+ @param The view/element to type into.
  */
 + (void)typeIntoField:(NSString*)text view:(UIView*)view;
++ (void)typeIntoField:(NSString*)text element:(UIAccessibilityElement*)element;
 
 /*!
  @method tapElementWithLabel:
@@ -605,5 +606,51 @@ typedef enum {
  @param The label to use to search
  */
 + (void)tapElementWithLabel:(NSString*)label;
+
+/*!
+ @method tapView:withLabel:
+ @abstract A method to tap a view with "label"
+ @discussion The element with a label is tapped by accessing the view, and tapping a point in it.
+ @param The label to use to search, the view used to search
+ @result A KIF Result.
+ */
++ (KIFTestStepResult)tapView:(UIView *)view withLabel:(NSString*)label;
+
+/*!
+ @method tapElement:withLabel:
+ @abstract A method to tap an element with "label"
+ @discussion The element with a label is tapped by accessing the view, and tapping a point in it.
+ @param The label to use to search, the element used to search
+ @result A KIF Result.
+ */
++ (KIFTestStepResult)tapElement:(UIAccessibilityElement *)element withLabel:(NSString*)label;
+
+/*!
+ @method tapButton:
+ @abstract A method to tap a button with "label"
+ @discussion The button with a label is tapped by accessing the view, and tapping a point in it.
+ @param The label to use to search.
+ @result A KIF Result.
+ */
++ (KIFTestStepResult)tapButton:(NSString* )label;
+
+/*!
+ @method tapButton:failsIfNotPresent:
+ @abstract A method to tap a button with "label"
+ @discussion The button with a label is tapped by accessing the view, and tapping a point in it.
+ @param The label to use to search.
+ @param Bool to indicate if the method returns a failure if the button is not present.
+ @result A KIF Result.
+ */
++ (KIFTestStepResult)tapButton:(NSString* )label failsIfNotPresent:(BOOL)failsIfNotPresent;
+
+/*!
+ @method tapCharactersInString:
+ @abstract A method to tap characters in a string
+ @discussion Finds views for each character in a string, and taps it
+ @param The string to use.
+ @result A KIF Result.
+ */
++ (KIFTestStepResult)tapCharactersInString:(NSString *)string;
 
 @end
