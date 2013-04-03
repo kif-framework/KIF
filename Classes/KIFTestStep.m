@@ -1629,6 +1629,7 @@ typedef CGPoint KIFDisplacement;
 {
 	for (NSUInteger i = 0; i < [string length]; i++){
 		NSString *character = [NSString stringWithFormat:@"%c", [string characterAtIndex:i]];
+        
         UIAccessibilityElement *element = [[UIApplication sharedApplication] accessibilityElementWithLabel:character];
         //If the element is viewable (i.e. on current page) add it.
         if (element) {
