@@ -813,6 +813,10 @@ typedef CGPoint KIFDisplacement;
     NSString *description = [NSString stringWithFormat:@"Check that the text is \"%@\" in the view with accessibility label \"%@\"", expectedResult, label];
     return [self stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
         
+		if (expectedResult == nil) {
+			return KIFTestStepResultSuccess;
+		}
+		
         UIAccessibilityElement *element = [[UIApplication sharedApplication] accessibilityElementWithLabelLike:label traits:traits];
         if (!element) {
             return KIFTestStepResultWait;
