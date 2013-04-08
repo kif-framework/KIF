@@ -888,7 +888,7 @@ typedef CGPoint KIFDisplacement;
                     CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.5, false);
                     
                     // Tap in the middle of the picker view to select the item
-                    if ([self tapView:pickerView withLabel:pickerView.accessibilityLabel] == KIFTestStepResultFailure) {
+                    if ([self tapView:pickerView] == KIFTestStepResultFailure) {
 						return KIFTestStepResultFailure;
 					}
                     
@@ -1640,7 +1640,7 @@ typedef CGPoint KIFDisplacement;
         if (element) {
             UIView *cell = [UIAccessibilityElement viewContainingAccessibilityElement:element];
             if (cell) {
-                if ([self tapView:cell withLabel:character] == KIFTestStepResultFailure) {
+                if ([self tapView:cell] == KIFTestStepResultFailure) {
                     return KIFTestStepResultFailure;
                 }
             } else {
