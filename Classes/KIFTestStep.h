@@ -444,6 +444,17 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
 + (NSArray *)stepsToChoosePhotoInAlbum:(NSString *)albumName atRow:(NSInteger)row column:(NSInteger)column;
 
 /*!
+ @method stepsToChoosePhotoInLibrary:atRow:column:
+ @abstract Select a certain photo from the built in photo library.
+ @discussion This set of steps expects that the photo picker has been initiated and that the sheet is up. From there it will tap the libraryName and select the desired photo.
+ @param libraryName The name of the library to select the photo from.
+ @param row The row number in the library for the desired photo.
+ @param column The column number in the library for the desired photo.
+ @result An array of configured test steps.
+ */
++ (NSArray *)stepsToChoosePhotoInLibrary:(NSString *)libraryName atRow:(NSInteger)row column:(NSInteger)column;
+
+/*!
  @method stepToTapRowInTableViewWithAccessibilityLabel:atIndexPath:
  @abstract A step that taps the row at IndexPath in a view with the given label.
  @discussion This step will get the view with the specified accessibility label and tap the row at indexPath.

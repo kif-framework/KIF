@@ -799,6 +799,56 @@ typedef CGPoint KIFDisplacement;
     return steps;
 }
 
++ (NSArray *)stepsToChoosePhotoInLibrary:(NSString *)libraryName atRow:(NSInteger)row column:(NSInteger)column;
+{
+  NSMutableArray *steps = [NSMutableArray array];
+
+  // This is basically the same as the step to tap with an accessibility label except that the accessibility labels for the albums have the number of photos appended to the end, such as "Saved Photos (3)." This means that we have to do a prefix match rather than an exact match.
+  NSString *description = [NSString stringWithFormat:@"Select the \"%@\" photo library", libraryName];
+  [steps addObject:[KIFTestStep stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
+
+    NSString *labelPrefix = [NSString stringWithFormat:@"%@,   (", libraryName];
+    UIAccessibilityElement *element = [[UIApplication sharedApplication] accessibilityElementMatchingBlock:^(UIAccessibilityElement *element) {
+      return [element.accessibilityLabel hasPrefix:labelPrefix];
+    }];
+
+    KIFTestWaitCondition(element, error, @"Failed to find photo library with name %@", libraryName);
+
+    UIView *view = [UIAccessibilityElement viewContainingAccessibilityElement:element];
+    KIFTestWaitCondition(view, error, @"Failed to find view for photo library with name %@", libraryName);
+
+    if (![self _isUserInteractionEnabledForView:view]) {
+      if (error) {
+        *error = [[[NSError alloc] initWithDomain:@"KIFTest" code:KIFTestStepResultFailure userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"Album picker is not enabled for interaction"], NSLocalizedDescriptionKey, nil]] autorelease];
+      }
+      return KIFTestStepResultWait;
+    }
+
+    CGRect elementFrame = [view.window convertRect:element.accessibilityFrame toView:view];
+    CGPoint tappablePointInElement = [view tappablePointInRect:elementFrame];
+
+    [view tapAtPoint:tappablePointInElement];
+
+    return KIFTestStepResultSuccess;
+  }]];
+
+  [steps addObject:[KIFTestStep stepToWaitForTimeInterval:0.5 description:@"Wait for media picker view controller to be pushed."]];
+
+  // Tap the desired photo in the grid
+  // TODO: This currently only works for the first page of photos. It should scroll appropriately at some point.
+  const CGFloat headerHeight = 64.0;
+  const CGSize thumbnailSize = CGSizeMake(75.0, 75.0);
+  const CGFloat thumbnailMargin = 5.0;
+  CGPoint thumbnailCenter;
+  thumbnailCenter.x = thumbnailMargin + (MAX(0, column - 1) * (thumbnailSize.width + thumbnailMargin)) + thumbnailSize.width / 2.0;
+  thumbnailCenter.y = headerHeight + thumbnailMargin + (MAX(0, row - 1) * (thumbnailSize.height + thumbnailMargin)) + thumbnailSize.height / 2.0;
+  [steps addObject:[KIFTestStep stepToTapScreenAtPoint:thumbnailCenter]];
+
+  // Dismiss the resize UI
+
+  return steps;
+}
+
 #pragma mark Initialization
 
 - (id)init;
