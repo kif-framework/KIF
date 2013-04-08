@@ -1607,7 +1607,7 @@ typedef CGPoint KIFDisplacement;
 		UIView *view = [UIAccessibilityElement viewContainingAccessibilityElement:element];
 		if (view)
 		{
-			[view tap];
+			[self tapView:view];
 			CFRunLoopRunInMode(kCFRunLoopDefaultMode, 1.0f, false);
 		}
 	}
@@ -1698,7 +1698,7 @@ typedef CGPoint KIFDisplacement;
 		}
 		
 		if (((UIButton *)buttonView).enabled) {
-			return [self tapView:buttonView withLabel:label];
+			return [self tapView:buttonView];
 		} else {
 			NSLog(@"Button View %@ was not enabled, could not tap it.", label);
 			return KIFTestStepResultFailure;
