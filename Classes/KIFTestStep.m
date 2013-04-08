@@ -811,10 +811,12 @@ typedef CGPoint KIFDisplacement;
 + (id)stepToCheckText:(NSString *)expectedResult inViewWithAccessibilityLabelLike:(NSString *)label traits:(UIAccessibilityTraits)traits
 {
 	NSString *description = [NSString stringWithFormat:@"Check that the text is \"%@\" in the view with accessibility label \"%@\"", expectedResult, label];
+	
 	return [self stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
+		NSString *expectedString = expectedResult;
 		
 		if (expectedResult == nil) {
-			expectedResult = @"";
+			expectedString = @"";
 		}
 		
 		UIAccessibilityElement *element = [[UIApplication sharedApplication] accessibilityElementWithLabelLike:label traits:traits];
@@ -828,7 +830,7 @@ typedef CGPoint KIFDisplacement;
 		// This is probably a UITextField- or UITextView-ish view, so make sure it worked
 		if ([view respondsToSelector:@selector(text)]) {
 			// We trim \n and \r because they trigger the return key, so they won't show up in the final product on single-line inputs
-			NSString *expected = [expectedResult ? expectedResult : expectedResult stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+			NSString *expected = [expectedString ? expectedString : expectedString stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
 			NSString *actual = [[view performSelector:@selector(text)] stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
 			KIFTestCondition([actual isEqualToString:expected], error, @"Failed to check text \"%@\" in field; instead, it was \"%@\"", expected, actual);
         }
@@ -1624,7 +1626,7 @@ typedef CGPoint KIFDisplacement;
 		}
 	}
 	
-	NSLog(@"The element was nil for label %@", label);
+	NSLog(@"The element was nil");
 	return KIFTestStepResultFailure;
 }
 
@@ -1678,7 +1680,7 @@ typedef CGPoint KIFDisplacement;
 		return KIFTestStepResultSuccess;
 	}
 	
-	NSLog(@"The view was nil for label %@", label);
+	NSLog(@"The view was nil");
 	return KIFTestStepResultFailure;
 }
 
