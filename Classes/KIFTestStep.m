@@ -804,7 +804,7 @@ typedef CGPoint KIFDisplacement;
   NSMutableArray *steps = [NSMutableArray array];
 
   // This is basically the same as the step to tap with an accessibility label except that the accessibility labels for the albums have the number of photos appended to the end, such as "Saved Photos (3)." This means that we have to do a prefix match rather than an exact match.
-  NSString *description = [NSString stringWithFormat:@"Select the \"%@\" photo album", libraryName];
+  NSString *description = [NSString stringWithFormat:@"Select the \"%@\" photo library", libraryName];
   [steps addObject:[KIFTestStep stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
 
     NSString *labelPrefix = [NSString stringWithFormat:@"%@,   (", libraryName];
@@ -812,10 +812,10 @@ typedef CGPoint KIFDisplacement;
       return [element.accessibilityLabel hasPrefix:labelPrefix];
     }];
 
-    KIFTestWaitCondition(element, error, @"Failed to find photo album with name %@", libraryName);
+    KIFTestWaitCondition(element, error, @"Failed to find photo library with name %@", libraryName);
 
     UIView *view = [UIAccessibilityElement viewContainingAccessibilityElement:element];
-    KIFTestWaitCondition(view, error, @"Failed to find view for photo album with name %@", libraryName);
+    KIFTestWaitCondition(view, error, @"Failed to find view for photo library with name %@", libraryName);
 
     if (![self _isUserInteractionEnabledForView:view]) {
       if (error) {
