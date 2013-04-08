@@ -1576,7 +1576,7 @@ typedef CGPoint KIFDisplacement;
 
 + (void)typeIntoField:(NSString*)text view:(UIView*)view
 {
-	[self tapView:view withLabel:view.accessibilityLabel];
+	[self tapView:view];
 	CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.5, false);
 	
 	for (NSUInteger characterIndex = 0; characterIndex < [text length]; characterIndex++) {
