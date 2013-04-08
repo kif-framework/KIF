@@ -1615,13 +1615,12 @@ typedef CGPoint KIFDisplacement;
 }
 
 
-+ (KIFTestStepResult)tapElement:(UIAccessibilityElement *)element withLabel:(NSString*)label
++ (KIFTestStepResult)tapElement:(UIAccessibilityElement *)element
 {
-	//If the element is viewable (i.e. on current page) add it.
 	if (element) {
-		UIView *cell = [UIAccessibilityElement viewContainingAccessibilityElement:element];
-		if (cell) {
-			return [self tapView:cell withLabel:label];
+		UIView *view = [UIAccessibilityElement viewContainingAccessibilityElement:element];
+		if (view) {
+			return [self tapView:view];
 		}
 	}
 	
@@ -1653,9 +1652,8 @@ typedef CGPoint KIFDisplacement;
     return KIFTestStepResultSuccess;
 }
 
-+ (KIFTestStepResult)tapView:(UIView *)view withLabel:(NSString*)label
++ (KIFTestStepResult)tapView:(UIView *)view
 {
-	//If the element is viewable (i.e. on current page) add it.
 	if (view) {
 		// Tap button on screen, use frame, because KIF hates [view tap]
 		// If the accessibilityFrame is not set, fallback to the view frame.
@@ -1672,7 +1670,7 @@ typedef CGPoint KIFDisplacement;
 		if (!isnan(tappablePointInElement.x)) {
 			[view tapAtPoint:tappablePointInElement];
 		} else {
-			NSLog(@"The element with accessibility label %@ is not tappable", label);
+			NSLog(@"Could not find tappable point in the Element");
 			return KIFTestStepResultFailure;
 		}
 		
@@ -1695,13 +1693,14 @@ typedef CGPoint KIFDisplacement;
 	if(buttonElement != nil) {
 		UIView *buttonView = [UIAccessibilityElement viewContainingAccessibilityElement:buttonElement];
 		if(buttonView == nil) {
-			NSLog(@"Unable to find view for payment: '%@'", label);
+			NSLog(@"Unable to find view for button: '%@'", label);
 			return KIFTestStepResultFailure;
 		}
 		
 		if (((UIButton *)buttonView).enabled) {
 			return [self tapView:buttonView withLabel:label];
 		} else {
+			NSLog(@"Button View %@ was not enabled, could not tap it.", label);
 			return KIFTestStepResultFailure;
 		}
 	}
@@ -1710,6 +1709,7 @@ typedef CGPoint KIFDisplacement;
 	if(failsIfNotPresent == NO) {
 		return KIFTestStepResultSuccess;
 	} else {
+		NSLog(@"Element was expected to be present, but was not");
 		return KIFTestStepResultFailure;
 	}
 

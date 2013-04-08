@@ -614,7 +614,7 @@ typedef enum {
  @param The label to use to search, the view used to search
  @result A KIF Result.
  */
-+ (KIFTestStepResult)tapView:(UIView *)view withLabel:(NSString*)label;
++ (KIFTestStepResult)tapView:(UIView *)view;
 
 /*!
  @method tapElement:withLabel:
@@ -623,7 +623,7 @@ typedef enum {
  @param The label to use to search, the element used to search
  @result A KIF Result.
  */
-+ (KIFTestStepResult)tapElement:(UIAccessibilityElement *)element withLabel:(NSString*)label;
++ (KIFTestStepResult)tapElement:(UIAccessibilityElement *)element;
 
 /*!
  @method tapButton:
