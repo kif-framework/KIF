@@ -608,8 +608,8 @@ typedef enum {
 + (void)tapElementWithLabel:(NSString*)label;
 
 /*!
- @method tapView:withLabel:
- @abstract A method to tap a view with "label"
+ @method tapView
+ @abstract A method to tap a view.
  @discussion The element with a label is tapped by accessing the view, and tapping a point in it.
  @param The label to use to search, the view used to search
  @result A KIF Result.
