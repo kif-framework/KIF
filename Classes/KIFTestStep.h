@@ -617,10 +617,10 @@ typedef enum {
 + (KIFTestStepResult)tapView:(UIView *)view;
 
 /*!
- @method tapElement:withLabel:
- @abstract A method to tap an element with "label"
- @discussion The element with a label is tapped by accessing the view, and tapping a point in it.
- @param The label to use to search, the element used to search
+ @method tapElement:
+ @abstract A method to tap an element.
+ @discussion The element is tapped by accessing the view, and tapping a point in it.
+ @param The element used to search
  @result A KIF Result.
  */
 + (KIFTestStepResult)tapElement:(UIAccessibilityElement *)element;
