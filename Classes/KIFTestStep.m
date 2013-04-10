@@ -826,11 +826,9 @@ typedef CGPoint KIFDisplacement;
 		
 		UIView *view = [UIAccessibilityElement viewContainingAccessibilityElement:element];
 		KIFTestWaitCondition(view, error, @"Cannot find view with accessibility label \"%@\"", label);
-		if ([view respondsToSelector:@selector(text)]) {
-			NSString *expected = [expectedString ? expectedString : expectedString stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
-			NSString *actual = [[view performSelector:@selector(text)] stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
-			KIFTestCondition([actual isEqualToString:expected], error, @"Failed to check text \"%@\" in field; instead, it was \"%@\"", expected, actual);
-        }
+		NSString *expected = [expectedString ? expectedString : expectedString stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+		NSString *actual = [[view performSelector:@selector(text)] stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+		KIFTestCondition([actual isEqualToString:expected], error, @"Failed to check text \"%@\" in field; instead, it was \"%@\"", expected, actual);
         
         return KIFTestStepResultSuccess;
     }];
