@@ -125,6 +125,9 @@ static NSArray *defaultStepsToTearDown = nil;
 
 - (void)addStepsFromArray:(NSArray *)inSteps;
 {
+	if ([inSteps isKindOfClass:[NSArray class]] == NO) {
+		NSLog(@"Cannot add KIFTestStep by Array if the parameter is not an array.");
+	}
     for (KIFTestStep *step in inSteps) {
         NSAssert(![steps containsObject:step], @"The step %@ is already added", step);
     }
