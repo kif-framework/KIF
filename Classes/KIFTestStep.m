@@ -826,10 +826,7 @@ typedef CGPoint KIFDisplacement;
 		
 		UIView *view = [UIAccessibilityElement viewContainingAccessibilityElement:element];
 		KIFTestWaitCondition(view, error, @"Cannot find view with accessibility label \"%@\"", label);
-		
-		// This is probably a UITextField- or UITextView-ish view, so make sure it worked
 		if ([view respondsToSelector:@selector(text)]) {
-			// We trim \n and \r because they trigger the return key, so they won't show up in the final product on single-line inputs
 			NSString *expected = [expectedString ? expectedString : expectedString stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
 			NSString *actual = [[view performSelector:@selector(text)] stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
 			KIFTestCondition([actual isEqualToString:expected], error, @"Failed to check text \"%@\" in field; instead, it was \"%@\"", expected, actual);
