@@ -881,7 +881,7 @@ typedef CGPoint KIFDisplacement;
                 if ([rowTitle isEqual:title]) {
                     [pickerView selectRow:rowIndex inComponent:componentIndex animated:YES];
                     CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.5, false);
-                    
+                    KIFTestCondition(pickerView, error, @"Could not find Picker View to Tap");
                     // Tap in the middle of the picker view to select the item
                     if ([self tapView:pickerView] == KIFTestStepResultFailure) {
 						return KIFTestStepResultFailure;
