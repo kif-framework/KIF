@@ -585,9 +585,9 @@ typedef CGPoint KIFDisplacement;
 {
     return [self stepWithDescription:@"Dismiss the popover" executionBlock:^(KIFTestStep *step, NSError **error) {
         const NSTimeInterval tapDelay = 0.05;
-        NSArray *windows = [[UIApplication sharedApplication] windows];
-        KIFTestCondition(windows.count, error, @"Failed to find any windows in the application");
-        UIView *dimmingView = [[[windows objectAtIndex:0] subviewsWithClassNamePrefix:@"UIDimmingView"] lastObject];
+        UIWindow *window = [[[UIApplication sharedApplication] delegate] window];
+        UIView *dimmingView = [[window subviewsWithClassNamePrefix:@"UIDimmingView"] lastObject];
+        KIFTestCondition(dimmingView, error, @"Failed to find any dimming views in the window");
         [dimmingView tapAtPoint:CGPointMake(50.0f, 50.0f)];
         CFRunLoopRunInMode(kCFRunLoopDefaultMode, tapDelay, false);
         return KIFTestStepResultSuccess;
