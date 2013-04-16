@@ -588,9 +588,44 @@ typedef CGPoint KIFDisplacement;
         UIWindow *window = [[[UIApplication sharedApplication] delegate] window];
         UIView *dimmingView = [[window subviewsWithClassNamePrefix:@"UIDimmingView"] lastObject];
         KIFTestCondition(dimmingView, error, @"Failed to find any dimming views in the window");
-        [dimmingView tapAtPoint:CGPointMake(50.0f, 50.0f)];
-        CFRunLoopRunInMode(kCFRunLoopDefaultMode, tapDelay, false);
-        return KIFTestStepResultSuccess;
+        
+        // Top left
+        CGPoint point = CGPointMake(50.0f, 50.0f);
+        if ([dimmingView hitTest:point withEvent:nil] == dimmingView)
+        {
+            [dimmingView tapAtPoint:point];
+            CFRunLoopRunInMode(kCFRunLoopDefaultMode, tapDelay, false);
+            return KIFTestStepResultSuccess;
+        }
+        
+        // Top right
+        point.x = dimmingView.bounds.size.width - 50.0f;
+        if ([dimmingView hitTest:point withEvent:nil] == dimmingView)
+        {
+            [dimmingView tapAtPoint:point];
+            CFRunLoopRunInMode(kCFRunLoopDefaultMode, tapDelay, false);
+            return KIFTestStepResultSuccess;
+        }
+        
+        // Bottom right
+        point.y = dimmingView.bounds.size.height - 50.0f;
+        if ([dimmingView hitTest:point withEvent:nil] == dimmingView)
+        {
+            [dimmingView tapAtPoint:point];
+            CFRunLoopRunInMode(kCFRunLoopDefaultMode, tapDelay, false);
+            return KIFTestStepResultSuccess;
+        }
+        
+        // Bottom left
+        point.x = 50.0f;
+        if ([dimmingView hitTest:point withEvent:nil] == dimmingView)
+        {
+            [dimmingView tapAtPoint:point];
+            CFRunLoopRunInMode(kCFRunLoopDefaultMode, tapDelay, false);
+            return KIFTestStepResultSuccess;
+        }
+        
+        KIFTestCondition(NO, error, @"Couldn't find tappable point in dimming view");
     }];
 }
 
