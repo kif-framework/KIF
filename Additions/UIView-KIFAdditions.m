@@ -156,16 +156,18 @@ typedef struct __GSEvent * GSEventRef;
         
         // If the view is an accessibility container, and we didn't find a matching subview,
         // then check the actual accessibility elements
-        NSInteger accessibilityElementCount = element.accessibilityElementCount;
-        if (accessibilityElementCount == 0 || accessibilityElementCount == NSNotFound) {
-            continue;
-        }
-        
-        for (NSInteger accessibilityElementIndex = 0; accessibilityElementIndex < accessibilityElementCount; accessibilityElementIndex++) {
-            UIAccessibilityElement *subelement = [element accessibilityElementAtIndex:accessibilityElementIndex];
-            
-            [elementStack addObject:subelement];
-        }
+		if ([element respondsToSelector:@selector(accessibilityElementCount)]){
+			NSInteger accessibilityElementCount = [element accessibilityElementCount];
+			if (accessibilityElementCount == 0 || accessibilityElementCount == NSNotFound) {
+				continue;
+			}
+			
+			for (NSInteger accessibilityElementIndex = 0; accessibilityElementIndex < accessibilityElementCount; accessibilityElementIndex++) {
+				UIAccessibilityElement *subelement = [element accessibilityElementAtIndex:accessibilityElementIndex];
+				
+				[elementStack addObject:subelement];
+			}
+		}
     }
         
     return matchingButOccludedElement;
