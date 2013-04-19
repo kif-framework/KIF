@@ -68,7 +68,28 @@ typedef struct __GSEvent * GSEventRef;
 
 @implementation UIView (KIFAdditions)
 
-- (UIAccessibilityElement *)accessibilityElementWithLabel:(NSString *)label
+- (UIAccessibilityElement *)accessibilityElementWithIdentifier:(NSString *)identifier;
+{
+    return [self accessibilityElementWithIdentifier:identifier traits:UIAccessibilityTraitNone];
+}
+
+- (UIAccessibilityElement *)accessibilityElementWithIdentifier:(NSString *)identifier traits:(UIAccessibilityTraits)traits;
+{
+    return [self accessibilityElementWithIdentifier:identifier accessibilityValue:nil traits:traits];
+}
+
+- (UIAccessibilityElement *)accessibilityElementWithIdentifier:(NSString *)identifier accessibilityValue:(NSString *)value traits:(UIAccessibilityTraits)traits;
+{
+    return [self accessibilityElementMatchingBlock:^(UIAccessibilityElement *element) {
+        BOOL labelsMatch = [element.accessibilityIdentifier isEqual:identifier];
+        BOOL traitsMatch = ((element.accessibilityTraits) & traits) == traits;
+        BOOL valuesMatch = !value || [value isEqual:element.accessibilityValue];
+        
+        return (BOOL)(labelsMatch && traitsMatch && valuesMatch);
+    }];
+}
+
+- (UIAccessibilityElement *)accessibilityElementWithLabel:(NSString *)label;
 {
     return [self accessibilityElementWithLabel:label traits:UIAccessibilityTraitNone];
 }
