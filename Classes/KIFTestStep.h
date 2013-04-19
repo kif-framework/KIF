@@ -286,6 +286,38 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
 + (id)stepToWaitForNotificationName:(NSString *)name object:(id)object whileExecutingStep:(KIFTestStep *)childStep;
 
 /*!
+ @method stepToTapViewWithAccessibilityIdentifier:
+ @abstract A step that taps a particular view in the view hierarchy.
+ @discussion The view or accessibility element with the given identifier is searched for in the view hierarchy. If the element isn't found or isn't currently tappable, then the step will attempt to wait until it is. Once the view is present and tappable, a tap event is simulated in the center of the view or element.
+ @param identifier The accessibility identifier of the element to tap.
+ @result A configured test step.
+ */
++ (id)stepToTapViewWithAccessibilityIdentifier:(NSString *)identifier;
+
+/*!
+ @method stepToTapViewWithAccessibilityIdentifier:traits:
+ @abstract A step that taps a particular view in the view hierarchy.
+ @discussion The view or accessibility element with the given identifier is searched for in the view hierarchy. If the element isn't found or isn't currently tappable, then the step will attempt to wait until it is. Once the view is present and tappable, a tap event is simulated in the center of the view or element.
+ @param identifier The accessibility identifier of the element to tap.
+ @param traits The accessibility traits of the element to tap. Elements that do not include at least these traits are ignored.
+ @result A configured test step.
+ */
++ (id)stepToTapViewWithAccessibilityIdentifier:(NSString *)identifier traits:(UIAccessibilityTraits)traits;
+
+/*!
+ @method stepToTapViewWithAccessibilityLabel:value:traits:
+ @abstract A step that taps a particular view in the view hierarchy.
+ @discussion The view or accessibility element with the given identifier is searched for in the view hierarchy. If the element isn't found or isn't currently tappable, then the step will attempt to wait until it is. Once the view is present and tappable, a tap event is simulated in the center of the view or element.
+ 
+ This variation allows finding a particular instance of an accessibility element. For example, a table view might have multiple elements with the accessibility label of "Employee", but only one that also has the accessibility value of "Bob".
+ @param identifier The accessibility identifier of the element to tap.
+ @param value The accessibility value of the element to tap.
+ @param traits The accessibility traits of the element to tap. Elements that do not include at least these traits are ignored.
+ @result A configured test step.
+ */
++ (id)stepToTapViewWithAccessibilityIdentifier:(NSString *)identifier value:(NSString *)value traits:(UIAccessibilityTraits)traits;
+
+/*!
  @method stepToTapViewWithAccessibilityLabel:
  @abstract A step that taps a particular view in the view hierarchy.
  @discussion The view or accessibility element with the given label is searched for in the view hierarchy. If the element isn't found or isn't currently tappable, then the step will attempt to wait until it is. Once the view is present and tappable, a tap event is simulated in the center of the view or element.
@@ -477,6 +509,10 @@ typedef enum {
  @result A configured test step.
  */
 + (id)stepToSwipeViewWithAccessibilityLabel:(NSString *)label inDirection:(KIFSwipeDirection)direction;
++ (id)stepToSwipeViewWithAccessibilityLabel:(NSString *)label displacement:(CGPoint)displacement;
++ (id)stepToSwipeViewWithAccessibilityLabel:(NSString *)label inDirection:(KIFSwipeDirection)direction duration:(CGFloat)seconds;
++ (id)stepToSwipeViewWithAccessibilityLabel:(NSString *)label inDirection:(KIFSwipeDirection)direction numberOfPoints:(NSUInteger)numberOfPoints duration:(CGFloat)seconds;
++ (id)stepToSwipeViewWithAccessibilityLabel:(NSString *)label displacement:(CGPoint)displacement numberOfPoints:(NSUInteger)numberOfPoints duration:(CGFloat)seconds;
 
 /*!
  @method stepToScrollViewWithAccessibilityLabel:byFractionOfSizeHorizontal:vertical:
