@@ -1134,16 +1134,12 @@ typedef CGPoint KIFDisplacement;
             KIFTestWaitCondition(view, error, @"Failed to find view for accessibility element with label \"%@\"", label);
         }
         
-        UILabel* viewAsLabel = nil;
-        if([view isKindOfClass:[UILabel class]])
-            viewAsLabel = (UILabel*)view;
-        else
-            KIFTestWaitCondition(view, error, @"Failed to find UILabel for accessibility element with label \"%@\", found element was a non-UILabel", label);
+        SEL textSelector = @selector(text);
+        KIFTestCondition([view respondsToSelector:textSelector], error, @"UIView of accessibility element \"%@\" does not respond to .text", label);
         
-        NSString* labelText = [viewAsLabel text];
-        
+        NSString* labelText = [view performSelector:textSelector];
         KIFTestCondition([labelText isEqualToString:textData], error, @"UILabel of accessibility element \"%@\" does not match \nexpected text: \n\"%@\", \nactual text: \n\"%@\"", label, textData, labelText);
-        
+                
         return KIFTestStepResultSuccess;
     }];
 }
