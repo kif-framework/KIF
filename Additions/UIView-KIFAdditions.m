@@ -165,11 +165,13 @@ typedef struct __GSEvent * GSEventRef;
 			for (NSInteger accessibilityElementIndex = 0; accessibilityElementIndex < accessibilityElementCount; accessibilityElementIndex++) {
 				UIAccessibilityElement *subelement = [element accessibilityElementAtIndex:accessibilityElementIndex];
 				
-				[elementStack addObject:subelement];
+				if (subelement) {
+					[elementStack addObject:subelement];
+				}
 			}
 		}
     }
-        
+    
     return matchingButOccludedElement;
 }
 
