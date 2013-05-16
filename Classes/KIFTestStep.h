@@ -194,6 +194,20 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
  */
 + (id)stepToWaitForViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits;
 
+/*!
+ @method stepToWaitForViewWithAccessibilityLabel:value:traits:class:
+ @abstract A step that waits until a view or accessibility element is present.
+ @discussionThe view or accessibility element with the given label and class is found in the view hierarchy. If the element isn't found, then the step will attempt to wait until it is. Note that the view does not necessarily have to be visible on the screen, and may be behind another view or offscreen. Views with their hidden property set to YES are ignored.
+ 
+ If the view you want to wait for is tappable, use the -stepToWaitForTappableViewWithAccessibilityLabel: methods instead as they provide a more strict test.
+ @param label The accessibility label of the element to wait for.
+ @param value The accessibility value of the element to tap.
+ @param traits The accessibility traits of the element to wait for. Elements that do not include at least these traits are ignored.
+ @param class The class of the view to wait for.
+ @result A configured test step.
+ */
++ (id)stepToWaitForViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits class:(Class)class;
+
 + (id)stepToWaitForViewWithAccessibilityLabelLike:(NSString *)label;
 + (id)stepToWaitForViewWithAccessibilityLabelLike:(NSString *)label value:(NSString *)value;
 + (id)stepToWaitForViewWithAccessibilityLabelLike:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits;
@@ -357,6 +371,7 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
 + (id)stepToTapViewWithAccessibilityLabelLike:(NSString *)label;
 + (id)stepToTapViewWithAccessibilityLabelLike:(NSString *)label value:(NSString *)value;
 + (id)stepToTapViewWithAccessibilityLabelLike:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits;
++ (id)stepToWaitForViewWithAccessibilityLabelLike:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits class:(Class)class;
 
 /*!
  @method stepToTapViewWithAccessibilityLabelLike: class:
@@ -578,6 +593,14 @@ typedef enum {
  @result A configured test step
  */
 + (id)stepToDismissAlertViewWithLabel:(NSString *)label byTappingButton:(NSString *)buttonLabel;
+
+/*!
+@method stepToVerifyGerneralPasteboardIsEqualTo:
+@abstract A step that verifies the current contents of the general pasteboard are equal to the given string
+@param string The string to verify is in the pasteboard
+@result A configured test step
+*/
++ (id)stepToVerifyGerneralPasteboardIsEqualTo:(NSString *)string;
 
 /*!
  @method swipePathForFlick:

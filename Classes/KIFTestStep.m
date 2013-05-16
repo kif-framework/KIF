@@ -108,6 +108,11 @@ typedef CGPoint KIFDisplacement;
 
 + (id)stepToWaitForViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits;
 {
+	return [self stepToWaitForViewWithAccessibilityLabel:label value:value traits:traits class:nil];
+}
+
++ (id)stepToWaitForViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits class:(Class)class;
+{
     NSString *description = nil;
     if (value.length) {
         description = [NSString stringWithFormat:@"Wait for view with accessibility label \"%@\" and accessibility value \"%@\"", label, value];
@@ -116,7 +121,7 @@ typedef CGPoint KIFDisplacement;
     }
     
     return [self stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
-        UIAccessibilityElement *element = [self _accessibilityElementWithLabel:label accessibilityValue:value tappable:NO traits:traits error:error];
+        UIAccessibilityElement *element = [self _accessibilityElementWithLabel:label accessibilityValue:value tappable:NO traits:traits class:class error:error];
         
         NSString *waitDescription = nil;
         if (value.length) {
@@ -144,8 +149,12 @@ typedef CGPoint KIFDisplacement;
 + (id)stepToWaitForViewWithAccessibilityLabelLike:(NSString *)label traits:(UIAccessibilityTraits)traits {
     return [self stepToWaitForViewWithAccessibilityLabelLike:label value:nil traits:traits];
 }
-
 + (id)stepToWaitForViewWithAccessibilityLabelLike:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits
+{
+	return [self stepToWaitForViewWithAccessibilityLabelLike:label value:value traits:traits class:nil];
+}
+
++ (id)stepToWaitForViewWithAccessibilityLabelLike:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits class:(Class)class
 {
     NSString *description = nil;
     if (value.length) {
@@ -155,7 +164,7 @@ typedef CGPoint KIFDisplacement;
     }
     
     return [self stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
-        UIAccessibilityElement *element = [self _accessibilityElementWithLabelLike:label accessibilityValue:value tappable:NO traits:traits error:error];
+        UIAccessibilityElement *element = [self _accessibilityElementWithLabelLike:label accessibilityValue:value tappable:NO traits:traits class:class error:error];
         
         NSString *waitDescription = nil;
         if (value.length) {
@@ -1127,6 +1136,17 @@ typedef CGPoint KIFDisplacement;
 	return [KIFTestStep stepWithDescription:[NSString stringWithFormat:@"Find the alert dialog with label '%@' and dismiss it with button '%@'", label, buttonLabel] executionBlock:^KIFTestStepResult(KIFTestStep *step, NSError **error) {
         return [self dismissAlertWithLabel:label buttonLabel:buttonLabel error:error];
     }];
+}
+
+#pragma mark Pasteboard
++ (id)stepToVerifyGerneralPasteboardIsEqualTo:(NSString *)string
+{
+	NSString *description = [NSString stringWithFormat:@"Verifying that the general pasteboard is eqal to: %@", string];
+	return [KIFTestStep stepWithDescription:description executionBlock:^KIFTestStepResult(KIFTestStep *step, NSError **error) {
+		NSString *pasteboard = [UIPasteboard generalPasteboard].string;
+		KIFTestCondition([pasteboard isEqualToString:string], error, @"Pasteboard should be:\"%@\" but was: \"%@\"", string, pasteboard);
+		return KIFTestStepResultSuccess;
+	}];
 }
 
 #pragma mark Step Collections
