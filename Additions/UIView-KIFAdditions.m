@@ -360,7 +360,7 @@ typedef struct __GSEvent * GSEventRef;
 
     CFRunLoopRunInMode(kCFRunLoopDefaultMode, DRAG_TOUCH_DELAY, false);
     
-    for (NSInteger pointIndex = 1; pointIndex < count - 1; pointIndex++) {
+    for (NSInteger pointIndex = 1; pointIndex < count; pointIndex++) {
         [touch setLocationInWindow:[self.window convertPoint:points[pointIndex] fromView:self]];
         [touch setPhase:UITouchPhaseMoved];
         
