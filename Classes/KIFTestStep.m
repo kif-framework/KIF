@@ -908,7 +908,7 @@ typedef CGPoint KIFDisplacement;
     NSString *description = [NSString stringWithFormat:@"Toggle the switch with accessibility label \"%@\" to %@", label, switchIsOn ? @"ON" : @"OFF"];
     return [self stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
         
-        UIAccessibilityElement *element = [self _accessibilityElementWithLabel:label accessibilityValue:nil tappable:YES traits:UIAccessibilityTraitNone error:error];
+        UIAccessibilityElement *element = [self _accessibilityElementWithLabel:label accessibilityValue:nil tappable:YES traits:UIAccessibilityTraitNone class:[UISwitch class] error:error];
         if (!element) {
             return KIFTestStepResultWait;
         }
@@ -920,7 +920,7 @@ typedef CGPoint KIFDisplacement;
         // No need to switch it if it's already in the correct position
         BOOL current = switchView.on;
         if (current == switchIsOn) {
-            return KIFTestStepResultSuccess;   
+            return KIFTestStepResultSuccess;
         }
         
         CGRect elementFrame = [switchView.window convertRect:element.accessibilityFrame toView:switchView];
