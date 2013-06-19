@@ -10,6 +10,8 @@
 #import "KIFTestController.h"
 #import "KIFTestScenario.h"
 #import "KIFTestStep.h"
+#import "KIFTestLogger.h"
+
 #import "NSFileManager-KIFAdditions.h"
 #import <QuartzCore/QuartzCore.h>
 #import <dlfcn.h>
@@ -137,7 +139,10 @@ static void releaseInstance()
         failedScenarioIndexes = [[NSMutableIndexSet alloc] init];
     }
     
-    return self;
+    loggers = [[NSMutableArray alloc] init];
+    [self registerLogger:[[[KIFTestLogger alloc] init] autorelease]];
+    
+    return self;    
 }
 
 - (void)dealloc;
@@ -155,6 +160,9 @@ static void releaseInstance()
 
     [failedScenarioIndexes release];
     failedScenarioIndexes = nil;
+    
+    [loggers release];
+    loggers = nil;
     
     [super dealloc];
 }
@@ -460,107 +468,73 @@ static void releaseInstance()
     [UIImagePNGRepresentation(image) writeToFile:outputPath atomically:YES];
 }
 
-#pragma mark Logging
-
-#define KIFLog(...) [[self _logFileHandleForWriting] writeData:[[NSString stringWithFormat:@"%@\n", [NSString stringWithFormat:__VA_ARGS__]] dataUsingEncoding:NSUTF8StringEncoding]]; NSLog(__VA_ARGS__);
-#define KIFLogBlankLine() KIFLog(@" ");
-#define KIFLogSeparator() KIFLog(@"---------------------------------------------------");
-
-- (NSFileHandle *)_logFileHandleForWriting;
+- (NSInteger)failureCount;
 {
-    static NSFileHandle *fileHandle = nil;
-    if (!fileHandle) {
-        NSString *logsDirectory = [[NSFileManager defaultManager] createUserDirectory:NSLibraryDirectory];
-        
-        if (logsDirectory) {
-            logsDirectory = [logsDirectory stringByAppendingPathComponent:@"Logs"];
-        }
-        if (![[NSFileManager defaultManager] recursivelyCreateDirectory:logsDirectory]) {
-            logsDirectory = nil;
-        }
-        
-        NSString *dateString = [NSDateFormatter localizedStringFromDate:[NSDate date] dateStyle:NSDateFormatterMediumStyle timeStyle:NSDateFormatterLongStyle];
-        dateString = [dateString stringByReplacingOccurrencesOfString:@"/" withString:@"."];
-        dateString = [dateString stringByReplacingOccurrencesOfString:@":" withString:@"."];
-        NSString *fileName = [NSString stringWithFormat:@"KIF Tests %@.log", dateString];
-        
-        NSString *logFilePath = [logsDirectory stringByAppendingPathComponent:fileName];
-        
-        if (![[NSFileManager defaultManager] fileExistsAtPath:logFilePath]) {
-            [[NSFileManager defaultManager] createFileAtPath:logFilePath contents:[NSData data] attributes:nil];
-        }
-        
-        fileHandle = [[NSFileHandle fileHandleForWritingAtPath:logFilePath] retain];
-        
-        if (fileHandle) {
-            NSLog(@"Logging KIF test activity to %@", logFilePath);
-        }
-    }
-    
-    return fileHandle;
+    return failureCount;
 }
+
+- (void)registerLogger:(KIFTestLogger*) logger
+{
+    [logger setupController: self];
+    [loggers addObject:logger];
+}
+
+#pragma mark Logging
 
 - (void)_logTestingDidStart;
 {
-    if (failedScenarioIndexes.count != self.scenarios.count) {
-        KIFLog(@"BEGIN KIF TEST RUN: re-running %d of %d scenarios that failed last time", failedScenarioIndexes.count, self.scenarios.count);
-    } else {
-        KIFLog(@"BEGIN KIF TEST RUN: %d scenarios", self.scenarios.count);
+    for(KIFTestLogger* logger in loggers) { 
+        [logger logTestingDidStart];
     }
 }
 
 - (void)_logTestingDidFinish;
 {
-    KIFLogBlankLine();
-    KIFLogSeparator();
-    KIFLog(@"KIF TEST RUN FINISHED: %d failures (duration %.2fs)", failureCount, -[self.testSuiteStartDate timeIntervalSinceNow]);
-    KIFLogSeparator();
-    
-    // Also log the failure count to stdout, for easier integration with CI tools.
-    NSLog(@"*** KIF TESTING FINISHED: %d failures", failureCount);
+    for(KIFTestLogger* logger in loggers) { 
+        [logger logTestingDidFinish];
+    }
 }
 
 - (void)_logDidStartScenario:(KIFTestScenario *)scenario;
 {
-    KIFLogBlankLine();
-    KIFLogSeparator();
-    KIFLog(@"BEGIN SCENARIO %d/%d (%d steps)", [self.scenarios indexOfObjectIdenticalTo:scenario] + 1, self.scenarios.count, scenario.steps.count);
-    KIFLog(@"%@", scenario.description);
-    KIFLogSeparator();
+    for(KIFTestLogger* logger in loggers) { 
+        [logger logDidStartScenario:scenario];
+    }
 }
 
 - (void)_logDidSkipScenario:(KIFTestScenario *)scenario;
 {
-    if ([[[[NSProcessInfo processInfo] environment] objectForKey:@"KIF_SILENT_FILTERING"] boolValue]) return; // Don't want filter skipping noise
-    KIFLogBlankLine();
-    KIFLogSeparator();
-    NSString *reason = (scenario.skippedByFilter ? @"filter doesn't match description" : @"only running previously-failed scenarios");
-    KIFLog(@"SKIPPING SCENARIO %d/%d (%@)", [self.scenarios indexOfObjectIdenticalTo:scenario] + 1, self.scenarios.count, reason);
-    KIFLog(@"%@", scenario.description);
-    KIFLogSeparator();
+    for(KIFTestLogger* logger in loggers) { 
+        [logger logDidSkipScenario:scenario];
+    }
 }
 
 - (void)_logDidSkipAddingScenarioGenerator:(NSString *)selectorString;
 {
-    KIFLog(@"Skipping scenario generator %@ because it takes arguments", selectorString);
+    for(KIFTestLogger* logger in loggers) { 
+        [logger logDidSkipAddingScenarioGenerator:selectorString];
+    }
 }
 
 - (void)_logDidFinishScenario:(KIFTestScenario *)scenario duration:(NSTimeInterval)duration
 {
-    KIFLogSeparator();
-    KIFLog(@"END OF SCENARIO (duration %.2fs)", duration);
-    KIFLogSeparator();
+    for(KIFTestLogger* logger in loggers) { 
+        [logger logDidFinishScenario:scenario duration:duration];
+    }
 }
 
 - (void)_logDidFailStep:(KIFTestStep *)step duration:(NSTimeInterval)duration error:(NSError *)error;
 {
-    KIFLog(@"FAIL (%.2fs): %@", duration, step);
-    KIFLog(@"FAILING ERROR: %@", error);
+    for(KIFTestLogger* logger in loggers) { 
+        [logger logDidFailStep:step duration:duration error:error];
+    }
 }
 
 - (void)_logDidPassStep:(KIFTestStep *)step duration:(NSTimeInterval)duration;
 {
-    KIFLog(@"PASS (%.2fs): %@", duration, step);
+    for(KIFTestLogger* logger in loggers) { 
+        [logger logDidPassStep:step duration:duration];
+    }
 }
 
 @end

@@ -9,6 +9,14 @@
 
 #import <UIKit/UIKit.h>
 
+typedef enum DragDirection
+{
+    DRAG_RIGHT = 0,
+    DRAG_LEFT = 1,
+    DRAG_UP = 2,
+    DRAG_DOWN = 3
+} DragDirection;
+
 
 /*!
  @define KIFTestCondition
@@ -675,5 +683,25 @@ typedef enum {
  @result A KIF Result.
  */
 + (KIFTestStepResult)tapCharactersInString:(NSString *)string;
+
+ @method stepToClearFieldWithAccessibilityLabel:label:traits:expectedResult
+ @abstract A step that deletes the contents of an input field (ie TextField or TextView).
+ @discussion This step will get the view with the specified accessibility label and clear its contents using the Delete key.
+ @param label Accessibility label of the input view.
+ @param traits The accessibility traits of the element to type into. Elements that do not include at least these traits are ignored.
+ @param expectedResult What the text value should be after entry, including any formatting done by the field. If this is nil, the "text" parameter will be used.
+ @result A clear input field.
+ */
++ (id)stepToClearFieldWithAccessibilityLabel: (NSString *)label traits:(UIAccessibilityTraits)traits expectedResult:(NSString *)expectedResult;
+
+/*!
+ @method stepToClearFieldWithAccessibilityLabel:label:traits:expectedResult
+ @abstract A step that deletes the contents of an input field (ie TextField or TextView).
+ @discussion This step will get the view with the specified accessibility label and clear its contents using the Delete key.
+ @param label Accessibility label of the input view.
+ @result A clear input field.
+
+ */
++ (id)stepToClearFieldWithAccessibilityLabel: (NSString *)label; 
 
 @end
