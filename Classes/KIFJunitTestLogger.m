@@ -12,6 +12,7 @@
 
 @synthesize fileHandle;
 @synthesize logDirectoryPath;
+@synthesize appName;
 
 static NSMutableDictionary* durations = nil;
 static NSMutableDictionary* errors = nil;
@@ -21,26 +22,21 @@ static KIFTestScenario* currentScenario = nil;
 {
     if (!fileHandle) {
         NSString *logsDirectory;
-        if (!self.logDirectoryPath) {
-            logsDirectory = [[NSFileManager defaultManager] createUserDirectory:NSLibraryDirectory];
-            if (logsDirectory) {
-                logsDirectory = [logsDirectory stringByAppendingPathComponent:@"Logs"];
-            }
+		if (!self.logDirectoryPath) {
+            logsDirectory = [[[NSProcessInfo processInfo] environment] valueForKey:@"LOG_OUTPUT_DIRECTORY"] ? [[[NSProcessInfo processInfo] environment] valueForKey:@"LOG_OUTPUT_DIRECTORY"] : NSHomeDirectory();
         }
         else{
             logsDirectory = self.logDirectoryPath;
         }
-
-        
-        if (![[NSFileManager defaultManager] recursivelyCreateDirectory:logsDirectory]) {
+		
+		if (![[NSFileManager defaultManager] recursivelyCreateDirectory:logsDirectory]) {
+			NSLog(@"------- FAILED TO CREATE LOG DIRECTORY -------");
             logsDirectory = nil;
         }
         
-        NSString *dateString = [NSDateFormatter localizedStringFromDate:[NSDate date] dateStyle:NSDateFormatterMediumStyle 
-                                                              timeStyle:NSDateFormatterLongStyle];
-        dateString = [dateString stringByReplacingOccurrencesOfString:@"/" withString:@"."];
-        dateString = [dateString stringByReplacingOccurrencesOfString:@":" withString:@"."];
-        NSString *fileName = [NSString stringWithFormat:@"KIF Tests %@.junit.xml", dateString];
+		
+		
+        NSString *fileName = [NSString stringWithFormat:@"%@_KIFOutput.junit.xml", appName];
         
         NSString *logFilePath = [logsDirectory stringByAppendingPathComponent:fileName];
         
@@ -51,7 +47,7 @@ static KIFTestScenario* currentScenario = nil;
         fileHandle = [[NSFileHandle fileHandleForWritingAtPath:logFilePath] retain];
         
         if (fileHandle) {
-            NSLog(@"JUNIT XML RESULTS AT %@", logFilePath);
+            NSLog(@"=== JUNIT XML RESULTS AT %@ ===", logFilePath);
         }
     }
 }

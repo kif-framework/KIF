@@ -683,7 +683,7 @@ typedef enum {
  @result A KIF Result.
  */
 + (KIFTestStepResult)tapCharactersInString:(NSString *)string;
-
+/*
  @method stepToClearFieldWithAccessibilityLabel:label:traits:expectedResult
  @abstract A step that deletes the contents of an input field (ie TextField or TextView).
  @discussion This step will get the view with the specified accessibility label and clear its contents using the Delete key.

@@ -1729,6 +1729,7 @@ typedef CGPoint KIFDisplacement;
 		NSLog(@"Element was expected to be present, but was not");
 		return KIFTestStepResultFailure;
 	}
+}
 
 + (id)stepToClearFieldWithAccessibilityLabel:(NSString *)label;
 {
