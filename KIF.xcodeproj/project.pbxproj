@@ -11,8 +11,6 @@
 		230EF1D214BF68E800A47D00 /* KIFTestLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 230EF1D014BF68E800A47D00 /* KIFTestLogger.m */; };
 		230EF1DA14BF732C00A47D00 /* KIFJunitTestLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 230EF1D814BF732C00A47D00 /* KIFJunitTestLogger.h */; };
 		230EF1DB14BF732C00A47D00 /* KIFJunitTestLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 230EF1D914BF732C00A47D00 /* KIFJunitTestLogger.m */; };
-		230EF1DC14BF8F2F00A47D00 /* KIFJunitTestLogger.h in Sources */ = {isa = PBXBuildFile; fileRef = 230EF1D814BF732C00A47D00 /* KIFJunitTestLogger.h */; };
-		230EF1DD14BF8F2F00A47D00 /* KIFTestLogger.h in Sources */ = {isa = PBXBuildFile; fileRef = 230EF1CF14BF68E800A47D00 /* KIFTestLogger.h */; };
 		39160B1113D1E6BB00311E38 /* LoadableCategory.h in Headers */ = {isa = PBXBuildFile; fileRef = 39160B1013D1E6BB00311E38 /* LoadableCategory.h */; };
 		AAB0726C139719AC008AF393 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAB0726B139719AC008AF393 /* Foundation.framework */; };
 		AAB0728213971A63008AF393 /* KIF-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = AAB0728113971A63008AF393 /* KIF-Prefix.pch */; };
@@ -194,9 +192,7 @@
 				AAB072B213971AB2008AF393 /* UIWindow-KIFAdditions.h in Headers */,
 				CDFD8E86139728B4008D299F /* NSFileManager-KIFAdditions.h in Headers */,
 				39160B1113D1E6BB00311E38 /* LoadableCategory.h in Headers */,
-
 				C194255815D83DE9004FC314 /* KIFTypist.h in Headers */,
-
 				230EF1D114BF68E800A47D00 /* KIFTestLogger.h in Headers */,
 				230EF1DA14BF732C00A47D00 /* KIFJunitTestLogger.h in Headers */,
 			);
@@ -255,8 +251,6 @@
 				230EF1D214BF68E800A47D00 /* KIFTestLogger.m in Sources */,
 				AAB0729013971A98008AF393 /* KIFTestScenario.m in Sources */,
 				230EF1DB14BF732C00A47D00 /* KIFJunitTestLogger.m in Sources */,
-				230EF1DC14BF8F2F00A47D00 /* KIFJunitTestLogger.h in Sources */,
-				230EF1DD14BF8F2F00A47D00 /* KIFTestLogger.h in Sources */,
 				AAB0728E13971A98008AF393 /* KIFTestController.m in Sources */,
 				AAB0729213971A98008AF393 /* KIFTestStep.m in Sources */,
 				AAB072A513971AB2008AF393 /* CGGeometry-KIFAdditions.m in Sources */,
