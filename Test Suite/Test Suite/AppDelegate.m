@@ -6,15 +6,18 @@
 //  Copyright (c) 2013 Brian Nickel. All rights reserved.
 //
 
-#import "AppDelegate.h"
 #import "../../Classes/KIFTestController.h"
+#import <UIKit/UIKit.h>
+
+@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@property (strong, nonatomic) UIWindow *window;
+@end
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    [[KIFTestController sharedInstance] startTestingWithCompletionBlock:^{
-    }];
+    [[KIFTestController sharedInstance] startTestingWithCompletionBlock:^{}];
     return YES;
 }
 

@@ -20,6 +20,9 @@
 		EB495556177AC047008ED7BA /* libKIF.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EB495555177ABFB9008ED7BA /* libKIF.a */; };
 		EB495559177AC26A008ED7BA /* KIFTestScenario+Basics.m in Sources */ = {isa = PBXBuildFile; fileRef = EB495558177AC26A008ED7BA /* KIFTestScenario+Basics.m */; };
 		EB49555D177ACE39008ED7BA /* TapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EB49555C177ACE39008ED7BA /* TapViewController.m */; };
+		EBAB1035177B52D30068A793 /* ShowHideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EBAB1034177B52D30068A793 /* ShowHideViewController.m */; };
+		EBAB103C177B735A0068A793 /* TestSuiteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EBAB103B177B735A0068A793 /* TestSuiteViewController.m */; };
+		EBAB103E177B75460068A793 /* KIFTestScenario+ModalViews.m in Sources */ = {isa = PBXBuildFile; fileRef = EBAB103D177B75460068A793 /* KIFTestScenario+ModalViews.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,7 +44,6 @@
 		EB495534177ABF3A008ED7BA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		EB495536177ABF3A008ED7BA /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		EB495538177ABF3A008ED7BA /* Test Suite-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Test Suite-Prefix.pch"; sourceTree = "<group>"; };
-		EB495539177ABF3A008ED7BA /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		EB49553A177ABF3A008ED7BA /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		EB49553C177ABF3A008ED7BA /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		EB49553E177ABF3A008ED7BA /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
@@ -50,6 +52,9 @@
 		EB495550177ABFB9008ED7BA /* KIF.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = KIF.xcodeproj; path = ../KIF.xcodeproj; sourceTree = "<group>"; };
 		EB495558177AC26A008ED7BA /* KIFTestScenario+Basics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "KIFTestScenario+Basics.m"; sourceTree = "<group>"; };
 		EB49555C177ACE39008ED7BA /* TapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TapViewController.m; sourceTree = "<group>"; };
+		EBAB1034177B52D30068A793 /* ShowHideViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShowHideViewController.m; sourceTree = "<group>"; };
+		EBAB103B177B735A0068A793 /* TestSuiteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestSuiteViewController.m; sourceTree = "<group>"; };
+		EBAB103D177B75460068A793 /* KIFTestScenario+ModalViews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "KIFTestScenario+ModalViews.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,11 +103,13 @@
 		EB495530177ABF3A008ED7BA /* Test Suite */ = {
 			isa = PBXGroup;
 			children = (
-				EB495539177ABF3A008ED7BA /* AppDelegate.h */,
 				EB49553A177ABF3A008ED7BA /* AppDelegate.m */,
 				EB495542177ABF3A008ED7BA /* MainStoryboard.storyboard */,
+				EBAB103B177B735A0068A793 /* TestSuiteViewController.m */,
 				EB49555C177ACE39008ED7BA /* TapViewController.m */,
+				EBAB1034177B52D30068A793 /* ShowHideViewController.m */,
 				EB495558177AC26A008ED7BA /* KIFTestScenario+Basics.m */,
+				EBAB103D177B75460068A793 /* KIFTestScenario+ModalViews.m */,
 				EB495531177ABF3A008ED7BA /* Supporting Files */,
 			);
 			path = "Test Suite";
@@ -158,6 +165,11 @@
 			attributes = {
 				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = "Brian Nickel";
+				TargetAttributes = {
+					EB495526177ABF3A008ED7BA = {
+						DevelopmentTeam = YQYRCXXRYH;
+					};
+				};
 			};
 			buildConfigurationList = EB495522177ABF3A008ED7BA /* Build configuration list for PBXProject "Test Suite" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -216,6 +228,9 @@
 				EB49553B177ABF3A008ED7BA /* AppDelegate.m in Sources */,
 				EB495559177AC26A008ED7BA /* KIFTestScenario+Basics.m in Sources */,
 				EB49555D177ACE39008ED7BA /* TapViewController.m in Sources */,
+				EBAB1035177B52D30068A793 /* ShowHideViewController.m in Sources */,
+				EBAB103C177B735A0068A793 /* TestSuiteViewController.m in Sources */,
+				EBAB103E177B75460068A793 /* KIFTestScenario+ModalViews.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -309,11 +324,13 @@
 		EB49554E177ABF3A008ED7BA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Test Suite/Test Suite-Prefix.pch";
 				INFOPLIST_FILE = "Test Suite/Test Suite-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "4752554C-E250-49A7-AB0C-9631D9ED91C7";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -321,11 +338,13 @@
 		EB49554F177ABF3A008ED7BA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Test Suite/Test Suite-Prefix.pch";
 				INFOPLIST_FILE = "Test Suite/Test Suite-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "4752554C-E250-49A7-AB0C-9631D9ED91C7";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -349,6 +368,7 @@
 				EB49554F177ABF3A008ED7BA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
