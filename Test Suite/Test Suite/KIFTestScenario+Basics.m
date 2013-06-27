@@ -19,8 +19,6 @@
     return @[[KIFTestStep stepToTapViewWithAccessibilityLabel:@"Test Suite" traits:UIAccessibilityTraitButton]];
 }
 
-#if 0
-
 + (instancetype)scenarioToTestWaitingForViewWithAccessibilityLabel
 {
     KIFTestScenario *scenario = [self scenarioWithDescription:@"Wait for view with accessibility label."];
@@ -313,23 +311,15 @@
     return scenario;
 }
 
-#endif
-
-#if 1
-
 + (instancetype)scenarioToTestScrolling
 {
     KIFTestScenario *scenario = [self scenarioWithDescription:@"Scrolling"];
-    [scenario addStep:[KIFTestStep stepToScrollViewWithAccessibilityLabel:@"Middle" byFractionOfSizeHorizontal:0 vertical:-5]];
-    [scenario addStep:[KIFTestStep stepToWaitForAbsenceOfViewWithAccessibilityLabel:@"Tapping"]];
-    [scenario addStep:[KIFTestStep stepToScrollViewWithAccessibilityLabel:@"Middle" byFractionOfSizeHorizontal:0 vertical:5]];
-    [scenario addStep:[KIFTestStep stepToWaitForViewWithAccessibilityLabel:@"Tapping"]];
+    [scenario addStep:[KIFTestStep stepToScrollViewWithAccessibilityLabel:@"Table View" byFractionOfSizeHorizontal:0 vertical:-0.9]];
+    [scenario addStep:[KIFTestStep stepToWaitForTappableViewWithAccessibilityLabel:@"Find Me"]];
+    [scenario addStep:[KIFTestStep stepToScrollViewWithAccessibilityLabel:@"Table View" byFractionOfSizeHorizontal:0 vertical:0.9]];
+    [scenario addStep:[KIFTestStep stepToWaitForTappableViewWithAccessibilityLabel:@"Tapping"]];
     return scenario;
 }
-
-#endif
-
-#if 0
 
 + (instancetype)scenarioToTestWaitingForFirstResponder
 {
@@ -340,7 +330,5 @@
     scenario.stepsToTearDown = [self stepsToTearDown];
     return scenario;
 }
-
-#endif
 
 @end

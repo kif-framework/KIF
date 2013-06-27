@@ -14,8 +14,6 @@
 
 @implementation KIFTestScenario (ModalViews)
 
-#if 0
-
 + (instancetype)scenarioToTestAlertViews
 {
     KIFTestScenario *scenario = [self scenarioWithDescription:@"Alert view"];
@@ -51,7 +49,5 @@
     [scenario addStep:[KIFTestStep stepToTapViewWithAccessibilityLabel:@"Cancel"]];
     return scenario;
 }
-
-#endif
 
 @end
