@@ -31,7 +31,7 @@ MAKE_CATEGORIES_LOADABLE(UIApplication_KIFAdditions)
 {
     // Go through the array of windows in reverse order to process the frontmost window first.
     // When several elements with the same accessibilitylabel are present the one in front will be picked.
-    for (UIWindow *window in [self.windows reverseObjectEnumerator]) {
+    for (UIWindow *window in [self.windowsWithKeyWindow reverseObjectEnumerator]) {
         UIAccessibilityElement *element = [window accessibilityElementWithLabel:label accessibilityValue:value traits:traits];
         if (element) {
             return element;
@@ -43,7 +43,7 @@ MAKE_CATEGORIES_LOADABLE(UIApplication_KIFAdditions)
 
 - (UIAccessibilityElement *)accessibilityElementMatchingBlock:(BOOL(^)(UIAccessibilityElement *))matchBlock;
 {
-    for (UIWindow *window in [self.windows reverseObjectEnumerator]) {
+    for (UIWindow *window in [self.windowsWithKeyWindow reverseObjectEnumerator]) {
         UIAccessibilityElement *element = [window accessibilityElementMatchingBlock:matchBlock];
         if (element) {
             return element;
@@ -55,7 +55,7 @@ MAKE_CATEGORIES_LOADABLE(UIApplication_KIFAdditions)
 
 - (UIWindow *)keyboardWindow;
 {
-    for (UIWindow *window in self.windows) {
+    for (UIWindow *window in self.windowsWithKeyWindow) {
         if ([NSStringFromClass([window class]) isEqual:@"UITextEffectsWindow"]) {
             return window;
         }
@@ -66,7 +66,7 @@ MAKE_CATEGORIES_LOADABLE(UIApplication_KIFAdditions)
 
 - (UIWindow *)pickerViewWindow;
 {
-    for (UIWindow *window in [self windows]) {
+    for (UIWindow *window in self.windowsWithKeyWindow) {
         NSArray *pickerViews = [window subviewsWithClassNameOrSuperClassNamePrefix:@"UIPickerView"];
         if (pickerViews.count > 0) {
             return window;
@@ -74,6 +74,16 @@ MAKE_CATEGORIES_LOADABLE(UIApplication_KIFAdditions)
     }
     
     return nil;
+}
+
+- (NSArray *)windowsWithKeyWindow
+{
+    NSMutableArray *windows = self.windows.mutableCopy;
+    UIWindow *keyWindow = self.keyWindow;
+    if (![windows containsObject:keyWindow]) {
+        [windows addObject:keyWindow];
+    }
+    return [windows autorelease];
 }
 
 @end

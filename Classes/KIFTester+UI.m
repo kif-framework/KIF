@@ -170,6 +170,11 @@
     [self run:[KIFTestStep stepToSwipeViewWithAccessibilityLabel:label inDirection:direction]];
 }
 
+- (void)scrollViewWithAccessibilityLabel:(NSString *)label byFractionOfSizeHorizontal:(CGFloat)horizontalFraction vertical:(CGFloat)verticalFraction
+{
+    [self run:[KIFTestStep stepToScrollViewWithAccessibilityLabel:label byFractionOfSizeHorizontal:horizontalFraction vertical:verticalFraction]];
+}
+
 - (void)waitForFirstResponderWithAccessibilityLabel:(NSString *)label
 {
     [self run:[KIFTestStep stepToWaitForFirstResponderWithAccessibilityLabel:label]];
