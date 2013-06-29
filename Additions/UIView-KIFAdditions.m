@@ -364,17 +364,29 @@ typedef struct __GSEvent * GSEventRef;
     
     UIEvent *eventDown = [self _eventWithTouch:touch];
     [[UIApplication sharedApplication] sendEvent:eventDown];
-
-    CFRunLoopRunInMode(kCFRunLoopDefaultMode, DRAG_TOUCH_DELAY, false);
     
+    CFStringRef runLoopMode = kCFRunLoopDefaultMode;
+
+    CFRunLoopRunInMode(runLoopMode, DRAG_TOUCH_DELAY, false);
+    Class panGestureRecognizerClass = NSClassFromString(@"UIScrollViewPanGestureRecognizer");
+    UIScrollView *scrollView = nil;
+
     for (NSInteger pointIndex = 1; pointIndex < count; pointIndex++) {
         [touch setLocationInWindow:[self.window convertPoint:points[pointIndex] fromView:self]];
         [touch setPhase:UITouchPhaseMoved];
         
+        // Check to see if we've started feeding into a scrollview gesture recognizer.  If so, the application behavior is to switch to the UITrackingRunLoopMode.
+        for (UIGestureRecognizer *gestureRecognizer in touch.gestureRecognizers) {
+            if (gestureRecognizer.state == UIGestureRecognizerStateBegan && [gestureRecognizer isKindOfClass:panGestureRecognizerClass]) {
+                runLoopMode = (CFStringRef)UITrackingRunLoopMode;
+                scrollView = (UIScrollView *)gestureRecognizer.view;
+            }
+        }
+        
         UIEvent *eventDrag = [self _eventWithTouch:touch];
         [[UIApplication sharedApplication] sendEvent:eventDrag];
 
-        CFRunLoopRunInMode(kCFRunLoopDefaultMode, DRAG_TOUCH_DELAY, false);
+        CFRunLoopRunInMode(runLoopMode, DRAG_TOUCH_DELAY, false);
     }
     
     [touch setPhase:UITouchPhaseEnded];
@@ -387,6 +399,11 @@ typedef struct __GSEvent * GSEventRef;
         [self becomeFirstResponder];
     }
     
+    if (runLoopMode != kCFRunLoopDefaultMode) {
+        while (scrollView.decelerating) {
+            CFRunLoopRunInMode(runLoopMode, 0.1, false);
+        }
+    }
     [touch release];
 }
 

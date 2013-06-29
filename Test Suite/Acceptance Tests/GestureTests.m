@@ -22,7 +22,6 @@
     [tester tapViewWithAccessibilityLabel:@"Test Suite" traits:UIAccessibilityTraitButton];
 }
 
-#if 0
 - (void)testScrolling
 {
     [tester scrollViewWithAccessibilityLabel:@"Table View" byFractionOfSizeHorizontal:0 vertical:-0.9];
@@ -30,6 +29,5 @@
     [tester scrollViewWithAccessibilityLabel:@"Table View" byFractionOfSizeHorizontal:0 vertical:0.9];
     [tester waitForViewWithAccessibilityLabel:@"Tapping"];
 }
-#endif
 
 @end
