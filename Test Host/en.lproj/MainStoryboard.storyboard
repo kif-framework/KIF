@@ -385,7 +385,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Test Suite" id="36">
-                        <barButtonItem key="rightBarButtonItem" style="plain" id="1dx-4R-qUX">
+                        <barButtonItem key="rightBarButtonItem" id="1dx-4R-qUX">
                             <switch key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="YCM-aH-b0t">
                                 <rect key="frame" x="238" y="8" width="79" height="27"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -649,6 +649,32 @@
             <point key="canvasLocation" x="902" y="64"/>
         </scene>
     </scenes>
+    <classes>
+        <class className="NSLayoutConstraint" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
+        </class>
+        <class className="ShowHideViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ShowHideViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="aButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="bButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="contentLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="obscuringView" candidateClass="UIView"/>
+            </relationships>
+        </class>
+        <class className="TapViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/TapViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="pickPhoto:"/>
+                <relationship kind="action" name="toggleSelected:" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="memoryWarningLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="slider" candidateClass="UISlider"/>
+            </relationships>
+        </class>
+        <class className="TestSuiteViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/TestSuiteViewController.h"/>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
