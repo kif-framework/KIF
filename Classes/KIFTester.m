@@ -8,7 +8,6 @@
 //  which Square, Inc. licenses this file to you.
 
 #import "KIFTester.h"
-#import "KIFTestStep.h"
 #import <SenTestingKit/SenTestingKit.h>
 #import <dlfcn.h>
 #import <objc/runtime.h>
@@ -89,7 +88,7 @@
 
 - (void)runBlock:(KIFTestExecutionBlock)executionBlock complete:(KIFTestCompletionBlock)completionBlock
 {
-    [self runBlock:executionBlock complete:completionBlock timeout:[KIFTestStep defaultTimeout]];
+    [self runBlock:executionBlock complete:completionBlock timeout:[[self class] defaultTimeout]];
 }
 
 - (void)runBlock:(KIFTestExecutionBlock)executionBlock timeout:(NSTimeInterval)timeout
@@ -106,6 +105,20 @@
 {
     [_file release];
     [super dealloc];
+}
+
+#pragma mark Class Methods
+
+static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
+
++ (NSTimeInterval)defaultTimeout;
+{
+    return KIFTestStepDefaultTimeout;
+}
+
++ (void)setDefaultTimeout:(NSTimeInterval)newDefaultTimeout;
+{
+    KIFTestStepDefaultTimeout = newDefaultTimeout;
 }
 
 @end

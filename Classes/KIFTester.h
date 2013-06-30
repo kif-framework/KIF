@@ -87,6 +87,19 @@ typedef void (^KIFTestCompletionBlock)(KIFTestStepResult result, NSError *error)
 - (void)runBlock:(KIFTestExecutionBlock)executionBlock timeout:(NSTimeInterval)timeout;
 - (void)runBlock:(KIFTestExecutionBlock)executionBlock;
 
+/*!
+ @method defaultTimeout
+ @abstract The default amount of time to assign to execution blocks before assuming they failed.
+ @discussion To change the default value of the timeout property, call +setDefaultTimeout: with a different value.
+ */
++ (NSTimeInterval)defaultTimeout;
+
+/*!
+ @method setDefaultTimeout:
+ @abstract Sets the default amount of time to assign to execution blocks before assuming they failed.
+ */
++ (void)setDefaultTimeout:(NSTimeInterval)newDefaultTimeout;
+
 @end
 
 @protocol KIFTesterDelegate <NSObject>
