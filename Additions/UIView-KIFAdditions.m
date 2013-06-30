@@ -513,4 +513,35 @@ typedef struct __GSEvent * GSEventRef;
     return event;
 }
 
+- (BOOL)isUserInteractionActuallyEnabled;
+{
+    BOOL isUserInteractionEnabled = self.userInteractionEnabled;
+    
+    // Navigation item views don't have user interaction enabled, but their parent nav bar does and will forward the event
+    if (!isUserInteractionEnabled && [self isKindOfClass:NSClassFromString(@"UINavigationItemView")]) {
+        // If this view is inside a nav bar, and the nav bar is enabled, then consider it enabled
+        UIView *navBar = [self superview];
+        while (navBar && ![navBar isKindOfClass:[UINavigationBar class]]) {
+            navBar = [navBar superview];
+        }
+        if (navBar && navBar.userInteractionEnabled) {
+            isUserInteractionEnabled = YES;
+        }
+    }
+    
+    // UIActionsheet Buttons have UIButtonLabels with userInteractionEnabled=NO inside,
+    // grab the superview UINavigationButton instead.
+    if (!isUserInteractionEnabled && [self isKindOfClass:NSClassFromString(@"UIButtonLabel")]) {
+        UIView *button = [self superview];
+        while (button && ![button isKindOfClass:NSClassFromString(@"UINavigationButton")]) {
+            button = [button superview];
+        }
+        if (button && button.userInteractionEnabled) {
+            isUserInteractionEnabled = YES;
+        }
+    }
+    
+    return isUserInteractionEnabled;
+}
+
 @end

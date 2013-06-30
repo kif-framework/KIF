@@ -21,14 +21,7 @@
 static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
 
 @interface KIFTestStep ()
-
 @property (nonatomic, copy) KIFTestStepExecutionBlock executionBlock;
-
-+ (BOOL)_isUserInteractionEnabledForView:(UIView *)view;
-
-typedef CGPoint KIFDisplacement;
-+ (KIFDisplacement)_displacementForSwipingInDirection:(KIFSwipeDirection)direction;
-
 @end
 
 
@@ -189,7 +182,7 @@ typedef CGPoint KIFDisplacement;
         view = [UIAccessibilityElement viewContainingAccessibilityElement:element];
         KIFTestWaitCondition(view, error, @"Failed to find view for accessibility element with label \"%@\"", label);
 
-        if (![self _isUserInteractionEnabledForView:view]) {
+        if (![view isUserInteractionActuallyEnabled]) {
             if (error) {
                 *error = [[[NSError alloc] initWithDomain:@"KIFTest" code:KIFTestStepResultFailure userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"View with accessibility label \"%@\" is not enabled for interaction", label]}] autorelease];
             }
@@ -286,7 +279,7 @@ typedef CGPoint KIFDisplacement;
         view = [UIAccessibilityElement viewContainingAccessibilityElement:element];
         KIFTestWaitCondition(view, error, @"Failed to find view for accessibility element with label \"%@\"", label);
         
-        if (![self _isUserInteractionEnabledForView:view]) {
+        if (![view isUserInteractionActuallyEnabled]) {
             if (error) {
                 *error = [[[NSError alloc] initWithDomain:@"KIFTest" code:KIFTestStepResultFailure userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"View with accessibility label \"%@\" is not enabled for interaction", label]}] autorelease];
             }
@@ -368,6 +361,8 @@ typedef CGPoint KIFDisplacement;
                 }
             }
         }
+        
+        CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.1, false);
         
         // This is probably a UITextField- or UITextView-ish view, so make sure it worked
         if ([view respondsToSelector:@selector(text)]) {
@@ -554,8 +549,8 @@ typedef CGPoint KIFDisplacement;
         CGRect elementFrame = [viewToSwipe.window convertRect:element.accessibilityFrame toView:viewToSwipe];
         CGPoint swipeStart = CGPointCenteredInRect(elementFrame);
 
-        KIFDisplacement swipeDisplacement = [self _displacementForSwipingInDirection:direction];
-
+        KIFDisplacement swipeDisplacement = KIFDisplacementForSwipingInDirection(direction);
+        
         CGPoint swipePath[NUM_POINTS_IN_SWIPE_PATH];
 
         for (int pointIndex = 0; pointIndex < NUM_POINTS_IN_SWIPE_PATH; pointIndex++)
@@ -603,7 +598,7 @@ typedef CGPoint KIFDisplacement;
         UIView *view = [UIAccessibilityElement viewContainingAccessibilityElement:element];
         KIFTestWaitCondition(view, error, @"Failed to find view for photo album with name %@", albumName);
         
-        if (![self _isUserInteractionEnabledForView:view]) {
+        if (![view isUserInteractionActuallyEnabled]) {
             if (error) {
                 *error = [[[NSError alloc] initWithDomain:@"KIFTest" code:KIFTestStepResultFailure userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Album picker is not enabled for interaction"]}] autorelease];
             }
@@ -675,77 +670,6 @@ typedef CGPoint KIFDisplacement;
     }
     
     return result;
-}
-
-#pragma mark Private Methods
-
-
-+ (BOOL)_isUserInteractionEnabledForView:(UIView *)view;
-{
-    BOOL isUserInteractionEnabled = view.userInteractionEnabled;
-    
-    // Navigation item views don't have user interaction enabled, but their parent nav bar does and will forward the event
-    if (!isUserInteractionEnabled && [view isKindOfClass:NSClassFromString(@"UINavigationItemView")]) {
-        // If this view is inside a nav bar, and the nav bar is enabled, then consider it enabled
-        UIView *navBar = [view superview];
-        while (navBar && ![navBar isKindOfClass:[UINavigationBar class]]) {
-            navBar = [navBar superview];
-        }
-        if (navBar && navBar.userInteractionEnabled) {
-            isUserInteractionEnabled = YES;
-        }
-    }
-    
-    // UIActionsheet Buttons have UIButtonLabels with userInteractionEnabled=NO inside,
-    // grab the superview UINavigationButton instead.
-    if (!isUserInteractionEnabled && [view isKindOfClass:NSClassFromString(@"UIButtonLabel")]) {
-        UIView *button = [view superview];
-        while (button && ![button isKindOfClass:NSClassFromString(@"UINavigationButton")]) {
-            button = [button superview];
-        }
-        if (button && button.userInteractionEnabled) {
-            isUserInteractionEnabled = YES;
-        }
-    }
-    
-    return isUserInteractionEnabled;
-}
-
-+ (NSString *)_representedKeyboardStringForCharacter:(NSString *)characterString;
-{
-    // Interpret control characters appropriately
-    if ([characterString isEqual:@"\b"]) {
-        characterString = @"Delete";
-    } 
-    
-    return characterString;
-}
-
-#define MAJOR_SWIPE_DISPLACEMENT 200
-#define MINOR_SWIPE_DISPLACEMENT 5
-
-+ (KIFDisplacement)_displacementForSwipingInDirection:(KIFSwipeDirection)direction
-{
-    switch (direction)
-    {
-        // As discovered on the Frank mailing lists, it won't register as a
-        // swipe if you move purely horizontally or vertically, so need a
-        // slight orthogonal offset too.
-        case KIFSwipeDirectionRight:
-            return CGPointMake(MAJOR_SWIPE_DISPLACEMENT, MINOR_SWIPE_DISPLACEMENT);
-            break;
-        case KIFSwipeDirectionLeft:
-            return CGPointMake(-MAJOR_SWIPE_DISPLACEMENT, MINOR_SWIPE_DISPLACEMENT);
-            break;
-        case KIFSwipeDirectionUp:
-            return CGPointMake(MINOR_SWIPE_DISPLACEMENT, -MAJOR_SWIPE_DISPLACEMENT);
-            break;
-        case KIFSwipeDirectionDown:
-            return CGPointMake(MINOR_SWIPE_DISPLACEMENT, MAJOR_SWIPE_DISPLACEMENT);
-            break;
-        default:
-            return CGPointZero;
-    }
 }
 
 @end

@@ -74,4 +74,9 @@
  */
 - (CGPoint)tappablePointInRect:(CGRect)rect;
 
+/*!
+ @abstract Evaluates if user interaction is enabled including edge cases.
+ */
+- (BOOL)isUserInteractionActuallyEnabled;
+
 @end

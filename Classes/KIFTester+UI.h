@@ -18,12 +18,35 @@
  @constant KIFSwipeDirectionUp Swipe up.
  @constant KIFSwipeDirectionDown Swipe down.
  */
-typedef enum {
+typedef NS_ENUM(NSUInteger, KIFSwipeDirection) {
     KIFSwipeDirectionRight,
     KIFSwipeDirectionLeft,
     KIFSwipeDirectionUp,
     KIFSwipeDirectionDown
-} KIFSwipeDirection;
+};
+
+#define kKIFMajorSwipeDisplacement 200
+#define kKIFMinorSwipeDisplacement 5
+
+typedef CGPoint KIFDisplacement;
+
+static inline KIFDisplacement KIFDisplacementForSwipingInDirection(KIFSwipeDirection direction)
+{
+    switch (direction)
+    {
+            // As discovered on the Frank mailing lists, it won't register as a
+            // swipe if you move purely horizontally or vertically, so need a
+            // slight orthogonal offset too.
+        case KIFSwipeDirectionRight:
+            return CGPointMake(kKIFMajorSwipeDisplacement, kKIFMinorSwipeDisplacement);
+        case KIFSwipeDirectionLeft:
+            return CGPointMake(-kKIFMajorSwipeDisplacement, kKIFMinorSwipeDisplacement);
+        case KIFSwipeDirectionUp:
+            return CGPointMake(kKIFMinorSwipeDisplacement, -kKIFMajorSwipeDisplacement);
+        case KIFSwipeDirectionDown:
+            return CGPointMake(kKIFMinorSwipeDisplacement, kKIFMajorSwipeDisplacement);
+    }
+}
 
 @interface KIFTester (UI)
 
