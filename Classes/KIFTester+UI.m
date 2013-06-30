@@ -54,42 +54,62 @@
 
 - (void)waitForAbsenceOfViewWithAccessibilityLabel:(NSString *)label
 {
-    [self run:[KIFTestStep stepToWaitForAbsenceOfViewWithAccessibilityLabel:label]];
+    [self waitForAbsenceOfViewWithAccessibilityLabel:label traits:UIAccessibilityTraitNone];
 }
 
 - (void)waitForAbsenceOfViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits
 {
-    [self run:[KIFTestStep stepToWaitForAbsenceOfViewWithAccessibilityLabel:label traits:traits]];
+    [self waitForAbsenceOfViewWithAccessibilityLabel:label value:nil traits:traits];
 }
 
 - (void)waitForAbsenceOfViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits
 {
-    [self run:[KIFTestStep stepToWaitForAbsenceOfViewWithAccessibilityLabel:label value:value traits:traits]];
-}
+    [self runBlock:^KIFTestStepResult(NSError **error) {
+        // If the app is ignoring interaction events, then wait before doing our analysis
+        KIFTestWaitCondition(![[UIApplication sharedApplication] isIgnoringInteractionEvents], error, @"Application is ignoring interaction events.");
+        
+        // If the element can't be found, then we're done
+        UIAccessibilityElement *element = [[UIApplication sharedApplication] accessibilityElementWithLabel:label accessibilityValue:value traits:traits];
+        if (!element) {
+            return KIFTestStepResultSuccess;
+        }
+        
+        UIView *view = [UIAccessibilityElement viewContainingAccessibilityElement:element];
+        
+        // If we found an element, but it's not associated with a view, then something's wrong. Wait it out and try again.
+        KIFTestWaitCondition(view, error, @"Cannot find view containing accessibility element with the label \"%@\"", label);
+        
+        // Hidden views count as absent
+        KIFTestWaitCondition([view isHidden], error, @"Accessibility element with label \"%@\" is visible and not hidden.", label);
+        
+        return KIFTestStepResultSuccess;
+    }];}
 
 - (void)waitForTappableViewWithAccessibilityLabel:(NSString *)label
 {
-    [self run:[KIFTestStep stepToWaitForTappableViewWithAccessibilityLabel:label]];
+    [self waitForTappableViewWithAccessibilityLabel:label traits:UIAccessibilityTraitNone];
 }
 
 - (void)waitForTappableViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits
 {
-    [self run:[KIFTestStep stepToWaitForTappableViewWithAccessibilityLabel:label traits:traits]];
+    [self waitForTappableViewWithAccessibilityLabel:label value:nil traits:traits];
 }
 
 - (void)waitForTappableViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits
 {
-    [self run:[KIFTestStep stepToWaitForTappableViewWithAccessibilityLabel:label value:value traits:traits]];
-}
+    [self runBlock:^KIFTestStepResult(NSError **error) {
+        UIAccessibilityElement *element = [UIAccessibilityElement accessibilityElementWithLabel:label accessibilityValue:value tappable:YES traits:traits error:error];
+        return (element ? KIFTestStepResultSuccess : KIFTestStepResultWait);
+    }];}
 
 - (void)tapViewWithAccessibilityLabel:(NSString *)label
 {
-    [self run:[KIFTestStep stepToTapViewWithAccessibilityLabel:label]];
+    [self tapViewWithAccessibilityLabel:label traits:UIAccessibilityTraitNone];
 }
 
 - (void)tapViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits
 {
-    [self run:[KIFTestStep stepToTapViewWithAccessibilityLabel:label traits:traits]];
+    [self tapViewWithAccessibilityLabel:label value:nil traits:traits];
 }
 
 - (void)tapViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits
@@ -165,8 +185,51 @@
 
 - (void)selectPickerViewRowWithTitle:(NSString *)title
 {
-    [self run:[KIFTestStep stepToSelectPickerViewRowWithTitle:title]];
+    [self runBlock:^KIFTestStepResult(NSError **error) {
+        // Find the picker view
+        UIPickerView *pickerView = [[[[UIApplication sharedApplication] pickerViewWindow] subviewsWithClassNameOrSuperClassNamePrefix:@"UIPickerView"] lastObject];
+        KIFTestCondition(pickerView, error, @"No picker view is present");
+        
+        NSInteger componentCount = [pickerView.dataSource numberOfComponentsInPickerView:pickerView];
+        KIFTestCondition(componentCount == 1, error, @"The picker view has multiple columns, which is not supported in testing.");
+        
+        for (NSInteger componentIndex = 0; componentIndex < componentCount; componentIndex++) {
+            NSInteger rowCount = [pickerView.dataSource pickerView:pickerView numberOfRowsInComponent:componentIndex];
+            for (NSInteger rowIndex = 0; rowIndex < rowCount; rowIndex++) {
+                NSString *rowTitle = nil;
+                if ([pickerView.delegate respondsToSelector:@selector(pickerView:titleForRow:forComponent:)]) {
+                    rowTitle = [pickerView.delegate pickerView:pickerView titleForRow:rowIndex forComponent:componentIndex];
+                } else if ([pickerView.delegate respondsToSelector:@selector(pickerView:viewForRow:forComponent:reusingView:)]) {
+                    // This delegate inserts views directly, so try to figure out what the title is by looking for a label
+                    UIView *rowView = [pickerView.delegate pickerView:pickerView viewForRow:rowIndex forComponent:componentIndex reusingView:nil];
+                    NSArray *labels = [rowView subviewsWithClassNameOrSuperClassNamePrefix:@"UILabel"];
+                    UILabel *label = (labels.count > 0 ? labels[0] : nil);
+                    rowTitle = label.text;
+                }
+                
+                if ([rowTitle isEqual:title]) {
+                    [pickerView selectRow:rowIndex inComponent:componentIndex animated:YES];
+                    CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.5, false);
+                    
+                    // Tap in the middle of the picker view to select the item
+                    [pickerView tap];
+                    
+                    // The combination of selectRow:inComponent:animated: and tap does not consistently result in
+                    // pickerView:didSelectRow:inComponent: being called on the delegate. We need to do it explicitly.
+                    if ([pickerView.delegate respondsToSelector:@selector(pickerView:didSelectRow:inComponent:)]) {
+                        [pickerView.delegate pickerView:pickerView didSelectRow:rowIndex inComponent:componentIndex];
+                    }
+                    
+                    return KIFTestStepResultSuccess;
+                }
+            }
+        }
+        
+        KIFTestCondition(NO, error, @"Failed to find picker view value with title \"%@\"", title);
+        return KIFTestStepResultFailure;
+    }];
 }
+
 
 - (void)setOn:(BOOL)switchIsOn forSwitchWithAccessibilityLabel:(NSString *)label
 {

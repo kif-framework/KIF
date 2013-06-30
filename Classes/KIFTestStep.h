@@ -83,97 +83,7 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
 
 #pragma mark Factory Steps
 
-/*!
- @method stepToWaitForAbsenceOfViewWithAccessibilityLabel:
- @abstract A step that waits until a view or accessibility element is no longer present.
- @discussion The view or accessibility element with the given label is found in the view hierarchy. If the element is found, then the step will attempt to wait until it isn't. Note that the view does not necessarily have to be visible on the screen, and may be behind another view or offscreen. Views with their hidden property set to YES are considered absent.
- @param label The accessibility label of the element to wait for.
- @result A configured test step.
- */
-+ (id)stepToWaitForAbsenceOfViewWithAccessibilityLabel:(NSString *)label;
 
-/*!
- @method stepToWaitForAbsenceOfViewWithAccessibilityLabel:traits:
- @abstract A step that waits until a view or accessibility element is no longer present.
- @discussionThe view or accessibility element with the given label is found in the view hierarchy. If the element is found, then the step will attempt to wait until it isn't. Note that the view does not necessarily have to be visible on the screen, and may be behind another view or offscreen. Views with their hidden property set to YES are considered absent.
- @param label The accessibility label of the element to wait for.
- @param traits The accessibility traits of the element to wait for. Elements that do not include at least these traits are ignored.
- @result A configured test step.
- */
-+ (id)stepToWaitForAbsenceOfViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits;
-
-/*!
- @method stepToWaitForAbsenceOfViewWithAccessibilityLabel:value:traits:
- @abstract A step that waits until a view or accessibility element is no longer present.
- @discussionThe view or accessibility element with the given label is found in the view hierarchy. If the element is found, then the step will attempt to wait until it isn't. Note that the view does not necessarily have to be visible on the screen, and may be behind another view or offscreen. Views with their hidden property set to YES are considered absent.
- @param label The accessibility label of the element to wait for.
- @param value The accessibility value of the element to tap.
- @param traits The accessibility traits of the element to wait for. Elements that do not include at least these traits are ignored.
- @result A configured test step.
- */
-+ (id)stepToWaitForAbsenceOfViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits;
-
-/*!
- @method stepToWaitForTappableViewWithAccessibilityLabel:
- @abstract A step that waits until a view or accessibility element is present and available for tapping.
- @discussion The view or accessibility element with the given label is found in the view hierarchy. If the element isn't found or isn't currently tappable, then the step will attempt to wait until it is. Whether or not a view is tappable is based on -[UIView hitTest:].
- @param label The accessibility label of the element to wait for.
- @result A configured test step.
- */
-+ (id)stepToWaitForTappableViewWithAccessibilityLabel:(NSString *)label;
-
-/*!
- @method stepToWaitForTappableViewWithAccessibilityLabel:traits:
- @abstract A step that waits until a view or accessibility element is present and available for tapping.
- @discussion The view or accessibility element with the given label is searched for in the view hierarchy. If the element isn't found or isn't currently tappable, then the step will attempt to wait until it is. Whether or not a view is tappable is based on -[UIView hitTest:].
- @param label The accessibility label of the element to wait for.
- @param traits The accessibility traits of the element to wait for. Elements that do not include at least these traits are ignored.
- @result A configured test step.
- */
-+ (id)stepToWaitForTappableViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits;
-
-/*!
- @method stepToWaitForTappableViewWithAccessibilityLabel:value:traits:
- @abstract A step that waits until a view or accessibility element is present and available for tapping.
- @discussion The view or accessibility element with the given label is searched for in the view hierarchy. If the element isn't found or isn't currently tappable, then the step will attempt to wait until it is. Whether or not a view is tappable is based on -[UIView hitTest:].
- @param label The accessibility label of the element to wait for.
- @param value The accessibility value of the element to tap.
- @param traits The accessibility traits of the element to wait for. Elements that do not include at least these traits are ignored.
- @result A configured test step.
- */
-+ (id)stepToWaitForTappableViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits;
-
-
-/*!
- @method stepToTapViewWithAccessibilityLabel:
- @abstract A step that taps a particular view in the view hierarchy.
- @discussion The view or accessibility element with the given label is searched for in the view hierarchy. If the element isn't found or isn't currently tappable, then the step will attempt to wait until it is. Once the view is present and tappable, a tap event is simulated in the center of the view or element.
- @param label The accessibility label of the element to tap.
- @result A configured test step.
- */
-+ (id)stepToTapViewWithAccessibilityLabel:(NSString *)label;
-
-/*!
- @method stepToTapViewWithAccessibilityLabel:traits:
- @abstract A step that taps a particular view in the view hierarchy.
- @discussion The view or accessibility element with the given label is searched for in the view hierarchy. If the element isn't found or isn't currently tappable, then the step will attempt to wait until it is. Once the view is present and tappable, a tap event is simulated in the center of the view or element.
- @param label The accessibility label of the element to tap.
- @param traits The accessibility traits of the element to tap. Elements that do not include at least these traits are ignored.
- @result A configured test step.
- */
-+ (id)stepToTapViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits;
-
-/*!
- @method stepToTapViewWithAccessibilityLabel:value:traits:
- @abstract A step that taps a particular view in the view hierarchy.
- @discussion The view or accessibility element with the given label is searched for in the view hierarchy. If the element isn't found or isn't currently tappable, then the step will attempt to wait until it is. Once the view is present and tappable, a tap event is simulated in the center of the view or element.
- 
- This variation allows finding a particular instance of an accessibility element. For example, a table view might have multiple elements with the accessibility label of "Employee", but only one that also has the accessibility value of "Bob".
- @param label The accessibility label of the element to tap.
- @param value The accessibility value of the element to tap.
- @param traits The accessibility traits of the element to tap. Elements that do not include at least these traits are ignored.
- @result A configured test step.
- */
 + (id)stepToTapViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits;
 
 /*!
@@ -254,16 +164,6 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
  @result A configured test step.
  */
 + (id)stepToEnterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits expectedResult:(NSString *)expectedResult;
-
-/*!
- @method stepToSelectPickerViewRowWithTitle:
- @abstract A step that selects an item from a currently visible picker view.
- @discussion With a picker view already visible, this step will find an item with the given title, select that item, and tap the Done button.
- @param title The title of the row to select.
- @result A configured test step.
- */
-+ (id)stepToSelectPickerViewRowWithTitle:(NSString *)title;
-
 
 /*!
  @method stepToDismissPopover
