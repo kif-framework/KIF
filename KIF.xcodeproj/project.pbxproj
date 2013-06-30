@@ -70,6 +70,16 @@
 		EB7204661680DDAD00278DA2 /* KIFTester+UI.h in Headers */ = {isa = PBXBuildFile; fileRef = EB4C3132167BA3AC00E31109 /* KIFTester+UI.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		EB8C0CEC1780CBF5000DBC0B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AAB0725F139719AC008AF393 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EB60ECC0177F8C83005A041A;
+			remoteInfo = "Test Host";
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		39160B1013D1E6BB00311E38 /* LoadableCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadableCategory.h; sourceTree = "<group>"; };
 		A88930111685098E00FC7C63 /* KIF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KIF.h; sourceTree = "<group>"; };
@@ -411,6 +421,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				EB8C0CED1780CBF5000DBC0B /* PBXTargetDependency */,
 			);
 			name = "KIF Tests";
 			productName = "KIF Tests";
@@ -552,6 +563,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		EB8C0CED1780CBF5000DBC0B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EB60ECC0177F8C83005A041A /* Test Host */;
+			targetProxy = EB8C0CEC1780CBF5000DBC0B /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		EB60ECC9177F8C83005A041A /* InfoPlist.strings */ = {
