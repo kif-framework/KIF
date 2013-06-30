@@ -8,58 +8,8 @@
 //  which Square, Inc. licenses this file to you.
 
 #import <UIKit/UIKit.h>
-
-
-/*!
- @define KIFTestCondition
- @abstract Tests a condition and returns a failure result if the condition isn't true.
- @discussion This is a useful macro for quickly evaluating conditions in a test step. If the condition is false then the current test step will be aborted with a failure result.
- @param condition The condition to test.
- @param error The NSError object to put the error string into. May be nil, but should usually be the error parameter from the test step execution block.
- @param ... A string describing what the failure was that occurred. This may be a format string with additional arguments.
- */
-#define KIFTestCondition(condition, error, ...) ({ \
-if (!(condition)) { \
-    if (error) { \
-        *error = [NSError errorWithDomain:@"KIFTest" code:KIFTestStepResultFailure userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:__VA_ARGS__], NSLocalizedDescriptionKey, nil]]; \
-    } \
-    [self stepFailed]; \
-    return KIFTestStepResultFailure; \
-} \
-})
-
-/*!
- @define KIFTestWaitCondition
- @abstract Tests a condition and returns a wait result if the condition isn't true.
- @discussion This is a useful macro for quickly evaluating conditions in a test step. If the condition is false then the current test step will be aborted with a wait result, indicating that it should be called again in the near future.
- @param condition The condition to test.
- @param error The NSError object to put the error string into. May be nil, but should usually be the error parameter from the test step execution block.
- @param ... A string describing why the step needs to wait. This is important since this reason will be considered the cause of a timeout error if the step requires waiting for too long. This may be a format string with additional arguments.
- */
-#define KIFTestWaitCondition(condition, error, ...) ({ \
-if (!(condition)) { \
-    if (error) { \
-        *error = [NSError errorWithDomain:@"KIFTest" code:KIFTestStepResultWait userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:__VA_ARGS__], NSLocalizedDescriptionKey, nil]]; \
-    } \
-    return KIFTestStepResultWait; \
-} \
-})
-
-
-/*!
- @enum KIFTestStepResult
- @abstract Result codes from a test step.
- @constant KIFTestStepResultFailure The step failed and the test controller should move to the next scenario.
- @constant KIFTestStepResultSuccess The step succeeded and the test controller should move to the next step in the current scenario.
- @constant KIFTestStepResultWait The test isn't ready yet and should be tried again after a short delay.
- */
-enum {
-    KIFTestStepResultFailure = 0,
-    KIFTestStepResultSuccess,
-    KIFTestStepResultWait,
-};
-typedef NSInteger KIFTestStepResult;
-
+#import "KIFTester+Generic.h"
+#import "KIFTester+UI.h"
 
 @class KIFTestStep;
 
@@ -141,22 +91,6 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
 - (void)cleanUp;
 
 #pragma mark Factory Steps
-
-/*!
- @method stepThatFails
- @abstract A step that always fails.
- @discussion Mostly useful for test debugging or as a placeholder when building new tests.
- @result A configured test step.
- */
-+ (id)stepThatFails;
-
-/*!
- @method stepThatSucceeds
- @abstract A step that always succeeds.
- @discussion Mostly useful for test debugging or as a placeholder when building new tests.
- @result A configured test step.
- */
-+ (id)stepThatSucceeds;
 
 /*!
  @method stepToWaitForViewWithAccessibilityLabel:
@@ -254,36 +188,6 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
  */
 + (id)stepToWaitForTappableViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits;
 
-/*!
- @method stepToWaitForTimeInterval:description:
- @abstract A step that waits for a certain amount of time.
- @discussion In general when waiting for the app to get into a known state, it's better to use -stepToWaitForTappableViewWithAccessibilityLabel, however this step may be useful in some situations as well.
- @param interval The number of seconds to wait before executing the next step.
- @param description A description of why the wait is necessary. Required.
- @result A configured test step.
- */
-+ (id)stepToWaitForTimeInterval:(NSTimeInterval)interval description:(NSString *)description;
-
-/*!
- @method stepToWaitForNotificationName:object:
- @abstract A step that waits for an NSNotification
- @discussion Useful when a test requires an asynchronous task to complete, especially when that task does not trigger a visible change in the view hierarchy
- @param name The name of the NSNotification
- @param object The object to which the step should listen. Nil value will listen to all objects.
- @result A configured test step.
- */
-+ (id)stepToWaitForNotificationName:(NSString*)name object:(id)object;
-
-/*!
- @method stepToWaitForNotificationName:object:whileExecutingStep:
- @abstract A step that waits for an NSNotification emitted during execution of a child step
- @discussion Useful when step execution causes a notification to be emitted, but executes too quickly for stepToWaitForNotificationName: to observe it.
-    An observer will be registered for the notification before the observedStep is executed.
- @param name The name of the NSNotification
- @param object The object to which the step should listen. Nil value will listen to all objects.
- @result A configured test step.
- */
-+ (id)stepToWaitForNotificationName:(NSString *)name object:(id)object whileExecutingStep:(KIFTestStep *)childStep;
 
 /*!
  @method stepToTapViewWithAccessibilityLabel:
@@ -424,15 +328,6 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
 + (id)stepToDismissPopover;
 
 /*!
- @method stepToSimulateMemoryWarning
- @abstract Simulates a memory warning.
- @result A configured test step.
- */
-+ (id)stepToSimulateMemoryWarning;
-
-+ (void)stepFailed;
-
-/*!
  @method stepsToChoosePhotoInAlbum:atRow:column:
  @abstract Select a certain photo from the built in photo picker.
  @discussion This set of steps expects that the photo picker has been initiated and that the sheet is up. From there it will tap the "Choose Photo" button and select the desired photo.
@@ -452,21 +347,6 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
  @result A configured test step.
  */
 + (id)stepToTapRowInTableViewWithAccessibilityLabel:(NSString*)tableViewLabel atIndexPath:(NSIndexPath *)indexPath;
-
-/*!
- @enum KIFSwipeDirection
- @abstract Directions in which to swipe.
- @constant KIFSwipeDirectionRight Swipe to the right.
- @constant KIFSwipeDirectionLeft Swipe to the left.
- @constant KIFSwipeDirectionUp Swipe up.
- @constant KIFSwipeDirectionDown Swipe down.
- */
-typedef enum {
-    KIFSwipeDirectionRight,
-    KIFSwipeDirectionLeft,
-    KIFSwipeDirectionUp,
-    KIFSwipeDirectionDown
-} KIFSwipeDirection;
 
 /*!
  @method stepToSwipeViewWithAccessibilityLabel:inDirection:

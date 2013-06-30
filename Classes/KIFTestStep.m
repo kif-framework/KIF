@@ -73,25 +73,6 @@ typedef CGPoint KIFDisplacement;
     return [step autorelease];
 }
 
-+ (id)stepThatFails;
-{
-    return [self stepWithDescription:@"Always fails" executionBlock:^(KIFTestStep *step, NSError **error) {
-        KIFTestCondition(NO, error, @"This test always fails");
-    }];
-}
-
-+ (id)stepThatSucceeds;
-{
-    return [self stepWithDescription:@"Always succeeds" executionBlock:^(KIFTestStep *step, NSError **error) {
-        return KIFTestStepResultSuccess;
-    }];
-}
-
-+ (void)stepFailed;
-{
-    // Add a logging call here or set a breakpoint to debug failed KIFTestCondition calls
-}
-
 + (id)stepToWaitForViewWithAccessibilityLabel:(NSString *)label;
 {
     return [self stepToWaitForViewWithAccessibilityLabel:label traits:UIAccessibilityTraitNone];
@@ -211,48 +192,6 @@ typedef CGPoint KIFDisplacement;
     // Increase timeout by interval so that the step doesn't timeout prematurely.
     step.timeout += ceil(interval);
     
-    return step;
-}
-
-+ (id)stepToWaitForNotificationName:(NSString *)name object:(id)object;
-{
-    NSString *description = [NSString stringWithFormat:@"Wait for notification \"%@\"", name];
-    
-    KIFTestStep *step = [self stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {  
-        if (!step.observingForNotification) {            
-            step.notificationName = name;
-            step.notificationObject = object; 
-            step.observingForNotification = YES;
-            [[NSNotificationCenter defaultCenter] addObserver:step selector:@selector(_onObservedNotification:) name:name object:object];
-        }
-        
-        KIFTestWaitCondition(step.notificationOccurred, error, @"Waiting for notification \"%@\"", name);
-        return KIFTestStepResultSuccess;
-    }];   
-    return step;
-}
-
-+ (id)stepToWaitForNotificationName:(NSString *)name object:(id)object whileExecutingStep:(KIFTestStep *)childStep;
-{
-    NSString *description = [NSString stringWithFormat:@"Wait for notification \"%@\" while executing child step \"%@\"", name, childStep];
-    
-    KIFTestStep *step = [self stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {  
-        if (!step.observingForNotification) {            
-            step.notificationName = name;
-            step.notificationObject = object; 
-            step.observingForNotification = YES;
-            [[NSNotificationCenter defaultCenter] addObserver:step selector:@selector(_onObservedNotification:) name:name object:object];
-        }
-        
-        // Execute the step we are observing for changes
-        KIFTestStepResult result = [step.childStep executeAndReturnError:error];
-        KIFTestWaitCondition(result != KIFTestStepResultWait, error, @"Waiting for completion of child step \"%@\"", step.childStep);
-        
-        // Wait for the actual notification
-        KIFTestWaitCondition(step.notificationOccurred, error, @"Waiting for notification \"%@\"", name);
-        return KIFTestStepResultSuccess;
-    }];    
-    step.childStep = childStep;    
     return step;
 }
 
@@ -594,14 +533,6 @@ typedef CGPoint KIFDisplacement;
     }];
 }
 
-+ (id)stepToSimulateMemoryWarning;
-{
-    return [KIFTestStep stepWithDescription:@"Simulate a memory warning" executionBlock:^(KIFTestStep *step, NSError **error) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationDidReceiveMemoryWarningNotification object:[UIApplication sharedApplication]];
-        return KIFTestStepResultSuccess;
-    }];
-}
-
 + (id)stepToTapRowInTableViewWithAccessibilityLabel:(NSString*)tableViewLabel atIndexPath:(NSIndexPath *)indexPath
 {
     NSString *description = [NSString stringWithFormat:@"Step to tap row %d in tableView with label %@", [indexPath row], tableViewLabel];
@@ -856,11 +787,6 @@ typedef CGPoint KIFDisplacement;
 }
 
 #pragma mark Private Methods
-
-- (void)stepFailed;
-{
-    [[self class] stepFailed];
-}
 
 
 - (void)_onObservedNotification:(NSNotification *)notification;

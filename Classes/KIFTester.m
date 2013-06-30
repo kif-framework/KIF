@@ -8,6 +8,7 @@
 //  which Square, Inc. licenses this file to you.
 
 #import "KIFTester.h"
+#import "KIFTestStep.h"
 #import <SenTestingKit/SenTestingKit.h>
 #import <dlfcn.h>
 #import <objc/runtime.h>
@@ -61,34 +62,44 @@
     return self;
 }
 
-- (KIFTestStepResult)run:(KIFTestStep *)step
+- (void)runBlock:(KIFTestExecutionBlock)executionBlock complete:(KIFTestCompletionBlock)completionBlock timeout:(NSTimeInterval)timeout
 {
     NSDate *startDate = [NSDate date];
-    
     KIFTestStepResult result;
-    NSError *error;
+    NSError *error = nil;
     
-    while ((result = [step executeAndReturnError:&error]) == KIFTestStepResultWait && -[startDate timeIntervalSinceNow] < step.timeout) {
+    while ((result = executionBlock(&error)) == KIFTestStepResultWait && -[startDate timeIntervalSinceNow] < timeout) {
         [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
     }
     
-    if (result == KIFTestStepResultSuccess) {
-        return result;
-    }
-    
     if (result == KIFTestStepResultWait) {
-        NSDictionary *userInfo = @{NSUnderlyingErrorKey: error, NSLocalizedDescriptionKey: [NSString stringWithFormat:@"The step timed out after %.2f seconds: %@", step.timeout, error.localizedDescription]};
+        NSDictionary *userInfo = @{NSUnderlyingErrorKey: error, NSLocalizedDescriptionKey: [NSString stringWithFormat:@"The step timed out after %.2f seconds: %@", timeout, error.localizedDescription]};
         error = [NSError errorWithDomain:@"KIFTest" code:KIFTestStepResultFailure userInfo:userInfo];
+        result = KIFTestStepResultFailure;
     }
     
-    [self.delegate failWithException:[NSException failureInFile:self.file atLine:self.line withDescription:error.localizedDescription]];
+    if (completionBlock) {
+        completionBlock(result, error);
+    }
     
-    return KIFTestStepResultFailure;
+    if (result == KIFTestStepResultFailure) {
+        [self.delegate failWithException:[NSException failureInFile:self.file atLine:self.line withDescription:error.localizedDescription]];
+    }
 }
 
-- (KIFTestStepResult)runBlock:(KIFTestStepExecutionBlock)block
+- (void)runBlock:(KIFTestExecutionBlock)executionBlock complete:(KIFTestCompletionBlock)completionBlock
 {
-    return [self run:[KIFTestStep stepWithDescription:@"KIFTester generated block" executionBlock:block]];
+    [self runBlock:executionBlock complete:completionBlock timeout:[KIFTestStep defaultTimeout]];
+}
+
+- (void)runBlock:(KIFTestExecutionBlock)executionBlock timeout:(NSTimeInterval)timeout
+{
+    [self runBlock:executionBlock complete:nil timeout:timeout];
+}
+
+- (void)runBlock:(KIFTestExecutionBlock)executionBlock
+{
+    [self runBlock:executionBlock complete:nil];
 }
 
 - (void)dealloc

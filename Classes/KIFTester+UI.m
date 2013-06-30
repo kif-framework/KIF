@@ -9,8 +9,16 @@
 
 #import "KIFTester+UI.h"
 #import "UIApplication-KIFAdditions.h"
+#import "KIFTestStep.h"
 
 @implementation KIFTester (UI)
+
+- (void)run:(KIFTestStep *)step
+{
+    [self runBlock:^KIFTestStepResult(NSError **error) {
+        return [step executeAndReturnError:error];
+    } complete:nil timeout:step.timeout];
+}
 
 - (void)waitForViewWithAccessibilityLabel:(NSString *)label
 {

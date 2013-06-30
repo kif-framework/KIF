@@ -41,7 +41,9 @@
 - (void)testWaitingForNotificationWhileDoingOtherThings
 {
     [tester tapViewWithAccessibilityLabel:@"Show/Hide"];
-    [tester waitForNotificationName:@"InstantShowHide" object:[UIApplication sharedApplication] whileExecutingStep:[KIFTestStep stepToTapViewWithAccessibilityLabel:@"Instant Show/Hide"]];
+    [tester waitForNotificationName:@"InstantShowHide" object:[UIApplication sharedApplication] whileExecutingBlock:^{
+        [tester tapViewWithAccessibilityLabel:@"Instant Show/Hide"];
+    }];
 }
 
 - (void)testMemoryWarningSimulator

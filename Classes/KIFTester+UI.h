@@ -8,6 +8,22 @@
 //  which Square, Inc. licenses this file to you.
 
 #import "KIFTester.h"
+#import <UIKit/UIKit.h>
+
+/*!
+ @enum KIFSwipeDirection
+ @abstract Directions in which to swipe.
+ @constant KIFSwipeDirectionRight Swipe to the right.
+ @constant KIFSwipeDirectionLeft Swipe to the left.
+ @constant KIFSwipeDirectionUp Swipe up.
+ @constant KIFSwipeDirectionDown Swipe down.
+ */
+typedef enum {
+    KIFSwipeDirectionRight,
+    KIFSwipeDirectionLeft,
+    KIFSwipeDirectionUp,
+    KIFSwipeDirectionDown
+} KIFSwipeDirection;
 
 @interface KIFTester (UI)
 

@@ -8,46 +8,54 @@
 //  which Square, Inc. licenses this file to you.
 
 #import "KIFTester+Generic.h"
+#import <UIKit/UIKit.h>
 
 @implementation KIFTester (Generic)
 
-- (void)succeed
-{
-    [self run:[KIFTestStep stepThatSucceeds]];
-}
-
 - (void)fail
 {
-    [self run:[KIFTestStep stepThatFails]];
+    [self runBlock:^KIFTestStepResult(NSError **error) {
+        KIFTestCondition(NO, error, @"This test always fails");
+    }];
 }
 
 - (void)waitForTimeInterval:(NSTimeInterval)timeInterval
 {
-    NSString *description = [NSString stringWithFormat:@"Waiting %f seconds", timeInterval];
-    
-    [self run:[KIFTestStep stepToWaitForTimeInterval:timeInterval description:description]];
+    NSTimeInterval startTime = [NSDate timeIntervalSinceReferenceDate];
+
+    [self runBlock:^KIFTestStepResult(NSError **error) {
+        KIFTestWaitCondition((([NSDate timeIntervalSinceReferenceDate] - startTime) >= timeInterval), error, @"Waiting for time interval to expire.");
+        return KIFTestStepResultSuccess;
+    } timeout:timeInterval + 1];
 }
 
 - (void)waitForNotificationName:(NSString*)name object:(id)object
 {
-    [self run:[KIFTestStep stepToWaitForNotificationName:name object:object]];
+    [self waitForNotificationName:name object:object whileExecutingBlock:nil];
 }
 
-- (void)waitForNotificationName:(NSString *)name object:(id)object whileExecutingStep:(KIFTestStep *)childStep
+- (void)waitForNotificationName:(NSString *)name object:(id)object whileExecutingBlock:(void(^)())block
 {
-    [self run:[KIFTestStep stepToWaitForNotificationName:name object:object whileExecutingStep:childStep]];
+    __block BOOL notificationOccurred = NO;
+    id observer = [[NSNotificationCenter defaultCenter] addObserverForName:name object:object queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+        notificationOccurred = YES;
+    }];
+    
+    if (block) {
+        block();
+    }
+    
+    [self runBlock:^KIFTestStepResult(NSError **error) {
+        KIFTestWaitCondition(notificationOccurred, error, @"Waiting for notification \"%@\"", name);
+        return KIFTestStepResultSuccess;
+    } complete:^(KIFTestStepResult result, NSError *error) {
+        [[NSNotificationCenter defaultCenter] removeObserver:observer];
+    }];
 }
 
 - (void)simulateMemoryWarning
 {
-    [self run:[KIFTestStep stepToSimulateMemoryWarning]];
+    [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationDidReceiveMemoryWarningNotification object:[UIApplication sharedApplication]];
 }
-
-- (void)giveUpOnAllTestsAndRunAppForever
-{
-    [self waitForTimeInterval:[[NSDate distantFuture] timeIntervalSinceNow]];
-}
-
-
 
 @end
