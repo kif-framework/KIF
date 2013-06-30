@@ -23,17 +23,17 @@
     [tester tapViewWithAccessibilityLabel:@"Test Suite" traits:UIAccessibilityTraitButton];
 }
 
-- (void)testWaitingForViewWithAccessibilityLabel
+- (void)testWaitingForAbsenceOfViewWithAccessibilityLabel
 {
     [tester waitForAbsenceOfViewWithAccessibilityLabel:@"Tapping"];
 }
 
-- (void)testWaitingForViewWithTraits
+- (void)testWaitingForAbsenceOfViewWithTraits
 {
     [tester waitForAbsenceOfViewWithAccessibilityLabel:@"Tapping" traits:UIAccessibilityTraitStaticText];
 }
 
-- (void)testWaitingForViewWithValue
+- (void)testWaitingForAbsenceOfViewWithValue
 {
     [tester waitForAbsenceOfViewWithAccessibilityLabel:@"Switch 1" value:@"1" traits:UIAccessibilityTraitNone];
 }

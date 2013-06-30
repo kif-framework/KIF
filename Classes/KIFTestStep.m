@@ -61,41 +61,6 @@ typedef CGPoint KIFDisplacement;
     return [step autorelease];
 }
 
-+ (id)stepToWaitForViewWithAccessibilityLabel:(NSString *)label;
-{
-    return [self stepToWaitForViewWithAccessibilityLabel:label traits:UIAccessibilityTraitNone];
-}
-
-+ (id)stepToWaitForViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits;
-{
-    return [self stepToWaitForViewWithAccessibilityLabel:label value:nil traits:traits];
-}
-
-+ (id)stepToWaitForViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits;
-{
-    NSString *description = nil;
-    if (value.length) {
-        description = [NSString stringWithFormat:@"Wait for view with accessibility label \"%@\" and accessibility value \"%@\"", label, value];
-    } else {
-        description = [NSString stringWithFormat:@"Wait for view with accessibility label \"%@\"", label];
-    }
-    
-    return [self stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
-        UIAccessibilityElement *element = [UIAccessibilityElement accessibilityElementWithLabel:label accessibilityValue:value tappable:NO traits:traits error:error];
-        
-        NSString *waitDescription = nil;
-        if (value.length) {
-            waitDescription = [NSString stringWithFormat:@"Waiting for presence of accessibility element with label \"%@\" and accessibility value \"%@\"", label, value];
-        } else {
-            waitDescription = [NSString stringWithFormat:@"Waiting for presence of accessibility element with label \"%@\"", label];
-        }
-        
-        KIFTestWaitCondition(element, error, @"%@", waitDescription);
-        
-        return KIFTestStepResultSuccess;
-    }];
-}
-
 + (id)stepToWaitForAbsenceOfViewWithAccessibilityLabel:(NSString *)label;
 {
     return [self stepToWaitForAbsenceOfViewWithAccessibilityLabel:label traits:UIAccessibilityTraitNone];

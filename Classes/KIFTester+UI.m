@@ -26,17 +26,30 @@
 
 - (void)waitForViewWithAccessibilityLabel:(NSString *)label
 {
-    [self run:[KIFTestStep stepToWaitForViewWithAccessibilityLabel:label]];
+    [self waitForViewWithAccessibilityLabel:label traits:UIAccessibilityTraitNone];
 }
 
 - (void)waitForViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits
 {
-    [self run:[KIFTestStep stepToWaitForViewWithAccessibilityLabel:label traits:traits]];
+    [self waitForViewWithAccessibilityLabel:label value:nil traits:traits];
 }
 
 - (void)waitForViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits
 {
-    [self run:[KIFTestStep stepToWaitForViewWithAccessibilityLabel:label value:value traits:traits]];
+    [self runBlock:^KIFTestStepResult(NSError **error) {
+        UIAccessibilityElement *element = [UIAccessibilityElement accessibilityElementWithLabel:label accessibilityValue:value tappable:NO traits:traits error:error];
+        
+        NSString *waitDescription = nil;
+        if (value.length) {
+            waitDescription = [NSString stringWithFormat:@"Waiting for presence of accessibility element with label \"%@\" and accessibility value \"%@\"", label, value];
+        } else {
+            waitDescription = [NSString stringWithFormat:@"Waiting for presence of accessibility element with label \"%@\"", label];
+        }
+        
+        KIFTestWaitCondition(element, error, @"%@", waitDescription);
+        
+        return KIFTestStepResultSuccess;
+    }];
 }
 
 - (void)waitForAbsenceOfViewWithAccessibilityLabel:(NSString *)label

@@ -27,8 +27,36 @@ typedef enum {
 
 @interface KIFTester (UI)
 
+/*!
+ @abstract Waits until a view or accessibility element is present.
+ @discussion The view or accessibility element with the given label is found in the view hierarchy. If the element isn't found, then the step will attempt to wait until it is. Note that the view does not necessarily have to be visible on the screen, and may be behind another view or offscreen. Views with their hidden property set to YES are ignored.
+ 
+ If the view you want to wait for is tappable, use the -waitForTappableViewWithAccessibilityLabel: methods instead as they provide a more strict test.
+ @param label The accessibility label of the element to wait for.
+ */
 - (void)waitForViewWithAccessibilityLabel:(NSString *)label;
+
+/*!
+ @abstract Waits until a view or accessibility element is present.
+ @discussion The view or accessibility element with the given label is found in the view hierarchy. If the element isn't found, then the step will attempt to wait until it is. Note that the view does not necessarily have to be visible on the screen, and may be behind another view or offscreen. Views with their hidden property set to YES are ignored.
+ 
+ If the view you want to wait for is tappable, use the -waitForTappableViewWithAccessibilityLabel: methods instead as they provide a more strict test.
+ @param label The accessibility label of the element to wait for.
+ @param traits The accessibility traits of the element to wait for. Elements that do not include at least these traits are ignored.
+ */
 - (void)waitForViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits;
+
+
+/*!
+ @abstract Waits until a view or accessibility element is present.
+ @discussion The view or accessibility element with the given label is found in the view hierarchy. If the element isn't found, then the step will attempt to wait until it is. Note that the view does not necessarily have to be visible on the screen, and may be behind another view or offscreen. Views with their hidden property set to YES are ignored.
+ 
+ If the view you want to wait for is tappable, use the -waitForTappableViewWithAccessibilityLabel: methods instead as they provide a more strict test.
+ @param label The accessibility label of the element to wait for.
+ @param value The accessibility value of the element to tap.
+ @param traits The accessibility traits of the element to wait for. Elements that do not include at least these traits are ignored.
+ @result A configured test step.
+ */
 - (void)waitForViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits;
 
 - (void)waitForAbsenceOfViewWithAccessibilityLabel:(NSString *)label;
@@ -67,6 +95,13 @@ typedef enum {
 
 - (void)choosePhotoInAlbum:(NSString *)albumName atRow:(NSInteger)row column:(NSInteger)column;
 - (void)tapRowInTableViewWithAccessibilityLabel:(NSString*)tableViewLabel atIndexPath:(NSIndexPath *)indexPath;
+
+/*!
+ @abstract Swipes a particular view in the view hierarchy in the given direction.
+ @discussion The view will get the view with the specified accessibility label and swipe the screen in the given direction from the view's center.
+ @param label The accessibility label of the view to swipe.
+ @param direction The direction in which to swipe.
+ */
 - (void)swipeViewWithAccessibilityLabel:(NSString *)label inDirection:(KIFSwipeDirection)direction;
 
 /*!
