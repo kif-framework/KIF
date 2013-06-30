@@ -15,4 +15,6 @@
 // Finds the view that this element is a part of
 + (UIView *)viewContainingAccessibilityElement:(UIAccessibilityElement *)element;
 
++ (UIAccessibilityElement *)accessibilityElementWithLabel:(NSString *)label accessibilityValue:(NSString *)value tappable:(BOOL)mustBeTappable traits:(UIAccessibilityTraits)traits error:(out NSError **)error;
+
 @end

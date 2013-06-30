@@ -68,7 +68,23 @@ typedef enum {
 - (void)choosePhotoInAlbum:(NSString *)albumName atRow:(NSInteger)row column:(NSInteger)column;
 - (void)tapRowInTableViewWithAccessibilityLabel:(NSString*)tableViewLabel atIndexPath:(NSIndexPath *)indexPath;
 - (void)swipeViewWithAccessibilityLabel:(NSString *)label inDirection:(KIFSwipeDirection)direction;
+
+/*!
+ @abstract Scrolls a particular view in the view hierarchy by an amount indicated as a fraction of its size.
+ @discussion The view will get the view with the specified accessibility label and scroll it by the indicated fraction of its size, with the scroll centered on the center of the view.
+ @param label The accessibility label of the view to scroll.
+ @param horizontalFraction The horizontal displacement of the scroll action, as a fraction of the width of the view.
+ @param verticalFraction The vertical displacement of the scroll action, as a fraction of the height of the view.
+ */
 - (void)scrollViewWithAccessibilityLabel:(NSString *)label byFractionOfSizeHorizontal:(CGFloat)horizontalFraction vertical:(CGFloat)verticalFraction;
+
+/*!
+ @abstract Waits until a view or accessibility element is the first responder.
+ @discussion The first responder is found by searching the view hierarchy of the application's
+ main window and its accessibility label is compared to the given value. If they match, the
+ step returns success else it will attempt to wait until they do.
+ @param label The accessibility label of the element to wait for.
+ */
 - (void)waitForFirstResponderWithAccessibilityLabel:(NSString *)label;
 
 @end

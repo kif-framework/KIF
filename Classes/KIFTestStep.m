@@ -23,15 +23,8 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
 @interface KIFTestStep ()
 
 @property (nonatomic, copy) KIFTestStepExecutionBlock executionBlock;
-@property (nonatomic, copy) NSString *notificationName;
-@property (nonatomic, retain) id notificationObject;
-@property BOOL notificationOccurred;
-@property BOOL observingForNotification;
-@property (nonatomic, retain) KIFTestStep *childStep;
 
 + (BOOL)_isUserInteractionEnabledForView:(UIView *)view;
-
-+ (UIAccessibilityElement *)_accessibilityElementWithLabel:(NSString *)label accessibilityValue:(NSString *)value tappable:(BOOL)mustBeTappable traits:(UIAccessibilityTraits)traits error:(out NSError **)error;
 
 typedef CGPoint KIFDisplacement;
 + (KIFDisplacement)_displacementForSwipingInDirection:(KIFSwipeDirection)direction;
@@ -43,12 +36,7 @@ typedef CGPoint KIFDisplacement;
 
 @synthesize description;
 @synthesize executionBlock;
-@synthesize notificationName;
-@synthesize notificationObject;
-@synthesize notificationOccurred;
-@synthesize observingForNotification;
 @synthesize timeout;
-@synthesize childStep;
 
 #pragma mark Class Methods
 
@@ -93,7 +81,7 @@ typedef CGPoint KIFDisplacement;
     }
     
     return [self stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
-        UIAccessibilityElement *element = [self _accessibilityElementWithLabel:label accessibilityValue:value tappable:NO traits:traits error:error];
+        UIAccessibilityElement *element = [UIAccessibilityElement accessibilityElementWithLabel:label accessibilityValue:value tappable:NO traits:traits error:error];
         
         NSString *waitDescription = nil;
         if (value.length) {
@@ -170,7 +158,7 @@ typedef CGPoint KIFDisplacement;
     }
     
     return [self stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
-        UIAccessibilityElement *element = [self _accessibilityElementWithLabel:label accessibilityValue:value tappable:YES traits:traits error:error];
+        UIAccessibilityElement *element = [UIAccessibilityElement accessibilityElementWithLabel:label accessibilityValue:value tappable:YES traits:traits error:error];
         return (element ? KIFTestStepResultSuccess : KIFTestStepResultWait);
     }];
 }
@@ -228,7 +216,7 @@ typedef CGPoint KIFDisplacement;
             return KIFTestStepResultSuccess;
         }
 
-        UIAccessibilityElement *element = [self _accessibilityElementWithLabel:label accessibilityValue:value tappable:YES traits:traits error:error];
+        UIAccessibilityElement *element = [UIAccessibilityElement accessibilityElementWithLabel:label accessibilityValue:value tappable:YES traits:traits error:error];
         if (!element) {
             return KIFTestStepResultWait;
         }
@@ -325,7 +313,7 @@ typedef CGPoint KIFDisplacement;
             return KIFTestStepResultSuccess;
         }
         
-        UIAccessibilityElement *element = [self _accessibilityElementWithLabel:label accessibilityValue:value tappable:YES traits:traits error:error];
+        UIAccessibilityElement *element = [UIAccessibilityElement accessibilityElementWithLabel:label accessibilityValue:value tappable:YES traits:traits error:error];
         if (!element) {
             return KIFTestStepResultWait;
         }
@@ -382,7 +370,7 @@ typedef CGPoint KIFDisplacement;
     NSString *description = [NSString stringWithFormat:@"Type the text \"%@\" into the view with accessibility label \"%@\"", text, label];
     return [self stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
         
-        UIAccessibilityElement *element = [self _accessibilityElementWithLabel:label accessibilityValue:nil tappable:YES traits:traits error:error];
+        UIAccessibilityElement *element = [UIAccessibilityElement accessibilityElementWithLabel:label accessibilityValue:nil tappable:YES traits:traits error:error];
         if (!element) {
             return KIFTestStepResultWait;
         }
@@ -482,7 +470,7 @@ typedef CGPoint KIFDisplacement;
     NSString *description = [NSString stringWithFormat:@"Toggle the switch with accessibility label \"%@\" to %@", label, switchIsOn ? @"ON" : @"OFF"];
     return [self stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
         
-        UIAccessibilityElement *element = [self _accessibilityElementWithLabel:label accessibilityValue:nil tappable:YES traits:UIAccessibilityTraitNone error:error];
+        UIAccessibilityElement *element = [UIAccessibilityElement accessibilityElementWithLabel:label accessibilityValue:nil tappable:YES traits:UIAccessibilityTraitNone error:error];
         if (!element) {
             return KIFTestStepResultWait;
         }
@@ -587,7 +575,7 @@ typedef CGPoint KIFDisplacement;
 
     NSString *description = [NSString stringWithFormat:@"Step to swipe %@ on view with accessibility label %@", directionDescription, label];
     return [KIFTestStep stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
-        UIAccessibilityElement *element = [self _accessibilityElementWithLabel:label accessibilityValue:nil tappable:NO traits:UIAccessibilityTraitNone error:error];
+        UIAccessibilityElement *element = [UIAccessibilityElement accessibilityElementWithLabel:label accessibilityValue:nil tappable:NO traits:UIAccessibilityTraitNone error:error];
         if (!element) {
             return KIFTestStepResultWait;
         }
@@ -614,53 +602,6 @@ typedef CGPoint KIFDisplacement;
 
         [viewToSwipe dragAlongPathWithPoints:swipePath count:NUM_POINTS_IN_SWIPE_PATH];
 
-        return KIFTestStepResultSuccess;
-    }];
-}
-
-#define NUM_POINTS_IN_SCROLL_PATH 5
-
-+ (id)stepToScrollViewWithAccessibilityLabel:(NSString *)label byFractionOfSizeHorizontal:(CGFloat)horizontalFraction vertical:(CGFloat)verticalFraction;
-{
-    NSString *description = [NSString
-                             stringWithFormat:@"Step to scroll by {%0.2f, %0.2f} of the size on view with accessibility label %@",
-                             horizontalFraction, verticalFraction, label];
-    
-    return [KIFTestStep stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
-        UIAccessibilityElement *element = [self _accessibilityElementWithLabel:label
-                                                            accessibilityValue:nil
-                                                                      tappable:NO
-                                                                        traits:UIAccessibilityTraitNone
-                                                                         error:error];
-        if (!element) {
-            return KIFTestStepResultWait;
-        }
-        
-        UIView *viewToScroll = [UIAccessibilityElement viewContainingAccessibilityElement:element];
-        KIFTestWaitCondition(viewToScroll, error, @"Cannot find view with accessibility label \"%@\"", label);
-        
-        // Within this method, all geometry is done in the coordinate system of
-        // the view to scroll.
-        
-        CGRect elementFrame = [viewToScroll.window convertRect:element.accessibilityFrame toView:viewToScroll];
-        
-        CGSize scrollDisplacement = CGSizeMake(elementFrame.size.width * horizontalFraction, elementFrame.size.height * verticalFraction);
-        
-        CGPoint scrollStart = CGPointCenteredInRect(elementFrame);
-        scrollStart.x -= scrollDisplacement.width / 2;
-        scrollStart.y -= scrollDisplacement.height / 2;
-        
-        CGPoint scrollPath[NUM_POINTS_IN_SCROLL_PATH];
-        
-        for (int pointIndex = 0; pointIndex < NUM_POINTS_IN_SCROLL_PATH; pointIndex++)
-        {
-            CGFloat scrollProgress = ((CGFloat)pointIndex)/(NUM_POINTS_IN_SCROLL_PATH - 1);
-            scrollPath[pointIndex] = CGPointMake(scrollStart.x + (scrollProgress * scrollDisplacement.width),
-                                                 scrollStart.y + (scrollProgress * scrollDisplacement.height));
-        }
-        
-        [viewToScroll dragAlongPathWithPoints:scrollPath count:NUM_POINTS_IN_SCROLL_PATH];
-        
         return KIFTestStepResultSuccess;
     }];
 }
@@ -747,15 +688,7 @@ typedef CGPoint KIFDisplacement;
 - (void)dealloc;
 {
     [executionBlock release];
-    executionBlock = nil;
     [description release];
-    description = nil;
-    [notificationName release];
-    notificationName = nil;
-    [notificationObject release];
-    notificationObject = nil;
-    [childStep release];
-    childStep = nil;
     
     [super dealloc];
 }
@@ -779,20 +712,8 @@ typedef CGPoint KIFDisplacement;
     return result;
 }
 
-- (void)cleanUp;
-{
-    if (notificationName || notificationObject) {
-        [[NSNotificationCenter defaultCenter] removeObserver:self name:notificationName object:notificationObject];    
-    }
-}
-
 #pragma mark Private Methods
 
-
-- (void)_onObservedNotification:(NSNotification *)notification;
-{
-    self.notificationOccurred = YES;
-}
 
 + (BOOL)_isUserInteractionEnabledForView:(UIView *)view;
 {
@@ -833,87 +754,6 @@ typedef CGPoint KIFDisplacement;
     } 
     
     return characterString;
-}
-
-
-+ (UIAccessibilityElement *)_accessibilityElementWithLabel:(NSString *)label accessibilityValue:(NSString *)value tappable:(BOOL)mustBeTappable traits:(UIAccessibilityTraits)traits error:(out NSError **)error;
-{
-    UIAccessibilityElement *element = [[UIApplication sharedApplication] accessibilityElementWithLabel:label accessibilityValue:value traits:traits];
-    if (!element) {
-        if (error) {
-            element = [[UIApplication sharedApplication] accessibilityElementWithLabel:label accessibilityValue:nil traits:traits];
-            // For purposes of a better error message, see if we can find the view, just not a view with the specified value.
-            if (value && [[UIApplication sharedApplication] accessibilityElementWithLabel:label accessibilityValue:nil traits:traits]) {
-                *error = [[[NSError alloc] initWithDomain:@"KIFTest" code:KIFTestStepResultFailure userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Found an accessibility element with the label \"%@\", but with the value \"%@\", not \"%@\"", label, element.accessibilityValue, value]}] autorelease];
-                
-            // Check the traits, too.
-            } else if (traits != UIAccessibilityTraitNone && [[UIApplication sharedApplication] accessibilityElementWithLabel:label accessibilityValue:nil traits:UIAccessibilityTraitNone]) {
-                *error = [[[NSError alloc] initWithDomain:@"KIFTest" code:KIFTestStepResultFailure userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Found an accessibility element with the label \"%@\", but not with the traits \"%llu\"", label, traits]}] autorelease];
-                
-            } else {
-                *error = [[[NSError alloc] initWithDomain:@"KIFTest" code:KIFTestStepResultFailure userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Failed to find accessibility element with the label \"%@\"", label]}] autorelease];
-            }
-        }
-        return nil;
-    }
-    
-    // Make sure the element is visible
-    UIView *view = [UIAccessibilityElement viewContainingAccessibilityElement:element];
-    if (!view) {
-        if (error) {
-            *error = [[[NSError alloc] initWithDomain:@"KIFTest" code:KIFTestStepResultFailure userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat: @"Cannot find view containing accessibility element with the label \"%@\"", label]}] autorelease];
-        }
-        return nil;
-    }
-    
-    // Scroll the view to be visible if necessary
-    UIScrollView *scrollView = (UIScrollView *)view;
-    while (scrollView && ![scrollView isKindOfClass:[UIScrollView class]]) {
-        scrollView = (UIScrollView *)scrollView.superview;
-    }
-    if (scrollView) {
-        if ((UIAccessibilityElement *)view == element) {
-            [scrollView scrollViewToVisible:view animated:YES];
-        } else {
-            CGRect elementFrame = [view.window convertRect:element.accessibilityFrame toView:scrollView];
-            [scrollView scrollRectToVisible:elementFrame animated:YES];
-        }
-        
-        // Give the scroll view a small amount of time to perform the scroll.
-        CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.3, false);
-    }
-    
-    if ([[UIApplication sharedApplication] isIgnoringInteractionEvents]) {
-        if (error) {
-            *error = [[[NSError alloc] initWithDomain:@"KIFTest" code:KIFTestStepResultFailure userInfo:@{NSLocalizedDescriptionKey: @"Application is ignoring interaction events"}] autorelease];
-        }
-        return nil;
-    }
-    
-    // There are some issues with the tappability check in UIWebViews, so if the view is a UIWebView we will just skip the check.
-    if ([NSStringFromClass([view class]) isEqualToString:@"UIWebBrowserView"]) {
-        return element;
-    }
-
-    if (mustBeTappable) {
-        // Make sure the view is tappable
-        if (![view isTappable]) {
-            if (error) {
-                *error = [[[NSError alloc] initWithDomain:@"KIFTest" code:KIFTestStepResultFailure userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Accessibility element with label \"%@\" is not tappable. It may be blocked by other views.", label]}] autorelease];
-            }
-            return nil;
-        }
-    } else {
-        // If we don't require tappability, at least make sure it's not hidden
-        if ([view isHidden]) {
-            if (error) {
-                *error = [[[NSError alloc] initWithDomain:@"KIFTest" code:KIFTestStepResultFailure userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Accessibility element with label \"%@\" is hidden.", label]}] autorelease];
-            }
-            return nil;
-        }
-    }
-    
-    return element;
 }
 
 #define MAJOR_SWIPE_DISPLACEMENT 200
