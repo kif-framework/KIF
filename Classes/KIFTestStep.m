@@ -31,6 +31,48 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
 @synthesize executionBlock;
 @synthesize timeout;
 
+
+#pragma mark Initialization
+
+- (id)init;
+{
+    self = [super init];
+    if (!self) {
+        return nil;
+    }
+    
+    self.timeout = [[self class] defaultTimeout];
+    
+    return self;
+}
+
+- (void)dealloc;
+{
+    [executionBlock release];
+    [description release];
+    
+    [super dealloc];
+}
+
+#pragma mark Public Methods
+
+- (KIFTestStepResult)executeAndReturnError:(NSError **)error;
+{
+    KIFTestStepResult result = KIFTestStepResultFailure;
+    
+    if (self.executionBlock) {
+        @try {
+            result = self.executionBlock(self, error);
+        }
+        @catch (id exception) {
+            // We need to catch exceptions and things like NSInternalInconsistencyException, which is actually an NSString
+            KIFTestCondition(NO, error, @"Step threw exception: %@", exception);
+        }
+    }
+    
+    return result;
+}
+
 #pragma mark Class Methods
 
 + (NSTimeInterval)defaultTimeout;
@@ -425,49 +467,6 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
     }];
 }
 
-+ (id)stepToSetOn:(BOOL)switchIsOn forSwitchWithAccessibilityLabel:(NSString *)label;
-{
-    NSString *description = [NSString stringWithFormat:@"Toggle the switch with accessibility label \"%@\" to %@", label, switchIsOn ? @"ON" : @"OFF"];
-    return [self stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
-        
-        UIAccessibilityElement *element = [UIAccessibilityElement accessibilityElementWithLabel:label accessibilityValue:nil tappable:YES traits:UIAccessibilityTraitNone error:error];
-        if (!element) {
-            return KIFTestStepResultWait;
-        }
-        
-        UISwitch *switchView = (UISwitch *)[UIAccessibilityElement viewContainingAccessibilityElement:element];
-        KIFTestWaitCondition(switchView, error, @"Cannot find switch with accessibility label \"%@\"", label);
-        KIFTestWaitCondition([switchView isKindOfClass:[UISwitch class]], error, @"View with accessibility label \"%@\" is a %@, not a UISwitch", label, NSStringFromClass([switchView class]));
-        
-        // No need to switch it if it's already in the correct position
-        BOOL current = switchView.on;
-        if (current == switchIsOn) {
-            return KIFTestStepResultSuccess;   
-        }
-        
-        CGRect elementFrame = [switchView.window convertRect:element.accessibilityFrame toView:switchView];
-        CGPoint tappablePointInElement = [switchView tappablePointInRect:elementFrame];
-        
-        // This is mostly redundant of the test in _accessibilityElementWithLabel:
-        KIFTestCondition(!isnan(tappablePointInElement.x), error, @"The element with accessibility label %@ is not tappable", label);
-        [switchView tapAtPoint:tappablePointInElement];
-
-        // This is a UISwitch, so make sure it worked
-        if (switchIsOn != switchView.on) {
-            NSLog(@"Faking turning switch %@ with accessibility label %@", switchIsOn ? @"ON" : @"OFF", label);
-            [switchView setOn:switchIsOn animated:YES];
-            [switchView sendActionsForControlEvents:UIControlEventValueChanged];
-        }
-        
-        // The switch animation takes a second to finish, and the action callback doesn't get called until it does.
-        CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.5f, false);
-        
-        KIFTestCondition(switchView.on == switchIsOn, error, @"Failed to toggle switch to \"%@\"; instead, it was \"%@\"", switchIsOn ? @"ON" : @"OFF", switchView.on ? @"ON" : @"OFF");
-        
-        return KIFTestStepResultSuccess;
-    }];
-}
-
 + (id)stepToDismissPopover;
 {
     return [self stepWithDescription:@"Dismiss the popover" executionBlock:^(KIFTestStep *step, NSError **error) {
@@ -477,102 +476,6 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
         UIView *dimmingView = [[windows[0] subviewsWithClassNamePrefix:@"UIDimmingView"] lastObject];
         [dimmingView tapAtPoint:CGPointMake(50.0f, 50.0f)];
         CFRunLoopRunInMode(kCFRunLoopDefaultMode, tapDelay, false);
-        return KIFTestStepResultSuccess;
-    }];
-}
-
-+ (id)stepToTapRowInTableViewWithAccessibilityLabel:(NSString*)tableViewLabel atIndexPath:(NSIndexPath *)indexPath
-{
-    NSString *description = [NSString stringWithFormat:@"Step to tap row %d in tableView with label %@", [indexPath row], tableViewLabel];
-    return [KIFTestStep stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
-        UIAccessibilityElement *element = [[UIApplication sharedApplication] accessibilityElementWithLabel:tableViewLabel];
-        KIFTestCondition(element, error, @"View with label %@ not found", tableViewLabel);
-        UITableView *tableView = (UITableView*)[UIAccessibilityElement viewContainingAccessibilityElement:element];
-        
-        KIFTestCondition([tableView isKindOfClass:[UITableView class]], error, @"Specified view is not a UITableView");
-        
-        KIFTestCondition(tableView, error, @"Table view with label %@ not found", tableViewLabel);
-        
-        UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-        if (!cell) {
-            KIFTestCondition([indexPath section] < [tableView numberOfSections], error, @"Section %d is not found in '%@' table view", [indexPath section], tableViewLabel);
-            KIFTestCondition([indexPath row] < [tableView numberOfRowsInSection:[indexPath section]], error, @"Row %d is not found in section %d of '%@' table view", [indexPath row], [indexPath section], tableViewLabel);
-            [tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
-            [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.5]];
-            cell = [tableView cellForRowAtIndexPath:indexPath];
-        }
-        KIFTestCondition(cell, error, @"Table view cell at index path %@ not found", indexPath);
-
-        CGRect cellFrame = [cell.contentView convertRect:[cell.contentView frame] toView:tableView];
-        [tableView tapAtPoint:CGPointCenteredInRect(cellFrame)];
-        
-        return KIFTestStepResultSuccess;
-    }];
-}
-
-#define NUM_POINTS_IN_SWIPE_PATH 20
-
-+ (id)stepToSwipeViewWithAccessibilityLabel:(NSString *)label inDirection:(KIFSwipeDirection)direction
-{
-    // The original version of this came from http://groups.google.com/group/kif-framework/browse_thread/thread/df3f47eff9f5ac8c
-    NSString *directionDescription = nil;
-
-    switch(direction)
-    {
-        case KIFSwipeDirectionRight:
-            directionDescription = @"right";
-            break;
-        case KIFSwipeDirectionLeft:
-            directionDescription = @"left";
-            break;
-        case KIFSwipeDirectionUp:
-            directionDescription = @"up";
-            break;
-        case KIFSwipeDirectionDown:
-            directionDescription = @"down";
-            break;
-    }
-
-    NSString *description = [NSString stringWithFormat:@"Step to swipe %@ on view with accessibility label %@", directionDescription, label];
-    return [KIFTestStep stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
-        UIAccessibilityElement *element = [UIAccessibilityElement accessibilityElementWithLabel:label accessibilityValue:nil tappable:NO traits:UIAccessibilityTraitNone error:error];
-        if (!element) {
-            return KIFTestStepResultWait;
-        }
-
-        UIView *viewToSwipe = [UIAccessibilityElement viewContainingAccessibilityElement:element];
-        KIFTestWaitCondition(viewToSwipe, error, @"Cannot find view with accessibility label \"%@\"", label);
-
-        // Within this method, all geometry is done in the coordinate system of
-        // the view to swipe.
-
-        CGRect elementFrame = [viewToSwipe.window convertRect:element.accessibilityFrame toView:viewToSwipe];
-        CGPoint swipeStart = CGPointCenteredInRect(elementFrame);
-
-        KIFDisplacement swipeDisplacement = KIFDisplacementForSwipingInDirection(direction);
-        
-        CGPoint swipePath[NUM_POINTS_IN_SWIPE_PATH];
-
-        for (int pointIndex = 0; pointIndex < NUM_POINTS_IN_SWIPE_PATH; pointIndex++)
-        {
-            CGFloat swipeProgress = ((CGFloat)pointIndex)/(NUM_POINTS_IN_SWIPE_PATH - 1);
-            swipePath[pointIndex] = CGPointMake(swipeStart.x + (swipeProgress * swipeDisplacement.x),
-                                                swipeStart.y + (swipeProgress * swipeDisplacement.y));
-        }
-
-        [viewToSwipe dragAlongPathWithPoints:swipePath count:NUM_POINTS_IN_SWIPE_PATH];
-
-        return KIFTestStepResultSuccess;
-    }];
-}
-
-+ (id)stepToWaitForFirstResponderWithAccessibilityLabel:(NSString *)label;
-{
-    NSString *description = [NSString stringWithFormat:@"Verify that the first responder is the view with accessibility label '%@'", label];
-    return [KIFTestStep stepWithDescription:description executionBlock:^KIFTestStepResult(KIFTestStep *step, NSError *__autoreleasing *error) {
-        UIResponder *firstResponder = [[[UIApplication sharedApplication] keyWindow] firstResponder];
-        KIFTestWaitCondition([[firstResponder accessibilityLabel] isEqualToString:label], error, @"Expected accessibility label for first responder to be '%@', got '%@'", label, [firstResponder accessibilityLabel]);
-
         return KIFTestStepResultSuccess;
     }];
 }
@@ -631,45 +534,5 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
     return steps;
 }
 
-#pragma mark Initialization
-
-- (id)init;
-{
-    self = [super init];
-    if (!self) {
-        return nil;
-    }
-    
-    self.timeout = [[self class] defaultTimeout];
-    
-    return self;
-}
-
-- (void)dealloc;
-{
-    [executionBlock release];
-    [description release];
-    
-    [super dealloc];
-}
-
-#pragma mark Public Methods
-
-- (KIFTestStepResult)executeAndReturnError:(NSError **)error;
-{    
-    KIFTestStepResult result = KIFTestStepResultFailure;
-    
-    if (self.executionBlock) {
-        @try {
-            result = self.executionBlock(self, error);
-        }
-        @catch (id exception) {
-            // We need to catch exceptions and things like NSInternalInconsistencyException, which is actually an NSString
-            KIFTestCondition(NO, error, @"Step threw exception: %@", exception);
-        }
-    }
-    
-    return result;
-}
 
 @end

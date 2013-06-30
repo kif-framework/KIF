@@ -113,10 +113,25 @@ static inline KIFDisplacement KIFDisplacementForSwipingInDirection(KIFSwipeDirec
 - (void)clearTextFromAndThenEnterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits expectedResult:(NSString *)expectedResult;
 
 - (void)selectPickerViewRowWithTitle:(NSString *)title;
+
+/*!
+ @abstract Toggles a UISwitch into a specified position.
+ @discussion The UISwitch with the given label is searched for in the view hierarchy. If the element isn't found or isn't currently tappable, then the step will attempt to wait until it is. Once the view is present, the step will return if it's already in the desired position. If the switch is tappable but not in the desired position, a tap event is simulated in the center of the view or element, toggling the switch into the desired position.
+ @param switchIsOn The desired position of the UISwitch.
+ @param label The accessibility label of the element to switch.
+ */
 - (void)setOn:(BOOL)switchIsOn forSwitchWithAccessibilityLabel:(NSString *)label;
+
 - (void)dismissPopover;
 
 - (void)choosePhotoInAlbum:(NSString *)albumName atRow:(NSInteger)row column:(NSInteger)column;
+
+/*!
+ @abstract Taps the row at IndexPath in a view with the given label.
+ @discussion This step will get the view with the specified accessibility label and tap the row at indexPath.
+ @param tableViewLabel Accessibility label of the table view.
+ @param indexPath Index path of the row to tap.
+ */
 - (void)tapRowInTableViewWithAccessibilityLabel:(NSString*)tableViewLabel atIndexPath:(NSIndexPath *)indexPath;
 
 /*!

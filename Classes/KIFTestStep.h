@@ -264,15 +264,6 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
  */
 + (id)stepToSelectPickerViewRowWithTitle:(NSString *)title;
 
-/*!
- @method stepToSetOn:forSwitchWithAccessibilityLabel:
- @abstract A step that toggles a UISwitch into a specified position.
- @discussion The UISwitch with the given label is searched for in the view hierarchy. If the element isn't found or isn't currently tappable, then the step will attempt to wait until it is. Once the view is present, the step will return if it's already in the desired position. If the switch is tappable but not in the desired position, a tap event is simulated in the center of the view or element, toggling the switch into the desired position.
- @param switchIsOn The desired position of the UISwitch.
- @param label The accessibility label of the element to switch.
- @result A configured test step.
- */
-+ (id)stepToSetOn:(BOOL)switchIsOn forSwitchWithAccessibilityLabel:(NSString *)label;
 
 /*!
  @method stepToDismissPopover
@@ -292,25 +283,5 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
  @result An array of configured test steps.
  */
 + (NSArray *)stepsToChoosePhotoInAlbum:(NSString *)albumName atRow:(NSInteger)row column:(NSInteger)column;
-
-/*!
- @method stepToTapRowInTableViewWithAccessibilityLabel:atIndexPath:
- @abstract A step that taps the row at IndexPath in a view with the given label.
- @discussion This step will get the view with the specified accessibility label and tap the row at indexPath.
- @param tableViewLabel Accessibility label of the table view.
- @param indexPath Index path of the row to tap.
- @result A configured test step.
- */
-+ (id)stepToTapRowInTableViewWithAccessibilityLabel:(NSString*)tableViewLabel atIndexPath:(NSIndexPath *)indexPath;
-
-/*!
- @method stepToSwipeViewWithAccessibilityLabel:inDirection:
- @abstract A step that swipes a particular view in the view hierarchy in the given direction.
- @discussion The view will get the view with the specified accessibility label and swipe the screen in the given direction from the view's center.
- @param label The accessibility label of the view to swipe.
- @param direction The direction in which to swipe.
- @result A configured test step.
- */
-+ (id)stepToSwipeViewWithAccessibilityLabel:(NSString *)label inDirection:(KIFSwipeDirection)direction;
 
 @end
