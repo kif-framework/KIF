@@ -129,7 +129,7 @@ Most of the tester actions in the test are already defined by the KIF framework,
 
 	@end
 
-* KIFTester+EXAdditions.m*
+*KIFTester+EXAdditions.m*
 
 	#import "KIFTester+EXAdditions.h"
 
