@@ -672,6 +672,7 @@
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				VALID_ARCHS = "armv7 armv7s i386";
 			};
 			name = Debug;
 		};
@@ -690,6 +691,7 @@
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				VALID_ARCHS = "armv7 armv7s i386";
 			};
 			name = Release;
 		};
@@ -763,10 +765,7 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
-					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
-				);
+				FRAMEWORK_SEARCH_PATHS = "\"$(SDKROOT)/Developer/Library/Frameworks\"";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "KIF Tests/KIF Tests-Prefix.pch";
@@ -799,10 +798,7 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
-					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
-				);
+				FRAMEWORK_SEARCH_PATHS = "\"$(SDKROOT)/Developer/Library/Frameworks\"";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "KIF Tests/KIF Tests-Prefix.pch";
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
@@ -821,6 +817,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				DSTROOT = /tmp/KIF.dst;
+				FRAMEWORK_SEARCH_PATHS = "\"$(SDKROOT)/Developer/Library/Frameworks\"";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = KIF;
 			};
@@ -831,6 +828,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				DSTROOT = /tmp/KIF.dst;
+				FRAMEWORK_SEARCH_PATHS = "\"$(SDKROOT)/Developer/Library/Frameworks\"";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = KIF;
 			};
