@@ -6,7 +6,7 @@
 //
 //
 
-#import <KIFTestCase/KIFTestCase.h>
+#import <KIF/KIF.h>
 
 @interface KIFTester (EXAddition)
 

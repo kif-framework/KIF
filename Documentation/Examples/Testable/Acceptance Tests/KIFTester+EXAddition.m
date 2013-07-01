@@ -12,7 +12,7 @@
 
 - (void)reset
 {
-    [self runBlock:^KIFTestStepResult(KIFTestStep *step, NSError **error) {
+    [self runBlock:^KIFTestStepResult(NSError **error) {
         BOOL successfulReset = YES;
         
         // Do the actual reset for your app. Set successfulReset = NO if it fails.
