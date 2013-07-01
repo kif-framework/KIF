@@ -821,7 +821,6 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				DSTROOT = /tmp/KIF.dst;
-				FRAMEWORK_SEARCH_PATHS = "$(DEVELOPER_LIBRARY_DIR)/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = KIF;
 			};
@@ -832,7 +831,6 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				DSTROOT = /tmp/KIF.dst;
-				FRAMEWORK_SEARCH_PATHS = "$(DEVELOPER_LIBRARY_DIR)/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = KIF;
 			};
