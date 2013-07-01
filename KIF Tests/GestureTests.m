@@ -16,9 +16,9 @@
 - (void)testSwiping
 {
     [tester tapViewWithAccessibilityLabel:@"Tapping"];
-    [tester waitForViewWithAccessibilityLabel:@"Happy" value:@"1" traits:UIAccessibilityTraitNone];
+    [tester waitForTappableViewWithAccessibilityLabel:@"Happy" value:@"1" traits:UIAccessibilityTraitNone];
     [tester swipeViewWithAccessibilityLabel:@"Happy" inDirection:KIFSwipeDirectionLeft];
-    [tester waitForViewWithAccessibilityLabel:@"Happy" value:@"0" traits:UIAccessibilityTraitNone];
+    [tester waitForTappableViewWithAccessibilityLabel:@"Happy" value:@"0" traits:UIAccessibilityTraitNone];
     [tester tapViewWithAccessibilityLabel:@"Test Suite" traits:UIAccessibilityTraitButton];
 }
 
