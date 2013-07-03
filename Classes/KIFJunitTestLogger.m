@@ -7,6 +7,7 @@
 //
 
 #import "KIFJunitTestLogger.h"
+#import "NSString+XMLEscapeMethods.h"
 
 @implementation KIFJunitTestLogger
 
@@ -99,15 +100,20 @@ static KIFTestScenario* currentScenario = nil;
         
         
         NSString* scenarioSteps = [[scenario.steps valueForKeyPath:@"description"] componentsJoinedByString:@"\n"];
+		scenarioSteps = [scenarioSteps stringByEscapingStringForXML];
         NSString* errorMsg =  (error ? [NSString stringWithFormat:@"<failure message=\"%@\">%@</failure>", 
                                         [error localizedDescription], scenarioSteps] :
                                @"");
         
         NSString* description = [scenario description];
-        NSString* classString = NSStringFromClass([scenario class]);
+		description = [description stringByEscapingStringForXML];
+		NSString* classString = NSStringFromClass([scenario class]);
+		classString = [description stringByEscapingStringForXML];
         
         data = [NSString stringWithFormat:@"<testcase name=\"%@\" class=\"%@\" time=\"%0.4f\">%@</testcase>\n",
                                           description, classString, [duration doubleValue], errorMsg];
+		
+		
         [self appendToLog:data];
     }
         

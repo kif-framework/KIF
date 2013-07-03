@@ -37,6 +37,10 @@
 		AAB072B513971AEA008AF393 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAB072B413971AEA008AF393 /* UIKit.framework */; };
 		C194255815D83DE9004FC314 /* KIFTypist.h in Headers */ = {isa = PBXBuildFile; fileRef = C194255615D83DE9004FC314 /* KIFTypist.h */; };
 		C194255915D83DE9004FC314 /* KIFTypist.m in Sources */ = {isa = PBXBuildFile; fileRef = C194255715D83DE9004FC314 /* KIFTypist.m */; };
+		C6279DCE17847A770078B775 /* KIFTestLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = C6279DCC17847A770078B775 /* KIFTestLogger.h */; };
+		C6279DCF17847A770078B775 /* KIFTestLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = C6279DCD17847A770078B775 /* KIFTestLogger.m */; };
+		C6554D4D1784950200D53ADD /* NSString+XMLEscapeMethods.h in Headers */ = {isa = PBXBuildFile; fileRef = C6554D4B1784950200D53ADD /* NSString+XMLEscapeMethods.h */; };
+		C6554D4E1784950200D53ADD /* NSString+XMLEscapeMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = C6554D4C1784950200D53ADD /* NSString+XMLEscapeMethods.m */; };
 		CDFD8E86139728B4008D299F /* NSFileManager-KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = CDFD8E84139728B4008D299F /* NSFileManager-KIFAdditions.h */; };
 		CDFD8E87139728B4008D299F /* NSFileManager-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CDFD8E85139728B4008D299F /* NSFileManager-KIFAdditions.m */; };
 /* End PBXBuildFile section */
@@ -74,6 +78,10 @@
 		AAB072B413971AEA008AF393 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		C194255615D83DE9004FC314 /* KIFTypist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KIFTypist.h; sourceTree = "<group>"; };
 		C194255715D83DE9004FC314 /* KIFTypist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KIFTypist.m; sourceTree = "<group>"; };
+		C6279DCC17847A770078B775 /* KIFTestLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KIFTestLogger.h; sourceTree = "<group>"; };
+		C6279DCD17847A770078B775 /* KIFTestLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KIFTestLogger.m; sourceTree = "<group>"; };
+		C6554D4B1784950200D53ADD /* NSString+XMLEscapeMethods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+XMLEscapeMethods.h"; sourceTree = "<group>"; };
+		C6554D4C1784950200D53ADD /* NSString+XMLEscapeMethods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+XMLEscapeMethods.m"; sourceTree = "<group>"; };
 		CDFD8E84139728B4008D299F /* NSFileManager-KIFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFileManager-KIFAdditions.h"; sourceTree = "<group>"; };
 		CDFD8E85139728B4008D299F /* NSFileManager-KIFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager-KIFAdditions.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -131,6 +139,8 @@
 		AAB0728413971A98008AF393 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				C6279DCC17847A770078B775 /* KIFTestLogger.h */,
+				C6279DCD17847A770078B775 /* KIFTestLogger.m */,
 				AAB0728513971A98008AF393 /* KIF-Prefix.pch */,
 				AAB0728613971A98008AF393 /* KIFTestController.h */,
 				AAB0728713971A98008AF393 /* KIFTestController.m */,
@@ -168,6 +178,8 @@
 				AAB072A113971AB2008AF393 /* UIView-KIFAdditions.m */,
 				AAB072A213971AB2008AF393 /* UIWindow-KIFAdditions.h */,
 				AAB072A313971AB2008AF393 /* UIWindow-KIFAdditions.m */,
+				C6554D4B1784950200D53ADD /* NSString+XMLEscapeMethods.h */,
+				C6554D4C1784950200D53ADD /* NSString+XMLEscapeMethods.m */,
 			);
 			path = Additions;
 			sourceTree = "<group>";
@@ -195,6 +207,8 @@
 				C194255815D83DE9004FC314 /* KIFTypist.h in Headers */,
 				230EF1D114BF68E800A47D00 /* KIFTestLogger.h in Headers */,
 				230EF1DA14BF732C00A47D00 /* KIFJunitTestLogger.h in Headers */,
+				C6279DCE17847A770078B775 /* KIFTestLogger.h in Headers */,
+				C6554D4D1784950200D53ADD /* NSString+XMLEscapeMethods.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -262,6 +276,8 @@
 				AAB072B313971AB2008AF393 /* UIWindow-KIFAdditions.m in Sources */,
 				CDFD8E87139728B4008D299F /* NSFileManager-KIFAdditions.m in Sources */,
 				C194255915D83DE9004FC314 /* KIFTypist.m in Sources */,
+				C6279DCF17847A770078B775 /* KIFTestLogger.m in Sources */,
+				C6554D4E1784950200D53ADD /* NSString+XMLEscapeMethods.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
