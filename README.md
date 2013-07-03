@@ -69,6 +69,8 @@ Now that you have a target for your tests, add the tests to that target. With th
 
 Next, make sure that we can access the KIF header files. To do this, add the KIF directory to the "Header Search Paths" build setting. Start by selecting the "Build Settings" tab of the project settings, and from there, use the filter control to find the "Header Search Paths" setting. Double click the value, and add the search path `$(SRCROOT)/Frameworks/KIF/` to the list. Mark the entry as recursive. If it's not there already, you should add the `$(inherited)` entry as the first entry in this list.
 
+Starting from XCode 4.6 the "recursive" choice is in a dropdown menu next to your variable (not a checkbox anymore). By default it's non-recursive, so be careful to change it.
+
 ![Add header search paths screen shot](https://github.com/square/KIF/raw/master/Documentation/Images/Add Header Search Paths.png)
 
 KIF takes advantage of Objective C's ability to add categories on an object, but this isn't enabled for static libraries by default. To enable this, add the `-ObjC` and `-all_load` flags to the "Other Linker Flags" build setting as shown below.
