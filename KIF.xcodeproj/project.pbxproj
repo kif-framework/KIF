@@ -38,7 +38,6 @@
 		C194255815D83DE9004FC314 /* KIFTypist.h in Headers */ = {isa = PBXBuildFile; fileRef = C194255615D83DE9004FC314 /* KIFTypist.h */; };
 		C194255915D83DE9004FC314 /* KIFTypist.m in Sources */ = {isa = PBXBuildFile; fileRef = C194255715D83DE9004FC314 /* KIFTypist.m */; };
 		C6279DCE17847A770078B775 /* KIFTestLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = C6279DCC17847A770078B775 /* KIFTestLogger.h */; };
-		C6279DCF17847A770078B775 /* KIFTestLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = C6279DCD17847A770078B775 /* KIFTestLogger.m */; };
 		C6554D4D1784950200D53ADD /* NSString+XMLEscapeMethods.h in Headers */ = {isa = PBXBuildFile; fileRef = C6554D4B1784950200D53ADD /* NSString+XMLEscapeMethods.h */; };
 		C6554D4E1784950200D53ADD /* NSString+XMLEscapeMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = C6554D4C1784950200D53ADD /* NSString+XMLEscapeMethods.m */; };
 		CDFD8E86139728B4008D299F /* NSFileManager-KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = CDFD8E84139728B4008D299F /* NSFileManager-KIFAdditions.h */; };
@@ -276,7 +275,6 @@
 				AAB072B313971AB2008AF393 /* UIWindow-KIFAdditions.m in Sources */,
 				CDFD8E87139728B4008D299F /* NSFileManager-KIFAdditions.m in Sources */,
 				C194255915D83DE9004FC314 /* KIFTypist.m in Sources */,
-				C6279DCF17847A770078B775 /* KIFTestLogger.m in Sources */,
 				C6554D4E1784950200D53ADD /* NSString+XMLEscapeMethods.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

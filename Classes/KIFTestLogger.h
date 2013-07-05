@@ -12,9 +12,7 @@
 #import "KIFTestStep.h"
 #import "KIFTestLogger.h"
 
-@interface KIFTestLogger : NSObject {
-    KIFTestController* controller;
-}
+@interface KIFTestLogger : NSObject
 
 @property (nonatomic,retain) KIFTestController *controller;
 
