@@ -812,12 +812,12 @@ typedef CGPoint KIFDisplacement;
     }];
 }
 
-+ (id)stepToCheckText:(NSString *)expectedResult inViewWithAccessibilityLabelLike:(NSString *)label
++ (id)stepToVerifyText:(NSString *)expectedResult inViewWithAccessibilityLabelLike:(NSString *)label
 {
-    return [self stepToCheckText:expectedResult inViewWithAccessibilityLabelLike:label traits:UIAccessibilityTraitNone];
+    return [self stepToVerifyText:expectedResult inViewWithAccessibilityLabelLike:label traits:UIAccessibilityTraitNone];
 }
 
-+ (id)stepToCheckText:(NSString *)expectedResult inViewWithAccessibilityLabelLike:(NSString *)label traits:(UIAccessibilityTraits)traits
++ (id)stepToVerifyText:(NSString *)expectedResult inViewWithAccessibilityLabelLike:(NSString *)label traits:(UIAccessibilityTraits)traits
 {
 	NSString *description = [NSString stringWithFormat:@"Check that the text is \"%@\" in the view with accessibility label \"%@\"", expectedResult, label];
 	
