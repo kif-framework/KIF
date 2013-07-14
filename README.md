@@ -70,13 +70,13 @@ KIF takes advantage of Objective C's ability to add categories on an object, but
 
 You need your tests to run hosted in your application.  To do this, first add your add your application by first selecting "Build Phases", expanding the "Target Dependencies" section, clicking on the "+" button, and in the new sheet that appears selecting your application target and clicking "Add".
 
-Next, configure your bundle loader.  In "Build Settings", expand "Linking" and edit "Bundle Loader" to be `$(BUILT_PRODUCTS_DIR)/*My App*.app/*My App*` where *My App* is the name of your app.  Expand the "Unit Testing" section and edit "Test Host" to be `$(BUNDLE_LOADER)`.
+Next, configure your bundle loader.  In "Build Settings", expand "Linking" and edit "Bundle Loader" to be `$(BUILT_PRODUCTS_DIR)/My App.app/My App` where *My App* is the name of your app.  Expand the "Unit Testing" section and edit "Test Host" to be `$(BUNDLE_LOADER)`.
 
 The last step is to configure your unit tests to run when you trigger a test (⌘U).  Click on your scheme name and select "Edit Scheme…".  Click on "Test" in the sidebar followed by the "+" in the bottom left corner.  Select your testing target and click "OK".
 
 Example
 -------
-With your project configured to use KIF, it's time to start writing tests. There are two main classes used in KIF testing: the the test case (`KIFTestCase`, subclass of `SenTestCase`) and the UI tester (`KIFTester`).  The the ocunit test runner loads the test case classes and executes their test.  Inside these tests, the tester performs the UI operations which generally imitate a user interaction. Three of the most common tester actions are "tap this view," "enter text into this view," and "wait for this view." These steps are included as factory methods on `KIFTester` in the base KIF implementation.
+With your project configured to use KIF, it's time to start writing tests. There are two main classes used in KIF testing: the the test case (`KIFTestCase`, subclass of `SenTestCase`) and the UI test actor (`KIFUITestActor`).  The the ocunit test runner loads the test case classes and executes their test.  Inside these tests, the tester performs the UI operations which generally imitate a user interaction. Three of the most common tester actions are "tap this view," "enter text into this view," and "wait for this view." These steps are included as factory methods on `KIFUITestActor` in the base KIF implementation.
 
 KIF relies on the built-in accessibility of iOS to perform its test steps. As such, it's important that your app is fully accessible. This is also a great way to ensure that your app is usable by the sight impaired. Making your application accessible is usually as easy as giving your views reasonable labels. More details are available in [Apple's Documentation](http://developer.apple.com/library/ios/#documentation/UserExperience/Conceptual/iPhoneAccessibility/Making_Application_Accessible/Making_Application_Accessible.html#//apple_ref/doc/uid/TP40008785-CH102-SW5).
 
@@ -92,7 +92,7 @@ The first step is to create a test class to test some functionality.  In our cas
 *LoginTestCase.m*
 
 	#import "LoginTests.h"
-	#import "KIFTester+EXAdditions.h"
+	#import "KIFUITestActor+EXAdditions.h"
 
 	@implementation LoginTests
 
@@ -118,24 +118,24 @@ The first step is to create a test class to test some functionality.  In our cas
 	
 	@end
 
-Most of the tester actions in the test are already defined by the KIF framework, but `-navigateToLoginPage` and `-returnToLoggedOutHomeScreen` are not. These are examples of custom actions which are specific to your application. Adding such steps is easy, and is done using a factory method in a category of `KIFTester`, similar to how we added the scenario.
+Most of the tester actions in the test are already defined by the KIF framework, but `-navigateToLoginPage` and `-returnToLoggedOutHomeScreen` are not. These are examples of custom actions which are specific to your application. Adding such steps is easy, and is done using a factory method in a category of `KIFUITestActor`, similar to how we added the scenario.
 
-*KIFTester+EXAdditions.h*
+*KIFUITestActor+EXAdditions.h*
 
 	#import <KIF/KIF.h>
 
-	@interface KIFTester (EXAdditions)
+	@interface KIFUITestActor (EXAdditions)
 	
 	- (void)navigateToLoginPage;
 	- (void)returnToLoggedOutHomeScreen;
 
 	@end
 
-*KIFTester+EXAdditions.m*
+*KIFUITestActor+EXAdditions.m*
 
-	#import "KIFTester+EXAdditions.h"
+	#import "KIFUITestActor+EXAdditions.h"
 
-	@implementation KIFTester (EXAdditions)
+	@implementation KIFUITestActor (EXAdditions)
 
 	- (void)navigateToLoginPage
 	{
@@ -155,6 +155,12 @@ Everything should now be configured. When you run the integration tests using th
 
 Troubleshooting
 ---------------
+
+### Simulator launches but app doesn't appear, steps time out after 10 seconds
+
+This issue occurs when ocunit does not have a valid test host.  When this occurs, ocunit will run your tests in logic mode without an app, which causes the UI tests to fail.
+
+Reread the instructions above with regards to the "Bundle Loader" and "Test Host" settings.  You may have missed something.
 
 ### Step fails because a view cannot be found
 
