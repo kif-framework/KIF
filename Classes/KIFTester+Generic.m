@@ -10,7 +10,7 @@
 #import "KIFTester+Generic.h"
 #import <UIKit/UIKit.h>
 
-@implementation KIFTester (Generic)
+@implementation KIFTestActor (Generic)
 
 - (void)fail
 {

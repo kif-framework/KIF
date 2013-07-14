@@ -7,9 +7,9 @@
 //  See the LICENSE file distributed with this work for the terms under
 //  which Square, Inc. licenses this file to you.
 
-#import "KIFTester.h"
+#import "KIFTestActor.h"
 
-@interface KIFTester (Generic)
+@interface KIFTestActor (Generic)
 
 /*!
  @abstract Fails the test.

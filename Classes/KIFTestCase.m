@@ -8,7 +8,7 @@
 //  which Square, Inc. licenses this file to you.
 
 #import "KIFTestCase.h"
-#import "KIFTester.h"
+#import "KIFTestActor.h"
 
 #define SIG(class, selector) [class instanceMethodSignatureForSelector:selector]
 
@@ -77,9 +77,9 @@
     return selector != @selector(beforeAll) && selector != @selector(afterAll);
 }
 
-- (KIFTester *)testerInFile:(NSString *)file atLine:(NSInteger)line;
+- (KIFTestActor *)testerInFile:(NSString *)file atLine:(NSInteger)line;
 {
-    KIFTester *myTester = [[[KIFTester alloc] initWithFile:file line:line] autorelease];
+    KIFTestActor *myTester = [[[KIFTestActor alloc] initWithFile:file line:line] autorelease];
     myTester.delegate = self;
     return myTester;
 }

@@ -16,7 +16,7 @@
 #import "CGGeometry-KIFAdditions.h"
 #import "KIFTypist.h"
 
-@implementation KIFTester (UI)
+@implementation KIFTestActor (UI)
 
 - (void)waitForViewWithAccessibilityLabel:(NSString *)label
 {

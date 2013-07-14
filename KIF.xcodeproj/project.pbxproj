@@ -46,7 +46,7 @@
 		EB7204491680DDAD00278DA2 /* UIWindow-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB072A313971AB2008AF393 /* UIWindow-KIFAdditions.m */; };
 		EB72044A1680DDAD00278DA2 /* NSFileManager-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CDFD8E85139728B4008D299F /* NSFileManager-KIFAdditions.m */; };
 		EB72044B1680DDAD00278DA2 /* KIFTypist.m in Sources */ = {isa = PBXBuildFile; fileRef = C194255715D83DE9004FC314 /* KIFTypist.m */; };
-		EB72044C1680DDAD00278DA2 /* KIFTester.m in Sources */ = {isa = PBXBuildFile; fileRef = EB4C3124167BA37B00E31109 /* KIFTester.m */; };
+		EB72044C1680DDAD00278DA2 /* KIFTestActor.m in Sources */ = {isa = PBXBuildFile; fileRef = EB4C3124167BA37B00E31109 /* KIFTestActor.m */; };
 		EB72044D1680DDAD00278DA2 /* KIFTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = EB4C3128167BA37B00E31109 /* KIFTestCase.m */; };
 		EB72044E1680DDAD00278DA2 /* KIFTester+Generic.m in Sources */ = {isa = PBXBuildFile; fileRef = EB4C3131167BA3AC00E31109 /* KIFTester+Generic.m */; };
 		EB72044F1680DDAD00278DA2 /* KIFTester+UI.m in Sources */ = {isa = PBXBuildFile; fileRef = EB4C3133167BA3AC00E31109 /* KIFTester+UI.m */; };
@@ -64,7 +64,7 @@
 		EB7204601680DDAD00278DA2 /* NSFileManager-KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = CDFD8E84139728B4008D299F /* NSFileManager-KIFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EB7204611680DDAD00278DA2 /* LoadableCategory.h in Headers */ = {isa = PBXBuildFile; fileRef = 39160B1013D1E6BB00311E38 /* LoadableCategory.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EB7204621680DDAD00278DA2 /* KIFTypist.h in Headers */ = {isa = PBXBuildFile; fileRef = C194255615D83DE9004FC314 /* KIFTypist.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		EB7204631680DDAD00278DA2 /* KIFTester.h in Headers */ = {isa = PBXBuildFile; fileRef = EB4C3123167BA37B00E31109 /* KIFTester.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EB7204631680DDAD00278DA2 /* KIFTestActor.h in Headers */ = {isa = PBXBuildFile; fileRef = EB4C3123167BA37B00E31109 /* KIFTestActor.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EB7204641680DDAD00278DA2 /* KIFTestCase.h in Headers */ = {isa = PBXBuildFile; fileRef = EB4C3127167BA37B00E31109 /* KIFTestCase.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EB7204651680DDAD00278DA2 /* KIFTester+Generic.h in Headers */ = {isa = PBXBuildFile; fileRef = EB4C3130167BA3AC00E31109 /* KIFTester+Generic.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EB7204661680DDAD00278DA2 /* KIFTester+UI.h in Headers */ = {isa = PBXBuildFile; fileRef = EB4C3132167BA3AC00E31109 /* KIFTester+UI.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -105,8 +105,8 @@
 		C194255715D83DE9004FC314 /* KIFTypist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KIFTypist.m; sourceTree = "<group>"; };
 		CDFD8E84139728B4008D299F /* NSFileManager-KIFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFileManager-KIFAdditions.h"; sourceTree = "<group>"; };
 		CDFD8E85139728B4008D299F /* NSFileManager-KIFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager-KIFAdditions.m"; sourceTree = "<group>"; };
-		EB4C3123167BA37B00E31109 /* KIFTester.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KIFTester.h; sourceTree = "<group>"; };
-		EB4C3124167BA37B00E31109 /* KIFTester.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KIFTester.m; sourceTree = "<group>"; };
+		EB4C3123167BA37B00E31109 /* KIFTestActor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KIFTestActor.h; sourceTree = "<group>"; };
+		EB4C3124167BA37B00E31109 /* KIFTestActor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KIFTestActor.m; sourceTree = "<group>"; };
 		EB4C3127167BA37B00E31109 /* KIFTestCase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KIFTestCase.h; sourceTree = "<group>"; };
 		EB4C3128167BA37B00E31109 /* KIFTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KIFTestCase.m; sourceTree = "<group>"; };
 		EB4C3130167BA3AC00E31109 /* KIFTester+Generic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "KIFTester+Generic.h"; sourceTree = "<group>"; };
@@ -181,13 +181,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		A88930691685208900FC7C63 /* Legacy */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Legacy;
-			sourceTree = "<group>";
-		};
 		AAB0725D139719AC008AF393 = {
 			isa = PBXGroup;
 			children = (
@@ -232,13 +225,12 @@
 		AAB0728413971A98008AF393 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				A88930691685208900FC7C63 /* Legacy */,
 				EB4C312F167BA39200E31109 /* Behaviors */,
 				A88930111685098E00FC7C63 /* KIF.h */,
 				EB4C3127167BA37B00E31109 /* KIFTestCase.h */,
 				EB4C3128167BA37B00E31109 /* KIFTestCase.m */,
-				EB4C3123167BA37B00E31109 /* KIFTester.h */,
-				EB4C3124167BA37B00E31109 /* KIFTester.m */,
+				EB4C3123167BA37B00E31109 /* KIFTestActor.h */,
+				EB4C3124167BA37B00E31109 /* KIFTestActor.m */,
 				AAB0728513971A98008AF393 /* KIF-Prefix.pch */,
 				C194255615D83DE9004FC314 /* KIFTypist.h */,
 				C194255715D83DE9004FC314 /* KIFTypist.m */,
@@ -364,7 +356,7 @@
 				EB7204601680DDAD00278DA2 /* NSFileManager-KIFAdditions.h in Headers */,
 				EB7204611680DDAD00278DA2 /* LoadableCategory.h in Headers */,
 				EB7204621680DDAD00278DA2 /* KIFTypist.h in Headers */,
-				EB7204631680DDAD00278DA2 /* KIFTester.h in Headers */,
+				EB7204631680DDAD00278DA2 /* KIFTestActor.h in Headers */,
 				EB7204641680DDAD00278DA2 /* KIFTestCase.h in Headers */,
 				EB7204651680DDAD00278DA2 /* KIFTester+Generic.h in Headers */,
 				EB7204661680DDAD00278DA2 /* KIFTester+UI.h in Headers */,
@@ -555,7 +547,7 @@
 				EB7204491680DDAD00278DA2 /* UIWindow-KIFAdditions.m in Sources */,
 				EB72044A1680DDAD00278DA2 /* NSFileManager-KIFAdditions.m in Sources */,
 				EB72044B1680DDAD00278DA2 /* KIFTypist.m in Sources */,
-				EB72044C1680DDAD00278DA2 /* KIFTester.m in Sources */,
+				EB72044C1680DDAD00278DA2 /* KIFTestActor.m in Sources */,
 				EB72044D1680DDAD00278DA2 /* KIFTestCase.m in Sources */,
 				EB72044E1680DDAD00278DA2 /* KIFTester+Generic.m in Sources */,
 				EB72044F1680DDAD00278DA2 /* KIFTester+UI.m in Sources */,

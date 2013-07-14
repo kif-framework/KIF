@@ -7,7 +7,7 @@
 //  See the LICENSE file distributed with this work for the terms under
 //  which Square, Inc. licenses this file to you.
 
-#import "KIFTester.h"
+#import "KIFTestActor.h"
 #import <UIKit/UIKit.h>
 
 /*!
@@ -48,7 +48,7 @@ static inline KIFDisplacement KIFDisplacementForSwipingInDirection(KIFSwipeDirec
     }
 }
 
-@interface KIFTester (UI)
+@interface KIFTestActor (UI)
 
 /*!
  @abstract Waits until a view or accessibility element is present.

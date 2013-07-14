@@ -8,6 +8,6 @@
 //  which Square, Inc. licenses this file to you.
 
 #import "KIFTestCase.h"
-#import "KIFTester.h"
+#import "KIFTestActor.h"
 #import "KIFTester+UI.h"
 #import "KIFTester+Generic.h"

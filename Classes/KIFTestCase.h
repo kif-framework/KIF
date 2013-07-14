@@ -15,9 +15,9 @@
 #define tester [self testerInFile:[NSString stringWithUTF8String:__FILE__] atLine:__LINE__]
 
 
-@interface KIFTestCase : SenTestCase <KIFTesterDelegate>
+@interface KIFTestCase : SenTestCase <KIFTestActorDelegate>
 
-- (KIFTester *)testerInFile:(NSString *)file atLine:(NSInteger)line;
+- (KIFTestActor *)testerInFile:(NSString *)file atLine:(NSInteger)line;
 
 - (void)beforeAll;
 - (void)beforeEach;

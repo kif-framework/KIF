@@ -7,18 +7,18 @@
 //  See the LICENSE file distributed with this work for the terms under
 //  which Square, Inc. licenses this file to you.
 
-#import "KIFTester.h"
+#import "KIFTestActor.h"
 #import <SenTestingKit/SenTestingKit.h>
 #import <dlfcn.h>
 #import <objc/runtime.h>
 
-@implementation KIFTester
+@implementation KIFTestActor
 
 + (void)load
 {
     @autoreleasepool {
         NSLog(@"KIFTester loaded");
-        [KIFTester _enableAccessibility];
+        [KIFTestActor _enableAccessibility];
         
         if ([[NSProcessInfo processInfo] environment][@"StartKIFManually"]) {
             [[NSUserDefaults standardUserDefaults] setBool:YES forKey:SenTestToolKey];
