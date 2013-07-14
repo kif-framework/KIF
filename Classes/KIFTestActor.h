@@ -76,11 +76,11 @@ typedef void (^KIFTestCompletionBlock)(KIFTestStepResult result, NSError *error)
 
 @interface KIFTestActor : NSObject
 
-- (instancetype)initWithFile:(NSString *)file line:(NSInteger)line;
++ (instancetype)actorInFile:(NSString *)file atLine:(NSInteger)line delegate:(id<KIFTestActorDelegate>)delegate;
 
 @property (nonatomic, readonly) NSString *file;
 @property (nonatomic, readonly) NSInteger line;
-@property (nonatomic, assign) id<KIFTestActorDelegate> delegate;
+@property (nonatomic, readonly) id<KIFTestActorDelegate> delegate;
 
 - (void)runBlock:(KIFTestExecutionBlock)executionBlock complete:(KIFTestCompletionBlock)completionBlock timeout:(NSTimeInterval)timeout;
 - (void)runBlock:(KIFTestExecutionBlock)executionBlock complete:(KIFTestCompletionBlock)completionBlock;

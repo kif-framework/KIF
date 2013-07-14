@@ -51,14 +51,20 @@
     }
 }
 
-- (instancetype)initWithFile:(NSString *)file line:(NSInteger)line
+- (instancetype)initWithFile:(NSString *)file line:(NSInteger)line delegate:(id<KIFTestActorDelegate>)delegate
 {
     self = [super init];
     if (self) {
         _file = [file retain];
         _line = line;
+        _delegate = delegate;
     }
     return self;
+}
+
++ (instancetype)actorInFile:(NSString *)file atLine:(NSInteger)line delegate:(id<KIFTestActorDelegate>)delegate
+{
+    return [[[self alloc] initWithFile:file line:line delegate:delegate] autorelease];
 }
 
 - (void)runBlock:(KIFTestExecutionBlock)executionBlock complete:(KIFTestCompletionBlock)completionBlock timeout:(NSTimeInterval)timeout

@@ -77,11 +77,4 @@
     return selector != @selector(beforeAll) && selector != @selector(afterAll);
 }
 
-- (KIFTestActor *)testerInFile:(NSString *)file atLine:(NSInteger)line;
-{
-    KIFTestActor *myTester = [[[KIFTestActor alloc] initWithFile:file line:line] autorelease];
-    myTester.delegate = self;
-    return myTester;
-}
-
 @end

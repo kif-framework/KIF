@@ -12,12 +12,10 @@
 #import "KIFTester+UI.h"
 
 
-#define tester [self testerInFile:[NSString stringWithUTF8String:__FILE__] atLine:__LINE__]
+#define tester [KIFTestActor actorInFile:[NSString stringWithUTF8String:__FILE__] atLine:__LINE__ delegate:self]
 
 
 @interface KIFTestCase : SenTestCase <KIFTestActorDelegate>
-
-- (KIFTestActor *)testerInFile:(NSString *)file atLine:(NSInteger)line;
 
 - (void)beforeAll;
 - (void)beforeEach;
