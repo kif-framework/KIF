@@ -88,7 +88,7 @@
     }
     
     if (result == KIFTestStepResultFailure) {
-        [self.delegate failWithException:[NSException failureInFile:self.file atLine:self.line withDescription:error.localizedDescription]];
+        [self.delegate failWithException:[NSException failureInFile:self.file atLine:self.line withDescription:error.localizedDescription] stopTest:YES];
     }
 }
 
@@ -125,6 +125,25 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
 + (void)setDefaultTimeout:(NSTimeInterval)newDefaultTimeout;
 {
     KIFTestStepDefaultTimeout = newDefaultTimeout;
+}
+
+#pragma mark Generic tests
+
+- (void)fail
+{
+    [self runBlock:^KIFTestStepResult(NSError **error) {
+        KIFTestCondition(NO, error, @"This test always fails");
+    }];
+}
+
+- (void)waitForTimeInterval:(NSTimeInterval)timeInterval
+{
+    NSTimeInterval startTime = [NSDate timeIntervalSinceReferenceDate];
+    
+    [self runBlock:^KIFTestStepResult(NSError **error) {
+        KIFTestWaitCondition((([NSDate timeIntervalSinceReferenceDate] - startTime) >= timeInterval), error, @"Waiting for time interval to expire.");
+        return KIFTestStepResultSuccess;
+    } timeout:timeInterval + 1];
 }
 
 @end

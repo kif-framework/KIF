@@ -12,23 +12,6 @@
 
 @implementation KIFTestActor (Generic)
 
-- (void)fail
-{
-    [self runBlock:^KIFTestStepResult(NSError **error) {
-        KIFTestCondition(NO, error, @"This test always fails");
-    }];
-}
-
-- (void)waitForTimeInterval:(NSTimeInterval)timeInterval
-{
-    NSTimeInterval startTime = [NSDate timeIntervalSinceReferenceDate];
-
-    [self runBlock:^KIFTestStepResult(NSError **error) {
-        KIFTestWaitCondition((([NSDate timeIntervalSinceReferenceDate] - startTime) >= timeInterval), error, @"Waiting for time interval to expire.");
-        return KIFTestStepResultSuccess;
-    } timeout:timeInterval + 1];
-}
-
 - (void)waitForNotificationName:(NSString*)name object:(id)object
 {
     [self waitForNotificationName:name object:object whileExecutingBlock:nil];

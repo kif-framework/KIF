@@ -12,19 +12,6 @@
 @interface KIFTestActor (Generic)
 
 /*!
- @abstract Fails the test.
- @discussion Mostly useful for test debugging or as a placeholder when building new tests.
- */
-- (void)fail;
-
-/*!
- @abstract Waits for a certain amount of time before returning.
- @discussion In general when waiting for the app to get into a known state, it's better to use -waitForTappableViewWithAccessibilityLabel:, however this step may be useful in some situations as well.
- @param interval The number of seconds to wait before returning.
- */
-- (void)waitForTimeInterval:(NSTimeInterval)timeInterval;
-
-/*!
  @abstract Waits for a specific NSNotification.
  @discussion Useful when a test requires an asynchronous task to complete, especially when that task does not trigger a visible change in the view hierarchy.
  @param name The name of the NSNotification.

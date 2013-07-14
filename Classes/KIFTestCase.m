@@ -77,4 +77,13 @@
     return selector != @selector(beforeAll) && selector != @selector(afterAll);
 }
 
+- (void)failWithException:(NSException *)exception stopTest:(BOOL)stop
+{
+    if (stop) {
+        [self continueAfterFailure];
+    }
+    [self failWithException:exception];
+    [self raiseAfterFailure];
+}
+
 @end
