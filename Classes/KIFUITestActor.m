@@ -7,8 +7,7 @@
 //  See the LICENSE file distributed with this work for the terms under
 //  which Square, Inc. licenses this file to you.
 
-#import "KIFTester+UI.h"
-#import "KIFTester+Generic.h"
+#import "KIFUITestActor.h"
 #import "UIApplication-KIFAdditions.h"
 #import "UIWindow-KIFAdditions.h"
 #import "UIAccessibilityElement-KIFAdditions.h"
@@ -16,7 +15,7 @@
 #import "CGGeometry-KIFAdditions.h"
 #import "KIFTypist.h"
 
-@implementation KIFTestActor (UI)
+@implementation KIFUITestActor
 
 - (void)waitForViewWithAccessibilityLabel:(NSString *)label
 {

@@ -8,12 +8,7 @@
 //  which Square, Inc. licenses this file to you.
 
 #import <SenTestingKit/SenTestingKit.h>
-#import "KIFTester+Generic.h"
-#import "KIFTester+UI.h"
-
-
-#define tester [KIFTestActor actorInFile:[NSString stringWithUTF8String:__FILE__] atLine:__LINE__ delegate:self]
-
+#import "KIFTestActor.h"
 
 @interface KIFTestCase : SenTestCase <KIFTestActorDelegate>
 

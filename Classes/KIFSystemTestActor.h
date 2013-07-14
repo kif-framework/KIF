@@ -9,7 +9,9 @@
 
 #import "KIFTestActor.h"
 
-@interface KIFTestActor (Generic)
+#define system [KIFSystemTestActor actorInFile:[NSString stringWithUTF8String:__FILE__] atLine:__LINE__ delegate:self]
+
+@interface KIFSystemTestActor : KIFTestActor
 
 /*!
  @abstract Waits for a specific NSNotification.

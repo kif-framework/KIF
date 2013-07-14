@@ -10,6 +10,8 @@
 #import "KIFTestActor.h"
 #import <UIKit/UIKit.h>
 
+#define tester [KIFUITestActor actorInFile:[NSString stringWithUTF8String:__FILE__] atLine:__LINE__ delegate:self]
+
 /*!
  @enum KIFSwipeDirection
  @abstract Directions in which to swipe.
@@ -48,7 +50,7 @@ static inline KIFDisplacement KIFDisplacementForSwipingInDirection(KIFSwipeDirec
     }
 }
 
-@interface KIFTestActor (UI)
+@interface KIFUITestActor : KIFTestActor
 
 /*!
  @abstract Waits until a view or accessibility element is present.

@@ -7,10 +7,10 @@
 //  See the LICENSE file distributed with this work for the terms under
 //  which Square, Inc. licenses this file to you.
 
-#import "KIFTester+Generic.h"
+#import "KIFSystemTestActor.h"
 #import <UIKit/UIKit.h>
 
-@implementation KIFTestActor (Generic)
+@implementation KIFSystemTestActor
 
 - (void)waitForNotificationName:(NSString*)name object:(id)object
 {

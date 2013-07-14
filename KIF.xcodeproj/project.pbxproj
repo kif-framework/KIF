@@ -48,8 +48,8 @@
 		EB72044B1680DDAD00278DA2 /* KIFTypist.m in Sources */ = {isa = PBXBuildFile; fileRef = C194255715D83DE9004FC314 /* KIFTypist.m */; };
 		EB72044C1680DDAD00278DA2 /* KIFTestActor.m in Sources */ = {isa = PBXBuildFile; fileRef = EB4C3124167BA37B00E31109 /* KIFTestActor.m */; };
 		EB72044D1680DDAD00278DA2 /* KIFTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = EB4C3128167BA37B00E31109 /* KIFTestCase.m */; };
-		EB72044E1680DDAD00278DA2 /* KIFTester+Generic.m in Sources */ = {isa = PBXBuildFile; fileRef = EB4C3131167BA3AC00E31109 /* KIFTester+Generic.m */; };
-		EB72044F1680DDAD00278DA2 /* KIFTester+UI.m in Sources */ = {isa = PBXBuildFile; fileRef = EB4C3133167BA3AC00E31109 /* KIFTester+UI.m */; };
+		EB72044E1680DDAD00278DA2 /* KIFSystemTestActor.m in Sources */ = {isa = PBXBuildFile; fileRef = EB4C3131167BA3AC00E31109 /* KIFSystemTestActor.m */; };
+		EB72044F1680DDAD00278DA2 /* KIFUITestActor.m in Sources */ = {isa = PBXBuildFile; fileRef = EB4C3133167BA3AC00E31109 /* KIFUITestActor.m */; };
 		EB7204511680DDAD00278DA2 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB4C3138167BA3D200E31109 /* SenTestingKit.framework */; };
 		EB7204521680DDAD00278DA2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAB0726B139719AC008AF393 /* Foundation.framework */; };
 		EB7204531680DDAD00278DA2 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAB072B413971AEA008AF393 /* UIKit.framework */; };
@@ -66,8 +66,8 @@
 		EB7204621680DDAD00278DA2 /* KIFTypist.h in Headers */ = {isa = PBXBuildFile; fileRef = C194255615D83DE9004FC314 /* KIFTypist.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EB7204631680DDAD00278DA2 /* KIFTestActor.h in Headers */ = {isa = PBXBuildFile; fileRef = EB4C3123167BA37B00E31109 /* KIFTestActor.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EB7204641680DDAD00278DA2 /* KIFTestCase.h in Headers */ = {isa = PBXBuildFile; fileRef = EB4C3127167BA37B00E31109 /* KIFTestCase.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		EB7204651680DDAD00278DA2 /* KIFTester+Generic.h in Headers */ = {isa = PBXBuildFile; fileRef = EB4C3130167BA3AC00E31109 /* KIFTester+Generic.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		EB7204661680DDAD00278DA2 /* KIFTester+UI.h in Headers */ = {isa = PBXBuildFile; fileRef = EB4C3132167BA3AC00E31109 /* KIFTester+UI.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EB7204651680DDAD00278DA2 /* KIFSystemTestActor.h in Headers */ = {isa = PBXBuildFile; fileRef = EB4C3130167BA3AC00E31109 /* KIFSystemTestActor.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EB7204661680DDAD00278DA2 /* KIFUITestActor.h in Headers */ = {isa = PBXBuildFile; fileRef = EB4C3132167BA3AC00E31109 /* KIFUITestActor.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -109,10 +109,10 @@
 		EB4C3124167BA37B00E31109 /* KIFTestActor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KIFTestActor.m; sourceTree = "<group>"; };
 		EB4C3127167BA37B00E31109 /* KIFTestCase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KIFTestCase.h; sourceTree = "<group>"; };
 		EB4C3128167BA37B00E31109 /* KIFTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KIFTestCase.m; sourceTree = "<group>"; };
-		EB4C3130167BA3AC00E31109 /* KIFTester+Generic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "KIFTester+Generic.h"; sourceTree = "<group>"; };
-		EB4C3131167BA3AC00E31109 /* KIFTester+Generic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "KIFTester+Generic.m"; sourceTree = "<group>"; };
-		EB4C3132167BA3AC00E31109 /* KIFTester+UI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "KIFTester+UI.h"; sourceTree = "<group>"; };
-		EB4C3133167BA3AC00E31109 /* KIFTester+UI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "KIFTester+UI.m"; sourceTree = "<group>"; };
+		EB4C3130167BA3AC00E31109 /* KIFSystemTestActor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KIFSystemTestActor.h; sourceTree = "<group>"; };
+		EB4C3131167BA3AC00E31109 /* KIFSystemTestActor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KIFSystemTestActor.m; sourceTree = "<group>"; };
+		EB4C3132167BA3AC00E31109 /* KIFUITestActor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KIFUITestActor.h; sourceTree = "<group>"; };
+		EB4C3133167BA3AC00E31109 /* KIFUITestActor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KIFUITestActor.m; sourceTree = "<group>"; };
 		EB4C3138167BA3D200E31109 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		EB60ECC1177F8C83005A041A /* Test Host.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Test Host.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EB60ECC4177F8C83005A041A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -225,7 +225,7 @@
 		AAB0728413971A98008AF393 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				EB4C312F167BA39200E31109 /* Behaviors */,
+				EB4C312F167BA39200E31109 /* Actors */,
 				A88930111685098E00FC7C63 /* KIF.h */,
 				EB4C3127167BA37B00E31109 /* KIFTestCase.h */,
 				EB4C3128167BA37B00E31109 /* KIFTestCase.m */,
@@ -262,15 +262,15 @@
 			path = Additions;
 			sourceTree = "<group>";
 		};
-		EB4C312F167BA39200E31109 /* Behaviors */ = {
+		EB4C312F167BA39200E31109 /* Actors */ = {
 			isa = PBXGroup;
 			children = (
-				EB4C3130167BA3AC00E31109 /* KIFTester+Generic.h */,
-				EB4C3131167BA3AC00E31109 /* KIFTester+Generic.m */,
-				EB4C3132167BA3AC00E31109 /* KIFTester+UI.h */,
-				EB4C3133167BA3AC00E31109 /* KIFTester+UI.m */,
+				EB4C3130167BA3AC00E31109 /* KIFSystemTestActor.h */,
+				EB4C3131167BA3AC00E31109 /* KIFSystemTestActor.m */,
+				EB4C3132167BA3AC00E31109 /* KIFUITestActor.h */,
+				EB4C3133167BA3AC00E31109 /* KIFUITestActor.m */,
 			);
-			name = Behaviors;
+			name = Actors;
 			sourceTree = "<group>";
 		};
 		EB60ECBC177F8C51005A041A /* KIF */ = {
@@ -358,8 +358,8 @@
 				EB7204621680DDAD00278DA2 /* KIFTypist.h in Headers */,
 				EB7204631680DDAD00278DA2 /* KIFTestActor.h in Headers */,
 				EB7204641680DDAD00278DA2 /* KIFTestCase.h in Headers */,
-				EB7204651680DDAD00278DA2 /* KIFTester+Generic.h in Headers */,
-				EB7204661680DDAD00278DA2 /* KIFTester+UI.h in Headers */,
+				EB7204651680DDAD00278DA2 /* KIFSystemTestActor.h in Headers */,
+				EB7204661680DDAD00278DA2 /* KIFUITestActor.h in Headers */,
 				EB7204551680DDAD00278DA2 /* KIF-Prefix.pch in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -549,8 +549,8 @@
 				EB72044B1680DDAD00278DA2 /* KIFTypist.m in Sources */,
 				EB72044C1680DDAD00278DA2 /* KIFTestActor.m in Sources */,
 				EB72044D1680DDAD00278DA2 /* KIFTestCase.m in Sources */,
-				EB72044E1680DDAD00278DA2 /* KIFTester+Generic.m in Sources */,
-				EB72044F1680DDAD00278DA2 /* KIFTester+UI.m in Sources */,
+				EB72044E1680DDAD00278DA2 /* KIFSystemTestActor.m in Sources */,
+				EB72044F1680DDAD00278DA2 /* KIFUITestActor.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

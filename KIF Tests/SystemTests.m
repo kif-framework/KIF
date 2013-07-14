@@ -35,13 +35,13 @@
 {
     [tester tapViewWithAccessibilityLabel:@"Show/Hide"];
     [tester tapViewWithAccessibilityLabel:@"Delayed Show/Hide"];
-    [tester waitForNotificationName:@"DelayedShowHide" object:[UIApplication sharedApplication]];
+    [system waitForNotificationName:@"DelayedShowHide" object:[UIApplication sharedApplication]];
 }
 
 - (void)testWaitingForNotificationWhileDoingOtherThings
 {
     [tester tapViewWithAccessibilityLabel:@"Show/Hide"];
-    [tester waitForNotificationName:@"InstantShowHide" object:[UIApplication sharedApplication] whileExecutingBlock:^{
+    [system waitForNotificationName:@"InstantShowHide" object:[UIApplication sharedApplication] whileExecutingBlock:^{
         [tester tapViewWithAccessibilityLabel:@"Instant Show/Hide"];
     }];
 }
@@ -51,7 +51,7 @@
     [tester tapViewWithAccessibilityLabel:@"Tapping"];
     [tester tapViewWithAccessibilityLabel:@"Hide memory warning"];
     [tester waitForAbsenceOfViewWithAccessibilityLabel:@"Memory Critical"];
-    [tester simulateMemoryWarning];
+    [system simulateMemoryWarning];
     [tester waitForViewWithAccessibilityLabel:@"Memory Critical"];
 }
 
