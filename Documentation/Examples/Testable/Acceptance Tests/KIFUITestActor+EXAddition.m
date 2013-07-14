@@ -6,9 +6,9 @@
 //
 //
 
-#import "KIFTester+EXAddition.h"
+#import "KIFUITestActor+EXAddition.h"
 
-@implementation KIFTester (EXAddition)
+@implementation KIFUITestActor (EXAddition)
 
 - (void)reset
 {

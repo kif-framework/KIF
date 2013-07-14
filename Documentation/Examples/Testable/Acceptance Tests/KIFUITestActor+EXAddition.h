@@ -8,7 +8,7 @@
 
 #import <KIF/KIF.h>
 
-@interface KIFTester (EXAddition)
+@interface KIFUITestActor (EXAddition)
 
 - (void)reset;
 - (void)goToLoginPage;

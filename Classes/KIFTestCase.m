@@ -79,7 +79,7 @@
 
 - (void)failWithException:(NSException *)exception stopTest:(BOOL)stop
 {
-    if (stop) {
+    if (!stop) {
         [self continueAfterFailure];
     }
     [self failWithException:exception];

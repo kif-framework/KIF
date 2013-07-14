@@ -7,7 +7,7 @@
 //
 
 #import <KIF/KIF.h>
-#import "KIFTester+EXAddition.h"
+#import "KIFUITestActor+EXAddition.h"
 
 @interface IntegrationTestCases : KIFTestCase
 

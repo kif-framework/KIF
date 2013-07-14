@@ -17,7 +17,7 @@
 		AAB073C3139861C0008AF393 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB073C2139861C0008AF393 /* RootViewController.m */; };
 		AAB073C6139861C0008AF393 /* RootViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AAB073C4139861C0008AF393 /* RootViewController.xib */; };
 		EB47EFB51781DF6D006BBFAC /* IntegrationTestCases.m in Sources */ = {isa = PBXBuildFile; fileRef = EB47EFB21781DF6D006BBFAC /* IntegrationTestCases.m */; };
-		EB47EFB61781DF6D006BBFAC /* KIFTester+EXAddition.m in Sources */ = {isa = PBXBuildFile; fileRef = EB47EFB41781DF6D006BBFAC /* KIFTester+EXAddition.m */; };
+		EB47EFB61781DF6D006BBFAC /* KIFUITestActor+EXAddition.m in Sources */ = {isa = PBXBuildFile; fileRef = EB47EFB41781DF6D006BBFAC /* KIFUITestActor+EXAddition.m */; };
 		EB9DB7331781DBD40087B6FD /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB72049D1680E2EE00278DA2 /* SenTestingKit.framework */; };
 		EB9DB7341781DBD40087B6FD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAB073AC139861C0008AF393 /* UIKit.framework */; };
 		EB9DB7351781DBD40087B6FD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAB073AE139861C0008AF393 /* Foundation.framework */; };
@@ -52,14 +52,14 @@
 		AAB073C2139861C0008AF393 /* RootViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
 		AAB073C5139861C0008AF393 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/RootViewController.xib; sourceTree = "<group>"; };
 		EB47EFB21781DF6D006BBFAC /* IntegrationTestCases.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IntegrationTestCases.m; sourceTree = "<group>"; };
-		EB47EFB31781DF6D006BBFAC /* KIFTester+EXAddition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "KIFTester+EXAddition.h"; sourceTree = "<group>"; };
-		EB47EFB41781DF6D006BBFAC /* KIFTester+EXAddition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "KIFTester+EXAddition.m"; sourceTree = "<group>"; };
+		EB47EFB31781DF6D006BBFAC /* KIFUITestActor+EXAddition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "KIFUITestActor+EXAddition.h"; sourceTree = "<group>"; };
+		EB47EFB41781DF6D006BBFAC /* KIFUITestActor+EXAddition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "KIFUITestActor+EXAddition.m"; sourceTree = "<group>"; };
 		EB72049D1680E2EE00278DA2 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		EB9DB7321781DBD40087B6FD /* Acceptance Tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Acceptance Tests.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EB9DB7381781DBD40087B6FD /* Acceptance Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Acceptance Tests-Info.plist"; sourceTree = "<group>"; };
 		EB9DB73A1781DBD40087B6FD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		EB9DB73F1781DBD40087B6FD /* Acceptance Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Acceptance Tests-Prefix.pch"; sourceTree = "<group>"; };
-		EB9DB7431781DDBA0087B6FD /* libKIF.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libKIF.a; path = "../../../build/Release-iphoneos/libKIF.a"; sourceTree = "<group>"; };
+		EB9DB7431781DDBA0087B6FD /* libKIF.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libKIF.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -148,8 +148,8 @@
 			isa = PBXGroup;
 			children = (
 				EB47EFB21781DF6D006BBFAC /* IntegrationTestCases.m */,
-				EB47EFB31781DF6D006BBFAC /* KIFTester+EXAddition.h */,
-				EB47EFB41781DF6D006BBFAC /* KIFTester+EXAddition.m */,
+				EB47EFB31781DF6D006BBFAC /* KIFUITestActor+EXAddition.h */,
+				EB47EFB41781DF6D006BBFAC /* KIFUITestActor+EXAddition.m */,
 				EB9DB7371781DBD40087B6FD /* Supporting Files */,
 			);
 			path = "Acceptance Tests";
@@ -283,7 +283,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EB47EFB51781DF6D006BBFAC /* IntegrationTestCases.m in Sources */,
-				EB47EFB61781DF6D006BBFAC /* KIFTester+EXAddition.m in Sources */,
+				EB47EFB61781DF6D006BBFAC /* KIFUITestActor+EXAddition.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -403,10 +403,7 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
-					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(SDKROOT)/Developer/Library/Frameworks";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Acceptance Tests/Acceptance Tests-Prefix.pch";
@@ -417,10 +414,6 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				INFOPLIST_FILE = "Acceptance Tests/Acceptance Tests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../../../build/Release-iphoneos\"",
-				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -443,19 +436,12 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
-					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(SDKROOT)/Developer/Library/Frameworks";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Acceptance Tests/Acceptance Tests-Prefix.pch";
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				INFOPLIST_FILE = "Acceptance Tests/Acceptance Tests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../../../build/Release-iphoneos\"",
-				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
