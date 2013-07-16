@@ -29,8 +29,27 @@ See KIF in Action
 
 KIF-next uses techniques described below to validate its internal functionality.  You can see a test suite that exercises its entire functionality by simply building and testing the KIF scheme with ⌘U.  Look at the tests in the "KIF Tests" group for ideas on how to build your own tests.
 
-Installation
-------------
+Installation (with CocoaPods)
+-----------------------------
+
+[CocoaPods](http://cocoapods.org) are the easiest way to get set up with KIF.
+
+The first thing you will want to do is set up a test target you will be using for KIF.  You may already have one named *MyApplication*_Tests if you selected to automatically create unit tests.  If you did, you can keep using it if you aren't using it for unit tests.  Otherwise, follow these directions to create a new one.
+
+Select your project in Xcode and click on "Add Target" in the bottom left corner of the editor.  Select iOS -> Other -> Cocoa Touch Unit Testing Bundle.  Give it a product name like "Acceptance Tests", "UI Tests", or something that indicates the intent of your testing process.  You can select "Use Automatic Reference Counting" even if the remainder of your app doesn't, just to make your life easier.
+
+The testing target will add a header and implementation file, likely "Acceptance_Tests.m/h" to match your target name. Delete those.
+
+Once your test target set up, add the following to your Podspec file. Use your target's name as appropriate.
+
+    target 'Acceptance Tests' do
+      pod 'KIF-next', '~> 2.0.0pre2'
+    end
+
+After running `pod install` complete the tasks in **Final Test Target Configurations** below for the final details on getting your tests to run.
+
+Installation (from GitHub)
+--------------------------
 
 To install KIF, you'll need to link the libKIF static library directly into your application. Download the source from the [bnickel/KIF/tree/kif-next](https://github.com/bnickel/KIF/tree/kif-next) and follow the instructions below.
 
@@ -68,7 +87,12 @@ KIF takes advantage of Objective C's ability to add categories on an object, but
 
 ![Add category linker flags screen shot](https://github.com/square/KIF/raw/master/Documentation/Images/Add Category Linker Flags.png)
 
-You need your tests to run hosted in your application.  To do this, first add your add your application by first selecting "Build Phases", expanding the "Target Dependencies" section, clicking on the "+" button, and in the new sheet that appears selecting your application target and clicking "Add".
+Read **Final Test Target Configurations** below for the final details on getting your tests to run.
+
+Final Test Target Configurations
+--------------------------------
+
+You need your tests to run hosted in your application.  To do this, first add your application by first selecting "Build Phases", expanding the "Target Dependencies" section, clicking on the "+" button, and in the new sheet that appears selecting your application target and clicking "Add".
 
 Next, configure your bundle loader.  In "Build Settings", expand "Linking" and edit "Bundle Loader" to be `$(BUILT_PRODUCTS_DIR)/My App.app/My App` where *My App* is the name of your app.  Expand the "Unit Testing" section and edit "Test Host" to be `$(BUNDLE_LOADER)`.
 
