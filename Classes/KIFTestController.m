@@ -11,7 +11,9 @@
 #import "KIFTestScenario.h"
 #import "KIFTestStep.h"
 #import "NSFileManager-KIFAdditions.h"
+#if Z2_APPLE
 #import <QuartzCore/QuartzCore.h>
+#endif
 #import <dlfcn.h>
 #import <objc/runtime.h>
 
@@ -84,6 +86,7 @@ static NSString* lastKIFLogStep;
 
 + (void)_enableAccessibility;
 {
+    #if !Z2_ANDROID
     NSAutoreleasePool *autoreleasePool = [[NSAutoreleasePool alloc] init];
     NSString *appSupportLocation = @"/System/Library/PrivateFrameworks/AppSupport.framework/AppSupport";
     
@@ -107,6 +110,7 @@ static NSString* lastKIFLogStep;
     }
     
     [autoreleasePool drain];
+    #endif  
 }
 
 static KIFTestController *sharedInstance = nil;
@@ -227,7 +231,8 @@ static void releaseInstance()
 
 - (void)addScenario:(KIFTestScenario *)scenario;
 {
-    NSAssert(![self.scenarios containsObject:scenario], @"The scenario %@ is already added", scenario);
+    //TODOANDROID: Commenting Assert to make compile
+    // NSAssert(![self.scenarios containsObject:scenario], @"The scenario %@ is already added", scenario);
     NSAssert(scenario.description.length, @"Cannot add a scenario that does not have a description");
     
     [self _initializeScenariosIfNeeded];
@@ -328,7 +333,8 @@ static void releaseInstance()
 
 - (void)_advanceWithResult:(KIFTestStepResult)result error:(NSError *)error;
 {
-    NSAssert((!self.currentStep || result == KIFTestStepResultSuccess || error), @"The step \"%@\" returned a non-successful result but did not include an error", self.currentStep.description);
+    //TODOANDROID: Commenting Assert to make compile
+    // NSAssert((!self.currentStep || result == KIFTestStepResultSuccess || error), @"The step \"%@\" returned a non-successful result but did not include an error", self.currentStep.description);
     
     KIFTestStep *previousStep = self.currentStep;
     NSTimeInterval currentStepDuration = -[self.currentStepStartDate timeIntervalSinceNow];
@@ -381,15 +387,16 @@ static void releaseInstance()
             break;
         }
     }
-    
-    NSAssert(!self.currentStep || self.currentStep.description.length, @"The step following the step \"%@\" is missing a description", previousStep.description);
+    //TODOANDROID: Commenting Assert to make compile
+    // NSAssert(!self.currentStep || self.currentStep.description.length, @"The step following the step \"%@\" is missing a description", previousStep.description);
 }
 
 - (KIFTestStep *)_nextStep;
 {
     NSArray *steps = self.currentScenario.steps;
     NSUInteger currentStepIndex = [steps indexOfObjectIdenticalTo:self.currentStep];
-    NSAssert(currentStepIndex != NSNotFound, @"Current step %@ not found in current scenario %@, but should be!", self.currentStep, self.currentScenario);
+    //TODOANDROID: Commenting Assert to make compile
+    // NSAssert(currentStepIndex != NSNotFound, @"Current step %@ not found in current scenario %@, but should be!", self.currentStep, self.currentScenario);
     
     NSUInteger nextStepIndex = currentStepIndex + 1;
     KIFTestStep *nextStep = nil;
@@ -417,7 +424,8 @@ static void releaseInstance()
         return nil;
     } else if (self.currentScenario) {
         currentScenarioIndex = [self.scenarios indexOfObjectIdenticalTo:self.currentScenario];
-        NSAssert(currentScenarioIndex != NSNotFound, @"Current scenario %@ not found in test scenarios %@, but should be!", self.currentScenario, self.scenarios);
+        //TODOANDROID: Commenting Assert to make compile
+        // NSAssert(currentScenarioIndex != NSNotFound, @"Current scenario %@ not found in test scenarios %@, but should be!", self.currentScenario, self.scenarios);
         
         [self _logDidFinishScenario:self.currentScenario duration:-[self.currentScenarioStartDate timeIntervalSinceNow]];
         if (result == KIFTestStepResultSuccess) {
@@ -458,6 +466,8 @@ static void releaseInstance()
 
 - (void)_writeScreenshotForStep:(KIFTestStep *)step;
 {
+    //TODOANDROID: ScreenshotForStep
+#if !Z2_ANDROID
     NSString *outputPath = [[[NSProcessInfo processInfo] environment] objectForKey:@"KIF_SCREENSHOTS"];
     if (!outputPath) {
         return;
@@ -482,6 +492,7 @@ static void releaseInstance()
     outputPath = [outputPath stringByAppendingPathComponent:[step.description stringByReplacingOccurrencesOfString:@"/" withString:@"_"]];
     outputPath = [outputPath stringByAppendingPathExtension:@"png"];
     [UIImagePNGRepresentation(image) writeToFile:outputPath atomically:YES];
+#endif
 }
 
 #pragma mark Logging

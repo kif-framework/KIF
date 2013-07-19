@@ -7,7 +7,9 @@
 //  See the LICENSE file distributed with this work for the terms under
 //  which Square, Inc. licenses this file to you.
 
+#if !Z2_ANDROID
 #import <CoreGraphics/CGGeometry.h>
+#endif
 
 CG_INLINE CGPoint CGPointCenteredInRect(CGRect bounds) {
     return CGPointMake(bounds.origin.x + bounds.size.width * 0.5f, bounds.origin.y + bounds.size.height * 0.5f);

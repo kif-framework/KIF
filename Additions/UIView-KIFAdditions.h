@@ -27,9 +27,18 @@
  */
 - (UIAccessibilityElement *)accessibilityElementMatchingBlock:(BOOL(^)(UIAccessibilityElement *))matchBlock;
 
+#if Z2_APPLE
 - (UIView *)subviewWithClassNamePrefix:(NSString *)prefix __deprecated;
+#elif Z2_ANDROID
+- (UIView *)subviewWithClassNamePrefix:(NSString *)prefix GS_DEPRECATED_FUNC;
+#endif
 - (NSArray *)subviewsWithClassNamePrefix:(NSString *)prefix;
+
+#if Z2_APPLE
 - (UIView *)subviewWithClassNameOrSuperClassNamePrefix:(NSString *)prefix __deprecated;
+#elif Z2_ANDROID
+- (UIView *)subviewWithClassNameOrSuperClassNamePrefix:(NSString *)prefix GS_DEPRECATED_FUNC;
+#endif
 - (NSArray *)subviewsWithClassNameOrSuperClassNamePrefix:(NSString *)prefix;
 
 - (void)flash;

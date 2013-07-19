@@ -690,6 +690,10 @@ typedef CGPoint KIFDisplacement;
 
 + (id)stepToWaitForFirstResponderWithAccessibilityLabel:(NSString *)label;
 {
+    //TODOANDROID:Wait for first Responder
+#if Z2_ANDROID
+    return nil;
+#else
     NSString *description = [NSString stringWithFormat:@"Verify that the first responder is the view with accessibility label '%@'", label];
     return [KIFTestStep stepWithDescription:description executionBlock:^KIFTestStepResult(KIFTestStep *step, NSError *__autoreleasing *error) {
         UIResponder *firstResponder = [[[UIApplication sharedApplication] keyWindow] firstResponder];
@@ -697,6 +701,7 @@ typedef CGPoint KIFDisplacement;
 
         return KIFTestStepResultSuccess;
     }];
+#endif
 }
 
 #pragma mark Step Collections
