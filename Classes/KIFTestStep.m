@@ -581,6 +581,29 @@ typedef CGPoint KIFDisplacement;
     }];
 }
 
+
++ (id)stepToSetSliderWithAccessbilityLabel:(NSString *)label byValue:(CGFloat)value {
+    NSString *description = [NSString stringWithFormat:@"Step to slide slider with label %@ by value %f", label, value];
+    return [KIFTestStep stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
+        UIAccessibilityElement *element = [self _accessibilityElementWithLabel:label
+                                                            accessibilityValue:nil
+                                                                      tappable:NO
+                                                                        traits:UIAccessibilityTraitNone
+                                                                         error:error];
+        
+        if (!element) {
+            return KIFTestStepResultWait;
+        }
+        UISlider *sliderToSlide = (UISlider *)[UIAccessibilityElement viewContainingAccessibilityElement:element];
+        KIFTestWaitCondition(sliderToSlide, error, @"Cannot find view with accessibility label \"%@\"", label);
+       
+        [sliderToSlide setValue:value animated:YES];
+        [sliderToSlide sendActionsForControlEvents:UIControlEventValueChanged];
+        return KIFTestStepResultSuccess;
+    }];
+}
+
+
 + (id)stepToDismissPopover;
 {
     return [self stepWithDescription:@"Dismiss the popover" executionBlock:^(KIFTestStep *step, NSError **error) {
