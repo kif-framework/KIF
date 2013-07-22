@@ -143,6 +143,8 @@ static KIFTestScenario* currentScenario = nil;
 
 - (void)logDidFailStep:(KIFTestStep *)step duration:(NSTimeInterval)duration error:(NSError *)error;
 {
+	NSString *fullDesctiontion = [NSString stringWithFormat:@"%@ FAILED: %@", [step description], [error.userInfo valueForKey:NSLocalizedDescriptionKey]];
+	[error.userInfo setValue:fullDesctiontion forKey:NSLocalizedDescriptionKey];
     [errors setValue:error forKey:[currentScenario description]];
 }
 
