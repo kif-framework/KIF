@@ -58,6 +58,7 @@
         _file = [file retain];
         _line = line;
         _delegate = delegate;
+        _executionBlockTimeout = [[self class] defaultTimeout];
     }
     return self;
 }
@@ -65,6 +66,12 @@
 + (instancetype)actorInFile:(NSString *)file atLine:(NSInteger)line delegate:(id<KIFTestActorDelegate>)delegate
 {
     return [[[self alloc] initWithFile:file line:line delegate:delegate] autorelease];
+}
+
+- (instancetype)usingTimeout:(NSTimeInterval)executionBlockTimeout
+{
+    self.executionBlockTimeout = executionBlockTimeout;
+    return self;
 }
 
 - (void)runBlock:(KIFTestExecutionBlock)executionBlock complete:(KIFTestCompletionBlock)completionBlock timeout:(NSTimeInterval)timeout
@@ -88,13 +95,13 @@
     }
     
     if (result == KIFTestStepResultFailure) {
-        [self.delegate failWithException:[NSException failureInFile:self.file atLine:self.line withDescription:error.localizedDescription] stopTest:YES];
+        [self failWithError:error stopTest:YES];
     }
 }
 
 - (void)runBlock:(KIFTestExecutionBlock)executionBlock complete:(KIFTestCompletionBlock)completionBlock
 {
-    [self runBlock:executionBlock complete:completionBlock timeout:[[self class] defaultTimeout]];
+    [self runBlock:executionBlock complete:completionBlock timeout:self.executionBlockTimeout];
 }
 
 - (void)runBlock:(KIFTestExecutionBlock)executionBlock timeout:(NSTimeInterval)timeout
@@ -134,6 +141,11 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
     [self runBlock:^KIFTestStepResult(NSError **error) {
         KIFTestCondition(NO, error, @"This test always fails");
     }];
+}
+
+- (void)failWithError:(NSError *)error stopTest:(BOOL)stopTest
+{
+    [self.delegate failWithException:[NSException failureInFile:self.file atLine:self.line withDescription:error.localizedDescription] stopTest:stopTest];
 }
 
 - (void)waitForTimeInterval:(NSTimeInterval)timeInterval

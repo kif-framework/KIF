@@ -9,7 +9,7 @@
 
 #import "KIFTestActor.h"
 
-#define system [KIFSystemTestActor actorInFile:[NSString stringWithUTF8String:__FILE__] atLine:__LINE__ delegate:self]
+#define system KIFActorWithClass(KIFSystemTestActor)
 
 @interface KIFSystemTestActor : KIFTestActor
 

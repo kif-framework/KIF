@@ -10,7 +10,7 @@
 #import "KIFTestActor.h"
 #import <UIKit/UIKit.h>
 
-#define tester [KIFUITestActor actorInFile:[NSString stringWithUTF8String:__FILE__] atLine:__LINE__ delegate:self]
+#define tester KIFActorWithClass(KIFUITestActor)
 
 /*!
  @enum KIFSwipeDirection
