@@ -13,6 +13,7 @@
 #import "UIAccessibilityElement-KIFAdditions.h"
 #import "UIView-KIFAdditions.h"
 #import "CGGeometry-KIFAdditions.h"
+#import "NSError-KIFAdditions.h"
 #import "KIFTypist.h"
 
 @implementation KIFUITestActor
@@ -131,7 +132,7 @@
         
         if (![view isUserInteractionActuallyEnabled]) {
             if (error) {
-                *error = [[[NSError alloc] initWithDomain:@"KIFTest" code:KIFTestStepResultFailure userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"View with accessibility label \"%@\" is not enabled for interaction", label]}] autorelease];
+                *error = [NSError KIFErrorWithCode:KIFTestStepResultFailure localizedDescriptionWithFormat:@"View with accessibility label \"%@\" is not enabled for interaction", label];
             }
             return KIFTestStepResultWait;
         }
@@ -220,7 +221,7 @@
         
         if (![view isUserInteractionActuallyEnabled]) {
             if (error) {
-                *error = [[[NSError alloc] initWithDomain:@"KIFTest" code:KIFTestStepResultFailure userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"View with accessibility label \"%@\" is not enabled for interaction", label]}] autorelease];
+                *error = [NSError KIFErrorWithCode:KIFTestStepResultFailure localizedDescriptionWithFormat:@"View with accessibility label \"%@\" is not enabled for interaction", label];
             }
             return KIFTestStepResultWait;
         }
@@ -465,7 +466,7 @@
         
         if (![view isUserInteractionActuallyEnabled]) {
             if (error) {
-                *error = [[[NSError alloc] initWithDomain:@"KIFTest" code:KIFTestStepResultFailure userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Album picker is not enabled for interaction"]}] autorelease];
+                *error = [NSError KIFErrorWithCode:KIFTestStepResultFailure localizedDescriptionWithFormat:@"Album picker is not enabled for interaction"];
             }
             return KIFTestStepResultWait;
         }

@@ -8,6 +8,7 @@
 //  which Square, Inc. licenses this file to you.
 
 #import "KIFTestActor.h"
+#import "NSError-KIFAdditions.h"
 #import <SenTestingKit/SenTestingKit.h>
 #import <dlfcn.h>
 #import <objc/runtime.h>
@@ -85,8 +86,7 @@
     }
     
     if (result == KIFTestStepResultWait) {
-        NSDictionary *userInfo = @{NSUnderlyingErrorKey: error, NSLocalizedDescriptionKey: [NSString stringWithFormat:@"The step timed out after %.2f seconds: %@", timeout, error.localizedDescription]};
-        error = [NSError errorWithDomain:@"KIFTest" code:KIFTestStepResultFailure userInfo:userInfo];
+        error = [NSError KIFErrorWithCode:KIFTestStepResultFailure underlyingError:error localizedDescriptionWithFormat:@"The step timed out after %.2f seconds: %@", timeout, error.localizedDescription];
         result = KIFTestStepResultFailure;
     }
     
