@@ -13,6 +13,11 @@
 
 @implementation ModalViewTests
 
+- (void)beforeEach
+{
+    [tester waitForTimeInterval:0.25];
+}
+
 - (void)testInteractionWithAnAlertView
 {
     [tester tapRowInTableViewWithAccessibilityLabel:@"Table View" atIndexPath:[NSIndexPath indexPathForRow:0 inSection:1]];
