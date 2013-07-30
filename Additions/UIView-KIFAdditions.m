@@ -131,7 +131,7 @@ typedef struct __GSEvent * GSEventRef;
     NSMutableArray *elementStack = [NSMutableArray arrayWithObject:self];
     
     while (elementStack.count) {
-        UIAccessibilityElement *element = [elementStack lastObject];
+        UIAccessibilityElement *element = [[[elementStack lastObject] retain] autorelease];
         [elementStack removeLastObject];
 
         BOOL elementMatches = matchBlock(element);
