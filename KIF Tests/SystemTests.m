@@ -20,15 +20,13 @@
 
 - (void)testWaitingForTimeInterval
 {
-    [tester tapViewWithAccessibilityLabel:@"Tapping"];
-    [tester tapViewWithAccessibilityLabel:@"X"];
-    [tester tapViewWithAccessibilityLabel:@"X"];
-    [tester waitForViewWithAccessibilityLabel:@"Slider" value:@"40%" traits:UIAccessibilityTraitNone];
-    [tester waitForTimeInterval:3]; // Value is resetting.
-    [tester tapViewWithAccessibilityLabel:@"X"];
-    [tester tapViewWithAccessibilityLabel:@"X"];
-    [tester tapViewWithAccessibilityLabel:@"X"];
-    [tester waitForViewWithAccessibilityLabel:@"Slider" value:@"60%" traits:UIAccessibilityTraitNone];
+    [tester tapViewWithAccessibilityLabel:@"Show/Hide"];
+    
+    NSTimeInterval startTime = [NSDate timeIntervalSinceReferenceDate];
+    [tester waitForTimeInterval:1.2];
+    NSTimeInterval elapsed = [NSDate timeIntervalSinceReferenceDate] - startTime;
+    STAssertTrue(elapsed > 1.2, @"Waiting should take the alotted time.");
+    STAssertTrue(elapsed < 1.3, @"Waiting should not take too long.");
 }
 
 - (void)testWaitingForNotification

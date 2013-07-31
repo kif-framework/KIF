@@ -53,4 +53,9 @@
     [tester waitForViewWithAccessibilityLabel:@"Greeting" value:@"Hello, world" traits:UIAccessibilityTraitNone];
 }
 
+- (void)testClearingAndEnteringTextIntoViewWithAccessibilityLabel
+{
+    [tester clearTextFromAndThenEnterText:@"Yo" intoViewWithAccessibilityLabel:@"Greeting"];
+}
+
 @end
