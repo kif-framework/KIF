@@ -50,24 +50,27 @@
 
 - (UIView *)waitForViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits tappable:(BOOL)mustBeTappable
 {
-    __block UIView *view = nil;
-    
-    [self waitForAccessibilityElementWithLabel:label value:value traits:traits tappable:mustBeTappable view:&view];
-    
+    UIView *view = nil;
+    [self waitForAccessibilityElement:NULL view:&view withLabel:label value:value traits:traits tappable:mustBeTappable];
     return view;
 }
 
-- (UIAccessibilityElement *)waitForAccessibilityElementWithLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits tappable:(BOOL)mustBeTappable view:(out UIView **)view
+- (void)waitForAccessibilityElement:(UIAccessibilityElement **)element view:(out UIView **)view withLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits tappable:(BOOL)mustBeTappable
 {
-    __block UIAccessibilityElement *element = nil;
-    
+
     [self runBlock:^KIFTestStepResult(NSError **error) {
-        element = [UIAccessibilityElement accessibilityElementWithLabel:label accessibilityValue:value tappable:mustBeTappable traits:traits view:view error:error];
+        UIAccessibilityElement *foundElement = [UIAccessibilityElement accessibilityElementWithLabel:label accessibilityValue:value tappable:mustBeTappable traits:traits view:view error:error];
         
-        return element ? KIFTestStepResultSuccess : KIFTestStepResultWait;
+        if (!foundElement) {
+            return KIFTestStepResultWait;
+        }
+        
+        if (element) {
+            *element = foundElement;
+        }
+        
+        return KIFTestStepResultSuccess;
     }];
-    
-    return element;
 }
 
 - (void)waitForAbsenceOfViewWithAccessibilityLabel:(NSString *)label
@@ -117,7 +120,9 @@
 - (void)tapViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits
 {
     UIView *view = nil;
-    UIAccessibilityElement *element = [self waitForAccessibilityElementWithLabel:label value:value traits:traits tappable:YES view:&view];
+    UIAccessibilityElement *element = nil;
+    
+    [self waitForAccessibilityElement:&element view:&view withLabel:label value:value traits:traits tappable:YES];
     [self tapAccessibilityElement:element inView:view];
 }
 
@@ -189,7 +194,9 @@
 - (void)longPressViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits duration:(NSTimeInterval)duration;
 {
     UIView *view = nil;
-    UIAccessibilityElement *element = [self waitForAccessibilityElementWithLabel:label value:value traits:traits tappable:YES view:&view];
+    UIAccessibilityElement *element = nil;
+    
+    [self waitForAccessibilityElement:&element view:&view withLabel:label value:value traits:traits tappable:YES];
     [self longPressAccessibilityElement:element inView:view duration:duration];
 }
 
@@ -252,8 +259,9 @@
 - (void)enterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits expectedResult:(NSString *)expectedResult
 {
     UIView *view = nil;
-    UIAccessibilityElement *element = [self waitForAccessibilityElementWithLabel:label value:nil traits:traits tappable:YES view:&view];
+    UIAccessibilityElement *element = nil;
     
+    [self waitForAccessibilityElement:&element view:&view withLabel:label value:nil traits:traits tappable:YES];
     [self tapAccessibilityElement:element inView:view];
     [self enterTextIntoCurrentFirstResponder:text fallbackView:view];
     [self waitForTimeInterval:0.1];
@@ -283,14 +291,11 @@
 - (void)clearTextFromViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits
 {
     UIView *view = nil;
-    UIAccessibilityElement *element = [self waitForAccessibilityElementWithLabel:label value:nil traits:traits tappable:YES view:&view];
+    UIAccessibilityElement *element = nil;
     
-    NSUInteger numberOfCharacters;
-    if ([view isKindOfClass:[UITextField class]] || [view isKindOfClass:[UITextView class]]) {
-        numberOfCharacters = [(UITextField *)view text].length;
-    } else {
-        numberOfCharacters = element.accessibilityValue.length;
-    }
+    [self waitForAccessibilityElement:&element view:&view withLabel:label value:nil traits:traits tappable:YES];
+    
+    NSUInteger numberOfCharacters = [view respondsToSelector:@selector(text)] ? [(UITextField *)view text].length : element.accessibilityValue.length;
     
     NSMutableString *text = [NSMutableString string];
     for (NSInteger i = 0; i < numberOfCharacters; i ++) {
