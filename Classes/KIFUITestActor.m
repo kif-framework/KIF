@@ -217,17 +217,29 @@
 
 - (void)enterTextIntoCurrentFirstResponder:(NSString *)text;
 {
+    // Wait for the keyboard
+    [self waitForTimeInterval:0.5];
+    [self enterTextIntoCurrentFirstResponder:text fallbackView:nil];
+}
+
+- (void)enterTextIntoCurrentFirstResponder:(NSString *)text fallbackView:(UIView *)fallbackView;
+{
     [self runBlock:^KIFTestStepResult(NSError **error) {
-        // Wait for the keyboard
-        CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.5, false);
         
         for (NSUInteger characterIndex = 0; characterIndex < [text length]; characterIndex++) {
             NSString *characterString = [text substringWithRange:NSMakeRange(characterIndex, 1)];
             
             if (![KIFTypist enterCharacter:characterString]) {
-                KIFTestCondition(NO, error, @"Failed to find key for character \"%@\"", characterString);
+                // Attempt to cheat if we couldn't find the character
+                if ([fallbackView isKindOfClass:[UITextField class]] || [fallbackView isKindOfClass:[UITextView class]]) {
+                    NSLog(@"KIF: Unable to find keyboard key for %@. Inserting manually.", characterString);
+                    [(UITextField *)fallbackView setText:[[(UITextField *)fallbackView text] stringByAppendingString:characterString]];
+                } else {
+                    KIFTestCondition(NO, error, @"Failed to find key for character \"%@\"", characterString);
+                }
             }
         }
+        
         return KIFTestStepResultSuccess;
     }];
 }
@@ -239,53 +251,27 @@
 
 - (void)enterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits expectedResult:(NSString *)expectedResult
 {
-    [self runBlock:^KIFTestStepResult(NSError **error) {
-        UIAccessibilityElement *element = [UIAccessibilityElement accessibilityElementWithLabel:label accessibilityValue:nil tappable:YES traits:traits error:error];
-        if (!element) {
-            return KIFTestStepResultWait;
-        }
-        
-        UIView *view = [UIAccessibilityElement viewContainingAccessibilityElement:element];
-        KIFTestWaitCondition(view, error, @"Cannot find view with accessibility label \"%@\"", label);
-        
-        CGRect elementFrame = [view.window convertRect:element.accessibilityFrame toView:view];
-        CGPoint tappablePointInElement = [view tappablePointInRect:elementFrame];
-        
-        // This is mostly redundant of the test in _accessibilityElementWithLabel:
-        KIFTestCondition(!isnan(tappablePointInElement.x), error, @"The element with accessibility label %@ is not tappable", label);
-        [view tapAtPoint:tappablePointInElement];
-        
-        KIFTestWaitCondition([view isDescendantOfFirstResponder], error, @"Failed to make the view with accessibility label \"%@\" the first responder. First responder is %@", label, [[[UIApplication sharedApplication] keyWindow] firstResponder]);
-        
-        // Wait for the keyboard
-        CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.5, false);
-        
-        for (NSUInteger characterIndex = 0; characterIndex < [text length]; characterIndex++) {
-            NSString *characterString = [text substringWithRange:NSMakeRange(characterIndex, 1)];
-            
-            if (![KIFTypist enterCharacter:characterString]) {
-                // Attempt to cheat if we couldn't find the character
-                if ([view isKindOfClass:[UITextField class]] || [view isKindOfClass:[UITextView class]]) {
-                    NSLog(@"KIF: Unable to find keyboard key for %@. Inserting manually.", characterString);
-                    [(UITextField *)view setText:[[(UITextField *)view text] stringByAppendingString:characterString]];
-                } else {
-                    KIFTestCondition(NO, error, @"Failed to find key for character \"%@\"", characterString);
-                }
-            }
-        }
-        
-        CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.1, false);
-        
-        // This is probably a UITextField- or UITextView-ish view, so make sure it worked
-        if ([view respondsToSelector:@selector(text)]) {
-            // We trim \n and \r because they trigger the return key, so they won't show up in the final product on single-line inputs
-            NSString *expected = [expectedResult ? expectedResult : text stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
-            NSString *actual = [[view performSelector:@selector(text)] stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
-            KIFTestCondition([actual isEqualToString:expected], error, @"Failed to get text \"%@\" in field; instead, it was \"%@\"", expected, actual);
-        }
-        
-        return KIFTestStepResultSuccess;
-    }];
+    UIView *view = nil;
+    UIAccessibilityElement *element = [self waitForAccessibilityElementWithLabel:label value:nil traits:traits tappable:YES view:&view];
+    
+    [self tapAccessibilityElement:element inView:view];
+    [self enterTextIntoCurrentFirstResponder:text fallbackView:view];
+    [self waitForTimeInterval:0.1];
+    
+    // We will perform some additional validation of the view is UITextField or UITextView.
+    if (![view respondsToSelector:@selector(text)]) {
+        return;
+    }
+    
+    UITextView *textView = (UITextView *)view;
+    
+    // We trim \n and \r because they trigger the return key, so they won't show up in the final product on single-line inputs
+    NSString *expected = [expectedResult ?: text stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+    NSString *actual = [textView.text stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+    
+    if (![actual isEqualToString:expected]) {
+        [self failWithError:[NSError KIFErrorWithCode:KIFTestStepResultFailure localizedDescriptionWithFormat:@"Failed to get text \"%@\" in field; instead, it was \"%@\"", expected, actual] stopTest:YES];
+    }
 }
 
 
@@ -296,12 +282,18 @@
 
 - (void)clearTextFromViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits
 {
-    [self waitForViewWithAccessibilityLabel:label traits:traits];
+    UIView *view = nil;
+    UIAccessibilityElement *element = [self waitForAccessibilityElementWithLabel:label value:nil traits:traits tappable:YES view:&view];
     
-    UIAccessibilityElement *element = [[UIApplication sharedApplication] accessibilityElementWithLabel:label accessibilityValue:nil traits:traits];
-
+    NSUInteger numberOfCharacters;
+    if ([view isKindOfClass:[UITextField class]] || [view isKindOfClass:[UITextView class]]) {
+        numberOfCharacters = [(UITextField *)view text].length;
+    } else {
+        numberOfCharacters = element.accessibilityValue.length;
+    }
+    
     NSMutableString *text = [NSMutableString string];
-    for (NSInteger i = 0; i < element.accessibilityValue.length; i ++) {
+    for (NSInteger i = 0; i < numberOfCharacters; i ++) {
         [text appendString:@"\b"];
     }
 
