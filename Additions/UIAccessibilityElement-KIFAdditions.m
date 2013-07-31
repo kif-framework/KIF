@@ -42,14 +42,14 @@ MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
             element = [[UIApplication sharedApplication] accessibilityElementWithLabel:label accessibilityValue:nil traits:traits];
             // For purposes of a better error message, see if we can find the view, just not a view with the specified value.
             if (value && [[UIApplication sharedApplication] accessibilityElementWithLabel:label accessibilityValue:nil traits:traits]) {
-                *error = [NSError KIFErrorWithCode:KIFTestStepResultFailure localizedDescriptionWithFormat:@"Found an accessibility element with the label \"%@\", but with the value \"%@\", not \"%@\"", label, element.accessibilityValue, value];
+                *error = [NSError KIFErrorWithLocalizedDescriptionWithFormat:@"Found an accessibility element with the label \"%@\", but with the value \"%@\", not \"%@\"", label, element.accessibilityValue, value];
                 
                 // Check the traits, too.
             } else if (traits != UIAccessibilityTraitNone && [[UIApplication sharedApplication] accessibilityElementWithLabel:label accessibilityValue:nil traits:UIAccessibilityTraitNone]) {
-                *error = [NSError KIFErrorWithCode:KIFTestStepResultFailure localizedDescriptionWithFormat:@"Found an accessibility element with the label \"%@\", but not with the traits \"%llu\"", label, traits];
+                *error = [NSError KIFErrorWithLocalizedDescriptionWithFormat:@"Found an accessibility element with the label \"%@\", but not with the traits \"%llu\"", label, traits];
                 
             } else {
-                *error = [NSError KIFErrorWithCode:KIFTestStepResultFailure localizedDescriptionWithFormat:@"Failed to find accessibility element with the label \"%@\"", label];
+                *error = [NSError KIFErrorWithLocalizedDescriptionWithFormat:@"Failed to find accessibility element with the label \"%@\"", label];
             }
         }
         return nil;
@@ -59,7 +59,7 @@ MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
     UIView *view = [UIAccessibilityElement viewContainingAccessibilityElement:element];
     if (!view) {
         if (error) {
-            *error = [NSError KIFErrorWithCode:KIFTestStepResultFailure localizedDescriptionWithFormat:@"Cannot find view containing accessibility element with the label \"%@\"", label];
+            *error = [NSError KIFErrorWithLocalizedDescriptionWithFormat:@"Cannot find view containing accessibility element with the label \"%@\"", label];
         }
         return nil;
     }
@@ -87,7 +87,7 @@ MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
     
     if ([[UIApplication sharedApplication] isIgnoringInteractionEvents]) {
         if (error) {
-            *error = [NSError KIFErrorWithCode:KIFTestStepResultFailure localizedDescriptionWithFormat:@"Application is ignoring interaction events"];
+            *error = [NSError KIFErrorWithLocalizedDescriptionWithFormat:@"Application is ignoring interaction events"];
         }
         return nil;
     }
@@ -101,7 +101,7 @@ MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
         // Make sure the view is tappable
         if (![view isTappable]) {
             if (error) {
-                *error = [NSError KIFErrorWithCode:KIFTestStepResultFailure localizedDescriptionWithFormat:@"Accessibility element with label \"%@\" is not tappable. It may be blocked by other views.", label];
+                *error = [NSError KIFErrorWithLocalizedDescriptionWithFormat:@"Accessibility element with label \"%@\" is not tappable. It may be blocked by other views.", label];
             }
             return nil;
         }
@@ -109,7 +109,7 @@ MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
         // If we don't require tappability, at least make sure it's not hidden
         if ([view isHidden]) {
             if (error) {
-                *error = [NSError KIFErrorWithCode:KIFTestStepResultFailure localizedDescriptionWithFormat:@"Accessibility element with label \"%@\" is hidden.", label];
+                *error = [NSError KIFErrorWithLocalizedDescriptionWithFormat:@"Accessibility element with label \"%@\" is hidden.", label];
             }
             return nil;
         }

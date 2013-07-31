@@ -86,7 +86,7 @@
     }
     
     if (result == KIFTestStepResultWait) {
-        error = [NSError KIFErrorWithCode:KIFTestStepResultFailure underlyingError:error localizedDescriptionWithFormat:@"The step timed out after %.2f seconds: %@", timeout, error.localizedDescription];
+        error = [NSError KIFErrorWithUnderlyingError:error localizedDescriptionWithFormat:@"The step timed out after %.2f seconds: %@", timeout, error.localizedDescription];
         result = KIFTestStepResultFailure;
     }
     

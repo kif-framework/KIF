@@ -8,29 +8,30 @@
 
 #import "NSError-KIFAdditions.h"
 #import "LoadableCategory.h"
+#import "KIFTestActor.h"
 
 MAKE_CATEGORIES_LOADABLE(NSError_KIFAdditions)
 
 @implementation NSError (KIFAdditions)
 
-+ (instancetype)KIFErrorWithCode:(NSInteger)code localizedDescriptionWithFormat:(NSString *)format, ...
++ (instancetype)KIFErrorWithLocalizedDescriptionWithFormat:(NSString *)format, ...
 {
     va_list args;
     va_start(args, format);
     NSString *description = [[[NSString alloc] initWithFormat:format arguments:args] autorelease];
     va_end(args);
     
-    return [self errorWithDomain:@"KIFTest" code:code userInfo:@{NSLocalizedDescriptionKey: description}];
+    return [self errorWithDomain:@"KIFTest" code:KIFTestStepResultFailure userInfo:@{NSLocalizedDescriptionKey: description}];
 }
 
-+ (instancetype)KIFErrorWithCode:(NSInteger)code underlyingError:(NSError *)underlyingError localizedDescriptionWithFormat:(NSString *)format, ...
++ (instancetype)KIFErrorWithUnderlyingError:(NSError *)underlyingError localizedDescriptionWithFormat:(NSString *)format, ...
 {
     va_list args;
     va_start(args, format);
     NSString *description = [[[NSString alloc] initWithFormat:format arguments:args] autorelease];
     va_end(args);
     
-    return [self errorWithDomain:@"KIFTest" code:code userInfo:@{NSLocalizedDescriptionKey: description, NSUnderlyingErrorKey: underlyingError}];
+    return [self errorWithDomain:@"KIFTest" code:KIFTestStepResultFailure userInfo:@{NSLocalizedDescriptionKey: description, NSUnderlyingErrorKey: underlyingError}];
 }
 
 @end
