@@ -159,3 +159,12 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
 }
 
 @end
+
+@implementation KIFTestActor (Delegate)
+
+- (void)failWithException:(NSException *)exception stopTest:(BOOL)stop
+{
+    [self.delegate failWithException:exception stopTest:YES];
+}
+
+@end
