@@ -178,7 +178,7 @@
 
 - (void)longPressViewWithAccessibilityLabel:(NSString *)label duration:(NSTimeInterval)duration;
 {
-    [self longPressViewWithAccessibilityLabel:label value:nil duration:duration];
+    [self longPressViewWithAccessibilityLabel:label value:nil traits:UIAccessibilityTraitNone duration:duration];
 }
 
 - (void)longPressViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value duration:(NSTimeInterval)duration;
@@ -188,48 +188,31 @@
 
 - (void)longPressViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits duration:(NSTimeInterval)duration;
 {
-    // After tapping the view we want to wait a short period to allow things to settle (animations and such). We can't do this using CFRunLoopRunInMode() because certain things, such as the built-in media picker, do things with the run loop that are not compatible with this kind of wait. Instead we leverage the way KIF hooks into the existing run loop by returning "wait" results for the desired period.
-    const NSTimeInterval quiesceWaitInterval = 0.5;
-    __block NSTimeInterval quiesceStartTime = 0.0;
-    
-    __block UIView *view = nil;
-    
+    UIView *view = nil;
+    UIAccessibilityElement *element = [self waitForAccessibilityElementWithLabel:label value:value traits:traits tappable:YES view:&view];
+    [self longPressAccessibilityElement:element inView:view duration:duration];
+}
+
+- (void)longPressAccessibilityElement:(UIAccessibilityElement *)element inView:(UIView *)view duration:(NSTimeInterval)duration;
+{
     [self runBlock:^KIFTestStepResult(NSError **error) {
         
-        // If we've already tapped the view and stored it to a variable, and we've waited for the quiesce time to elapse, then we're done.
-        if (view) {
-            KIFTestWaitCondition(([NSDate timeIntervalSinceReferenceDate] - quiesceStartTime) >= quiesceWaitInterval, error, @"Waiting for view to become the first responder.");
-            return KIFTestStepResultSuccess;
-        }
-        
-        UIAccessibilityElement *element = [UIAccessibilityElement accessibilityElementWithLabel:label accessibilityValue:value tappable:YES traits:traits error:error];
-        if (!element) {
-            return KIFTestStepResultWait;
-        }
-        
-        view = [UIAccessibilityElement viewContainingAccessibilityElement:element];
-        KIFTestWaitCondition(view, error, @"Failed to find view for accessibility element with label \"%@\"", label);
-        
-        if (![view isUserInteractionActuallyEnabled]) {
-            if (error) {
-                *error = [NSError KIFErrorWithCode:KIFTestStepResultFailure localizedDescriptionWithFormat:@"View with accessibility label \"%@\" is not enabled for interaction", label];
-            }
-            return KIFTestStepResultWait;
-        }
+        KIFTestWaitCondition(view.isUserInteractionActuallyEnabled, error, @"View is not enabled for interaction");
         
         CGRect elementFrame = [view.window convertRect:element.accessibilityFrame toView:view];
         CGPoint tappablePointInElement = [view tappablePointInRect:elementFrame];
         
         // This is mostly redundant of the test in _accessibilityElementWithLabel:
-        KIFTestWaitCondition(!isnan(tappablePointInElement.x), error, @"The element with accessibility label %@ is not tappable", label);
+        KIFTestWaitCondition(!isnan(tappablePointInElement.x), error, @"View is not tappable");
         [view longPressAtPoint:tappablePointInElement duration:duration];
         
-        KIFTestCondition(![view canBecomeFirstResponder] || [view isDescendantOfFirstResponder], error, @"Failed to make the view %@ which contains the accessibility element \"%@\" into the first responder", view, label);
+        KIFTestCondition(![view canBecomeFirstResponder] || [view isDescendantOfFirstResponder], error, @"Failed to make the view into the first responder");
         
-        quiesceStartTime = [NSDate timeIntervalSinceReferenceDate];
-        
-        KIFTestWaitCondition(NO, error, @"Waiting for the view to settle.");
+        return KIFTestStepResultSuccess;
     }];
+    
+    // Wait for view to settle.
+    [self waitForTimeInterval:0.5];
 }
 
 - (void)enterTextIntoCurrentFirstResponder:(NSString *)text;
