@@ -29,12 +29,7 @@ MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
     return (UIView *)element;
 }
 
-+ (UIAccessibilityElement *)accessibilityElementWithLabel:(NSString *)label accessibilityValue:(NSString *)value tappable:(BOOL)mustBeTappable traits:(UIAccessibilityTraits)traits error:(out NSError **)error;
-{
-    return [self accessibilityElementWithLabel:label accessibilityValue:value tappable:mustBeTappable traits:traits view:NULL error:error];
-}
-
-+ (UIAccessibilityElement *)accessibilityElementWithLabel:(NSString *)label accessibilityValue:(NSString *)value tappable:(BOOL)mustBeTappable traits:(UIAccessibilityTraits)traits view:(out UIView **)foundView error:(out NSError **)error;
++ (BOOL)accessibilityElement:(out UIAccessibilityElement **)foundElement view:(out UIView **)foundView withLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits tappable:(BOOL)mustBeTappable error:(out NSError **)error;
 {
     UIAccessibilityElement *element = [[UIApplication sharedApplication] accessibilityElementWithLabel:label accessibilityValue:value traits:traits];
     if (!element) {
@@ -52,7 +47,7 @@ MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
                 *error = [NSError KIFErrorWithLocalizedDescriptionWithFormat:@"Failed to find accessibility element with the label \"%@\"", label];
             }
         }
-        return nil;
+        return NO;
     }
     
     // Make sure the element is visible
@@ -61,11 +56,7 @@ MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
         if (error) {
             *error = [NSError KIFErrorWithLocalizedDescriptionWithFormat:@"Cannot find view containing accessibility element with the label \"%@\"", label];
         }
-        return nil;
-    }
-    
-    if (foundView) {
-        *foundView = view;
+        return NO;
     }
     
     // Scroll the view to be visible if necessary
@@ -89,12 +80,14 @@ MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
         if (error) {
             *error = [NSError KIFErrorWithLocalizedDescriptionWithFormat:@"Application is ignoring interaction events"];
         }
-        return nil;
+        return NO;
     }
     
     // There are some issues with the tappability check in UIWebViews, so if the view is a UIWebView we will just skip the check.
     if ([NSStringFromClass([view class]) isEqualToString:@"UIWebBrowserView"]) {
-        return element;
+        if (foundElement) { *foundElement = element; }
+        if (foundView) { *foundView = view; }
+        return YES;
     }
     
     if (mustBeTappable) {
@@ -103,7 +96,7 @@ MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
             if (error) {
                 *error = [NSError KIFErrorWithLocalizedDescriptionWithFormat:@"Accessibility element with label \"%@\" is not tappable. It may be blocked by other views.", label];
             }
-            return nil;
+            return NO;
         }
     } else {
         // If we don't require tappability, at least make sure it's not hidden
@@ -111,11 +104,13 @@ MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
             if (error) {
                 *error = [NSError KIFErrorWithLocalizedDescriptionWithFormat:@"Accessibility element with label \"%@\" is hidden.", label];
             }
-            return nil;
+            return NO;
         }
     }
     
-    return element;
+    if (foundElement) { *foundElement = element; }
+    if (foundView) { *foundView = view; }
+    return YES;
 }
 
 @end

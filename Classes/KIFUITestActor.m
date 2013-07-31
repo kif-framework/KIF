@@ -59,17 +59,7 @@
 {
 
     [self runBlock:^KIFTestStepResult(NSError **error) {
-        UIAccessibilityElement *foundElement = [UIAccessibilityElement accessibilityElementWithLabel:label accessibilityValue:value tappable:mustBeTappable traits:traits view:view error:error];
-        
-        if (!foundElement) {
-            return KIFTestStepResultWait;
-        }
-        
-        if (element) {
-            *element = foundElement;
-        }
-        
-        return KIFTestStepResultSuccess;
+        return [UIAccessibilityElement accessibilityElement:element view:view withLabel:label value:value traits:traits tappable:mustBeTappable error:error] ? KIFTestStepResultSuccess : KIFTestStepResultWait;
     }];
 }
 
@@ -261,7 +251,7 @@
     [self enterTextIntoCurrentFirstResponder:text fallbackView:view];
     [self waitForTimeInterval:0.1];
     
-    // We will perform some additional validation of the view is UITextField or UITextView.
+    // We will perform some additional validation if the view is UITextField or UITextView.
     if (![view respondsToSelector:@selector(text)]) {
         return;
     }
