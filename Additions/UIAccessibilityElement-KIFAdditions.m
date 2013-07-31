@@ -31,6 +31,11 @@ MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
 
 + (UIAccessibilityElement *)accessibilityElementWithLabel:(NSString *)label accessibilityValue:(NSString *)value tappable:(BOOL)mustBeTappable traits:(UIAccessibilityTraits)traits error:(out NSError **)error;
 {
+    return [self accessibilityElementWithLabel:label accessibilityValue:value tappable:mustBeTappable traits:traits view:NULL error:error];
+}
+
++ (UIAccessibilityElement *)accessibilityElementWithLabel:(NSString *)label accessibilityValue:(NSString *)value tappable:(BOOL)mustBeTappable traits:(UIAccessibilityTraits)traits view:(out UIView **)foundView error:(out NSError **)error;
+{
     UIAccessibilityElement *element = [[UIApplication sharedApplication] accessibilityElementWithLabel:label accessibilityValue:value traits:traits];
     if (!element) {
         if (error) {
@@ -57,6 +62,10 @@ MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
             *error = [NSError KIFErrorWithCode:KIFTestStepResultFailure localizedDescriptionWithFormat:@"Cannot find view containing accessibility element with the label \"%@\"", label];
         }
         return nil;
+    }
+    
+    if (foundView) {
+        *foundView = view;
     }
     
     // Scroll the view to be visible if necessary

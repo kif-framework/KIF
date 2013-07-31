@@ -59,7 +59,7 @@ static inline KIFDisplacement KIFDisplacementForSwipingInDirection(KIFSwipeDirec
  If the view you want to wait for is tappable, use the -waitForTappableViewWithAccessibilityLabel: methods instead as they provide a more strict test.
  @param label The accessibility label of the element to wait for.
  */
-- (void)waitForViewWithAccessibilityLabel:(NSString *)label;
+- (UIView *)waitForViewWithAccessibilityLabel:(NSString *)label;
 
 /*!
  @abstract Waits until a view or accessibility element is present.
@@ -69,7 +69,7 @@ static inline KIFDisplacement KIFDisplacementForSwipingInDirection(KIFSwipeDirec
  @param label The accessibility label of the element to wait for.
  @param traits The accessibility traits of the element to wait for. Elements that do not include at least these traits are ignored.
  */
-- (void)waitForViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits;
+- (UIView *)waitForViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits;
 
 
 /*!
@@ -82,7 +82,7 @@ static inline KIFDisplacement KIFDisplacementForSwipingInDirection(KIFSwipeDirec
  @param traits The accessibility traits of the element to wait for. Elements that do not include at least these traits are ignored.
  @result A configured test step.
  */
-- (void)waitForViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits;
+- (UIView *)waitForViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits;
 
 /*!
  @abstract Waits until a view or accessibility element is no longer present.
@@ -113,7 +113,7 @@ static inline KIFDisplacement KIFDisplacementForSwipingInDirection(KIFSwipeDirec
  @discussion The view or accessibility element with the given label is found in the view hierarchy. If the element isn't found or isn't currently tappable, then the step will attempt to wait until it is. Whether or not a view is tappable is based on -[UIView hitTest:].
  @param label The accessibility label of the element to wait for.
  */
-- (void)waitForTappableViewWithAccessibilityLabel:(NSString *)label;
+- (UIView *)waitForTappableViewWithAccessibilityLabel:(NSString *)label;
 
 /*!
  @abstract Waits until a view or accessibility element is present and available for tapping.
@@ -121,7 +121,7 @@ static inline KIFDisplacement KIFDisplacementForSwipingInDirection(KIFSwipeDirec
  @param label The accessibility label of the element to wait for.
  @param traits The accessibility traits of the element to wait for. Elements that do not include at least these traits are ignored.
  */
-- (void)waitForTappableViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits;
+- (UIView *)waitForTappableViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits;
 
 /*!
  @abstract Waits until a view or accessibility element is present and available for tapping.
@@ -130,7 +130,7 @@ static inline KIFDisplacement KIFDisplacementForSwipingInDirection(KIFSwipeDirec
  @param value The accessibility value of the element to tap.
  @param traits The accessibility traits of the element to wait for. Elements that do not include at least these traits are ignored.
  */
-- (void)waitForTappableViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits;
+- (UIView *)waitForTappableViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits;
 
 /*!
  @abstract Taps a particular view in the view hierarchy.
