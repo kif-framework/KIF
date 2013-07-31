@@ -366,43 +366,38 @@
 
 - (void)setOn:(BOOL)switchIsOn forSwitchWithAccessibilityLabel:(NSString *)label
 {
-    [self runBlock:^KIFTestStepResult(NSError **error) {
-        UIAccessibilityElement *element = [UIAccessibilityElement accessibilityElementWithLabel:label accessibilityValue:nil tappable:YES traits:UIAccessibilityTraitNone error:error];
-        if (!element) {
-            return KIFTestStepResultWait;
-        }
-        
-        UISwitch *switchView = (UISwitch *)[UIAccessibilityElement viewContainingAccessibilityElement:element];
-        KIFTestWaitCondition(switchView, error, @"Cannot find switch with accessibility label \"%@\"", label);
-        KIFTestWaitCondition([switchView isKindOfClass:[UISwitch class]], error, @"View with accessibility label \"%@\" is a %@, not a UISwitch", label, NSStringFromClass([switchView class]));
-        
-        // No need to switch it if it's already in the correct position
-        BOOL current = switchView.on;
-        if (current == switchIsOn) {
-            return KIFTestStepResultSuccess;
-        }
-        
-        CGRect elementFrame = [switchView.window convertRect:element.accessibilityFrame toView:switchView];
-        CGPoint tappablePointInElement = [switchView tappablePointInRect:elementFrame];
-        
-        // This is mostly redundant of the test in _accessibilityElementWithLabel:
-        KIFTestCondition(!isnan(tappablePointInElement.x), error, @"The element with accessibility label %@ is not tappable", label);
-        [switchView tapAtPoint:tappablePointInElement];
-        
-        // This is a UISwitch, so make sure it worked
-        if (switchIsOn != switchView.on) {
-            NSLog(@"Faking turning switch %@ with accessibility label %@", switchIsOn ? @"ON" : @"OFF", label);
-            [switchView setOn:switchIsOn animated:YES];
-            [switchView sendActionsForControlEvents:UIControlEventValueChanged];
-        }
-        
-        // The switch animation takes a second to finish, and the action callback doesn't get called until it does.
-        CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.5f, false);
-        
-        KIFTestCondition(switchView.on == switchIsOn, error, @"Failed to toggle switch to \"%@\"; instead, it was \"%@\"", switchIsOn ? @"ON" : @"OFF", switchView.on ? @"ON" : @"OFF");
-        
-        return KIFTestStepResultSuccess;
-    }];
+    UIView *view = nil;
+    UIAccessibilityElement *element = nil;
+    
+    [self waitForAccessibilityElement:&element view:&view withLabel:label value:nil traits:UIAccessibilityTraitNone tappable:YES];
+    
+    if (![view isKindOfClass:[UISwitch class]]) {
+        [self failWithError:[NSError KIFErrorWithCode:KIFTestStepResultFailure localizedDescriptionWithFormat:@"View with accessibility label \"%@\" is a %@, not a UISwitch", label, NSStringFromClass([view class])] stopTest:YES];
+    }
+    
+    UISwitch *switchView = (UISwitch *)view;
+    
+    // No need to switch it if it's already in the correct position
+    if (switchView.isOn == switchIsOn) {
+        return;
+    }
+    
+    [self tapAccessibilityElement:element inView:view];
+    
+    // If we succeeded, stop the test.
+    if (switchView.isOn == switchIsOn) {
+        return;
+    }
+    
+    NSLog(@"Faking turning switch %@ with accessibility label %@", switchIsOn ? @"ON" : @"OFF", label);
+    [switchView setOn:switchIsOn animated:YES];
+    [switchView sendActionsForControlEvents:UIControlEventValueChanged];
+    [self waitForTimeInterval:0.5];
+    
+    // We gave it our best shot.  Fail the test.
+    if (switchView.isOn != switchIsOn) {
+        [self failWithError:[NSError KIFErrorWithCode:KIFTestStepResultFailure localizedDescriptionWithFormat:@"Failed to toggle switch to \"%@\"; instead, it was \"%@\"", switchIsOn ? @"ON" : @"OFF", switchView.on ? @"ON" : @"OFF"] stopTest:YES];
+    }
 }
 
 - (void)dismissPopover
