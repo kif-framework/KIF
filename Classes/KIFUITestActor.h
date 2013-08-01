@@ -282,6 +282,8 @@ static inline KIFDisplacement KIFDisplacementForSwipingInDirection(KIFSwipeDirec
 /*!
  @abstract Taps the row at IndexPath in a view with the given label.
  @discussion This step will get the view with the specified accessibility label and tap the row at indexPath.
+ 
+ For cases where you may need to work from the end of a table view rather than the beginning, negative sections count back from the end of the table view (-1 is the last section) and negative rows count back from the end of the section (-1 is the last row for that section).
  @param tableViewLabel Accessibility label of the table view.
  @param indexPath Index path of the row to tap.
  */

@@ -455,6 +455,16 @@
     }
     
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    
+    // If section < 0, search from the end of the table.
+    if (indexPath.section < 0) {
+        indexPath = [NSIndexPath indexPathForRow:indexPath.row inSection:tableView.numberOfSections + indexPath.section];
+    }
+    
+    // If row < 0, search from the end of the section.
+    if (indexPath.row < 0) {
+        indexPath = [NSIndexPath indexPathForRow:[tableView numberOfRowsInSection:indexPath.section] + indexPath.row inSection:indexPath.section];
+    }
 
     if (!cell) {
         if (indexPath.section >= tableView.numberOfSections) {
