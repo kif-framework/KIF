@@ -48,12 +48,4 @@
     [tester waitForViewWithAccessibilityLabel:@"X" traits:UIAccessibilityTraitSelected];
 }
 
-- (void)testTappingRows
-{
-    [self afterEach];
-    [tester tapRowInTableViewWithAccessibilityLabel:@"Table View" atIndexPath:[NSIndexPath indexPathForRow:0 inSection:3]];
-    [tester waitForViewWithAccessibilityLabel:@"Find Me" traits:UIAccessibilityTraitSelected];
-    [tester tapRowInTableViewWithAccessibilityLabel:@"Table View" atIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
-}
-
 @end

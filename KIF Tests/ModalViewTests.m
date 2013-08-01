@@ -20,7 +20,7 @@
 
 - (void)testInteractionWithAnAlertView
 {
-    [tester tapRowInTableViewWithAccessibilityLabel:@"Table View" atIndexPath:[NSIndexPath indexPathForRow:0 inSection:1]];
+    [tester tapViewWithAccessibilityLabel:@"UIAlertView"];
     [tester waitForViewWithAccessibilityLabel:@"Alert View"];
     [tester waitForViewWithAccessibilityLabel:@"Message"];
     [tester waitForTappableViewWithAccessibilityLabel:@"Cancel"];
@@ -30,7 +30,7 @@
 
 - (void)testInteractionWithAnActionSheet
 {
-    [tester tapRowInTableViewWithAccessibilityLabel:@"Table View" atIndexPath:[NSIndexPath indexPathForRow:1 inSection:1]];
+    [tester tapViewWithAccessibilityLabel:@"UIActionSheet"];
     [tester waitForViewWithAccessibilityLabel:@"Action Sheet"];
     [tester waitForTappableViewWithAccessibilityLabel:@"Destroy"];
     [tester waitForTappableViewWithAccessibilityLabel:@"A"];
@@ -39,9 +39,9 @@
     [tester tapViewWithAccessibilityLabel:@"Cancel"];
 }
 
-- (void)testInteractionWithAnActivitySheet
+- (void)testInteractionWithAnActivityViewController
 {
-    [tester tapRowInTableViewWithAccessibilityLabel:@"Table View" atIndexPath:[NSIndexPath indexPathForRow:2 inSection:1]];
+    [tester tapViewWithAccessibilityLabel:@"UIActivityViewController"];
     [tester waitForTappableViewWithAccessibilityLabel:@"Copy"];
     [tester waitForTappableViewWithAccessibilityLabel:@"Mail"];
     [tester waitForTappableViewWithAccessibilityLabel:@"Cancel"];
