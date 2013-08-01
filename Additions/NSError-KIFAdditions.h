@@ -10,7 +10,7 @@
 
 @interface NSError (KIFAdditions)
 
-+ (instancetype)KIFErrorWithUnderlyingError:(NSError *)underlyingError localizedDescriptionWithFormat:(NSString *)format, ... NS_FORMAT_FUNCTION(2,3);
-+ (instancetype)KIFErrorWithLocalizedDescriptionWithFormat:(NSString *)format, ... NS_FORMAT_FUNCTION(1,2);
++ (instancetype)KIFErrorWithUnderlyingError:(NSError *)underlyingError format:(NSString *)format, ... NS_FORMAT_FUNCTION(2,3);
++ (instancetype)KIFErrorWithFormat:(NSString *)format, ... NS_FORMAT_FUNCTION(1,2);
 
 @end

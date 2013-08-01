@@ -230,7 +230,7 @@
                 NSLog(@"KIF: Unable to find keyboard key for %@. Inserting manually.", characterString);
                 [(UITextField *)fallbackView setText:[[(UITextField *)fallbackView text] stringByAppendingString:characterString]];
             } else {
-                [self failWithError:[NSError KIFErrorWithLocalizedDescriptionWithFormat:@"Failed to find key for character \"%@\"", characterString] stopTest:YES];
+                [self failWithError:[NSError KIFErrorWithFormat:@"Failed to find key for character \"%@\"", characterString] stopTest:YES];
             }
         }
     }
@@ -263,7 +263,7 @@
     NSString *actual = [textView.text stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
     
     if (![actual isEqualToString:expected]) {
-        [self failWithError:[NSError KIFErrorWithLocalizedDescriptionWithFormat:@"Failed to get text \"%@\" in field; instead, it was \"%@\"", expected, actual] stopTest:YES];
+        [self failWithError:[NSError KIFErrorWithFormat:@"Failed to get text \"%@\" in field; instead, it was \"%@\"", expected, actual] stopTest:YES];
     }
 }
 
@@ -357,7 +357,7 @@
     [self waitForAccessibilityElement:&element view:&view withLabel:label value:nil traits:UIAccessibilityTraitNone tappable:YES];
     
     if (![view isKindOfClass:[UISwitch class]]) {
-        [self failWithError:[NSError KIFErrorWithLocalizedDescriptionWithFormat:@"View with accessibility label \"%@\" is a %@, not a UISwitch", label, NSStringFromClass([view class])] stopTest:YES];
+        [self failWithError:[NSError KIFErrorWithFormat:@"View with accessibility label \"%@\" is a %@, not a UISwitch", label, NSStringFromClass([view class])] stopTest:YES];
     }
     
     UISwitch *switchView = (UISwitch *)view;
@@ -381,7 +381,7 @@
     
     // We gave it our best shot.  Fail the test.
     if (switchView.isOn != switchIsOn) {
-        [self failWithError:[NSError KIFErrorWithLocalizedDescriptionWithFormat:@"Failed to toggle switch to \"%@\"; instead, it was \"%@\"", switchIsOn ? @"ON" : @"OFF", switchView.on ? @"ON" : @"OFF"] stopTest:YES];
+        [self failWithError:[NSError KIFErrorWithFormat:@"Failed to toggle switch to \"%@\"; instead, it was \"%@\"", switchIsOn ? @"ON" : @"OFF", switchView.on ? @"ON" : @"OFF"] stopTest:YES];
     }
 }
 
@@ -390,7 +390,7 @@
     const NSTimeInterval tapDelay = 0.05;
     NSArray *windows = [[UIApplication sharedApplication] windowsWithKeyWindow];
     if (!windows.count) {
-        [self failWithError:[NSError KIFErrorWithLocalizedDescriptionWithFormat:@"Failed to find any windows in the application"] stopTest:YES];
+        [self failWithError:[NSError KIFErrorWithFormat:@"Failed to find any windows in the application"] stopTest:YES];
     }
     UIView *dimmingView = [[windows[0] subviewsWithClassNamePrefix:@"UIDimmingView"] lastObject];
     [dimmingView tapAtPoint:CGPointMake(50.0f, 50.0f)];
@@ -416,7 +416,7 @@
         
         if (![view isUserInteractionActuallyEnabled]) {
             if (error) {
-                *error = [NSError KIFErrorWithLocalizedDescriptionWithFormat:@"Album picker is not enabled for interaction"];
+                *error = [NSError KIFErrorWithFormat:@"Album picker is not enabled for interaction"];
             }
             return KIFTestStepResultWait;
         }
@@ -451,18 +451,18 @@
     UITableView *tableView = (UITableView *)[self waitForViewWithAccessibilityLabel:tableViewLabel];
     
     if (![tableView isKindOfClass:[UITableView class]]) {
-        [self failWithError:[NSError KIFErrorWithLocalizedDescriptionWithFormat:@"View is not a table view"] stopTest:YES];
+        [self failWithError:[NSError KIFErrorWithFormat:@"View is not a table view"] stopTest:YES];
     }
     
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
 
     if (!cell) {
         if (indexPath.section >= tableView.numberOfSections) {
-            [self failWithError:[NSError KIFErrorWithLocalizedDescriptionWithFormat:@"Section %d is not found in '%@' table view", indexPath.section, tableViewLabel] stopTest:YES];
+            [self failWithError:[NSError KIFErrorWithFormat:@"Section %d is not found in '%@' table view", indexPath.section, tableViewLabel] stopTest:YES];
         }
         
         if (indexPath.row >= [tableView numberOfRowsInSection:indexPath.section]) {
-            [self failWithError:[NSError KIFErrorWithLocalizedDescriptionWithFormat:@"Row %d is not found in section %d of '%@' table view", indexPath.row, indexPath.section, tableViewLabel] stopTest:YES];
+            [self failWithError:[NSError KIFErrorWithFormat:@"Row %d is not found in section %d of '%@' table view", indexPath.row, indexPath.section, tableViewLabel] stopTest:YES];
         }
         
         [tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
@@ -471,7 +471,7 @@
     }
     
     if (!cell) {
-        [self failWithError:[NSError KIFErrorWithLocalizedDescriptionWithFormat: @"Table view cell at index path %@ not found", indexPath] stopTest:YES];
+        [self failWithError:[NSError KIFErrorWithFormat: @"Table view cell at index path %@ not found", indexPath] stopTest:YES];
     }
     
     CGRect cellFrame = [cell.contentView convertRect:cell.contentView.frame toView:tableView];

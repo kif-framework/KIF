@@ -14,7 +14,7 @@ MAKE_CATEGORIES_LOADABLE(NSError_KIFAdditions)
 
 @implementation NSError (KIFAdditions)
 
-+ (instancetype)KIFErrorWithLocalizedDescriptionWithFormat:(NSString *)format, ...
++ (instancetype)KIFErrorWithFormat:(NSString *)format, ...
 {
     va_list args;
     va_start(args, format);
@@ -24,7 +24,7 @@ MAKE_CATEGORIES_LOADABLE(NSError_KIFAdditions)
     return [self errorWithDomain:@"KIFTest" code:KIFTestStepResultFailure userInfo:@{NSLocalizedDescriptionKey: description}];
 }
 
-+ (instancetype)KIFErrorWithUnderlyingError:(NSError *)underlyingError localizedDescriptionWithFormat:(NSString *)format, ...
++ (instancetype)KIFErrorWithUnderlyingError:(NSError *)underlyingError format:(NSString *)format, ...
 {
     va_list args;
     va_start(args, format);

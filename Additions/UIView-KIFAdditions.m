@@ -108,7 +108,7 @@ typedef struct __GSEvent * GSEventRef;
     BOOL elementMatches = matchBlock((UIAccessibilityElement *)self);
 
     if (elementMatches) {
-        if (self.tappable) {
+        if (self.isTappable) {
             return (UIAccessibilityElement *)self;
         } else {
             matchingButOccludedElement = (UIAccessibilityElement *)self;
@@ -405,6 +405,12 @@ typedef struct __GSEvent * GSEventRef;
         }
     }
     [touch release];
+}
+
+- (BOOL)isProbablyTappable
+{
+    // There are some issues with the tappability check in UIWebViews, so if the view is a UIWebView we will just skip the check.
+    return [NSStringFromClass([self class]) isEqualToString:@"UIWebBrowserView"] || self.isTappable;
 }
 
 // Is this view currently on screen?

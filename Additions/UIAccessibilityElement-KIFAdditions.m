@@ -31,32 +31,60 @@ MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
 
 + (BOOL)accessibilityElement:(out UIAccessibilityElement **)foundElement view:(out UIView **)foundView withLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits tappable:(BOOL)mustBeTappable error:(out NSError **)error;
 {
-    UIAccessibilityElement *element = [[UIApplication sharedApplication] accessibilityElementWithLabel:label accessibilityValue:value traits:traits];
+    UIAccessibilityElement *element = [self accessibilityElementWithLabel:label value:value traits:traits error:error];
     if (!element) {
-        if (error) {
-            element = [[UIApplication sharedApplication] accessibilityElementWithLabel:label accessibilityValue:nil traits:traits];
-            // For purposes of a better error message, see if we can find the view, just not a view with the specified value.
-            if (value && [[UIApplication sharedApplication] accessibilityElementWithLabel:label accessibilityValue:nil traits:traits]) {
-                *error = [NSError KIFErrorWithLocalizedDescriptionWithFormat:@"Found an accessibility element with the label \"%@\", but with the value \"%@\", not \"%@\"", label, element.accessibilityValue, value];
-                
-                // Check the traits, too.
-            } else if (traits != UIAccessibilityTraitNone && [[UIApplication sharedApplication] accessibilityElementWithLabel:label accessibilityValue:nil traits:UIAccessibilityTraitNone]) {
-                *error = [NSError KIFErrorWithLocalizedDescriptionWithFormat:@"Found an accessibility element with the label \"%@\", but not with the traits \"%llu\"", label, traits];
-                
-            } else {
-                *error = [NSError KIFErrorWithLocalizedDescriptionWithFormat:@"Failed to find accessibility element with the label \"%@\"", label];
-            }
-        }
         return NO;
+    }
+    
+    UIView *view = [self viewContainingAccessibilityElement:element tappable:mustBeTappable error:error];
+    if (!view) {
+        return NO;
+    }
+    
+    if (foundElement) { *foundElement = element; }
+    if (foundView) { *foundView = view; }
+    return YES;
+}
+
++ (UIAccessibilityElement *)accessibilityElementWithLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits error:(out NSError **)error;
+{
+    UIAccessibilityElement *element = [[UIApplication sharedApplication] accessibilityElementWithLabel:label accessibilityValue:value traits:traits];
+    if (element || !error) {
+        return element;
+    }
+    
+    element = [[UIApplication sharedApplication] accessibilityElementWithLabel:label accessibilityValue:nil traits:traits];
+    // For purposes of a better error message, see if we can find the view, just not a view with the specified value.
+    if (value && element) {
+        *error = [NSError KIFErrorWithFormat:@"Found an accessibility element with the label \"%@\", but with the value \"%@\", not \"%@\"", label, element.accessibilityValue, value];
+        return nil;
+    }
+    
+    // Check the traits, too.
+    element = [[UIApplication sharedApplication] accessibilityElementWithLabel:label accessibilityValue:nil traits:UIAccessibilityTraitNone];
+    if (traits != UIAccessibilityTraitNone && element) {
+        *error = [NSError KIFErrorWithFormat:@"Found an accessibility element with the label \"%@\", but not with the traits \"%llu\"", label, traits];
+        return nil;
+    }
+    
+    *error = [NSError KIFErrorWithFormat:@"Failed to find accessibility element with the label \"%@\"", label];
+    return nil;
+}
+
++ (UIView *)viewContainingAccessibilityElement:(UIAccessibilityElement *)element tappable:(BOOL)mustBeTappable error:(NSError **)error;
+{
+    // Small safety mechanism.  If someone calls this method after a failing call to accessibilityElementWithLabel:..., we don't want to wipe out the error message.
+    if (!element && error && *error) {
+        return nil;
     }
     
     // Make sure the element is visible
     UIView *view = [UIAccessibilityElement viewContainingAccessibilityElement:element];
     if (!view) {
         if (error) {
-            *error = [NSError KIFErrorWithLocalizedDescriptionWithFormat:@"Cannot find view containing accessibility element with the label \"%@\"", label];
+            *error = [NSError KIFErrorWithFormat:@"Cannot find view containing accessibility element with the label \"%@\"", element.accessibilityLabel];
         }
-        return NO;
+        return nil;
     }
     
     // Scroll the view to be visible if necessary
@@ -78,39 +106,27 @@ MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
     
     if ([[UIApplication sharedApplication] isIgnoringInteractionEvents]) {
         if (error) {
-            *error = [NSError KIFErrorWithLocalizedDescriptionWithFormat:@"Application is ignoring interaction events"];
+            *error = [NSError KIFErrorWithFormat:@"Application is ignoring interaction events"];
         }
-        return NO;
+        return nil;
     }
     
-    // There are some issues with the tappability check in UIWebViews, so if the view is a UIWebView we will just skip the check.
-    if ([NSStringFromClass([view class]) isEqualToString:@"UIWebBrowserView"]) {
-        if (foundElement) { *foundElement = element; }
-        if (foundView) { *foundView = view; }
-        return YES;
+    // If we don't require tappability, at least make sure it's not hidden
+    if ([view isHidden]) {
+        if (error) {
+            *error = [NSError KIFErrorWithFormat:@"Accessibility element with label \"%@\" is hidden.", element.accessibilityLabel];
+        }
+        return nil;
     }
     
-    if (mustBeTappable) {
-        // Make sure the view is tappable
-        if (![view isTappable]) {
-            if (error) {
-                *error = [NSError KIFErrorWithLocalizedDescriptionWithFormat:@"Accessibility element with label \"%@\" is not tappable. It may be blocked by other views.", label];
-            }
-            return NO;
+    if (mustBeTappable && !view.isProbablyTappable) {
+        if (error) {
+            *error = [NSError KIFErrorWithFormat:@"Accessibility element with label \"%@\" is not tappable. It may be blocked by other views.", element.accessibilityLabel];
         }
-    } else {
-        // If we don't require tappability, at least make sure it's not hidden
-        if ([view isHidden]) {
-            if (error) {
-                *error = [NSError KIFErrorWithLocalizedDescriptionWithFormat:@"Accessibility element with label \"%@\" is hidden.", label];
-            }
-            return NO;
-        }
+        return nil;
     }
     
-    if (foundElement) { *foundElement = element; }
-    if (foundView) { *foundView = view; }
-    return YES;
+    return view;
 }
 
 @end

@@ -17,16 +17,6 @@ MAKE_CATEGORIES_LOADABLE(UIApplication_KIFAdditions)
 
 @implementation UIApplication (KIFAdditions)
 
-- (UIAccessibilityElement *)accessibilityElementWithLabel:(NSString *)label;
-{
-    return [self accessibilityElementWithLabel:label traits:UIAccessibilityTraitNone];
-}
-
-- (UIAccessibilityElement *)accessibilityElementWithLabel:(NSString *)label traits:(UIAccessibilityTraits)traits;
-{
-    return [self accessibilityElementWithLabel:label accessibilityValue:nil traits:traits];
-}
-
 - (UIAccessibilityElement *)accessibilityElementWithLabel:(NSString *)label accessibilityValue:(NSString *)value traits:(UIAccessibilityTraits)traits;
 {
     // Go through the array of windows in reverse order to process the frontmost window first.
