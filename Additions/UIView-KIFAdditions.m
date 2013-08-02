@@ -69,6 +69,19 @@ typedef struct __GSEvent * GSEventRef;
 
 @implementation UIView (KIFAdditions)
 
++ (NSArray *)classesToSkipAccessibilitySearchRecursion
+{
+    static NSArray *classesToSkip;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        // UIDatePicker contains hundreds of thousands of placeholder accessibility elements that aren't useful to KIF,
+        // so don't recurse into a date picker when searching for matching accessibility elements
+        classesToSkip = [@[[UIDatePicker class]] retain];
+    });
+    
+    return classesToSkip;
+}
+
 - (UIAccessibilityElement *)accessibilityElementWithLabel:(NSString *)label
 {
     return [self accessibilityElementWithLabel:label traits:UIAccessibilityTraitNone];
@@ -114,6 +127,10 @@ typedef struct __GSEvent * GSEventRef;
         } else {
             matchingButOccludedElement = (UIAccessibilityElement *)self;
         }
+    }
+    
+    if ([[[self class] classesToSkipAccessibilitySearchRecursion] containsObject:[self class]]) {
+        return matchingButOccludedElement;
     }
     
     // Check the subviews first. Even if the receiver says it's an accessibility container,
