@@ -96,13 +96,13 @@ static KIFTestScenario* currentScenario = nil;
     
     for (KIFTestScenario* scenario in self.controller.scenarios) { 
         NSNumber* duration = [durations objectForKey: [scenario description]];
-        NSError* error = [errors objectForKey: [scenario description]];
+        NSString* errorString = [errors objectForKey: [scenario description]];
         
         
         NSString* scenarioSteps = [[scenario.steps valueForKeyPath:@"description"] componentsJoinedByString:@"\n"];
 		scenarioSteps = [scenarioSteps stringByEscapingStringForXML];
-        NSString* errorMsg =  (error ? [NSString stringWithFormat:@"<failure message=\"%@\">%@</failure>", 
-                                        [error localizedDescription], scenarioSteps] :
+        NSString* errorMsg =  (errorString ? [NSString stringWithFormat:@"<failure message=\"%@\">%@</failure>",
+                                        errorString, scenarioSteps] :
                                @"");
         
         NSString* description = [scenario description];
@@ -143,9 +143,8 @@ static KIFTestScenario* currentScenario = nil;
 
 - (void)logDidFailStep:(KIFTestStep *)step duration:(NSTimeInterval)duration error:(NSError *)error;
 {
-	NSString *fullDesctiontion = [NSString stringWithFormat:@"%@ FAILED: %@", [step description], [error.userInfo valueForKey:NSLocalizedDescriptionKey]];
-	[error.userInfo setValue:fullDesctiontion forKey:NSLocalizedDescriptionKey];
-    [errors setValue:error forKey:[currentScenario description]];
+	NSString *fullDescription = [NSString stringWithFormat:@"%@ FAILED: %@", [step description], [error.userInfo valueForKey:NSLocalizedDescriptionKey]];
+    [errors setValue:fullDescription forKey:[currentScenario description]];
 }
 
 - (void)logDidPassStep:(KIFTestStep *)step duration:(NSTimeInterval)duration;
