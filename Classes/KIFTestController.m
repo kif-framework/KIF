@@ -288,6 +288,9 @@ static void releaseInstance()
 
 - (BOOL)_isAccessibilityInspectorEnabled;
 {
+#if Z2_ANDROID
+    return true;
+#endif
     // This method for testing if the inspector is enabled was taken from the Frank framework.
     // https://github.com/moredip/Frank
     UIWindow *keyWindow = [[UIApplication sharedApplication] keyWindow];
@@ -420,7 +423,11 @@ static void releaseInstance()
     
     if (scenarioLimit > 0 && completeScenarioCount++ >= scenarioLimit) {
         return nil;
+#if Z2_APPLE
     } else if (result == KIFTestStepResultFailure && [[[[NSProcessInfo processInfo] environment] objectForKey:@"KIF_EXIT_ON_FAILURE"] boolValue]) {
+#elif Z2_ANDROID
+    } else if (result == KIFTestStepResultFailure) {
+#endif
         return nil;
     } else if (self.currentScenario) {
         currentScenarioIndex = [self.scenarios indexOfObjectIdenticalTo:self.currentScenario];
