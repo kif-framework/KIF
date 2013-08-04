@@ -104,7 +104,8 @@ static KIFTestScenario* currentScenario = nil;
         NSString* errorMsg =  (errorString ? [NSString stringWithFormat:@"<failure message=\"%@\">%@</failure>",
                                         errorString, scenarioSteps] :
                                @"");
-        
+
+		errorMsg = [errorMsg stringByEscapingStringForXML];
         NSString* description = [scenario description];
 		description = [description stringByEscapingStringForXML];
 		NSString* classString = NSStringFromClass([scenario class]);
