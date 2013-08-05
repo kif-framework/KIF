@@ -17,5 +17,7 @@
 - (void)afterEach;
 - (void)afterAll;
 
+@property (nonatomic, assign) BOOL stopTestsOnFirstBigFailure;
+
 @end
 
