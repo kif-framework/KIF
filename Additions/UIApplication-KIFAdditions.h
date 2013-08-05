@@ -9,6 +9,8 @@
 
 #import <UIKit/UIKit.h>
 
+#define UIApplicationCurrentRunMode ([[UIApplication sharedApplication] currentRunLoopMode])
+
 
 @interface UIApplication (KIFAdditions)
 
@@ -42,5 +44,15 @@
  @returns All windows in the application, including the key window even if it does not appear in @c -windows.
  */
 - (NSArray *)windowsWithKeyWindow;
+
+/*!
+ @returns The current run loop mode.
+ */
+- (CFStringRef)currentRunLoopMode;
+
+/*!
+ @abstract Swizzles the run loop modes so KIF can better switch between them.
+ */
++ (void)swizzleRunLoop;
 
 @end

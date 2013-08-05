@@ -12,6 +12,7 @@
 #import <SenTestingKit/SenTestingKit.h>
 #import <dlfcn.h>
 #import <objc/runtime.h>
+#import "UIApplication-KIFAdditions.h"
 
 @implementation KIFTestActor
 
@@ -25,6 +26,8 @@
             [[NSUserDefaults standardUserDefaults] setBool:YES forKey:SenTestToolKey];
             SenSelfTestMain();
         }
+        
+        [UIApplication swizzleRunLoop];
     }
 }
 
@@ -82,7 +85,7 @@
     NSError *error = nil;
     
     while ((result = executionBlock(&error)) == KIFTestStepResultWait && -[startDate timeIntervalSinceNow] < timeout) {
-        [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
+        CFRunLoopRunInMode([[UIApplication sharedApplication] currentRunLoopMode] ?: kCFRunLoopDefaultMode, 0.1, false);
     }
     
     if (result == KIFTestStepResultWait) {
