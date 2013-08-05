@@ -125,6 +125,7 @@ typedef void (^KIFTestCompletionBlock)(KIFTestStepResult result, NSError *error)
 @protocol KIFTestActorDelegate <NSObject>
 
 - (void)failWithException:(NSException *)exception stopTest:(BOOL)stop;
+- (void)failWithExceptions:(NSArray *)exceptions stopTest:(BOOL)stop;
 
 @end
 

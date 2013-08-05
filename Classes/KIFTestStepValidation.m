@@ -12,17 +12,28 @@
 
 - (void)failWithException:(NSException *)exception stopTest:(BOOL)stop
 {
+    [self failWithExceptions:@[exception] stopTest:stop];
+}
+
+- (void)failWithExceptions:(NSArray *)exceptions stopTest:(BOOL)stop
+{
     self.failed = YES;
-    self.errorDescription = exception.userInfo[SenTestDescriptionKey];
+    self.exceptions = exceptions;
     self.stopped = stop;
     if (stop) {
-        [exception raise];
+        [exceptions.firstObject raise];
     }
 }
 
 + (instancetype)mockDelegate
 {
     return [[[self alloc] init] autorelease];
+}
+
+- (void)dealloc
+{
+    [_exceptions release];
+    [super dealloc];
 }
 
 @end

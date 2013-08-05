@@ -86,4 +86,12 @@
     [self raiseAfterFailure];
 }
 
+- (void)failWithExceptions:(NSArray *)exceptions stopTest:(BOOL)stop
+{
+    NSException *lastException = exceptions.lastObject;
+    for (NSException *exception in exceptions) {
+        [self failWithException:exception stopTest:(exception == lastException ? stop : NO)];
+    }
+}
+
 @end
