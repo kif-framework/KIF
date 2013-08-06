@@ -21,7 +21,7 @@
     self.exceptions = exceptions;
     self.stopped = stop;
     if (stop) {
-        [exceptions.firstObject raise];
+        [[exceptions objectAtIndex:0] raise];
     }
 }
 
