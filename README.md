@@ -46,7 +46,7 @@ Once your test target set up, add the following to your Podspec file. Use your t
       pod 'KIF-next', '~> 2.0.0pre2'
     end
 
-After running `pod install` complete the tasks in **Final Test Target Configurations** below for the final details on getting your tests to run.
+After running `pod install` complete the tasks in [**Final Test Target Configurations**](#configure-the-testing-target) below for the final details on getting your tests to run.
 
 Installation (from GitHub)
 --------------------------
