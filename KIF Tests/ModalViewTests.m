@@ -41,6 +41,10 @@
 
 - (void)testInteractionWithAnActivityViewController
 {
+    if (!NSClassFromString(@"UIActivityViewController")) {
+        return;
+    }
+    
     [tester tapViewWithAccessibilityLabel:@"UIActivityViewController"];
     [tester waitForTappableViewWithAccessibilityLabel:@"Copy"];
     [tester waitForTappableViewWithAccessibilityLabel:@"Mail"];

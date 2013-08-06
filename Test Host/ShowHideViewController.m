@@ -23,7 +23,6 @@
     CGPoint bCenter = self.bButton.center;
     CGPoint center = self.obscuringView.center;
     
-    [self.obscuringView removeConstraints:self.obscuringView.constraints];
     [UIView animateWithDuration:2 animations:^{
         self.obscuringView.center = (ABS(center.y - aCenter.y) < ABS(center.y - bCenter.y)) ? bCenter : aCenter;
     }];

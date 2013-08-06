@@ -31,8 +31,8 @@
 
 - (void)testTappingViewWithTraits
 {
-    [tester tapViewWithAccessibilityLabel:@"Second" traits:UIAccessibilityTraitButton];
-    [tester waitForViewWithAccessibilityLabel:@"Second" traits:UIAccessibilityTraitButton | UIAccessibilityTraitSelected];
+    [tester tapViewWithAccessibilityLabel:@"X" traits:UIAccessibilityTraitButton];
+    [tester waitForViewWithAccessibilityLabel:@"X" traits:UIAccessibilityTraitButton | UIAccessibilityTraitSelected];
 }
 
 - (void)testTappingViewWithValue

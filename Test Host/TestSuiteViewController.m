@@ -34,8 +34,11 @@
             
         case 2:
         {
-            UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:@[@"Hello World"] applicationActivities:nil];
-            [self presentViewController:controller animated:YES completion:nil];
+            Class AVCClass = NSClassFromString(@"UIActivityViewController");
+            if (AVCClass) {
+                UIActivityViewController *controller = [[AVCClass alloc] initWithActivityItems:@[@"Hello World"] applicationActivities:nil];
+                [self presentViewController:controller animated:YES completion:nil];
+            }
             break;
         }
     }

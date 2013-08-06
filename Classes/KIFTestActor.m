@@ -22,7 +22,7 @@
         NSLog(@"KIFTester loaded");
         [KIFTestActor _enableAccessibility];
         
-        if ([[NSProcessInfo processInfo] environment][@"StartKIFManually"]) {
+        if ([[[NSProcessInfo processInfo] environment] objectForKey:@"StartKIFManually"]) {
             [[NSUserDefaults standardUserDefaults] setBool:YES forKey:SenTestToolKey];
             SenSelfTestMain();
         }
@@ -172,7 +172,7 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
 
 - (void)failWithExceptions:(NSArray *)exceptions stopTest:(BOOL)stop
 {
-    NSException *firstException = exceptions[0];
+    NSException *firstException = [exceptions objectAtIndex:0];
     NSException *newException = [NSException failureInFile:self.file atLine:self.line withDescription:@"Failure in child step: %@", firstException.description];
     
     [self.delegate failWithExceptions:[exceptions arrayByAddingObject:newException] stopTest:stop];
