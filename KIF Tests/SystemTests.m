@@ -13,15 +13,8 @@
 
 @implementation SystemTests
 
-- (void)afterEach
-{
-    [tester tapViewWithAccessibilityLabel:@"Test Suite" traits:UIAccessibilityTraitButton];
-}
-
 - (void)testWaitingForTimeInterval
 {
-    [tester tapViewWithAccessibilityLabel:@"Show/Hide"];
-    
     NSTimeInterval startTime = [NSDate timeIntervalSinceReferenceDate];
     [tester waitForTimeInterval:1.2];
     NSTimeInterval elapsed = [NSDate timeIntervalSinceReferenceDate] - startTime;
@@ -31,26 +24,36 @@
 
 - (void)testWaitingForNotification
 {
-    [tester tapViewWithAccessibilityLabel:@"Show/Hide"];
-    [tester tapViewWithAccessibilityLabel:@"Delayed Show/Hide"];
-    [system waitForNotificationName:@"DelayedShowHide" object:[UIApplication sharedApplication]];
+    static NSString *const Name = @"Notification";
+    id obj = [[NSObject alloc] init];
+    
+    double delayInSeconds = 1.0;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        [[NSNotificationCenter defaultCenter] postNotificationName:Name object:obj userInfo:@{@"A": @"B"}];
+    });
+    
+    NSNotification *notification = [system waitForNotificationName:Name object:obj];
+    STAssertEqualObjects(@"B", [notification.userInfo objectForKey:@"A"], @"Expected notification to match user data.");
 }
 
 - (void)testWaitingForNotificationWhileDoingOtherThings
 {
-    [tester tapViewWithAccessibilityLabel:@"Show/Hide"];
-    [system waitForNotificationName:@"InstantShowHide" object:[UIApplication sharedApplication] whileExecutingBlock:^{
-        [tester tapViewWithAccessibilityLabel:@"Instant Show/Hide"];
+    static NSString *const Name = @"Notification";
+    id obj = [[NSObject alloc] init];
+    
+    NSNotification *notification = [system waitForNotificationName:Name object:obj whileExecutingBlock:^{
+        [[NSNotificationCenter defaultCenter] postNotificationName:Name object:obj userInfo:@{@"A": @"B"}];
     }];
+    
+    STAssertEqualObjects(@"B", [notification.userInfo objectForKey:@"A"], @"Expected notification to match user data.");
 }
 
 - (void)testMemoryWarningSimulator
 {
-    [tester tapViewWithAccessibilityLabel:@"Tapping"];
-    [tester tapViewWithAccessibilityLabel:@"Hide memory warning"];
-    [tester waitForAbsenceOfViewWithAccessibilityLabel:@"Memory Critical"];
-    [system simulateMemoryWarning];
-    [tester waitForViewWithAccessibilityLabel:@"Memory Critical"];
+    [system waitForNotificationName:UIApplicationDidReceiveMemoryWarningNotification object:[UIApplication sharedApplication] whileExecutingBlock:^{
+        [system simulateMemoryWarning];
+    }];
 }
 
 @end
