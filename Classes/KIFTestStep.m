@@ -380,6 +380,7 @@ typedef CGPoint KIFDisplacement;
             return KIFTestStepResultWait;
         }
 
+#if !Z2_ANDROID
         CGRect elementFrame = [view.window convertRect:element.accessibilityFrame toView:view];
         CGPoint tappablePointInElement = [view tappablePointInRect:elementFrame];
 
@@ -388,7 +389,20 @@ typedef CGPoint KIFDisplacement;
         [view tapAtPoint:tappablePointInElement];
 
         KIFTestCondition(![view canBecomeFirstResponder] || [view isDescendantOfFirstResponder], error, @"Failed to make the view %@ which contains the accessibility element \"%@\" into the first responder", view, label);
+        
+#elif Z2_ANDROID
+        if([element isKindOfClass:[UISegmentedControl class]])
+        {
+            UISegmentedControl* control = (UISegmentedControl*)element;
+            [control flipSegmentedControl];
+        }
+        else if([element isKindOfClass:[UIControl class]]) {
+            UIControl* control = (UIControl*)element;
+            [control sendActionsForControlEvents:UIControlEventTouchUpInside];
+        }
 
+#endif
+        
         quiesceStartTime = [NSDate timeIntervalSinceReferenceDate];
 
         KIFTestWaitCondition(NO, error, @"Waiting for the view to settle.");
@@ -452,6 +466,7 @@ typedef CGPoint KIFDisplacement;
         UIView *view = [UIAccessibilityElement viewContainingAccessibilityElement:element];
         KIFTestWaitCondition(view, error, @"Cannot find view with accessibility label \"%@\"", label);
                 
+#if !Z2_ANDROID
         CGRect elementFrame = [view.window convertRect:element.accessibilityFrame toView:view];
         CGPoint tappablePointInElement = [view tappablePointInRect:elementFrame];
         
@@ -477,6 +492,10 @@ typedef CGPoint KIFDisplacement;
                 }
             }
         }
+#elif Z2_ANDROID
+        UITextField* textField = (UITextField*)view;
+        [textField setText:text];
+#endif
         
         // This is probably a UITextField- or UITextView-ish view, so make sure it worked
         if ([view respondsToSelector:@selector(text)]) {
