@@ -10,6 +10,7 @@
 #import "UIView-KIFAdditions.h"
 #import "CGGeometry-KIFAdditions.h"
 #import "UIAccessibilityElement-KIFAdditions.h"
+#import "UIApplication-KIFAdditions.h"
 #import "UITouch-KIFAdditions.h"
 #import <objc/runtime.h>
 
@@ -81,9 +82,16 @@ typedef struct __GSEvent * GSEventRef;
 - (UIAccessibilityElement *)accessibilityElementWithLabel:(NSString *)label accessibilityValue:(NSString *)value traits:(UIAccessibilityTraits)traits;
 {
     return [self accessibilityElementMatchingBlock:^(UIAccessibilityElement *element) {
+        
+        // TODO: This is a temporary fix for an SDK defect.
+        NSString *accessibilityValue = element.accessibilityValue;
+        if ([accessibilityValue isKindOfClass:[NSAttributedString class]]) {
+            accessibilityValue = [(NSAttributedString *)accessibilityValue string];
+        }
+        
         BOOL labelsMatch = [element.accessibilityLabel isEqual:label];
         BOOL traitsMatch = ((element.accessibilityTraits) & traits) == traits;
-        BOOL valuesMatch = !value || [value isEqual:element.accessibilityValue];
+        BOOL valuesMatch = !value || [value isEqual:accessibilityValue];
 
         return (BOOL)(labelsMatch && traitsMatch && valuesMatch);
     }];
@@ -101,7 +109,7 @@ typedef struct __GSEvent * GSEventRef;
     BOOL elementMatches = matchBlock((UIAccessibilityElement *)self);
 
     if (elementMatches) {
-        if (self.tappable) {
+        if (self.isTappable) {
             return (UIAccessibilityElement *)self;
         } else {
             matchingButOccludedElement = (UIAccessibilityElement *)self;
@@ -158,7 +166,9 @@ typedef struct __GSEvent * GSEventRef;
         for (NSInteger accessibilityElementIndex = 0; accessibilityElementIndex < accessibilityElementCount; accessibilityElementIndex++) {
             UIAccessibilityElement *subelement = [element accessibilityElementAtIndex:accessibilityElementIndex];
             
-            [elementStack addObject:subelement];
+            if (subelement) {
+                [elementStack addObject:subelement];
+            }
         }
     }
         
@@ -355,17 +365,17 @@ typedef struct __GSEvent * GSEventRef;
     
     UIEvent *eventDown = [self _eventWithTouch:touch];
     [[UIApplication sharedApplication] sendEvent:eventDown];
-
-    CFRunLoopRunInMode(kCFRunLoopDefaultMode, DRAG_TOUCH_DELAY, false);
     
-    for (NSInteger pointIndex = 1; pointIndex < count - 1; pointIndex++) {
+    CFRunLoopRunInMode(UIApplicationCurrentRunMode, DRAG_TOUCH_DELAY, false);
+
+    for (NSInteger pointIndex = 1; pointIndex < count; pointIndex++) {
         [touch setLocationInWindow:[self.window convertPoint:points[pointIndex] fromView:self]];
         [touch setPhase:UITouchPhaseMoved];
         
         UIEvent *eventDrag = [self _eventWithTouch:touch];
         [[UIApplication sharedApplication] sendEvent:eventDrag];
 
-        CFRunLoopRunInMode(kCFRunLoopDefaultMode, DRAG_TOUCH_DELAY, false);
+        CFRunLoopRunInMode(UIApplicationCurrentRunMode, DRAG_TOUCH_DELAY, false);
     }
     
     [touch setPhase:UITouchPhaseEnded];
@@ -378,7 +388,16 @@ typedef struct __GSEvent * GSEventRef;
         [self becomeFirstResponder];
     }
     
+    while (UIApplicationCurrentRunMode != kCFRunLoopDefaultMode) {
+        CFRunLoopRunInMode(UIApplicationCurrentRunMode, 0.1, false);
+    }
     [touch release];
+}
+
+- (BOOL)isProbablyTappable
+{
+    // There are some issues with the tappability check in UIWebViews, so if the view is a UIWebView we will just skip the check.
+    return [NSStringFromClass([self class]) isEqualToString:@"UIWebBrowserView"] || self.isTappable;
 }
 
 // Is this view currently on screen?
@@ -485,6 +504,37 @@ typedef struct __GSEvent * GSEventRef;
     
     [eventProxy release];
     return event;
+}
+
+- (BOOL)isUserInteractionActuallyEnabled;
+{
+    BOOL isUserInteractionEnabled = self.userInteractionEnabled;
+    
+    // Navigation item views don't have user interaction enabled, but their parent nav bar does and will forward the event
+    if (!isUserInteractionEnabled && [self isKindOfClass:NSClassFromString(@"UINavigationItemView")]) {
+        // If this view is inside a nav bar, and the nav bar is enabled, then consider it enabled
+        UIView *navBar = [self superview];
+        while (navBar && ![navBar isKindOfClass:[UINavigationBar class]]) {
+            navBar = [navBar superview];
+        }
+        if (navBar && navBar.userInteractionEnabled) {
+            isUserInteractionEnabled = YES;
+        }
+    }
+    
+    // UIActionsheet Buttons have UIButtonLabels with userInteractionEnabled=NO inside,
+    // grab the superview UINavigationButton instead.
+    if (!isUserInteractionEnabled && [self isKindOfClass:NSClassFromString(@"UIButtonLabel")]) {
+        UIView *button = [self superview];
+        while (button && ![button isKindOfClass:NSClassFromString(@"UINavigationButton")]) {
+            button = [button superview];
+        }
+        if (button && button.userInteractionEnabled) {
+            isUserInteractionEnabled = YES;
+        }
+    }
+    
+    return isUserInteractionEnabled;
 }
 
 @end

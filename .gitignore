@@ -6,8 +6,8 @@
 *.mode2v3
 *.pbxuser
 *.perspectivev3
-*.xcworkspace
 xcuserdata
+project.xcworkspace
 
 #Ignore textmate build errors
 *.tm_build_errors
@@ -20,9 +20,5 @@ xcuserdata
 build
 
 .gitattributes
-
-#Probably don't want to check in xcuserdata
-xcuserdata/
-*.xcworkspace/
 
 *.orig

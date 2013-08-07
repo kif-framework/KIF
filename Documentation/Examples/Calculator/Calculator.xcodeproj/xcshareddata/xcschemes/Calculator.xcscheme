@@ -29,7 +29,7 @@
       buildConfiguration = "Debug">
       <Testables>
          <TestableReference
-            skipped = "YES">
+            skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "EB4C313E167BA79700E31109"
@@ -42,16 +42,6 @@
                   Identifier = "BasicCalculatorTests/testToFail">
                </Test>
             </SkippedTests>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "A885A9071694C6C100CA6E1B"
-               BuildableName = "Acceptance Tests copy.octest"
-               BlueprintName = "Recorder"
-               ReferencedContainer = "container:Calculator.xcodeproj">
-            </BuildableReference>
          </TestableReference>
       </Testables>
       <MacroExpansion>

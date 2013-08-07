@@ -12,7 +12,7 @@
 
 @interface UIView (KIFAdditions)
 
-@property (nonatomic, readonly, getter=isTappable) BOOL tappable;
+@property (nonatomic, readonly, getter=isProbablyTappable) BOOL probablyTappable;
 
 - (BOOL)isDescendantOfFirstResponder;
 - (UIAccessibilityElement *)accessibilityElementWithLabel:(NSString *)label;
@@ -73,5 +73,10 @@
  @result A tappable point in the receivers frame coordinates.
  */
 - (CGPoint)tappablePointInRect:(CGRect)rect;
+
+/*!
+ @abstract Evaluates if user interaction is enabled including edge cases.
+ */
+- (BOOL)isUserInteractionActuallyEnabled;
 
 @end

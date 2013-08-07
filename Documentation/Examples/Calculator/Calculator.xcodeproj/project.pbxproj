@@ -48,6 +48,20 @@
 			remoteGlobalIDString = EB72043E1680DDAD00278DA2;
 			remoteInfo = KIFTestCase;
 		};
+		EB2A8A871781D68600C6299F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A8892FF71684F0A400FC7C63 /* KIF.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = EB60ECC1177F8C83005A041A;
+			remoteInfo = "Test Host";
+		};
+		EB2A8A891781D68600C6299F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A8892FF71684F0A400FC7C63 /* KIF.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = EB60ECEB177F8DB3005A041A;
+			remoteInfo = "KIF Tests";
+		};
 		EB4C3161167BAEDE00E31109 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = EB4C30D0167B9E3A00E31109 /* Project object */;
@@ -58,7 +72,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		A885A91D1694C6C100CA6E1B /* Acceptance Tests copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Acceptance Tests copy-Info.plist"; path = "/Users/puls/Development/Wallet/Frameworks/KIF/Documentation/Examples/Calculator/Acceptance Tests copy-Info.plist"; sourceTree = "<absolute>"; };
 		A8892FF71684F0A400FC7C63 /* KIF.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = KIF.xcodeproj; path = ../../../KIF.xcodeproj; sourceTree = "<group>"; };
 		EB4C30D9167B9E3A00E31109 /* Calculator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Calculator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EB4C30DD167B9E3A00E31109 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -121,6 +134,8 @@
 			isa = PBXGroup;
 			children = (
 				A88930001684F0A400FC7C63 /* libKIF.a */,
+				EB2A8A881781D68600C6299F /* Test Host.app */,
+				EB2A8A8A1781D68600C6299F /* KIF Tests.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -132,7 +147,6 @@
 				EB4C3143167BA79700E31109 /* Acceptance Tests */,
 				EB4C30DC167B9E3A00E31109 /* Frameworks */,
 				EB4C30DA167B9E3A00E31109 /* Products */,
-				A885A91D1694C6C100CA6E1B /* Acceptance Tests copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -289,6 +303,20 @@
 			fileType = archive.ar;
 			path = libKIF.a;
 			remoteRef = A8892FFF1684F0A400FC7C63 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		EB2A8A881781D68600C6299F /* Test Host.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = "Test Host.app";
+			remoteRef = EB2A8A871781D68600C6299F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		EB2A8A8A1781D68600C6299F /* KIF Tests.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "KIF Tests.octest";
+			remoteRef = EB2A8A891781D68600C6299F /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */

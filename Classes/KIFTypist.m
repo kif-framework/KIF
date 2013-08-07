@@ -58,13 +58,13 @@
     
     NSValue *keyplaneValue = [NSValue valueWithNonretainedObject:keyplane];
     
-    NSMutableArray *unvisitedForKeyplane = history[keyplaneValue];
+    NSMutableArray *unvisitedForKeyplane = [history objectForKey:keyplaneValue];
     if (!unvisitedForKeyplane) {
         unvisitedForKeyplane = [NSMutableArray arrayWithObjects:@"More", @"International", nil];
         if (!isShiftKeyplane) {
             [unvisitedForKeyplane insertObject:@"Shift" atIndex:0];
         }
-        history[keyplaneValue] = unvisitedForKeyplane;
+        [history setObject:unvisitedForKeyplane forKey:keyplaneValue];
     }
     
     NSArray *keys = [keyplane valueForKey:@"keys"];
@@ -85,7 +85,7 @@
                 keyToTap = key;
             }
             
-            if (!modifierKey && unvisitedForKeyplane.count && [unvisitedForKeyplane[0] isEqual:representedString]) {
+            if (!modifierKey && unvisitedForKeyplane.count && [[unvisitedForKeyplane objectAtIndex:0] isEqual:representedString]) {
                 modifierKey = key;
                 selectedModifierRepresentedString = representedString;
                 [unvisitedForKeyplane removeObjectAtIndex:0];
@@ -127,7 +127,7 @@
         if (newKeyplane == previousKeyplane) {
             // Come back to the keyplane that we just tested so that we can try the other modifiers
             NSValue *keyplaneValue = [NSValue valueWithNonretainedObject:newKeyplane];
-            NSMutableArray *previousKeyplaneHistory = history[keyplaneValue];
+            NSMutableArray *previousKeyplaneHistory = [history objectForKey:keyplaneValue];
             [previousKeyplaneHistory insertObject:[history valueForKey:@"lastModifierRepresentedString"] atIndex:0];
         } else {
             [history setValue:keyplane forKey:@"previousKeyplane"];
