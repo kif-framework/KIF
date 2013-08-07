@@ -56,4 +56,24 @@
     }];
 }
 
+- (void)testMockingOpenURL
+{
+    __block BOOL returnValue;
+    [system waitForApplicationToOpenURL:@"test123://" whileExecutingBlock:^{
+        returnValue = [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"test123://"]];
+    } returning:NO];
+    STAssertEquals(NO, returnValue, @"openURL: should have returned NO");
+    
+    [system waitForApplicationToOpenURL:@"test123://" whileExecutingBlock:^{
+        returnValue = [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"test123://"]];
+    } returning:YES];
+    STAssertEquals(YES, returnValue, @"openURL: should have returned YES");
+    
+    [system waitForApplicationToOpenAnyURLWhileExecutingBlock:^{
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"423543523454://"]];
+    } returning:YES];
+    
+    STAssertFalse([[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"this-is-a-fake-url://"]], @"Should no longer be mocking, reject bad URL.");
+}
+
 @end

@@ -9,6 +9,8 @@
 
 #import "KIFSystemTestActor.h"
 #import <UIKit/UIKit.h>
+#import "UIApplication-KIFAdditions.h"
+#import "NSError-KIFAdditions.h"
 
 @implementation KIFSystemTestActor
 
@@ -18,6 +20,11 @@
 }
 
 - (NSNotification *)waitForNotificationName:(NSString *)name object:(id)object whileExecutingBlock:(void(^)())block
+{
+    return [self waitForNotificationName:name object:object whileExecutingBlock:block complete:nil];
+}
+
+- (NSNotification *)waitForNotificationName:(NSString *)name object:(id)object whileExecutingBlock:(void(^)())block complete:(void(^)())complete
 {
     __block NSNotification *detectedNotification = nil;
     id observer = [[NSNotificationCenter defaultCenter] addObserverForName:name object:object queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
@@ -34,6 +41,10 @@
         return KIFTestStepResultSuccess;
     } complete:^(KIFTestStepResult result, NSError *error) {
         [[NSNotificationCenter defaultCenter] removeObserver:observer];
+        
+        if (complete) {
+            complete();
+        }
     }];
     
     return [detectedNotification autorelease];
@@ -42,6 +53,24 @@
 - (void)simulateMemoryWarning
 {
     [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationDidReceiveMemoryWarningNotification object:[UIApplication sharedApplication]];
+}
+
+- (void)waitForApplicationToOpenAnyURLWhileExecutingBlock:(void (^)())block returning:(BOOL)returnValue
+{
+    [self waitForApplicationToOpenURL:nil whileExecutingBlock:block returning:returnValue];
+}
+
+- (void)waitForApplicationToOpenURL:(NSString *)URLString whileExecutingBlock:(void (^)())block returning:(BOOL)returnValue
+{
+    [UIApplication startMockingOpenURLWithReturnValue:returnValue];
+    NSNotification *notification = [self waitForNotificationName:UIApplicationDidMockOpenURLNotification object:[UIApplication sharedApplication] whileExecutingBlock:block complete:^{
+        [UIApplication stopMockingOpenURL];
+    }];
+    
+    NSString *actualURLString = [[notification.userInfo objectForKey:UIApplicationOpenedURLKey] absoluteString];
+    if (URLString && ![URLString isEqualToString:actualURLString]) {
+        [self failWithError:[NSError KIFErrorWithFormat:@"Expected %@, got %@", URLString, actualURLString] stopTest:YES];
+    }
 }
 
 @end

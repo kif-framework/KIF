@@ -11,6 +11,15 @@
 
 #define UIApplicationCurrentRunMode ([[UIApplication sharedApplication] currentRunLoopMode])
 
+/*!
+ @abstract When mocking @c -openURL:, this notification is posted.
+ */
+UIKIT_EXTERN NSString *const UIApplicationDidMockOpenURLNotification;
+
+/*!
+ @abstract The key for the opened URL in the @c UIApplicationDidMockOpenURLNotification notification.
+ */
+UIKIT_EXTERN NSString *const UIApplicationOpenedURLKey;
 
 @interface UIApplication (KIFAdditions)
 
@@ -54,5 +63,17 @@
  @abstract Swizzles the run loop modes so KIF can better switch between them.
  */
 + (void)swizzleRunLoop;
+
+/*!
+ @abstract Starts mocking requests to @c -openURL:, announcing all requests with a notification.
+ @discussion After calling this method, whenever @c -openURL: is called a notification named @c UIApplicationDidMockOpenURLNotification with the URL in the @c UIApplicationOpenedURL will be raised and the normal behavior will be cancelled.
+ @param returnValue The value to return when @c -openURL: is called.
+ */
++ (void)startMockingOpenURLWithReturnValue:(BOOL)returnValue;
+
+/*!
+ @abstract Stops the application from mocking requests to @c -openURL:.
+ */
++ (void)stopMockingOpenURL;
 
 @end
