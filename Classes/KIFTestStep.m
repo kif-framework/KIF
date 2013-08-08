@@ -578,12 +578,17 @@ typedef CGPoint KIFDisplacement;
             return KIFTestStepResultSuccess;   
         }
         
+#if !Z2_ANDROID
         CGRect elementFrame = [switchView.window convertRect:element.accessibilityFrame toView:switchView];
         CGPoint tappablePointInElement = [switchView tappablePointInRect:elementFrame];
         
         // This is mostly redundant of the test in _accessibilityElementWithLabel:
         KIFTestCondition(!isnan(tappablePointInElement.x), error, @"The element with accessibility label %@ is not tappable", label);
         [switchView tapAtPoint:tappablePointInElement];
+#elif Z2_ANDROID
+        UISwitch* switchCastView = (UISwitch*)switchView;
+        [switchCastView setOn:switchIsOn];
+#endif
 
         // This is a UISwitch, so make sure it worked
         if (switchIsOn != switchView.on) {
