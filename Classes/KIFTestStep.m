@@ -93,6 +93,7 @@ typedef CGPoint KIFDisplacement;
 
 + (void)stepFailed;
 {
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"KIFTestStepDidFail" object:self];
     // Add a logging call here or set a breakpoint to debug failed KIFTestCondition calls
 }
 
