@@ -9,7 +9,7 @@
 
 #import <KIF/KIF.h>
 
-@interface KIFTester (BasicCalculator)
+@interface KIFUITestActor (BasicCalculator)
 
 - (void)enterValue1:(NSString *)value;
 - (void)enterValue2:(NSString *)value;
@@ -19,7 +19,7 @@
 
 @end
 
-@implementation KIFTester (BasicCalculator)
+@implementation KIFUITestActor (BasicCalculator)
 
 - (void)enterValue1:(NSString *)value
 {

@@ -7,9 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A868094B13E32D51005DDA1F /* libKIF.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A868094613E32C77005DDA1F /* libKIF.a */; };
-		A868094C13E32D55005DDA1F /* libKIF.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A868094613E32C77005DDA1F /* libKIF.a */; };
-		AA0A22AA13A7D372004789C0 /* EXTestController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB073E513997527008AF393 /* EXTestController.m */; };
 		AAB073AD139861C0008AF393 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAB073AC139861C0008AF393 /* UIKit.framework */; };
 		AAB073AF139861C0008AF393 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAB073AE139861C0008AF393 /* Foundation.framework */; };
 		AAB073B1139861C0008AF393 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAB073B0139861C0008AF393 /* CoreGraphics.framework */; };
@@ -19,53 +16,27 @@
 		AAB073C0139861C0008AF393 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = AAB073BE139861C0008AF393 /* MainWindow.xib */; };
 		AAB073C3139861C0008AF393 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB073C2139861C0008AF393 /* RootViewController.m */; };
 		AAB073C6139861C0008AF393 /* RootViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AAB073C4139861C0008AF393 /* RootViewController.xib */; };
-		AAB073D113994E20008AF393 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB073B9139861C0008AF393 /* main.m */; };
-		AAB073D213994E20008AF393 /* TestableAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB073BC139861C0008AF393 /* TestableAppDelegate.m */; };
-		AAB073D313994E20008AF393 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB073C2139861C0008AF393 /* RootViewController.m */; };
-		AAB073D513994E20008AF393 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAB073AC139861C0008AF393 /* UIKit.framework */; };
-		AAB073D613994E20008AF393 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAB073AE139861C0008AF393 /* Foundation.framework */; };
-		AAB073D713994E20008AF393 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAB073B0139861C0008AF393 /* CoreGraphics.framework */; };
-		AAB073D913994E20008AF393 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = AAB073B5139861C0008AF393 /* InfoPlist.strings */; };
-		AAB073DA13994E20008AF393 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = AAB073BE139861C0008AF393 /* MainWindow.xib */; };
-		AAB073DB13994E20008AF393 /* RootViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AAB073C4139861C0008AF393 /* RootViewController.xib */; };
-		AAC634C113A5EAF900634049 /* KIFTestScenario+EXAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC634BE13A5E8E200634049 /* KIFTestScenario+EXAdditions.m */; };
-		AADF7E2413EC7211006410B2 /* KIFTestStep+EXAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC634C313A68BF000634049 /* KIFTestStep+EXAdditions.m */; };
-		EB72049E1680E2EE00278DA2 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB72049D1680E2EE00278DA2 /* SenTestingKit.framework */; };
-		EB72049F1680E2EE00278DA2 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAB073AC139861C0008AF393 /* UIKit.framework */; };
-		EB7204A01680E2EE00278DA2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAB073AE139861C0008AF393 /* Foundation.framework */; };
-		EB7204A61680E2EE00278DA2 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = EB7204A41680E2EE00278DA2 /* InfoPlist.strings */; };
-		EB7204A91680E2EE00278DA2 /* IntegrationTestCases.m in Sources */ = {isa = PBXBuildFile; fileRef = EB7204A81680E2EE00278DA2 /* IntegrationTestCases.m */; };
-		EB7204B21680E38700278DA2 /* libKIFTestCase.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EB7204941680E10800278DA2 /* libKIFTestCase.a */; };
-		EB7204B31680E49B00278DA2 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAB073B0139861C0008AF393 /* CoreGraphics.framework */; };
-		EB7204B61680E4F800278DA2 /* KIFTester+EXAddition.m in Sources */ = {isa = PBXBuildFile; fileRef = EB7204B51680E4F800278DA2 /* KIFTester+EXAddition.m */; };
+		EB47EFB51781DF6D006BBFAC /* IntegrationTestCases.m in Sources */ = {isa = PBXBuildFile; fileRef = EB47EFB21781DF6D006BBFAC /* IntegrationTestCases.m */; };
+		EB47EFB61781DF6D006BBFAC /* KIFUITestActor+EXAddition.m in Sources */ = {isa = PBXBuildFile; fileRef = EB47EFB41781DF6D006BBFAC /* KIFUITestActor+EXAddition.m */; };
+		EB9DB7331781DBD40087B6FD /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB72049D1680E2EE00278DA2 /* SenTestingKit.framework */; };
+		EB9DB7341781DBD40087B6FD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAB073AC139861C0008AF393 /* UIKit.framework */; };
+		EB9DB7351781DBD40087B6FD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAB073AE139861C0008AF393 /* Foundation.framework */; };
+		EB9DB73B1781DBD40087B6FD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = EB9DB7391781DBD40087B6FD /* InfoPlist.strings */; };
+		EB9DB7441781DDBA0087B6FD /* libKIF.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EB9DB7431781DDBA0087B6FD /* libKIF.a */; };
+		EB9DB7451781DDC70087B6FD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAB073B0139861C0008AF393 /* CoreGraphics.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		A868094513E32C77005DDA1F /* PBXContainerItemProxy */ = {
+		EB9DB7461781DE100087B6FD /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = A868094113E32C77005DDA1F /* KIF.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = AAB07268139719AC008AF393;
-			remoteInfo = KIF;
-		};
-		A868094713E32C89005DDA1F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = A868094113E32C77005DDA1F /* KIF.xcodeproj */;
+			containerPortal = AAB0739F139861C0008AF393 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = AAB07267139719AC008AF393;
-			remoteInfo = KIF;
-		};
-		EB7204931680E10800278DA2 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = A868094113E32C77005DDA1F /* KIF.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = EB72047C1680DDAD00278DA2;
-			remoteInfo = KIFTestCase;
+			remoteGlobalIDString = AAB073A7139861C0008AF393;
+			remoteInfo = Testable;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		A868094113E32C77005DDA1F /* KIF.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = KIF.xcodeproj; path = Frameworks/KIF/KIF.xcodeproj; sourceTree = "<group>"; };
 		AAB073A8139861C0008AF393 /* Testable.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Testable.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAB073AC139861C0008AF393 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		AAB073AE139861C0008AF393 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -80,21 +51,15 @@
 		AAB073C1139861C0008AF393 /* RootViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
 		AAB073C2139861C0008AF393 /* RootViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
 		AAB073C5139861C0008AF393 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/RootViewController.xib; sourceTree = "<group>"; };
-		AAB073DF13994E20008AF393 /* Testable (Integration Tests).app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Testable (Integration Tests).app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		AAB073E413997527008AF393 /* EXTestController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EXTestController.h; path = Testable/Testing/EXTestController.h; sourceTree = "<group>"; };
-		AAB073E513997527008AF393 /* EXTestController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EXTestController.m; path = Testable/Testing/EXTestController.m; sourceTree = "<group>"; };
-		AAC634BD13A5E8E200634049 /* KIFTestScenario+EXAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "KIFTestScenario+EXAdditions.h"; path = "Testable/Testing/KIFTestScenario+EXAdditions.h"; sourceTree = "<group>"; };
-		AAC634BE13A5E8E200634049 /* KIFTestScenario+EXAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "KIFTestScenario+EXAdditions.m"; path = "Testable/Testing/KIFTestScenario+EXAdditions.m"; sourceTree = "<group>"; };
-		AAC634C213A68BF000634049 /* KIFTestStep+EXAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "KIFTestStep+EXAdditions.h"; path = "Testable/Testing/KIFTestStep+EXAdditions.h"; sourceTree = "<group>"; };
-		AAC634C313A68BF000634049 /* KIFTestStep+EXAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "KIFTestStep+EXAdditions.m"; path = "Testable/Testing/KIFTestStep+EXAdditions.m"; sourceTree = "<group>"; };
-		EB72049C1680E2EE00278DA2 /* Integration Tests with KIFTestCase.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Integration Tests with KIFTestCase.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		EB47EFB21781DF6D006BBFAC /* IntegrationTestCases.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IntegrationTestCases.m; sourceTree = "<group>"; };
+		EB47EFB31781DF6D006BBFAC /* KIFUITestActor+EXAddition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "KIFUITestActor+EXAddition.h"; sourceTree = "<group>"; };
+		EB47EFB41781DF6D006BBFAC /* KIFUITestActor+EXAddition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "KIFUITestActor+EXAddition.m"; sourceTree = "<group>"; };
 		EB72049D1680E2EE00278DA2 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
-		EB7204A31680E2EE00278DA2 /* Integration Tests with KIFTestCase-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Integration Tests with KIFTestCase-Info.plist"; sourceTree = "<group>"; };
-		EB7204A51680E2EE00278DA2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		EB7204A81680E2EE00278DA2 /* IntegrationTestCases.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IntegrationTestCases.m; sourceTree = "<group>"; };
-		EB7204AA1680E2EE00278DA2 /* Integration Tests with KIFTestCase-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Integration Tests with KIFTestCase-Prefix.pch"; sourceTree = "<group>"; };
-		EB7204B41680E4F800278DA2 /* KIFTester+EXAddition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "KIFTester+EXAddition.h"; sourceTree = "<group>"; };
-		EB7204B51680E4F800278DA2 /* KIFTester+EXAddition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "KIFTester+EXAddition.m"; sourceTree = "<group>"; };
+		EB9DB7321781DBD40087B6FD /* Acceptance Tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Acceptance Tests.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		EB9DB7381781DBD40087B6FD /* Acceptance Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Acceptance Tests-Info.plist"; sourceTree = "<group>"; };
+		EB9DB73A1781DBD40087B6FD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		EB9DB73F1781DBD40087B6FD /* Acceptance Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Acceptance Tests-Prefix.pch"; sourceTree = "<group>"; };
+		EB9DB7431781DDBA0087B6FD /* libKIF.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libKIF.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,52 +70,29 @@
 				AAB073AD139861C0008AF393 /* UIKit.framework in Frameworks */,
 				AAB073AF139861C0008AF393 /* Foundation.framework in Frameworks */,
 				AAB073B1139861C0008AF393 /* CoreGraphics.framework in Frameworks */,
-				A868094B13E32D51005DDA1F /* libKIF.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		AAB073D413994E20008AF393 /* Frameworks */ = {
+		EB9DB72E1781DBD40087B6FD /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AAB073D513994E20008AF393 /* UIKit.framework in Frameworks */,
-				AAB073D613994E20008AF393 /* Foundation.framework in Frameworks */,
-				AAB073D713994E20008AF393 /* CoreGraphics.framework in Frameworks */,
-				A868094C13E32D55005DDA1F /* libKIF.a in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		EB7204981680E2EE00278DA2 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				EB7204B31680E49B00278DA2 /* CoreGraphics.framework in Frameworks */,
-				EB7204B21680E38700278DA2 /* libKIFTestCase.a in Frameworks */,
-				EB72049E1680E2EE00278DA2 /* SenTestingKit.framework in Frameworks */,
-				EB72049F1680E2EE00278DA2 /* UIKit.framework in Frameworks */,
-				EB7204A01680E2EE00278DA2 /* Foundation.framework in Frameworks */,
+				EB9DB7441781DDBA0087B6FD /* libKIF.a in Frameworks */,
+				EB9DB7451781DDC70087B6FD /* CoreGraphics.framework in Frameworks */,
+				EB9DB7331781DBD40087B6FD /* SenTestingKit.framework in Frameworks */,
+				EB9DB7341781DBD40087B6FD /* UIKit.framework in Frameworks */,
+				EB9DB7351781DBD40087B6FD /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		A868094213E32C77005DDA1F /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				A868094613E32C77005DDA1F /* libKIF.a */,
-				EB7204941680E10800278DA2 /* libKIFTestCase.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		AAB0739D139861C0008AF393 = {
 			isa = PBXGroup;
 			children = (
-				A868094113E32C77005DDA1F /* KIF.xcodeproj */,
 				AAB073B2139861C0008AF393 /* Testable */,
-				AAB073E3139974AD008AF393 /* Testing */,
-				EB7204A11680E2EE00278DA2 /* Integration Tests with KIFTestCase */,
+				EB9DB7361781DBD40087B6FD /* Acceptance Tests */,
 				AAB073AB139861C0008AF393 /* Frameworks */,
 				AAB073A9139861C0008AF393 /* Products */,
 			);
@@ -160,8 +102,7 @@
 			isa = PBXGroup;
 			children = (
 				AAB073A8139861C0008AF393 /* Testable.app */,
-				AAB073DF13994E20008AF393 /* Testable (Integration Tests).app */,
-				EB72049C1680E2EE00278DA2 /* Integration Tests with KIFTestCase.octest */,
+				EB9DB7321781DBD40087B6FD /* Acceptance Tests.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -169,6 +110,7 @@
 		AAB073AB139861C0008AF393 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EB9DB7431781DDBA0087B6FD /* libKIF.a */,
 				AAB073AC139861C0008AF393 /* UIKit.framework */,
 				AAB073AE139861C0008AF393 /* Foundation.framework */,
 				AAB073B0139861C0008AF393 /* CoreGraphics.framework */,
@@ -202,36 +144,23 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		AAB073E3139974AD008AF393 /* Testing */ = {
+		EB9DB7361781DBD40087B6FD /* Acceptance Tests */ = {
 			isa = PBXGroup;
 			children = (
-				AAB073E413997527008AF393 /* EXTestController.h */,
-				AAB073E513997527008AF393 /* EXTestController.m */,
-				AAC634BD13A5E8E200634049 /* KIFTestScenario+EXAdditions.h */,
-				AAC634BE13A5E8E200634049 /* KIFTestScenario+EXAdditions.m */,
-				AAC634C213A68BF000634049 /* KIFTestStep+EXAdditions.h */,
-				AAC634C313A68BF000634049 /* KIFTestStep+EXAdditions.m */,
+				EB47EFB21781DF6D006BBFAC /* IntegrationTestCases.m */,
+				EB47EFB31781DF6D006BBFAC /* KIFUITestActor+EXAddition.h */,
+				EB47EFB41781DF6D006BBFAC /* KIFUITestActor+EXAddition.m */,
+				EB9DB7371781DBD40087B6FD /* Supporting Files */,
 			);
-			name = Testing;
+			path = "Acceptance Tests";
 			sourceTree = "<group>";
 		};
-		EB7204A11680E2EE00278DA2 /* Integration Tests with KIFTestCase */ = {
+		EB9DB7371781DBD40087B6FD /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				EB7204A81680E2EE00278DA2 /* IntegrationTestCases.m */,
-				EB7204B41680E4F800278DA2 /* KIFTester+EXAddition.h */,
-				EB7204B51680E4F800278DA2 /* KIFTester+EXAddition.m */,
-				EB7204A21680E2EE00278DA2 /* Supporting Files */,
-			);
-			path = "Integration Tests with KIFTestCase";
-			sourceTree = "<group>";
-		};
-		EB7204A21680E2EE00278DA2 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				EB7204A31680E2EE00278DA2 /* Integration Tests with KIFTestCase-Info.plist */,
-				EB7204A41680E2EE00278DA2 /* InfoPlist.strings */,
-				EB7204AA1680E2EE00278DA2 /* Integration Tests with KIFTestCase-Prefix.pch */,
+				EB9DB7381781DBD40087B6FD /* Acceptance Tests-Info.plist */,
+				EB9DB7391781DBD40087B6FD /* InfoPlist.strings */,
+				EB9DB73F1781DBD40087B6FD /* Acceptance Tests-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -250,46 +179,29 @@
 			buildRules = (
 			);
 			dependencies = (
-				A868094813E32C89005DDA1F /* PBXTargetDependency */,
 			);
 			name = Testable;
 			productName = Testable;
 			productReference = AAB073A8139861C0008AF393 /* Testable.app */;
 			productType = "com.apple.product-type.application";
 		};
-		AAB073CF13994E20008AF393 /* Integration Tests */ = {
+		EB9DB7311781DBD40087B6FD /* Acceptance Tests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = AAB073DC13994E20008AF393 /* Build configuration list for PBXNativeTarget "Integration Tests" */;
+			buildConfigurationList = EB9DB7421781DBD40087B6FD /* Build configuration list for PBXNativeTarget "Acceptance Tests" */;
 			buildPhases = (
-				AAB073D013994E20008AF393 /* Sources */,
-				AAB073D413994E20008AF393 /* Frameworks */,
-				AAB073D813994E20008AF393 /* Resources */,
+				EB9DB72D1781DBD40087B6FD /* Sources */,
+				EB9DB72E1781DBD40087B6FD /* Frameworks */,
+				EB9DB72F1781DBD40087B6FD /* Resources */,
+				EB9DB7301781DBD40087B6FD /* ShellScript */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				EB9DB7471781DE100087B6FD /* PBXTargetDependency */,
 			);
-			name = "Integration Tests";
-			productName = Testable;
-			productReference = AAB073DF13994E20008AF393 /* Testable (Integration Tests).app */;
-			productType = "com.apple.product-type.application";
-		};
-		EB72049B1680E2EE00278DA2 /* Integration Tests with KIFTestCase */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = EB7204AB1680E2EE00278DA2 /* Build configuration list for PBXNativeTarget "Integration Tests with KIFTestCase" */;
-			buildPhases = (
-				EB7204971680E2EE00278DA2 /* Sources */,
-				EB7204981680E2EE00278DA2 /* Frameworks */,
-				EB7204991680E2EE00278DA2 /* Resources */,
-				EB72049A1680E2EE00278DA2 /* ShellScript */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "Integration Tests with KIFTestCase";
-			productName = "Integration Tests with KIFTestCase";
-			productReference = EB72049C1680E2EE00278DA2 /* Integration Tests with KIFTestCase.octest */;
+			name = "Acceptance Tests";
+			productName = "Acceptance Tests";
+			productReference = EB9DB7321781DBD40087B6FD /* Acceptance Tests.octest */;
 			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
@@ -310,37 +222,13 @@
 			mainGroup = AAB0739D139861C0008AF393;
 			productRefGroup = AAB073A9139861C0008AF393 /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = A868094213E32C77005DDA1F /* Products */;
-					ProjectRef = A868094113E32C77005DDA1F /* KIF.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				AAB073A7139861C0008AF393 /* Testable */,
-				AAB073CF13994E20008AF393 /* Integration Tests */,
-				EB72049B1680E2EE00278DA2 /* Integration Tests with KIFTestCase */,
+				EB9DB7311781DBD40087B6FD /* Acceptance Tests */,
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		A868094613E32C77005DDA1F /* libKIF.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libKIF.a;
-			remoteRef = A868094513E32C77005DDA1F /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		EB7204941680E10800278DA2 /* libKIFTestCase.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libKIFTestCase.a;
-			remoteRef = EB7204931680E10800278DA2 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		AAB073A6139861C0008AF393 /* Resources */ = {
@@ -353,28 +241,18 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		AAB073D813994E20008AF393 /* Resources */ = {
+		EB9DB72F1781DBD40087B6FD /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AAB073D913994E20008AF393 /* InfoPlist.strings in Resources */,
-				AAB073DA13994E20008AF393 /* MainWindow.xib in Resources */,
-				AAB073DB13994E20008AF393 /* RootViewController.xib in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		EB7204991680E2EE00278DA2 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				EB7204A61680E2EE00278DA2 /* InfoPlist.strings in Resources */,
+				EB9DB73B1781DBD40087B6FD /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		EB72049A1680E2EE00278DA2 /* ShellScript */ = {
+		EB9DB7301781DBD40087B6FD /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -400,35 +278,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		AAB073D013994E20008AF393 /* Sources */ = {
+		EB9DB72D1781DBD40087B6FD /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AAB073D113994E20008AF393 /* main.m in Sources */,
-				AAB073D213994E20008AF393 /* TestableAppDelegate.m in Sources */,
-				AAB073D313994E20008AF393 /* RootViewController.m in Sources */,
-				AAC634C113A5EAF900634049 /* KIFTestScenario+EXAdditions.m in Sources */,
-				AA0A22AA13A7D372004789C0 /* EXTestController.m in Sources */,
-				AADF7E2413EC7211006410B2 /* KIFTestStep+EXAdditions.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		EB7204971680E2EE00278DA2 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				EB7204A91680E2EE00278DA2 /* IntegrationTestCases.m in Sources */,
-				EB7204B61680E4F800278DA2 /* KIFTester+EXAddition.m in Sources */,
+				EB47EFB51781DF6D006BBFAC /* IntegrationTestCases.m in Sources */,
+				EB47EFB61781DF6D006BBFAC /* KIFUITestActor+EXAddition.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		A868094813E32C89005DDA1F /* PBXTargetDependency */ = {
+		EB9DB7471781DE100087B6FD /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = KIF;
-			targetProxy = A868094713E32C89005DDA1F /* PBXContainerItemProxy */;
+			target = AAB073A7139861C0008AF393 /* Testable */;
+			targetProxy = EB9DB7461781DE100087B6FD /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -457,10 +322,10 @@
 			name = RootViewController.xib;
 			sourceTree = "<group>";
 		};
-		EB7204A41680E2EE00278DA2 /* InfoPlist.strings */ = {
+		EB9DB7391781DBD40087B6FD /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				EB7204A51680E2EE00278DA2 /* en */,
+				EB9DB73A1781DBD40087B6FD /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -471,13 +336,11 @@
 		AAB073C7139861C0008AF393 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
@@ -488,10 +351,8 @@
 		AAB073C8139861C0008AF393 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
@@ -528,94 +389,31 @@
 			};
 			name = Release;
 		};
-		AAB073DD13994E20008AF393 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Testable/Testable-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"$(inherited)",
-					RUN_KIF_TESTS,
-				);
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)/Frameworks/KIF/**",
-				);
-				INFOPLIST_FILE = "Testable/Testable-Info.plist";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)\"",
-				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-ObjC",
-				);
-				PRODUCT_NAME = "Testable (Integration Tests)";
-				WRAPPER_EXTENSION = app;
-			};
-			name = Debug;
-		};
-		AAB073DE13994E20008AF393 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				COPY_PHASE_STRIP = YES;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Testable/Testable-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"$(inherited)",
-					RUN_KIF_TESTS,
-				);
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)/Frameworks/KIF/**",
-				);
-				INFOPLIST_FILE = "Testable/Testable-Info.plist";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)\"",
-				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-ObjC",
-				);
-				PRODUCT_NAME = "Testable (Integration Tests)";
-				VALIDATE_PRODUCT = YES;
-				WRAPPER_EXTENSION = app;
-			};
-			name = Release;
-		};
-		EB7204AC1680E2EE00278DA2 /* Debug */ = {
+		EB9DB7401781DBD40087B6FD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Testable.app/Testable";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
-					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(SDKROOT)/Developer/Library/Frameworks";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Integration Tests with KIFTestCase/Integration Tests with KIFTestCase-Prefix.pch";
+				GCC_PREFIX_HEADER = "Acceptance Tests/Acceptance Tests-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				INFOPLIST_FILE = "Integration Tests with KIFTestCase/Integration Tests with KIFTestCase-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				INFOPLIST_FILE = "Acceptance Tests/Acceptance Tests-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -624,25 +422,26 @@
 			};
 			name = Debug;
 		};
-		EB7204AD1680E2EE00278DA2 /* Release */ = {
+		EB9DB7411781DBD40087B6FD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Testable.app/Testable";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
-					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(SDKROOT)/Developer/Library/Frameworks";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Integration Tests with KIFTestCase/Integration Tests with KIFTestCase-Prefix.pch";
+				GCC_PREFIX_HEADER = "Acceptance Tests/Acceptance Tests-Prefix.pch";
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				INFOPLIST_FILE = "Integration Tests with KIFTestCase/Integration Tests with KIFTestCase-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				INFOPLIST_FILE = "Acceptance Tests/Acceptance Tests-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
@@ -672,22 +471,14 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		AAB073DC13994E20008AF393 /* Build configuration list for PBXNativeTarget "Integration Tests" */ = {
+		EB9DB7421781DBD40087B6FD /* Build configuration list for PBXNativeTarget "Acceptance Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				AAB073DD13994E20008AF393 /* Debug */,
-				AAB073DE13994E20008AF393 /* Release */,
+				EB9DB7401781DBD40087B6FD /* Debug */,
+				EB9DB7411781DBD40087B6FD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
-		};
-		EB7204AB1680E2EE00278DA2 /* Build configuration list for PBXNativeTarget "Integration Tests with KIFTestCase" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				EB7204AC1680E2EE00278DA2 /* Debug */,
-				EB7204AD1680E2EE00278DA2 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};

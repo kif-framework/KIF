@@ -18,12 +18,14 @@
     // Override point for customization after application launch.
     
     UIViewController *homeController = [[HomeViewController alloc] init];
-    UIViewController *navController = [[UINavigationController alloc] initWithRootViewController:homeController];
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:homeController];
+    navController.navigationBar.translucent = NO;
     self.window.rootViewController = navController;
     [self.window makeKeyAndVisible];
     
 #if DEBUG
 #import <dlfcn.h>
+    // TODO: Document the following or remove.  The purpose is to enable testing from the command line pre-Xcode5.
     NSLog(@"Did finish launching, environment is %@", [[NSProcessInfo processInfo] environment]);
     NSString *bundlePath = [[NSProcessInfo processInfo] environment][@"XCInjectBundle"];
     if (bundlePath) {
