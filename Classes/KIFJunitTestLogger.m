@@ -46,13 +46,13 @@ static KIFTestScenario* currentScenario = nil;
         }
         
         fileHandle = [[NSFileHandle fileHandleForWritingAtPath:logFilePath] retain];
+		
         if (fileHandle) {
 			if (self.controller.failureCount) {
 				NSLog(@"FAILED STEPS:");
 				for (KIFTestScenario *scenario in self.controller.scenarios) {
 					if ([errors objectForKey:scenario.description]) {
-						NSString *error = [errors objectForKey:scenario.description];
-						NSLog(@" -- ERROR: '%@' in SCENARIO: '%@'", error, scenario.description);
+						NSLog(@" -- ERROR: '%@' in SCENARIO: '%@'", [errors objectForKey:scenario.description], scenario.description);
 					}
 				}
 			}
