@@ -46,8 +46,16 @@ static KIFTestScenario* currentScenario = nil;
         }
         
         fileHandle = [[NSFileHandle fileHandleForWritingAtPath:logFilePath] retain];
-        
+		
         if (fileHandle) {
+			if (self.controller.failureCount) {
+				NSLog(@"FAILED STEPS:");
+				for (KIFTestScenario *scenario in self.controller.scenarios) {
+					if ([errors objectForKey:scenario.description]) {
+						NSLog(@" -- ERROR: '%@' in SCENARIO: '%@'", [errors objectForKey:scenario.description], scenario.description);
+					}
+				}
+			}
             NSLog(@"=== JUNIT XML RESULTS AT %@ ===", logFilePath);
         }
     }
