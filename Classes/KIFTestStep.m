@@ -489,7 +489,6 @@ typedef CGPoint KIFDisplacement;
             
             // On iOS 7, the text property isn't always immediately updated, so wait for that to happen and fetch the values again
             CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.1, false);
-            expected = [expectedResult ? expectedResult : text stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
             actual = [[view performSelector:@selector(text)] stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
             KIFTestCondition([actual isEqualToString:expected], error, @"Failed to get text \"%@\" in field; instead, it was \"%@\"", expected, actual);
         }
