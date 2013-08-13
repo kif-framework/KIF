@@ -79,10 +79,19 @@ MAKE_CATEGORIES_LOADABLE(UIApplication_KIFAdditions)
 - (NSArray *)windowsWithKeyWindow
 {
     NSMutableArray *windows = self.windows.mutableCopy;
+    
     UIWindow *keyWindow = self.keyWindow;
-    if (![windows containsObject:keyWindow]) {
-        [windows addObject:keyWindow];
+    if ([windows containsObject:keyWindow]) {
+        [windows removeObject:keyWindow];
     }
+    [windows insertObject:keyWindow atIndex:0];
+    
+    UIWindow *mainWindow = [self.delegate window];
+    if ([windows containsObject:mainWindow]) {
+        [windows removeObject:mainWindow];
+    }
+    [windows insertObject:mainWindow atIndex:0];
+    
     return [windows autorelease];
 }
 
