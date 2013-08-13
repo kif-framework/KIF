@@ -479,6 +479,9 @@ typedef CGPoint KIFDisplacement;
         
         // This is probably a UITextField- or UITextView-ish view, so make sure it worked
         if ([view respondsToSelector:@selector(text)]) {
+            // On iOS 7, the text property isn't immediately updated, so wait for that to happen
+            CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.1, false);
+            
             // We trim \n and \r because they trigger the return key, so they won't show up in the final product on single-line inputs
             NSString *expected = [expectedResult ? expectedResult : text stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
             NSString *actual = [[view performSelector:@selector(text)] stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
