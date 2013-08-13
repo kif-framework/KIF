@@ -482,6 +482,14 @@ typedef CGPoint KIFDisplacement;
             // We trim \n and \r because they trigger the return key, so they won't show up in the final product on single-line inputs
             NSString *expected = [expectedResult ? expectedResult : text stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
             NSString *actual = [[view performSelector:@selector(text)] stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+            
+            if ([actual isEqualToString:expected]) {
+                return KIFTestStepResultSuccess;
+            }
+            
+            // On iOS 7, the text property isn't always immediately updated, so wait for that to happen and fetch the values again
+            CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.1, false);
+            actual = [[view performSelector:@selector(text)] stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
             KIFTestCondition([actual isEqualToString:expected], error, @"Failed to get text \"%@\" in field; instead, it was \"%@\"", expected, actual);
         }
         
