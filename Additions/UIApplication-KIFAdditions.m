@@ -76,6 +76,18 @@ MAKE_CATEGORIES_LOADABLE(UIApplication_KIFAdditions)
     return nil;
 }
 
+- (UIWindow *)dimmingViewWindow;
+{
+    for (UIWindow *window in self.windowsWithKeyWindow) {
+        NSArray *dimmingViews = [window subviewsWithClassNameOrSuperClassNamePrefix:@"UIDimmingView"];
+        if (dimmingViews.count > 0) {
+            return window;
+        }
+    }
+    
+    return nil;
+}
+
 - (NSArray *)windowsWithKeyWindow
 {
     NSMutableArray *windows = self.windows.mutableCopy;
