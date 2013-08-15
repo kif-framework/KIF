@@ -226,6 +226,14 @@
         
         if (![KIFTypist enterCharacter:characterString]) {
             // Attempt to cheat if we couldn't find the character
+            if (!fallbackView) {
+                UIResponder *firstResponder = [[[UIApplication sharedApplication] keyWindow] firstResponder];
+                
+                if ([firstResponder isKindOfClass:[UIView class]]) {
+                    fallbackView = (UIView *)firstResponder;
+                }
+            }
+            
             if ([fallbackView isKindOfClass:[UITextField class]] || [fallbackView isKindOfClass:[UITextView class]]) {
                 NSLog(@"KIF: Unable to find keyboard key for %@. Inserting manually.", characterString);
                 [(UITextField *)fallbackView setText:[[(UITextField *)fallbackView text] stringByAppendingString:characterString]];
