@@ -257,7 +257,6 @@
     [self waitForAccessibilityElement:&element view:&view withLabel:label value:nil traits:traits tappable:YES];
     [self tapAccessibilityElement:element inView:view];
     [self enterTextIntoCurrentFirstResponder:text fallbackView:view];
-    [self waitForTimeInterval:0.1];
     
     // We will perform some additional validation if the view is UITextField or UITextView.
     if (![view respondsToSelector:@selector(text)]) {
@@ -265,12 +264,21 @@
     }
     
     UITextView *textView = (UITextView *)view;
+    __block NSString *expected;
+    __block NSString *actual;
+    __block BOOL matches = NO;
     
-    // We trim \n and \r because they trigger the return key, so they won't show up in the final product on single-line inputs
-    NSString *expected = [expectedResult ?: text stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
-    NSString *actual = [textView.text stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+    // Some slower machines take longer for typing to catch up, so wait for a bit before failing
+    [self runBlock:^KIFTestStepResult(NSError **error) {
+        // We trim \n and \r because they trigger the return key, so they won't show up in the final product on single-line inputs
+        expected = [expectedResult ?: text stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+        actual = [textView.text stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+        matches = [actual isEqualToString:expected];
+        
+        return matches ? KIFTestStepResultSuccess : KIFTestStepResultWait;
+    } timeout:1.0];
     
-    if (![actual isEqualToString:expected]) {
+    if (!matches) {
         [self failWithError:[NSError KIFErrorWithFormat:@"Failed to get text \"%@\" in field; instead, it was \"%@\"", expected, actual] stopTest:YES];
     }
 }
