@@ -264,23 +264,17 @@
     }
     
     UITextView *textView = (UITextView *)view;
-    __block NSString *expected;
-    __block NSString *actual;
-    __block BOOL matches = NO;
     
     // Some slower machines take longer for typing to catch up, so wait for a bit before failing
     [self runBlock:^KIFTestStepResult(NSError **error) {
         // We trim \n and \r because they trigger the return key, so they won't show up in the final product on single-line inputs
-        expected = [expectedResult ?: text stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
-        actual = [textView.text stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
-        matches = [actual isEqualToString:expected];
+        NSString *expected = [expectedResult ?: text stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+        NSString *actual = [textView.text stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
         
-        return matches ? KIFTestStepResultSuccess : KIFTestStepResultWait;
+        KIFTestWaitCondition([actual isEqualToString:expected], error, @"Failed to get text \"%@\" in field; instead, it was \"%@\"", expected, actual);
+        
+        return KIFTestStepResultSuccess;
     } timeout:1.0];
-    
-    if (!matches) {
-        [self failWithError:[NSError KIFErrorWithFormat:@"Failed to get text \"%@\" in field; instead, it was \"%@\"", expected, actual] stopTest:YES];
-    }
 }
 
 
