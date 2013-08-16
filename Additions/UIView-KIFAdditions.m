@@ -69,14 +69,14 @@ typedef struct __GSEvent * GSEventRef;
 
 @implementation UIView (KIFAdditions)
 
-+ (NSArray *)classesToSkipAccessibilitySearchRecursion
++ (NSSet *)classesToSkipAccessibilitySearchRecursion
 {
-    static NSArray *classesToSkip;
+    static NSSet *classesToSkip;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         // UIDatePicker contains hundreds of thousands of placeholder accessibility elements that aren't useful to KIF,
         // so don't recurse into a date picker when searching for matching accessibility elements
-        classesToSkip = [@[[UIDatePicker class]] retain];
+        classesToSkip = [[NSSet alloc] initWithObjects:[UIDatePicker class], nil];
     });
     
     return classesToSkip;
