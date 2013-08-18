@@ -499,67 +499,46 @@
     
 }
 
-#define NUM_POINTS_IN_SWIPE_PATH 20
-
 - (void)swipeViewWithAccessibilityLabel:(NSString *)label inDirection:(KIFSwipeDirection)direction
 {
+    const NSUInteger kNumberOfPointsInSwipePath = 20;
+    
     // The original version of this came from http://groups.google.com/group/kif-framework/browse_thread/thread/df3f47eff9f5ac8c
     
-    UIView *viewToSwipe = nil;
-    UIAccessibilityElement *element = nil;
+    UIView *viewToSwipe;
+    UIAccessibilityElement *element;
     
     [self waitForAccessibilityElement:&element view:&viewToSwipe withLabel:label value:nil traits:UIAccessibilityTraitNone tappable:NO];
     
-    // Within this method, all geometry is done in the coordinate system of
-    // the view to swipe.
+    // Within this method, all geometry is done in the coordinate system of the view to swipe.
     
     CGRect elementFrame = [viewToSwipe.window convertRect:element.accessibilityFrame toView:viewToSwipe];
     CGPoint swipeStart = CGPointCenteredInRect(elementFrame);
-    
     KIFDisplacement swipeDisplacement = KIFDisplacementForSwipingInDirection(direction);
     
-    CGPoint swipePath[NUM_POINTS_IN_SWIPE_PATH];
-    
-    for (int pointIndex = 0; pointIndex < NUM_POINTS_IN_SWIPE_PATH; pointIndex++)
-    {
-        CGFloat swipeProgress = ((CGFloat)pointIndex)/(NUM_POINTS_IN_SWIPE_PATH - 1);
-        swipePath[pointIndex] = CGPointMake(swipeStart.x + (swipeProgress * swipeDisplacement.x),
-                                            swipeStart.y + (swipeProgress * swipeDisplacement.y));
-    }
-    
-    [viewToSwipe dragAlongPathWithPoints:swipePath count:NUM_POINTS_IN_SWIPE_PATH];
+    [viewToSwipe dragFromPoint:swipeStart displacement:swipeDisplacement steps:kNumberOfPointsInSwipePath];
 }
-
-#define NUM_POINTS_IN_SCROLL_PATH 5
 
 - (void)scrollViewWithAccessibilityLabel:(NSString *)label byFractionOfSizeHorizontal:(CGFloat)horizontalFraction vertical:(CGFloat)verticalFraction
 {
-    UIView *viewToScroll = nil;
-    UIAccessibilityElement *element = nil;
+    const NSUInteger kNumberOfPointsInScrollPath = 5;
+    
+    UIView *viewToScroll;
+    UIAccessibilityElement *element;
     
     [self waitForAccessibilityElement:&element view:&viewToScroll withLabel:label value:nil traits:UIAccessibilityTraitNone tappable:NO];
 
-    // Within this method, all geometry is done in the coordinate system of
-    // the view to scroll.
+    // Within this method, all geometry is done in the coordinate system of the view to scroll.
     
     CGRect elementFrame = [viewToScroll.window convertRect:element.accessibilityFrame toView:viewToScroll];
     
-    CGSize scrollDisplacement = CGSizeMake(elementFrame.size.width * horizontalFraction, elementFrame.size.height * verticalFraction);
+    KIFDisplacement scrollDisplacement = CGPointMake(elementFrame.size.width * horizontalFraction, elementFrame.size.height * verticalFraction);
     
     CGPoint scrollStart = CGPointCenteredInRect(elementFrame);
-    scrollStart.x -= scrollDisplacement.width / 2;
-    scrollStart.y -= scrollDisplacement.height / 2;
+    scrollStart.x -= scrollDisplacement.x / 2;
+    scrollStart.y -= scrollDisplacement.y / 2;
     
-    CGPoint scrollPath[NUM_POINTS_IN_SCROLL_PATH];
-    
-    for (int pointIndex = 0; pointIndex < NUM_POINTS_IN_SCROLL_PATH; pointIndex++)
-    {
-        CGFloat scrollProgress = ((CGFloat)pointIndex)/(NUM_POINTS_IN_SCROLL_PATH - 1);
-        scrollPath[pointIndex] = CGPointMake(scrollStart.x + (scrollProgress * scrollDisplacement.width),
-                                             scrollStart.y + (scrollProgress * scrollDisplacement.height));
-    }
-    
-    [viewToScroll dragAlongPathWithPoints:scrollPath count:NUM_POINTS_IN_SCROLL_PATH];
+    [viewToScroll dragFromPoint:scrollStart displacement:scrollDisplacement steps:kNumberOfPointsInScrollPath];
 }
 
 - (void)waitForFirstResponderWithAccessibilityLabel:(NSString *)label

@@ -9,6 +9,7 @@
 
 #import "KIFTestActor.h"
 #import <UIKit/UIKit.h>
+#import "UIView-KIFAdditions.h"
 
 #define tester KIFActorWithClass(KIFUITestActor)
 
@@ -29,8 +30,6 @@ typedef NS_ENUM(NSUInteger, KIFSwipeDirection) {
 
 #define kKIFMajorSwipeDisplacement 200
 #define kKIFMinorSwipeDisplacement 5
-
-typedef CGPoint KIFDisplacement;
 
 static inline KIFDisplacement KIFDisplacementForSwipingInDirection(KIFSwipeDirection direction)
 {

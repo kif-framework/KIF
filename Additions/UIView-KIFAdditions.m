@@ -364,9 +364,28 @@ typedef struct __GSEvent * GSEventRef;
 
 - (void)dragFromPoint:(CGPoint)startPoint toPoint:(CGPoint)endPoint;
 {
-    // Handle touches in the normal way for other views
-    CGPoint points[] = {startPoint, CGPointMidPoint(startPoint, endPoint), endPoint};
-    [self dragAlongPathWithPoints:points count:sizeof(points) / sizeof(CGPoint)];
+    [self dragFromPoint:startPoint toPoint:endPoint steps:3];
+}
+
+
+- (void)dragFromPoint:(CGPoint)startPoint toPoint:(CGPoint)endPoint steps:(NSUInteger)stepCount;
+{
+    KIFDisplacement displacement = CGPointMake(endPoint.x - startPoint.x, endPoint.y - startPoint.y);
+    [self dragFromPoint:startPoint displacement:displacement steps:stepCount];
+}
+
+- (void)dragFromPoint:(CGPoint)startPoint displacement:(KIFDisplacement)displacement steps:(NSUInteger)stepCount;
+{
+    CGPoint *path = alloca(stepCount * sizeof(CGPoint));
+    
+    for (NSUInteger i = 0; i < stepCount; i++)
+    {
+        CGFloat progress = ((CGFloat)i)/(stepCount - 1);
+        path[i] = CGPointMake(startPoint.x + (progress * displacement.x),
+                              startPoint.y + (progress * displacement.y));
+    }
+    
+    [self dragAlongPathWithPoints:path count:stepCount];
 }
 
 - (void)dragAlongPathWithPoints:(CGPoint *)points count:(NSInteger)count;
