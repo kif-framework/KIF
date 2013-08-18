@@ -35,8 +35,12 @@
     [tester waitForTappableViewWithAccessibilityLabel:@"Destroy"];
     [tester waitForTappableViewWithAccessibilityLabel:@"A"];
     [tester waitForTappableViewWithAccessibilityLabel:@"B"];
-    [tester waitForTappableViewWithAccessibilityLabel:@"Cancel"];
-    [tester tapViewWithAccessibilityLabel:@"Cancel"];
+    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        [tester dismissPopover];
+    } else {
+        [tester tapViewWithAccessibilityLabel:@"Cancel"];
+    }
 }
 
 - (void)testInteractionWithAnActivityViewController
