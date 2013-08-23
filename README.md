@@ -43,7 +43,7 @@ The testing target will add a header and implementation file, likely "Acceptance
 Once your test target set up, add the following to your Podspec file. Use your target's name as appropriate.
 
     target 'Acceptance Tests' do
-      pod 'KIF-next', '~> 2.0.0pre2'
+      pod 'KIF-next', '~> 2.0.0pre5'
     end
 
 After running `pod install` complete the tasks in [**Final Test Target Configurations**](#configure-the-testing-target) below for the final details on getting your tests to run.
@@ -176,6 +176,36 @@ Most of the tester actions in the test are already defined by the KIF framework,
 	@end
 
 Everything should now be configured. When you run the integration tests using the test button, ⌘U, or the Xcode 5 Test Navigator (⌘5).
+
+Use with other testing frameworks
+---------------------------------
+
+`KIFTestCase` is not necessary for running KIF tests.  Tests can run directly in `SenTestCase` or any subclass.  The basic requirement is that when you call `tester` or `system`, `self` must be an instance of `SenTestCase`.
+
+For example, the following [Specta](https://github.com/specta/specta) test works without any changes to KIF or Specta:
+
+    #import <Specta.h>
+    #import <KIF.h>
+
+    SpecBegin(App)
+
+    describe(@"Tab controller", ^{
+    
+      it(@"should show second view when I tap on the second tab", ^{
+        [tester tapViewWithAccessibilityLabel:@"Second" traits:UIAccessibilityTraitButton];
+        [tester waitForViewWithAccessibilityLabel:@"Second View"];
+      });
+    
+    });
+
+    SpecEnd
+
+If you want to use KIF with a test runner that does not subclass `SenTestCase`, your runner class just needs to implement the `KIFTestActorDelegate` protocol which contains two required methods.
+
+   - (void)failWithException:(NSException *)exception stopTest:(BOOL)stop;
+   - (void)failWithExceptions:(NSArray *)exceptions stopTest:(BOOL)stop;
+
+In the first case, the test runner should log the exception and halt the test execution if `stop` is `YES`.  In the second, the runner should log all the exceptions and halt the test execution if `stop` is `YES`.  The exceptions take advantage of OCUnit's extensions to `NSException` with the properties `lineNumber` and `filename` to be used in recording the error's origin.
 
 Troubleshooting
 ---------------
