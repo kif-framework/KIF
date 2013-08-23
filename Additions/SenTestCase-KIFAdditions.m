@@ -7,6 +7,9 @@
 //
 
 #import "SenTestCase-KIFAdditions.h"
+#import "LoadableCategory.h"
+
+MAKE_CATEGORIES_LOADABLE(SenTestCase_KIFAdditions)
 
 @implementation SenTestCase (KIFAdditions)
 
