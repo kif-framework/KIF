@@ -78,6 +78,8 @@
 		EBAE488217A460E50005EE19 /* NSError-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = EBAE488017A460E50005EE19 /* NSError-KIFAdditions.m */; };
 		EBAE488717A4E5C30005EE19 /* KIFTestStepValidation.h in Headers */ = {isa = PBXBuildFile; fileRef = EBAE488517A4E5C30005EE19 /* KIFTestStepValidation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EBAE488817A4E5C30005EE19 /* KIFTestStepValidation.m in Sources */ = {isa = PBXBuildFile; fileRef = EBAE488617A4E5C30005EE19 /* KIFTestStepValidation.m */; };
+		EBAFFF3817C7C824003E3A1C /* SenTestCase-KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = EBAFFF3617C7C824003E3A1C /* SenTestCase-KIFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EBAFFF3917C7C824003E3A1C /* SenTestCase-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = EBAFFF3717C7C824003E3A1C /* SenTestCase-KIFAdditions.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -163,6 +165,8 @@
 		EBAE488017A460E50005EE19 /* NSError-KIFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSError-KIFAdditions.m"; sourceTree = "<group>"; };
 		EBAE488517A4E5C30005EE19 /* KIFTestStepValidation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KIFTestStepValidation.h; sourceTree = "<group>"; };
 		EBAE488617A4E5C30005EE19 /* KIFTestStepValidation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KIFTestStepValidation.m; sourceTree = "<group>"; };
+		EBAFFF3617C7C824003E3A1C /* SenTestCase-KIFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SenTestCase-KIFAdditions.h"; sourceTree = "<group>"; };
+		EBAFFF3717C7C824003E3A1C /* SenTestCase-KIFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SenTestCase-KIFAdditions.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -284,6 +288,8 @@
 				EBAE487B17A45A8E0005EE19 /* NSBundle-KIFAdditions.m */,
 				EBAE487F17A460E50005EE19 /* NSError-KIFAdditions.h */,
 				EBAE488017A460E50005EE19 /* NSError-KIFAdditions.m */,
+				EBAFFF3617C7C824003E3A1C /* SenTestCase-KIFAdditions.h */,
+				EBAFFF3717C7C824003E3A1C /* SenTestCase-KIFAdditions.m */,
 			);
 			path = Additions;
 			sourceTree = "<group>";
@@ -385,6 +391,7 @@
 				EB72045F1680DDAD00278DA2 /* UIWindow-KIFAdditions.h in Headers */,
 				EB7204601680DDAD00278DA2 /* NSFileManager-KIFAdditions.h in Headers */,
 				EB7204611680DDAD00278DA2 /* LoadableCategory.h in Headers */,
+				EBAFFF3817C7C824003E3A1C /* SenTestCase-KIFAdditions.h in Headers */,
 				EB7204621680DDAD00278DA2 /* KIFTypist.h in Headers */,
 				EB7204631680DDAD00278DA2 /* KIFTestActor.h in Headers */,
 				EB7204641680DDAD00278DA2 /* KIFTestCase.h in Headers */,
@@ -588,6 +595,7 @@
 				EB72044D1680DDAD00278DA2 /* KIFTestCase.m in Sources */,
 				EB72044E1680DDAD00278DA2 /* KIFSystemTestActor.m in Sources */,
 				EB72044F1680DDAD00278DA2 /* KIFUITestActor.m in Sources */,
+				EBAFFF3917C7C824003E3A1C /* SenTestCase-KIFAdditions.m in Sources */,
 				EBAE487D17A45A8E0005EE19 /* NSBundle-KIFAdditions.m in Sources */,
 				EBAE488217A460E50005EE19 /* NSError-KIFAdditions.m in Sources */,
 				EBAE488817A4E5C30005EE19 /* KIFTestStepValidation.m in Sources */,

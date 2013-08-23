@@ -8,7 +8,7 @@
 
 #import <KIF/KIF.h>
 
-@interface SystemTests : KIFTestCase
+@interface SystemTests : SenTestCase
 @end
 
 @implementation SystemTests

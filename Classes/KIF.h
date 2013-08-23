@@ -11,3 +11,5 @@
 #import "KIFTestCase.h"
 #import "KIFSystemTestActor.h"
 #import "KIFUITestActor.h"
+
+#import "SenTestCase-KIFAdditions.h"

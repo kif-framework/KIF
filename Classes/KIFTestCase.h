@@ -8,9 +8,9 @@
 //  which Square, Inc. licenses this file to you.
 
 #import <SenTestingKit/SenTestingKit.h>
-#import "KIFTestActor.h"
+#import "SenTestCase-KIFAdditions.h"
 
-@interface KIFTestCase : SenTestCase <KIFTestActorDelegate>
+@interface KIFTestCase : SenTestCase
 
 - (void)beforeAll;
 - (void)beforeEach;

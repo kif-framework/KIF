@@ -87,20 +87,8 @@
         [waiter waitForTimeInterval:[[NSDate distantFuture] timeIntervalSinceNow]];
         
         return;
-    }
-    
-    if (!stop) {
-        [self continueAfterFailure];
-    }
-    [self failWithException:exception];
-    [self raiseAfterFailure];
-}
-
-- (void)failWithExceptions:(NSArray *)exceptions stopTest:(BOOL)stop
-{
-    NSException *lastException = exceptions.lastObject;
-    for (NSException *exception in exceptions) {
-        [self failWithException:exception stopTest:(exception == lastException ? stop : NO)];
+    } else {
+        [super failWithException:exception stopTest:stop];
     }
 }
 
