@@ -167,7 +167,7 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
 
 - (void)failWithException:(NSException *)exception stopTest:(BOOL)stop
 {
-    [self failWithExceptions:@[exception] stopTest:YES];
+    [self failWithExceptions:@[exception] stopTest:stop];
 }
 
 - (void)failWithExceptions:(NSArray *)exceptions stopTest:(BOOL)stop
