@@ -94,7 +94,7 @@ Final Test Target Configurations
 
 You need your tests to run hosted in your application.  To do this, first add your application by first selecting "Build Phases", expanding the "Target Dependencies" section, clicking on the "+" button, and in the new sheet that appears selecting your application target and clicking "Add".
 
-Next, configure your bundle loader.  In "Build Settings", expand "Linking" and edit "Bundle Loader" to be `$(BUILT_PRODUCTS_DIR)/My App.app/My App` where *My App* is the name of your app.  Expand the "Unit Testing" section and edit "Test Host" to be `$(BUNDLE_LOADER)`.
+Next, configure your bundle loader.  In "Build Settings", expand "Linking" and edit "Bundle Loader" to be `$(BUILT_PRODUCTS_DIR)/My App.app/My App` where *My App* is the name of your app.  Expand the "Unit Testing" section and edit "Test Host" to be `$(BUNDLE_LOADER)`. Also make sure that "Wrapper Extension" is set to "octest".
 
 The last step is to configure your unit tests to run when you trigger a test (⌘U).  Click on your scheme name and select "Edit Scheme…".  Click on "Test" in the sidebar followed by the "+" in the bottom left corner.  Select your testing target and click "OK".
 
