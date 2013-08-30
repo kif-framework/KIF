@@ -416,6 +416,13 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
 + (id)stepToSetOn:(BOOL)switchIsOn forSwitchWithAccessibilityLabel:(NSString *)label;
 
 /*!
+ @method stepToSetSliderWithAccessbilityLabel:withValue:
+ @abstract A step that sets a UISlider to a given value.
+ @discussion Finds the UISlider with given accessbility label and sets its value.
+ */
++ (id)stepToSetSliderWithAccessbilityLabel:(NSString *)label withValue:(CGFloat)value;
+
+/*!
  @method stepToDismissPopover
  @abstract A step that dismisses a popover on screen.
  @discussion With a popover up, tap at the top-left corner of the screen.
