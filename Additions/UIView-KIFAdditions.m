@@ -573,7 +573,7 @@ typedef struct __GSEvent * GSEventRef;
     return isUserInteractionEnabled;
 }
 
-- (BOOL)isNavigationItemView
+- (BOOL)isNavigationItemView;
 {
     return [self isKindOfClass:NSClassFromString(@"UINavigationItemView")] || [self isKindOfClass:NSClassFromString(@"_UINavigationBarBackIndicatorView")];
 }
