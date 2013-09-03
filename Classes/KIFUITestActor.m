@@ -395,6 +395,31 @@
     }
 }
 
+- (void)setValue:(float)value forSliderWithAccessibilityLabel:(NSString *)label
+{
+    UISlider *slider = nil;
+    UIAccessibilityElement *element = nil;
+    [self waitForAccessibilityElement:&element view:&slider withLabel:label value:nil traits:UIAccessibilityTraitNone tappable:YES];
+    
+    if (![slider isKindOfClass:[UISlider class]]) {
+        [self failWithError:[NSError KIFErrorWithFormat:@"View with accessibility label \"%@\" is a %@, not a UISlider", label, NSStringFromClass([slider class])] stopTest:YES];
+    }
+    
+    if (value < slider.minimumValue) {
+        [self failWithError:[NSError KIFErrorWithFormat:@"Cannot slide past minimum value of %f", slider.minimumValue] stopTest:YES];
+    }
+    
+    if (value > slider.maximumValue) {
+        [self failWithError:[NSError KIFErrorWithFormat:@"Cannot slide past maximum value of %f", slider.maximumValue] stopTest:YES];
+    }
+    
+    CGRect trackRect = [slider trackRectForBounds:slider.bounds];
+    CGPoint currentPosition = CGPointCenteredInRect([slider thumbRectForBounds:slider.bounds trackRect:trackRect value:slider.value]);
+    CGPoint finalPosition = CGPointCenteredInRect([slider thumbRectForBounds:slider.bounds trackRect:trackRect value:value]);
+    
+    [slider dragFromPoint:currentPosition toPoint:finalPosition steps:10];
+}
+
 - (void)dismissPopover
 {
     const NSTimeInterval tapDelay = 0.05;
