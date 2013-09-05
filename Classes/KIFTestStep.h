@@ -442,7 +442,15 @@ typedef KIFTestStepResult (^KIFTestStepExecutionBlock)(KIFTestStep *step, NSErro
  @result An array of configured test steps.
  */
 + (NSArray *)stepsToChoosePhotoInAlbum:(NSString *)albumName atRow:(NSInteger)row column:(NSInteger)column;
-
+/*!
+ @method stepToTapItemInCollectionViewWithAccessibilityLabel:
+ @abstract A step that taps the item at IndexPath in a view with the given label.
+ @discussion This step will get the view with the specified accessibility label and tap the item at indexPath.
+ @param collectionViewLabel Accessibility label of the table view.
+ @param indexPath Index path of the item to tap.
+ @result A configured test step.
+ */
++ (id)stepToTapItemInCollectionViewWithAccessibilityLabel:(NSString*)collectionViewLabel atIndexPath:(NSIndexPath *)indexPath;
 /*!
  @method stepToTapRowInTableViewWithAccessibilityLabel:atIndexPath:
  @abstract A step that taps the row at IndexPath in a view with the given label.
