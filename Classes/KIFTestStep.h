@@ -45,6 +45,33 @@ if (!(condition)) { \
 } \
 })
 
+/*!
+ @define KIFTestEqual
+ @abstract Tests if two objects are equal using |isEqual:| and returns a failure result if they are not.
+ @discussion This is a wrapper for |KIFTestCondition| that can be used when checking objects for equality. The error string will always contain: the Objective-C expressions used to generate the values being compared, the values of those expressions, and the user-specified description string.
+ @param expected The expected value. Place data from the baseline or literals here.
+ @param actual The actual value to compare against the expected.
+ @param ... A string describing what the failure was that occurred. This may be a format string with additional arguments.
+ */
+#define KIFTestEqual(expected, actual, error, ...) ({ \
+id ex = (expected), ac = (actual); \
+BOOL pass = (!ex && !ac) || [ex isEqual:ac]; \
+KIFTestCondition(pass, error, @"%@: expect |" #expected "| equals |" #actual "| but '%@' neq '%@'", [NSString stringWithFormat:__VA_ARGS__], ex, ac); \
+})
+
+/*!
+ @define KIFTestWaitEqual
+ @abstract Tests if two objects are equal using |isEqual:| and returns a wait result if they are not.
+ @discussion This is a wrapper for |KIFTestWaitCondition| that can be used when checking objects for equality. The error string will always contain: the Objective-C expressions used to generate the values being compared, the values of those expressions, and the user-specified description string.
+ @param expected The expected value. Place data from the baseline or literals here.
+ @param actual The actual value to compare against the expected.
+ @param ... A string describing what the failure was that occurred. This may be a format string with additional arguments.
+ */
+#define KIFTestWaitEqual(expected, actual, error, ...) ({ \
+id ex = (expected), ac = (actual); \
+BOOL pass = (!ex && !ac) || [ex isEqual:ac]; \
+KIFTestWaitCondition(pass, error, @"%@: expect |" #expected "| equals |" #actual "| but '%@' neq '%@'", [NSString stringWithFormat:__VA_ARGS__], ex, ac); \
+})
 
 /*!
  @enum KIFTestStepResult
