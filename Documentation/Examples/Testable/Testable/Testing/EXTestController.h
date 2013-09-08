@@ -10,7 +10,6 @@
 #import <Foundation/Foundation.h>
 #import "KIFTestController.h"
 
-
 @interface EXTestController : KIFTestController {
     
 }

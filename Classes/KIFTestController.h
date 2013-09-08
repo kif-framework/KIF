@@ -11,8 +11,9 @@
 #import "KIFTestScenario.h"
 #import "KIFTestStep.h"
 
-
 typedef void (^KIFTestControllerCompletionBlock)();
+
+@class KIFLogger;
 
 /*!
  @class KIFTestController
@@ -41,14 +42,13 @@ typedef void (^KIFTestControllerCompletionBlock)();
     KIFTestScenario *currentScenario;
     KIFTestStep *currentStep;
     
-    NSDate *testSuiteStartDate;
     NSDate *currentStepStartDate;
     NSDate *currentScenarioStartDate;
     
     NSInteger failureCount;
     NSInteger completeScenarioCount;
-    NSMutableIndexSet *failedScenarioIndexes;
     NSURL *failedScenarioFile;
+	NSMutableArray *loggers;
 }
 
 /*!
@@ -81,6 +81,9 @@ typedef void (^KIFTestControllerCompletionBlock)();
  @abstract The number of failed scenarios so far.
  */
 @property (nonatomic, readonly) NSInteger failureCount;
+
+@property (nonatomic, readonly) NSMutableIndexSet *failedScenarioIndexes;
+@property (nonatomic, readonly) NSDate *testSuiteStartDate;
 
 /*!
  @method sharedInstance
@@ -129,5 +132,7 @@ typedef void (^KIFTestControllerCompletionBlock)();
  @param completionBlock An optional execution block that will be invoked when testing is complete.
  */
 - (void)startTestingWithCompletionBlock:(KIFTestControllerCompletionBlock)completionBlock;
+
+-(void)addLogger:(KIFLogger *)logger;
 
 @end

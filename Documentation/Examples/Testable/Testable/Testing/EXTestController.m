@@ -9,11 +9,22 @@
 
 #import "EXTestController.h"
 #import "KIFTestScenario+EXAdditions.h"
+#import "KIFJUnitLogger.h"
 
 @implementation EXTestController
 
-- (void)initializeScenarios;
-{
+-(id)init {
+	self = [super init];
+	if (self) {
+		// Add JUNit logger
+		KIFJUnitLogger *logger = [[KIFJUnitLogger alloc] init];
+		logger.logDirectory = @"/Users/fahim/Public/logs";
+		[self addLogger:logger];
+	}
+	return self;
+}
+
+-(void)initializeScenarios; {
     // If your app is doing anything interesting with parameterized scenarios,
     // you'll want to override this method and add them manually.
 //    [self addScenario:[KIFTestScenario scenarioToLogin]];

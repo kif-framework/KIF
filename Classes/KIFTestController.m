@@ -10,6 +10,7 @@
 #import "KIFTestController.h"
 #import "KIFTestScenario.h"
 #import "KIFTestStep.h"
+#import "KIFLogger.h"
 #import "NSFileManager-KIFAdditions.h"
 #import "UIApplication-KIFAdditions.h"
 #import <QuartzCore/QuartzCore.h>
@@ -25,7 +26,6 @@ extern id objc_msgSend(id theReceiver, SEL theSelector, ...);
 @property (nonatomic, retain) KIFTestStep *currentStep;
 @property (nonatomic, retain) NSArray *scenarios;
 @property (nonatomic, getter=isTesting) BOOL testing;
-@property (nonatomic, retain) NSDate *testSuiteStartDate;
 @property (nonatomic, retain) NSDate *currentScenarioStartDate;
 @property (nonatomic, retain) NSDate *currentStepStartDate;
 @property (nonatomic, copy) KIFTestControllerCompletionBlock completionBlock;
@@ -56,7 +56,6 @@ extern id objc_msgSend(id theReceiver, SEL theSelector, ...);
 
 @synthesize scenarios;
 @synthesize testing;
-@synthesize testSuiteStartDate;
 @synthesize failureCount;
 @synthesize currentScenario;
 @synthesize currentStep;
@@ -119,8 +118,7 @@ static void releaseInstance()
 
 #pragma mark Initialization Methods
 
-- (id)init;
-{
+-(id)init {
     NSAssert(!sharedInstance, @"KIFTestController should not be initialized manually. Use +sharedInstance instead.");
     
     self = [super init];
@@ -131,21 +129,23 @@ static void releaseInstance()
     NSString *failedScenarioPath = [[[NSProcessInfo processInfo] environment] objectForKey:@"KIF_FAILURE_FILE"];
     if (failedScenarioPath) {
         failedScenarioFile = [[NSURL fileURLWithPath:failedScenarioPath] retain];
-        failedScenarioIndexes = [[NSKeyedUnarchiver unarchiveObjectWithFile:failedScenarioPath] mutableCopy];
+        _failedScenarioIndexes = [[NSKeyedUnarchiver unarchiveObjectWithFile:failedScenarioPath] mutableCopy];
     }
-    if (!failedScenarioIndexes) {
-        failedScenarioIndexes = [[NSMutableIndexSet alloc] init];
+    if (!_failedScenarioIndexes) {
+        _failedScenarioIndexes = [[NSMutableIndexSet alloc] init];
     }
-    
+    // Create loggers array & add base logger
+	loggers = [[NSMutableArray alloc] init];
+	KIFLogger *logger = [[KIFLogger alloc] init];
+	[self addLogger:logger];
     return self;
 }
 
-- (void)dealloc;
-{
+-(void)dealloc {
     self.currentStep = nil;
     self.currentScenario = nil;
     self.scenarios = nil;
-    self.testSuiteStartDate = nil;
+    _testSuiteStartDate = nil;
     self.currentScenarioStartDate = nil;
     self.currentStepStartDate = nil;
     self.completionBlock = nil;
@@ -153,9 +153,11 @@ static void releaseInstance()
     [failedScenarioFile release];
     failedScenarioFile = nil;
 
-    [failedScenarioIndexes release];
-    failedScenarioIndexes = nil;
-    
+    [_failedScenarioIndexes release];
+    _failedScenarioIndexes = nil;
+    [loggers release];
+	loggers = nil;
+	
     [super dealloc];
 }
 
@@ -229,10 +231,10 @@ static void releaseInstance()
     NSAssert([self _isAccessibilityInspectorEnabled], @"The accessibility inspector must be enabled in order to run KIF tests. It can be turned on in the Settings app of the simulator by going to General -> Accessibility.");
     
     self.testing = YES;
-    self.testSuiteStartDate = [NSDate date];
+    _testSuiteStartDate = [[NSDate date] retain];
 
-    if (!failedScenarioIndexes.count && self.scenarios.count) {
-        [failedScenarioIndexes addIndexesInRange:NSMakeRange(0, self.scenarios.count)];
+    if (!_failedScenarioIndexes.count && self.scenarios.count) {
+        [_failedScenarioIndexes addIndexesInRange:NSMakeRange(0, self.scenarios.count)];
     }
 
     [self _logTestingDidStart];
@@ -246,13 +248,19 @@ static void releaseInstance()
     [self _scheduleCurrentTestStep];
 }
 
+-(void)addLogger:(KIFLogger *)logger {
+	// Add logger to loggers array
+	logger.controller = self;
+	[loggers addObject:logger];
+}
+
 - (void)_testingDidFinish
 {
     [self _logTestingDidFinish];
     self.testing = NO;
     
     if (failedScenarioFile) {
-        [NSKeyedArchiver archiveRootObject:failedScenarioIndexes toFile:[failedScenarioFile path]];
+        [NSKeyedArchiver archiveRootObject:_failedScenarioIndexes toFile:[failedScenarioFile path]];
     }
     
     if (self.completionBlock) {
@@ -400,14 +408,14 @@ static void releaseInstance()
         
         [self _logDidFinishScenario:self.currentScenario duration:-[self.currentScenarioStartDate timeIntervalSinceNow]];
         if (result == KIFTestStepResultSuccess) {
-            [failedScenarioIndexes removeIndex:currentScenarioIndex];
+            [_failedScenarioIndexes removeIndex:currentScenarioIndex];
         }
 
-        nextScenarioIndex = [failedScenarioIndexes indexGreaterThanIndex:currentScenarioIndex];
+        nextScenarioIndex = [_failedScenarioIndexes indexGreaterThanIndex:currentScenarioIndex];
         currentScenarioIndex++;
     } else {
         currentScenarioIndex = [[[[NSProcessInfo processInfo] environment] objectForKey:@"KIF_INITIAL_SKIP_COUNT"] integerValue];
-        nextScenarioIndex = MAX([failedScenarioIndexes firstIndex], currentScenarioIndex);
+        nextScenarioIndex = MAX([_failedScenarioIndexes firstIndex], currentScenarioIndex);
     }
     
     do {
@@ -419,13 +427,13 @@ static void releaseInstance()
             nextScenario = [self.scenarios objectAtIndex:nextScenarioIndex];
             if (nextScenario.skippedByFilter) {
                 [self _logDidSkipScenario:nextScenario];
-                [failedScenarioIndexes removeIndex:nextScenarioIndex];
+                [_failedScenarioIndexes removeIndex:nextScenarioIndex];
             }
         } else {
             nextScenario = nil;
         }
         currentScenarioIndex = nextScenarioIndex + 1;
-        nextScenarioIndex = [failedScenarioIndexes indexGreaterThanIndex:nextScenarioIndex];
+        nextScenarioIndex = [_failedScenarioIndexes indexGreaterThanIndex:nextScenarioIndex];
     } while (nextScenario && nextScenario.skippedByFilter);
     
     if (nextScenario) {
@@ -462,105 +470,52 @@ static void releaseInstance()
 
 #pragma mark Logging
 
-#define KIFLog(...) [[self _logFileHandleForWriting] writeData:[[NSString stringWithFormat:@"%@\n", [NSString stringWithFormat:__VA_ARGS__]] dataUsingEncoding:NSUTF8StringEncoding]]; NSLog(__VA_ARGS__);
-#define KIFLogBlankLine() KIFLog(@" ");
-#define KIFLogSeparator() KIFLog(@"---------------------------------------------------");
-
-- (NSFileHandle *)_logFileHandleForWriting;
-{
-    static NSFileHandle *fileHandle = nil;
-    if (!fileHandle) {
-        NSString *logsDirectory = [[NSFileManager defaultManager] createUserDirectory:NSLibraryDirectory];
-        
-        if (logsDirectory) {
-            logsDirectory = [logsDirectory stringByAppendingPathComponent:@"Logs"];
-        }
-        if (![[NSFileManager defaultManager] recursivelyCreateDirectory:logsDirectory]) {
-            logsDirectory = nil;
-        }
-        
-        NSString *dateString = [NSDateFormatter localizedStringFromDate:[NSDate date] dateStyle:NSDateFormatterMediumStyle timeStyle:NSDateFormatterLongStyle];
-        dateString = [dateString stringByReplacingOccurrencesOfString:@"/" withString:@"."];
-        dateString = [dateString stringByReplacingOccurrencesOfString:@":" withString:@"."];
-        NSString *fileName = [NSString stringWithFormat:@"KIF Tests %@.log", dateString];
-        
-        NSString *logFilePath = [logsDirectory stringByAppendingPathComponent:fileName];
-        
-        if (![[NSFileManager defaultManager] fileExistsAtPath:logFilePath]) {
-            [[NSFileManager defaultManager] createFileAtPath:logFilePath contents:[NSData data] attributes:nil];
-        }
-        
-        fileHandle = [[NSFileHandle fileHandleForWritingAtPath:logFilePath] retain];
-        
-        if (fileHandle) {
-            NSLog(@"Logging KIF test activity to %@", logFilePath);
-        }
-    }
-    
-    return fileHandle;
+-(void)_logTestingDidStart {
+	for (KIFLogger *logger in loggers) {
+		[logger logTestingDidStart];
+	}
 }
 
-- (void)_logTestingDidStart;
-{
-    if (failedScenarioIndexes.count != self.scenarios.count) {
-        KIFLog(@"BEGIN KIF TEST RUN: re-running %d of %d scenarios that failed last time", failedScenarioIndexes.count, self.scenarios.count);
-    } else {
-        KIFLog(@"BEGIN KIF TEST RUN: %d scenarios", self.scenarios.count);
-    }
+-(void)_logTestingDidFinish {
+	for (KIFLogger *logger in loggers) {
+		[logger logTestingDidFinish];
+	}
 }
 
-- (void)_logTestingDidFinish;
-{
-    KIFLogBlankLine();
-    KIFLogSeparator();
-    KIFLog(@"KIF TEST RUN FINISHED: %d failures (duration %.2fs)", failureCount, -[self.testSuiteStartDate timeIntervalSinceNow]);
-    KIFLogSeparator();
-    
-    // Also log the failure count to stdout, for easier integration with CI tools.
-    NSLog(@"*** KIF TESTING FINISHED: %d failures", failureCount);
+-(void)_logDidStartScenario:(KIFTestScenario *)scenario {
+	for (KIFLogger *logger in loggers) {
+		[logger logDidStartScenario:scenario];
+	}
 }
 
-- (void)_logDidStartScenario:(KIFTestScenario *)scenario;
-{
-    KIFLogBlankLine();
-    KIFLogSeparator();
-    KIFLog(@"BEGIN SCENARIO %d/%d (%d steps)", [self.scenarios indexOfObjectIdenticalTo:scenario] + 1, self.scenarios.count, scenario.steps.count);
-    KIFLog(@"%@", scenario.description);
-    KIFLogSeparator();
+-(void)_logDidSkipScenario:(KIFTestScenario *)scenario {
+	for (KIFLogger *logger in loggers) {
+		[logger logDidSkipScenario:scenario];
+	}
 }
 
-- (void)_logDidSkipScenario:(KIFTestScenario *)scenario;
-{
-    if ([[[[NSProcessInfo processInfo] environment] objectForKey:@"KIF_SILENT_FILTERING"] boolValue]) return; // Don't want filter skipping noise
-    KIFLogBlankLine();
-    KIFLogSeparator();
-    NSString *reason = (scenario.skippedByFilter ? @"filter doesn't match description" : @"only running previously-failed scenarios");
-    KIFLog(@"SKIPPING SCENARIO %d/%d (%@)", [self.scenarios indexOfObjectIdenticalTo:scenario] + 1, self.scenarios.count, reason);
-    KIFLog(@"%@", scenario.description);
-    KIFLogSeparator();
+-(void)_logDidSkipAddingScenarioGenerator:(NSString *)selectorString {
+	for (KIFLogger *logger in loggers) {
+		[logger logDidSkipAddingScenarioGenerator:selectorString];
+	}
 }
 
-- (void)_logDidSkipAddingScenarioGenerator:(NSString *)selectorString;
-{
-    KIFLog(@"Skipping scenario generator %@ because it takes arguments", selectorString);
+-(void)_logDidFinishScenario:(KIFTestScenario *)scenario duration:(NSTimeInterval)duration {
+	for (KIFLogger *logger in loggers) {
+		[logger logDidFinishScenario:scenario duration:duration];
+	}
 }
 
-- (void)_logDidFinishScenario:(KIFTestScenario *)scenario duration:(NSTimeInterval)duration
-{
-    KIFLogSeparator();
-    KIFLog(@"END OF SCENARIO (duration %.2fs)", duration);
-    KIFLogSeparator();
+-(void)_logDidFailStep:(KIFTestStep *)step duration:(NSTimeInterval)duration error:(NSError *)error {
+	for (KIFLogger *logger in loggers) {
+		[logger logDidFailStep:step duration:duration error:error];
+	}
 }
 
-- (void)_logDidFailStep:(KIFTestStep *)step duration:(NSTimeInterval)duration error:(NSError *)error;
-{
-    KIFLog(@"FAIL (%.2fs): %@", duration, step);
-    KIFLog(@"FAILING ERROR: %@", error);
-}
-
-- (void)_logDidPassStep:(KIFTestStep *)step duration:(NSTimeInterval)duration;
-{
-    KIFLog(@"PASS (%.2fs): %@", duration, step);
+-(void)_logDidPassStep:(KIFTestStep *)step duration:(NSTimeInterval)duration {
+	for (KIFLogger *logger in loggers) {
+		[logger logDidPassStep:step duration:duration];
+	}
 }
 
 @end
