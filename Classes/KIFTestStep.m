@@ -338,9 +338,8 @@ typedef CGPoint KIFDisplacement;
             CGPoint windowPoint = [window convertPoint:screenPoint fromView:nil];
             view = [window hitTest:windowPoint withEvent:nil];
             
-            // If we hit the window itself, then skip it.
-            if (view == window || view == nil) {
-                continue;
+            if (view != nil) {
+                break;
             }
         }
         
