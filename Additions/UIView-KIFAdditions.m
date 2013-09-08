@@ -462,7 +462,7 @@ typedef struct __GSEvent * GSEventRef;
     
     // Button views in the nav bar (a private class derived from UINavigationItemView), do not return
     // themselves in a -hitTest:. Instead they return the nav bar.
-    if ([hitView isKindOfClass:[UINavigationBar class]] && [self isKindOfClass:NSClassFromString(@"UINavigationItemView")] && [self isDescendantOfView:hitView]) {
+    if ([hitView isKindOfClass:[UINavigationBar class]] && [self isNavigationItemView] && [self isDescendantOfView:hitView]) {
         return YES;
     }
     
@@ -547,7 +547,7 @@ typedef struct __GSEvent * GSEventRef;
     BOOL isUserInteractionEnabled = self.userInteractionEnabled;
     
     // Navigation item views don't have user interaction enabled, but their parent nav bar does and will forward the event
-    if (!isUserInteractionEnabled && [self isKindOfClass:NSClassFromString(@"UINavigationItemView")]) {
+    if (!isUserInteractionEnabled && [self isNavigationItemView]) {
         // If this view is inside a nav bar, and the nav bar is enabled, then consider it enabled
         UIView *navBar = [self superview];
         while (navBar && ![navBar isKindOfClass:[UINavigationBar class]]) {
@@ -571,6 +571,11 @@ typedef struct __GSEvent * GSEventRef;
     }
     
     return isUserInteractionEnabled;
+}
+
+- (BOOL)isNavigationItemView;
+{
+    return [self isKindOfClass:NSClassFromString(@"UINavigationItemView")] || [self isKindOfClass:NSClassFromString(@"_UINavigationBarBackIndicatorView")];
 }
 
 @end
