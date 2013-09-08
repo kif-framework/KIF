@@ -545,6 +545,9 @@
 {
     [self runBlock:^KIFTestStepResult(NSError **error) {
         UIResponder *firstResponder = [[[UIApplication sharedApplication] keyWindow] firstResponder];
+        if ([firstResponder isKindOfClass:NSClassFromString(@"UISearchBarTextField")]) {
+            firstResponder = [(UIView *)firstResponder superview];
+        }
         KIFTestWaitCondition([[firstResponder accessibilityLabel] isEqualToString:label], error, @"Expected accessibility label for first responder to be '%@', got '%@'", label, [firstResponder accessibilityLabel]);
         
         return KIFTestStepResultSuccess;
