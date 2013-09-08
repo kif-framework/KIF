@@ -264,6 +264,14 @@ static inline KIFDisplacement KIFDisplacementForSwipingInDirection(KIFSwipeDirec
 - (void)setOn:(BOOL)switchIsOn forSwitchWithAccessibilityLabel:(NSString *)label;
 
 /*!
+ @abstract Slides a UISlider to a specified value.
+ @discussion The UISlider with the given label is searched for in the view hierarchy. If the element isn't found or isn't currently tappable, then the step will attempt to wait until it is. Once the view is present, the step will attempt to drag the slider to the new value.  The step will fail if it finds a view with the given accessibility label that is not a UISlider or if value is outside of the possible values.  Because this step simulates drag events, the value reached may not be the exact value requested and the app may ignore the touch events if the movement is less than the drag gesture recognizer's minimum distance.
+ @param value The desired value of the UISlider.
+ @param label The accessibility label of the element to drag.
+ */
+- (void)setValue:(float)value forSliderWithAccessibilityLabel:(NSString *)label;
+
+/*!
  @abstract Dismisses a popover on screen.
  @discussion With a popover up, tap at the top-left corner of the screen.
  */

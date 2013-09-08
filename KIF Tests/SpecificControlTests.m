@@ -39,11 +39,12 @@
     [tester waitForViewWithAccessibilityLabel:@"Happy" value:@"1" traits:UIAccessibilityTraitNone];
 }
 
-/*
- TODO: Add support for testing this iPad-only feature.
- + (id)stepToDismissPopover;
- */
-
+- (void)testMovingASlider
+{
+    [tester waitForTimeInterval:1];
+    [tester setValue:3 forSliderWithAccessibilityLabel:@"Slider"];
+    [tester waitForViewWithAccessibilityLabel:@"Slider" value:@"3" traits:UIAccessibilityTraitNone];
+}
 
 /*
  TODO: Should we implement this test?  It is really domain specific. It depends on a UI element named "Choose Photo" which is wired to create an image picker, an album with a matching name, and photos to be on the device.
