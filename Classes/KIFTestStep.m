@@ -280,11 +280,12 @@ typedef CGPoint KIFDisplacement;
     __block NSTimeInterval quiesceStartTime = 0.0;
     
     __block UIView *view = nil;
+    __block BOOL viewIsTapped = NO;
     
     return [self stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
 
         // If we've already tapped the view and stored it to a variable, and we've waited for the quiesce time to elapse, then we're done.
-        if (view) {
+        if (view && viewIsTapped) {
             KIFTestWaitCondition(([NSDate timeIntervalSinceReferenceDate] - quiesceStartTime) >= quiesceWaitInterval, error, @"Waiting for view to become the first responder.");
             return KIFTestStepResultSuccess;
         }
@@ -310,13 +311,15 @@ typedef CGPoint KIFDisplacement;
             elementFrame.origin = CGPointZero;
             elementFrame.size = view.frame.size;
         } else {
-            elementFrame = [view.window convertRect:element.accessibilityFrame toView:view];
+            UIWindow *window = [[[UIApplication sharedApplication] windowsWithKeyWindow] objectAtIndex:0];
+            elementFrame = [window convertRect:element.accessibilityFrame toView:view];
         }
         CGPoint tappablePointInElement = [view tappablePointInRect:elementFrame];
 
         // This is mostly redundant of the test in _accessibilityElementWithLabel:
         KIFTestWaitCondition(!isnan(tappablePointInElement.x), error, @"The element with accessibility label %@ is not tappable", label);
         [view tapAtPoint:tappablePointInElement];
+        viewIsTapped = YES;
 
         KIFTestCondition(![view canBecomeFirstResponder] || [view isDescendantOfFirstResponder], error, @"Failed to make the view %@ which contains the accessibility element \"%@\" into the first responder", view, label);
 
@@ -401,7 +404,8 @@ typedef CGPoint KIFDisplacement;
             return KIFTestStepResultWait;
         }
         
-        CGRect elementFrame = [view.window convertRect:element.accessibilityFrame toView:view];
+        UIWindow *window = [[[UIApplication sharedApplication] windowsWithKeyWindow] objectAtIndex:0];
+        CGRect elementFrame = [window convertRect:element.accessibilityFrame toView:view];
         CGPoint tappablePointInElement = [view tappablePointInRect:elementFrame];
         
         // This is mostly redundant of the test in _accessibilityElementWithLabel:
@@ -450,8 +454,9 @@ typedef CGPoint KIFDisplacement;
         
         UIView *view = [UIAccessibilityElement viewContainingAccessibilityElement:element];
         KIFTestWaitCondition(view, error, @"Cannot find view with accessibility label \"%@\"", label);
-                
-        CGRect elementFrame = [view.window convertRect:element.accessibilityFrame toView:view];
+        
+        UIWindow *window = [[[UIApplication sharedApplication] windowsWithKeyWindow] objectAtIndex:0];
+        CGRect elementFrame = [window convertRect:element.accessibilityFrame toView:view];
         CGPoint tappablePointInElement = [view tappablePointInRect:elementFrame];
         
         // This is mostly redundant of the test in _accessibilityElementWithLabel:
@@ -566,7 +571,8 @@ typedef CGPoint KIFDisplacement;
             return KIFTestStepResultSuccess;   
         }
         
-        CGRect elementFrame = [switchView.window convertRect:element.accessibilityFrame toView:switchView];
+        UIWindow *window = [[[UIApplication sharedApplication] windowsWithKeyWindow] objectAtIndex:0];
+        CGRect elementFrame = [window convertRect:element.accessibilityFrame toView:switchView];
         CGPoint tappablePointInElement = [switchView tappablePointInRect:elementFrame];
         
         // This is mostly redundant of the test in _accessibilityElementWithLabel:
