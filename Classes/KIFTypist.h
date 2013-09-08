@@ -7,5 +7,6 @@
 //
 
 @interface KIFTypist : NSObject
++ (void) cancelAnyInitialKeyboardShift;
 + (BOOL)enterCharacter:(NSString *)characterString;
 @end
