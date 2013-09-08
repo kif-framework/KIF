@@ -169,6 +169,56 @@ typedef CGPoint KIFDisplacement;
     }];
 }
 
++ (id)stepToWaitForVisibleViewWithAccessibilityLabel:(NSString *)label
+{
+    return [self stepToWaitForVisibleViewWithAccessibilityLabel:label traits:UIAccessibilityTraitNone];
+}
+
++ (id)stepToWaitForVisibleViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits
+{
+    return [self stepToWaitForVisibleViewWithAccessibilityLabel:label value:nil traits:traits];
+
+}
+
++ (id)stepToWaitForVisibleViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits
+{
+    return [self _stepToWaitForViewWithAccessibilityLabel:label value:value traits:traits toBeVisible:YES];
+}
+
++ (id)stepToWaitForAbsenceOfVisibleViewWithAccessibilityLabel:(NSString *)label {
+    return [self stepToWaitForAbsenceOfVisibleViewWithAccessibilityLabel:label traits:UIAccessibilityTraitNone];
+}
+
++ (id)stepToWaitForAbsenceOfVisibleViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits
+{
+    return [self stepToWaitForAbsenceOfVisibleViewWithAccessibilityLabel:label value:nil traits:traits];
+}
+
++ (id)stepToWaitForAbsenceOfVisibleViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits
+{
+    return [self _stepToWaitForViewWithAccessibilityLabel:label value:value traits:traits toBeVisible:NO];
+}
+
++ (id)_stepToWaitForViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits toBeVisible:(BOOL)viewShouldBeVisible
+{
+  NSString *presenceModifier = @"";
+  if (viewShouldBeVisible) presenceModifier = @"the absence of ";
+
+  NSString *descriptionFormat = [NSString stringWithFormat:@"for %@view with accessibility label \"%@\" visible in the application frame", presenceModifier, label];
+  NSString *description = [NSString stringWithFormat:@"Wait %@", descriptionFormat];
+  NSString *waitDescription = [NSString stringWithFormat:@"Waiting %@", descriptionFormat];
+
+  return [self stepWithDescription:description executionBlock:^(KIFTestStep *step, NSError **error) {
+    UIAccessibilityElement *element = [self _accessibilityElementWithLabel:label accessibilityValue:value tappable:NO traits:traits error:error];
+    BOOL viewVisiblity = [(UIView *)element isVisibleInApplicationFrame];
+    if (!viewShouldBeVisible) viewVisiblity = !viewVisiblity;
+
+    KIFTestWaitCondition(viewVisiblity, error, waitDescription, label);
+
+    return KIFTestStepResultSuccess;
+  }];
+}
+
 + (id)stepToWaitForTappableViewWithAccessibilityLabel:(NSString *)label;
 {
     return [self stepToWaitForTappableViewWithAccessibilityLabel:label traits:UIAccessibilityTraitNone];

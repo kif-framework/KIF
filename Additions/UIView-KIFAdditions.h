@@ -37,6 +37,8 @@
 - (void)tapAtPoint:(CGPoint)point;
 - (void)longPressAtPoint:(CGPoint)point duration:(NSTimeInterval)duration;
 
+- (BOOL)isVisibleInApplicationFrame;
+
 /*!
  @method dragFromPoint:toPoint:
  @abstract Simulates dragging a finger on the screen between the given points.
