@@ -42,6 +42,11 @@
     });
 }
 
+- (IBAction)sliderValueChanged:(UISlider *)sender
+{
+    sender.accessibilityValue = [NSString stringWithFormat:@"%d", (int)roundf(sender.value)];
+}
+
 - (IBAction)pickPhoto:(id)sender
 {
     UIImagePickerController *controller = [[UIImagePickerController alloc] init];
