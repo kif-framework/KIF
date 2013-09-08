@@ -315,6 +315,16 @@ static void releaseInstance()
     }
 }
 
+- (KIFTestStep *)_nextTearDownStepInCurrentScenarioAfterTearDownStep:(KIFTestStep *)step
+{
+    NSUInteger nextStepIndex = step ? ([[self.currentScenario stepsToTearDown] indexOfObject:step] + 1) : 0;
+    if (nextStepIndex < [[self.currentScenario stepsToTearDown] count]) {
+        return [[self.currentScenario stepsToTearDown] objectAtIndex:nextStepIndex];
+    } else {
+        return nil;
+    }
+}
+
 - (void)_advanceWithResult:(KIFTestStepResult)result error:(NSError *)error;
 {
     NSAssert((!self.currentStep || result == KIFTestStepResultSuccess || error), @"The step \"%@\" returned a non-successful result but did not include an error", self.currentStep.description);
@@ -329,10 +339,18 @@ static void releaseInstance()
             [[self.currentStep class] stepFailed];
             [self.currentStep cleanUp];
             
-            self.currentScenario = [self _nextScenarioAfterResult:result];
-            self.currentScenarioStartDate = [NSDate date];
-            self.currentStep = (self.currentScenario.steps.count ? [self.currentScenario.steps objectAtIndex:0] : nil);
-            self.currentStepStartDate = [NSDate date];
+            // In the event that the current Step has failed, we still want to execute the Tear Down steps
+            KIFTestStep *currentTearDownStep = [[self.currentScenario stepsToTearDown] containsObject:self.currentStep] ? self.currentStep : nil;
+            self.currentStep = [self _nextTearDownStepInCurrentScenarioAfterTearDownStep:currentTearDownStep];
+            if (self.currentStep) {
+                self.currentStepStartDate = [NSDate date];
+            } else {
+                // No Tear Down Steps or we have finished executing them all, proceed to the next Scenario
+                self.currentScenario = [self _nextScenarioAfterResult:result];
+                self.currentScenarioStartDate = [NSDate date];
+                self.currentStep = (self.currentScenario.steps.count ? [self.currentScenario.steps objectAtIndex:0] : nil);
+                self.currentStepStartDate = [NSDate date];
+            }
             failureCount++;
             break;
         }
