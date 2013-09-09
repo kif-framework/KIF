@@ -50,6 +50,11 @@ UIKIT_EXTERN NSString *const UIApplicationOpenedURLKey;
 - (UIWindow *)pickerViewWindow;
 
 /*!
+ @returns The topmost window containing a @c UIDimmingView.
+ */
+- (UIWindow *)dimmingViewWindow;
+
+/*!
  @returns All windows in the application, including the key window even if it does not appear in @c -windows.
  */
 - (NSArray *)windowsWithKeyWindow;
