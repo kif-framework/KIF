@@ -9,6 +9,8 @@ KIF-next is a branch of KIF which builds and performs the tests using a standard
 
 There's [a port underway to use KIF with Mac OS X apps](https://github.com/joshaber/KIF), as well.
 
+**Note:** KIF 2.0 is not API compatible with KIF 1.0 and uses a different test execution mechanism.  KIF 1.0 can be found in the [Releases](https://github.com/kif-framework/KIF/releases/) section or on [CocoaPods](http://cocoapods.org).
+
 Features
 --------
 
@@ -43,7 +45,7 @@ The testing target will add a header and implementation file, likely "Acceptance
 Once your test target set up, add the following to your Podspec file. Use your target's name as appropriate.
 
     target 'Acceptance Tests' do
-      pod 'KIF-next', '~> 2.0.0pre5'
+      pod 'KIF', '~> 2.0'
     end
 
 After running `pod install` complete the tasks in [**Final Test Target Configurations**](#configure-the-testing-target) below for the final details on getting your tests to run.
