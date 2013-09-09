@@ -3,8 +3,9 @@
 //  KIF
 //
 //  Created by Pete Hodgson on 8/12/12.
-//
-//
+//  Licensed to Square, Inc. under one or more contributor license agreements.
+//  See the LICENSE file distributed with this work for the terms under
+//  which Square, Inc. licenses this file to you.
 
 #import "KIFTypist.h"
 #import "UIApplication-KIFAdditions.h"
@@ -55,13 +56,15 @@
     id /*UIKBKeyplane*/ keyplane = [keyboardView valueForKey:@"keyplane"];
     BOOL isShiftKeyplane = [[keyplane valueForKey:@"isShiftKeyplane"] boolValue];
     
-    NSMutableArray *unvisitedForKeyplane = [history objectForKey:[NSValue valueWithNonretainedObject:keyplane]];
+    NSValue *keyplaneValue = [NSValue valueWithNonretainedObject:keyplane];
+    
+    NSMutableArray *unvisitedForKeyplane = [history objectForKey:keyplaneValue];
     if (!unvisitedForKeyplane) {
         unvisitedForKeyplane = [NSMutableArray arrayWithObjects:@"More", @"International", nil];
         if (!isShiftKeyplane) {
             [unvisitedForKeyplane insertObject:@"Shift" atIndex:0];
         }
-        [history setObject:unvisitedForKeyplane forKey:[NSValue valueWithNonretainedObject:keyplane]];
+        [history setObject:unvisitedForKeyplane forKey:keyplaneValue];
     }
     
     NSArray *keys = [keyplane valueForKey:@"keys"];
@@ -123,7 +126,8 @@
         
         if (newKeyplane == previousKeyplane) {
             // Come back to the keyplane that we just tested so that we can try the other modifiers
-            NSMutableArray *previousKeyplaneHistory = [history objectForKey:[NSValue valueWithNonretainedObject:newKeyplane]];
+            NSValue *keyplaneValue = [NSValue valueWithNonretainedObject:newKeyplane];
+            NSMutableArray *previousKeyplaneHistory = [history objectForKey:keyplaneValue];
             [previousKeyplaneHistory insertObject:[history valueForKey:@"lastModifierRepresentedString"] atIndex:0];
         } else {
             [history setValue:keyplane forKey:@"previousKeyplane"];

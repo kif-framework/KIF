@@ -10,6 +10,7 @@
 #import "UIView-KIFAdditions.h"
 #import "CGGeometry-KIFAdditions.h"
 #import "UIAccessibilityElement-KIFAdditions.h"
+#import "UIApplication-KIFAdditions.h"
 #import "UITouch-KIFAdditions.h"
 #import <objc/runtime.h>
 
@@ -68,6 +69,19 @@ typedef struct __GSEvent * GSEventRef;
 
 @implementation UIView (KIFAdditions)
 
++ (NSSet *)classesToSkipAccessibilitySearchRecursion
+{
+    static NSSet *classesToSkip;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        // UIDatePicker contains hundreds of thousands of placeholder accessibility elements that aren't useful to KIF,
+        // so don't recurse into a date picker when searching for matching accessibility elements
+        classesToSkip = [[NSSet alloc] initWithObjects:[UIDatePicker class], nil];
+    });
+    
+    return classesToSkip;
+}
+
 - (UIAccessibilityElement *)accessibilityElementWithLabel:(NSString *)label
 {
     return [self accessibilityElementWithLabel:label traits:UIAccessibilityTraitNone];
@@ -108,11 +122,15 @@ typedef struct __GSEvent * GSEventRef;
     BOOL elementMatches = matchBlock((UIAccessibilityElement *)self);
 
     if (elementMatches) {
-        if (self.tappable) {
+        if (self.isTappable) {
             return (UIAccessibilityElement *)self;
         } else {
             matchingButOccludedElement = (UIAccessibilityElement *)self;
         }
+    }
+    
+    if ([[[self class] classesToSkipAccessibilitySearchRecursion] containsObject:[self class]]) {
+        return matchingButOccludedElement;
     }
     
     // Check the subviews first. Even if the receiver says it's an accessibility container,
@@ -181,7 +199,7 @@ typedef struct __GSEvent * GSEventRef;
         return nil;
     }
     
-    return [subviews objectAtIndex:0];
+    return subviews[0];
 }
 
 - (NSArray *)subviewsWithClassNamePrefix:(NSString *)prefix;
@@ -212,7 +230,7 @@ typedef struct __GSEvent * GSEventRef;
         return nil;
     }
     
-    return [subviews objectAtIndex:0];
+    return subviews[0];
 }
 
 - (NSArray *)subviewsWithClassNameOrSuperClassNamePrefix:(NSString *)prefix;
@@ -346,9 +364,28 @@ typedef struct __GSEvent * GSEventRef;
 
 - (void)dragFromPoint:(CGPoint)startPoint toPoint:(CGPoint)endPoint;
 {
-    // Handle touches in the normal way for other views
-    CGPoint points[] = {startPoint, CGPointMidPoint(startPoint, endPoint), endPoint};
-    [self dragAlongPathWithPoints:points count:sizeof(points) / sizeof(CGPoint)];
+    [self dragFromPoint:startPoint toPoint:endPoint steps:3];
+}
+
+
+- (void)dragFromPoint:(CGPoint)startPoint toPoint:(CGPoint)endPoint steps:(NSUInteger)stepCount;
+{
+    KIFDisplacement displacement = CGPointMake(endPoint.x - startPoint.x, endPoint.y - startPoint.y);
+    [self dragFromPoint:startPoint displacement:displacement steps:stepCount];
+}
+
+- (void)dragFromPoint:(CGPoint)startPoint displacement:(KIFDisplacement)displacement steps:(NSUInteger)stepCount;
+{
+    CGPoint *path = alloca(stepCount * sizeof(CGPoint));
+    
+    for (NSUInteger i = 0; i < stepCount; i++)
+    {
+        CGFloat progress = ((CGFloat)i)/(stepCount - 1);
+        path[i] = CGPointMake(startPoint.x + (progress * displacement.x),
+                              startPoint.y + (progress * displacement.y));
+    }
+    
+    [self dragAlongPathWithPoints:path count:stepCount];
 }
 
 - (void)dragAlongPathWithPoints:(CGPoint *)points count:(NSInteger)count;
@@ -364,9 +401,9 @@ typedef struct __GSEvent * GSEventRef;
     
     UIEvent *eventDown = [self _eventWithTouch:touch];
     [[UIApplication sharedApplication] sendEvent:eventDown];
-
-    CFRunLoopRunInMode(kCFRunLoopDefaultMode, DRAG_TOUCH_DELAY, false);
     
+    CFRunLoopRunInMode(UIApplicationCurrentRunMode, DRAG_TOUCH_DELAY, false);
+
     for (NSInteger pointIndex = 1; pointIndex < count; pointIndex++) {
         [touch setLocationInWindow:[self.window convertPoint:points[pointIndex] fromView:self]];
         [touch setPhase:UITouchPhaseMoved];
@@ -374,7 +411,7 @@ typedef struct __GSEvent * GSEventRef;
         UIEvent *eventDrag = [self _eventWithTouch:touch];
         [[UIApplication sharedApplication] sendEvent:eventDrag];
 
-        CFRunLoopRunInMode(kCFRunLoopDefaultMode, DRAG_TOUCH_DELAY, false);
+        CFRunLoopRunInMode(UIApplicationCurrentRunMode, DRAG_TOUCH_DELAY, false);
     }
     
     [touch setPhase:UITouchPhaseEnded];
@@ -387,7 +424,16 @@ typedef struct __GSEvent * GSEventRef;
         [self becomeFirstResponder];
     }
     
+    while (UIApplicationCurrentRunMode != kCFRunLoopDefaultMode) {
+        CFRunLoopRunInMode(UIApplicationCurrentRunMode, 0.1, false);
+    }
     [touch release];
+}
+
+- (BOOL)isProbablyTappable
+{
+    // There are some issues with the tappability check in UIWebViews, so if the view is a UIWebView we will just skip the check.
+    return [NSStringFromClass([self class]) isEqualToString:@"UIWebBrowserView"] || self.isTappable;
 }
 
 // Is this view currently on screen?
@@ -416,7 +462,7 @@ typedef struct __GSEvent * GSEventRef;
     
     // Button views in the nav bar (a private class derived from UINavigationItemView), do not return
     // themselves in a -hitTest:. Instead they return the nav bar.
-    if ([hitView isKindOfClass:[UINavigationBar class]] && [self isKindOfClass:NSClassFromString(@"UINavigationItemView")] && [self isDescendantOfView:hitView]) {
+    if ([hitView isKindOfClass:[UINavigationBar class]] && [self isNavigationItemView] && [self isDescendantOfView:hitView]) {
         return YES;
     }
     
@@ -494,6 +540,42 @@ typedef struct __GSEvent * GSEventRef;
     
     [eventProxy release];
     return event;
+}
+
+- (BOOL)isUserInteractionActuallyEnabled;
+{
+    BOOL isUserInteractionEnabled = self.userInteractionEnabled;
+    
+    // Navigation item views don't have user interaction enabled, but their parent nav bar does and will forward the event
+    if (!isUserInteractionEnabled && [self isNavigationItemView]) {
+        // If this view is inside a nav bar, and the nav bar is enabled, then consider it enabled
+        UIView *navBar = [self superview];
+        while (navBar && ![navBar isKindOfClass:[UINavigationBar class]]) {
+            navBar = [navBar superview];
+        }
+        if (navBar && navBar.userInteractionEnabled) {
+            isUserInteractionEnabled = YES;
+        }
+    }
+    
+    // UIActionsheet Buttons have UIButtonLabels with userInteractionEnabled=NO inside,
+    // grab the superview UINavigationButton instead.
+    if (!isUserInteractionEnabled && [self isKindOfClass:NSClassFromString(@"UIButtonLabel")]) {
+        UIView *button = [self superview];
+        while (button && ![button isKindOfClass:NSClassFromString(@"UINavigationButton")]) {
+            button = [button superview];
+        }
+        if (button && button.userInteractionEnabled) {
+            isUserInteractionEnabled = YES;
+        }
+    }
+    
+    return isUserInteractionEnabled;
+}
+
+- (BOOL)isNavigationItemView;
+{
+    return [self isKindOfClass:NSClassFromString(@"UINavigationItemView")] || [self isKindOfClass:NSClassFromString(@"_UINavigationBarBackIndicatorView")];
 }
 
 @end
