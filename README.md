@@ -48,6 +48,10 @@ Once your test target set up, add the following to your Podspec file. Use your t
       pod 'KIF', '~> 2.0'
     end
 
+**Note:** While waiting for the pod to appear the CocoaPods repo, you can use the podspec found in this project:
+
+    pod 'KIF', :podspec => 'https://raw.github.com/kif-framework/KIF/v2.0.0/KIF.podspec'
+
 After running `pod install` complete the tasks in [**Final Test Target Configurations**](#configure-the-testing-target) below for the final details on getting your tests to run.
 
 Installation (from GitHub)
