@@ -9,10 +9,11 @@
 
 #import <UIKit/UIKit.h>
 
+typedef CGPoint KIFDisplacement;
 
 @interface UIView (KIFAdditions)
 
-@property (nonatomic, readonly, getter=isTappable) BOOL tappable;
+@property (nonatomic, readonly, getter=isProbablyTappable) BOOL probablyTappable;
 
 - (BOOL)isDescendantOfFirstResponder;
 - (UIAccessibilityElement *)accessibilityElementWithLabel:(NSString *)label;
@@ -45,6 +46,8 @@
  @param endPoint The point at which to end the drag, in the coordinate system of the receiver.
  */
 - (void)dragFromPoint:(CGPoint)startPoint toPoint:(CGPoint)endPoint;
+- (void)dragFromPoint:(CGPoint)startPoint toPoint:(CGPoint)endPoint steps:(NSUInteger)stepCount;
+- (void)dragFromPoint:(CGPoint)startPoint displacement:(KIFDisplacement)displacement steps:(NSUInteger)stepCount;
 - (void)dragAlongPathWithPoints:(CGPoint *)points count:(NSInteger)count;
 
 /*!
@@ -73,5 +76,10 @@
  @result A tappable point in the receivers frame coordinates.
  */
 - (CGPoint)tappablePointInRect:(CGRect)rect;
+
+/*!
+ @abstract Evaluates if user interaction is enabled including edge cases.
+ */
+- (BOOL)isUserInteractionActuallyEnabled;
 
 @end
