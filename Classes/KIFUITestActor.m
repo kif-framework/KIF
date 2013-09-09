@@ -423,11 +423,11 @@
 - (void)dismissPopover
 {
     const NSTimeInterval tapDelay = 0.05;
-    NSArray *windows = [[UIApplication sharedApplication] windowsWithKeyWindow];
-    if (!windows.count) {
-        [self failWithError:[NSError KIFErrorWithFormat:@"Failed to find any windows in the application"] stopTest:YES];
+    UIWindow *window = [[UIApplication sharedApplication] dimmingViewWindow];
+    if (!window) {
+        [self failWithError:[NSError KIFErrorWithFormat:@"Failed to find any dimming views in the application"] stopTest:YES];
     }
-    UIView *dimmingView = [[windows[0] subviewsWithClassNamePrefix:@"UIDimmingView"] lastObject];
+    UIView *dimmingView = [[window subviewsWithClassNamePrefix:@"UIDimmingView"] lastObject];
     [dimmingView tapAtPoint:CGPointMake(50.0f, 50.0f)];
     CFRunLoopRunInMode(kCFRunLoopDefaultMode, tapDelay, false);
 }
