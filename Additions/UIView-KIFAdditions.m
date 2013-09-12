@@ -578,4 +578,19 @@ typedef struct __GSEvent * GSEventRef;
     return [self isKindOfClass:NSClassFromString(@"UINavigationItemView")] || [self isKindOfClass:NSClassFromString(@"_UINavigationBarBackIndicatorView")];
 }
 
+- (UIWindow *)windowOrIdentityWindow
+{
+    if (CGAffineTransformIsIdentity(self.window.transform)) {
+        return self.window;
+    }
+    
+    for (UIWindow *window in [[UIApplication sharedApplication] windowsWithKeyWindow]) {
+        if (CGAffineTransformIsIdentity(window.transform)) {
+            return window;
+        }
+    }
+    
+    return nil;
+}
+
 @end

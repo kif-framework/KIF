@@ -72,6 +72,7 @@
 		EB7204651680DDAD00278DA2 /* KIFSystemTestActor.h in Headers */ = {isa = PBXBuildFile; fileRef = EB4C3130167BA3AC00E31109 /* KIFSystemTestActor.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EB7204661680DDAD00278DA2 /* KIFUITestActor.h in Headers */ = {isa = PBXBuildFile; fileRef = EB4C3132167BA3AC00E31109 /* KIFUITestActor.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EB9FB42717A5BACB00DDF160 /* GestureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EB9FB42617A5BACB00DDF160 /* GestureViewController.m */; };
+		EB9FC00517E144B700138266 /* LandscapeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EB9FC00417E144B700138266 /* LandscapeTests.m */; };
 		EBAE487C17A45A8E0005EE19 /* NSBundle-KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = EBAE487A17A45A8E0005EE19 /* NSBundle-KIFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EBAE487D17A45A8E0005EE19 /* NSBundle-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = EBAE487B17A45A8E0005EE19 /* NSBundle-KIFAdditions.m */; };
 		EBAE488117A460E50005EE19 /* NSError-KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = EBAE487F17A460E50005EE19 /* NSError-KIFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -159,6 +160,7 @@
 		EB60ED19177F90C2005A041A /* GestureTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GestureTests.m; sourceTree = "<group>"; };
 		EB72047C1680DDAD00278DA2 /* libKIF.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libKIF.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		EB9FB42617A5BACB00DDF160 /* GestureViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GestureViewController.m; sourceTree = "<group>"; };
+		EB9FC00417E144B700138266 /* LandscapeTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LandscapeTests.m; sourceTree = "<group>"; };
 		EBAE487A17A45A8E0005EE19 /* NSBundle-KIFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSBundle-KIFAdditions.h"; sourceTree = "<group>"; };
 		EBAE487B17A45A8E0005EE19 /* NSBundle-KIFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSBundle-KIFAdditions.m"; sourceTree = "<group>"; };
 		EBAE487F17A460E50005EE19 /* NSError-KIFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSError-KIFAdditions.h"; sourceTree = "<group>"; };
@@ -359,6 +361,7 @@
 				EB60ED0E177F90BA005A041A /* WaitForTappableViewTests.m */,
 				EB60ED0F177F90BA005A041A /* WaitForViewTests.m */,
 				EB22B5AF17AF52640090B848 /* CascadingFailureTests.m */,
+				EB9FC00417E144B700138266 /* LandscapeTests.m */,
 				EB60ECF0177F8DB3005A041A /* Supporting Files */,
 			);
 			path = "KIF Tests";
@@ -573,6 +576,7 @@
 				EB60ED16177F90BA005A041A /* WaitForAbscenceTests.m in Sources */,
 				EB60ED17177F90BA005A041A /* WaitForTappableViewTests.m in Sources */,
 				EB60ED18177F90BA005A041A /* WaitForViewTests.m in Sources */,
+				EB9FC00517E144B700138266 /* LandscapeTests.m in Sources */,
 				EB3F654517AA0B8400469D18 /* TableViewTests.m in Sources */,
 				EB60ED1A177F90C2005A041A /* GestureTests.m in Sources */,
 			);

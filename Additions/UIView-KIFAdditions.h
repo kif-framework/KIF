@@ -82,4 +82,9 @@ typedef CGPoint KIFDisplacement;
  */
 - (BOOL)isUserInteractionActuallyEnabled;
 
+/*!
+ @abstract Returns either the current window or another window if a transform is applied.  Returns `nil` if all windows in the application have transforms.
+ */
+@property (nonatomic, readonly) UIWindow *windowOrIdentityWindow;
+
 @end

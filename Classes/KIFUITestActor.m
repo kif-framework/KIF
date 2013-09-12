@@ -128,7 +128,7 @@
             elementFrame.origin = CGPointZero;
             elementFrame.size = view.frame.size;
         } else {
-            elementFrame = [view.window convertRect:element.accessibilityFrame toView:view];
+            elementFrame = [view.windowOrIdentityWindow convertRect:element.accessibilityFrame toView:view];
         }
         CGPoint tappablePointInElement = [view tappablePointInRect:elementFrame];
         
@@ -196,7 +196,7 @@
         
         KIFTestWaitCondition(view.isUserInteractionActuallyEnabled, error, @"View is not enabled for interaction");
         
-        CGRect elementFrame = [view.window convertRect:element.accessibilityFrame toView:view];
+        CGRect elementFrame = [view.windowOrIdentityWindow convertRect:element.accessibilityFrame toView:view];
         CGPoint tappablePointInElement = [view tappablePointInRect:elementFrame];
         
         // This is mostly redundant of the test in _accessibilityElementWithLabel:
@@ -456,7 +456,7 @@
             return KIFTestStepResultWait;
         }
         
-        CGRect elementFrame = [view.window convertRect:element.accessibilityFrame toView:view];
+        CGRect elementFrame = [view.windowOrIdentityWindow convertRect:element.accessibilityFrame toView:view];
         CGPoint tappablePointInElement = [view tappablePointInRect:elementFrame];
         
         [view tapAtPoint:tappablePointInElement];
@@ -537,7 +537,7 @@
     
     // Within this method, all geometry is done in the coordinate system of the view to swipe.
     
-    CGRect elementFrame = [viewToSwipe.window convertRect:element.accessibilityFrame toView:viewToSwipe];
+    CGRect elementFrame = [viewToSwipe.windowOrIdentityWindow convertRect:element.accessibilityFrame toView:viewToSwipe];
     CGPoint swipeStart = CGPointCenteredInRect(elementFrame);
     KIFDisplacement swipeDisplacement = KIFDisplacementForSwipingInDirection(direction);
     
@@ -555,7 +555,7 @@
 
     // Within this method, all geometry is done in the coordinate system of the view to scroll.
     
-    CGRect elementFrame = [viewToScroll.window convertRect:element.accessibilityFrame toView:viewToScroll];
+    CGRect elementFrame = [viewToScroll.windowOrIdentityWindow convertRect:element.accessibilityFrame toView:viewToScroll];
     
     KIFDisplacement scrollDisplacement = CGPointMake(elementFrame.size.width * horizontalFraction, elementFrame.size.height * verticalFraction);
     

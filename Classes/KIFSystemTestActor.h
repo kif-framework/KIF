@@ -8,6 +8,7 @@
 //  which Square, Inc. licenses this file to you.
 
 #import "KIFTestActor.h"
+#import <UIKit/UIKit.h>
 
 #define system KIFActorWithClass(KIFSystemTestActor)
 
@@ -37,6 +38,13 @@
  @abstract Simulates a memory warning.
  */
 - (void)simulateMemoryWarning;
+
+/*!
+ @abstract Simulates a device rotation to a specific orentation from its last set orientation.
+ @discussion The first time this method is called, it will be from the device's natural orientation to the orientation described.
+ @param orientation The desired orientation.
+ */
+- (void)simulateDeviceRotationToOrientation:(UIDeviceOrientation)orientation;
 
 /*!
  @abstract Waits for the application to request a specific URL while executing a block.

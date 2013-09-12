@@ -12,6 +12,10 @@
 #import "UIApplication-KIFAdditions.h"
 #import "NSError-KIFAdditions.h"
 
+@interface UIApplication (Private)
+- (BOOL)rotateIfNeeded:(UIDeviceOrientation)orientation;
+@end
+
 @implementation KIFSystemTestActor
 
 - (NSNotification *)waitForNotificationName:(NSString*)name object:(id)object
@@ -53,6 +57,11 @@
 - (void)simulateMemoryWarning
 {
     [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationDidReceiveMemoryWarningNotification object:[UIApplication sharedApplication]];
+}
+
+- (void)simulateDeviceRotationToOrientation:(UIDeviceOrientation)orientation
+{
+    [[UIApplication sharedApplication] rotateIfNeeded:orientation];
 }
 
 - (void)waitForApplicationToOpenAnyURLWhileExecutingBlock:(void (^)())block returning:(BOOL)returnValue
