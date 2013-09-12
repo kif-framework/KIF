@@ -3,7 +3,7 @@ KIF iOS Integration Testing Framework
 
 KIF, which stands for Keep It Functional, is an iOS integration test framework. It allows for easy automation of iOS apps by leveraging the accessibility attributes that the OS makes available for those with visual disabilities.
 
-KIF-next is a branch of KIF which builds and performs the tests using a standard `ocunit` testing target.  Testing is conducted synchronously (running the run loop to force the passage of time) rather than by constructing an array of steps allowing for more complex logic and composition.  This also allows KIF-next to take advantage of the Xcode 5 Test Navigator, command line build tools, and Bot test reports.  [Find out more about Xcode 5 features.](https://developer.apple.com/technologies/tools/whats-new.html)
+KIF builds and performs the tests using a standard `ocunit` testing target.  Testing is conducted synchronously in the main thread (running the run loop to force the passage of time) allowing for more complex logic and composition.  This also allows KIF to take advantage of the Xcode 5 Test Navigator, command line build tools, and Bot test reports.  [Find out more about Xcode 5 features.](https://developer.apple.com/technologies/tools/whats-new.html)
 
 **KIF uses undocumented Apple APIs.** This is true of most iOS testing frameworks, and is safe for testing purposes, but it's important that KIF does not make it into production code, as it will get your app submission denied by Apple. Follow the instructions below to ensure that KIF is configured correctly for your project.
 
@@ -24,12 +24,12 @@ KIF integrates directly into your iOS app, so there's no need to run an addition
 KIF attempts to imitate actual user input. Automation is done using tap events wherever possible.
 
 #### Automatic Integration with Xcode 5 Testing Tools
-Xcode 5 introduces [new testing an continuous integration tools](https://developer.apple.com/technologies/tools/whats-new.html) built on the same testing platform as KIF-next.  You can easily run a single KIF test with the Test Navigator or kick off nightly acceptance tests with Bots.
+Xcode 5 introduces [new testing an continuous integration tools](https://developer.apple.com/technologies/tools/whats-new.html) built on the same testing platform as KIF.  You can easily run a single KIF test with the Test Navigator or kick off nightly acceptance tests with Bots.
 
 See KIF in Action
 -----------------
 
-KIF-next uses techniques described below to validate its internal functionality.  You can see a test suite that exercises its entire functionality by simply building and testing the KIF scheme with ⌘U.  Look at the tests in the "KIF Tests" group for ideas on how to build your own tests.
+KIF uses techniques described below to validate its internal functionality.  You can see a test suite that exercises its entire functionality by simply building and testing the KIF scheme with ⌘U.  Look at the tests in the "KIF Tests" group for ideas on how to build your own tests.
 
 Installation (with CocoaPods)
 -----------------------------
@@ -48,16 +48,12 @@ Once your test target set up, add the following to your Podspec file. Use your t
       pod 'KIF', '~> 2.0'
     end
 
-**Note:** While waiting for the pod to appear the CocoaPods repo, you can use the podspec found in this project:
-
-    pod 'KIF', :podspec => 'https://raw.github.com/kif-framework/KIF/v2.0.0/KIF.podspec'
-
 After running `pod install` complete the tasks in [**Final Test Target Configurations**](#configure-the-testing-target) below for the final details on getting your tests to run.
 
 Installation (from GitHub)
 --------------------------
 
-To install KIF, you'll need to link the libKIF static library directly into your application. Download the source from the [bnickel/KIF/tree/kif-next](https://github.com/bnickel/KIF/tree/kif-next) and follow the instructions below.
+To install KIF, you'll need to link the libKIF static library directly into your application. Download the source from the [kif-framework/KIF](https://github.com/kif-framework/KIF/) and follow the instructions below.
 
 *NOTE* These instruction assume you are using Xcode 4 or later. For Xcode 3 you won't be able to take advantage of Workspaces, so the instructions will differ slightly.
 
@@ -66,14 +62,14 @@ The first step is to add the KIF project into the ./Frameworks/KIF subdirectory 
 
 	cd /path/to/MyApplicationSource
 	mkdir Frameworks
-	git submodule add -b KIF-next https://github.com/square/KIF.git Frameworks/KIF
+	git submodule add https://github.com/kif-framework/KIF.git Frameworks/KIF
 
 If you're not using Git, simply download the source and copy it into the ./Frameworks/KIF directory.
 
 ### Add KIF to Your Workspace
 Let your project know about KIF by adding the KIF project into a workspace along with your main project. Find the KIF.xcodeproj file in Finder and drag it into the Project Navigator (⌘1). If you don't already have a workspace, Xcode will ask if you want to create a new one. Click "Save" when it does.
 
-![Create workspace screen shot](https://github.com/square/KIF/raw/master/Documentation/Images/Create Workspace.png)
+![Create workspace screen shot](https://github.com/kif-framework/KIF/raw/master/Documentation/Images/Create Workspace.png)
 
 ### Create a Testing Target
 You'll need to create a test target for your app.  You may already have one named *MyApplication*_Tests if you selected to automatically create unit tests.  If you did, you can keep using it if you aren't using it for unit tests.  Otherwise, follow these directions to create a new one.
@@ -85,13 +81,13 @@ The testing target will add a header and implementation file, likely "Acceptance
 ### Configure the Testing Target
 Now that you have a target for your tests, add the tests to that target. With the project settings still selected in the Project Navigator, and the new integration tests target selected in the project settings, select the "Build Phases" tab. Under the "Link Binary With Libraries" section, hit the "+" button. In the sheet that appears, select "libKIF.a" and click "Add".  Repeat the process for CoreGraphics.framework.
 
-![Add libKIF library screen shot](https://github.com/square/KIF/raw/master/Documentation/Images/Add Library.png)
+![Add libKIF library screen shot](https://github.com/kif-framework/KIF/raw/master/Documentation/Images/Add Library.png)
 
-![Add libKIF library screen shot](https://github.com/square/KIF/raw/master/Documentation/Images/Add Library Sheet.png)
+![Add libKIF library screen shot](https://github.com/kif-framework/KIF/raw/master/Documentation/Images/Add Library Sheet.png)
 
 KIF takes advantage of Objective C's ability to add categories on an object, but this isn't enabled for static libraries by default. To enable this, add the `-ObjC` flag to the "Other Linker Flags" build setting as shown below.
 
-![Add category linker flags screen shot](https://github.com/square/KIF/raw/master/Documentation/Images/Add Category Linker Flags.png)
+![Add category linker flags screen shot](https://github.com/kif-framework/KIF/raw/master/Documentation/Images/Add Category Linker Flags.png)
 
 Read **Final Test Target Configurations** below for the final details on getting your tests to run.
 
@@ -249,6 +245,6 @@ We're glad you're interested in KIF, and we'd love to see where you take it.
 
 Any contributors to the master KIF repository must sign the [Individual Contributor License Agreement (CLA)](https://spreadsheets.google.com/spreadsheet/viewform?formkey=dDViT2xzUHAwRkI3X3k5Z0lQM091OGc6MQ&ndplr=1). It's a short form that covers our bases and makes sure you're eligible to contribute.
 
-When you have a change you'd like to see in the master repository, [send a pull request](https://github.com/square/KIF/pulls). Before we merge your request, we'll make sure you're in the list of people who have signed a CLA.
+When you have a change you'd like to see in the master repository, [send a pull request](https://github.com/kif-framework/KIF/pulls). Before we merge your request, we'll make sure you're in the list of people who have signed a CLA.
 
 Thanks, and happy testing!
