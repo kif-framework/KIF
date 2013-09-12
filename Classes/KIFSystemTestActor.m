@@ -7,8 +7,8 @@
 //  See the LICENSE file distributed with this work for the terms under
 //  which Square, Inc. licenses this file to you.
 
+#import <objc/runtime.h>
 #import "KIFSystemTestActor.h"
-#import <UIKit/UIKit.h>
 #import "UIApplication-KIFAdditions.h"
 #import "NSError-KIFAdditions.h"
 
@@ -88,6 +88,86 @@
     if (![[UIApplication sharedApplication] writeScreenshotForLine:(NSUInteger)self.line inFile:self.file description:description error:&error]) {
         [self failWithError:error stopTest:NO];
     }
+}
+
+@end
+
+@implementation KIFSystemTestActor (ViewControllerActions)
+
+static void *KIFDefaultNavigationBarClassAssociatedObjectKey = &KIFDefaultNavigationBarClassAssociatedObjectKey;
+static void *KIFDefaultToolbarClassAssociatedObjectKey = &KIFDefaultToolbarClassAssociatedObjectKey;
+
+- (Class)defaultNavigationBarClass
+{
+    return objc_getAssociatedObject(self, KIFDefaultNavigationBarClassAssociatedObjectKey);
+}
+
+- (void)setDefaultNavigationBarClass:(Class)defaultNavigationBarClass
+{
+    objc_setAssociatedObject(self, KIFDefaultNavigationBarClassAssociatedObjectKey, defaultNavigationBarClass, OBJC_ASSOCIATION_ASSIGN);
+}
+
+- (Class)defaultToolbarClass
+{
+    return objc_getAssociatedObject(self, KIFDefaultToolbarClassAssociatedObjectKey);
+}
+
+- (void)setDefaultToolbarClass:(Class)defaultToolbarClass
+{
+    objc_setAssociatedObject(self, KIFDefaultToolbarClassAssociatedObjectKey, defaultToolbarClass, OBJC_ASSOCIATION_ASSIGN);
+}
+
+- (void)presentViewControllerWithClass:(Class)viewControllerClass withinNavigationControllerWithNavigationBarClass:(Class)navigationBarClass toolbarClass:(Class)toolbarClass
+                    configurationBlock:(void (^)(id viewController))configurationBlock;
+{
+    [self runBlock:^KIFTestStepResult(NSError **error) {
+        UIViewController *viewControllerToPresent = [viewControllerClass new];
+        KIFTestCondition(viewControllerToPresent != nil, error, @"Expected a view controller, but got nil");
+
+        Class navigationBarClassToUse = navigationBarClass ?: self.defaultNavigationBarClass;
+        Class toolbarClassToUse = toolbarClass ?: self.defaultToolbarClass;
+        UINavigationController *navigationController = [[UINavigationController alloc] initWithNavigationBarClass:navigationBarClassToUse toolbarClass:toolbarClassToUse];
+        navigationController.viewControllers = @[viewControllerToPresent];
+        if (configurationBlock) configurationBlock(viewControllerToPresent);
+        [UIApplication sharedApplication].keyWindow.rootViewController = navigationController;
+
+        return KIFTestStepResultSuccess;
+    }];
+}
+
+- (void)presentViewControllerWithIdentifier:(NSString *)controllerIdentifier fromStoryboardWithName:(NSString *)storyboardName configurationBlock:(void (^)(UIViewController *viewController))configurationBlock
+{
+    [self runBlock:^KIFTestStepResult(NSError *__autoreleasing *error) {
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:storyboardName bundle:nil];
+
+        UIViewController *storyboardViewController = [storyboard instantiateViewControllerWithIdentifier:controllerIdentifier];
+        if (configurationBlock) configurationBlock(storyboardViewController);
+        KIFTestCondition(storyboardViewController != nil, error, @"Expected a view controller, but got nil");
+
+        UINavigationController *navigationController = [[UINavigationController alloc] initWithNavigationBarClass:self.defaultNavigationBarClass toolbarClass:self.defaultToolbarClass];
+        navigationController.viewControllers = @[ storyboardViewController ];
+        [UIApplication sharedApplication].keyWindow.rootViewController = navigationController;
+
+        return KIFTestStepResultSuccess;
+    }];
+}
+
+- (void)presentModalViewControllerWithIdentifier:(NSString *)controllerIdentifier fromStoryboardWithName:(NSString *)storyboardName configurationBlock:(void (^)(UIViewController *viewController))configurationBlock
+{
+    [self runBlock:^KIFTestStepResult(NSError *__autoreleasing *error) {
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:storyboardName bundle:nil];
+
+        UIViewController *storyboardViewController = [storyboard instantiateViewControllerWithIdentifier:controllerIdentifier];
+        if (configurationBlock) configurationBlock(storyboardViewController);
+        KIFTestCondition(storyboardViewController != nil, error, @"Expected a view controller, but got nil");
+
+        UIViewController *viewController = [[UIViewController alloc] initWithNibName:nil bundle:nil];
+        UINavigationController *navigationController = [[UINavigationController alloc] initWithNavigationBarClass:self.defaultNavigationBarClass toolbarClass:self.defaultToolbarClass];
+        navigationController.viewControllers = @[ viewController ];
+        [UIApplication sharedApplication].keyWindow.rootViewController = navigationController;
+
+        return KIFTestStepResultSuccess;
+    }];
 }
 
 @end
