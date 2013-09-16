@@ -63,6 +63,43 @@
     }];
 }
 
+- (UIView *)waitForViewWithAccessibilityIdentifier:(NSString *)identifier tappable:(BOOL)mustBeTappable
+{
+    UIView *view = nil;
+    [self waitForAccessibilityElement:NULL view:&view withIdentifier:identifier tappable:mustBeTappable];
+    return view;
+}
+
+- (void)waitForAccessibilityElement:(UIAccessibilityElement **)element view:(out UIView **)view withIdentifier:(NSString *)identifier tappable:(BOOL)mustBeTappable
+{
+    if (![UIAccessibilityElement instancesRespondToSelector:@selector(accessibilityIdentifier)]) {
+        [self failWithError:[NSError KIFErrorWithFormat:@"Running test on platform that does not support accessibilityIdentifier"] stopTest:YES];
+    }
+    
+    [self runBlock:^KIFTestStepResult(NSError **error) {
+        UIAccessibilityElement *foundElement = [[UIApplication sharedApplication] accessibilityElementMatchingBlock:^BOOL(UIAccessibilityElement *element) {
+            return [element.accessibilityIdentifier isEqualToString:identifier];
+        }];
+        
+        KIFTestWaitCondition(foundElement, error, @"Could not find view with accessbilityIdentifier \"%@\"", identifier);
+        
+        UIView *foundView = [UIAccessibilityElement viewContainingAccessibilityElement:foundElement tappable:mustBeTappable error:error];
+        if (!foundView) {
+            return KIFTestStepResultWait;
+        }
+        
+        if (element) {
+            *element = foundElement;
+        }
+        
+        if (view) {
+            *view = foundView;
+        }
+        
+        return KIFTestStepResultSuccess;
+    }];
+}
+
 - (void)waitForAbsenceOfViewWithAccessibilityLabel:(NSString *)label
 {
     [self waitForAbsenceOfViewWithAccessibilityLabel:label traits:UIAccessibilityTraitNone];
@@ -481,10 +518,21 @@
     [self tapViewWithAccessibilityLabel:@"Choose"];
 }
 
+- (void)tapRowAtIndexPath:(NSIndexPath *)indexPath inTableViewWithAccessibilityIdentifier:(NSString *)identifier
+{
+    UITableView *tableView = (UITableView *)[self waitForViewWithAccessibilityIdentifier:identifier tappable:NO];
+    [self tapRowAtIndexPath:indexPath inTableView:tableView];
+}
+
 - (void)tapRowInTableViewWithAccessibilityLabel:(NSString*)tableViewLabel atIndexPath:(NSIndexPath *)indexPath
 {
     UITableView *tableView = (UITableView *)[self waitForViewWithAccessibilityLabel:tableViewLabel];
-    
+    [self tapRowAtIndexPath:indexPath inTableView:tableView];
+}
+
+- (void)tapRowAtIndexPath:(NSIndexPath *)indexPath inTableView:(UITableView *)tableView
+{
+
     if (![tableView isKindOfClass:[UITableView class]]) {
         [self failWithError:[NSError KIFErrorWithFormat:@"View is not a table view"] stopTest:YES];
     }
@@ -503,11 +551,11 @@
 
     if (!cell) {
         if (indexPath.section >= tableView.numberOfSections) {
-            [self failWithError:[NSError KIFErrorWithFormat:@"Section %d is not found in '%@' table view", indexPath.section, tableViewLabel] stopTest:YES];
+            [self failWithError:[NSError KIFErrorWithFormat:@"Section %d is not found in table view", indexPath.section] stopTest:YES];
         }
         
         if (indexPath.row >= [tableView numberOfRowsInSection:indexPath.section]) {
-            [self failWithError:[NSError KIFErrorWithFormat:@"Row %d is not found in section %d of '%@' table view", indexPath.row, indexPath.section, tableViewLabel] stopTest:YES];
+            [self failWithError:[NSError KIFErrorWithFormat:@"Row %d is not found in section %d of table view", indexPath.row, indexPath.section] stopTest:YES];
         }
         
         [tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
@@ -546,13 +594,24 @@
 
 - (void)scrollViewWithAccessibilityLabel:(NSString *)label byFractionOfSizeHorizontal:(CGFloat)horizontalFraction vertical:(CGFloat)verticalFraction
 {
-    const NSUInteger kNumberOfPointsInScrollPath = 5;
-    
     UIView *viewToScroll;
     UIAccessibilityElement *element;
-    
     [self waitForAccessibilityElement:&element view:&viewToScroll withLabel:label value:nil traits:UIAccessibilityTraitNone tappable:NO];
+    [self scrollAccessibilityElement:element inView:viewToScroll byFractionOfSizeHorizontal:horizontalFraction vertical:verticalFraction];
+}
 
+- (void)scrollViewWithAccessibilityIdentifier:(NSString *)identifier byFractionOfSizeHorizontal:(CGFloat)horizontalFraction vertical:(CGFloat)verticalFraction
+{
+    UIView *viewToScroll;
+    UIAccessibilityElement *element;
+    [self waitForAccessibilityElement:&element view:&viewToScroll withIdentifier:identifier tappable:NO];
+    [self scrollAccessibilityElement:element inView:viewToScroll byFractionOfSizeHorizontal:horizontalFraction vertical:verticalFraction];
+}
+
+- (void)scrollAccessibilityElement:(UIAccessibilityElement *)element inView:(UIView *)viewToScroll byFractionOfSizeHorizontal:(CGFloat)horizontalFraction vertical:(CGFloat)verticalFraction
+{
+    const NSUInteger kNumberOfPointsInScrollPath = 5;
+    
     // Within this method, all geometry is done in the coordinate system of the view to scroll.
     
     CGRect elementFrame = [viewToScroll.windowOrIdentityWindow convertRect:element.accessibilityFrame toView:viewToScroll];
