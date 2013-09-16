@@ -7,8 +7,6 @@ KIF builds and performs the tests using a standard `ocunit` testing target.  Tes
 
 **KIF uses undocumented Apple APIs.** This is true of most iOS testing frameworks, and is safe for testing purposes, but it's important that KIF does not make it into production code, as it will get your app submission denied by Apple. Follow the instructions below to ensure that KIF is configured correctly for your project.
 
-There's [a port underway to use KIF with Mac OS X apps](https://github.com/joshaber/KIF), as well.
-
 **Note:** KIF 2.0 is not API compatible with KIF 1.0 and uses a different test execution mechanism.  KIF 1.0 can be found in the [Releases](https://github.com/kif-framework/KIF/releases/) section or on [CocoaPods](http://cocoapods.org).
 
 Features
@@ -18,7 +16,10 @@ Features
 All of the tests for KIF are written in Objective C. This allows for maximum integration with your code while minimizing the number of layers you have to build.
 
 #### Easy Configuration
-KIF integrates directly into your iOS app, so there's no need to run an additional web server or install any additional packages.
+KIF integrates directly into your Xcode project, so there's no need to run an additional web server or install any additional packages.
+
+#### Wide OS coverage
+KIF's test suite has been run against iOS 5.1 and above (including iOS 7), though lower versions will likely work.
 
 #### Test Like a User
 KIF attempts to imitate actual user input. Automation is done using tap events wherever possible.
