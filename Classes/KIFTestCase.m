@@ -8,6 +8,8 @@
 //  which Square, Inc. licenses this file to you.
 
 #import "KIFTestCase.h"
+#import <UIKit/UIKit.h>
+#import "UIApplication-KIFAdditions.h"
 #import "KIFTestActor.h"
 
 #define SIG(class, selector) [class instanceMethodSignatureForSelector:selector]
@@ -79,6 +81,10 @@
 
 - (void)failWithException:(NSException *)exception stopTest:(BOOL)stop
 {
+    if (stop) {
+        [self writeScreenshotForException:exception];
+    }
+    
     if (stop && self.stopTestsOnFirstBigFailure) {
         NSLog(@"Fatal failure encountered: %@", exception.description);
         NSLog(@"Stopping tests since stopTestsOnFirstBigFailure = YES");
@@ -90,6 +96,33 @@
     } else {
         [super failWithException:exception stopTest:stop];
     }
+}
+
+- (void)writeScreenshotForException:(NSException *)exception;
+{
+    NSString *outputPath = [[[NSProcessInfo processInfo] environment] objectForKey:@"KIF_SCREENSHOTS"];
+    if (!outputPath) {
+        return;
+    }
+    
+    NSArray *windows = [[UIApplication sharedApplication] windowsWithKeyWindow];
+    if (windows.count == 0) {
+        return;
+    }
+    
+    UIGraphicsBeginImageContext([[windows objectAtIndex:0] bounds].size);
+    for (UIWindow *window in windows) {
+        [window.layer renderInContext:UIGraphicsGetCurrentContext()];
+    }
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    NSString *filename = [NSString stringWithFormat:@"%@, line %lld", [exception.filename lastPathComponent], exception.lineNumber.longLongValue];
+    
+    outputPath = [outputPath stringByExpandingTildeInPath];
+    outputPath = [outputPath stringByAppendingPathComponent:filename];
+    outputPath = [outputPath stringByAppendingPathExtension:@"png"];
+    [UIImagePNGRepresentation(image) writeToFile:outputPath atomically:YES];
 }
 
 @end
