@@ -10,6 +10,7 @@
 #import "UIApplication-KIFAdditions.h"
 #import "LoadableCategory.h"
 #import "UIView-KIFAdditions.h"
+#import "NSError-KIFAdditions.h"
 #import <objc/runtime.h>
 #import <objc/message.h>
 
@@ -30,6 +31,8 @@ NSString *const UIApplicationOpenedURLKey = @"UIApplicationOpenedURL";
 static const void *KIFRunLoopModesKey = &KIFRunLoopModesKey;
 
 @implementation UIApplication (KIFAdditions)
+
+#pragma mark - Finding elements
 
 - (UIAccessibilityElement *)accessibilityElementWithLabel:(NSString *)label accessibilityValue:(NSString *)value traits:(UIAccessibilityTraits)traits;
 {
@@ -56,6 +59,8 @@ static const void *KIFRunLoopModesKey = &KIFRunLoopModesKey;
     
     return nil;
 }
+
+#pragma mark - Interesting windows
 
 - (UIWindow *)keyboardWindow;
 {
@@ -101,6 +106,54 @@ static const void *KIFRunLoopModesKey = &KIFRunLoopModesKey;
     }
     return [windows autorelease];
 }
+
+#pragma mark - Screenshoting
+
+- (BOOL)writeScreenshotForLine:(NSUInteger)lineNumber inFile:(NSString *)filename description:(NSString *)description error:(NSError **)error;
+{
+    NSString *outputPath = [[[NSProcessInfo processInfo] environment] objectForKey:@"KIF_SCREENSHOTS"];
+    if (!outputPath) {
+        if (error) {
+            *error = [NSError KIFErrorWithFormat:@"Screenshot path not defined.  Please set KIF_SCREENSHOT environment variable."];
+        }
+        return NO;
+    }
+    
+    NSArray *windows = [self windowsWithKeyWindow];
+    if (windows.count == 0) {
+        if (error) {
+            *error = [NSError KIFErrorWithFormat:@"Could not take screenshot.  No windows were available."];
+        }
+        return NO;
+    }
+    
+    UIGraphicsBeginImageContext([[windows objectAtIndex:0] bounds].size);
+    for (UIWindow *window in windows) {
+        [window.layer renderInContext:UIGraphicsGetCurrentContext()];
+    }
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    
+    NSString *imageName = [NSString stringWithFormat:@"%@, line %lu", [filename lastPathComponent], (unsigned long)lineNumber];
+    if (description) {
+        imageName = [imageName stringByAppendingFormat:@", %@", description];
+    }
+    
+    outputPath = [outputPath stringByExpandingTildeInPath];
+    outputPath = [outputPath stringByAppendingPathComponent:imageName];
+    outputPath = [outputPath stringByAppendingPathExtension:@"png"];
+    if (![UIImagePNGRepresentation(image) writeToFile:outputPath atomically:YES]) {
+        if (error) {
+            *error = [NSError KIFErrorWithFormat:@"Could not write file at path %@", outputPath];
+        }
+        return NO;
+    }
+    
+    return YES;
+}
+
+#pragma mark - Run loop monitoring
 
 - (NSMutableArray *)KIF_runLoopModes;
 {
@@ -172,6 +225,8 @@ static inline void Swizzle(Class c, SEL orig, SEL new)
         Swizzle(self, @selector(popRunLoopMode:requester:), @selector(KIF_popRunLoopMode:requester:));
     });
 }
+
+#pragma mark - openURL mocking
 
 + (void)startMockingOpenURLWithReturnValue:(BOOL)returnValue;
 {

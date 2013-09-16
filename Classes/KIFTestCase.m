@@ -100,29 +100,7 @@
 
 - (void)writeScreenshotForException:(NSException *)exception;
 {
-    NSString *outputPath = [[[NSProcessInfo processInfo] environment] objectForKey:@"KIF_SCREENSHOTS"];
-    if (!outputPath) {
-        return;
-    }
-    
-    NSArray *windows = [[UIApplication sharedApplication] windowsWithKeyWindow];
-    if (windows.count == 0) {
-        return;
-    }
-    
-    UIGraphicsBeginImageContext([[windows objectAtIndex:0] bounds].size);
-    for (UIWindow *window in windows) {
-        [window.layer renderInContext:UIGraphicsGetCurrentContext()];
-    }
-    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    
-    NSString *filename = [NSString stringWithFormat:@"%@, line %lld", [exception.filename lastPathComponent], exception.lineNumber.longLongValue];
-    
-    outputPath = [outputPath stringByExpandingTildeInPath];
-    outputPath = [outputPath stringByAppendingPathComponent:filename];
-    outputPath = [outputPath stringByAppendingPathExtension:@"png"];
-    [UIImagePNGRepresentation(image) writeToFile:outputPath atomically:YES];
+    [[UIApplication sharedApplication] writeScreenshotForLine:exception.lineNumber.unsignedIntegerValue inFile:exception.filename description:nil error:NULL];
 }
 
 @end

@@ -82,4 +82,12 @@
     }
 }
 
+- (void)captureScreenshotWithDescription:(NSString *)description
+{
+    NSError *error;
+    if (![[UIApplication sharedApplication] writeScreenshotForLine:(NSUInteger)self.line inFile:self.file description:description error:&error]) {
+        [self failWithError:error stopTest:NO];
+    }
+}
+
 @end
