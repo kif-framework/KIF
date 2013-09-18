@@ -193,8 +193,8 @@
             view = [window hitTest:windowPoint withEvent:nil];
             
             // If we hit the window itself, then skip it.
-            if (view == window || view == nil) {
-                continue;
+            if (view != window && view != nil) {
+                break;
             }
         }
         
