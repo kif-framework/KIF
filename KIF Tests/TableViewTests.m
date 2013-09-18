@@ -26,26 +26,26 @@
 
 - (void)testTappingRows
 {
-    [tester tapRowInTableViewWithAccessibilityLabel:@"TableView Tests Table" atIndexPath:[NSIndexPath indexPathForRow:0 inSection:2]];
+    [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:2] inTableViewWithAccessibilityIdentifier:@"TableView Tests Table"];
     [tester waitForViewWithAccessibilityLabel:@"Last Cell" traits:UIAccessibilityTraitSelected];
-    [tester tapRowInTableViewWithAccessibilityLabel:@"TableView Tests Table" atIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+    [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] inTableViewWithAccessibilityIdentifier:@"TableView Tests Table"];
     [tester waitForViewWithAccessibilityLabel:@"First Cell" traits:UIAccessibilityTraitSelected];
 }
 
 - (void)testTappingLastRowAndSection
 {
-    [tester tapRowInTableViewWithAccessibilityLabel:@"TableView Tests Table" atIndexPath:[NSIndexPath indexPathForRow:-1 inSection:-1]];
+    [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:-1 inSection:-1] inTableViewWithAccessibilityIdentifier:@"TableView Tests Table"];
     [tester waitForViewWithAccessibilityLabel:@"Last Cell" traits:UIAccessibilityTraitSelected];
 }
 
 - (void)testOutOfBounds
 {
-    KIFExpectFailure([tester tapRowInTableViewWithAccessibilityLabel:@"TableView Tests Table" atIndexPath:[NSIndexPath indexPathForRow:0 inSection:99]]);
+    KIFExpectFailure([tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:99] inTableViewWithAccessibilityIdentifier:@"TableView Tests Table"]);
 }
 
 - (void)testUnknownTable
 {
-    KIFExpectFailure([[tester usingTimeout:1] tapRowInTableViewWithAccessibilityLabel:@"Unknown Table" atIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]]);
+    KIFExpectFailure([[tester usingTimeout:1] tapRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] inTableViewWithAccessibilityIdentifier:@"Unknown Table"]);
 }
 
 @end

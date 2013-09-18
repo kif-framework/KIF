@@ -55,15 +55,15 @@
 
 - (void)testScrolling
 {
-    [tester scrollViewWithAccessibilityLabel:@"Scroll View" byFractionOfSizeHorizontal:-0.9 vertical:-0.9];
+    [tester scrollViewWithAccessibilityIdentifier:@"Scroll View" byFractionOfSizeHorizontal:-0.9 vertical:-0.9];
     [tester waitForTappableViewWithAccessibilityLabel:@"Bottom Right"];
-    [tester scrollViewWithAccessibilityLabel:@"Scroll View" byFractionOfSizeHorizontal:0.9 vertical:0.9];
+    [tester scrollViewWithAccessibilityIdentifier:@"Scroll View" byFractionOfSizeHorizontal:0.9 vertical:0.9];
     [tester waitForTappableViewWithAccessibilityLabel:@"Top Left"];
 }
 
 - (void)testMissingScrollableElement
 {
-    KIFExpectFailure([[tester usingTimeout:0.25] scrollViewWithAccessibilityLabel:@"Unknown" byFractionOfSizeHorizontal:0.5 vertical:0.5]);
+    KIFExpectFailure([[tester usingTimeout:0.25] scrollViewWithAccessibilityIdentifier:@"Unknown" byFractionOfSizeHorizontal:0.5 vertical:0.5]);
 }
 
 @end
