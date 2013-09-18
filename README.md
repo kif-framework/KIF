@@ -45,9 +45,13 @@ The testing target will add a header and implementation file, likely "Acceptance
 
 Once your test target set up, add the following to your Podspec file. Use your target's name as appropriate.
 
-    target 'Acceptance Tests' do
-      pod 'KIF', '~> 2.0'
-    end
+```Ruby
+target 'Acceptance Tests', :exclusive => true do
+  pod 'KIF', '~> 2.0'
+end
+```
+
+The `:exclusive => true` option will prevent Cocoapods from including dependencies from your main target in your test target causing double-linking issues when you test link against the app.
 
 After running `pod install` complete the tasks in [**Final Test Target Configurations**](#configure-the-testing-target) below for the final details on getting your tests to run.
 
@@ -61,9 +65,11 @@ To install KIF, you'll need to link the libKIF static library directly into your
 ### Add KIF to your project files
 The first step is to add the KIF project into the ./Frameworks/KIF subdirectory of your existing app. If your project uses Git for version control, you can use submodules to make updating in the future easier:
 
-	cd /path/to/MyApplicationSource
-	mkdir Frameworks
-	git submodule add https://github.com/kif-framework/KIF.git Frameworks/KIF
+```
+cd /path/to/MyApplicationSource
+mkdir Frameworks
+git submodule add https://github.com/kif-framework/KIF.git Frameworks/KIF
+```
 
 If you're not using Git, simply download the source and copy it into the ./Frameworks/KIF directory.
 
