@@ -579,5 +579,20 @@
     }];
 }
 
+- (void)waitForFirstResponderWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits
+{
+    [self runBlock:^KIFTestStepResult(NSError **error) {
+        UIResponder *firstResponder = [[[UIApplication sharedApplication] keyWindow] firstResponder];
+        
+        NSString *foundLabel = firstResponder.accessibilityLabel;
+        
+        // foundLabel == label checks for the case where both are nil.
+        KIFTestWaitCondition(foundLabel == label || [foundLabel isEqualToString:label], error, @"Expected accessibility label for first responder to be '%@', got '%@'", label, foundLabel);
+        KIFTestWaitCondition(firstResponder.accessibilityTraits & traits, error, @"Found first responder with accessbility label, but not traits.");
+        
+        return KIFTestStepResultSuccess;
+    }];
+}
+
 @end
 

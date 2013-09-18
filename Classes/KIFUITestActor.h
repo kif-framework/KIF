@@ -322,4 +322,14 @@ static inline KIFDisplacement KIFDisplacementForSwipingInDirection(KIFSwipeDirec
  */
 - (void)waitForFirstResponderWithAccessibilityLabel:(NSString *)label;
 
+/*!
+ @abstract Waits until a view or accessibility element is the first responder.
+ @discussion The first responder is found by searching the view hierarchy of the application's
+ main window and its accessibility label is compared to the given value. If they match, the
+ step returns success else it will attempt to wait until they do.
+ @param label The accessibility label of the element to wait for.
+ @param traits The accessibility traits of the element to wait for. Elements that do not include at least these traits are ignored.
+ */
+- (void)waitForFirstResponderWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits;
+
 @end
