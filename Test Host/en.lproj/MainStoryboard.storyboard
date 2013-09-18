@@ -185,7 +185,7 @@
                             </tableViewSection>
                         </sections>
                         <userDefinedRuntimeAttributes>
-                            <userDefinedRuntimeAttribute type="string" keyPath="accessibilityLabel" value="Test Suite TableView"/>
+                            <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="Test Suite TableView"/>
                         </userDefinedRuntimeAttributes>
                         <connections>
                             <outlet property="dataSource" destination="12" id="16"/>
@@ -954,7 +954,7 @@
                             </tableViewSection>
                         </sections>
                         <userDefinedRuntimeAttributes>
-                            <userDefinedRuntimeAttribute type="string" keyPath="accessibilityLabel" value="TableView Tests Table"/>
+                            <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="TableView Tests Table"/>
                         </userDefinedRuntimeAttributes>
                         <connections>
                             <outlet property="dataSource" destination="gLb-0u-HV7" id="bw7-CM-2IE"/>
@@ -1019,7 +1019,7 @@
                                         </subviews>
                                         <color key="backgroundColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="string" keyPath="accessibilityLabel" value="Scroll View"/>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="Scroll View"/>
                                         </userDefinedRuntimeAttributes>
                                     </scrollView>
                                 </subviews>
