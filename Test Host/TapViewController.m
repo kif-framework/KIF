@@ -11,6 +11,7 @@
 @interface TapViewController : UIViewController<UIPickerViewDataSource, UIPickerViewDelegate, UIPickerViewAccessibilityDelegate, UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UISlider *slider;
 @property (weak, nonatomic) IBOutlet UILabel *memoryWarningLabel;
+@property (weak, nonatomic) IBOutlet UILabel *tapTwiceLabel;
 @end
 
 @implementation TapViewController
@@ -77,6 +78,11 @@
 - (NSString *)pickerView:(UIPickerView *)pickerView accessibilityLabelForComponent:(NSInteger)component
 {
     return @"Call Sign";
+}
+
+- (IBAction)tappedTwice:(id)sender
+{
+    self.tapTwiceLabel.text = @"Thank you!";
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
