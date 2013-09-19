@@ -171,12 +171,35 @@ static inline KIFDisplacement KIFDisplacementForSwipingInDirection(KIFSwipeDirec
 - (void)tapViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits;
 
 /*!
+ @abstract Taps a particular view in the view hierarchy a given number of times.
+ @discussion The view or accessibility element with the given label is searched for in the view hierarchy. If the element isn't found or isn't currently tappable, then the step will attempt to wait until it is. Once the view is present and tappable, a tap event is simulated in the center of the view or element.
+ 
+ This variation allows finding a particular instance of an accessibility element. For example, a table view might have multiple elements with the accessibility label of "Employee", but only one that also has the accessibility value of "Bob".
+ @param label The accessibility label of the element to tap.
+ @param value The accessibility value of the element to tap.
+ @param traits The accessibility traits of the element to tap. Elements that do not include at least these traits are ignored.
+ @param numberOfTaps The number of times to tap the element.
+ @param timeBetweenTaps The amount of time to wait between each tap.
+ */
+- (void)tapViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits numberOfTaps:(NSUInteger)numberOfTaps timeBetweenTaps:(NSTimeInterval)timeBetweenTaps;
+
+/*!
  @abstract Taps a particular view in the view heirarchy.
  @discussion Unlike the -tapViewWithAccessibilityLabel: family of methods, this method allows you to tap an arbitrary element.  Combined with -waitForAccessibilityElement:view:withLabel:value:traits:tappable: or +[UIAccessibilityElement accessibilityElement:view:withLabel:value:traits:tappable:error:] this provides an opportunity for more complex logic.
  @param element The accessibility element to tap.
  @param view The view containing the accessibility element.
  */
 - (void)tapAccessibilityElement:(UIAccessibilityElement *)element inView:(UIView *)view;
+
+/*!
+ @abstract Taps a particular view in the view hierarchy a given number of times.
+ @discussion Unlike the -tapViewWithAccessibilityLabel: family of methods, this method allows you to tap an arbitrary element.  Combined with -waitForAccessibilityElement:view:withLabel:value:traits:tappable: or +[UIAccessibilityElement accessibilityElement:view:withLabel:value:traits:tappable:error:] this provides an opportunity for more complex logic.
+ @param element The accessibility element to tap.
+ @param view The view containing the accessibility element.
+ @param numberOfTaps The number of times to tap the element.
+ @param timeBetweenTaps The amount of time to wait between each tap.
+ */
+- (void)tapAccessibilityElement:(UIAccessibilityElement *)element inView:(UIView *)view numberOfTaps:(NSUInteger)numberOfTaps timeBetweenTaps:(NSTimeInterval)timeBetweenTaps;
 
 /*!
  @abstract Taps the screen at a particular point.

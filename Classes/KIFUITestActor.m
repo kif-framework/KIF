@@ -109,14 +109,24 @@
 
 - (void)tapViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits
 {
+    [self tapViewWithAccessibilityLabel:label value:value traits:traits numberOfTaps:1 timeBetweenTaps:0];
+}
+
+- (void)tapViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits numberOfTaps:(NSUInteger)numberOfTaps timeBetweenTaps:(NSTimeInterval)timeBetweenTaps
+{
     UIView *view = nil;
     UIAccessibilityElement *element = nil;
     
     [self waitForAccessibilityElement:&element view:&view withLabel:label value:value traits:traits tappable:YES];
-    [self tapAccessibilityElement:element inView:view];
+    [self tapAccessibilityElement:element inView:view numberOfTaps:numberOfTaps timeBetweenTaps:timeBetweenTaps];
 }
 
 - (void)tapAccessibilityElement:(UIAccessibilityElement *)element inView:(UIView *)view
+{
+    [self tapAccessibilityElement:element inView:view numberOfTaps:1 timeBetweenTaps:0];
+}
+     
+- (void)tapAccessibilityElement:(UIAccessibilityElement *)element inView:(UIView *)view numberOfTaps:(NSUInteger)numberOfTaps timeBetweenTaps:(NSTimeInterval)timeBetweenTaps
 {
     [self runBlock:^KIFTestStepResult(NSError **error) {
         
@@ -134,7 +144,13 @@
         
         // This is mostly redundant of the test in _accessibilityElementWithLabel:
         KIFTestWaitCondition(!isnan(tappablePointInElement.x), error, @"View is not tappable");
-        [view tapAtPoint:tappablePointInElement];
+        
+        for (NSUInteger i = 0; i < numberOfTaps; i++) {
+            if (i > 0) {
+                [self waitForTimeInterval:timeBetweenTaps];
+            }
+            [view tapAtPoint:tappablePointInElement];
+        }
         
         KIFTestCondition(![view canBecomeFirstResponder] || [view isDescendantOfFirstResponder], error, @"Failed to make the view into the first responder");
         

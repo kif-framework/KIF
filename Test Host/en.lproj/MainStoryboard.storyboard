@@ -1255,6 +1255,15 @@
                                     <outlet property="delegate" destination="21" id="rLu-wy-a6N"/>
                                 </connections>
                             </pickerView>
+                            <label opaque="NO" clipsSubviews="YES" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap me twice" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="JkC-y8-oTc">
+                                <rect key="frame" x="63" y="144" width="152" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="Tlx-sw-LEN" appends="YES" id="TgJ-oz-Vss"/>
+                                </connections>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
@@ -1268,9 +1277,15 @@
                     <connections>
                         <outlet property="memoryWarningLabel" destination="cOR-b3-gcc" id="xXg-Fh-Lpo"/>
                         <outlet property="slider" destination="Dtm-Df-W7N" id="9IE-Qx-X8z"/>
+                        <outlet property="tapTwiceLabel" destination="JkC-y8-oTc" id="VNB-ts-Kxt"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="23" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer numberOfTapsRequired="2" id="Tlx-sw-LEN">
+                    <connections>
+                        <action selector="tappedTwice:" destination="21" id="7if-T6-X30"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="902" y="64"/>
         </scene>
