@@ -48,6 +48,10 @@ MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
 
 + (UIAccessibilityElement *)accessibilityElementWithLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits error:(out NSError **)error;
 {
+    if ([[[UIDevice currentDevice] systemVersion] integerValue] >= 7) {
+        label = [label stringByReplacingOccurrencesOfString:@"\n" withString:@" "];
+    }
+    
     UIAccessibilityElement *element = [[UIApplication sharedApplication] accessibilityElementWithLabel:label accessibilityValue:value traits:traits];
     if (element || !error) {
         return element;
