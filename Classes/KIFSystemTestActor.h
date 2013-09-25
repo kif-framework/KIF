@@ -63,7 +63,7 @@
 
 /*!
  @abstract Captured a screenshot of the current screen and writes it to disk with an optional description.
- @discussion This step will fail if the @c KIF_SCREENSHOT environment variable is not set or if the screenshot cannot be written to disk.
+ @discussion This step will fail if the @c KIF_SCREENSHOTS environment variable is not set or if the screenshot cannot be written to disk.
  @param description A description to use when writing the file to disk.
  */
 - (void)captureScreenshotWithDescription:(NSString *)description;
