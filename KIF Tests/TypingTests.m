@@ -58,4 +58,11 @@
     [tester clearTextFromAndThenEnterText:@"Yo" intoViewWithAccessibilityLabel:@"Greeting"];
 }
 
+- (void)testEnteringReturnCharacterIntoViewWithAccessibilityLabel
+{
+    [tester enterText:@"Hello\n" intoViewWithAccessibilityLabel:@"Other Text"];
+    [tester waitForFirstResponderWithAccessibilityLabel:@"Greeting"];
+    [tester enterText:@", world\n" intoViewWithAccessibilityLabel:@"Greeting" traits:UIAccessibilityTraitNone expectedResult:@"Hello, world"];
+}
+
 @end

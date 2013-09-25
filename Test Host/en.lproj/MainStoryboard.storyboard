@@ -1189,7 +1189,7 @@
                                 </segments>
                             </segmentedControl>
                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="5" id="Dtm-Df-W7N">
-                                <rect key="frame" x="225" y="30.999999992548602" width="74" height="23"/>
+                                <rect key="frame" x="225" y="31" width="74" height="23"/>
                                 <accessibility key="accessibilityConfiguration" label="Slider">
                                     <accessibilityTraits key="traits" none="YES"/>
                                 </accessibility>
@@ -1260,6 +1260,16 @@
                                     <outlet property="delegate" destination="21" id="rLu-wy-a6N"/>
                                 </connections>
                             </pickerView>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" id="WsR-z2-y1y">
+                                <rect key="frame" x="227" y="71" width="70" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <accessibility key="accessibilityConfiguration" label="Other Text"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="21" id="Xov-EX-8ad"/>
+                                </connections>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
@@ -1271,7 +1281,9 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="greetingTextField" destination="4Fd-CG-0ud" id="Pav-dh-PQb"/>
                         <outlet property="memoryWarningLabel" destination="cOR-b3-gcc" id="xXg-Fh-Lpo"/>
+                        <outlet property="otherTextField" destination="WsR-z2-y1y" id="rq9-9M-Czf"/>
                         <outlet property="slider" destination="Dtm-Df-W7N" id="9IE-Qx-X8z"/>
                     </connections>
                 </viewController>

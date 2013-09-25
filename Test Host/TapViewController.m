@@ -11,6 +11,8 @@
 @interface TapViewController : UIViewController<UIPickerViewDataSource, UIPickerViewDelegate, UIPickerViewAccessibilityDelegate, UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UISlider *slider;
 @property (weak, nonatomic) IBOutlet UILabel *memoryWarningLabel;
+@property (weak, nonatomic) IBOutlet UITextField *otherTextField;
+@property (weak, nonatomic) IBOutlet UITextField *greetingTextField;
 @end
 
 @implementation TapViewController
@@ -82,6 +84,10 @@
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     [textField resignFirstResponder];
+    
+    if (textField == self.otherTextField) {
+        [self.greetingTextField becomeFirstResponder];
+    }
     return NO;
 }
 
