@@ -334,7 +334,7 @@
         [text appendString:@"\b"];
     }
 
-    [self enterText:text intoViewWithAccessibilityLabel:label traits:UIAccessibilityTraitNone expectedResult:@""];
+    [self enterText:text intoViewWithAccessibilityLabel:label traits:traits expectedResult:@""];
 }
 
 - (void)clearTextFromAndThenEnterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label
