@@ -9,6 +9,12 @@
 
 #import <Foundation/Foundation.h>
 
+#ifdef DEPRECATED_MSG_ATTRIBUTE
+#define KIF_DEPRECATED(m) DEPRECATED_MSG_ATTRIBUTE(m)
+#else
+#define KIF_DEPRECATED(m)
+#endif
+
 #define KIFActorWithClass(clazz) [clazz actorInFile:[NSString stringWithUTF8String:__FILE__] atLine:__LINE__ delegate:self]
 
 /*!

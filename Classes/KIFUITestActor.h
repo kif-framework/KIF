@@ -295,7 +295,7 @@ static inline KIFDisplacement KIFDisplacementForSwipingInDirection(KIFSwipeDirec
  @param tableViewLabel Accessibility label of the table view.
  @param indexPath Index path of the row to tap.
  */
-- (void)tapRowInTableViewWithAccessibilityLabel:(NSString*)tableViewLabel atIndexPath:(NSIndexPath *)indexPath DEPRECATED_MSG_ATTRIBUTE("Use tapRowAtIndexPath:inTableViewWithAccessibilityIdentifier:");
+- (void)tapRowInTableViewWithAccessibilityLabel:(NSString*)tableViewLabel atIndexPath:(NSIndexPath *)indexPath KIF_DEPRECATED("Use tapRowAtIndexPath:inTableViewWithAccessibilityIdentifier:");
 
 /*!
  @abstract Taps the row at IndexPath in a view with the given identifier.
@@ -322,7 +322,7 @@ static inline KIFDisplacement KIFDisplacementForSwipingInDirection(KIFSwipeDirec
  @param horizontalFraction The horizontal displacement of the scroll action, as a fraction of the width of the view.
  @param verticalFraction The vertical displacement of the scroll action, as a fraction of the height of the view.
  */
-- (void)scrollViewWithAccessibilityLabel:(NSString *)label byFractionOfSizeHorizontal:(CGFloat)horizontalFraction vertical:(CGFloat)verticalFraction DEPRECATED_MSG_ATTRIBUTE("Use scrollViewWithAccessibilityIdentifier:byFractionOfSizeHorizontal:vertical:");
+- (void)scrollViewWithAccessibilityLabel:(NSString *)label byFractionOfSizeHorizontal:(CGFloat)horizontalFraction vertical:(CGFloat)verticalFraction KIF_DEPRECATED("Use scrollViewWithAccessibilityIdentifier:byFractionOfSizeHorizontal:vertical:");
 
 /*!
  @abstract Scrolls a particular view in the view hierarchy by an amount indicated as a fraction of its size.

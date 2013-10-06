@@ -11,6 +11,7 @@
 #import "LoadableCategory.h"
 #import "UIView-KIFAdditions.h"
 #import "NSError-KIFAdditions.h"
+#import <QuartzCore/QuartzCore.h>
 #import <objc/runtime.h>
 #import <objc/message.h>
 
