@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4440B32C17F5692A00253D51 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4440B32B17F5692A00253D51 /* Default-568h@2x.png */; };
 		AAB073AD139861C0008AF393 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAB073AC139861C0008AF393 /* UIKit.framework */; };
 		AAB073AF139861C0008AF393 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAB073AE139861C0008AF393 /* Foundation.framework */; };
 		AAB073B1139861C0008AF393 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAB073B0139861C0008AF393 /* CoreGraphics.framework */; };
@@ -37,6 +38,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4440B32B17F5692A00253D51 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		AAB073A8139861C0008AF393 /* Testable.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Testable.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAB073AC139861C0008AF393 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		AAB073AE139861C0008AF393 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -91,6 +93,7 @@
 		AAB0739D139861C0008AF393 = {
 			isa = PBXGroup;
 			children = (
+				4440B32B17F5692A00253D51 /* Default-568h@2x.png */,
 				AAB073B2139861C0008AF393 /* Testable */,
 				EB9DB7361781DBD40087B6FD /* Acceptance Tests */,
 				AAB073AB139861C0008AF393 /* Frameworks */,
@@ -210,7 +213,7 @@
 		AAB0739F139861C0008AF393 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0420;
+				LastUpgradeCheck = 0500;
 			};
 			buildConfigurationList = AAB073A2139861C0008AF393 /* Build configuration list for PBXProject "Testable" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -236,6 +239,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AAB073B7139861C0008AF393 /* InfoPlist.strings in Resources */,
+				4440B32C17F5692A00253D51 /* Default-568h@2x.png in Resources */,
 				AAB073C0139861C0008AF393 /* MainWindow.xib in Resources */,
 				AAB073C6139861C0008AF393 /* RootViewController.xib in Resources */,
 			);
@@ -344,6 +348,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
