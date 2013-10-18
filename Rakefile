@@ -19,6 +19,7 @@ builder = XcodeBuilder::XcodeBuilder.new do |config|
 		# tag and release with git
 		config.release_using(:git) do |git|
 			git.branch = `git rev-parse --abbrev-ref HEAD`.gsub("\n", "")
+			git.tag_name = "v#{config.build_number}-OT"
 		end
 	end
 
