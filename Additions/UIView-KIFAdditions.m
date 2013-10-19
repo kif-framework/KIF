@@ -102,7 +102,8 @@ typedef struct __GSEvent * GSEventRef;
             accessibilityValue = [(NSAttributedString *)accessibilityValue string];
         }
         
-        BOOL labelsMatch = element.accessibilityLabel == label || [element.accessibilityLabel isEqual:label];
+        BOOL labelsMatch = element.accessibilityLabel == label || [element.accessibilityLabel isEqual:label]
+								|| element.accessibilityIdentifier == label || [element.accessibilityIdentifier isEqual: label];
         BOOL traitsMatch = ((element.accessibilityTraits) & traits) == traits;
         BOOL valuesMatch = !value || [value isEqual:accessibilityValue];
 
