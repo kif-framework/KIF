@@ -106,8 +106,10 @@ typedef struct __GSEvent * GSEventRef;
 								|| element.accessibilityIdentifier == label || [element.accessibilityIdentifier isEqual: label];
         BOOL traitsMatch = ((element.accessibilityTraits) & traits) == traits;
         BOOL valuesMatch = !value || [value isEqual:accessibilityValue];
-
-        return (BOOL)(labelsMatch && traitsMatch && valuesMatch);
+		
+		BOOL animating = [value isKindOfClass: UIView.class] && [(UIView *) value isAnimating];
+		
+        return (BOOL)(labelsMatch && traitsMatch && valuesMatch && !animating);
     }];
 }
 
@@ -268,6 +270,18 @@ typedef struct __GSEvent * GSEventRef;
         return YES;
     }
     return [self.superview isDescendantOfFirstResponder];
+}
+
+- (BOOL) isAnimating {
+    if (self.layer.animationKeys.count > 0) {
+		return YES;
+	}
+	
+	if(self.superview != nil) {
+		return [self.superview isAnimating];
+	}
+	
+	return NO;
 }
 
 - (void)flash;

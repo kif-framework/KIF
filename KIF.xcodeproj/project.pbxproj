@@ -7,8 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		007158031812058100B1A170 /* UIBarButtonItem+KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 007158011812058100B1A170 /* UIBarButtonItem+KIFAdditions.h */; };
-		007158041812058100B1A170 /* UIBarButtonItem+KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 007158021812058100B1A170 /* UIBarButtonItem+KIFAdditions.m */; };
+		007158031812058100B1A170 /* UIBarButtonItem-KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 007158011812058100B1A170 /* UIBarButtonItem-KIFAdditions.h */; };
+		007158041812058100B1A170 /* UIBarButtonItem-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 007158021812058100B1A170 /* UIBarButtonItem-KIFAdditions.m */; };
+		008DC11A18120F960059F3FA /* UIBarButtonItem-KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 008DC11818120F960059F3FA /* UIBarButtonItem-KIFAdditions.h */; };
+		008DC11B18120F960059F3FA /* UIBarButtonItem-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 008DC11918120F960059F3FA /* UIBarButtonItem-KIFAdditions.m */; };
 		A88930121685098E00FC7C63 /* KIF.h in Headers */ = {isa = PBXBuildFile; fileRef = A88930111685098E00FC7C63 /* KIF.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EB02523E17AA109400A7D13A /* CompositionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EB02523D17AA109400A7D13A /* CompositionTests.m */; };
 		EB09001017E3696A00AA15B1 /* SearchFieldTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EB09000F17E3696A00AA15B1 /* SearchFieldTests.m */; };
@@ -97,8 +99,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		007158011812058100B1A170 /* UIBarButtonItem+KIFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+KIFAdditions.h"; sourceTree = "<group>"; };
-		007158021812058100B1A170 /* UIBarButtonItem+KIFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+KIFAdditions.m"; sourceTree = "<group>"; };
+		007158011812058100B1A170 /* UIBarButtonItem-KIFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem-KIFAdditions.h"; sourceTree = "<group>"; };
+		007158021812058100B1A170 /* UIBarButtonItem-KIFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem-KIFAdditions.m"; sourceTree = "<group>"; };
+		008DC11818120F960059F3FA /* UIBarButtonItem-KIFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem-KIFAdditions.h"; sourceTree = "<group>"; };
+		008DC11918120F960059F3FA /* UIBarButtonItem-KIFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem-KIFAdditions.m"; sourceTree = "<group>"; };
 		39160B1013D1E6BB00311E38 /* LoadableCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadableCategory.h; sourceTree = "<group>"; };
 		A88930111685098E00FC7C63 /* KIF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KIF.h; sourceTree = "<group>"; };
 		AAB0726B139719AC008AF393 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -298,8 +302,10 @@
 				EBAE488017A460E50005EE19 /* NSError-KIFAdditions.m */,
 				EBAFFF3617C7C824003E3A1C /* SenTestCase-KIFAdditions.h */,
 				EBAFFF3717C7C824003E3A1C /* SenTestCase-KIFAdditions.m */,
-				007158011812058100B1A170 /* UIBarButtonItem+KIFAdditions.h */,
-				007158021812058100B1A170 /* UIBarButtonItem+KIFAdditions.m */,
+				007158011812058100B1A170 /* UIBarButtonItem-KIFAdditions.h */,
+				007158021812058100B1A170 /* UIBarButtonItem-KIFAdditions.m */,
+				008DC11818120F960059F3FA /* UIBarButtonItem-KIFAdditions.h */,
+				008DC11918120F960059F3FA /* UIBarButtonItem-KIFAdditions.m */,
 			);
 			path = Additions;
 			sourceTree = "<group>";
@@ -393,12 +399,13 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				008DC11A18120F960059F3FA /* UIBarButtonItem-KIFAdditions.h in Headers */,
 				A88930121685098E00FC7C63 /* KIF.h in Headers */,
 				EB7204591680DDAD00278DA2 /* CGGeometry-KIFAdditions.h in Headers */,
 				EB72045A1680DDAD00278DA2 /* UIAccessibilityElement-KIFAdditions.h in Headers */,
 				EB72045B1680DDAD00278DA2 /* UIApplication-KIFAdditions.h in Headers */,
 				EB72045C1680DDAD00278DA2 /* UIScrollView-KIFAdditions.h in Headers */,
-				007158031812058100B1A170 /* UIBarButtonItem+KIFAdditions.h in Headers */,
+				007158031812058100B1A170 /* UIBarButtonItem-KIFAdditions.h in Headers */,
 				EB72045D1680DDAD00278DA2 /* UITouch-KIFAdditions.h in Headers */,
 				EB72045E1680DDAD00278DA2 /* UIView-KIFAdditions.h in Headers */,
 				EB72045F1680DDAD00278DA2 /* UIWindow-KIFAdditions.h in Headers */,
@@ -600,12 +607,13 @@
 				EB7204431680DDAD00278DA2 /* CGGeometry-KIFAdditions.m in Sources */,
 				EB7204441680DDAD00278DA2 /* UIAccessibilityElement-KIFAdditions.m in Sources */,
 				EB7204451680DDAD00278DA2 /* UIApplication-KIFAdditions.m in Sources */,
-				007158041812058100B1A170 /* UIBarButtonItem+KIFAdditions.m in Sources */,
+				007158041812058100B1A170 /* UIBarButtonItem-KIFAdditions.m in Sources */,
 				EB7204461680DDAD00278DA2 /* UIScrollView-KIFAdditions.m in Sources */,
 				EB7204471680DDAD00278DA2 /* UITouch-KIFAdditions.m in Sources */,
 				EB7204481680DDAD00278DA2 /* UIView-KIFAdditions.m in Sources */,
 				EB7204491680DDAD00278DA2 /* UIWindow-KIFAdditions.m in Sources */,
 				EB72044A1680DDAD00278DA2 /* NSFileManager-KIFAdditions.m in Sources */,
+				008DC11B18120F960059F3FA /* UIBarButtonItem-KIFAdditions.m in Sources */,
 				EB72044B1680DDAD00278DA2 /* KIFTypist.m in Sources */,
 				EB72044C1680DDAD00278DA2 /* KIFTestActor.m in Sources */,
 				EB72044D1680DDAD00278DA2 /* KIFTestCase.m in Sources */,
