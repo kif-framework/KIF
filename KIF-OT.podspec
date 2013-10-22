@@ -1,8 +1,8 @@
-version = "2.0.1"
+version = "2.0.2"
 
 Pod::Spec.new do |s|
   s.name         = "KIF-OT"
-  s.version      = "2.0.0"
+  s.version      = version
   s.summary      = "Keep It Functional - iOS UI acceptance testing in an OCUnit harness."
   s.homepage     = "https://github.com/kif-framework/KIF/"
   s.license      = 'Apache 2.0'
