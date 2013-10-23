@@ -23,7 +23,7 @@
         return nil;
     }
 
-    [self raiseAfterFailure];
+    //[self raiseAfterFailure];
     return self;
 }
 
@@ -100,7 +100,9 @@
 
 - (void)writeScreenshotForException:(NSException *)exception;
 {
-    [[UIApplication sharedApplication] writeScreenshotForLine:exception.lineNumber.unsignedIntegerValue inFile:exception.filename description:nil error:NULL];
+//    [[UIApplication sharedApplication] writeScreenshotForLine:exception.lineNumber.unsignedIntegerValue inFile:exception.filename description:nil error:NULL];
+
+    [[UIApplication sharedApplication] writeScreenshotForLine: @0 inFile: @"TODO: Get exception file/line no" description:nil error:NULL];
 }
 
 @end

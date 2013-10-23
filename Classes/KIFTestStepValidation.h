@@ -18,7 +18,7 @@
         @catch (NSException *exception) { }\
     }\
     if (!mockDelegate.failed) {\
-        STFail(@"%s should have failed.", #stmt);\
+        XCTFail(@"%s should have failed.", #stmt);\
     }\
 }
 
@@ -31,9 +31,9 @@
             @catch (NSException *exception) { }\
     }\
     if (!mockDelegate.failed) {\
-        STFail(@"%s should have failed.", #stmt);\
+        XCTFail(@"%s should have failed.", #stmt);\
     }\
-    STAssertEquals((NSUInteger)cnt, mockDelegate.exceptions.count, @"Expected a different number of exceptions.");\
+    XCTAssert(cnt == mockDelegate.exceptions.count, @"Expected a different number of exceptions.");\
 }
 
 
