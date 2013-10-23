@@ -9,7 +9,7 @@
 
 #import "KIFTestActor.h"
 #import "NSError-KIFAdditions.h"
-#import <SenTestingKit/SenTestingKit.h>
+//#import <SenTestingKit/SenTestingKit.h>
 #import <dlfcn.h>
 #import <objc/runtime.h>
 #import "UIApplication-KIFAdditions.h"
@@ -22,10 +22,10 @@
         NSLog(@"KIFTester loaded");
         [KIFTestActor _enableAccessibility];
         
-        if ([[[NSProcessInfo processInfo] environment] objectForKey:@"StartKIFManually"]) {
-            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:SenTestToolKey];
-            SenSelfTestMain();
-        }
+//        if ([[[NSProcessInfo processInfo] environment] objectForKey:@"StartKIFManually"]) {
+//            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:SenTestToolKey];
+//            SenSelfTestMain();
+//        }
         
         [UIApplication swizzleRunLoop];
     }
@@ -148,7 +148,13 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
 
 - (void)failWithError:(NSError *)error stopTest:(BOOL)stopTest
 {
-    [self.delegate failWithException:[NSException failureInFile:self.file atLine:self.line withDescription:error.localizedDescription] stopTest:stopTest];
+    NSException *exception = [NSException exceptionWithName: [error localizedDescription]
+                                                     reason: [error localizedFailureReason]
+                                                   userInfo: [error userInfo]];
+    
+    //    [self.delegate failWithException:[NSException failureInFile:self.file atLine:self.line withDescription:error.localizedDescription] stopTest:stopTest];
+    
+    [self.delegate failWithException: exception stopTest:stopTest];
 }
 
 - (void)waitForTimeInterval:(NSTimeInterval)timeInterval
@@ -173,7 +179,10 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
 - (void)failWithExceptions:(NSArray *)exceptions stopTest:(BOOL)stop
 {
     NSException *firstException = [exceptions objectAtIndex:0];
-    NSException *newException = [NSException failureInFile:self.file atLine:self.line withDescription:@"Failure in child step: %@", firstException.description];
+    
+    //    NSException *newException = [NSException failureInFile:self.file atLine:self.line withDescription:@"Failure in child step: %@", firstException.description];
+    
+    NSException *newException = [NSException exceptionWithName: @"Failure in Child" reason: firstException.reason  userInfo:firstException.userInfo];
     
     [self.delegate failWithExceptions:[exceptions arrayByAddingObject:newException] stopTest:stop];
 }

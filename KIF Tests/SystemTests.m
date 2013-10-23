@@ -8,7 +8,7 @@
 
 #import <KIF/KIF.h>
 
-@interface SystemTests : SenTestCase
+@interface SystemTests : XCTestCase
 @end
 
 @implementation SystemTests
@@ -18,8 +18,8 @@
     NSTimeInterval startTime = [NSDate timeIntervalSinceReferenceDate];
     [tester waitForTimeInterval:1.2];
     NSTimeInterval elapsed = [NSDate timeIntervalSinceReferenceDate] - startTime;
-    STAssertTrue(elapsed > 1.2, @"Waiting should take the alotted time.");
-    STAssertTrue(elapsed < 1.3, @"Waiting should not take too long.");
+    XCTAssertTrue(elapsed > 1.2, @"Waiting should take the alotted time.");
+    XCTAssertTrue(elapsed < 1.3, @"Waiting should not take too long.");
 }
 
 - (void)testWaitingForNotification
@@ -34,7 +34,7 @@
     });
     
     NSNotification *notification = [system waitForNotificationName:Name object:obj];
-    STAssertEqualObjects(@"B", [notification.userInfo objectForKey:@"A"], @"Expected notification to match user data.");
+    XCTAssertEqualObjects(@"B", [notification.userInfo objectForKey:@"A"], @"Expected notification to match user data.");
 }
 
 - (void)testWaitingForNotificationWhileDoingOtherThings
@@ -46,7 +46,7 @@
         [[NSNotificationCenter defaultCenter] postNotificationName:Name object:obj userInfo:@{@"A": @"B"}];
     }];
     
-    STAssertEqualObjects(@"B", [notification.userInfo objectForKey:@"A"], @"Expected notification to match user data.");
+    XCTAssertEqualObjects(@"B", [notification.userInfo objectForKey:@"A"], @"Expected notification to match user data.");
 }
 
 - (void)testMemoryWarningSimulator
@@ -62,18 +62,18 @@
     [system waitForApplicationToOpenURL:@"test123://" whileExecutingBlock:^{
         returnValue = [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"test123://"]];
     } returning:NO];
-    STAssertEquals(NO, returnValue, @"openURL: should have returned NO");
+    XCTAssert(NO == returnValue, @"openURL: should have returned NO");
     
     [system waitForApplicationToOpenURL:@"test123://" whileExecutingBlock:^{
         returnValue = [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"test123://"]];
     } returning:YES];
-    STAssertEquals(YES, returnValue, @"openURL: should have returned YES");
+    XCTAssert(YES == returnValue, @"openURL: should have returned YES");
     
     [system waitForApplicationToOpenAnyURLWhileExecutingBlock:^{
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"423543523454://"]];
     } returning:YES];
     
-    STAssertFalse([[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"this-is-a-fake-url://"]], @"Should no longer be mocking, reject bad URL.");
+    XCTAssertFalse([[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"this-is-a-fake-url://"]], @"Should no longer be mocking, reject bad URL.");
 }
 
 @end

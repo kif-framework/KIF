@@ -7,14 +7,14 @@
 //  See the LICENSE file distributed with this work for the terms under
 //  which Square, Inc. licenses this file to you.
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 #import "SenTestCase-KIFAdditions.h"
 
 /*!
  * @abstract @c KIFTestCase subclasses @c SenTestCase to add setup and teardown steps that can be used to execute KIF test steps.
  * @discussion This class provides four new methods: @c beforeAll and @c afterAll which run once before and after all tests and @c beforeEach and @c afterEach which run before and after every test. @c beforeEach and @c afterEach are guaranteed to run in the same instance as each test, but @c beforeAll and @c afterAll are not.  As such, @c beforeEach can be used to set up instance variables while @c beforeAll can only be used to set up static variables.
  */
-@interface KIFTestCase : SenTestCase
+@interface KIFTestCase : XCTestCase
 
 /*!
  * @abstract This method runs once before executing the first test in the class.
