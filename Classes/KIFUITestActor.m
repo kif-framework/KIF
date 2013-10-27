@@ -572,6 +572,50 @@
     
 }
 
+- (void)tapCellAtIndexPath: (NSIndexPath*)indexPath inCollectionViewWithAccessibilityIdentifier: (NSString*)identifier
+{
+  UICollectionView *collectionView = (UICollectionView *)[self waitForViewWithAccessibilityIdentifier:identifier tappable:NO];
+  [self tapCellAtIndexPath:indexPath inCollectionView:collectionView];
+}
+
+- (void)tapFirstCellInCollectionViewWithAccessibilityIdentifier: (NSString*)identifier
+{
+  UICollectionView *collectionView = (UICollectionView *)[self waitForViewWithAccessibilityIdentifier:identifier tappable:NO];
+  [self tapFirstCellInCollectionView:collectionView];
+}
+
+- (void)tapLastCellInCollectionViewWithAccessibilityIdentifier: (NSString*)identifier
+{
+  UICollectionView *collectionView = (UICollectionView *)[self waitForViewWithAccessibilityIdentifier:identifier tappable:NO];
+  [self tapLastCellInCollectionView:collectionView];
+}
+
+- (void)tapCellAtIndexPath: (NSIndexPath*)indexPath inCollectionView: (UICollectionView *)collectionView
+{
+  // Negative indices work backwards from the bottom of the collection view.
+  if (indexPath.section < 0) {
+    indexPath = [NSIndexPath indexPathForRow:indexPath.row inSection:collectionView.numberOfSections + indexPath.section];
+  }
+  if (indexPath.row < 0) {
+    indexPath = [NSIndexPath indexPathForRow:[collectionView numberOfItemsInSection:indexPath.section] + indexPath.row inSection:indexPath.section];
+  }
+
+  [collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionCenteredVertically animated:NO];
+  [self waitForTimeInterval:0.5];
+  UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
+  [self tapAccessibilityElement:nil inView:cell];
+}
+
+- (void)tapLastCellInCollectionView: (UICollectionView*)collectionView
+{
+  [self tapCellAtIndexPath:[NSIndexPath indexPathForItem:-1 inSection:-1] inCollectionView:collectionView];
+}
+
+- (void)tapFirstCellInCollectionView: (UICollectionView*)collectionView
+{
+  [self tapCellAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0] inCollectionView:collectionView];
+}
+
 - (void)swipeViewWithAccessibilityLabel:(NSString *)label inDirection:(KIFSwipeDirection)direction
 {
     const NSUInteger kNumberOfPointsInSwipePath = 20;

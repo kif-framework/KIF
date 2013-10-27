@@ -308,6 +308,54 @@ static inline KIFDisplacement KIFDisplacementForSwipingInDirection(KIFSwipeDirec
 - (void)tapRowAtIndexPath:(NSIndexPath *)indexPath inTableViewWithAccessibilityIdentifier:(NSString *)identifier NS_AVAILABLE_IOS(5_0);
 
 /*!
+ @abstract Taps the cell at the given NSIndexPath in the UICollectionView with the given identifier.
+ @discussion This method gets the UICollectionView with the specified accessibility identifier and tap the cell at the given NSIndexPath.
+ 
+ For cases where you may need to work from the end of a collection view rather than the beginning, negative sections count back from the end of the collection view (-1 is the last section) and negative items count back from the end of the section (-1 is the last item for that section).
+ @param indexPath Index path of the cell to tap.
+ @param identifier Accessibility identifier of the collection view.
+ */
+- (void)tapCellAtIndexPath: (NSIndexPath*)indexPath inCollectionViewWithAccessibilityIdentifier: (NSString*)identifier NS_AVAILABLE_IOS(6_0);
+
+/*!
+ @abstract Taps the first cell in the UICollectionView with the given identifier.
+ @discussion This method gets the UICollectionView with the specified accessibility identifier and tap the first cell in that collection view.
+ @param identifier Accessibility identifier of the collection view.
+ */
+- (void)tapFirstCellInCollectionViewWithAccessibilityIdentifier: (NSString*)identifier NS_AVAILABLE_IOS(6_0);
+
+/*!
+ @abstract Taps the last cell in the UICollectionView with the given identifier.
+ @discussion This method gets the UICollectionView with the specified accessibility identifier and tap the last cell in that collection view.
+ @param identifier Accessibility identifier of the collection view.
+ */
+- (void)tapLastCellInCollectionViewWithAccessibilityIdentifier: (NSString*)identifier NS_AVAILABLE_IOS(6_0);
+
+/*!
+ @abstract Taps the cell at the given NSIndexPath in given UICollectionView.
+ @discussion This method is similar to tapCellAtIndexPath:inCollectionViewWithAccessibilityIdentifier: but takes a UICollectionView directly rather than the accessibility identifier for a collection view. This is important because some UICollectionViews do not have accessibility identifiers. For instance, the UICollectionView in the UIImagePickerController does not have an accessibility identifier.
+ 
+ For cases where you may need to work from the end of a collection view rather than the beginning, negative sections count back from the end of the collection view (-1 is the last section) and negative items count back from the end of the section (-1 is the last item for that section).
+ @param indexPath Index path of the cell to tap.
+ @param collectionView The collection view in which a cell will be tapped.
+ */
+- (void)tapCellAtIndexPath: (NSIndexPath*)indexPath inCollectionView: (UICollectionView *)collectionView NS_AVAILABLE_IOS(6_0);
+
+/*!
+ @abstract Taps the first cell in the given UICollectionView.
+ @discussion This method will scroll to and tap the first cell in the given UICollectionView.
+ @param collectionView The collection view in which a cell will be tapped.
+ */
+- (void)tapLastCellInCollectionView: (UICollectionView*)collectionView NS_AVAILABLE_IOS(6_0);
+
+/*!
+ @abstract Taps the last cell in the given UICollectionView.
+ @discussion This method will scroll to and tap the last cell in the given UICollectionView.
+ @param collectionView The collection view in which a cell will be tapped.
+ */
+- (void)tapFirstCellInCollectionView: (UICollectionView*)collectionView NS_AVAILABLE_IOS(6_0);
+
+/*!
  @abstract Swipes a particular view in the view hierarchy in the given direction.
  @discussion The view will get the view with the specified accessibility label and swipe the screen in the given direction from the view's center.
  @param label The accessibility label of the view to swipe.
