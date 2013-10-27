@@ -625,6 +625,16 @@
     [viewToScroll dragFromPoint:scrollStart displacement:scrollDisplacement steps:kNumberOfPointsInScrollPath];
 }
 
+- (void)dragViewWithAccessibilityLabel:(NSString *)label fromPoint:(CGPoint)from toPoint:(CGPoint)to
+{
+    UIView *viewToDrag;
+    UIAccessibilityElement *element;
+    
+    [self waitForAccessibilityElement:&element view:&viewToDrag withLabel:label value:nil traits:UIAccessibilityTraitNone tappable:NO];
+    
+    [viewToDrag dragFromPoint:from toPoint:to];
+}
+
 - (void)waitForFirstResponderWithAccessibilityLabel:(NSString *)label
 {
     [self runBlock:^KIFTestStepResult(NSError **error) {
