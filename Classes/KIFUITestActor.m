@@ -349,6 +349,70 @@
     [self enterText:text intoViewWithAccessibilityLabel:label traits:traits expectedResult:expectedResult];
 }
 
+- (void) stepToEnterDate:(NSString*)month day:(NSString*)day year:(NSString*)year
+{
+
+    [self runBlock:^KIFTestStepResult(NSError **error) {
+        NSArray * column_values = [NSArray arrayWithObjects:month, day, year,nil];
+        NSMutableArray * found_values = [NSMutableArray arrayWithObjects:[NSNumber numberWithBool:NO], [NSNumber numberWithBool:NO], [NSNumber numberWithBool:NO], nil];
+        // Find the picker view
+        UIPickerView *pickerView = [[[[UIApplication sharedApplication] pickerViewWindow] subviewsWithClassNameOrSuperClassNamePrefix:@"UIPickerView"] lastObject];
+        KIFTestCondition(pickerView, error, @"No picker view is present");
+        if ([pickerView isHidden]) {
+            [pickerView setHidden:NO];
+        }
+
+        NSInteger componentCount = [pickerView.dataSource numberOfComponentsInPickerView:pickerView];
+        KIFTestCondition(componentCount == 3, error, @"The picker does not have 3 columns for Month, Day, Year. Expected MMM-DD-YYYY");
+
+        for (NSInteger componentIndex = 0; componentIndex < componentCount; componentIndex++) {
+            NSInteger rowCount = [pickerView.dataSource pickerView:pickerView numberOfRowsInComponent:componentIndex];
+            for (NSInteger rowIndex = 0; rowIndex < rowCount; rowIndex++) {
+                NSString *rowTitle = nil;
+                if ([pickerView.delegate respondsToSelector:@selector(pickerView:titleForRow:forComponent:)]) {
+                    rowTitle = [pickerView.delegate pickerView:pickerView titleForRow:rowIndex forComponent:componentIndex];
+                } else if ([pickerView.delegate respondsToSelector:@selector(pickerView:viewForRow:forComponent:reusingView:)]) {
+                    // This delegate inserts views directly, so try to figure out what the title is by looking for a label
+                    UIView *rowView = [pickerView.delegate pickerView:pickerView viewForRow:rowIndex forComponent:componentIndex reusingView:nil];
+                    NSArray *labels = [rowView subviewsWithClassNameOrSuperClassNamePrefix:@"UILabel"];
+                    UILabel *label = (labels.count > 0 ? [labels objectAtIndex:0] : nil);
+                    rowTitle = label.text;
+                }
+
+                if ([rowTitle isEqual:column_values[componentIndex]]) {
+                    [pickerView selectRow:rowIndex inComponent:componentIndex animated:false];
+                    CFRunLoopRunInMode(kCFRunLoopDefaultMode, 1, false);
+
+                    // Tap in the middle of the picker view to select the item
+                    [pickerView tap];
+                    [self waitForTimeInterval:0.5];
+
+                    // The combination of selectRow:inComponent:animated: and tap does not consistently result in
+                    // pickerView:didSelectRow:inComponent: being called on the delegate. We need to do it explicitly.
+                    if ([pickerView.delegate respondsToSelector:@selector(pickerView:didSelectRow:inComponent:)]) {
+                        [pickerView.delegate pickerView:pickerView didSelectRow:rowIndex inComponent:componentIndex];
+                    }
+
+                    [found_values replaceObjectAtIndex:componentIndex withObject:[NSNumber numberWithBool:YES]];
+                    break;
+                }
+            }
+            if (found_values[componentIndex] == [NSNumber numberWithBool:YES]) {
+                continue;
+            }
+
+        }
+        if (found_values[0] == [NSNumber numberWithBool:YES] && found_values[1] == [NSNumber numberWithBool:YES] && found_values[2] == [NSNumber numberWithBool:YES]) {
+            [pickerView setHidden:TRUE];
+            return KIFTestStepResultSuccess;
+        }
+        KIFTestCondition(NO, error, @"Failed to select from UIDatePicker");
+        return KIFTestStepResultFailure;
+    }];
+    
+}
+
+
 - (void)selectPickerViewRowWithTitle:(NSString *)title
 {
     [self runBlock:^KIFTestStepResult(NSError **error) {
