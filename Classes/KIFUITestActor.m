@@ -349,7 +349,7 @@
     [self enterText:text intoViewWithAccessibilityLabel:label traits:traits expectedResult:expectedResult];
 }
 
-- (void) selectDateFromPicker:(NSArray*)datePickerColumnValues {
+- (void) selectDatePickerValue:(NSArray*)datePickerColumnValues {
 
     [self runBlock:^KIFTestStepResult(NSError **error) {
         NSInteger columnCount = [datePickerColumnValues count];
@@ -387,7 +387,7 @@
 
                     // Tap in the middle of the picker view to select the item
                     [pickerView tap];
-                    [self waitForTimeInterval:0.3];
+                    [self waitForTimeInterval:0.5];
 
                     // The combination of selectRow:inComponent:animated: and tap does not consistently result in
                     // pickerView:didSelectRow:inComponent: being called on the delegate. We need to do it explicitly.
@@ -407,7 +407,7 @@
 
         for (NSInteger componentIndex = 0; componentIndex < columnCount; componentIndex++) {
             if (found_values[componentIndex] == [NSNumber numberWithBool:NO]) {
-                KIFTestCondition(NO, error, @"Failed to select from UIDatePicker");
+                KIFTestCondition(NO, error, @"Failed to select from UIDatePicker.");
                 return KIFTestStepResultFailure;
             }
         }

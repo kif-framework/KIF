@@ -21,7 +21,7 @@
     NSArray *date = @[@"June", @"17", @"1965"];
     // If the UIDatePicker LocaleIdentifier would be de_DE then the date to set
     // would look like this: NSArray *date = @[@"17.", @"Juni", @"1965"
-    [tester selectDateFromPicker:date];
+    [tester selectDatePickerValue:date];
     [tester waitForTappableViewWithAccessibilityLabel:@"Jun 17, 1965"];
 }
 
@@ -29,7 +29,7 @@
 {
     [tester tapViewWithAccessibilityLabel:@"Date Selection"];
     NSArray *date = @[@"December", @"31", @"2030"];
-    [tester selectDateFromPicker:date];
+    [tester selectDatePickerValue:date];
     [tester waitForTappableViewWithAccessibilityLabel:@"Dec 31, 2030"];
 }
 
@@ -37,8 +37,24 @@
 {
     [tester tapViewWithAccessibilityLabel:@"Date Time Selection"];
     NSArray *dateTime = @[@"Jun 17", @"6", @"43", @"AM"];
-    [tester selectDateFromPicker:dateTime];
+    [tester selectDatePickerValue:dateTime];
     [tester waitForTappableViewWithAccessibilityLabel:@"Sunday, Jun 17, 06:43 AM"];
+}
+
+- (void)testSelectingTime
+{
+    [tester tapViewWithAccessibilityLabel:@"Time Selection"];
+    NSArray *time = @[@"7", @"44", @"AM"];
+    [tester selectDatePickerValue:time];
+    [tester waitForTappableViewWithAccessibilityLabel:@"7:44 AM"];
+}
+
+- (void)testSelectingCountdown
+{
+    [tester tapViewWithAccessibilityLabel:@"Countdown Selection"];
+    NSArray *countdown = @[@"4", @"10"];
+    [tester selectDatePickerValue:countdown];
+    [tester waitForTappableViewWithAccessibilityLabel:@"15000.000000"];
 }
 
 - (void)testSelectingAPickerRow
