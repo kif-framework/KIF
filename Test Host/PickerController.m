@@ -1,18 +1,19 @@
 
-@interface PickerController : UIViewController
+@interface PickerController : UIViewController<UIPickerViewDataSource, UIPickerViewDelegate, UIPickerViewAccessibilityDelegate>
+
 @property (weak, nonatomic, readonly) IBOutlet UITextField *dateSelectionTextField;
 @property (strong, nonatomic) UIDatePicker *birthdatePicker;
 @property (strong, nonatomic) NSDateFormatter *dateFormatter;
-@property (strong, nonatomic) IBOutlet UIPickerView *pickerViewComponent;
+@property (strong, nonatomic) IBOutlet UIPickerView *phoneticPickerView;
 
 @end
 
 @implementation PickerController
+
 @synthesize birthdatePicker;
 @synthesize dateSelectionTextField;
 @synthesize dateFormatter;
-@synthesize pickerViewComponent;
-
+@synthesize phoneticPickerView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -53,4 +54,25 @@
                         [dateFormatter stringFromDate:birthdatePicker.date]];
     self.dateSelectionTextField.text = string;
 }
+
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
+{
+    return 1;
+}
+
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
+{
+    return 3;
+}
+
+- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
+{
+    return [@[@"Alpha", @"Bravo", @"Charlie"] objectAtIndex:row];
+}
+
+- (NSString *)pickerView:(UIPickerView *)pickerView accessibilityLabelForComponent:(NSInteger)component
+{
+    return @"Call Sign";
+}
+
 @end
