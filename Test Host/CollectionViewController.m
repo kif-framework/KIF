@@ -32,6 +32,15 @@
     cell = [[UICollectionViewCell alloc] init];
   }
   
+  int item = [indexPath item];
+  if (item == 0) {
+    [cell setAccessibilityLabel:@"First Cell"];
+  } else if (item == [self.collectionView numberOfItemsInSection:0] - 1) {
+    [cell setAccessibilityLabel:@"Last Cell"];
+  } else {
+    [cell setAccessibilityLabel:nil];
+  }
+  
   [cell setBackgroundColor:[UIColor blueColor]];
   
   return cell;
@@ -44,7 +53,7 @@
 
 - (int)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-  return 10;
+  return 100;
 }
 
 
