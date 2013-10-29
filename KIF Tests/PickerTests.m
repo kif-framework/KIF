@@ -33,6 +33,14 @@
     [tester waitForTappableViewWithAccessibilityLabel:@"Dec 31, 2030"];
 }
 
+- (void)testSelectingDateTime
+{
+    [tester tapViewWithAccessibilityLabel:@"Date Time Selection"];
+    NSArray *dateTime = @[@"Jun 17", @"6", @"43", @"AM"];
+    [tester selectDateFromPicker:dateTime];
+    [tester waitForTappableViewWithAccessibilityLabel:@"Sunday, Jun 17, 06:43 AM"];
+}
+
 - (void)testSelectingAPickerRow
 {
     [tester selectPickerViewRowWithTitle:@"Charlie"];

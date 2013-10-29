@@ -2,17 +2,19 @@
 @interface PickerController : UIViewController<UIPickerViewDataSource, UIPickerViewDelegate, UIPickerViewAccessibilityDelegate>
 
 @property (weak, nonatomic, readonly) IBOutlet UITextField *dateSelectionTextField;
-@property (strong, nonatomic) UIDatePicker *birthdatePicker;
-@property (strong, nonatomic) NSDateFormatter *dateFormatter;
+@property (weak, nonatomic, readonly) IBOutlet UITextField *dateTimeSelectionTextField;
+@property (strong, nonatomic) UIDatePicker *datePicker;
+@property (strong, nonatomic) UIDatePicker *dateTimePicker;
 @property (strong, nonatomic) IBOutlet UIPickerView *phoneticPickerView;
 
 @end
 
 @implementation PickerController
 
-@synthesize birthdatePicker;
+@synthesize datePicker;
+@synthesize dateTimePicker;
 @synthesize dateSelectionTextField;
-@synthesize dateFormatter;
+@synthesize dateTimeSelectionTextField;
 @synthesize phoneticPickerView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -27,15 +29,28 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    birthdatePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(30, 215, 260, 35)];
-    birthdatePicker.datePickerMode = UIDatePickerModeDate;
-    [birthdatePicker addTarget:self action:@selector(datePickerChanged:)
+
+    datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(30, 215, 260, 35)];
+    datePicker.datePickerMode = UIDatePickerModeDate;
+    [datePicker addTarget:self action:@selector(datePickerChanged:)
               forControlEvents:UIControlEventValueChanged];
-    [birthdatePicker setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_US"]];
-    dateSelectionTextField.placeholder = NSLocalizedString(@"Birthdate", nil);
+    [datePicker setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_US"]];
+
+    dateTimePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(30, 215, 260, 35)];
+    dateTimePicker.datePickerMode = UIDatePickerModeDateAndTime;
+    [dateTimePicker addTarget:self action:@selector(dateTimePickerChanged:)
+         forControlEvents:UIControlEventValueChanged];
+    [dateTimePicker setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_US"]];
+
+    dateSelectionTextField.placeholder = NSLocalizedString(@"Date Selection", nil);
     dateSelectionTextField.returnKeyType = UIReturnKeyDone;
-    dateSelectionTextField.inputView = birthdatePicker;
+    dateSelectionTextField.inputView = datePicker;
     dateSelectionTextField.accessibilityLabel = @"Date Selection";
+
+    dateTimeSelectionTextField.placeholder = NSLocalizedString(@"Date Time Selection", nil);
+    dateTimeSelectionTextField.returnKeyType = UIReturnKeyDone;
+    dateTimeSelectionTextField.inputView = dateTimePicker;
+    dateTimeSelectionTextField.accessibilityLabel = @"Date Time Selection";
 
 }
 
@@ -46,13 +61,19 @@
 }
 
 - (void)datePickerChanged:(id)sender {
-    if (!dateFormatter) {
-        dateFormatter = [[NSDateFormatter alloc] init];
-        dateFormatter.dateStyle = NSDateFormatterMediumStyle;
-    }
+    NSDateFormatter  *dateFormatter = [[NSDateFormatter alloc] init];
+    dateFormatter.dateStyle = NSDateFormatterMediumStyle;
     NSString *string = [NSString stringWithFormat:@"%@",
-                        [dateFormatter stringFromDate:birthdatePicker.date]];
+                        [dateFormatter stringFromDate:datePicker.date]];
     self.dateSelectionTextField.text = string;
+}
+
+- (void)dateTimePickerChanged:(id)sender {
+    NSDateFormatter  *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"cccc, MMM d, hh:mm aa"];
+    NSString *string = [NSString stringWithFormat:@"%@",
+                        [dateFormatter stringFromDate:dateTimePicker.date]];
+    self.dateTimeSelectionTextField.text = string;
 }
 
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
