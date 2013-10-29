@@ -1,13 +1,13 @@
 #import <KIF/KIF.h>
 
-@interface DatePickerTests : KIFTestCase
+@interface PickerTests : KIFTestCase
 @end
 
-@implementation DatePickerTests
+@implementation PickerTests
 
 - (void)beforeEach
 {
-    [tester tapViewWithAccessibilityLabel:@"Date Time Picker"];
+    [tester tapViewWithAccessibilityLabel:@"Pickers"];
 }
 
 - (void)afterEach

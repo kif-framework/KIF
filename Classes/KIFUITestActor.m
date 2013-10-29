@@ -356,7 +356,7 @@
         NSArray * column_values = [NSArray arrayWithObjects:month, day, year,nil];
         NSMutableArray * found_values = [NSMutableArray arrayWithObjects:[NSNumber numberWithBool:NO], [NSNumber numberWithBool:NO], [NSNumber numberWithBool:NO], nil];
         // Find the picker view
-        UIPickerView *pickerView = [[[[UIApplication sharedApplication] pickerViewWindow] subviewsWithClassNameOrSuperClassNamePrefix:@"UIPickerView"] lastObject];
+        UIPickerView *pickerView = [[[[UIApplication sharedApplication] datePickerWindow] subviewsWithClassNameOrSuperClassNamePrefix:@"UIPickerView"] lastObject];
         KIFTestCondition(pickerView, error, @"No picker view is present");
         if ([pickerView isHidden]) {
             [pickerView setHidden:NO];

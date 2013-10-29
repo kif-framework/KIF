@@ -3,6 +3,7 @@
 @property (weak, nonatomic, readonly) IBOutlet UITextField *dateSelectionTextField;
 @property (strong, nonatomic) UIDatePicker *birthdatePicker;
 @property (strong, nonatomic) NSDateFormatter *dateFormatter;
+@property (strong, nonatomic) IBOutlet UIPickerView *pickerViewComponent;
 
 @end
 
@@ -10,6 +11,7 @@
 @synthesize birthdatePicker;
 @synthesize dateSelectionTextField;
 @synthesize dateFormatter;
+@synthesize pickerViewComponent;
 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
