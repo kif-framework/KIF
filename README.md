@@ -40,6 +40,7 @@ Installation (with CocoaPods)
 The first thing you will want to do is set up a test target you will be using for KIF.  You may already have one named *MyApplication*_Tests if you selected to automatically create unit tests.  If you did, you can keep using it if you aren't using it for unit tests.  Otherwise, follow these directions to create a new one.
 
 Select your project in Xcode and click on "Add Target" in the bottom left corner of the editor.  Select iOS -> Other -> Cocoa Touch Unit Testing Bundle.  Give it a product name like "Acceptance Tests", "UI Tests", or something that indicates the intent of your testing process.  You can select "Use Automatic Reference Counting" even if the remainder of your app doesn't, just to make your life easier.
+On XCode 5 change the Type from `XCTest` to `OCUnit`.
 
 The testing target will add a header and implementation file, likely "Acceptance_Tests.m/h" to match your target name. Delete those.
 
