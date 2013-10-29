@@ -18,14 +18,18 @@
 - (void)testSelectingDateInPast
 {
     [tester tapViewWithAccessibilityLabel:@"Date Selection"];
-    [tester stepToEnterDate:@"June" day:@"17" year:@"1965"];
+    NSArray *date = @[@"June", @"17", @"1965"];
+    // If the UIDatePicker LocaleIdentifier would be de_DE then the date to set
+    // would look like this: NSArray *date = @[@"17.", @"Juni", @"1965"
+    [tester selectDateFromPicker:date];
     [tester waitForTappableViewWithAccessibilityLabel:@"Jun 17, 1965"];
 }
 
 - (void)testSelectingDateInFuture
 {
     [tester tapViewWithAccessibilityLabel:@"Date Selection"];
-    [tester stepToEnterDate:@"December" day:@"31" year:@"2030"];
+    NSArray *date = @[@"December", @"31", @"2030"];
+    [tester selectDateFromPicker:date];
     [tester waitForTappableViewWithAccessibilityLabel:@"Dec 31, 2030"];
 }
 

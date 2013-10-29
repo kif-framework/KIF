@@ -349,12 +349,14 @@
     [self enterText:text intoViewWithAccessibilityLabel:label traits:traits expectedResult:expectedResult];
 }
 
-- (void) stepToEnterDate:(NSString*)month day:(NSString*)day year:(NSString*)year
-{
+- (void) selectDateFromPicker:(NSArray*)datePickerColumnValues {
 
     [self runBlock:^KIFTestStepResult(NSError **error) {
-        NSArray * column_values = [NSArray arrayWithObjects:month, day, year,nil];
-        NSMutableArray * found_values = [NSMutableArray arrayWithObjects:[NSNumber numberWithBool:NO], [NSNumber numberWithBool:NO], [NSNumber numberWithBool:NO], nil];
+        NSInteger columnCount = [datePickerColumnValues count];
+        NSMutableArray* found_values = [NSMutableArray arrayWithCapacity:columnCount];
+        for (NSInteger componentIndex = 0; componentIndex < columnCount; componentIndex++) {
+            [found_values addObject:[NSNumber numberWithBool:NO]];
+        }
         // Find the picker view
         UIPickerView *pickerView = [[[[UIApplication sharedApplication] datePickerWindow] subviewsWithClassNameOrSuperClassNamePrefix:@"UIPickerView"] lastObject];
         KIFTestCondition(pickerView, error, @"No picker view is present");
@@ -363,7 +365,7 @@
         }
 
         NSInteger componentCount = [pickerView.dataSource numberOfComponentsInPickerView:pickerView];
-        KIFTestCondition(componentCount == 3, error, @"The picker does not have 3 columns for Month, Day, Year. Expected MMM-DD-YYYY");
+        KIFTestCondition(componentCount == columnCount, error, @"The UIDatePicker does not have the expected column count.");
 
         for (NSInteger componentIndex = 0; componentIndex < componentCount; componentIndex++) {
             NSInteger rowCount = [pickerView.dataSource pickerView:pickerView numberOfRowsInComponent:componentIndex];
@@ -379,13 +381,13 @@
                     rowTitle = label.text;
                 }
 
-                if ([rowTitle isEqual:column_values[componentIndex]]) {
+                if ([rowTitle isEqual:datePickerColumnValues[componentIndex]]) {
                     [pickerView selectRow:rowIndex inComponent:componentIndex animated:false];
                     CFRunLoopRunInMode(kCFRunLoopDefaultMode, 1, false);
 
                     // Tap in the middle of the picker view to select the item
                     [pickerView tap];
-                    [self waitForTimeInterval:0.5];
+                    [self waitForTimeInterval:0.3];
 
                     // The combination of selectRow:inComponent:animated: and tap does not consistently result in
                     // pickerView:didSelectRow:inComponent: being called on the delegate. We need to do it explicitly.
@@ -402,16 +404,20 @@
             }
 
         }
-        if (found_values[0] == [NSNumber numberWithBool:YES] && found_values[1] == [NSNumber numberWithBool:YES] && found_values[2] == [NSNumber numberWithBool:YES]) {
-            [pickerView setHidden:TRUE];
-            return KIFTestStepResultSuccess;
-        }
-        KIFTestCondition(NO, error, @"Failed to select from UIDatePicker");
-        return KIFTestStepResultFailure;
-    }];
-    
-}
 
+        for (NSInteger componentIndex = 0; componentIndex < columnCount; componentIndex++) {
+            if (found_values[componentIndex] == [NSNumber numberWithBool:NO]) {
+                KIFTestCondition(NO, error, @"Failed to select from UIDatePicker");
+                return KIFTestStepResultFailure;
+            }
+        }
+
+        [pickerView setHidden:TRUE];
+        return KIFTestStepResultSuccess;
+    }];
+
+
+}
 
 - (void)selectPickerViewRowWithTitle:(NSString *)title
 {

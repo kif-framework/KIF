@@ -255,7 +255,7 @@ static inline KIFDisplacement KIFDisplacementForSwipingInDirection(KIFSwipeDirec
  */
 - (void)selectPickerViewRowWithTitle:(NSString *)title;
 
-- (void) stepToEnterDate:(NSString*)month day:(NSString*)day year:(NSString*)year;
+- (void) selectDateFromPicker:(NSArray*)datePickerColumnValues;
 
 /*!
  @abstract Toggles a UISwitch into a specified position.
