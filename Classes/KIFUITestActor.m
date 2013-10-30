@@ -350,18 +350,36 @@
 }
 
 - (void) selectDatePickerValue:(NSArray*)datePickerColumnValues {
+    [self selectPickerValue:datePickerColumnValues pickerType:KIFUIDatePicker];
+}
+
+- (void)selectPickerViewRowWithTitle:(NSString *)title
+{
+    NSArray *dataToSelect = @[title];
+    [self selectPickerValue:dataToSelect pickerType:KIFUIPickerView];
+}
+
+- (void) selectPickerValue:(NSArray*)pickerColumnValues pickerType:(KIFPickerType)pickerType {
 
     [self runBlock:^KIFTestStepResult(NSError **error) {
-        NSInteger columnCount = [datePickerColumnValues count];
+        NSInteger columnCount = [pickerColumnValues count];
         NSMutableArray* found_values = [NSMutableArray arrayWithCapacity:columnCount];
         for (NSInteger componentIndex = 0; componentIndex < columnCount; componentIndex++) {
             [found_values addObject:[NSNumber numberWithBool:NO]];
         }
         // Find the picker view
-        UIPickerView *pickerView = [[[[UIApplication sharedApplication] datePickerWindow] subviewsWithClassNameOrSuperClassNamePrefix:@"UIPickerView"] lastObject];
-        KIFTestCondition(pickerView, error, @"No picker view is present");
-        if ([pickerView isHidden]) {
-            [pickerView setHidden:NO];
+        UIPickerView *pickerView = nil;
+        switch (pickerType)
+        {
+            case KIFUIDatePicker:
+                pickerView = [[[[UIApplication sharedApplication] datePickerWindow] subviewsWithClassNameOrSuperClassNamePrefix:@"UIPickerView"] lastObject];
+                KIFTestCondition(pickerView, error, @"No picker view is present");
+                if ([pickerView isHidden]) {
+                    [pickerView setHidden:NO];
+                }
+                break;
+            case KIFUIPickerView:
+                 pickerView = [[[[UIApplication sharedApplication] pickerViewWindow] subviewsWithClassNameOrSuperClassNamePrefix:@"UIPickerView"] lastObject];
         }
 
         NSInteger componentCount = [pickerView.dataSource numberOfComponentsInPickerView:pickerView];
@@ -381,7 +399,7 @@
                     rowTitle = label.text;
                 }
 
-                if ([rowTitle isEqual:datePickerColumnValues[componentIndex]]) {
+                if ([rowTitle isEqual:pickerColumnValues[componentIndex]]) {
                     [pickerView selectRow:rowIndex inComponent:componentIndex animated:false];
                     CFRunLoopRunInMode(kCFRunLoopDefaultMode, 1, false);
 
@@ -407,63 +425,17 @@
 
         for (NSInteger componentIndex = 0; componentIndex < columnCount; componentIndex++) {
             if (found_values[componentIndex] == [NSNumber numberWithBool:NO]) {
-                KIFTestCondition(NO, error, @"Failed to select from UIDatePicker.");
+                KIFTestCondition(NO, error, @"Failed to select from Picker.");
                 return KIFTestStepResultFailure;
             }
         }
 
-        [pickerView setHidden:TRUE];
+        if (pickerType == KIFUIDatePicker) {
+            [pickerView setHidden:TRUE];
+        }
         return KIFTestStepResultSuccess;
     }];
 
-
-}
-
-- (void)selectPickerViewRowWithTitle:(NSString *)title
-{
-    [self runBlock:^KIFTestStepResult(NSError **error) {
-        // Find the picker view
-        UIPickerView *pickerView = [[[[UIApplication sharedApplication] pickerViewWindow] subviewsWithClassNameOrSuperClassNamePrefix:@"UIPickerView"] lastObject];
-        KIFTestCondition(pickerView, error, @"No picker view is present");
-        
-        NSInteger componentCount = [pickerView.dataSource numberOfComponentsInPickerView:pickerView];
-        KIFTestCondition(componentCount == 1, error, @"The picker view has multiple columns, which is not supported in testing.");
-        
-        for (NSInteger componentIndex = 0; componentIndex < componentCount; componentIndex++) {
-            NSInteger rowCount = [pickerView.dataSource pickerView:pickerView numberOfRowsInComponent:componentIndex];
-            for (NSInteger rowIndex = 0; rowIndex < rowCount; rowIndex++) {
-                NSString *rowTitle = nil;
-                if ([pickerView.delegate respondsToSelector:@selector(pickerView:titleForRow:forComponent:)]) {
-                    rowTitle = [pickerView.delegate pickerView:pickerView titleForRow:rowIndex forComponent:componentIndex];
-                } else if ([pickerView.delegate respondsToSelector:@selector(pickerView:viewForRow:forComponent:reusingView:)]) {
-                    // This delegate inserts views directly, so try to figure out what the title is by looking for a label
-                    UIView *rowView = [pickerView.delegate pickerView:pickerView viewForRow:rowIndex forComponent:componentIndex reusingView:nil];
-                    NSArray *labels = [rowView subviewsWithClassNameOrSuperClassNamePrefix:@"UILabel"];
-                    UILabel *label = (labels.count > 0 ? labels[0] : nil);
-                    rowTitle = label.text;
-                }
-                
-                if ([rowTitle isEqual:title]) {
-                    [pickerView selectRow:rowIndex inComponent:componentIndex animated:YES];
-                    CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.5, false);
-                    
-                    // Tap in the middle of the picker view to select the item
-                    [pickerView tap];
-                    
-                    // The combination of selectRow:inComponent:animated: and tap does not consistently result in
-                    // pickerView:didSelectRow:inComponent: being called on the delegate. We need to do it explicitly.
-                    if ([pickerView.delegate respondsToSelector:@selector(pickerView:didSelectRow:inComponent:)]) {
-                        [pickerView.delegate pickerView:pickerView didSelectRow:rowIndex inComponent:componentIndex];
-                    }
-                    
-                    return KIFTestStepResultSuccess;
-                }
-            }
-        }
-        
-        KIFTestCondition(NO, error, @"Failed to find picker view value with title \"%@\"", title);
-        return KIFTestStepResultFailure;
-    }];
 }
 
 - (void)setOn:(BOOL)switchIsOn forSwitchWithAccessibilityLabel:(NSString *)label

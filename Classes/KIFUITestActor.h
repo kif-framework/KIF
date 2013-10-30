@@ -28,6 +28,17 @@ typedef NS_ENUM(NSUInteger, KIFSwipeDirection) {
     KIFSwipeDirectionDown
 };
 
+/*!
+ @enum KIFPickerType
+ @abstract Picker type to select values from.
+ @constant KIFUIPickerView UIPickerView type
+ @constant KIFUIDatePicker UIDatePicker type
+ */
+typedef NS_ENUM(NSUInteger, KIFPickerType) {
+    KIFUIPickerView,
+    KIFUIDatePicker
+};
+
 #define kKIFMajorSwipeDisplacement 200
 #define kKIFMinorSwipeDisplacement 5
 
