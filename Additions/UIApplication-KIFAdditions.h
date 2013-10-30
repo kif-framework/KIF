@@ -45,6 +45,11 @@ UIKIT_EXTERN NSString *const UIApplicationOpenedURLKey;
 - (UIWindow *)keyboardWindow;
 
 /*!
+ @returns The topmost window containing a @c UIDatePicker.
+ */
+- (UIWindow *)datePickerWindow;
+
+/*!
  @returns The topmost window containing a @c UIPickerView.
  */
 - (UIWindow *)pickerViewWindow;
