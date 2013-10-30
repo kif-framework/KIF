@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		74F4D685181F821A00F14CB1 /* CollectionViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 74F4D684181F821A00F14CB1 /* CollectionViewTests.m */; };
+		74F4D686181F898100F14CB1 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EB60ED04177F9041005A041A /* MainStoryboard.storyboard */; };
+		74F4D687181F898300F14CB1 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EB60ED04177F9041005A041A /* MainStoryboard.storyboard */; };
+		74F4D68A181F8EE200F14CB1 /* CollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 74F4D689181F8EE200F14CB1 /* CollectionViewController.m */; };
 		A88930121685098E00FC7C63 /* KIF.h in Headers */ = {isa = PBXBuildFile; fileRef = A88930111685098E00FC7C63 /* KIF.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EB02523E17AA109400A7D13A /* CompositionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EB02523D17AA109400A7D13A /* CompositionTests.m */; };
 		EB09001017E3696A00AA15B1 /* SearchFieldTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EB09000F17E3696A00AA15B1 /* SearchFieldTests.m */; };
@@ -28,7 +32,6 @@
 		EB60ED01177F9032005A041A /* ShowHideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EB60ECFD177F9031005A041A /* ShowHideViewController.m */; };
 		EB60ED02177F9032005A041A /* TapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EB60ECFE177F9032005A041A /* TapViewController.m */; };
 		EB60ED03177F9032005A041A /* TestSuiteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EB60ECFF177F9032005A041A /* TestSuiteViewController.m */; };
-		EB60ED06177F9041005A041A /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EB60ED04177F9041005A041A /* MainStoryboard.storyboard */; };
 		EB60ED10177F90BA005A041A /* LongPressTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EB60ED07177F90BA005A041A /* LongPressTests.m */; };
 		EB60ED11177F90BA005A041A /* ModalViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EB60ED08177F90BA005A041A /* ModalViewTests.m */; };
 		EB60ED12177F90BA005A041A /* SpecificControlTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EB60ED09177F90BA005A041A /* SpecificControlTests.m */; };
@@ -96,6 +99,8 @@
 
 /* Begin PBXFileReference section */
 		39160B1013D1E6BB00311E38 /* LoadableCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadableCategory.h; sourceTree = "<group>"; };
+		74F4D684181F821A00F14CB1 /* CollectionViewTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionViewTests.m; sourceTree = "<group>"; };
+		74F4D689181F8EE200F14CB1 /* CollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionViewController.m; sourceTree = "<group>"; };
 		A88930111685098E00FC7C63 /* KIF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KIF.h; sourceTree = "<group>"; };
 		AAB0726B139719AC008AF393 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		AAB0728113971A63008AF393 /* KIF-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "KIF-Prefix.pch"; path = "Classes/KIF-Prefix.pch"; sourceTree = SOURCE_ROOT; };
@@ -328,6 +333,7 @@
 				EB9FB42617A5BACB00DDF160 /* GestureViewController.m */,
 				EB60ECFE177F9032005A041A /* TapViewController.m */,
 				EB60ECFF177F9032005A041A /* TestSuiteViewController.m */,
+				74F4D689181F8EE200F14CB1 /* CollectionViewController.m */,
 				EB60ECC7177F8C83005A041A /* Supporting Files */,
 			);
 			path = "Test Host";
@@ -357,6 +363,7 @@
 				EB60ED0A177F90BA005A041A /* SystemTests.m */,
 				EB60ED0B177F90BA005A041A /* TappingTests.m */,
 				EB3F654417AA0B8400469D18 /* TableViewTests.m */,
+				74F4D684181F821A00F14CB1 /* CollectionViewTests.m */,
 				EB02523D17AA109400A7D13A /* CompositionTests.m */,
 				EB60ED0C177F90BA005A041A /* TypingTests.m */,
 				EB60ED0D177F90BA005A041A /* WaitForAbscenceTests.m */,
@@ -517,10 +524,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				EB60ECCB177F8C84005A041A /* InfoPlist.strings in Resources */,
+				74F4D686181F898100F14CB1 /* MainStoryboard.storyboard in Resources */,
 				EB60ECD3177F8C84005A041A /* Default.png in Resources */,
 				EB60ECD5177F8C84005A041A /* Default@2x.png in Resources */,
 				EB60ECD7177F8C84005A041A /* Default-568h@2x.png in Resources */,
-				EB60ED06177F9041005A041A /* MainStoryboard.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -528,6 +535,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				74F4D687181F898300F14CB1 /* MainStoryboard.storyboard in Resources */,
 				EB60ECF4177F8DB3005A041A /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -556,6 +564,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EB9FB42717A5BACB00DDF160 /* GestureViewController.m in Sources */,
+				74F4D68A181F8EE200F14CB1 /* CollectionViewController.m in Sources */,
 				EB60ECCD177F8C84005A041A /* main.m in Sources */,
 				EB60ED00177F9032005A041A /* AppDelegate.m in Sources */,
 				EB60ED01177F9032005A041A /* ShowHideViewController.m in Sources */,
@@ -578,6 +587,7 @@
 				EB60ED14177F90BA005A041A /* TappingTests.m in Sources */,
 				EB60ED15177F90BA005A041A /* TypingTests.m in Sources */,
 				EB60ED16177F90BA005A041A /* WaitForAbscenceTests.m in Sources */,
+				74F4D685181F821A00F14CB1 /* CollectionViewTests.m in Sources */,
 				EB60ED17177F90BA005A041A /* WaitForTappableViewTests.m in Sources */,
 				EB60ED18177F90BA005A041A /* WaitForViewTests.m in Sources */,
 				EB9FC00517E144B700138266 /* LandscapeTests.m in Sources */,

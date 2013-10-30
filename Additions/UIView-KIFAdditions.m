@@ -517,29 +517,38 @@ typedef struct __GSEvent * GSEventRef;
 
 - (UIEvent *)_eventWithTouch:(UITouch *)touch;
 {
-    UIEvent *event = [[UIApplication sharedApplication] performSelector:@selector(_touchesEvent)];
-    
-    CGPoint location = [touch locationInView:touch.window];
-    KIFEventProxy *eventProxy = [[KIFEventProxy alloc] init];
-    eventProxy->x1 = location.x;
-    eventProxy->y1 = location.y;
-    eventProxy->x2 = location.x;
-    eventProxy->y2 = location.y;
-    eventProxy->x3 = location.x;
-    eventProxy->y3 = location.y;
-    eventProxy->sizeX = 1.0;
-    eventProxy->sizeY = 1.0;
-    eventProxy->flags = ([touch phase] == UITouchPhaseEnded) ? 0x1010180 : 0x3010180;
-    eventProxy->type = 3001;	
+  return [self _eventWithTouches:@[touch]];
+}
 
-    NSSet *allTouches = [event allTouches];
-    [event _clearTouches];
-    [allTouches makeObjectsPerformSelector:@selector(autorelease)];
-    [event _setGSEvent:(struct __GSEvent *)eventProxy];
+- (UIEvent *)_eventWithTouches:(NSArray*)touches;
+{
+  UIEvent *event = [[UIApplication sharedApplication] performSelector:@selector(_touchesEvent)];
+  
+  NSSet *allTouches = [event allTouches];
+  [event _clearTouches];
+  
+  KIFEventProxy *eventProxy = [[KIFEventProxy alloc] init];
+  UITouch *firstTouch = [touches objectAtIndex:0];
+  CGPoint location = [firstTouch locationInView:firstTouch.window];
+  eventProxy->x1 = location.x;
+  eventProxy->y1 = location.y;
+  eventProxy->x2 = location.x;
+  eventProxy->y2 = location.y;
+  eventProxy->x3 = location.x;
+  eventProxy->y3 = location.y;
+  eventProxy->sizeX = 1.0;
+  eventProxy->sizeY = 1.0;
+  eventProxy->flags = ([firstTouch phase] == UITouchPhaseEnded) ? 0x1010180 : 0x3010180;
+  eventProxy->type = 3001;
+  [allTouches makeObjectsPerformSelector:@selector(autorelease)];
+  [event _setGSEvent:(struct __GSEvent *)eventProxy];
+  [eventProxy release];
+  
+  for (UITouch *touch in touches) {
     [event _addTouch:touch forDelayedDelivery:NO];
-    
-    [eventProxy release];
-    return event;
+  }
+  
+  return event;
 }
 
 - (BOOL)isUserInteractionActuallyEnabled;

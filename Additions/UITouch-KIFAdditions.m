@@ -104,4 +104,9 @@ MAKE_CATEGORIES_LOADABLE(UITouch_KIFAdditions)
 	_timestamp = [[NSProcessInfo processInfo] systemUptime];
 }
 
+- (void)setLocation: (CGPoint)location InView: (UIView*)view
+{
+  [self setLocationInWindow:[view.window convertPoint:location fromView:view]];
+}
+
 @end
