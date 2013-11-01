@@ -517,7 +517,10 @@ typedef struct __GSEvent * GSEventRef;
 
 - (UIEvent *)_eventWithTouch:(UITouch *)touch;
 {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundeclared-selector"
     UIEvent *event = [[UIApplication sharedApplication] performSelector:@selector(_touchesEvent)];
+#pragma clang diagnostic pop
     
     CGPoint location = [touch locationInView:touch.window];
     KIFEventProxy *eventProxy = [[KIFEventProxy alloc] init];
