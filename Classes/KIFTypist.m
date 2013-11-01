@@ -38,7 +38,7 @@
 
 + (BOOL)_enterCharacter:(NSString *)characterString history:(NSMutableDictionary *)history;
 {
-    const NSTimeInterval keystrokeDelay = 0.05f;
+    const NSTimeInterval keystrokeDelay = 0.1f;
     
     // Each key on the keyboard does not have its own view, so we have to ask for the list of keys,
     // find the appropriate one, and tap inside the frame of that key on the main keyboard view.
@@ -142,7 +142,7 @@
 
 + (BOOL)_enterCustomKeyboardCharacter:(NSString *)characterString;
 {
-    const NSTimeInterval keystrokeDelay = 0.05f;
+    const NSTimeInterval keystrokeDelay = 0.1f;
     
     if (!characterString.length) {
         return YES;
