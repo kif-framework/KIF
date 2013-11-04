@@ -63,12 +63,12 @@ UIKIT_EXTERN NSString *const UIApplicationOpenedURLKey;
  @abstract Writes a screenshot to disk.
  @discussion This method only works if the @c KIF_SCREENSHOTS environment variable is set.
  @param lineNumber The line number in the code at which the screenshot was taken.
- @param filename The name of the file in which the screenshot was taken.
+ @param filename The name of the screenshot file
  @param description An optional description of the scene being captured.
  @param error If the method returns @c YES, this optional parameter provides additional information as to why it failed.
  @returns @c YES if the screenshot was written to disk, otherwise @c NO.
  */
-- (BOOL)writeScreenshotForLine:(NSUInteger)lineNumber inFile:(NSString *)filename description:(NSString *)description error:(NSError **)error;
+- (BOOL)writeScreenshotForLine:(NSUInteger)lineNumber filename:(NSString *)filename description:(NSString *)description error:(NSError **)error;
 
 /*!
  @returns The current run loop mode.

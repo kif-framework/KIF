@@ -53,6 +53,7 @@
  * @discussion When @c YES, rather than failing the test and advancing on the first failure, KIF will stop executing tests and begin spinning the run loop.  This provides an opportunity for inspecting the state of the app when the failure occurred.
  */
 @property (nonatomic, assign) BOOL stopTestsOnFirstBigFailure;
+@property (nonatomic, assign) BOOL writeScreenshotOnException;
 
 @end
 

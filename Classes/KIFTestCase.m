@@ -22,12 +22,15 @@
     if (!self) {
         return nil;
     }
+    
+    _writeScreenshotOnException = YES;
 
 #ifdef KIF_XCTEST
     self.continueAfterFailure = NO;
 #else
     [self raiseAfterFailure];
 #endif
+    
     return self;
 }
 
@@ -111,7 +114,7 @@
 
 - (void)failWithException:(NSException *)exception stopTest:(BOOL)stop
 {
-    if (stop) {
+    if (stop && self.writeScreenshotOnException) {
         [self writeScreenshotForException:exception];
     }
     
@@ -131,10 +134,11 @@
 - (void)writeScreenshotForException:(NSException *)exception;
 {
 #ifdef KIF_XCTEST
-    [[UIApplication sharedApplication] writeScreenshotForLine:[exception.userInfo[@"SenTestLineNumberKey"] unsignedIntegerValue] inFile:exception.userInfo[@"SenTestFilenameKey"] description:nil error:NULL];
+    [[UIApplication sharedApplication] writeScreenshotForLine:[exception.userInfo[@"SenTestLineNumberKey"] unsignedIntegerValue] filename:[exception.userInfo[@"SenTestFilenameKey"] lastPathComponent] description:nil error:NULL];
 #else
-    [[UIApplication sharedApplication] writeScreenshotForLine:exception.lineNumber.unsignedIntegerValue inFile:exception.filename description:nil error:NULL];
+    [[UIApplication sharedApplication] writeScreenshotForLine:exception.lineNumber.unsignedIntegerValue filename:[exception.filename lastPathComponent] description:nil error:NULL];
 #endif
+    //[[UIApplication sharedApplication] writeScreenshotForLine:exception.lineNumber.unsignedIntegerValue filename:[exception.filename lastPathComponent] description:nil error:NULL];
 }
 
 @end

@@ -110,7 +110,7 @@ static const void *KIFRunLoopModesKey = &KIFRunLoopModesKey;
 
 #pragma mark - Screenshoting
 
-- (BOOL)writeScreenshotForLine:(NSUInteger)lineNumber inFile:(NSString *)filename description:(NSString *)description error:(NSError **)error;
+- (BOOL)writeScreenshotForLine:(NSUInteger)lineNumber filename:(NSString *)filename description:(NSString *)description error:(NSError **)error;
 {
     NSString *outputPath = [[[NSProcessInfo processInfo] environment] objectForKey:@"KIF_SCREENSHOTS"];
     if (!outputPath) {
@@ -135,8 +135,19 @@ static const void *KIFRunLoopModesKey = &KIFRunLoopModesKey;
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     
+    NSString *subfolder = [filename stringByDeletingLastPathComponent];
     
-    NSString *imageName = [NSString stringWithFormat:@"%@, line %lu", [filename lastPathComponent], (unsigned long)lineNumber];
+    if (subfolder.length > 0) {
+        outputPath = [outputPath stringByAppendingPathComponent:subfolder];
+        [[NSFileManager defaultManager] createDirectoryAtPath:outputPath withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+    
+    NSString *imageName = [filename lastPathComponent];
+    
+    if (lineNumber > 0) {
+        imageName = [imageName stringByAppendingFormat:@", line %lu", (unsigned long)lineNumber];
+    }
+    
     if (description) {
         imageName = [imageName stringByAppendingFormat:@", %@", description];
     }
