@@ -57,7 +57,7 @@
 
 - (void)waitForAccessibilityElement:(UIAccessibilityElement **)element view:(out UIView **)view withLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits tappable:(BOOL)mustBeTappable
 {
-
+    
     [self runBlock:^KIFTestStepResult(NSError **error) {
         return [UIAccessibilityElement accessibilityElement:element view:view withLabel:label value:value traits:traits tappable:mustBeTappable error:error] ? KIFTestStepResultSuccess : KIFTestStepResultWait;
     }];
@@ -529,7 +529,7 @@
     thumbnailCenter.x = thumbnailMargin + (MAX(0, column - 1) * (thumbnailSize.width + thumbnailMargin)) + thumbnailSize.width / 2.0;
     thumbnailCenter.y = headerHeight + thumbnailMargin + (MAX(0, row - 1) * (thumbnailSize.height + thumbnailMargin)) + thumbnailSize.height / 2.0;
     [self tapScreenAtPoint:thumbnailCenter];
-
+    
     // Dismiss the resize UI
     [self tapViewWithAccessibilityLabel:@"Choose"];
 }
@@ -549,44 +549,25 @@
 
 - (void)tapRowAtIndexPath:(NSIndexPath *)indexPath inTableView:(UITableView *)tableView
 {
-
-    if (![tableView isKindOfClass:[UITableView class]]) {
-        [self failWithError:[NSError KIFErrorWithFormat:@"View is not a table view"] stopTest:YES];
-    }
-    
-    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    
-    // If section < 0, search from the end of the table.
-    if (indexPath.section < 0) {
-        indexPath = [NSIndexPath indexPathForRow:indexPath.row inSection:tableView.numberOfSections + indexPath.section];
-    }
-    
-    // If row < 0, search from the end of the section.
-    if (indexPath.row < 0) {
-        indexPath = [NSIndexPath indexPathForRow:[tableView numberOfRowsInSection:indexPath.section] + indexPath.row inSection:indexPath.section];
-    }
-
-    if (!cell) {
-        if (indexPath.section >= tableView.numberOfSections) {
-            [self failWithError:[NSError KIFErrorWithFormat:@"Section %d is not found in table view", (int)indexPath.section] stopTest:YES];
-        }
-        
-        if (indexPath.row >= [tableView numberOfRowsInSection:indexPath.section]) {
-            [self failWithError:[NSError KIFErrorWithFormat:@"Row %d is not found in section %d of table view", (int)indexPath.row, (int)indexPath.section] stopTest:YES];
-        }
-        
-        [tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
-        [self waitForTimeInterval:0.5];
-        cell = [tableView cellForRowAtIndexPath:indexPath];
-    }
-    
-    if (!cell) {
-        [self failWithError:[NSError KIFErrorWithFormat: @"Table view cell at index path %@ not found", indexPath] stopTest:YES];
-    }
-    
+    UITableViewCell *cell = [self waitForCellAtIndexPath:indexPath inTableView:tableView];
     CGRect cellFrame = [cell.contentView convertRect:cell.contentView.frame toView:tableView];
     [tableView tapAtPoint:CGPointCenteredInRect(cellFrame)];
+}
+
+- (void)tapItemAtIndexPath:(NSIndexPath *)indexPath inCollectionViewWithAccessibilityIdentifier:(NSString *)identifier
+{
+    UICollectionView *collectionView;
+    [self waitForAccessibilityElement:NULL view:&collectionView withIdentifier:identifier tappable:NO];
+    [self tapItemAtIndexPath:indexPath inCollectionView:collectionView];
+}
+
+- (void)tapItemAtIndexPath:(NSIndexPath *)indexPath inCollectionView:(UICollectionView *)collectionView
+{
+    UICollectionViewCell *cell;
+    cell = [self waitForCellAtIndexPath:indexPath inCollectionView:collectionView];
     
+    CGRect cellFrame = [cell.contentView convertRect:cell.contentView.frame toView:collectionView];
+    [collectionView tapAtPoint:CGPointCenteredInRect(cellFrame)];
 }
 
 - (void)swipeViewWithAccessibilityLabel:(NSString *)label inDirection:(KIFSwipeDirection)direction
@@ -670,6 +651,97 @@
         
         return KIFTestStepResultSuccess;
     }];
+}
+
+- (UITableViewCell *)waitForCellAtIndexPath:(NSIndexPath *)indexPath inTableViewWithAccessibilityIdentifier:(NSString *)identifier
+{
+    UITableView *tableView;
+    [self waitForAccessibilityElement:NULL view:&tableView withIdentifier:identifier tappable:NO];
+    return [self waitForCellAtIndexPath:indexPath inTableView:tableView];
+}
+
+- (UITableViewCell *)waitForCellAtIndexPath:(NSIndexPath *)indexPath inTableView:(UITableView *)tableView
+{
+    if (![tableView isKindOfClass:[UITableView class]]) {
+        [self failWithError:[NSError KIFErrorWithFormat:@"View is not a table view"] stopTest:YES];
+    }
+    
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    
+    // If section < 0, search from the end of the table.
+    if (indexPath.section < 0) {
+        indexPath = [NSIndexPath indexPathForRow:indexPath.row inSection:tableView.numberOfSections + indexPath.section];
+    }
+    
+    // If row < 0, search from the end of the section.
+    if (indexPath.row < 0) {
+        indexPath = [NSIndexPath indexPathForRow:[tableView numberOfRowsInSection:indexPath.section] + indexPath.row inSection:indexPath.section];
+    }
+    
+    if (!cell) {
+        if (indexPath.section >= tableView.numberOfSections) {
+            [self failWithError:[NSError KIFErrorWithFormat:@"Section %d is not found in table view", (int)indexPath.section] stopTest:YES];
+        }
+        
+        if (indexPath.row >= [tableView numberOfRowsInSection:indexPath.section]) {
+            [self failWithError:[NSError KIFErrorWithFormat:@"Row %d is not found in section %d of table view", (int)indexPath.row, (int)indexPath.section] stopTest:YES];
+        }
+        
+        [tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+        [self waitForTimeInterval:0.5];
+        cell = [tableView cellForRowAtIndexPath:indexPath];
+    }
+    
+    if (!cell) {
+        [self failWithError:[NSError KIFErrorWithFormat: @"Table view cell at index path %@ not found", indexPath] stopTest:YES];
+    }
+    
+    return cell;
+}
+
+- (UICollectionViewCell *)waitForCellAtIndexPath:(NSIndexPath *)indexPath inCollectionViewWithAccessibilityIdentifier:(NSString *)identifier
+{
+    UICollectionView *collectionView;
+    [self waitForAccessibilityElement:NULL view:&collectionView withIdentifier:identifier tappable:NO];
+    return [self waitForCellAtIndexPath:indexPath inCollectionView:collectionView];
+}
+
+- (UICollectionViewCell *)waitForCellAtIndexPath:(NSIndexPath *)indexPath inCollectionView:(UICollectionView *)collectionView
+{
+    if (![collectionView isKindOfClass:[UICollectionView class]]) {
+        [self failWithError:[NSError KIFErrorWithFormat:@"View is not a collection view"] stopTest:YES];
+    }
+    
+    NSInteger section = indexPath.section;
+    NSInteger item    = indexPath.item;
+    
+    // If section < 0, search from the end of the table.
+    if (section < 0) {
+        section += collectionView.numberOfSections;
+    }
+    
+    // If item < 0, search from the end of the section.
+    if (item < 0) {
+        item += [collectionView numberOfItemsInSection:section];
+    }
+    
+    if (section >= collectionView.numberOfSections) {
+        [self failWithError:[NSError KIFErrorWithFormat:@"Section %d is not found in collection view", (int)section] stopTest:YES];
+    }
+    
+    if (item >= [collectionView numberOfItemsInSection:section]) {
+        [self failWithError:[NSError KIFErrorWithFormat:@"Item %d is not found in section %d of collection view", (int)item, (int)section] stopTest:YES];
+    }
+    
+    indexPath = [NSIndexPath indexPathForItem:item inSection:section];
+    [collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally | UICollectionViewScrollPositionCenteredVertically animated:YES];
+    [self waitForTimeInterval:0.5];
+    UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
+    
+    if (!cell) {
+        [self failWithError:[NSError KIFErrorWithFormat: @"Collection view cell at index path %@ not found", indexPath] stopTest:YES];
+    }
+    return cell;
 }
 
 - (void)tapStatusBar
