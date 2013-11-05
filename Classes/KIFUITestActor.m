@@ -395,7 +395,7 @@
                     // This delegate inserts views directly, so try to figure out what the title is by looking for a label
                     UIView *rowView = [pickerView.delegate pickerView:pickerView viewForRow:rowIndex forComponent:componentIndex reusingView:nil];
                     NSArray *labels = [rowView subviewsWithClassNameOrSuperClassNamePrefix:@"UILabel"];
-                    UILabel *label = (labels.count > 0 ? [labels objectAtIndex:0] : nil);
+                    UILabel *label = (labels.count > 0 ? labels[0] : nil);
                     rowTitle = label.text;
                 }
 
@@ -413,7 +413,7 @@
                         [pickerView.delegate pickerView:pickerView didSelectRow:rowIndex inComponent:componentIndex];
                     }
 
-                    [found_values replaceObjectAtIndex:componentIndex withObject:[NSNumber numberWithBool:YES]];
+                    [found_values replaceObjectAtIndex:componentIndex withObject:@(YES)];
                     break;
                 }
             }
