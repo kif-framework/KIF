@@ -254,6 +254,7 @@ static inline KIFDisplacement KIFDisplacementForSwipingInDirection(KIFSwipeDirec
  @param title The title of the row to select.
  */
 - (void)selectPickerViewRowWithTitle:(NSString *)title;
+- (void)selectPickerRow:(NSInteger)row component:(NSInteger)component;
 
 /*!
  @abstract Toggles a UISwitch into a specified position.
