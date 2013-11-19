@@ -94,7 +94,7 @@ MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
     }
     if (scrollView) {
         if ((UIAccessibilityElement *)view == element) {
-            [scrollView scrollViewToVisible:view animated:YES];
+            //[scrollView scrollViewToVisible:view animated:YES];
         } else {
             CGRect elementFrame = [view.window convertRect:element.accessibilityFrame toView:scrollView];
             [scrollView scrollRectToVisible:elementFrame animated:YES];
