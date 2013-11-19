@@ -102,7 +102,16 @@ typedef struct __GSEvent * GSEventRef;
             accessibilityValue = [(NSAttributedString *)accessibilityValue string];
         }
         
-        BOOL labelsMatch = element.accessibilityLabel == label || [element.accessibilityLabel isEqual:label];
+        BOOL labelsMatch = YES;
+        if(element.accessibilityLabel == nil)
+            labelsMatch = NO;
+        else if([label rangeOfString:@"*"].location == NSNotFound) {
+            labelsMatch &= element.accessibilityLabel == label || [element.accessibilityLabel isEqual:label];;
+        } else {
+            NSPredicate *pred = [NSPredicate predicateWithFormat:@"self LIKE %@", label];
+            labelsMatch &= [pred evaluateWithObject:element.accessibilityLabel];
+        }
+
         BOOL traitsMatch = ((element.accessibilityTraits) & traits) == traits;
         BOOL valuesMatch = !value || [value isEqual:accessibilityValue];
 
