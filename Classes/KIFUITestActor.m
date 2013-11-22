@@ -294,7 +294,11 @@
     [self waitForAccessibilityElement:&element view:&view withLabel:label value:nil traits:traits tappable:YES];
     [self tapAccessibilityElement:element inView:view];
     [self enterTextIntoCurrentFirstResponder:text fallbackView:view];
-    
+    [self expectView:view toContainText:expectedResult ?: text];
+}
+
+- (void)expectView:(UIView *)view toContainText:(NSString *)expectedResult
+{
     // We will perform some additional validation if the view is UITextField or UITextView.
     if (![view respondsToSelector:@selector(text)]) {
         return;
@@ -305,7 +309,7 @@
     // Some slower machines take longer for typing to catch up, so wait for a bit before failing
     [self runBlock:^KIFTestStepResult(NSError **error) {
         // We trim \n and \r because they trigger the return key, so they won't show up in the final product on single-line inputs
-        NSString *expected = [expectedResult ?: text stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+        NSString *expected = [expectedResult stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
         NSString *actual = [textView.text stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
         
         KIFTestWaitCondition([actual isEqualToString:expected], error, @"Failed to get text \"%@\" in field; instead, it was \"%@\"", expected, actual);
@@ -313,6 +317,7 @@
         return KIFTestStepResultSuccess;
     } timeout:1.0];
 }
+
 
 
 - (void)clearTextFromViewWithAccessibilityLabel:(NSString *)label
@@ -329,12 +334,25 @@
     
     NSUInteger numberOfCharacters = [view respondsToSelector:@selector(text)] ? [(UITextField *)view text].length : element.accessibilityValue.length;
     
-    NSMutableString *text = [NSMutableString string];
-    for (NSInteger i = 0; i < numberOfCharacters; i ++) {
-        [text appendString:@"\b"];
+    [self tapAccessibilityElement:element inView:view];
+    
+    // Per issue #294, the tap occurs in the center of the text view.  If the text is too long, this means not all text gets cleared.  To address this for most cases, we can check if the selected view conforms to UITextInput and select the whole text range.
+    if ([view conformsToProtocol:@protocol(UITextInput)]) {
+        id <UITextInput> textInput = (id <UITextInput>)view;
+        [textInput setSelectedTextRange:[textInput textRangeFromPosition:textInput.beginningOfDocument toPosition:textInput.endOfDocument]];
+        
+        [self waitForTimeInterval:0.1];
+        [self enterTextIntoCurrentFirstResponder:@"\b" fallbackView:view];
+    } else {
+        
+        NSMutableString *text = [NSMutableString string];
+        for (NSInteger i = 0; i < numberOfCharacters; i ++) {
+            [text appendString:@"\b"];
+        }
+        [self enterTextIntoCurrentFirstResponder:text fallbackView:view];
     }
-
-    [self enterText:text intoViewWithAccessibilityLabel:label traits:traits expectedResult:@""];
+    
+    [self expectView:view toContainText:@""];
 }
 
 - (void)clearTextFromAndThenEnterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label
