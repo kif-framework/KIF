@@ -41,6 +41,8 @@ The first thing you will want to do is set up a test target you will be using fo
 
 Select your project in Xcode and click on "Add Target" in the bottom left corner of the editor.  Select iOS -> Other -> Cocoa Touch Unit Testing Bundle.  Give it a product name like "Acceptance Tests", "UI Tests", or something that indicates the intent of your testing process.  You can select "Use Automatic Reference Counting" even if the remainder of your app doesn't, just to make your life easier.
 
+Important: If you are using Xcode5 be sure to select OCUnit (Xcode 4 Campatible) as the Type. XCTest is currently incompatible with KIF and your test cases may not run as a result.
+
 The testing target will add a header and implementation file, likely "Acceptance_Tests.m/h" to match your target name. Delete those.
 
 Once your test target set up, add the following to your Podspec file. Use your target's name as appropriate.
