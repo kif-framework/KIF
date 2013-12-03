@@ -8,7 +8,7 @@ Pod::Spec.new do |s|
   s.license      = 'Apache 2.0'
   s.authors      = 'Eric Firestone', 'Jim Puls', 'Brian Nickel'
   s.source       = { :git => "git@github.com:opentable/KIF.git", :tag => "v#{version}-OT" }
-  s.platform     = :ios, '4.3'
+  s.platform     = :ios, '6.1'
   s.source_files = 'Classes', 'Additions'
   s.public_header_files = 'Classes/**/*.h', 'Additions/**/*-KIFAdditions.h'
   s.frameworks  = 'SenTestingKit', 'CoreGraphics'
