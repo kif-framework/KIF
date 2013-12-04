@@ -56,7 +56,12 @@
 
 - (void)simulateDeviceRotationToOrientation:(UIDeviceOrientation)orientation
 {
-    [[UIApplication sharedApplication] rotateIfNeeded:orientation];
+    UIApplication *application = [UIApplication sharedApplication];
+    
+    if ([application respondsToSelector:@selector(rotateIfNeeded:completion:)])
+        [[UIApplication sharedApplication] rotateIfNeeded:orientation completion:nil];
+    else
+        [[UIApplication sharedApplication] rotateIfNeeded:orientation];
 }
 
 - (void)waitForApplicationToOpenAnyURLWhileExecutingBlock:(void (^)())block returning:(BOOL)returnValue
