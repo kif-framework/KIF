@@ -112,6 +112,10 @@ static const void *KIFRunLoopModesKey = &KIFRunLoopModesKey;
 
 - (BOOL)writeScreenshotForLine:(NSUInteger)lineNumber filename:(NSString *)filename description:(NSString *)description error:(NSError **)error;
 {
+#if !TARGET_IPHONE_SIMULATOR
+    return YES;
+#endif
+    
     NSString *outputPath = [[[NSProcessInfo processInfo] environment] objectForKey:@"KIF_SCREENSHOTS"];
     if (!outputPath) {
         if (error) {
