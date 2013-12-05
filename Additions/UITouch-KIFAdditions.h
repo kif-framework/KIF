@@ -15,7 +15,12 @@
 - (id)initInView:(UIView *)view;
 - (id)initAtPoint:(CGPoint)point inView:(UIView *)view;
 
-- (void)setPhase:(UITouchPhase)phase;
 - (void)setLocationInWindow:(CGPoint)location;
+
+@end
+
+@interface UITouch ()
+
+- (void)setPhase:(UITouchPhase)phase;
 
 @end
