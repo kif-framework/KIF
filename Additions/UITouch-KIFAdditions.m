@@ -9,10 +9,17 @@
 
 #import "UITouch-KIFAdditions.h"
 #import "LoadableCategory.h"
-
+#import <objc/runtime.h>
 
 MAKE_CATEGORIES_LOADABLE(UITouch_KIFAdditions)
 
+typedef struct {
+    unsigned int _firstTouchForView:1;
+    unsigned int _isTap:1;
+    unsigned int _isDelayed:1;
+    unsigned int _sentTouchesEnded:1;
+    unsigned int _abandonForwardingRecord:1;
+} UITouchFlags;
 
 @interface UITouch () {
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 60000
@@ -33,13 +40,7 @@ MAKE_CATEGORIES_LOADABLE(UITouch_KIFAdditions)
     UInt8           _pathIndex;
     UInt8           _pathIdentity;
     float           _pathMajorRadius;
-    struct {
-        unsigned int _firstTouchForView:1;
-        unsigned int _isTap:1;
-        unsigned int _isDelayed:1;
-        unsigned int _sentTouchesEnded:1;
-        unsigned int _abandonForwardingRecord:1;
-    } _touchFlags;
+    UITouchFlags _touchFlags;
 #endif
 }
 - (void)setGestureView:(UIView *)view;
@@ -62,22 +63,50 @@ MAKE_CATEGORIES_LOADABLE(UITouch_KIFAdditions)
     }
     
     // Create a fake tap touch
+#ifdef TARGET_RT_64_BIT
+    Ivar tapCountIvar = class_getInstanceVariable([self class], "_tapCount");
+    *(NSUInteger *)((__bridge void *)self + ivar_getOffset(tapCountIvar)) = 1;
+    
+    Ivar locationInWindowIvar = class_getInstanceVariable([self class], "_locationInWindow");
+    *(CGPoint *)((__bridge void *)self + ivar_getOffset(locationInWindowIvar)) = point;
+    
+    Ivar previousLocationInWindowIvar = class_getInstanceVariable([self class], "_previousLocationInWindow");
+    *(CGPoint *)((__bridge void *)self + ivar_getOffset(previousLocationInWindowIvar)) = point;
+#else
     _tapCount = 1;
     _locationInWindow =	point;
 	_previousLocationInWindow = _locationInWindow;
+#endif
     
-	UIView *hitTestView = [window hitTest:_locationInWindow withEvent:nil];
+	UIView *hitTestView = [window hitTest:point withEvent:nil];
     
+#ifdef TARGET_RT_64_BIT
+    object_setInstanceVariable(self, "_window", [window retain]);
+    object_setInstanceVariable(self, "_view", [hitTestView retain]);
+    
+    Ivar phaseIvar = class_getInstanceVariable([self class], "_phase");
+    *(UITouchPhase *)((__bridge void *)self + ivar_getOffset(phaseIvar)) = UITouchPhaseBegan;
+    
+    Ivar touchFlagsIvar = class_getInstanceVariable([self class], "_touchFlags");
+    ((UITouchFlags *)((__bridge void *)self + ivar_getOffset(touchFlagsIvar)))->_firstTouchForView = 1;
+    ((UITouchFlags *)((__bridge void *)self + ivar_getOffset(touchFlagsIvar)))->_isTap = 1;
+    
+    Ivar timestampIvar = class_getInstanceVariable([self class], "_timestamp");
+    *(NSTimeInterval *)((__bridge void *)self + ivar_getOffset(timestampIvar)) = [[NSProcessInfo processInfo] systemUptime];
+#else
     _window = [window retain];
     _view = [hitTestView retain];
-    if ([self respondsToSelector:@selector(setGestureView:)]) {
-        [self setGestureView:hitTestView];
-    }
+    
     _phase = UITouchPhaseBegan;
     _touchFlags._firstTouchForView = 1;
     _touchFlags._isTap = 1;
     _timestamp = [[NSProcessInfo processInfo] systemUptime];
-
+#endif
+    
+    if ([self respondsToSelector:@selector(setGestureView:)]) {
+        [self setGestureView:hitTestView];
+    }
+    
 	return self;
 }
 
@@ -88,8 +117,16 @@ MAKE_CATEGORIES_LOADABLE(UITouch_KIFAdditions)
     
 - (void)setPhase:(UITouchPhase)phase;
 {
+#ifdef TARGET_RT_64_BIT
+    Ivar phaseIvar = class_getInstanceVariable([self class], "_phase");
+    *(UITouchPhase *)((__bridge void *)self + ivar_getOffset(phaseIvar)) = phase;
+    
+    Ivar timestampIvar = class_getInstanceVariable([self class], "_timestamp");
+    *(NSTimeInterval *)((__bridge void *)self + ivar_getOffset(timestampIvar)) = [[NSProcessInfo processInfo] systemUptime];
+#else
 	_phase = phase;
 	_timestamp = [[NSProcessInfo processInfo] systemUptime];
+#endif
 }
 
 //
@@ -99,9 +136,20 @@ MAKE_CATEGORIES_LOADABLE(UITouch_KIFAdditions)
 //
 - (void)setLocationInWindow:(CGPoint)location
 {
+#ifdef TARGET_RT_64_BIT
+    Ivar previousLocationInWindowIvar = class_getInstanceVariable([self class], "_previousLocationInWindow");
+    Ivar locationInWindowIvar = class_getInstanceVariable([self class], "_locationInWindow");
+    
+    *(CGPoint *)((__bridge void *)self + ivar_getOffset(previousLocationInWindowIvar)) = *(CGPoint *)((__bridge void *)self + ivar_getOffset(locationInWindowIvar));
+    *(CGPoint *)((__bridge void *)self + ivar_getOffset(locationInWindowIvar)) = location;
+    
+    Ivar timestampIvar = class_getInstanceVariable([self class], "_timestamp");
+    *(NSTimeInterval *)((__bridge void *)self + ivar_getOffset(timestampIvar)) = [[NSProcessInfo processInfo] systemUptime];
+#else
 	_previousLocationInWindow = _locationInWindow;
 	_locationInWindow = location;
 	_timestamp = [[NSProcessInfo processInfo] systemUptime];
+#endif
 }
 
 @end
