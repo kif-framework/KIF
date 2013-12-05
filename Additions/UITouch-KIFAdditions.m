@@ -21,29 +21,19 @@ typedef struct {
     unsigned int _abandonForwardingRecord:1;
 } UITouchFlags;
 
-@interface UITouch () {
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 60000
-    // ivars declarations removed in 6.0
-    NSTimeInterval  _timestamp;
-    UITouchPhase    _phase;
-    UITouchPhase    _savedPhase;
-    NSUInteger      _tapCount;
-    
-    UIWindow        *_window;
-    UIView          *_view;
-    UIView          *_warpedIntoView;
-    NSMutableArray  *_gestureRecognizers;
-    NSMutableArray  *_forwardingRecord;
-    
-    CGPoint         _locationInWindow;
-    CGPoint         _previousLocationInWindow;
-    UInt8           _pathIndex;
-    UInt8           _pathIdentity;
-    float           _pathMajorRadius;
-    UITouchFlags _touchFlags;
-#endif
-}
+@interface UITouch ()
+
+@property(assign) BOOL isTap;
+@property(assign) NSUInteger tapCount;
+@property(assign) UITouchPhase phase;
+@property(retain) UIView *view;
+@property(retain) UIWindow *window;
+@property(assign) NSTimeInterval timestamp;
+
 - (void)setGestureView:(UIView *)view;
+- (void)_setLocationInWindow:(CGPoint)location resetPrevious:(BOOL)resetPrevious;
+- (void)_setIsFirstTouchForView:(BOOL)firstTouchForView;
+
 @end
 
 @implementation UITouch (KIFAdditions)
@@ -63,45 +53,17 @@ typedef struct {
     }
     
     // Create a fake tap touch
-#ifdef TARGET_RT_64_BIT
-    Ivar tapCountIvar = class_getInstanceVariable([self class], "_tapCount");
-    *(NSUInteger *)((__bridge void *)self + ivar_getOffset(tapCountIvar)) = 1;
-    
-    Ivar locationInWindowIvar = class_getInstanceVariable([self class], "_locationInWindow");
-    *(CGPoint *)((__bridge void *)self + ivar_getOffset(locationInWindowIvar)) = point;
-    
-    Ivar previousLocationInWindowIvar = class_getInstanceVariable([self class], "_previousLocationInWindow");
-    *(CGPoint *)((__bridge void *)self + ivar_getOffset(previousLocationInWindowIvar)) = point;
-#else
-    _tapCount = 1;
-    _locationInWindow =	point;
-	_previousLocationInWindow = _locationInWindow;
-#endif
+    [self setTapCount:1];
+    [self _setLocationInWindow:point resetPrevious:YES];
     
 	UIView *hitTestView = [window hitTest:point withEvent:nil];
     
-#ifdef TARGET_RT_64_BIT
-    object_setInstanceVariable(self, "_window", [window retain]);
-    object_setInstanceVariable(self, "_view", [hitTestView retain]);
-    
-    Ivar phaseIvar = class_getInstanceVariable([self class], "_phase");
-    *(UITouchPhase *)((__bridge void *)self + ivar_getOffset(phaseIvar)) = UITouchPhaseBegan;
-    
-    Ivar touchFlagsIvar = class_getInstanceVariable([self class], "_touchFlags");
-    ((UITouchFlags *)((__bridge void *)self + ivar_getOffset(touchFlagsIvar)))->_firstTouchForView = 1;
-    ((UITouchFlags *)((__bridge void *)self + ivar_getOffset(touchFlagsIvar)))->_isTap = 1;
-    
-    Ivar timestampIvar = class_getInstanceVariable([self class], "_timestamp");
-    *(NSTimeInterval *)((__bridge void *)self + ivar_getOffset(timestampIvar)) = [[NSProcessInfo processInfo] systemUptime];
-#else
-    _window = [window retain];
-    _view = [hitTestView retain];
-    
-    _phase = UITouchPhaseBegan;
-    _touchFlags._firstTouchForView = 1;
-    _touchFlags._isTap = 1;
-    _timestamp = [[NSProcessInfo processInfo] systemUptime];
-#endif
+    [self setWindow:window];
+    [self setView:hitTestView];
+    [self setPhase:UITouchPhaseBegan];
+    [self _setIsFirstTouchForView:YES];
+    [self setIsTap:YES];
+    [self setTimestamp:[[NSProcessInfo processInfo] systemUptime]];
     
     if ([self respondsToSelector:@selector(setGestureView:)]) {
         [self setGestureView:hitTestView];
@@ -114,20 +76,6 @@ typedef struct {
 {
     return [self initAtPoint:[view.window convertPoint:point fromView:view] inWindow:view.window];
 }
-    
-- (void)setPhase:(UITouchPhase)phase;
-{
-#ifdef TARGET_RT_64_BIT
-    Ivar phaseIvar = class_getInstanceVariable([self class], "_phase");
-    *(UITouchPhase *)((__bridge void *)self + ivar_getOffset(phaseIvar)) = phase;
-    
-    Ivar timestampIvar = class_getInstanceVariable([self class], "_timestamp");
-    *(NSTimeInterval *)((__bridge void *)self + ivar_getOffset(timestampIvar)) = [[NSProcessInfo processInfo] systemUptime];
-#else
-	_phase = phase;
-	_timestamp = [[NSProcessInfo processInfo] systemUptime];
-#endif
-}
 
 //
 // setLocationInWindow:
@@ -136,20 +84,7 @@ typedef struct {
 //
 - (void)setLocationInWindow:(CGPoint)location
 {
-#ifdef TARGET_RT_64_BIT
-    Ivar previousLocationInWindowIvar = class_getInstanceVariable([self class], "_previousLocationInWindow");
-    Ivar locationInWindowIvar = class_getInstanceVariable([self class], "_locationInWindow");
-    
-    *(CGPoint *)((__bridge void *)self + ivar_getOffset(previousLocationInWindowIvar)) = *(CGPoint *)((__bridge void *)self + ivar_getOffset(locationInWindowIvar));
-    *(CGPoint *)((__bridge void *)self + ivar_getOffset(locationInWindowIvar)) = location;
-    
-    Ivar timestampIvar = class_getInstanceVariable([self class], "_timestamp");
-    *(NSTimeInterval *)((__bridge void *)self + ivar_getOffset(timestampIvar)) = [[NSProcessInfo processInfo] systemUptime];
-#else
-	_previousLocationInWindow = _locationInWindow;
-	_locationInWindow = location;
-	_timestamp = [[NSProcessInfo processInfo] systemUptime];
-#endif
+    [self _setLocationInWindow:location resetPrevious:NO];
 }
 
 @end
