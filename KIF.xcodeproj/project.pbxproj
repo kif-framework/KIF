@@ -8,6 +8,71 @@
 
 /* Begin PBXBuildFile section */
 		A88930121685098E00FC7C63 /* KIF.h in Headers */ = {isa = PBXBuildFile; fileRef = A88930111685098E00FC7C63 /* KIF.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EABD467B1857A0C700A5F081 /* CGGeometry-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB0729513971AB2008AF393 /* CGGeometry-KIFAdditions.m */; };
+		EABD467C1857A0C700A5F081 /* UIAccessibilityElement-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB0729713971AB2008AF393 /* UIAccessibilityElement-KIFAdditions.m */; };
+		EABD467D1857A0C700A5F081 /* UIApplication-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB0729913971AB2008AF393 /* UIApplication-KIFAdditions.m */; };
+		EABD467E1857A0C700A5F081 /* UIScrollView-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB0729B13971AB2008AF393 /* UIScrollView-KIFAdditions.m */; };
+		EABD467F1857A0C700A5F081 /* UITouch-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB0729D13971AB2008AF393 /* UITouch-KIFAdditions.m */; };
+		EABD46801857A0C700A5F081 /* UIView-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB072A113971AB2008AF393 /* UIView-KIFAdditions.m */; };
+		EABD46811857A0C700A5F081 /* UIWindow-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB072A313971AB2008AF393 /* UIWindow-KIFAdditions.m */; };
+		EABD46821857A0C700A5F081 /* NSFileManager-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CDFD8E85139728B4008D299F /* NSFileManager-KIFAdditions.m */; };
+		EABD46831857A0C700A5F081 /* KIFTypist.m in Sources */ = {isa = PBXBuildFile; fileRef = C194255715D83DE9004FC314 /* KIFTypist.m */; };
+		EABD46841857A0C700A5F081 /* KIFTestActor.m in Sources */ = {isa = PBXBuildFile; fileRef = EB4C3124167BA37B00E31109 /* KIFTestActor.m */; };
+		EABD46851857A0C700A5F081 /* KIFTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = EB4C3128167BA37B00E31109 /* KIFTestCase.m */; };
+		EABD46861857A0C700A5F081 /* XCTestCase-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = EABD46761857A07600A5F081 /* XCTestCase-KIFAdditions.m */; };
+		EABD46871857A0C700A5F081 /* KIFSystemTestActor.m in Sources */ = {isa = PBXBuildFile; fileRef = EB4C3131167BA3AC00E31109 /* KIFSystemTestActor.m */; };
+		EABD46881857A0C700A5F081 /* KIFUITestActor.m in Sources */ = {isa = PBXBuildFile; fileRef = EB4C3133167BA3AC00E31109 /* KIFUITestActor.m */; };
+		EABD46891857A0C700A5F081 /* NSBundle-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = EBAE487B17A45A8E0005EE19 /* NSBundle-KIFAdditions.m */; };
+		EABD468A1857A0C700A5F081 /* NSError-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = EBAE488017A460E50005EE19 /* NSError-KIFAdditions.m */; };
+		EABD468B1857A0C700A5F081 /* KIFTestStepValidation.m in Sources */ = {isa = PBXBuildFile; fileRef = EBAE488617A4E5C30005EE19 /* KIFTestStepValidation.m */; };
+		EABD468E1857A0C700A5F081 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAB0726B139719AC008AF393 /* Foundation.framework */; };
+		EABD468F1857A0C700A5F081 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAB072B413971AEA008AF393 /* UIKit.framework */; };
+		EABD46911857A0C700A5F081 /* KIF.h in Headers */ = {isa = PBXBuildFile; fileRef = A88930111685098E00FC7C63 /* KIF.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EABD46921857A0C700A5F081 /* CGGeometry-KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = AAB0729413971AB2008AF393 /* CGGeometry-KIFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EABD46931857A0C700A5F081 /* UIAccessibilityElement-KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = AAB0729613971AB2008AF393 /* UIAccessibilityElement-KIFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EABD46941857A0C700A5F081 /* UIApplication-KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = AAB0729813971AB2008AF393 /* UIApplication-KIFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EABD46951857A0C700A5F081 /* UIScrollView-KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = AAB0729A13971AB2008AF393 /* UIScrollView-KIFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EABD46961857A0C700A5F081 /* XCTestCase-KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = EABD46751857A07600A5F081 /* XCTestCase-KIFAdditions.h */; };
+		EABD46971857A0C700A5F081 /* UITouch-KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = AAB0729C13971AB2008AF393 /* UITouch-KIFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EABD46981857A0C700A5F081 /* UIView-KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = AAB072A013971AB2008AF393 /* UIView-KIFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EABD46991857A0C700A5F081 /* UIWindow-KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = AAB072A213971AB2008AF393 /* UIWindow-KIFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EABD469A1857A0C700A5F081 /* NSFileManager-KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = CDFD8E84139728B4008D299F /* NSFileManager-KIFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EABD469B1857A0C700A5F081 /* LoadableCategory.h in Headers */ = {isa = PBXBuildFile; fileRef = 39160B1013D1E6BB00311E38 /* LoadableCategory.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EABD469C1857A0C700A5F081 /* KIFTypist.h in Headers */ = {isa = PBXBuildFile; fileRef = C194255615D83DE9004FC314 /* KIFTypist.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EABD469D1857A0C700A5F081 /* KIFTestActor.h in Headers */ = {isa = PBXBuildFile; fileRef = EB4C3123167BA37B00E31109 /* KIFTestActor.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EABD469E1857A0C700A5F081 /* KIFTestCase.h in Headers */ = {isa = PBXBuildFile; fileRef = EB4C3127167BA37B00E31109 /* KIFTestCase.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EABD469F1857A0C700A5F081 /* KIFSystemTestActor.h in Headers */ = {isa = PBXBuildFile; fileRef = EB4C3130167BA3AC00E31109 /* KIFSystemTestActor.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EABD46A01857A0C700A5F081 /* KIFUITestActor.h in Headers */ = {isa = PBXBuildFile; fileRef = EB4C3132167BA3AC00E31109 /* KIFUITestActor.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EABD46A11857A0C700A5F081 /* NSBundle-KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = EBAE487A17A45A8E0005EE19 /* NSBundle-KIFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EABD46A21857A0C700A5F081 /* NSError-KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = EBAE487F17A460E50005EE19 /* NSError-KIFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EABD46A31857A0C700A5F081 /* KIFTestStepValidation.h in Headers */ = {isa = PBXBuildFile; fileRef = EBAE488517A4E5C30005EE19 /* KIFTestStepValidation.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EABD46B11857A0F300A5F081 /* SearchFieldTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EB09000F17E3696A00AA15B1 /* SearchFieldTests.m */; };
+		EABD46B21857A0F300A5F081 /* CascadingFailureTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EB22B5AF17AF52640090B848 /* CascadingFailureTests.m */; };
+		EABD46B31857A0F300A5F081 /* CompositionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EB02523D17AA109400A7D13A /* CompositionTests.m */; };
+		EABD46B41857A0F300A5F081 /* LongPressTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EB60ED07177F90BA005A041A /* LongPressTests.m */; };
+		EABD46B51857A0F300A5F081 /* ModalViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EB60ED08177F90BA005A041A /* ModalViewTests.m */; };
+		EABD46B61857A0F300A5F081 /* SpecificControlTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EB60ED09177F90BA005A041A /* SpecificControlTests.m */; };
+		EABD46B71857A0F300A5F081 /* SystemTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EB60ED0A177F90BA005A041A /* SystemTests.m */; };
+		EABD46B81857A0F300A5F081 /* TappingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EB60ED0B177F90BA005A041A /* TappingTests.m */; };
+		EABD46B91857A0F300A5F081 /* TypingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EB60ED0C177F90BA005A041A /* TypingTests.m */; };
+		EABD46BA1857A0F300A5F081 /* WaitForAbscenceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EB60ED0D177F90BA005A041A /* WaitForAbscenceTests.m */; };
+		EABD46BB1857A0F300A5F081 /* WaitForTappableViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EB60ED0E177F90BA005A041A /* WaitForTappableViewTests.m */; };
+		EABD46BC1857A0F300A5F081 /* WaitForViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EB60ED0F177F90BA005A041A /* WaitForViewTests.m */; };
+		EABD46BD1857A0F300A5F081 /* LandscapeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EB9FC00417E144B700138266 /* LandscapeTests.m */; };
+		EABD46BE1857A0F300A5F081 /* TableViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EB3F654417AA0B8400469D18 /* TableViewTests.m */; };
+		EABD46BF1857A0F300A5F081 /* GestureTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EB60ED19177F90C2005A041A /* GestureTests.m */; };
+		EABD46C31857A0F300A5F081 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAB072B413971AEA008AF393 /* UIKit.framework */; };
+		EABD46C41857A0F300A5F081 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAB0726B139719AC008AF393 /* Foundation.framework */; };
+		EABD46C51857A0F300A5F081 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB60ECC4177F8C83005A041A /* CoreGraphics.framework */; };
+		EABD46C71857A0F300A5F081 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = EB60ECF2177F8DB3005A041A /* InfoPlist.strings */; };
+		EABD46CF1857A15400A5F081 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EABD46AB1857A0EB00A5F081 /* XCTest.framework */; };
+		EABD46D21857A24E00A5F081 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EABD46AB1857A0EB00A5F081 /* XCTest.framework */; };
+		EABD46D51857C54500A5F081 /* KIF-XCTestPrefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = EABD46D31857BE8600A5F081 /* KIF-XCTestPrefix.pch */; };
+		EABD46D61858C8ED00A5F081 /* libKIF-XCTest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EABD46AA1857A0C700A5F081 /* libKIF-XCTest.a */; };
+		EABD474B185F509E00A5F081 /* SenTestCase-KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = EABD4749185F509E00A5F081 /* SenTestCase-KIFAdditions.h */; };
+		EABD474C185F509E00A5F081 /* SenTestCase-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = EABD474A185F509E00A5F081 /* SenTestCase-KIFAdditions.m */; };
+		EAC8096A1864F19C000E819F /* NSException-KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = EAC809681864F19C000E819F /* NSException-KIFAdditions.h */; };
+		EAC8096B1864F19C000E819F /* NSException-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = EAC809691864F19C000E819F /* NSException-KIFAdditions.m */; };
 		EB02523E17AA109400A7D13A /* CompositionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EB02523D17AA109400A7D13A /* CompositionTests.m */; };
 		EB09001017E3696A00AA15B1 /* SearchFieldTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EB09000F17E3696A00AA15B1 /* SearchFieldTests.m */; };
 		EB22B5B017AF52640090B848 /* CascadingFailureTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EB22B5AF17AF52640090B848 /* CascadingFailureTests.m */; };
@@ -80,11 +145,16 @@
 		EBAE488217A460E50005EE19 /* NSError-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = EBAE488017A460E50005EE19 /* NSError-KIFAdditions.m */; };
 		EBAE488717A4E5C30005EE19 /* KIFTestStepValidation.h in Headers */ = {isa = PBXBuildFile; fileRef = EBAE488517A4E5C30005EE19 /* KIFTestStepValidation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EBAE488817A4E5C30005EE19 /* KIFTestStepValidation.m in Sources */ = {isa = PBXBuildFile; fileRef = EBAE488617A4E5C30005EE19 /* KIFTestStepValidation.m */; };
-		EBAFFF3817C7C824003E3A1C /* SenTestCase-KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = EBAFFF3617C7C824003E3A1C /* SenTestCase-KIFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		EBAFFF3917C7C824003E3A1C /* SenTestCase-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = EBAFFF3717C7C824003E3A1C /* SenTestCase-KIFAdditions.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		EABD46AF1857A0F300A5F081 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AAB0725F139719AC008AF393 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EB60ECC0177F8C83005A041A;
+			remoteInfo = "Test Host";
+		};
 		EB8C0CEC1780CBF5000DBC0B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AAB0725F139719AC008AF393 /* Project object */;
@@ -119,6 +189,17 @@
 		C194255715D83DE9004FC314 /* KIFTypist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KIFTypist.m; sourceTree = "<group>"; };
 		CDFD8E84139728B4008D299F /* NSFileManager-KIFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFileManager-KIFAdditions.h"; sourceTree = "<group>"; };
 		CDFD8E85139728B4008D299F /* NSFileManager-KIFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager-KIFAdditions.m"; sourceTree = "<group>"; };
+		EABD46751857A07600A5F081 /* XCTestCase-KIFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "XCTestCase-KIFAdditions.h"; sourceTree = "<group>"; };
+		EABD46761857A07600A5F081 /* XCTestCase-KIFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "XCTestCase-KIFAdditions.m"; sourceTree = "<group>"; };
+		EABD46AA1857A0C700A5F081 /* libKIF-XCTest.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libKIF-XCTest.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		EABD46AB1857A0EB00A5F081 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		EABD46CD1857A0F300A5F081 /* KIF Tests - XCTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "KIF Tests - XCTest.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		EABD46D01857A18900A5F081 /* KIF XCTests-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "KIF XCTests-Prefix.pch"; sourceTree = "<group>"; };
+		EABD46D31857BE8600A5F081 /* KIF-XCTestPrefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "KIF-XCTestPrefix.pch"; sourceTree = "<group>"; };
+		EABD4749185F509E00A5F081 /* SenTestCase-KIFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SenTestCase-KIFAdditions.h"; sourceTree = "<group>"; };
+		EABD474A185F509E00A5F081 /* SenTestCase-KIFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SenTestCase-KIFAdditions.m"; sourceTree = "<group>"; };
+		EAC809681864F19C000E819F /* NSException-KIFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSException-KIFAdditions.h"; sourceTree = "<group>"; };
+		EAC809691864F19C000E819F /* NSException-KIFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSException-KIFAdditions.m"; sourceTree = "<group>"; };
 		EB02523D17AA109400A7D13A /* CompositionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CompositionTests.m; sourceTree = "<group>"; };
 		EB09000F17E3696A00AA15B1 /* SearchFieldTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchFieldTests.m; sourceTree = "<group>"; };
 		EB22B5AF17AF52640090B848 /* CascadingFailureTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CascadingFailureTests.m; sourceTree = "<group>"; };
@@ -141,7 +222,7 @@
 		EB60ECD2177F8C84005A041A /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		EB60ECD4177F8C84005A041A /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		EB60ECD6177F8C84005A041A /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
-		EB60ECEB177F8DB3005A041A /* KIF Tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "KIF Tests.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		EB60ECEB177F8DB3005A041A /* KIF Tests - SenTest.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "KIF Tests - SenTest.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EB60ECF1177F8DB3005A041A /* KIF Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "KIF Tests-Info.plist"; sourceTree = "<group>"; };
 		EB60ECF3177F8DB3005A041A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		EB60ECF8177F8DB3005A041A /* KIF Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "KIF Tests-Prefix.pch"; sourceTree = "<group>"; };
@@ -169,11 +250,31 @@
 		EBAE488017A460E50005EE19 /* NSError-KIFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSError-KIFAdditions.m"; sourceTree = "<group>"; };
 		EBAE488517A4E5C30005EE19 /* KIFTestStepValidation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KIFTestStepValidation.h; sourceTree = "<group>"; };
 		EBAE488617A4E5C30005EE19 /* KIFTestStepValidation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KIFTestStepValidation.m; sourceTree = "<group>"; };
-		EBAFFF3617C7C824003E3A1C /* SenTestCase-KIFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SenTestCase-KIFAdditions.h"; sourceTree = "<group>"; };
-		EBAFFF3717C7C824003E3A1C /* SenTestCase-KIFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SenTestCase-KIFAdditions.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		EABD468C1857A0C700A5F081 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EABD46D21857A24E00A5F081 /* XCTest.framework in Frameworks */,
+				EABD468E1857A0C700A5F081 /* Foundation.framework in Frameworks */,
+				EABD468F1857A0C700A5F081 /* UIKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EABD46C01857A0F300A5F081 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EABD46D61858C8ED00A5F081 /* libKIF-XCTest.a in Frameworks */,
+				EABD46CF1857A15400A5F081 /* XCTest.framework in Frameworks */,
+				EABD46C31857A0F300A5F081 /* UIKit.framework in Frameworks */,
+				EABD46C41857A0F300A5F081 /* Foundation.framework in Frameworks */,
+				EABD46C51857A0F300A5F081 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		EB60ECBE177F8C83005A041A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -225,7 +326,9 @@
 			children = (
 				EB72047C1680DDAD00278DA2 /* libKIF.a */,
 				EB60ECC1177F8C83005A041A /* Test Host.app */,
-				EB60ECEB177F8DB3005A041A /* KIF Tests.octest */,
+				EB60ECEB177F8DB3005A041A /* KIF Tests - SenTest.octest */,
+				EABD46AA1857A0C700A5F081 /* libKIF-XCTest.a */,
+				EABD46CD1857A0F300A5F081 /* KIF Tests - XCTest.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -233,6 +336,7 @@
 		AAB0726A139719AC008AF393 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EABD46AB1857A0EB00A5F081 /* XCTest.framework */,
 				EB4C3138167BA3D200E31109 /* SenTestingKit.framework */,
 				AAB072B413971AEA008AF393 /* UIKit.framework */,
 				AAB0726B139719AC008AF393 /* Foundation.framework */,
@@ -264,6 +368,7 @@
 				C194255715D83DE9004FC314 /* KIFTypist.m */,
 				EBAE488517A4E5C30005EE19 /* KIFTestStepValidation.h */,
 				EBAE488617A4E5C30005EE19 /* KIFTestStepValidation.m */,
+				EABD46D31857BE8600A5F081 /* KIF-XCTestPrefix.pch */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -292,8 +397,12 @@
 				EBAE487B17A45A8E0005EE19 /* NSBundle-KIFAdditions.m */,
 				EBAE487F17A460E50005EE19 /* NSError-KIFAdditions.h */,
 				EBAE488017A460E50005EE19 /* NSError-KIFAdditions.m */,
-				EBAFFF3617C7C824003E3A1C /* SenTestCase-KIFAdditions.h */,
-				EBAFFF3717C7C824003E3A1C /* SenTestCase-KIFAdditions.m */,
+				EABD4749185F509E00A5F081 /* SenTestCase-KIFAdditions.h */,
+				EABD474A185F509E00A5F081 /* SenTestCase-KIFAdditions.m */,
+				EABD46751857A07600A5F081 /* XCTestCase-KIFAdditions.h */,
+				EABD46761857A07600A5F081 /* XCTestCase-KIFAdditions.m */,
+				EAC809681864F19C000E819F /* NSException-KIFAdditions.h */,
+				EAC809691864F19C000E819F /* NSException-KIFAdditions.m */,
 			);
 			path = Additions;
 			sourceTree = "<group>";
@@ -373,6 +482,7 @@
 		EB60ECF0177F8DB3005A041A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				EABD46D01857A18900A5F081 /* KIF XCTests-Prefix.pch */,
 				EB60ECF1177F8DB3005A041A /* KIF Tests-Info.plist */,
 				EB60ECF2177F8DB3005A041A /* InfoPlist.strings */,
 				EB60ECF8177F8DB3005A041A /* KIF Tests-Prefix.pch */,
@@ -383,6 +493,34 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		EABD46901857A0C700A5F081 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EABD46911857A0C700A5F081 /* KIF.h in Headers */,
+				EABD46921857A0C700A5F081 /* CGGeometry-KIFAdditions.h in Headers */,
+				EABD46931857A0C700A5F081 /* UIAccessibilityElement-KIFAdditions.h in Headers */,
+				EABD46941857A0C700A5F081 /* UIApplication-KIFAdditions.h in Headers */,
+				EAC8096A1864F19C000E819F /* NSException-KIFAdditions.h in Headers */,
+				EABD46951857A0C700A5F081 /* UIScrollView-KIFAdditions.h in Headers */,
+				EABD46961857A0C700A5F081 /* XCTestCase-KIFAdditions.h in Headers */,
+				EABD46971857A0C700A5F081 /* UITouch-KIFAdditions.h in Headers */,
+				EABD46981857A0C700A5F081 /* UIView-KIFAdditions.h in Headers */,
+				EABD46991857A0C700A5F081 /* UIWindow-KIFAdditions.h in Headers */,
+				EABD469A1857A0C700A5F081 /* NSFileManager-KIFAdditions.h in Headers */,
+				EABD469B1857A0C700A5F081 /* LoadableCategory.h in Headers */,
+				EABD469C1857A0C700A5F081 /* KIFTypist.h in Headers */,
+				EABD469D1857A0C700A5F081 /* KIFTestActor.h in Headers */,
+				EABD469E1857A0C700A5F081 /* KIFTestCase.h in Headers */,
+				EABD469F1857A0C700A5F081 /* KIFSystemTestActor.h in Headers */,
+				EABD46A01857A0C700A5F081 /* KIFUITestActor.h in Headers */,
+				EABD46A11857A0C700A5F081 /* NSBundle-KIFAdditions.h in Headers */,
+				EABD46A21857A0C700A5F081 /* NSError-KIFAdditions.h in Headers */,
+				EABD46D51857C54500A5F081 /* KIF-XCTestPrefix.pch in Headers */,
+				EABD46A31857A0C700A5F081 /* KIFTestStepValidation.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		EB7204541680DDAD00278DA2 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -392,12 +530,12 @@
 				EB72045A1680DDAD00278DA2 /* UIAccessibilityElement-KIFAdditions.h in Headers */,
 				EB72045B1680DDAD00278DA2 /* UIApplication-KIFAdditions.h in Headers */,
 				EB72045C1680DDAD00278DA2 /* UIScrollView-KIFAdditions.h in Headers */,
+				EABD474B185F509E00A5F081 /* SenTestCase-KIFAdditions.h in Headers */,
 				EB72045D1680DDAD00278DA2 /* UITouch-KIFAdditions.h in Headers */,
 				EB72045E1680DDAD00278DA2 /* UIView-KIFAdditions.h in Headers */,
 				EB72045F1680DDAD00278DA2 /* UIWindow-KIFAdditions.h in Headers */,
 				EB7204601680DDAD00278DA2 /* NSFileManager-KIFAdditions.h in Headers */,
 				EB7204611680DDAD00278DA2 /* LoadableCategory.h in Headers */,
-				EBAFFF3817C7C824003E3A1C /* SenTestCase-KIFAdditions.h in Headers */,
 				EB7204621680DDAD00278DA2 /* KIFTypist.h in Headers */,
 				EB7204631680DDAD00278DA2 /* KIFTestActor.h in Headers */,
 				EB7204641680DDAD00278DA2 /* KIFTestCase.h in Headers */,
@@ -430,6 +568,42 @@
 /* End PBXLegacyTarget section */
 
 /* Begin PBXNativeTarget section */
+		EABD46791857A0C700A5F081 /* KIF-XCTest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EABD46A61857A0C700A5F081 /* Build configuration list for PBXNativeTarget "KIF-XCTest" */;
+			buildPhases = (
+				EABD467A1857A0C700A5F081 /* Sources */,
+				EABD468C1857A0C700A5F081 /* Frameworks */,
+				EABD46901857A0C700A5F081 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "KIF-XCTest";
+			productName = KIFTestCase;
+			productReference = EABD46AA1857A0C700A5F081 /* libKIF-XCTest.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		EABD46AD1857A0F300A5F081 /* KIF Tests - XCTest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EABD46C91857A0F300A5F081 /* Build configuration list for PBXNativeTarget "KIF Tests - XCTest" */;
+			buildPhases = (
+				EABD46B01857A0F300A5F081 /* Sources */,
+				EABD46C01857A0F300A5F081 /* Frameworks */,
+				EABD46C61857A0F300A5F081 /* Resources */,
+				EABD46C81857A0F300A5F081 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				EABD46AE1857A0F300A5F081 /* PBXTargetDependency */,
+			);
+			name = "KIF Tests - XCTest";
+			productName = "KIF Tests";
+			productReference = EABD46CD1857A0F300A5F081 /* KIF Tests - XCTest.xctest */;
+			productType = "com.apple.product-type.bundle";
+		};
 		EB60ECC0177F8C83005A041A /* Test Host */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = EB60ECD8177F8C84005A041A /* Build configuration list for PBXNativeTarget "Test Host" */;
@@ -447,9 +621,9 @@
 			productReference = EB60ECC1177F8C83005A041A /* Test Host.app */;
 			productType = "com.apple.product-type.application";
 		};
-		EB60ECEA177F8DB3005A041A /* KIF Tests */ = {
+		EB60ECEA177F8DB3005A041A /* KIF Tests - SenTest */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = EB60ECF9177F8DB3005A041A /* Build configuration list for PBXNativeTarget "KIF Tests" */;
+			buildConfigurationList = EB60ECF9177F8DB3005A041A /* Build configuration list for PBXNativeTarget "KIF Tests - SenTest" */;
 			buildPhases = (
 				EB60ECE6177F8DB3005A041A /* Sources */,
 				EB60ECE7177F8DB3005A041A /* Frameworks */,
@@ -461,9 +635,9 @@
 			dependencies = (
 				EB8C0CED1780CBF5000DBC0B /* PBXTargetDependency */,
 			);
-			name = "KIF Tests";
+			name = "KIF Tests - SenTest";
 			productName = "KIF Tests";
-			productReference = EB60ECEB177F8DB3005A041A /* KIF Tests.octest */;
+			productReference = EB60ECEB177F8DB3005A041A /* KIF Tests - SenTest.octest */;
 			productType = "com.apple.product-type.bundle";
 		};
 		EB72043E1680DDAD00278DA2 /* KIF */ = {
@@ -504,14 +678,24 @@
 			projectRoot = "";
 			targets = (
 				EB72043E1680DDAD00278DA2 /* KIF */,
+				EABD46791857A0C700A5F081 /* KIF-XCTest */,
 				A88930091685088F00FC7C63 /* KIF Documentation */,
 				EB60ECC0177F8C83005A041A /* Test Host */,
-				EB60ECEA177F8DB3005A041A /* KIF Tests */,
+				EB60ECEA177F8DB3005A041A /* KIF Tests - SenTest */,
+				EABD46AD1857A0F300A5F081 /* KIF Tests - XCTest */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		EABD46C61857A0F300A5F081 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EABD46C71857A0F300A5F081 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		EB60ECBF177F8C83005A041A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -535,6 +719,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		EABD46C81857A0F300A5F081 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
 		EB60ECE9177F8DB3005A041A /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -551,6 +748,53 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		EABD467A1857A0C700A5F081 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EABD467B1857A0C700A5F081 /* CGGeometry-KIFAdditions.m in Sources */,
+				EABD467C1857A0C700A5F081 /* UIAccessibilityElement-KIFAdditions.m in Sources */,
+				EABD467D1857A0C700A5F081 /* UIApplication-KIFAdditions.m in Sources */,
+				EABD467E1857A0C700A5F081 /* UIScrollView-KIFAdditions.m in Sources */,
+				EABD467F1857A0C700A5F081 /* UITouch-KIFAdditions.m in Sources */,
+				EABD46801857A0C700A5F081 /* UIView-KIFAdditions.m in Sources */,
+				EABD46811857A0C700A5F081 /* UIWindow-KIFAdditions.m in Sources */,
+				EABD46821857A0C700A5F081 /* NSFileManager-KIFAdditions.m in Sources */,
+				EABD46831857A0C700A5F081 /* KIFTypist.m in Sources */,
+				EABD46841857A0C700A5F081 /* KIFTestActor.m in Sources */,
+				EABD46851857A0C700A5F081 /* KIFTestCase.m in Sources */,
+				EABD46861857A0C700A5F081 /* XCTestCase-KIFAdditions.m in Sources */,
+				EABD46871857A0C700A5F081 /* KIFSystemTestActor.m in Sources */,
+				EAC8096B1864F19C000E819F /* NSException-KIFAdditions.m in Sources */,
+				EABD46881857A0C700A5F081 /* KIFUITestActor.m in Sources */,
+				EABD46891857A0C700A5F081 /* NSBundle-KIFAdditions.m in Sources */,
+				EABD468A1857A0C700A5F081 /* NSError-KIFAdditions.m in Sources */,
+				EABD468B1857A0C700A5F081 /* KIFTestStepValidation.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EABD46B01857A0F300A5F081 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EABD46B11857A0F300A5F081 /* SearchFieldTests.m in Sources */,
+				EABD46B21857A0F300A5F081 /* CascadingFailureTests.m in Sources */,
+				EABD46B31857A0F300A5F081 /* CompositionTests.m in Sources */,
+				EABD46B41857A0F300A5F081 /* LongPressTests.m in Sources */,
+				EABD46B51857A0F300A5F081 /* ModalViewTests.m in Sources */,
+				EABD46B61857A0F300A5F081 /* SpecificControlTests.m in Sources */,
+				EABD46B71857A0F300A5F081 /* SystemTests.m in Sources */,
+				EABD46B81857A0F300A5F081 /* TappingTests.m in Sources */,
+				EABD46B91857A0F300A5F081 /* TypingTests.m in Sources */,
+				EABD46BA1857A0F300A5F081 /* WaitForAbscenceTests.m in Sources */,
+				EABD46BB1857A0F300A5F081 /* WaitForTappableViewTests.m in Sources */,
+				EABD46BC1857A0F300A5F081 /* WaitForViewTests.m in Sources */,
+				EABD46BD1857A0F300A5F081 /* LandscapeTests.m in Sources */,
+				EABD46BE1857A0F300A5F081 /* TableViewTests.m in Sources */,
+				EABD46BF1857A0F300A5F081 /* GestureTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		EB60ECBD177F8C83005A041A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -603,16 +847,21 @@
 				EB72044D1680DDAD00278DA2 /* KIFTestCase.m in Sources */,
 				EB72044E1680DDAD00278DA2 /* KIFSystemTestActor.m in Sources */,
 				EB72044F1680DDAD00278DA2 /* KIFUITestActor.m in Sources */,
-				EBAFFF3917C7C824003E3A1C /* SenTestCase-KIFAdditions.m in Sources */,
 				EBAE487D17A45A8E0005EE19 /* NSBundle-KIFAdditions.m in Sources */,
 				EBAE488217A460E50005EE19 /* NSError-KIFAdditions.m in Sources */,
 				EBAE488817A4E5C30005EE19 /* KIFTestStepValidation.m in Sources */,
+				EABD474C185F509E00A5F081 /* SenTestCase-KIFAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		EABD46AE1857A0F300A5F081 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EB60ECC0177F8C83005A041A /* Test Host */;
+			targetProxy = EABD46AF1857A0F300A5F081 /* PBXContainerItemProxy */;
+		};
 		EB8C0CED1780CBF5000DBC0B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = EB60ECC0177F8C83005A041A /* Test Host */;
@@ -737,6 +986,159 @@
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		EABD46A71857A0C700A5F081 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				DSTROOT = /tmp/KIF.dst;
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PREFIX_HEADER = "Classes/KIF-XCTestPrefix.pch";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "KIF-XCTest";
+			};
+			name = Debug;
+		};
+		EABD46A81857A0C700A5F081 /* Coverage */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				DSTROOT = /tmp/KIF.dst;
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PREFIX_HEADER = "Classes/KIF-XCTestPrefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					DEBUG,
+					"KIF_XCTEST=1",
+				);
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "KIF-XCTest";
+			};
+			name = Coverage;
+		};
+		EABD46A91857A0C700A5F081 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				DSTROOT = /tmp/KIF.dst;
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PREFIX_HEADER = "Classes/KIF-XCTestPrefix.pch";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "KIF-XCTest";
+			};
+			name = Release;
+		};
+		EABD46CA1857A0F300A5F081 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Test Host.app/Test Host";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "KIF Tests/KIF XCTests-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				INFOPLIST_FILE = "KIF Tests/KIF Tests-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "KIF Tests - XCTest";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		EABD46CB1857A0F300A5F081 /* Coverage */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Test Host.app/Test Host";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "KIF Tests/KIF XCTests-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+					"KIF_XCTEST=1",
+				);
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				INFOPLIST_FILE = "KIF Tests/KIF Tests-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "KIF Tests - XCTest";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Coverage;
+		};
+		EABD46CC1857A0F300A5F081 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Test Host.app/Test Host";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "KIF Tests/KIF XCTests-Prefix.pch";
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				INFOPLIST_FILE = "KIF Tests/KIF Tests-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "KIF Tests - XCTest";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				VALIDATE_PRODUCT = YES;
+				WRAPPER_EXTENSION = xctest;
 			};
 			name = Release;
 		};
@@ -865,6 +1267,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				DSTROOT = /tmp/KIF.dst;
 				FRAMEWORK_SEARCH_PATHS = "\"$(SDKROOT)/Developer/Library/Frameworks\"";
+				GCC_PREFIX_HEADER = "Classes/KIF-Prefix.pch";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = KIF;
 			};
@@ -876,6 +1279,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				DSTROOT = /tmp/KIF.dst;
 				FRAMEWORK_SEARCH_PATHS = "\"$(SDKROOT)/Developer/Library/Frameworks\"";
+				GCC_PREFIX_HEADER = "Classes/KIF-Prefix.pch";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = KIF;
 			};
@@ -910,6 +1314,11 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				DSTROOT = /tmp/KIF.dst;
 				FRAMEWORK_SEARCH_PATHS = "\"$(SDKROOT)/Developer/Library/Frameworks\"";
+				GCC_PREFIX_HEADER = "Classes/KIF-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					DEBUG,
+					"KIF_SENTEST=1",
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = KIF;
 			};
@@ -997,6 +1406,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
+					"KIF_SENTEST=1",
 				);
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				INFOPLIST_FILE = "KIF Tests/KIF Tests-Info.plist";
@@ -1032,6 +1442,26 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		EABD46A61857A0C700A5F081 /* Build configuration list for PBXNativeTarget "KIF-XCTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EABD46A71857A0C700A5F081 /* Debug */,
+				EABD46A81857A0C700A5F081 /* Coverage */,
+				EABD46A91857A0C700A5F081 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EABD46C91857A0F300A5F081 /* Build configuration list for PBXNativeTarget "KIF Tests - XCTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EABD46CA1857A0F300A5F081 /* Debug */,
+				EABD46CB1857A0F300A5F081 /* Coverage */,
+				EABD46CC1857A0F300A5F081 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		EB60ECD8177F8C84005A041A /* Build configuration list for PBXNativeTarget "Test Host" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1042,7 +1472,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		EB60ECF9177F8DB3005A041A /* Build configuration list for PBXNativeTarget "KIF Tests" */ = {
+		EB60ECF9177F8DB3005A041A /* Build configuration list for PBXNativeTarget "KIF Tests - SenTest" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				EB60ECFA177F8DB3005A041A /* Debug */,

@@ -9,6 +9,18 @@
 #import <Foundation/Foundation.h>
 #import "KIFTestCase.h"
 
+#ifdef KIF_XCTEST
+
+#define __KIFFail XCTFail
+#define __KIFAssertEqual XCTAssertEqual
+
+#else
+
+#define __KIFFail STFail
+#define __KIFAssertEqual STAssertEquals
+
+#endif
+
 #define KIFExpectFailure(stmt) \
 {\
     _MockKIFTestActorDelegate *mockDelegate = [_MockKIFTestActorDelegate mockDelegate];\
@@ -18,7 +30,7 @@
         @catch (NSException *exception) { }\
     }\
     if (!mockDelegate.failed) {\
-        STFail(@"%s should have failed.", #stmt);\
+        __KIFFail(@"%s should have failed.", #stmt);\
     }\
 }
 
@@ -31,9 +43,9 @@
             @catch (NSException *exception) { }\
     }\
     if (!mockDelegate.failed) {\
-        STFail(@"%s should have failed.", #stmt);\
+        __KIFFail(@"%s should have failed.", #stmt);\
     }\
-    STAssertEquals((NSUInteger)cnt, mockDelegate.exceptions.count, @"Expected a different number of exceptions.");\
+    __KIFAssertEqual((NSUInteger)cnt, mockDelegate.exceptions.count, @"Expected a different number of exceptions.");\
 }
 
 

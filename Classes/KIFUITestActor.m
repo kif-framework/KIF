@@ -595,8 +595,8 @@
     
     // The original version of this came from http://groups.google.com/group/kif-framework/browse_thread/thread/df3f47eff9f5ac8c
     
-    UIView *viewToSwipe;
-    UIAccessibilityElement *element;
+    UIView *viewToSwipe = nil;
+    UIAccessibilityElement *element = nil;
     
     [self waitForAccessibilityElement:&element view:&viewToSwipe withLabel:label value:nil traits:UIAccessibilityTraitNone tappable:NO];
     
