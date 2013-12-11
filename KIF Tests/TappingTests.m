@@ -48,4 +48,9 @@
     [tester waitForViewWithAccessibilityLabel:@"X" traits:UIAccessibilityTraitSelected];
 }
 
+- (void)testTappingViewPartiallyOffscreenAndWithinScrollView
+{
+    [tester tapViewWithAccessibilityLabel:@"Slightly Offscreen Button"];
+}
+
 @end
