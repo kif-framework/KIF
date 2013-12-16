@@ -517,7 +517,7 @@ typedef struct __GSEvent * GSEventRef;
 
 - (UIEvent *)_eventWithTouch:(UITouch *)touch;
 {
-    UIEvent *event = [[UIApplication sharedApplication] performSelector:@selector(_touchesEvent)];
+    UIEvent *event = [[UIApplication sharedApplication] performSelector:NSSelectorFromString(@"_touchesEvent")];
     
     CGPoint location = [touch locationInView:touch.window];
     KIFEventProxy *eventProxy = [[KIFEventProxy alloc] init];
