@@ -55,6 +55,14 @@
 - (void)waitForApplicationToOpenURL:(NSString *)URLString whileExecutingBlock:(void(^)())block returning:(BOOL)returnValue;
 
 /*!
+ @abstract Waits for the application to request a matching URL while executing a block.
+ @param isMatching The block of code which checks if opened URL is correct.
+ @param block The block of code to be executed.
+ @param returnValue The value to return from @c +[UIApplication openURL:].
+ */
+- (void)waitForApplicationToOpenMatchingURL:(BOOL(^)(NSURL *URL))isMatching whileExecutingBlock:(void (^)())block returning:(BOOL)returnValue;
+
+/*!
  @abstract Waits for the application to request any URL while executing a block.
  @param block The block of code to be executed.
  @param returnValue The value to return from @c +[UIApplication openURL:].
