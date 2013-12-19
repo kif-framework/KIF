@@ -12,10 +12,6 @@
 #import "UIApplication-KIFAdditions.h"
 #import "NSError-KIFAdditions.h"
 
-@interface UIApplication (Private)
-- (BOOL)rotateIfNeeded:(UIDeviceOrientation)orientation;
-@end
-
 @implementation KIFSystemTestActor
 
 - (NSNotification *)waitForNotificationName:(NSString*)name object:(id)object

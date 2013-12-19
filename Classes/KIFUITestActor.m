@@ -672,5 +672,22 @@
     }];
 }
 
+- (void)tapStatusBar
+{
+    [self runBlock:^KIFTestStepResult(NSError **error) {
+        KIFTestWaitCondition(![UIApplication sharedApplication].statusBarHidden, error, @"Expected status bar to be visible.");
+        return KIFTestStepResultSuccess;
+    }];
+    
+    UIWindow *statusBarWindow = [[UIApplication sharedApplication] statusBarWindow];
+    NSArray *statusBars = [statusBarWindow subviewsWithClassNameOrSuperClassNamePrefix:@"UIStatusBar"];
+    
+    if (statusBars.count == 0) {
+        [self failWithError:[NSError KIFErrorWithFormat: @"Could not find the status bar"] stopTest:YES];
+    }
+    
+    [self tapAccessibilityElement:statusBars[0] inView:statusBars[0]];
+}
+
 @end
 
