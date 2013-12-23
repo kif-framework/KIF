@@ -93,3 +93,10 @@ UIKIT_EXTERN NSString *const UIApplicationOpenedURLKey;
 + (void)stopMockingOpenURL;
 
 @end
+
+@interface UIApplication (Private)
+- (BOOL)rotateIfNeeded:(UIDeviceOrientation)orientation;
+- (UIWindow *)statusBarWindow;
+@property(getter=isStatusBarHidden) BOOL statusBarHidden;
+@end
+

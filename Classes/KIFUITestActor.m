@@ -63,25 +63,23 @@
     }];
 }
 
-- (UIView *)waitForViewWithAccessibilityIdentifier:(NSString *)identifier tappable:(BOOL)mustBeTappable
-{
-    UIView *view = nil;
-    [self waitForAccessibilityElement:NULL view:&view withIdentifier:identifier tappable:mustBeTappable];
-    return view;
-}
-
 - (void)waitForAccessibilityElement:(UIAccessibilityElement **)element view:(out UIView **)view withIdentifier:(NSString *)identifier tappable:(BOOL)mustBeTappable
 {
     if (![UIAccessibilityElement instancesRespondToSelector:@selector(accessibilityIdentifier)]) {
         [self failWithError:[NSError KIFErrorWithFormat:@"Running test on platform that does not support accessibilityIdentifier"] stopTest:YES];
     }
     
+    [self waitForAccessibilityElement:element view:view withElementMatchingPredicate:[NSPredicate predicateWithFormat:@"accessibilityIdentifier = %@", identifier] tappable:mustBeTappable];
+}
+
+- (void)waitForAccessibilityElement:(UIAccessibilityElement **)element view:(out UIView **)view withElementMatchingPredicate:(NSPredicate *)predicate tappable:(BOOL)mustBeTappable
+{
     [self runBlock:^KIFTestStepResult(NSError **error) {
         UIAccessibilityElement *foundElement = [[UIApplication sharedApplication] accessibilityElementMatchingBlock:^BOOL(UIAccessibilityElement *element) {
-            return [element.accessibilityIdentifier isEqualToString:identifier];
+            return [predicate evaluateWithObject:element];
         }];
         
-        KIFTestWaitCondition(foundElement, error, @"Could not find view with accessbilityIdentifier \"%@\"", identifier);
+        KIFTestWaitCondition(foundElement, error, @"Could not find view matching: %@", predicate);
         
         UIView *foundView = [UIAccessibilityElement viewContainingAccessibilityElement:foundElement tappable:mustBeTappable error:error];
         if (!foundView) {
@@ -419,7 +417,7 @@
     UIView *view = nil;
     UIAccessibilityElement *element = nil;
     
-    [self waitForAccessibilityElement:&element view:&view withLabel:label value:nil traits:UIAccessibilityTraitNone tappable:YES];
+    [self waitForAccessibilityElement:&element view:&view withLabel:label value:nil traits:UIAccessibilityTraitButton tappable:YES];
     
     if (![view isKindOfClass:[UISwitch class]]) {
         [self failWithError:[NSError KIFErrorWithFormat:@"View with accessibility label \"%@\" is a %@, not a UISwitch", label, NSStringFromClass([view class])] stopTest:YES];
@@ -538,7 +536,8 @@
 
 - (void)tapRowAtIndexPath:(NSIndexPath *)indexPath inTableViewWithAccessibilityIdentifier:(NSString *)identifier
 {
-    UITableView *tableView = (UITableView *)[self waitForViewWithAccessibilityIdentifier:identifier tappable:NO];
+    UITableView *tableView;
+    [self waitForAccessibilityElement:NULL view:&tableView withIdentifier:identifier tappable:NO];
     [self tapRowAtIndexPath:indexPath inTableView:tableView];
 }
 
@@ -671,6 +670,23 @@
         
         return KIFTestStepResultSuccess;
     }];
+}
+
+- (void)tapStatusBar
+{
+    [self runBlock:^KIFTestStepResult(NSError **error) {
+        KIFTestWaitCondition(![UIApplication sharedApplication].statusBarHidden, error, @"Expected status bar to be visible.");
+        return KIFTestStepResultSuccess;
+    }];
+    
+    UIWindow *statusBarWindow = [[UIApplication sharedApplication] statusBarWindow];
+    NSArray *statusBars = [statusBarWindow subviewsWithClassNameOrSuperClassNamePrefix:@"UIStatusBar"];
+    
+    if (statusBars.count == 0) {
+        [self failWithError:[NSError KIFErrorWithFormat: @"Could not find the status bar"] stopTest:YES];
+    }
+    
+    [self tapAccessibilityElement:statusBars[0] inView:statusBars[0]];
 }
 
 @end

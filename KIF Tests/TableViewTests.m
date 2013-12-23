@@ -48,4 +48,17 @@
     KIFExpectFailure([[tester usingTimeout:1] tapRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] inTableViewWithAccessibilityIdentifier:@"Unknown Table"]);
 }
 
+- (void)testScrollingToTop
+{
+    [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:2] inTableViewWithAccessibilityIdentifier:@"TableView Tests Table"];
+    [tester tapStatusBar];
+    
+    UITableView *tableView;
+    [tester waitForAccessibilityElement:NULL view:&tableView withIdentifier:@"TableView Tests Table" tappable:NO];
+    [tester runBlock:^KIFTestStepResult(NSError *__autoreleasing *error) {
+        KIFTestWaitCondition(tableView.contentOffset.y == - tableView.contentInset.top, error, @"Waited for scroll view to scroll to top, but it ended at %@", NSStringFromCGPoint(tableView.contentOffset));
+        return KIFTestStepResultSuccess;
+    }];
+}
+
 @end
