@@ -134,11 +134,10 @@
 - (void)writeScreenshotForException:(NSException *)exception;
 {
 #ifdef KIF_XCTEST
-    [[UIApplication sharedApplication] writeScreenshotForLine:[exception.userInfo[@"SenTestLineNumberKey"] unsignedIntegerValue] filename:[exception.userInfo[@"SenTestFilenameKey"] lastPathComponent] description:nil error:NULL];
+    [[UIApplication sharedApplication] writeScreenshotForLine:[exception.userInfo[@"SenTestLineNumberKey"] unsignedIntegerValue] inFile:[exception.userInfo[@"SenTestFilenameKey"] lastPathComponent] description:nil error:NULL];
 #else
-    [[UIApplication sharedApplication] writeScreenshotForLine:exception.lineNumber.unsignedIntegerValue filename:[exception.filename lastPathComponent] description:nil error:NULL];
+    [[UIApplication sharedApplication] writeScreenshotForLine:exception.lineNumber.unsignedIntegerValue inFile:[exception.filename lastPathComponent] description:nil error:NULL];
 #endif
-    //[[UIApplication sharedApplication] writeScreenshotForLine:exception.lineNumber.unsignedIntegerValue filename:[exception.filename lastPathComponent] description:nil error:NULL];
 }
 
 @end

@@ -110,7 +110,7 @@ static const void *KIFRunLoopModesKey = &KIFRunLoopModesKey;
 
 #pragma mark - Screenshoting
 
-- (BOOL)writeScreenshotForLine:(NSUInteger)lineNumber filename:(NSString *)filename description:(NSString *)description error:(NSError **)error;
+- (BOOL)writeScreenshotWithFilename:(NSString *)filename error:(NSError **)error
 {
 #if !TARGET_IPHONE_SIMULATOR
     return YES;
@@ -136,29 +136,16 @@ static const void *KIFRunLoopModesKey = &KIFRunLoopModesKey;
     for (UIWindow *window in windows) {
         [window.layer renderInContext:UIGraphicsGetCurrentContext()];
     }
+    
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     
-    NSString *subfolder = [filename stringByDeletingLastPathComponent];
-    
-    if (subfolder.length > 0) {
-        outputPath = [outputPath stringByAppendingPathComponent:subfolder];
-        [[NSFileManager defaultManager] createDirectoryAtPath:outputPath withIntermediateDirectories:YES attributes:nil error:nil];
-    }
-    
-    NSString *imageName = [filename lastPathComponent];
-    
-    if (lineNumber > 0) {
-        imageName = [imageName stringByAppendingFormat:@", line %lu", (unsigned long)lineNumber];
-    }
-    
-    if (description) {
-        imageName = [imageName stringByAppendingFormat:@", %@", description];
-    }
-    
+    outputPath = [outputPath stringByAppendingPathComponent:[self screenshotFolder]];
     outputPath = [outputPath stringByExpandingTildeInPath];
-    outputPath = [outputPath stringByAppendingPathComponent:imageName];
-    outputPath = [outputPath stringByAppendingPathExtension:@"png"];
+    [[NSFileManager defaultManager] createDirectoryAtPath:outputPath withIntermediateDirectories:YES attributes:nil error:nil];
+    
+    outputPath = [outputPath stringByAppendingPathComponent:[self screenshotName:filename]];
+    
     if (![UIImagePNGRepresentation(image) writeToFile:outputPath atomically:YES]) {
         if (error) {
             *error = [NSError KIFErrorWithFormat:@"Could not write file at path %@", outputPath];
@@ -167,6 +154,17 @@ static const void *KIFRunLoopModesKey = &KIFRunLoopModesKey;
     }
     
     return YES;
+}
+
+- (BOOL)writeScreenshotForLine:(NSUInteger)lineNumber inFile:(NSString *)filename description:(NSString *)description error:(NSError **)error;
+{
+    NSString *imageName  = [NSString stringWithFormat:@"%@, line %lu", filename, (unsigned long)lineNumber];
+    
+    if (description) {
+        imageName = [imageName stringByAppendingFormat:@", %@", description];
+    }
+    
+    return [self writeScreenshotWithFilename:imageName error:error];
 }
 
 #pragma mark - Run loop monitoring
@@ -259,5 +257,33 @@ static inline void Swizzle(Class c, SEL orig, SEL new)
 {
     _KIF_UIApplicationMockOpenURL = NO;
 }
+
+#pragma mark - Private methods
+
+- (NSString *)orientationName
+{
+    UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
+    
+    switch (orientation) {
+        case UIInterfaceOrientationLandscapeLeft:       return @"landscape left";
+        case UIInterfaceOrientationLandscapeRight:      return @"landscape right";
+        case UIInterfaceOrientationPortrait:            return @"portrait";
+        case UIInterfaceOrientationPortraitUpsideDown:  return @"upside down";
+    }
+}
+
+- (NSString *)screenshotFolder
+{
+    NSString *idiom = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? @"iPad" : @"iPhone";
+    NSString *systemVersion = [[UIDevice currentDevice] systemVersion];
+    
+    return [NSString stringWithFormat:@"%@-%@", idiom, systemVersion];
+}
+
+- (NSString *)screenshotName:(NSString *)filename
+{
+    return [NSString stringWithFormat:@"%@ (%@).png", filename, [self orientationName]];
+}
+
 
 @end

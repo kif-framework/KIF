@@ -78,10 +78,11 @@
     }
 }
 
-- (void)captureScreenshotWithDescription:(NSString *)description
+- (void)captureScreenshotAtCurrentLineWithDescription:(NSString *)description
 {
     NSError *error;
-    if (![[UIApplication sharedApplication] writeScreenshotForLine:(NSUInteger)self.line filename:[self.file lastPathComponent] description:description error:&error]) {
+ 
+    if (![[UIApplication sharedApplication] writeScreenshotForLine:(NSUInteger)self.line inFile:[self.file lastPathComponent] description:description error:&error]) {
         [self failWithError:error stopTest:NO];
     }
 }
@@ -89,31 +90,9 @@
 - (void)captureScreenshotNamed:(NSString *)screenshotName
 {
     NSError *error;
-    
-    NSString *fileName = [NSString stringWithFormat:@"%@ (%@)", screenshotName, [self orientationName]];
-    
-    NSString *idiom = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? @"iPad" : @"iPhone";
-    NSString *systemVersion = [[UIDevice currentDevice] systemVersion];
-    NSString *subfolderName = [NSString stringWithFormat:@"%@-%@", idiom, systemVersion];
-    
-    NSString *path = [subfolderName stringByAppendingPathComponent:fileName];
-    
-    if (![[UIApplication sharedApplication] writeScreenshotForLine:0 filename:path description:nil error:&error]) {
+
+    if (![[UIApplication sharedApplication] writeScreenshotWithFilename:screenshotName error:&error]) {
         [self failWithError:error stopTest:NO];
-    }
-}
-
-#pragma mark -
-
-- (NSString *)orientationName
-{
-    UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
-    
-    switch (orientation) {
-    case UIInterfaceOrientationLandscapeLeft:       return @"landscape left";
-    case UIInterfaceOrientationLandscapeRight:      return @"landscape right";
-    case UIInterfaceOrientationPortrait:            return @"portrait";
-    case UIInterfaceOrientationPortraitUpsideDown:  return @"upside down";
     }
 }
 

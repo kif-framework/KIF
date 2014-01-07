@@ -66,7 +66,7 @@
  @discussion The name will include the source file name and line number. This step will fail if the @c KIF_SCREENSHOTS environment variable is not set or if the screenshot cannot be written to disk.
  @param description A description to use when writing the file to disk.
  */
-- (void)captureScreenshotWithDescription:(NSString *)description;
+- (void)captureScreenshotAtCurrentLineWithDescription:(NSString *)description;
 
 /*!
  @abstract Captures a screenshot of the current screen and writes it to disk with the given name. The screenshot is placed in subfolder named {iPhone|iPad}-{systemVersion} depending which device and OS the app is being tested on.
