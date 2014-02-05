@@ -53,7 +53,7 @@ end
 
 The `:exclusive => true` option will prevent Cocoapods from including dependencies from your main target in your test target causing double-linking issues when you test link against the app.
 
-After running `pod install` complete the tasks in [**Final Test Target Configurations**](#configure-the-testing-target) below for the final details on getting your tests to run.
+After running `pod install` complete the tasks in [**Final Test Target Configurations**](#final-test-target-configurations) below for the final details on getting your tests to run.
 
 Installation (from GitHub)
 --------------------------
