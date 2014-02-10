@@ -34,6 +34,7 @@
 {
     [tester tapViewWithAccessibilityLabel:@"UIAlertView"];
     [tester tapViewWithAccessibilityLabel:@"Continue"];
+    [tester waitForAbsenceOfViewWithAccessibilityLabel:@"Message"];
 }
 
 @end

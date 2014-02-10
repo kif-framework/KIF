@@ -53,12 +53,13 @@ typedef struct {
     }
     
     // Create a fake tap touch
+    [self setWindow:window]; // Wipes out some values.  Needs to be first.
+    
     [self setTapCount:1];
     [self _setLocationInWindow:point resetPrevious:YES];
     
 	UIView *hitTestView = [window hitTest:point withEvent:nil];
     
-    [self setWindow:window];
     [self setView:hitTestView];
     [self setPhase:UITouchPhaseBegan];
     [self _setIsFirstTouchForView:YES];
@@ -84,7 +85,14 @@ typedef struct {
 //
 - (void)setLocationInWindow:(CGPoint)location
 {
+    [self setTimestamp:[[NSProcessInfo processInfo] systemUptime]];
     [self _setLocationInWindow:location resetPrevious:NO];
+}
+
+- (void)setPhaseAndUpdateTimestamp:(UITouchPhase)phase
+{
+    [self setTimestamp:[[NSProcessInfo processInfo] systemUptime]];
+    [self setPhase:phase];
 }
 
 @end

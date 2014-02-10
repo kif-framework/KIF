@@ -315,13 +315,13 @@ typedef struct __GSEvent * GSEventRef;
     
     // Handle touches in the normal way for other views
     UITouch *touch = [[UITouch alloc] initAtPoint:point inView:self];
-    [touch setPhase:UITouchPhaseBegan];
+    [touch setPhaseAndUpdateTimestamp:UITouchPhaseBegan];
     
     UIEvent *event = [self _eventWithTouch:touch];
 
     [[UIApplication sharedApplication] sendEvent:event];
-
-    [touch setPhase:UITouchPhaseEnded];
+    
+    [touch setPhaseAndUpdateTimestamp:UITouchPhaseEnded];
     [[UIApplication sharedApplication] sendEvent:event];
 
     // Dispatching the event doesn't actually update the first responder, so fake it
@@ -337,7 +337,7 @@ typedef struct __GSEvent * GSEventRef;
 - (void)longPressAtPoint:(CGPoint)point duration:(NSTimeInterval)duration
 {
     UITouch *touch = [[UITouch alloc] initAtPoint:point inView:self];
-    [touch setPhase:UITouchPhaseBegan];
+    [touch setPhaseAndUpdateTimestamp:UITouchPhaseBegan];
     
     UIEvent *eventDown = [self _eventWithTouch:touch];
     [[UIApplication sharedApplication] sendEvent:eventDown];
@@ -346,7 +346,7 @@ typedef struct __GSEvent * GSEventRef;
     
     for (NSTimeInterval timeSpent = DRAG_TOUCH_DELAY; timeSpent < duration; timeSpent += DRAG_TOUCH_DELAY)
     {
-        [touch setPhase:UITouchPhaseStationary];
+        [touch setPhaseAndUpdateTimestamp:UITouchPhaseStationary];
         
         UIEvent *eventStillDown = [self _eventWithTouch:touch];
         [[UIApplication sharedApplication] sendEvent:eventStillDown];
@@ -354,7 +354,7 @@ typedef struct __GSEvent * GSEventRef;
         CFRunLoopRunInMode(kCFRunLoopDefaultMode, DRAG_TOUCH_DELAY, false);
     }
     
-    [touch setPhase:UITouchPhaseEnded];
+    [touch setPhaseAndUpdateTimestamp:UITouchPhaseEnded];
     UIEvent *eventUp = [self _eventWithTouch:touch];
     [[UIApplication sharedApplication] sendEvent:eventUp];
     
@@ -401,7 +401,7 @@ typedef struct __GSEvent * GSEventRef;
 
     // Create the touch (there should only be one touch object for the whole drag)
     UITouch *touch = [[UITouch alloc] initAtPoint:points[0] inView:self];
-    [touch setPhase:UITouchPhaseBegan];
+    [touch setPhaseAndUpdateTimestamp:UITouchPhaseBegan];
     
     UIEvent *eventDown = [self _eventWithTouch:touch];
     [[UIApplication sharedApplication] sendEvent:eventDown];
@@ -410,7 +410,7 @@ typedef struct __GSEvent * GSEventRef;
 
     for (NSInteger pointIndex = 1; pointIndex < count; pointIndex++) {
         [touch setLocationInWindow:[self.window convertPoint:points[pointIndex] fromView:self]];
-        [touch setPhase:UITouchPhaseMoved];
+        [touch setPhaseAndUpdateTimestamp:UITouchPhaseMoved];
         
         UIEvent *eventDrag = [self _eventWithTouch:touch];
         [[UIApplication sharedApplication] sendEvent:eventDrag];
@@ -418,7 +418,7 @@ typedef struct __GSEvent * GSEventRef;
         CFRunLoopRunInMode(UIApplicationCurrentRunMode, DRAG_TOUCH_DELAY, false);
     }
     
-    [touch setPhase:UITouchPhaseEnded];
+    [touch setPhaseAndUpdateTimestamp:UITouchPhaseEnded];
     
     UIEvent *eventUp = [self _eventWithTouch:touch];
     [[UIApplication sharedApplication] sendEvent:eventUp];
