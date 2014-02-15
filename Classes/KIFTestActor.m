@@ -125,7 +125,7 @@
 
 #pragma mark Class Methods
 
-static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
+static NSTimeInterval KIFTestStepDefaultTimeout = 20.0;
 
 + (NSTimeInterval)defaultTimeout;
 {
