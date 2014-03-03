@@ -256,6 +256,8 @@
 
 - (void)enterTextIntoCurrentFirstResponder:(NSString *)text fallbackView:(UIView *)fallbackView;
 {
+    [KIFTypist prepareKeyboardForTyping];
+    
     for (NSUInteger characterIndex = 0; characterIndex < [text length]; characterIndex++) {
         NSString *characterString = [text substringWithRange:NSMakeRange(characterIndex, 1)];
         
