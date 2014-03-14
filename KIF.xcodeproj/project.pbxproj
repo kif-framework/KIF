@@ -53,7 +53,7 @@
 		EB72044C1680DDAD00278DA2 /* KIFTestActor.m in Sources */ = {isa = PBXBuildFile; fileRef = EB4C3124167BA37B00E31109 /* KIFTestActor.m */; };
 		EB72044D1680DDAD00278DA2 /* KIFTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = EB4C3128167BA37B00E31109 /* KIFTestCase.m */; };
 		EB72044E1680DDAD00278DA2 /* KIFSystemTestActor.m in Sources */ = {isa = PBXBuildFile; fileRef = EB4C3131167BA3AC00E31109 /* KIFSystemTestActor.m */; };
-		EB72044F1680DDAD00278DA2 /* KIFUITestActor.m in Sources */ = {isa = PBXBuildFile; fileRef = EB4C3133167BA3AC00E31109 /* KIFUITestActor.m */; };
+		EB72044F1680DDAD00278DA2 /* KIFUITestActor.m in Sources */ = {isa = PBXBuildFile; fileRef = EB4C3133167BA3AC00E31109 /* KIFUITestActor.m */; settings = {COMPILER_FLAGS = "-w"; }; };
 		EB7204521680DDAD00278DA2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAB0726B139719AC008AF393 /* Foundation.framework */; };
 		EB7204531680DDAD00278DA2 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAB072B413971AEA008AF393 /* UIKit.framework */; };
 		EB7204551680DDAD00278DA2 /* KIF-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = AAB0728113971A63008AF393 /* KIF-Prefix.pch */; };
@@ -716,7 +716,7 @@
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
-				VALID_ARCHS = "armv7 armv7s i386";
+				VALID_ARCHS = "armv7 armv7s i386 arm64 x86_64";
 			};
 			name = Debug;
 		};
@@ -734,7 +734,7 @@
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
-				VALID_ARCHS = "armv7 armv7s i386";
+				VALID_ARCHS = "armv7 armv7s i386 arm64 x86_64";
 			};
 			name = Release;
 		};
@@ -902,7 +902,7 @@
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
-				VALID_ARCHS = "armv7 armv7s i386";
+				VALID_ARCHS = "armv7 armv7s i386 arm64 x86_64";
 			};
 			name = Coverage;
 		};
