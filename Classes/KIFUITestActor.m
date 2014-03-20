@@ -256,10 +256,15 @@
 
 - (void)enterTextIntoCurrentFirstResponder:(NSString *)text fallbackView:(UIView *)fallbackView;
 {
+    [self enterTextIntoCurrentFirstResponder:text fallbackView:fallbackView usingKeyboard:YES];
+}
+
+- (void)enterTextIntoCurrentFirstResponder:(NSString *)text fallbackView:(UIView *)fallbackView usingKeyboard:(BOOL)useKeyboard
+{
     for (NSUInteger characterIndex = 0; characterIndex < [text length]; characterIndex++) {
         NSString *characterString = [text substringWithRange:NSMakeRange(characterIndex, 1)];
         
-        if (![KIFTypist enterCharacter:characterString]) {
+        if (!useKeyboard || ![KIFTypist enterCharacter:characterString]) {
             // Attempt to cheat if we couldn't find the character
             if (!fallbackView) {
                 UIResponder *firstResponder = [[[UIApplication sharedApplication] keyWindow] firstResponder];
@@ -281,17 +286,28 @@
 
 - (void)enterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label
 {
-    return [self enterText:text intoViewWithAccessibilityLabel:label traits:UIAccessibilityTraitNone expectedResult:nil];
+    return [self enterText:text intoViewWithAccessibilityLabel:label usingKeyboard:YES];
+}
+
+- (void)enterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label usingKeyboard:(BOOL)useKeyboard
+{
+    return [self enterText:text intoViewWithAccessibilityLabel:label traits:UIAccessibilityTraitNone expectedResult:nil usingKeyboard:useKeyboard];
 }
 
 - (void)enterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits expectedResult:(NSString *)expectedResult
 {
+    [self enterText:text intoViewWithAccessibilityLabel:label traits:traits expectedResult:expectedResult usingKeyboard:YES];
+}
+
+- (void)enterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits expectedResult:(NSString *)expectedResult usingKeyboard:(BOOL)useKeyboard
+{
+    
     UIView *view = nil;
     UIAccessibilityElement *element = nil;
     
     [self waitForAccessibilityElement:&element view:&view withLabel:label value:nil traits:traits tappable:YES];
     [self tapAccessibilityElement:element inView:view];
-    [self enterTextIntoCurrentFirstResponder:text fallbackView:view];
+    [self enterTextIntoCurrentFirstResponder:text fallbackView:view usingKeyboard:useKeyboard];
     [self expectView:view toContainText:expectedResult ?: text];
 }
 
