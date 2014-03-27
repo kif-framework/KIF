@@ -8,11 +8,6 @@
 //  which Square, Inc. licenses this file to you.
 
 #import "NSFileManager-KIFAdditions.h"
-#import "LoadableCategory.h"
-
-
-MAKE_CATEGORIES_LOADABLE(NSFileManager_KIFAdditions)
-
 
 @implementation NSFileManager (KIFAdditions)
 

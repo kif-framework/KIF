@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		39160B1113D1E6BB00311E38 /* LoadableCategory.h in Headers */ = {isa = PBXBuildFile; fileRef = 39160B1013D1E6BB00311E38 /* LoadableCategory.h */; };
 		AAB0726C139719AC008AF393 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAB0726B139719AC008AF393 /* Foundation.framework */; };
 		AAB0728213971A63008AF393 /* KIF-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = AAB0728113971A63008AF393 /* KIF-Prefix.pch */; };
 		AAB0728D13971A98008AF393 /* KIFTestController.h in Headers */ = {isa = PBXBuildFile; fileRef = AAB0728613971A98008AF393 /* KIFTestController.h */; };
@@ -38,7 +37,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		39160B1013D1E6BB00311E38 /* LoadableCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadableCategory.h; sourceTree = "<group>"; };
 		AAB07268139719AC008AF393 /* libKIF.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libKIF.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAB0726B139719AC008AF393 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		AAB0728113971A63008AF393 /* KIF-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "KIF-Prefix.pch"; path = "Classes/KIF-Prefix.pch"; sourceTree = SOURCE_ROOT; };
@@ -139,7 +137,6 @@
 		AAB0729313971AB2008AF393 /* Additions */ = {
 			isa = PBXGroup;
 			children = (
-				39160B1013D1E6BB00311E38 /* LoadableCategory.h */,
 				AAB0729413971AB2008AF393 /* CGGeometry-KIFAdditions.h */,
 				AAB0729513971AB2008AF393 /* CGGeometry-KIFAdditions.m */,
 				CDFD8E84139728B4008D299F /* NSFileManager-KIFAdditions.h */,
@@ -179,7 +176,6 @@
 				AAB072B013971AB2008AF393 /* UIView-KIFAdditions.h in Headers */,
 				AAB072B213971AB2008AF393 /* UIWindow-KIFAdditions.h in Headers */,
 				CDFD8E86139728B4008D299F /* NSFileManager-KIFAdditions.h in Headers */,
-				39160B1113D1E6BB00311E38 /* LoadableCategory.h in Headers */,
 				C194255815D83DE9004FC314 /* KIFTypist.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -210,7 +206,7 @@
 		AAB0725F139719AC008AF393 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0450;
+				LastUpgradeCheck = 0510;
 			};
 			buildConfigurationList = AAB07262139719AC008AF393 /* Build configuration list for PBXProject "KIF" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -255,7 +251,6 @@
 		AAB07270139719AC008AF393 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
@@ -265,6 +260,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -272,7 +268,6 @@
 		AAB07271139719AC008AF393 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
@@ -287,10 +282,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = (
-					armv6,
-					"$(ARCHS_STANDARD_32_BIT)",
-				);
 				DSTROOT = /tmp/KIF.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Classes/KIF-Prefix.pch";
@@ -305,10 +296,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = (
-					armv6,
-					"$(ARCHS_STANDARD_32_BIT)",
-				);
 				DSTROOT = /tmp/KIF.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Classes/KIF-Prefix.pch";

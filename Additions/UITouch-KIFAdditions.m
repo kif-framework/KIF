@@ -8,11 +8,6 @@
 //  which Square, Inc. licenses this file to you.
 
 #import "UITouch-KIFAdditions.h"
-#import "LoadableCategory.h"
-
-
-MAKE_CATEGORIES_LOADABLE(UITouch_KIFAdditions)
-
 
 @interface UITouch () {
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 60000
