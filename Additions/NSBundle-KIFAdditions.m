@@ -8,9 +8,6 @@
 
 #import "NSBundle-KIFAdditions.h"
 #import "KIFTestCase.h"
-#import "LoadableCategory.h"
-
-MAKE_CATEGORIES_LOADABLE(NSBundle_KIFAdditions)
 
 @implementation NSBundle (KIFAdditions)
 

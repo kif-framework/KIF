@@ -8,10 +8,7 @@
 //  which Square, Inc. licenses this file to you.
 
 #import "UITouch-KIFAdditions.h"
-#import "LoadableCategory.h"
 #import <objc/runtime.h>
-
-MAKE_CATEGORIES_LOADABLE(UITouch_KIFAdditions)
 
 typedef struct {
     unsigned int _firstTouchForView:1;
