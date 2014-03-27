@@ -8,11 +8,6 @@
 //  which Square, Inc. licenses this file to you.
 
 #import "UIAccessibilityElement-KIFAdditions.h"
-#import "LoadableCategory.h"
-
-
-MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
-
 
 @implementation UIAccessibilityElement (KIFAdditions)
 
