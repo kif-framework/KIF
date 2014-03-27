@@ -8,14 +8,11 @@
 //  which Square, Inc. licenses this file to you.
 
 #import "UIApplication-KIFAdditions.h"
-#import "LoadableCategory.h"
 #import "UIView-KIFAdditions.h"
 #import "NSError-KIFAdditions.h"
 #import <QuartzCore/QuartzCore.h>
 #import <objc/runtime.h>
 #import <objc/message.h>
-
-MAKE_CATEGORIES_LOADABLE(UIApplication_KIFAdditions)
 
 static BOOL _KIF_UIApplicationMockOpenURL = NO;
 static BOOL _KIF_UIApplicationMockOpenURL_returnValue = NO;

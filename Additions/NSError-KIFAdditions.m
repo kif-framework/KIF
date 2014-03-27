@@ -7,10 +7,7 @@
 //
 
 #import "NSError-KIFAdditions.h"
-#import "LoadableCategory.h"
 #import "KIFTestActor.h"
-
-MAKE_CATEGORIES_LOADABLE(NSError_KIFAdditions)
 
 @implementation NSError (KIFAdditions)
 
