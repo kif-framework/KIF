@@ -3,7 +3,7 @@ KIF iOS Integration Testing Framework
 
 KIF, which stands for Keep It Functional, is an iOS integration test framework. It allows for easy automation of iOS apps by leveraging the accessibility attributes that the OS makes available for those with visual disabilities.
 
-KIF builds and performs the tests using a standard `ocunit` testing target.  Testing is conducted synchronously in the main thread (running the run loop to force the passage of time) allowing for more complex logic and composition.  This also allows KIF to take advantage of the Xcode 5 Test Navigator, command line build tools, and Bot test reports.  [Find out more about Xcode 5 features.](https://developer.apple.com/technologies/tools/whats-new.html)
+KIF builds and performs the tests using a standard `OCUnit` testing target.  Testing is conducted synchronously in the main thread (running the run loop to force the passage of time) allowing for more complex logic and composition.  This also allows KIF to take advantage of the Xcode 5 Test Navigator, command line build tools, and Bot test reports.  [Find out more about Xcode 5 features.](https://developer.apple.com/technologies/tools/whats-new.html)
 
 **KIF uses undocumented Apple APIs.** This is true of most iOS testing frameworks, and is safe for testing purposes, but it's important that KIF does not make it into production code, as it will get your app submission denied by Apple. Follow the instructions below to ensure that KIF is configured correctly for your project.
 
@@ -109,7 +109,7 @@ The last step is to configure your unit tests to run when you trigger a test (‚å
 
 Example
 -------
-With your project configured to use KIF, it's time to start writing tests. There are two main classes used in KIF testing: the the test case (`KIFTestCase`, subclass of `SenTestCase`) and the UI test actor (`KIFUITestActor`).  The the ocunit test runner loads the test case classes and executes their test.  Inside these tests, the tester performs the UI operations which generally imitate a user interaction. Three of the most common tester actions are "tap this view," "enter text into this view," and "wait for this view." These steps are included as factory methods on `KIFUITestActor` in the base KIF implementation.
+With your project configured to use KIF, it's time to start writing tests. There are two main classes used in KIF testing: the test case (`KIFTestCase`, subclass of `SenTestCase`) and the UI test actor (`KIFUITestActor`).  The OCUnit test runner loads the test case classes and executes their test.  Inside these tests, the tester performs the UI operations which generally imitate a user interaction. Three of the most common tester actions are "tap this view," "enter text into this view," and "wait for this view." These steps are included as factory methods on `KIFUITestActor` in the base KIF implementation.
 
 KIF relies on the built-in accessibility of iOS to perform its test steps. As such, it's important that your app is fully accessible. This is also a great way to ensure that your app is usable by the sight impaired. Making your application accessible is usually as easy as giving your views reasonable labels. More details are available in [Apple's Documentation](http://developer.apple.com/library/ios/#documentation/UserExperience/Conceptual/iPhoneAccessibility/Making_Application_Accessible/Making_Application_Accessible.html#//apple_ref/doc/uid/TP40008785-CH102-SW5).
 
@@ -221,7 +221,7 @@ Troubleshooting
 
 ### Simulator launches but app doesn't appear, steps time out after 10 seconds
 
-This issue occurs when ocunit does not have a valid test host.  When this occurs, ocunit will run your tests in logic mode without an app, which causes the UI tests to fail.
+This issue occurs when OCUnit does not have a valid test host.  When this occurs, OCUnit will run your tests in logic mode without an app, which causes the UI tests to fail.
 
 Reread the instructions above with regards to the "Bundle Loader" and "Test Host" settings.  You may have missed something.
 
