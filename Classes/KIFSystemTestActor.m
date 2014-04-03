@@ -78,10 +78,20 @@
     }
 }
 
-- (void)captureScreenshotWithDescription:(NSString *)description
+- (void)captureScreenshotAtCurrentLineWithDescription:(NSString *)description
 {
     NSError *error;
-    if (![[UIApplication sharedApplication] writeScreenshotForLine:(NSUInteger)self.line inFile:self.file description:description error:&error]) {
+ 
+    if (![[UIApplication sharedApplication] writeScreenshotForLine:(NSUInteger)self.line inFile:[self.file lastPathComponent] description:description error:&error]) {
+        [self failWithError:error stopTest:NO];
+    }
+}
+
+- (void)captureScreenshotNamed:(NSString *)screenshotName
+{
+    NSError *error;
+
+    if (![[UIApplication sharedApplication] writeScreenshotWithFilename:screenshotName error:&error]) {
         [self failWithError:error stopTest:NO];
     }
 }
