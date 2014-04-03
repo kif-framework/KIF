@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0500"
+   LastUpgradeVersion = "0510"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,8 +14,8 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "EB72043E1680DDAD00278DA2"
-               BuildableName = "libKIF.a"
+               BlueprintIdentifier = "EABD46791857A0C700A5F081"
+               BuildableName = "libKIF-XCTest.a"
                BlueprintName = "KIF"
                ReferencedContainer = "container:KIF.xcodeproj">
             </BuildableReference>
@@ -32,9 +32,9 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "EB60ECEA177F8DB3005A041A"
-               BuildableName = "KIF Tests - SenTest.octest"
-               BlueprintName = "KIF Tests - SenTest"
+               BlueprintIdentifier = "EABD46AD1857A0F300A5F081"
+               BuildableName = "KIF Tests - XCTest.xctest"
+               BlueprintName = "KIF Tests"
                ReferencedContainer = "container:KIF.xcodeproj">
             </BuildableReference>
          </TestableReference>
