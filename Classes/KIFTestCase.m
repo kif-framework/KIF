@@ -23,7 +23,11 @@
         return nil;
     }
 
+#ifdef KIF_XCTEST
+    self.continueAfterFailure = NO;
+#else
     [self raiseAfterFailure];
+#endif
     return self;
 }
 
@@ -32,10 +36,34 @@
 - (void)beforeAll  { }
 - (void)afterAll   { }
 
+#ifdef KIF_XCTEST
+
+- (void)setUp;
+{
+    [self beforeEach];
+}
+
+- (void)tearDown;
+{
+    [self afterEach];
+}
+
++ (void)setUp
+{
+    [[self new] beforeAll];
+}
+
++ (void)tearDown
+{
+    [[self new] afterAll];
+}
+
+#else
+
 - (void)setUp;
 {
     [super setUp];
-    
+
     if ([self isNotBeforeOrAfter]) {
         [self beforeEach];
     }
@@ -46,7 +74,7 @@
     if ([self isNotBeforeOrAfter]) {
         [self afterEach];
     }
-    
+
     [super tearDown];
 }
 
@@ -79,6 +107,8 @@
     return selector != @selector(beforeAll) && selector != @selector(afterAll);
 }
 
+#endif
+
 - (void)failWithException:(NSException *)exception stopTest:(BOOL)stop
 {
     if (stop) {
@@ -100,7 +130,11 @@
 
 - (void)writeScreenshotForException:(NSException *)exception;
 {
+#ifdef KIF_XCTEST
+    [[UIApplication sharedApplication] writeScreenshotForLine:[exception.userInfo[@"SenTestLineNumberKey"] unsignedIntegerValue] inFile:exception.userInfo[@"SenTestFilenameKey"] description:nil error:NULL];
+#else
     [[UIApplication sharedApplication] writeScreenshotForLine:exception.lineNumber.unsignedIntegerValue inFile:exception.filename description:nil error:NULL];
+#endif
 }
 
 @end

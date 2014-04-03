@@ -7,8 +7,27 @@ Pod::Spec.new do |s|
   s.authors      = 'Eric Firestone', 'Jim Puls', 'Brian Nickel'
   s.source       = { :git => "https://github.com/kif-framework/KIF.git", :tag => "v2.0.0" }
   s.platform     = :ios, '4.3'
-  s.source_files = 'Classes', 'Additions'
-  s.public_header_files = 'Classes/**/*.h', 'Additions/**/*-KIFAdditions.h'
-  s.frameworks  = 'SenTestingKit', 'CoreGraphics'
+  s.frameworks  = 'CoreGraphics'
   s.prefix_header_contents = '#import <CoreGraphics/CoreGraphics.h>'
+  s.default_subspec = 'XCTest'
+
+  s.subspec 'OCUnit' do |sentest|
+    sentest.framework = 'SenTestingKit'
+    sentest.dependency 'KIF/Core'
+    sentest.xcconfig = { 'OTHER_CFLAGS' => '-DKIF_SENTEST' }
+    sentest.source_files = 'Additions/SenTestCase-KIFAdditions.{h,m}'
+  end
+
+  s.subspec 'XCTest' do |xctest|
+    xctest.framework = 'XCTest'
+    xctest.dependency 'KIF/Core'
+    xctest.xcconfig = { 'OTHER_CFLAGS' => '-DKIF_XCTEST' }
+    xctest.source_files = 'Additions/XCTestCase-KIFAdditions.{h,m}'
+  end
+
+  s.subspec 'Core' do |core|
+    core.source_files = 'Classes', 'Additions'
+    core.public_header_files = 'Classes/**/*.h', 'Additions/**/*-KIFAdditions.h'
+    core.exclude_files = 'Additions/SenTestCase-KIFAdditions.{h,m}', 'Additions/XCTestCase-KIFAdditions.{h,m}'
+  end
 end
