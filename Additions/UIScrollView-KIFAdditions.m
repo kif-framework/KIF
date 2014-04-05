@@ -21,30 +21,29 @@ MAKE_CATEGORIES_LOADABLE(UIScrollView_KIFAdditions)
 - (void)scrollViewToVisible:(UIView *)view animated:(BOOL)animated;
 {
     BOOL needsUpdate = NO;
-    CGRect frame = [self.window convertRect:self.frame fromView:self.superview];
     
-    CGRect viewFrame = [self.window convertRect:view.frame fromView:view.superview];
+    CGRect viewFrame = [self convertRect:view.frame fromView:view.superview];
     CGFloat viewMaxX = viewFrame.origin.x + viewFrame.size.width;
     CGFloat viewMaxY = viewFrame.origin.y + viewFrame.size.height;
-    CGFloat scrollViewMaxX = frame.origin.x + frame.size.width;
-    CGFloat scrollViewMaxY = frame.origin.y + frame.size.height;
+    CGFloat scrollViewMaxX = self.frame.size.width;
+    CGFloat scrollViewMaxY = self.frame.size.height;
     
     CGPoint offsetPoint = self.contentOffset;
-    if (viewMaxX > scrollViewMaxX) {
+    if (viewMaxX > (scrollViewMaxX + offsetPoint.x)) {
         // The view is to the right of the view port, so scroll it just into view
-        offsetPoint.x = frame.origin.x + (viewMaxX - scrollViewMaxX);
+        offsetPoint.x = viewMaxX - scrollViewMaxX;
         needsUpdate = YES;
     } else if (viewMaxX < 0.0) {
-        offsetPoint.x = viewFrame.origin.x;
+        offsetPoint.x = 0;
         needsUpdate = YES;
     }
     
-    if (viewMaxY > scrollViewMaxY) {
+    if (viewMaxY > (scrollViewMaxY + offsetPoint.y)) {
         // The view is below the view port, so scroll it just into view
-        offsetPoint.y = frame.origin.y + (viewMaxY - scrollViewMaxY);
+        offsetPoint.y = viewMaxY - scrollViewMaxY;
         needsUpdate = YES;
     } else if (viewMaxY < 0.0) {
-        offsetPoint.y = viewFrame.origin.y;
+        offsetPoint.y = 0;
         needsUpdate = YES;
     }
     
