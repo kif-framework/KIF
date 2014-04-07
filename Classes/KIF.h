@@ -12,7 +12,7 @@
 #import "KIFSystemTestActor.h"
 #import "KIFUITestActor.h"
 
-#ifdef KIF_XCTEST
+#ifndef KIF_SENTEST
 #import "XCTestCase-KIFAdditions.h"
 #else
 #import "SenTestCase-KIFAdditions.h"

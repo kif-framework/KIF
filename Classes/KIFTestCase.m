@@ -23,7 +23,7 @@
         return nil;
     }
 
-#ifdef KIF_XCTEST
+#ifndef KIF_SENTEST
     self.continueAfterFailure = NO;
 #else
     [self raiseAfterFailure];
@@ -36,7 +36,7 @@
 - (void)beforeAll  { }
 - (void)afterAll   { }
 
-#ifdef KIF_XCTEST
+#ifndef KIF_SENTEST
 
 - (void)setUp;
 {
@@ -130,7 +130,7 @@
 
 - (void)writeScreenshotForException:(NSException *)exception;
 {
-#ifdef KIF_XCTEST
+#ifndef KIF_SENTEST
     [[UIApplication sharedApplication] writeScreenshotForLine:[exception.userInfo[@"SenTestLineNumberKey"] unsignedIntegerValue] inFile:exception.userInfo[@"SenTestFilenameKey"] description:nil error:NULL];
 #else
     [[UIApplication sharedApplication] writeScreenshotForLine:exception.lineNumber.unsignedIntegerValue inFile:exception.filename description:nil error:NULL];

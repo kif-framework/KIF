@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "KIFTestCase.h"
 
-#ifdef KIF_XCTEST
+#ifndef KIF_SENTEST
 
 #define __KIFFail XCTFail
 #define __KIFAssertEqual XCTAssertEqual

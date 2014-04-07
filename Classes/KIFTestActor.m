@@ -7,7 +7,7 @@
 //  See the LICENSE file distributed with this work for the terms under
 //  which Square, Inc. licenses this file to you.
 
-#ifdef KIF_XCTEST
+#ifndef KIF_SENTEST
 #import <XCTest/XCTest.h>
 #import "NSException-KIFAdditions.h"
 #else
@@ -28,7 +28,7 @@
         NSLog(@"KIFTester loaded");
         [KIFTestActor _enableAccessibility];
 
-#ifdef KIF_XCTEST
+#ifndef KIF_SENTEST
         if ([[[NSProcessInfo processInfo] environment] objectForKey:@"StartKIFManually"]) {
             [[NSUserDefaults standardUserDefaults] setBool:YES forKey:XCTestToolKey];
             XCTSelfTestMain();
