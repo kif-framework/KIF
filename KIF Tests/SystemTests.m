@@ -89,6 +89,14 @@
     } returning:YES];
     KIFAssertEqual(YES, returnValue, @"openURL: should have returned YES");
     
+    NSString *actualPath = [NSString stringWithFormat:@"/path%u", arc4random()];
+    [system waitForApplicationToOpenMatchingURL:^BOOL(NSURL *URL) {
+        NSString *path = [URL path];
+        return [path isEqualToString:actualPath];
+    } whileExecutingBlock:^{
+        returnValue = [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[@"test123://myTestHost.com" stringByAppendingString:actualPath]]];
+    } returning:YES];
+    
     [system waitForApplicationToOpenAnyURLWhileExecutingBlock:^{
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"423543523454://"]];
     } returning:YES];

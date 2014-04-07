@@ -250,7 +250,7 @@
 - (void)enterTextIntoCurrentFirstResponder:(NSString *)text;
 {
     // Wait for the keyboard
-    [self waitForTimeInterval:0.5];
+    [self waitForTimeInterval:1.0];
     [self enterTextIntoCurrentFirstResponder:text fallbackView:nil];
 }
 
@@ -313,7 +313,7 @@
         KIFTestWaitCondition([actual isEqualToString:expected], error, @"Failed to get text \"%@\" in field; instead, it was \"%@\"", expected, actual);
         
         return KIFTestStepResultSuccess;
-    } timeout:1.0];
+    } timeout:2.0];
 }
 
 
