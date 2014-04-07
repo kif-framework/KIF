@@ -142,7 +142,7 @@
 
 + (BOOL)_enterCustomKeyboardCharacter:(NSString *)characterString;
 {
-    const NSTimeInterval keystrokeDelay = 0.1f;
+    const NSTimeInterval keystrokeDelay = 0.175f;
     
     if (!characterString.length) {
         return YES;
