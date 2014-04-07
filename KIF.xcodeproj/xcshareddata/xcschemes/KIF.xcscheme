@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "EABD46791857A0C700A5F081"
-               BuildableName = "libKIF-XCTest.a"
+               BuildableName = "libKIF.a"
                BlueprintName = "KIF"
                ReferencedContainer = "container:KIF.xcodeproj">
             </BuildableReference>
