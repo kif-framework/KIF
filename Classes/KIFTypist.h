@@ -11,6 +11,6 @@
 @interface KIFTypist : NSObject
 
 + (BOOL)enterCharacter:(NSString *)characterString;
-+ (void)setKeyboardDelay:(NSTimeInterval)delay;
++ (void)setKeystrokeDelay:(NSTimeInterval)delay;
 
 @end

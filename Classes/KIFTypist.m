@@ -164,7 +164,7 @@ static NSTimeInterval keystrokeDelay = 0.1f;
     return YES;
 }
 
-+ (void)setKeyboardDelay:(NSTimeInterval)delay
++ (void)setKeystrokeDelay:(NSTimeInterval)delay
 {
     keystrokeDelay = delay;
 }
