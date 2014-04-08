@@ -36,6 +36,21 @@
     return [self _enterCharacter:characterString history:[NSMutableDictionary dictionary]];
 }
 
++ (void)prepareKeyboardForTyping;
+{
+    // Keyboard does not always repond to first touch properly. So prime it with some throwaway touches.
+    UIView *keyboardView = [self _keyboardView];
+    CGPoint corner = CGPointMake(10, keyboardView.frame.size.height - 10);
+    [keyboardView tapAtPoint:corner];
+    [keyboardView tapAtPoint:corner];
+}
+
++ (UIView *)_keyboardView;
+{
+    UIWindow *keyboardWindow = [[UIApplication sharedApplication] keyboardWindow];
+    return [[keyboardWindow subviewsWithClassNamePrefix:@"UIKBKeyplaneView"] lastObject];
+}
+
 + (BOOL)_enterCharacter:(NSString *)characterString history:(NSMutableDictionary *)history;
 {
     const NSTimeInterval keystrokeDelay = 0.05f;
@@ -46,8 +61,7 @@
         return YES;
     }
     
-    UIWindow *keyboardWindow = [[UIApplication sharedApplication] keyboardWindow];
-    UIView *keyboardView = [[keyboardWindow subviewsWithClassNamePrefix:@"UIKBKeyplaneView"] lastObject];
+    UIView *keyboardView = [self _keyboardView];
     
     // If we didn't find the standard keyboard view, then we may have a custom keyboard
     if (!keyboardView) {
