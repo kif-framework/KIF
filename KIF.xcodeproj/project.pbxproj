@@ -231,7 +231,7 @@
 		EB60ECD2177F8C84005A041A /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		EB60ECD4177F8C84005A041A /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		EB60ECD6177F8C84005A041A /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
-		EB60ECEB177F8DB3005A041A /* KIF Tests - SenTest.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = "KIF Tests - SenTest.octest"; path = "KIF Tests-OCUnit.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		EB60ECEB177F8DB3005A041A /* KIF Tests-OCUnit.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "KIF Tests-OCUnit.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EB60ECF1177F8DB3005A041A /* KIF Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "KIF Tests-Info.plist"; sourceTree = "<group>"; };
 		EB60ECF3177F8DB3005A041A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		EB60ECF8177F8DB3005A041A /* KIF Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "KIF Tests-Prefix.pch"; sourceTree = "<group>"; };
@@ -335,7 +335,7 @@
 			children = (
 				EB72047C1680DDAD00278DA2 /* libKIF-OCUnit.a */,
 				EB60ECC1177F8C83005A041A /* Test Host.app */,
-				EB60ECEB177F8DB3005A041A /* KIF Tests - SenTest.octest */,
+				EB60ECEB177F8DB3005A041A /* KIF Tests-OCUnit.octest */,
 				EABD46AA1857A0C700A5F081 /* libKIF.a */,
 				EABD46CD1857A0F300A5F081 /* KIF Tests - XCTest.xctest */,
 			);
@@ -650,7 +650,7 @@
 			);
 			name = "KIF Tests-OCUnit";
 			productName = "KIF Tests";
-			productReference = EB60ECEB177F8DB3005A041A /* KIF Tests - SenTest.octest */;
+			productReference = EB60ECEB177F8DB3005A041A /* KIF Tests-OCUnit.octest */;
 			productType = "com.apple.product-type.bundle";
 		};
 		EB72043E1680DDAD00278DA2 /* KIF-OCUnit */ = {
