@@ -16,6 +16,16 @@
 
 @implementation KIFTestCase
 
++ (id)defaultTestSuite
+{
+    if (self == [KIFTestCase class]) {
+        // Don't run KIFTestCase "tests"
+        return nil;
+    }
+    
+    return [super defaultTestSuite];
+}
+
 - (id)initWithInvocation:(NSInvocation *)anInvocation;
 {
     self = [super initWithInvocation:anInvocation];
