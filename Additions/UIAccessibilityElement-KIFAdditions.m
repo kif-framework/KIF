@@ -91,6 +91,14 @@ MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
     UIScrollView *scrollView = (UIScrollView *)view;
     while (scrollView && ![scrollView isKindOfClass:[UIScrollView class]]) {
         scrollView = (UIScrollView *)scrollView.superview;
+        
+        // Fix for iOS7 table view cells containing scroll views
+        UIView *superView = scrollView.superview;
+        if (superView && [superView isKindOfClass:[UITableViewCell class]])
+        {
+            scrollView = nil;
+            break;
+        }
     }
     if (scrollView) {
         if ((UIAccessibilityElement *)view == element) {
