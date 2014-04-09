@@ -93,12 +93,8 @@ MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
         scrollView = (UIScrollView *)scrollView.superview;
     }
     if (scrollView) {
-        if ((UIAccessibilityElement *)view == element) {
-            [scrollView scrollViewToVisible:view animated:YES];
-        } else {
-            CGRect elementFrame = [view.window convertRect:element.accessibilityFrame toView:scrollView];
-            [scrollView scrollRectToVisible:elementFrame animated:YES];
-        }
+        CGRect elementFrame = [view.window convertRect:element.accessibilityFrame toView:scrollView];
+        [scrollView scrollRectToVisible:elementFrame animated:YES];
         
         // Give the scroll view a small amount of time to perform the scroll.
         CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.3, false);
