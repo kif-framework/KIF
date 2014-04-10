@@ -72,7 +72,7 @@
 {
     self = [super init];
     if (self) {
-        _file = [file retain];
+        _file = file;
         _line = line;
         _delegate = delegate;
         _executionBlockTimeout = [[self class] defaultTimeout];
@@ -82,7 +82,7 @@
 
 + (instancetype)actorInFile:(NSString *)file atLine:(NSInteger)line delegate:(id<KIFTestActorDelegate>)delegate
 {
-    return [[[self alloc] initWithFile:file line:line delegate:delegate] autorelease];
+    return [[self alloc] initWithFile:file line:line delegate:delegate];
 }
 
 - (instancetype)usingTimeout:(NSTimeInterval)executionBlockTimeout
@@ -130,11 +130,6 @@
     [self runBlock:executionBlock complete:nil];
 }
 
-- (void)dealloc
-{
-    [_file release];
-    [super dealloc];
-}
 
 #pragma mark Class Methods
 

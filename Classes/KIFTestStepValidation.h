@@ -51,7 +51,7 @@
 
 @interface _MockKIFTestActorDelegate : NSObject<KIFTestActorDelegate>
 @property (nonatomic, assign) BOOL failed;
-@property (nonatomic, retain) NSArray *exceptions;
+@property (nonatomic, strong) NSArray *exceptions;
 @property (nonatomic, assign) BOOL stopped;
 
 + (instancetype)mockDelegate;
