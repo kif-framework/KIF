@@ -27,13 +27,8 @@
 
 + (instancetype)mockDelegate
 {
-    return [[[self alloc] init] autorelease];
+    return [[self alloc] init];
 }
 
-- (void)dealloc
-{
-    [_exceptions release];
-    [super dealloc];
-}
 
 @end

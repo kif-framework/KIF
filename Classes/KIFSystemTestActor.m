@@ -28,8 +28,7 @@
 {
     __block NSNotification *detectedNotification = nil;
     id observer = [[NSNotificationCenter defaultCenter] addObserverForName:name object:object queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
-        [detectedNotification release];
-        detectedNotification = [note retain];
+        detectedNotification = note;
     }];
     
     if (block) {
@@ -47,7 +46,7 @@
         }
     }];
     
-    return [detectedNotification autorelease];
+    return detectedNotification;
 }
 
 - (void)simulateMemoryWarning

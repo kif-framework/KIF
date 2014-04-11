@@ -22,8 +22,8 @@
 - (void)afterAll
 {
     [system simulateDeviceRotationToOrientation:UIDeviceOrientationPortrait];
+    [tester waitForTimeInterval:0.25];
 }
-
 
 - (void)beforeEach
 {

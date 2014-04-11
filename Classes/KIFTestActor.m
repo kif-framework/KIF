@@ -72,7 +72,7 @@
 {
     self = [super init];
     if (self) {
-        _file = [file retain];
+        _file = file;
         _line = line;
         _delegate = delegate;
         _executionBlockTimeout = [[self class] defaultTimeout];
@@ -82,7 +82,7 @@
 
 + (instancetype)actorInFile:(NSString *)file atLine:(NSInteger)line delegate:(id<KIFTestActorDelegate>)delegate
 {
-    return [[[self alloc] initWithFile:file line:line delegate:delegate] autorelease];
+    return [[self alloc] initWithFile:file line:line delegate:delegate];
 }
 
 - (instancetype)usingTimeout:(NSTimeInterval)executionBlockTimeout
@@ -93,25 +93,27 @@
 
 - (void)runBlock:(KIFTestExecutionBlock)executionBlock complete:(KIFTestCompletionBlock)completionBlock timeout:(NSTimeInterval)timeout
 {
-    NSDate *startDate = [NSDate date];
-    KIFTestStepResult result;
-    NSError *error = nil;
-    
-    while ((result = executionBlock(&error)) == KIFTestStepResultWait && -[startDate timeIntervalSinceNow] < timeout) {
-        CFRunLoopRunInMode([[UIApplication sharedApplication] currentRunLoopMode] ?: kCFRunLoopDefaultMode, 0.1, false);
-    }
-    
-    if (result == KIFTestStepResultWait) {
-        error = [NSError KIFErrorWithUnderlyingError:error format:@"The step timed out after %.2f seconds: %@", timeout, error.localizedDescription];
-        result = KIFTestStepResultFailure;
-    }
-    
-    if (completionBlock) {
-        completionBlock(result, error);
-    }
-    
-    if (result == KIFTestStepResultFailure) {
-        [self failWithError:error stopTest:YES];
+    @autoreleasepool {
+        NSDate *startDate = [NSDate date];
+        KIFTestStepResult result;
+        NSError *error = nil;
+        
+        while ((result = executionBlock(&error)) == KIFTestStepResultWait && -[startDate timeIntervalSinceNow] < timeout) {
+            CFRunLoopRunInMode([[UIApplication sharedApplication] currentRunLoopMode] ?: kCFRunLoopDefaultMode, 0.1, false);
+        }
+        
+        if (result == KIFTestStepResultWait) {
+            error = [NSError KIFErrorWithUnderlyingError:error format:@"The step timed out after %.2f seconds: %@", timeout, error.localizedDescription];
+            result = KIFTestStepResultFailure;
+        }
+        
+        if (completionBlock) {
+            completionBlock(result, error);
+        }
+        
+        if (result == KIFTestStepResultFailure) {
+            [self failWithError:error stopTest:YES];
+        }
     }
 }
 
@@ -130,11 +132,6 @@
     [self runBlock:executionBlock complete:nil];
 }
 
-- (void)dealloc
-{
-    [_file release];
-    [super dealloc];
-}
 
 #pragma mark Class Methods
 

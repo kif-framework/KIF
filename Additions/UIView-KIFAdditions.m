@@ -160,7 +160,7 @@ typedef struct __GSEvent * GSEventRef;
     NSMutableArray *elementStack = [NSMutableArray arrayWithObject:self];
     
     while (elementStack.count) {
-        UIAccessibilityElement *element = [[[elementStack lastObject] retain] autorelease];
+        UIAccessibilityElement *element = [elementStack lastObject];
         [elementStack removeLastObject];
 
         BOOL elementMatches = matchBlock(element);
@@ -275,7 +275,7 @@ typedef struct __GSEvent * GSEventRef;
 
 - (void)flash;
 {
-	UIColor *originalBackgroundColor = [self.backgroundColor retain];
+	UIColor *originalBackgroundColor = self.backgroundColor;
     for (NSUInteger i = 0; i < 5; i++) {
         self.backgroundColor = [UIColor yellowColor];
         CFRunLoopRunInMode(kCFRunLoopDefaultMode, .05, false);
@@ -283,7 +283,6 @@ typedef struct __GSEvent * GSEventRef;
         CFRunLoopRunInMode(kCFRunLoopDefaultMode, .05, false);
     }
     self.backgroundColor = originalBackgroundColor;
-    [originalBackgroundColor release];
 }
 
 - (void)tap;
@@ -303,9 +302,8 @@ typedef struct __GSEvent * GSEventRef;
     if ([NSStringFromClass([self class]) isEqual:@"UIWebBrowserView"]) {
         webBrowserView = self;
     } else if ([self isKindOfClass:[UIWebView class]]) {
-        id webViewInternal = nil;
-        object_getInstanceVariable(self, "_internal", (void **)&webViewInternal);
-        object_getInstanceVariable(webViewInternal, "browserView", (void **)&webBrowserView);
+        id webViewInternal = [self valueForKey:@"_internal"];
+        webBrowserView = [webViewInternal valueForKey:@"browserView"];
     }
     
     if (webBrowserView) {
@@ -329,7 +327,6 @@ typedef struct __GSEvent * GSEventRef;
         [self becomeFirstResponder];
     }
 
-    [touch release];
 }
 
 #define DRAG_TOUCH_DELAY 0.01
@@ -363,7 +360,6 @@ typedef struct __GSEvent * GSEventRef;
         [self becomeFirstResponder];
     }
     
-    [touch release];
 }
 
 - (void)dragFromPoint:(CGPoint)startPoint toPoint:(CGPoint)endPoint;
@@ -431,7 +427,6 @@ typedef struct __GSEvent * GSEventRef;
     while (UIApplicationCurrentRunMode != kCFRunLoopDefaultMode) {
         CFRunLoopRunInMode(UIApplicationCurrentRunMode, 0.1, false);
     }
-    [touch release];
 }
 
 - (BOOL)isProbablyTappable
@@ -536,13 +531,10 @@ typedef struct __GSEvent * GSEventRef;
     eventProxy->flags = ([touch phase] == UITouchPhaseEnded) ? 0x1010180 : 0x3010180;
     eventProxy->type = 3001;	
 
-    NSSet *allTouches = [event allTouches];
     [event _clearTouches];
-    [allTouches makeObjectsPerformSelector:@selector(autorelease)];
     [event _setGSEvent:(struct __GSEvent *)eventProxy];
     [event _addTouch:touch forDelayedDelivery:NO];
     
-    [eventProxy release];
     return event;
 }
 
