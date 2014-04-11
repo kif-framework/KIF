@@ -31,7 +31,9 @@ MAKE_CATEGORIES_LOADABLE(NSError_KIFAdditions)
     NSString *description = [[NSString alloc] initWithFormat:format arguments:args];
     va_end(args);
     
-    return [self errorWithDomain:@"KIFTest" code:KIFTestStepResultFailure userInfo:@{NSLocalizedDescriptionKey: description, NSUnderlyingErrorKey: underlyingError}];
+    NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:description, NSLocalizedDescriptionKey, underlyingError, NSUnderlyingErrorKey, nil];
+    
+    return [self errorWithDomain:@"KIFTest" code:KIFTestStepResultFailure userInfo:userInfo];
 }
 
 @end
