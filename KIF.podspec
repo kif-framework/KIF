@@ -6,7 +6,7 @@ Pod::Spec.new do |s|
   s.license         = 'Apache 2.0'
   s.authors         = 'Eric Firestone', 'Jim Puls', 'Brian Nickel'
   s.source          = { :git => "https://github.com/kif-framework/KIF.git", :tag => "v3.0.2" }
-  s.platform        = :ios, '4.3'
+  s.platform        = :ios, '5.1'
   s.frameworks      = 'CoreGraphics'
   s.default_subspec = 'XCTest'
   s.requires_arc    = true
