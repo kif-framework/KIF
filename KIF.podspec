@@ -9,7 +9,7 @@ Pod::Spec.new do |s|
   s.platform        = :ios, '4.3'
   s.frameworks      = 'CoreGraphics'
   s.default_subspec = 'XCTest'
-  s.requires_arc    = false
+  s.requires_arc    = true
   s.prefix_header_contents = '#import <CoreGraphics/CoreGraphics.h>'
 
   s.subspec 'XCTest' do |xctest|
@@ -18,7 +18,7 @@ Pod::Spec.new do |s|
     xctest.public_header_files  = 'Classes/**/*.h', 'Additions/**/*-KIFAdditions.h'
     xctest.framework            = 'XCTest'
     xctest.xcconfig             = { 'OTHER_CFLAGS' => '-DKIF_XCTEST' }
-    xctest.requires_arc         = false
+    xctest.requires_arc         = true
   end
 
   s.subspec 'OCUnit' do |sentest|
@@ -27,6 +27,6 @@ Pod::Spec.new do |s|
     sentest.public_header_files = 'Classes/**/*.h', 'Additions/**/*-KIFAdditions.h'
     sentest.framework           = 'SenTestingKit'
     sentest.xcconfig            = { 'OTHER_CFLAGS' => '-DKIF_SENTEST' }
-    sentest.requires_arc        = false
+    sentest.requires_arc        = true
   end
 end
