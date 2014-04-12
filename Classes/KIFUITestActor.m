@@ -12,6 +12,7 @@
 #import "UIWindow-KIFAdditions.h"
 #import "UIAccessibilityElement-KIFAdditions.h"
 #import "UIView-KIFAdditions.h"
+#import "UITableView-KIFAdditions.h"
 #import "CGGeometry-KIFAdditions.h"
 #import "NSError-KIFAdditions.h"
 #import "KIFTypist.h"
@@ -759,6 +760,20 @@
     }
     
     [self tapAccessibilityElement:statusBars[0] inView:statusBars[0]];
+}
+
+- (void)moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath inTableViewWithAccessibilityIdentifier:(NSString *)identifier
+{
+    UITableView *tableView;
+    [self waitForAccessibilityElement:NULL view:&tableView withIdentifier:identifier tappable:NO];
+    
+    UITableViewCell *cell = [self waitForCellAtIndexPath:sourceIndexPath inTableView:tableView];
+    
+    NSError *error = nil;
+    [tableView dragCell:cell toIndexPath:destinationIndexPath error:&error];
+    if (error) {
+        [self failWithError:error stopTest:YES];
+    }
 }
 
 @end
