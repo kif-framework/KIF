@@ -14,12 +14,6 @@
 #import "CGGeometry-KIFAdditions.h"
 #import "NSError-KIFAdditions.h"
 
-@interface UIView (KIFAdditionsPrivate)
-
-- (UIEvent *)_eventWithTouch:(UITouch *)touch;
-
-@end
-
 @implementation UITableView (KIFAdditions)
 
 #define DRAG_STEP_DISTANCE 5
@@ -50,7 +44,7 @@
     UITouch *touch = [[UITouch alloc] initAtPoint:sourcePoint inView:self];
     [touch setPhaseAndUpdateTimestamp:UITouchPhaseBegan];
     
-    UIEvent *eventDown = [self _eventWithTouch:touch];
+    UIEvent *eventDown = [self eventWithTouch:touch];
     [[UIApplication sharedApplication] sendEvent:eventDown];
     
     // Hold long enough to enter reordering mode
@@ -67,7 +61,7 @@
         [touch setLocationInWindow:[self.window convertPoint:currentLocation fromView:self]];
         [touch setPhaseAndUpdateTimestamp:UITouchPhaseMoved];
         
-        UIEvent *eventDrag = [self _eventWithTouch:touch];
+        UIEvent *eventDrag = [self eventWithTouch:touch];
         [[UIApplication sharedApplication] sendEvent:eventDrag];
         
         CFRunLoopRunInMode(UIApplicationCurrentRunMode, 0.01, false);
@@ -78,7 +72,7 @@
     
     [touch setPhaseAndUpdateTimestamp:UITouchPhaseEnded];
     
-    UIEvent *eventUp = [self _eventWithTouch:touch];
+    UIEvent *eventUp = [self eventWithTouch:touch];
     [[UIApplication sharedApplication] sendEvent:eventUp];
     
     // Dispatching the event doesn't actually update the first responder, so fake it
