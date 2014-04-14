@@ -77,6 +77,8 @@ typedef CGPoint KIFDisplacement;
  */
 - (CGPoint)tappablePointInRect:(CGRect)rect;
 
+- (UIEvent *)eventWithTouch:(UITouch *)touch;
+
 /*!
  @abstract Evaluates if user interaction is enabled including edge cases.
  */

@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		A88930121685098E00FC7C63 /* KIF.h in Headers */ = {isa = PBXBuildFile; fileRef = A88930111685098E00FC7C63 /* KIF.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D927B9DC18F9DF2D00DAD036 /* TableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D927B9DB18F9DF2D00DAD036 /* TableViewController.m */; };
+		D927B9DF18F9E46400DAD036 /* UITableView-KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = D927B9DD18F9E46400DAD036 /* UITableView-KIFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D927B9E018F9E46400DAD036 /* UITableView-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D927B9DE18F9E46400DAD036 /* UITableView-KIFAdditions.m */; };
+		D927B9E118F9E47000DAD036 /* UITableView-KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = D927B9DD18F9E46400DAD036 /* UITableView-KIFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D927B9E218F9E47600DAD036 /* UITableView-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D927B9DE18F9E46400DAD036 /* UITableView-KIFAdditions.m */; };
 		D9EA274118F05A6000D87E57 /* ScrollViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D9EA274018F05A6000D87E57 /* ScrollViewTests.m */; };
 		D9EA274318F05A6700D87E57 /* ScrollViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9EA274218F05A6700D87E57 /* ScrollViewController.m */; };
 		EA0F2547182979BE006FF825 /* CollectionViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EA0F2546182979BE006FF825 /* CollectionViewTests.m */; };
@@ -194,6 +199,9 @@
 		C194255715D83DE9004FC314 /* KIFTypist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KIFTypist.m; sourceTree = "<group>"; };
 		CDFD8E84139728B4008D299F /* NSFileManager-KIFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFileManager-KIFAdditions.h"; sourceTree = "<group>"; };
 		CDFD8E85139728B4008D299F /* NSFileManager-KIFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager-KIFAdditions.m"; sourceTree = "<group>"; };
+		D927B9DB18F9DF2D00DAD036 /* TableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableViewController.m; sourceTree = "<group>"; };
+		D927B9DD18F9E46400DAD036 /* UITableView-KIFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableView-KIFAdditions.h"; sourceTree = "<group>"; };
+		D927B9DE18F9E46400DAD036 /* UITableView-KIFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableView-KIFAdditions.m"; sourceTree = "<group>"; };
 		D9EA274018F05A6000D87E57 /* ScrollViewTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScrollViewTests.m; sourceTree = "<group>"; };
 		D9EA274218F05A6700D87E57 /* ScrollViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScrollViewController.m; sourceTree = "<group>"; };
 		EA0F2546182979BE006FF825 /* CollectionViewTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionViewTests.m; sourceTree = "<group>"; };
@@ -402,6 +410,8 @@
 				AAB072A113971AB2008AF393 /* UIView-KIFAdditions.m */,
 				AAB072A213971AB2008AF393 /* UIWindow-KIFAdditions.h */,
 				AAB072A313971AB2008AF393 /* UIWindow-KIFAdditions.m */,
+				D927B9DD18F9E46400DAD036 /* UITableView-KIFAdditions.h */,
+				D927B9DE18F9E46400DAD036 /* UITableView-KIFAdditions.m */,
 				EBAE487A17A45A8E0005EE19 /* NSBundle-KIFAdditions.h */,
 				EBAE487B17A45A8E0005EE19 /* NSBundle-KIFAdditions.m */,
 				EBAE487F17A460E50005EE19 /* NSError-KIFAdditions.h */,
@@ -448,6 +458,7 @@
 				EB60ECFF177F9032005A041A /* TestSuiteViewController.m */,
 				EA0F25491829839E006FF825 /* CollectionViewController.m */,
 				D9EA274218F05A6700D87E57 /* ScrollViewController.m */,
+				D927B9DB18F9DF2D00DAD036 /* TableViewController.m */,
 				EB60ECC7177F8C83005A041A /* Supporting Files */,
 			);
 			path = "Test Host";
@@ -511,6 +522,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EABD46911857A0C700A5F081 /* KIF.h in Headers */,
+				D927B9DF18F9E46400DAD036 /* UITableView-KIFAdditions.h in Headers */,
 				EABD46921857A0C700A5F081 /* CGGeometry-KIFAdditions.h in Headers */,
 				EABD46931857A0C700A5F081 /* UIAccessibilityElement-KIFAdditions.h in Headers */,
 				EABD46941857A0C700A5F081 /* UIApplication-KIFAdditions.h in Headers */,
@@ -555,6 +567,7 @@
 				EB7204661680DDAD00278DA2 /* KIFUITestActor.h in Headers */,
 				EBAE487C17A45A8E0005EE19 /* NSBundle-KIFAdditions.h in Headers */,
 				EBAE488117A460E50005EE19 /* NSError-KIFAdditions.h in Headers */,
+				D927B9E118F9E47000DAD036 /* UITableView-KIFAdditions.h in Headers */,
 				EABD474B185F509E00A5F081 /* SenTestCase-KIFAdditions.h in Headers */,
 				EBAE488717A4E5C30005EE19 /* KIFTestStepValidation.h in Headers */,
 				EB7204551680DDAD00278DA2 /* KIF-Prefix.pch in Headers */,
@@ -774,6 +787,7 @@
 				EABD46801857A0C700A5F081 /* UIView-KIFAdditions.m in Sources */,
 				EABD46811857A0C700A5F081 /* UIWindow-KIFAdditions.m in Sources */,
 				EABD46821857A0C700A5F081 /* NSFileManager-KIFAdditions.m in Sources */,
+				D927B9E018F9E46400DAD036 /* UITableView-KIFAdditions.m in Sources */,
 				EABD46831857A0C700A5F081 /* KIFTypist.m in Sources */,
 				EABD46841857A0C700A5F081 /* KIFTestActor.m in Sources */,
 				EABD46851857A0C700A5F081 /* KIFTestCase.m in Sources */,
@@ -819,6 +833,7 @@
 				EA0F254A1829839E006FF825 /* CollectionViewController.m in Sources */,
 				EB60ECCD177F8C84005A041A /* main.m in Sources */,
 				EB60ED00177F9032005A041A /* AppDelegate.m in Sources */,
+				D927B9DC18F9DF2D00DAD036 /* TableViewController.m in Sources */,
 				EB60ED01177F9032005A041A /* ShowHideViewController.m in Sources */,
 				EB60ED02177F9032005A041A /* TapViewController.m in Sources */,
 				EB60ED03177F9032005A041A /* TestSuiteViewController.m in Sources */,
@@ -859,6 +874,7 @@
 				EB7204461680DDAD00278DA2 /* UIScrollView-KIFAdditions.m in Sources */,
 				EB7204471680DDAD00278DA2 /* UITouch-KIFAdditions.m in Sources */,
 				EB7204481680DDAD00278DA2 /* UIView-KIFAdditions.m in Sources */,
+				D927B9E218F9E47600DAD036 /* UITableView-KIFAdditions.m in Sources */,
 				EB7204491680DDAD00278DA2 /* UIWindow-KIFAdditions.m in Sources */,
 				EB72044A1680DDAD00278DA2 /* NSFileManager-KIFAdditions.m in Sources */,
 				EB72044B1680DDAD00278DA2 /* KIFTypist.m in Sources */,

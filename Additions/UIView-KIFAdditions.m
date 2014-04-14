@@ -64,12 +64,6 @@ typedef struct __GSEvent * GSEventRef;
 
 @end
 
-@interface UIView (KIFAdditionsPrivate)
-
-- (UIEvent *)_eventWithTouch:(UITouch *)touch;
-
-@end
-
 
 @implementation UIView (KIFAdditions)
 
@@ -315,7 +309,7 @@ typedef struct __GSEvent * GSEventRef;
     UITouch *touch = [[UITouch alloc] initAtPoint:point inView:self];
     [touch setPhaseAndUpdateTimestamp:UITouchPhaseBegan];
     
-    UIEvent *event = [self _eventWithTouch:touch];
+    UIEvent *event = [self eventWithTouch:touch];
 
     [[UIApplication sharedApplication] sendEvent:event];
     
@@ -336,7 +330,7 @@ typedef struct __GSEvent * GSEventRef;
     UITouch *touch = [[UITouch alloc] initAtPoint:point inView:self];
     [touch setPhaseAndUpdateTimestamp:UITouchPhaseBegan];
     
-    UIEvent *eventDown = [self _eventWithTouch:touch];
+    UIEvent *eventDown = [self eventWithTouch:touch];
     [[UIApplication sharedApplication] sendEvent:eventDown];
     
     CFRunLoopRunInMode(kCFRunLoopDefaultMode, DRAG_TOUCH_DELAY, false);
@@ -345,14 +339,14 @@ typedef struct __GSEvent * GSEventRef;
     {
         [touch setPhaseAndUpdateTimestamp:UITouchPhaseStationary];
         
-        UIEvent *eventStillDown = [self _eventWithTouch:touch];
+        UIEvent *eventStillDown = [self eventWithTouch:touch];
         [[UIApplication sharedApplication] sendEvent:eventStillDown];
         
         CFRunLoopRunInMode(kCFRunLoopDefaultMode, DRAG_TOUCH_DELAY, false);
     }
     
     [touch setPhaseAndUpdateTimestamp:UITouchPhaseEnded];
-    UIEvent *eventUp = [self _eventWithTouch:touch];
+    UIEvent *eventUp = [self eventWithTouch:touch];
     [[UIApplication sharedApplication] sendEvent:eventUp];
     
     // Dispatching the event doesn't actually update the first responder, so fake it
@@ -399,7 +393,7 @@ typedef struct __GSEvent * GSEventRef;
     UITouch *touch = [[UITouch alloc] initAtPoint:points[0] inView:self];
     [touch setPhaseAndUpdateTimestamp:UITouchPhaseBegan];
     
-    UIEvent *eventDown = [self _eventWithTouch:touch];
+    UIEvent *eventDown = [self eventWithTouch:touch];
     [[UIApplication sharedApplication] sendEvent:eventDown];
     
     CFRunLoopRunInMode(UIApplicationCurrentRunMode, DRAG_TOUCH_DELAY, false);
@@ -408,7 +402,7 @@ typedef struct __GSEvent * GSEventRef;
         [touch setLocationInWindow:[self.window convertPoint:points[pointIndex] fromView:self]];
         [touch setPhaseAndUpdateTimestamp:UITouchPhaseMoved];
         
-        UIEvent *eventDrag = [self _eventWithTouch:touch];
+        UIEvent *eventDrag = [self eventWithTouch:touch];
         [[UIApplication sharedApplication] sendEvent:eventDrag];
 
         CFRunLoopRunInMode(UIApplicationCurrentRunMode, DRAG_TOUCH_DELAY, false);
@@ -416,7 +410,7 @@ typedef struct __GSEvent * GSEventRef;
     
     [touch setPhaseAndUpdateTimestamp:UITouchPhaseEnded];
     
-    UIEvent *eventUp = [self _eventWithTouch:touch];
+    UIEvent *eventUp = [self eventWithTouch:touch];
     [[UIApplication sharedApplication] sendEvent:eventUp];
     
     // Dispatching the event doesn't actually update the first responder, so fake it
@@ -514,7 +508,7 @@ typedef struct __GSEvent * GSEventRef;
     return CGPointMake(NAN, NAN);
 }
 
-- (UIEvent *)_eventWithTouch:(UITouch *)touch;
+- (UIEvent *)eventWithTouch:(UITouch *)touch;
 {
     UIEvent *event = [[UIApplication sharedApplication] _touchesEvent];
     
