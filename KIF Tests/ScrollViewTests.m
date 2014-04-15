@@ -24,9 +24,17 @@
     [tester tapViewWithAccessibilityLabel:@"Test Suite" traits:UIAccessibilityTraitButton];
 }
 
-- (void)testTappingViewOffscreenAndWithinScrollViewNotAtTopOfScreen
+- (void)testScrollingToTapOffscreenViews
 {
-    [tester tapViewWithAccessibilityLabel:@"Button"];
+    [tester tapViewWithAccessibilityLabel:@"Down"];
+    [tester tapViewWithAccessibilityLabel:@"Up"];
+    [tester tapViewWithAccessibilityLabel:@"Right"];
+    [tester tapViewWithAccessibilityLabel:@"Left"];
+}
+
+- (void)testScrollingToTapOffscreenTextView
+{
+    [tester tapViewWithAccessibilityLabel:@"TextView"];
 }
 
 @end

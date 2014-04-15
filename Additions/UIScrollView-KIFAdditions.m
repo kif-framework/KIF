@@ -20,35 +20,23 @@ MAKE_CATEGORIES_LOADABLE(UIScrollView_KIFAdditions)
 
 - (void)scrollViewToVisible:(UIView *)view animated:(BOOL)animated;
 {
-    BOOL needsUpdate = NO;
+    CGRect viewFrame = [self convertRect:view.bounds fromView:view];
+    CGPoint contentOffset = self.contentOffset;
     
-    CGRect viewFrame = [self convertRect:view.frame fromView:view.superview];
-    CGFloat viewMaxX = viewFrame.origin.x + viewFrame.size.width;
-    CGFloat viewMaxY = viewFrame.origin.y + viewFrame.size.height;
-    CGFloat scrollViewMaxX = self.frame.size.width;
-    CGFloat scrollViewMaxY = self.frame.size.height;
-    
-    CGPoint offsetPoint = self.contentOffset;
-    if (viewMaxX > (scrollViewMaxX + offsetPoint.x)) {
-        // The view is to the right of the view port, so scroll it just into view
-        offsetPoint.x = viewMaxX - scrollViewMaxX;
-        needsUpdate = YES;
-    } else if (viewMaxX < 0.0) {
-        offsetPoint.x = 0;
-        needsUpdate = YES;
+    if (CGRectGetMaxX(viewFrame) > self.contentOffset.x + CGRectGetWidth(self.bounds)) {
+        contentOffset.x = MIN(CGRectGetMaxX(viewFrame) - CGRectGetWidth(self.bounds), CGRectGetMinX(viewFrame));
+    } else if (CGRectGetMinX(viewFrame) < self.contentOffset.x) {
+        contentOffset.x = MAX(CGRectGetMaxX(viewFrame) - CGRectGetWidth(self.bounds), CGRectGetMinX(viewFrame));
     }
     
-    if (viewMaxY > (scrollViewMaxY + offsetPoint.y)) {
-        // The view is below the view port, so scroll it just into view
-        offsetPoint.y = viewMaxY - scrollViewMaxY;
-        needsUpdate = YES;
-    } else if (viewMaxY < 0.0) {
-        offsetPoint.y = 0;
-        needsUpdate = YES;
+    if (CGRectGetMaxY(viewFrame) > self.contentOffset.y + CGRectGetHeight(self.bounds)) {
+        contentOffset.y = MIN(CGRectGetMaxY(viewFrame) - CGRectGetHeight(self.bounds), CGRectGetMinY(viewFrame));
+    } else if (CGRectGetMinY(viewFrame) < self.contentOffset.y) {
+        contentOffset.y = MAX(CGRectGetMaxY(viewFrame) - CGRectGetHeight(self.bounds), CGRectGetMinY(viewFrame));
     }
     
-    if (needsUpdate) {
-        [self setContentOffset:offsetPoint animated:animated];
+    if (!CGPointEqualToPoint(contentOffset, self.contentOffset)) {
+        [self setContentOffset:contentOffset animated:animated];
         CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.2, false);
     }
 }
