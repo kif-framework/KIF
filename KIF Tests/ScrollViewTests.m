@@ -32,4 +32,9 @@
     [tester tapViewWithAccessibilityLabel:@"Left"];
 }
 
+- (void)testScrollingToTapOffscreenTextView
+{
+    [tester tapViewWithAccessibilityLabel:@"TextView"];
+}
+
 @end

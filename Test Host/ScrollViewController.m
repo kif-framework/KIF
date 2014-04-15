@@ -23,26 +23,31 @@
     UIButton *bottomButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [bottomButton setTitle:@"Down" forState:UIControlStateNormal];
     bottomButton.backgroundColor = [UIColor greenColor];
-    bottomButton.frame = CGRectMake(950, 1500, 100, 44);
+    bottomButton.frame = CGRectMake(1000, 1500, 100, 50);
     [self.scrollView addSubview:bottomButton];
     
     UIButton *upButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [upButton setTitle:@"Up" forState:UIControlStateNormal];
     upButton.backgroundColor = [UIColor greenColor];
-    upButton.frame = CGRectMake(950, 500, 100, 44);
+    upButton.frame = CGRectMake(1000, 500, 100, 50);
     [self.scrollView addSubview:upButton];
     
     UIButton *rightButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [rightButton setTitle:@"Right" forState:UIControlStateNormal];
     rightButton.backgroundColor = [UIColor greenColor];
-    rightButton.frame = CGRectMake(1500, 978, 100, 44);
+    rightButton.frame = CGRectMake(1500, 1000, 100, 50);
     [self.scrollView addSubview:rightButton];
     
     UIButton *leftButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [leftButton setTitle:@"Left" forState:UIControlStateNormal];
     leftButton.backgroundColor = [UIColor greenColor];
-    leftButton.frame = CGRectMake(500, 978, 100, 44);
+    leftButton.frame = CGRectMake(500, 1000, 100, 50);
     [self.scrollView addSubview:leftButton];
+    
+    UITextView *textView = [[UITextView alloc] initWithFrame:CGRectMake(1500, 1500, 100, 100)];
+    textView.backgroundColor = [UIColor redColor];
+    textView.accessibilityLabel = @"TextView";
+    [self.scrollView addSubview:textView];
 }
 
 @end
