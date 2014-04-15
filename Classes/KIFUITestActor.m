@@ -15,6 +15,7 @@
 #import "CGGeometry-KIFAdditions.h"
 #import "NSError-KIFAdditions.h"
 #import "KIFTypist.h"
+#import "UISegmentedControl+KIFAdditions.h"
 
 @implementation KIFUITestActor
 
@@ -422,6 +423,26 @@
 		return KIFTestStepResultSuccess;
     }];
 
+}
+
+- (void)selectSegmentAtIndex:(NSInteger)index intoSegmentedControlWithAccessibilityLabel:(NSString *)label {
+	[self runBlock:^KIFTestStepResult(NSError **error) {
+		// get a hold of the segmented control
+		UISegmentedControl *control = (UISegmentedControl *) [self waitForViewWithAccessibilityLabel:label];
+		 KIFTestCondition([control isKindOfClass:UISegmentedControl.class], error, @"View with accessibility label %@ is not a segmented control.", label);
+		
+		// now figure out where in that control is the segment we want to touch
+		CGPoint relativePosition = CGPointZero;
+		relativePosition.y = CGRectGetHeight(control.frame) / 2.0f;
+		for (int i = 0; i < index; i++) {
+			relativePosition.x += [control KIF_widthForSegmentAtIndex:i];
+		}
+		relativePosition.x += [control KIF_widthForSegmentAtIndex: index] / 2.0f;
+		
+		CGPoint globalPosition = [control convertPoint:relativePosition toView:nil];
+		[self tapScreenAtPoint:globalPosition];
+		return KIFTestStepResultSuccess;
+	}];
 }
 
 - (void)setOn:(BOOL)switchIsOn forSwitchWithAccessibilityLabel:(NSString *)label

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0041206D18FDE4D500F84D95 /* UISegmentedControl+KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 0041206B18FDE4D500F84D95 /* UISegmentedControl+KIFAdditions.h */; };
+		0041206E18FDE4D500F84D95 /* UISegmentedControl+KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0041206C18FDE4D500F84D95 /* UISegmentedControl+KIFAdditions.m */; };
 		007158031812058100B1A170 /* UIBarButtonItem-KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 007158011812058100B1A170 /* UIBarButtonItem-KIFAdditions.h */; };
 		007158041812058100B1A170 /* UIBarButtonItem-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 007158021812058100B1A170 /* UIBarButtonItem-KIFAdditions.m */; };
 		008DC11A18120F960059F3FA /* UIBarButtonItem-KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 008DC11818120F960059F3FA /* UIBarButtonItem-KIFAdditions.h */; };
@@ -99,6 +101,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0041206B18FDE4D500F84D95 /* UISegmentedControl+KIFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UISegmentedControl+KIFAdditions.h"; sourceTree = "<group>"; };
+		0041206C18FDE4D500F84D95 /* UISegmentedControl+KIFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UISegmentedControl+KIFAdditions.m"; sourceTree = "<group>"; };
 		007158011812058100B1A170 /* UIBarButtonItem-KIFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem-KIFAdditions.h"; sourceTree = "<group>"; };
 		007158021812058100B1A170 /* UIBarButtonItem-KIFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem-KIFAdditions.m"; sourceTree = "<group>"; };
 		008DC11818120F960059F3FA /* UIBarButtonItem-KIFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem-KIFAdditions.h"; sourceTree = "<group>"; };
@@ -306,6 +310,8 @@
 				007158021812058100B1A170 /* UIBarButtonItem-KIFAdditions.m */,
 				008DC11818120F960059F3FA /* UIBarButtonItem-KIFAdditions.h */,
 				008DC11918120F960059F3FA /* UIBarButtonItem-KIFAdditions.m */,
+				0041206B18FDE4D500F84D95 /* UISegmentedControl+KIFAdditions.h */,
+				0041206C18FDE4D500F84D95 /* UISegmentedControl+KIFAdditions.m */,
 			);
 			path = Additions;
 			sourceTree = "<group>";
@@ -401,6 +407,7 @@
 			files = (
 				008DC11A18120F960059F3FA /* UIBarButtonItem-KIFAdditions.h in Headers */,
 				A88930121685098E00FC7C63 /* KIF.h in Headers */,
+				0041206D18FDE4D500F84D95 /* UISegmentedControl+KIFAdditions.h in Headers */,
 				EB7204591680DDAD00278DA2 /* CGGeometry-KIFAdditions.h in Headers */,
 				EB72045A1680DDAD00278DA2 /* UIAccessibilityElement-KIFAdditions.h in Headers */,
 				EB72045B1680DDAD00278DA2 /* UIApplication-KIFAdditions.h in Headers */,
@@ -605,6 +612,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EB7204431680DDAD00278DA2 /* CGGeometry-KIFAdditions.m in Sources */,
+				0041206E18FDE4D500F84D95 /* UISegmentedControl+KIFAdditions.m in Sources */,
 				EB7204441680DDAD00278DA2 /* UIAccessibilityElement-KIFAdditions.m in Sources */,
 				EB7204451680DDAD00278DA2 /* UIApplication-KIFAdditions.m in Sources */,
 				007158041812058100B1A170 /* UIBarButtonItem-KIFAdditions.m in Sources */,
