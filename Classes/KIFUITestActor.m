@@ -553,6 +553,9 @@
     UITableViewCell *cell = [self waitForCellAtIndexPath:indexPath inTableView:tableView];
     CGRect cellFrame = [cell.contentView convertRect:cell.contentView.frame toView:tableView];
     [tableView tapAtPoint:CGPointCenteredInRect(cellFrame)];
+    
+    // Wait for the view to stabilize.
+    [tester waitForTimeInterval:0.5];
 }
 
 - (void)tapItemAtIndexPath:(NSIndexPath *)indexPath inCollectionViewWithAccessibilityIdentifier:(NSString *)identifier
@@ -569,6 +572,9 @@
     
     CGRect cellFrame = [cell.contentView convertRect:cell.contentView.frame toView:collectionView];
     [collectionView tapAtPoint:CGPointCenteredInRect(cellFrame)];
+    
+    // Wait for the view to stabilize.
+    [tester waitForTimeInterval:0.5];
 }
 
 - (void)swipeViewWithAccessibilityLabel:(NSString *)label inDirection:(KIFSwipeDirection)direction
