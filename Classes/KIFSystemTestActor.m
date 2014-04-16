@@ -12,10 +12,6 @@
 #import "UIApplication-KIFAdditions.h"
 #import "NSError-KIFAdditions.h"
 
-@interface UIApplication (Private)
-- (BOOL)rotateIfNeeded:(UIDeviceOrientation)orientation;
-@end
-
 @implementation KIFSystemTestActor
 
 - (NSNotification *)waitForNotificationName:(NSString*)name object:(id)object
@@ -32,8 +28,7 @@
 {
     __block NSNotification *detectedNotification = nil;
     id observer = [[NSNotificationCenter defaultCenter] addObserverForName:name object:object queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
-        [detectedNotification release];
-        detectedNotification = [note retain];
+        detectedNotification = note;
     }];
     
     if (block) {
@@ -51,7 +46,7 @@
         }
     }];
     
-    return [detectedNotification autorelease];
+    return detectedNotification;
 }
 
 - (void)simulateMemoryWarning

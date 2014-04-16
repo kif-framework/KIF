@@ -65,4 +65,10 @@
     [tester enterText:@", world\n" intoViewWithAccessibilityLabel:@"Greeting" traits:UIAccessibilityTraitNone expectedResult:@"Hello, world"];
 }
 
+- (void)testClearingALongTextField
+{
+    [tester clearTextFromAndThenEnterText:@"A man, a plan, a canal, Panama.  Able was I, ere I saw Elba." intoViewWithAccessibilityLabel:@"Greeting"];
+    [tester clearTextFromViewWithAccessibilityLabel:@"Greeting"];
+}
+
 @end

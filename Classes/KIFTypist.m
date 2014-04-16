@@ -13,6 +13,8 @@
 #import "CGGeometry-KIFAdditions.h"
 #import "UIAccessibilityElement-KIFAdditions.h"
 
+static NSTimeInterval keystrokeDelay = 0.1f;
+
 @interface KIFTypist()
 + (NSString *)_representedKeyboardStringForCharacter:(NSString *)characterString;
 + (BOOL)_enterCharacter:(NSString *)characterString history:(NSMutableDictionary *)history;
@@ -38,8 +40,6 @@
 
 + (BOOL)_enterCharacter:(NSString *)characterString history:(NSMutableDictionary *)history;
 {
-    const NSTimeInterval keystrokeDelay = 0.05f;
-    
     // Each key on the keyboard does not have its own view, so we have to ask for the list of keys,
     // find the appropriate one, and tap inside the frame of that key on the main keyboard view.
     if (!characterString.length) {
@@ -142,8 +142,6 @@
 
 + (BOOL)_enterCustomKeyboardCharacter:(NSString *)characterString;
 {
-    const NSTimeInterval keystrokeDelay = 0.05f;
-    
     if (!characterString.length) {
         return YES;
     }
@@ -164,6 +162,11 @@
     CFRunLoopRunInMode(kCFRunLoopDefaultMode, keystrokeDelay, false);
     
     return YES;
+}
+
++ (void)setKeystrokeDelay:(NSTimeInterval)delay
+{
+    keystrokeDelay = delay;
 }
 
 @end

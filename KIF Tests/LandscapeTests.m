@@ -22,8 +22,8 @@
 - (void)afterAll
 {
     [system simulateDeviceRotationToOrientation:UIDeviceOrientationPortrait];
+    [tester waitForTimeInterval:0.25];
 }
-
 
 - (void)beforeEach
 {
@@ -34,6 +34,7 @@
 {
     [tester tapViewWithAccessibilityLabel:@"UIAlertView"];
     [tester tapViewWithAccessibilityLabel:@"Continue"];
+    [tester waitForAbsenceOfViewWithAccessibilityLabel:@"Message"];
 }
 
 @end
