@@ -26,7 +26,7 @@
 
 - (void)testTappingItems
 {
-    [tester tapItemAtIndexPath:[NSIndexPath indexPathForItem:2 inSection:0] inCollectionViewWithAccessibilityIdentifier:@"CollectionView Tests CollectionView"];
+    [tester tapItemAtIndexPath:[NSIndexPath indexPathForItem:199 inSection:0] inCollectionViewWithAccessibilityIdentifier:@"CollectionView Tests CollectionView"];
     [tester waitForViewWithAccessibilityLabel:@"Last Cell" traits:UIAccessibilityTraitSelected];
     [tester tapItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0] inCollectionViewWithAccessibilityIdentifier:@"CollectionView Tests CollectionView"];
     [tester waitForViewWithAccessibilityLabel:@"First Cell" traits:UIAccessibilityTraitSelected];
@@ -46,6 +46,12 @@
 - (void)testUnknownCollectionView
 {
     KIFExpectFailure([[tester usingTimeout:1] tapItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0] inCollectionViewWithAccessibilityIdentifier:@"Unknown CollectionView"]);
+}
+
+- (void)testTappingItemsByLabel
+{
+    [tester waitForViewWithAccessibilityLabel:@"Last Cell"];
+    [tester waitForViewWithAccessibilityLabel:@"First Cell"];
 }
 
 @end

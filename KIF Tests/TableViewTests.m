@@ -61,6 +61,12 @@
     }];
 }
 
+- (void)testTappingRowsByLabel
+{
+    [tester waitForViewWithAccessibilityLabel:@"Last Cell"];
+    [tester waitForViewWithAccessibilityLabel:@"First Cell"];
+}
+
 - (void)testMoveRowDown
 {
     [tester tapViewWithAccessibilityLabel:@"Edit"];
