@@ -11,8 +11,6 @@
 		0041206E18FDE4D500F84D95 /* UISegmentedControl+KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0041206C18FDE4D500F84D95 /* UISegmentedControl+KIFAdditions.m */; };
 		007158031812058100B1A170 /* UIBarButtonItem-KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 007158011812058100B1A170 /* UIBarButtonItem-KIFAdditions.h */; };
 		007158041812058100B1A170 /* UIBarButtonItem-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 007158021812058100B1A170 /* UIBarButtonItem-KIFAdditions.m */; };
-		008DC11A18120F960059F3FA /* UIBarButtonItem-KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 008DC11818120F960059F3FA /* UIBarButtonItem-KIFAdditions.h */; };
-		008DC11B18120F960059F3FA /* UIBarButtonItem-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 008DC11918120F960059F3FA /* UIBarButtonItem-KIFAdditions.m */; };
 		A88930121685098E00FC7C63 /* KIF.h in Headers */ = {isa = PBXBuildFile; fileRef = A88930111685098E00FC7C63 /* KIF.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D927B9DC18F9DF2D00DAD036 /* TableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D927B9DB18F9DF2D00DAD036 /* TableViewController.m */; };
 		D927B9DF18F9E46400DAD036 /* UITableView-KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = D927B9DD18F9E46400DAD036 /* UITableView-KIFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -185,8 +183,6 @@
 		0041206C18FDE4D500F84D95 /* UISegmentedControl+KIFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UISegmentedControl+KIFAdditions.m"; sourceTree = "<group>"; };
 		007158011812058100B1A170 /* UIBarButtonItem-KIFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem-KIFAdditions.h"; sourceTree = "<group>"; };
 		007158021812058100B1A170 /* UIBarButtonItem-KIFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem-KIFAdditions.m"; sourceTree = "<group>"; };
-		008DC11818120F960059F3FA /* UIBarButtonItem-KIFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem-KIFAdditions.h"; sourceTree = "<group>"; };
-		008DC11918120F960059F3FA /* UIBarButtonItem-KIFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem-KIFAdditions.m"; sourceTree = "<group>"; };
 		39160B1013D1E6BB00311E38 /* LoadableCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadableCategory.h; sourceTree = "<group>"; };
 		A88930111685098E00FC7C63 /* KIF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = KIF.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		AAB0726B139719AC008AF393 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -436,8 +432,6 @@
 				EAC809691864F19C000E819F /* NSException-KIFAdditions.m */,
 				007158011812058100B1A170 /* UIBarButtonItem-KIFAdditions.h */,
 				007158021812058100B1A170 /* UIBarButtonItem-KIFAdditions.m */,
-				008DC11818120F960059F3FA /* UIBarButtonItem-KIFAdditions.h */,
-				008DC11918120F960059F3FA /* UIBarButtonItem-KIFAdditions.m */,
 				0041206B18FDE4D500F84D95 /* UISegmentedControl+KIFAdditions.h */,
 				0041206C18FDE4D500F84D95 /* UISegmentedControl+KIFAdditions.m */,
 			);
@@ -568,7 +562,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				008DC11A18120F960059F3FA /* UIBarButtonItem-KIFAdditions.h in Headers */,
 				A88930121685098E00FC7C63 /* KIF.h in Headers */,
 				0041206D18FDE4D500F84D95 /* UISegmentedControl+KIFAdditions.h in Headers */,
 				EB7204591680DDAD00278DA2 /* CGGeometry-KIFAdditions.h in Headers */,
@@ -900,7 +893,6 @@
 				D927B9E218F9E47600DAD036 /* UITableView-KIFAdditions.m in Sources */,
 				EB7204491680DDAD00278DA2 /* UIWindow-KIFAdditions.m in Sources */,
 				EB72044A1680DDAD00278DA2 /* NSFileManager-KIFAdditions.m in Sources */,
-				008DC11B18120F960059F3FA /* UIBarButtonItem-KIFAdditions.m in Sources */,
 				EB72044B1680DDAD00278DA2 /* KIFTypist.m in Sources */,
 				EB72044C1680DDAD00278DA2 /* KIFTestActor.m in Sources */,
 				EB72044D1680DDAD00278DA2 /* KIFTestCase.m in Sources */,
