@@ -49,6 +49,7 @@
 - (void)testReturningFromATextField
 {
     [tester tapViewWithAccessibilityLabel:@"Greeting"];
+    [tester waitForTimeInterval:1];
     [tester tapViewWithAccessibilityLabel:@"return"];
     [tester waitForAbsenceOfViewWithAccessibilityLabel:@"return"];
 }
