@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface TapViewController : UIViewController<UIPickerViewDataSource, UIPickerViewDelegate, UIPickerViewAccessibilityDelegate, UITextFieldDelegate>
+@interface TapViewController : UIViewController<UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UISlider *slider;
 @property (weak, nonatomic) IBOutlet UILabel *memoryWarningLabel;
 @property (weak, nonatomic) IBOutlet UITextField *otherTextField;
@@ -59,26 +59,6 @@
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
-- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
-{
-    return 1;
-}
-
-- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
-{
-    return 3;
-}
-
-- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
-{
-    return [@[@"Alpha", @"Bravo", @"Charlie"] objectAtIndex:row];
-}
-
-- (NSString *)pickerView:(UIPickerView *)pickerView accessibilityLabelForComponent:(NSInteger)component
-{
-    return @"Call Sign";
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
