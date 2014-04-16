@@ -186,6 +186,38 @@ typedef struct __GSEvent * GSEventRef;
             }
         }
     }
+    
+    if ([self isKindOfClass:[UICollectionView class]]) {
+        UICollectionView *collectionView = (UICollectionView *)self;
+        
+        NSArray *indexPathsForVisibleItems = [collectionView indexPathsForVisibleItems];
+        
+        for (NSUInteger section = 0, numberOfSections = [collectionView numberOfSections]; section < numberOfSections; section++) {
+            for (NSUInteger item = 0, numberOfItems = [collectionView numberOfItemsInSection:section]; item < numberOfItems; item++) {
+                // Skip visible items because they are already handled
+                NSIndexPath *indexPath = [NSIndexPath indexPathForItem:item inSection:section];
+                if ([indexPathsForVisibleItems containsObject:indexPath]) {
+                    continue;
+                }
+                
+                // Get the cell directly from the dataSource because UICollectionView will only vend visible cells
+                UICollectionViewCell *cell = [collectionView.dataSource collectionView:collectionView cellForItemAtIndexPath:indexPath];
+                
+                // Skip this cell if it isn't the one we're looking for
+                UIAccessibilityElement *element = [cell accessibilityElementMatchingBlock:matchBlock];
+                if (!element) {
+                    continue;
+                }
+                
+                // Scroll to the cell and wait for the animation to complete
+                [collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionNone animated:YES];
+                CFRunLoopRunInMode(UIApplicationCurrentRunMode, 0.5, false);
+                
+                // Now try finding the element again
+                return [self accessibilityElementMatchingBlock:matchBlock];
+            }
+        }
+    }
         
     return matchingButOccludedElement;
 }

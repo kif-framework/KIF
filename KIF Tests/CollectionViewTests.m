@@ -50,6 +50,8 @@
 
 - (void)testTappingItemsByLabel
 {
+    [tester waitForViewWithAccessibilityLabel:@"First Cell"];
+    [tester waitForViewWithAccessibilityLabel:@"Last Cell"];
     [tester waitForViewWithAccessibilityLabel:@"Last Cell"];
     [tester waitForViewWithAccessibilityLabel:@"First Cell"];
 }
