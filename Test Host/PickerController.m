@@ -40,6 +40,7 @@
 
     datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(30, 215, 260, 35)];
     datePicker.datePickerMode = UIDatePickerModeDate;
+    datePicker.hidden = NO;
     [datePicker addTarget:self action:@selector(datePickerChanged:)
               forControlEvents:UIControlEventValueChanged];
     [datePicker setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_US"]];

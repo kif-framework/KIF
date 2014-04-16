@@ -18,7 +18,7 @@ MAKE_CATEGORIES_LOADABLE(NSError_KIFAdditions)
 {
     va_list args;
     va_start(args, format);
-    NSString *description = [[[NSString alloc] initWithFormat:format arguments:args] autorelease];
+    NSString *description = [[NSString alloc] initWithFormat:format arguments:args];
     va_end(args);
     
     return [self errorWithDomain:@"KIFTest" code:KIFTestStepResultFailure userInfo:@{NSLocalizedDescriptionKey: description}];
@@ -28,10 +28,12 @@ MAKE_CATEGORIES_LOADABLE(NSError_KIFAdditions)
 {
     va_list args;
     va_start(args, format);
-    NSString *description = [[[NSString alloc] initWithFormat:format arguments:args] autorelease];
+    NSString *description = [[NSString alloc] initWithFormat:format arguments:args];
     va_end(args);
     
-    return [self errorWithDomain:@"KIFTest" code:KIFTestStepResultFailure userInfo:@{NSLocalizedDescriptionKey: description, NSUnderlyingErrorKey: underlyingError}];
+    NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:description, NSLocalizedDescriptionKey, underlyingError, NSUnderlyingErrorKey, nil];
+    
+    return [self errorWithDomain:@"KIFTest" code:KIFTestStepResultFailure userInfo:userInfo];
 }
 
 @end
