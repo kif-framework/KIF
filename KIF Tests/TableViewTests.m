@@ -61,6 +61,18 @@
     }];
 }
 
+- (void)testTappingRowsByLabel
+{
+    // Tap the first row, which is already visible
+    [tester tapViewWithAccessibilityLabel:@"First Cell"];
+    
+    // Tap the last row, which will need to be scrolled up
+    [tester tapViewWithAccessibilityLabel:@"Last Cell"];
+    
+    // Tap the first row, which will need to be scrolled down
+    [tester tapViewWithAccessibilityLabel:@"First Cell"];
+}
+
 - (void)testMoveRowDown
 {
     [tester tapViewWithAccessibilityLabel:@"Edit"];
