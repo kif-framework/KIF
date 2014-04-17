@@ -50,10 +50,14 @@
 
 - (void)testTappingItemsByLabel
 {
-    [tester waitForViewWithAccessibilityLabel:@"First Cell"];
-    [tester waitForViewWithAccessibilityLabel:@"Last Cell"];
-    [tester waitForViewWithAccessibilityLabel:@"Last Cell"];
-    [tester waitForViewWithAccessibilityLabel:@"First Cell"];
+    // Tap the first item, which is already visible
+    [tester tapViewWithAccessibilityLabel:@"First Cell"];
+    
+    // Tap the last item, which will need to be scrolled up
+    [tester tapViewWithAccessibilityLabel:@"Last Cell"];
+    
+    // Tap the first item, which will need to be scrolled down
+    [tester tapViewWithAccessibilityLabel:@"First Cell"];
 }
 
 @end

@@ -187,7 +187,7 @@ typedef struct __GSEvent * GSEventRef;
         }
     }
     
-    if ([self isKindOfClass:[UICollectionView class]]) {
+    if (!matchingButOccludedElement && [self isKindOfClass:[UICollectionView class]]) {
         UICollectionView *collectionView = (UICollectionView *)self;
         
         NSArray *indexPathsForVisibleItems = [collectionView indexPathsForVisibleItems];
