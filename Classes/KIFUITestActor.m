@@ -391,9 +391,6 @@
             case KIFUIDatePicker:
                 pickerView = [[[[UIApplication sharedApplication] datePickerWindow] subviewsWithClassNameOrSuperClassNamePrefix:@"UIPickerView"] lastObject];
                 KIFTestCondition(pickerView, error, @"No picker view is present");
-                if ([pickerView isHidden]) {
-                    [pickerView setHidden:NO];
-                }
                 break;
             case KIFUIPickerView:
                  pickerView = [[[[UIApplication sharedApplication] pickerViewWindow] subviewsWithClassNameOrSuperClassNamePrefix:@"UIPickerView"] lastObject];
@@ -447,9 +444,6 @@
             }
         }
 
-        if (pickerType == KIFUIDatePicker) {
-            [pickerView setHidden:TRUE];
-        }
         return KIFTestStepResultSuccess;
     }];
 
