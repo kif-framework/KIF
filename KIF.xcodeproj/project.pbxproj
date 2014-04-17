@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2CDEE1CB181DBED200DF6E63 /* PickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CDEE1CA181DBED200DF6E63 /* PickerController.m */; };
+		2CED883E181F5EE1005ABD20 /* PickerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CED883D181F5EE1005ABD20 /* PickerTests.m */; };
 		A88930121685098E00FC7C63 /* KIF.h in Headers */ = {isa = PBXBuildFile; fileRef = A88930111685098E00FC7C63 /* KIF.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D927B9DC18F9DF2D00DAD036 /* TableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D927B9DB18F9DF2D00DAD036 /* TableViewController.m */; };
 		D927B9DF18F9E46400DAD036 /* UITableView-KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = D927B9DD18F9E46400DAD036 /* UITableView-KIFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -17,6 +19,7 @@
 		D9EA274318F05A6700D87E57 /* ScrollViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9EA274218F05A6700D87E57 /* ScrollViewController.m */; };
 		EA0F2547182979BE006FF825 /* CollectionViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EA0F2546182979BE006FF825 /* CollectionViewTests.m */; };
 		EA0F254A1829839E006FF825 /* CollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EA0F25491829839E006FF825 /* CollectionViewController.m */; };
+		EA4655881905B92500B2C60E /* PickerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CED883D181F5EE1005ABD20 /* PickerTests.m */; };
 		EA47DA2818EDFD6F0034D2F5 /* CollectionViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EA0F2546182979BE006FF825 /* CollectionViewTests.m */; };
 		EABD467B1857A0C700A5F081 /* CGGeometry-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB0729513971AB2008AF393 /* CGGeometry-KIFAdditions.m */; };
 		EABD467C1857A0C700A5F081 /* UIAccessibilityElement-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB0729713971AB2008AF393 /* UIAccessibilityElement-KIFAdditions.m */; };
@@ -175,6 +178,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2CDEE1CA181DBED200DF6E63 /* PickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PickerController.m; sourceTree = "<group>"; };
+		2CED883D181F5EE1005ABD20 /* PickerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PickerTests.m; sourceTree = "<group>"; };
 		39160B1013D1E6BB00311E38 /* LoadableCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadableCategory.h; sourceTree = "<group>"; };
 		A88930111685098E00FC7C63 /* KIF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = KIF.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		AAB0726B139719AC008AF393 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -450,6 +455,7 @@
 		EB60ECC6177F8C83005A041A /* Test Host */ = {
 			isa = PBXGroup;
 			children = (
+				2CDEE1CA181DBED200DF6E63 /* PickerController.m */,
 				EB60ED04177F9041005A041A /* MainStoryboard.storyboard */,
 				EB60ECFC177F9031005A041A /* AppDelegate.m */,
 				EB60ECFD177F9031005A041A /* ShowHideViewController.m */,
@@ -481,6 +487,7 @@
 		EB60ECEF177F8DB3005A041A /* KIF Tests */ = {
 			isa = PBXGroup;
 			children = (
+				2CED883D181F5EE1005ABD20 /* PickerTests.m */,
 				EB60ED19177F90C2005A041A /* GestureTests.m */,
 				EB60ED07177F90BA005A041A /* LongPressTests.m */,
 				EB60ED08177F90BA005A041A /* ModalViewTests.m */,
@@ -808,6 +815,7 @@
 				EABD46B11857A0F300A5F081 /* SearchFieldTests.m in Sources */,
 				EABD46B21857A0F300A5F081 /* CascadingFailureTests.m in Sources */,
 				EABD46B31857A0F300A5F081 /* CompositionTests.m in Sources */,
+				EA4655881905B92500B2C60E /* PickerTests.m in Sources */,
 				EABD46B41857A0F300A5F081 /* LongPressTests.m in Sources */,
 				EABD46B51857A0F300A5F081 /* ModalViewTests.m in Sources */,
 				EABD46B61857A0F300A5F081 /* SpecificControlTests.m in Sources */,
@@ -836,6 +844,7 @@
 				D927B9DC18F9DF2D00DAD036 /* TableViewController.m in Sources */,
 				EB60ED01177F9032005A041A /* ShowHideViewController.m in Sources */,
 				EB60ED02177F9032005A041A /* TapViewController.m in Sources */,
+				2CDEE1CB181DBED200DF6E63 /* PickerController.m in Sources */,
 				EB60ED03177F9032005A041A /* TestSuiteViewController.m in Sources */,
 				D9EA274318F05A6700D87E57 /* ScrollViewController.m in Sources */,
 			);
@@ -853,6 +862,7 @@
 				EB60ED12177F90BA005A041A /* SpecificControlTests.m in Sources */,
 				EB60ED13177F90BA005A041A /* SystemTests.m in Sources */,
 				EB60ED14177F90BA005A041A /* TappingTests.m in Sources */,
+				2CED883E181F5EE1005ABD20 /* PickerTests.m in Sources */,
 				EB60ED15177F90BA005A041A /* TypingTests.m in Sources */,
 				EB60ED16177F90BA005A041A /* WaitForAbscenceTests.m in Sources */,
 				EA0F2547182979BE006FF825 /* CollectionViewTests.m in Sources */,

@@ -74,27 +74,30 @@ static const void *KIFRunLoopModesKey = &KIFRunLoopModesKey;
     return nil;
 }
 
+- (UIWindow *)datePickerWindow;
+{
+    return [self getWindowForSubviewClass:@"UIDatePicker"];
+}
+
 - (UIWindow *)pickerViewWindow;
 {
-    for (UIWindow *window in self.windowsWithKeyWindow) {
-        NSArray *pickerViews = [window subviewsWithClassNameOrSuperClassNamePrefix:@"UIPickerView"];
-        if (pickerViews.count > 0) {
-            return window;
-        }
-    }
-    
-    return nil;
+    return [self getWindowForSubviewClass:@"UIPickerView"];
 }
 
 - (UIWindow *)dimmingViewWindow;
 {
+    return [self getWindowForSubviewClass:@"UIDimmingView"];
+}
+
+- (UIWindow *)getWindowForSubviewClass:(NSString*)className;
+{
     for (UIWindow *window in self.windowsWithKeyWindow) {
-        NSArray *dimmingViews = [window subviewsWithClassNameOrSuperClassNamePrefix:@"UIDimmingView"];
-        if (dimmingViews.count > 0) {
+        NSArray *subViews = [window subviewsWithClassNameOrSuperClassNamePrefix:className];
+        if (subViews.count > 0) {
             return window;
         }
     }
-    
+
     return nil;
 }
 
