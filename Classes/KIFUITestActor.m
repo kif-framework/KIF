@@ -19,6 +19,13 @@
 
 @implementation KIFUITestActor
 
++ (void)initialize
+{
+    if (self == [KIFUITestActor class]) {
+        [KIFTypist registerForNotifications];
+    }
+}
+
 - (UIView *)waitForViewWithAccessibilityLabel:(NSString *)label
 {
     return [self waitForViewWithAccessibilityLabel:label value:nil traits:UIAccessibilityTraitNone tappable:NO];
@@ -58,7 +65,6 @@
 
 - (void)waitForAccessibilityElement:(UIAccessibilityElement **)element view:(out UIView **)view withLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits tappable:(BOOL)mustBeTappable
 {
-    
     [self runBlock:^KIFTestStepResult(NSError **error) {
         return [UIAccessibilityElement accessibilityElement:element view:view withLabel:label value:value traits:traits tappable:mustBeTappable error:error] ? KIFTestStepResultSuccess : KIFTestStepResultWait;
     }];
@@ -248,10 +254,27 @@
     [self waitForTimeInterval:0.5];
 }
 
+- (void)waitForKeyboard
+{
+    [self runBlock:^KIFTestStepResult(NSError **error) {
+        KIFTestWaitCondition(![KIFTypist keyboardHidden], error, @"Keyboard is not visible");
+        
+        return KIFTestStepResultSuccess;
+    }];
+}
+
+- (void)waitForAbsenceOfKeyboard
+{
+    [self runBlock:^KIFTestStepResult(NSError **error) {
+        KIFTestWaitCondition([KIFTypist keyboardHidden], error, @"Keyboard is visible");
+        
+        return KIFTestStepResultSuccess;
+    }];
+}
+
 - (void)enterTextIntoCurrentFirstResponder:(NSString *)text;
 {
-    // Wait for the keyboard
-    [self waitForTimeInterval:0.5];
+    [self waitForKeyboard];
     [self enterTextIntoCurrentFirstResponder:text fallbackView:nil];
 }
 
@@ -292,6 +315,7 @@
     
     [self waitForAccessibilityElement:&element view:&view withLabel:label value:nil traits:traits tappable:YES];
     [self tapAccessibilityElement:element inView:view];
+    [self waitForKeyboard];
     [self enterTextIntoCurrentFirstResponder:text fallbackView:view];
     [self expectView:view toContainText:expectedResult ?: text];
 }
