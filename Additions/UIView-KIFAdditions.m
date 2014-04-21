@@ -203,8 +203,12 @@ typedef struct __GSEvent * GSEventRef;
                 // Get the cell directly from the dataSource because UICollectionView will only vend visible cells
                 UICollectionViewCell *cell = [collectionView.dataSource collectionView:collectionView cellForItemAtIndexPath:indexPath];
                 
-                // Skip this cell if it isn't the one we're looking for
                 UIAccessibilityElement *element = [cell accessibilityElementMatchingBlock:matchBlock];
+                
+                // Remove the cell from the collection view so that it doesn't stick around
+                [cell removeFromSuperview];
+                
+                // Skip this cell if it isn't the one we're looking for
                 if (!element) {
                     continue;
                 }
