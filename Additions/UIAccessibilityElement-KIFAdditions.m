@@ -95,21 +95,29 @@ MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
         return nil;
     }
     
-    // Scroll the view to be visible if necessary
-    UIScrollView *scrollView = (UIScrollView *)view;
-    while (scrollView && ![scrollView isKindOfClass:[UIScrollView class]]) {
-        scrollView = (UIScrollView *)scrollView.superview;
-    }
-    if (scrollView) {
-        if ((UIAccessibilityElement *)view == element) {
-            [scrollView scrollViewToVisible:view animated:YES];
-        } else {
-            CGRect elementFrame = [view.window convertRect:element.accessibilityFrame toView:scrollView];
-            [scrollView scrollRectToVisible:elementFrame animated:YES];
+    // Scroll the view (and superviews) to be visible if necessary
+    UIView *superview = (UIScrollView *)view;
+    while (superview) {
+        // Fix for iOS7 table view cells containing scroll views
+        if ([superview.superview isKindOfClass:[UITableViewCell class]]) {
+            break;
         }
         
-        // Give the scroll view a small amount of time to perform the scroll.
-        CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.3, false);
+        if ([superview isKindOfClass:[UIScrollView class]]) {
+            UIScrollView *scrollView = (UIScrollView *)superview;
+            
+            if ((UIAccessibilityElement *)view == element) {
+                [scrollView scrollViewToVisible:view animated:YES];
+            } else {
+                CGRect elementFrame = [view.window convertRect:element.accessibilityFrame toView:scrollView];
+                [scrollView scrollRectToVisible:elementFrame animated:YES];
+            }
+            
+            // Give the scroll view a small amount of time to perform the scroll.
+            CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.3, false);
+        }
+        
+        superview = superview.superview;
     }
     
     if ([[UIApplication sharedApplication] isIgnoringInteractionEvents]) {

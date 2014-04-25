@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "EABD46791857A0C700A5F081"
-               BuildableName = "libKIF.a"
-               BlueprintName = "KIF"
+               BlueprintIdentifier = "EB72043E1680DDAD00278DA2"
+               BuildableName = "libKIF-OCUnit.a"
+               BlueprintName = "KIF-OCUnit"
                ReferencedContainer = "container:KIF.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -32,9 +32,9 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "EABD46AD1857A0F300A5F081"
-               BuildableName = "KIF Tests - XCTest.xctest"
-               BlueprintName = "KIF Tests"
+               BlueprintIdentifier = "EB60ECEA177F8DB3005A041A"
+               BuildableName = "KIF Tests-OCUnit.octest"
+               BlueprintName = "KIF Tests-OCUnit"
                ReferencedContainer = "container:KIF.xcodeproj">
             </BuildableReference>
          </TestableReference>
