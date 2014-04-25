@@ -61,6 +61,12 @@
     }];
 }
 
+- (void)testTogglingSwitch
+{
+    [tester setOn:NO forSwitchWithAccessibilityLabel:@"Table View Switch"];
+    [tester setOn:YES forSwitchWithAccessibilityLabel:@"Table View Switch"];
+}
+
 - (void)testTappingRowsByLabel
 {
     // Tap the first row, which is already visible
