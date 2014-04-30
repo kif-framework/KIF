@@ -26,6 +26,15 @@
     }
 }
 
+- (instancetype)initWithFile:(NSString *)file line:(NSInteger)line delegate:(id<KIFTestActorDelegate>)delegate
+{
+    self = [super initWithFile:file line:line delegate:delegate];
+    if (self) {
+        _makeElementsVisible = YES;
+    }
+    return self;
+}
+
 - (UIView *)waitForViewWithAccessibilityLabel:(NSString *)label
 {
     return [self waitForViewWithAccessibilityLabel:label value:nil traits:UIAccessibilityTraitNone tappable:NO];
@@ -66,7 +75,7 @@
 - (void)waitForAccessibilityElement:(UIAccessibilityElement **)element view:(out UIView **)view withLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits tappable:(BOOL)mustBeTappable
 {
     [self runBlock:^KIFTestStepResult(NSError **error) {
-        return [UIAccessibilityElement accessibilityElement:element view:view withLabel:label value:value traits:traits tappable:mustBeTappable error:error] ? KIFTestStepResultSuccess : KIFTestStepResultWait;
+        return [UIAccessibilityElement accessibilityElement:element view:view withLabel:label value:value traits:traits tappable:mustBeTappable makeVisible:_makeElementsVisible error:error] ? KIFTestStepResultSuccess : KIFTestStepResultWait;
     }];
 }
 
@@ -88,7 +97,7 @@
         
         KIFTestWaitCondition(foundElement, error, @"Could not find view matching: %@", predicate);
         
-        UIView *foundView = [UIAccessibilityElement viewContainingAccessibilityElement:foundElement tappable:mustBeTappable error:error];
+        UIView *foundView = [UIAccessibilityElement viewContainingAccessibilityElement:foundElement tappable:mustBeTappable makeVisible:_makeElementsVisible error:error];
         if (!foundView) {
             return KIFTestStepResultWait;
         }
