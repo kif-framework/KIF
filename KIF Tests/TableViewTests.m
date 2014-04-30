@@ -118,4 +118,10 @@
     [tester tapViewWithAccessibilityLabel:@"Done"];
 }
 
+- (void)testTogglingSwitch
+{
+    [tester setOn:NO forSwitchWithAccessibilityLabel:@"Table View Switch"];
+    [tester setOn:YES forSwitchWithAccessibilityLabel:@"Table View Switch"];
+}
+
 @end
