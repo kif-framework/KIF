@@ -43,7 +43,7 @@ Select your project in Xcode and click on "Add Target" in the bottom left corner
 
 The testing target will add a header and implementation file, likely "Acceptance_Tests.m/h" to match your target name. Delete those.
 
-Once your test target set up, add the following to your Podspec file. Use your target's name as appropriate.
+Once your test target set up, add the following to your Podfile file. Use your target's name as appropriate.
 
 ```Ruby
 target 'Acceptance Tests', :exclusive => true do
