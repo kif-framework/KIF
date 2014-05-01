@@ -3,3 +3,7 @@ xcode_project: KIF.xcodeproj
 xcode_scheme: KIF
 xcode_sdk: iphonesimulator
 
+before_install:
+  - brew update
+  - brew upgrade xctool
+
