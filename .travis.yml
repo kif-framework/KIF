@@ -1,7 +1,7 @@
 language: objective-c
 xcode_project: KIF.xcodeproj
 xcode_scheme: KIF
-xcode_sdk: iphonesimulator
+xcode_sdk: iphonesimulator7.0
 
 before_install:
   - brew update
