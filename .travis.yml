@@ -1,4 +1,5 @@
 language: objective-c
 xcode_project: KIF.xcodeproj
 xcode_scheme: KIF
-xcode_sdk: iphonesimulator7.0
+xcode_sdk: iphonesimulator
+
