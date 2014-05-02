@@ -95,7 +95,14 @@ typedef struct __GSEvent * GSEventRef;
     return [self accessibilityElementMatchingBlock:^(UIAccessibilityElement *element) {
         
         // TODO: This is a temporary fix for an SDK defect.
-        NSString *accessibilityValue = element.accessibilityValue;
+        NSString *accessibilityValue = nil;
+        @try {
+            accessibilityValue = element.accessibilityValue;
+        }
+        @catch (NSException *exception) {
+            NSLog(@"KIF: Unable to access accessibilityValue for element %@ because of exception: %@", element, exception.reason);
+        }
+        
         if ([accessibilityValue isKindOfClass:[NSAttributedString class]]) {
             accessibilityValue = [(NSAttributedString *)accessibilityValue string];
         }
