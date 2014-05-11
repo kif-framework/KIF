@@ -18,12 +18,14 @@
 
 #define DRAG_STEP_DISTANCE 5
 
-- (void)dragCell:(UITableViewCell *)cell toIndexPath:(NSIndexPath *)indexPath error:(NSError **)error;
+- (BOOL)dragCell:(UITableViewCell *)cell toIndexPath:(NSIndexPath *)indexPath error:(NSError **)error;
 {
     UIView *sourceReorderControl = [[cell subviewsWithClassNameOrSuperClassNamePrefix:@"UITableViewCellReorderControl"] lastObject];
     if (!sourceReorderControl) {
-        *error = [NSError KIFErrorWithFormat:@"Failed to find reorder control for cell"];
-        return;
+        if (error) {
+            *error = [NSError KIFErrorWithFormat:@"Failed to find reorder control for cell"];
+        }
+        return NO;
     }
     
     CGPoint sourcePoint = [self convertPoint:CGPointCenteredInRect(sourceReorderControl.bounds) fromView:sourceReorderControl];
@@ -79,6 +81,7 @@
     if (touch.view == self && [self canBecomeFirstResponder]) {
         [self becomeFirstResponder];
     }
+    return YES;
 }
 
 @end

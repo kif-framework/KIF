@@ -836,8 +836,7 @@
     UITableViewCell *cell = [self waitForCellAtIndexPath:sourceIndexPath inTableView:tableView];
     
     NSError *error = nil;
-    [tableView dragCell:cell toIndexPath:destinationIndexPath error:&error];
-    if (error) {
+    if (![tableView dragCell:cell toIndexPath:destinationIndexPath error:&error]) {
         [self failWithError:error stopTest:YES];
     }
 }
