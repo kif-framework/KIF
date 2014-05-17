@@ -53,4 +53,9 @@
     [tester tapViewWithAccessibilityLabel:@"Slightly Offscreen Button"];
 }
 
+- (void)testTappingViewWithTapGestureRecognizer
+{
+    [tester tapViewWithAccessibilityLabel:@"Label with Tap Gesture Recognizer"];
+}
+
 @end

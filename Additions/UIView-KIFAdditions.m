@@ -475,7 +475,27 @@ typedef struct __GSEvent * GSEventRef;
 // Is this view currently on screen?
 - (BOOL)isTappable;
 {
-    return [self isTappableInRect:self.bounds];
+    return ([self hasTapGestureRecognizer] ||
+            [self isTappableInRect:self.bounds]);
+}
+
+- (BOOL)hasTapGestureRecognizer
+{
+    __block BOOL hasTapGestureRecognizer = NO;
+    
+    [self.gestureRecognizers enumerateObjectsUsingBlock:^(id obj,
+                                                          NSUInteger idx,
+                                                          BOOL *stop) {
+        if ([obj isKindOfClass:[UITapGestureRecognizer class]]) {
+            hasTapGestureRecognizer = YES;
+            
+            if (stop != NULL) {
+                *stop = YES;
+            }
+        }
+    }];
+    
+    return hasTapGestureRecognizer;
 }
 
 - (BOOL)isTappableInRect:(CGRect)rect;
