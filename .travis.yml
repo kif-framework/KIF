@@ -1,8 +1,3 @@
 language: objective-c
-xcode_project: KIF.xcodeproj
-xcode_scheme: KIF
-xcode_sdk: iphonesimulator7.0
-
-before_install:
-  - brew update
-  - brew upgrade xctool
+script:
+- xcodebuild -scheme KIF -destination 'platform=iOS Simulator,name=iPhone Retina (4-inch),OS=7.1' test
