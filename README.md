@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/kif-framework/KIF.svg?branch=master)](https://travis-ci.org/kif-framework/KIF)
+
 KIF iOS Integration Testing Framework
 =====================================
 
