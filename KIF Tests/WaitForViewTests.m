@@ -18,6 +18,11 @@
     [tester waitForViewWithAccessibilityLabel:@"Test Suite"];
 }
 
+- (void)testWaitingForViewWithAccessibilityLabelWithNewlines
+{
+    [tester waitForViewWithAccessibilityLabel:@"Two\nLines"];
+}
+
 - (void)testWaitingForViewWithTraits
 {
     [tester waitForViewWithAccessibilityLabel:@"Test Suite" traits:UIAccessibilityTraitStaticText];

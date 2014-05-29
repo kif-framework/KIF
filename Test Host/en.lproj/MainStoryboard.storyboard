@@ -258,6 +258,10 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Test Suite" id="36">
+                        <barButtonItem key="leftBarButtonItem" style="plain" id="da0-Z7-2SH">
+                            <string key="title">Two
+Lines</string>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" id="1dx-4R-qUX">
                             <switch key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="YCM-aH-b0t">
                                 <rect key="frame" x="238" y="8" width="79" height="27"/>
