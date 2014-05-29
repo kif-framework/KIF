@@ -1409,7 +1409,7 @@
                                     </button>
                                 </subviews>
                             </scrollView>
-                            <label opaque="NO" clipsSubviews="YES" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label with Tap Gesture Recognizer" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="eKU-mb-iWm">
+                            <label opaque="NO" clipsSubviews="YES" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label with Tap Gesture Recognizer" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="eKU-mb-iWm">
                                 <rect key="frame" x="27" y="288" width="267" height="21"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <gestureRecognizers/>
@@ -1419,6 +1419,26 @@
                                 <connections>
                                     <outletCollection property="gestureRecognizers" destination="DjK-ai-Znl" appends="YES" id="1ec-bt-f0J"/>
                                 </connections>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="IBU-0n-lp7">
+                                <rect key="frame" x="27" y="317" width="267" height="41"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <gestureRecognizers/>
+                                <string key="text">Label with
+Line Break
+
+</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label with code setting Line Breaks" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="B0B-JK-Dre">
+                                <rect key="frame" x="27" y="366" width="267" height="21"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <gestureRecognizers/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -1432,6 +1452,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="greetingTextField" destination="4Fd-CG-0ud" id="Pav-dh-PQb"/>
+                        <outlet property="lineBreakLabel" destination="B0B-JK-Dre" id="eOC-HO-sni"/>
                         <outlet property="memoryWarningLabel" destination="cOR-b3-gcc" id="xXg-Fh-Lpo"/>
                         <outlet property="otherTextField" destination="WsR-z2-y1y" id="rq9-9M-Czf"/>
                         <outlet property="slider" destination="Dtm-Df-W7N" id="9IE-Qx-X8z"/>
