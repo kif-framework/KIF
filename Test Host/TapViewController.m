@@ -10,6 +10,7 @@
 
 @interface TapViewController : UIViewController<UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UISlider *slider;
+@property (weak, nonatomic) IBOutlet UILabel *lineBreakLabel;
 @property (weak, nonatomic) IBOutlet UILabel *memoryWarningLabel;
 @property (weak, nonatomic) IBOutlet UITextField *otherTextField;
 @property (weak, nonatomic) IBOutlet UITextField *greetingTextField;
@@ -21,6 +22,7 @@
 {
     [super viewDidLoad];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(memoryWarningNotification:) name:UIApplicationDidReceiveMemoryWarningNotification object:[UIApplication sharedApplication]];
+    self.lineBreakLabel.accessibilityLabel = @"A\nB\nC\n\n";
 }
 
 - (void)memoryWarningNotification:(NSNotification *)notification
