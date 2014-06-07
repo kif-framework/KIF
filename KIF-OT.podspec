@@ -1,4 +1,4 @@
-version = "3.0.2"
+version = '3.0.3'
 Pod::Spec.new do |s|
   s.name            = "KIF-OT"
   s.version         = version
