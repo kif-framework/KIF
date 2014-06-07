@@ -22,6 +22,11 @@ MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
 
 + (UIView *)viewContainingAccessibilityElement:(UIAccessibilityElement *)element;
 {
+	if([element respondsToSelector:@selector(view)])
+	{
+		return (UIView *)[element performSelector:@selector(view)];
+	}
+	
     while (element && ![element isKindOfClass:[UIView class]]) {
         element = [element accessibilityContainer];
     }
