@@ -29,26 +29,10 @@
  @param label The accessibility label of the element to wait for.
  @param value The accessibility value of the element to tap.
  @param traits The accessibility traits of the element to wait for. Elements that do not include at least these traits are ignored.
- @param tappable @c YES if the element must be tappable.
  @param error A reference to an error object to be populated when no matching element or view is found.  Can be @c NULL.
  @result @c YES if the element and view were found.  Otherwise @c NO.
  */
 + (BOOL)accessibilityElement:(out UIAccessibilityElement **)foundElement view:(out UIView **)foundView withLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits tappable:(BOOL)mustBeTappable error:(out NSError **)error;
-
-/*!
- @abstract Finds an accessibility element and view with a matching label, value, and traits, optionally passing a tappability test and making it visible.
- @discussion This method combines @c +accessibilityElementWithLabel:value:traits:error: and @c +viewContainingAccessibilityElement:tappable:error: for convenience.
- @param foundElement The found accessibility element or @c nil if the method returns @c NO.  Can be @c NULL.
- @param foundView The first matching view for @c foundElement as determined by the accessibility API or @c nil if the view is hidden or fails the tappability test. Can be @c NULL.
- @param label The accessibility label of the element to wait for.
- @param value The accessibility value of the element to tap.
- @param traits The accessibility traits of the element to wait for. Elements that do not include at least these traits are ignored.
- @param tappable @c YES if the element must be tappable.
- @param makeVisible If @c YES, attempt to make element visible by scrolling it into view.
- @param error A reference to an error object to be populated when no matching element or view is found.  Can be @c NULL.
- @result @c YES if the element and view were found.  Otherwise @c NO.
- */
-+ (BOOL)accessibilityElement:(out UIAccessibilityElement **)foundElement view:(out UIView **)foundView withLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits tappable:(BOOL)mustBeTappable makeVisible:(BOOL)makeVisible error:(out NSError **)error;
 
 /*!
  @abstract Finds an accessibility element with a matching label, value, and traits.
@@ -71,17 +55,5 @@
  @return The first matching view as determined by the accessibility API or nil if the view is hidden or fails the tappability test.
  */
 + (UIView *)viewContainingAccessibilityElement:(UIAccessibilityElement *)element tappable:(BOOL)mustBeTappable error:(NSError **)error;
-
-/*!
- @abstract Finds a view for a given accessibility element.
- @discussion If the element is found, off screen, and is inside a scroll view, this method will attempt to programmatically scroll the view onto the screen before performing any logic as to if the view is tappable.
- 
- @param element The accessibility element.
- @param mustBeTappable If @c YES, a tappability test will be performed.
- @param makeVisible If @c YES, attempt to make element visible by scrolling it into view.
- @param error A reference to an error object to be populated when no element is found.  Can be @c NULL.
- @return The first matching view as determined by the accessibility API or nil if the view is hidden or fails the tappability test.
- */
-+ (UIView *)viewContainingAccessibilityElement:(UIAccessibilityElement *)element tappable:(BOOL)mustBeTappable makeVisible:(BOOL)makeVisible error:(NSError **)error;
 
 @end
