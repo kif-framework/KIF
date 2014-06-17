@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ScrollViewController : UIViewController
+@interface ScrollViewController : UIViewController<UIScrollViewDelegate>
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @end
 
@@ -17,8 +17,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+
+    self.scrollView.accessibilityLabel = @"Scroll View";
     self.scrollView.contentSize = CGSizeMake(2000, 2000);
+    self.scrollView.delegate = self;
     
     UIButton *bottomButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [bottomButton setTitle:@"Down" forState:UIControlStateNormal];
@@ -49,5 +51,18 @@
     textView.accessibilityLabel = @"TextView";
     [self.scrollView addSubview:textView];
 }
+
+#pragma mark UIScrollViewDelegate Methods
+
+- (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
+{
+    return scrollView;
+}
+
+- (void)scrollViewDidEndZooming:(UIScrollView *)scrollView withView:(UIView *)view atScale:(CGFloat)scale
+{
+    // do nothing
+}
+
 
 @end
