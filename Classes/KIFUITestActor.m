@@ -509,6 +509,34 @@
     }
 }
 
+- (void)setIndex:(NSInteger)index forSegmentedControlWithAccessibilityLabel:(NSString *)label
+{
+    UISegmentedControl *segmentedControlView = nil;
+    UIAccessibilityElement *element = nil;
+
+
+    [self waitForAccessibilityElement:&element view:&segmentedControlView withLabel:label value:nil traits:UIAccessibilityTraitNone tappable:YES];
+
+    if (![segmentedControlView isKindOfClass:[UISegmentedControl class]]) {
+        [self failWithError:[NSError KIFErrorWithFormat:@"View with accessibility label \"%@\" is a %@, not a UISegmentedControl", label, NSStringFromClass([segmentedControlView class])] stopTest:YES];
+    }
+
+    // No need to switch it if it's already in the correct position
+    if (segmentedControlView.selectedSegmentIndex == index) {
+        return;
+    }
+
+    NSLog(@"Faking setting segmented control index %ld with accessibility label %@", (long)index, label);
+    [segmentedControlView setSelectedSegmentIndex:index];
+    [segmentedControlView sendActionsForControlEvents:UIControlEventValueChanged];
+    [self waitForTimeInterval:0.5];
+
+    // We gave it our best shot.  Fail the test.
+    if (segmentedControlView.selectedSegmentIndex != index) {
+        [self failWithError:[NSError KIFErrorWithFormat:@"Failed to change selected segment to \"%ld\"; instead, it was \"%ld\"", (long)index, (long)segmentedControlView.selectedSegmentIndex] stopTest:YES];
+    }
+}
+
 - (void)setValue:(float)value forSliderWithAccessibilityLabel:(NSString *)label
 {
     UISlider *slider = nil;
