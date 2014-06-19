@@ -201,7 +201,7 @@ static NSTimeInterval keystrokeDelay = 0.1f;
     }
     
     UIView *view = [UIAccessibilityElement viewContainingAccessibilityElement:element];
-    CGRect keyFrame = [view.window convertRect:[element accessibilityFrame] toView:view];
+    CGRect keyFrame = [view.windowOrIdentityWindow convertRect:[element accessibilityFrame] toView:view];
     [view tapAtPoint:CGPointCenteredInRect(keyFrame)];
     CFRunLoopRunInMode(kCFRunLoopDefaultMode, keystrokeDelay, false);
     
