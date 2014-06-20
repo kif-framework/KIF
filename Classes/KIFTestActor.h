@@ -111,6 +111,19 @@ typedef void (^KIFTestCompletionBlock)(KIFTestStepResult result, NSError *error)
 + (void)setDefaultTimeout:(NSTimeInterval)newDefaultTimeout;
 
 /*!
+ @method stepDelay
+ @abstract The amount of time that execution blocks use before trying again to met desired conditions.
+ @discussion To change the default value of the step delay property, call +setStepDelay: with a different value.
+ */
++ (NSTimeInterval)stepDelay;
+
+/*!
+ @method setStepDelay:
+ @abstract Sets the amount of time that execution blocks use before trying again to met desired conditions.
+ */
++ (void)setStepDelay:(NSTimeInterval)newStepDelay;
+
+/*!
  @abstract Fails the test.
  @discussion Mostly useful for test debugging or as a placeholder when building new tests.
  */
