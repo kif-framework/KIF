@@ -308,6 +308,14 @@ static inline KIFDisplacement KIFDisplacementForSwipingInDirection(KIFSwipeDirec
 - (void)setOn:(BOOL)switchIsOn forSwitchWithAccessibilityLabel:(NSString *)label;
 
 /*!
+ @abstract Change selected segment with a specified index
+ @discussion The UISegmentedControl with the given label is searched for in the view hierarchy. If the element isn't found or isn't currently tappable, then the step will attempt to wait until it is. Once the view is present, the step will return if it's already in the desired position.
+ @param index The desired index of the UISegmentedControl.
+ @param label The accessibility label of the element to change.
+ */
+- (void)setIndex:(NSInteger)index forSegmentedControlWithAccessibilityLabel:(NSString *)label;
+
+/*!
  @abstract Slides a UISlider to a specified value.
  @discussion The UISlider with the given label is searched for in the view hierarchy. If the element isn't found or isn't currently tappable, then the step will attempt to wait until it is. Once the view is present, the step will attempt to drag the slider to the new value.  The step will fail if it finds a view with the given accessibility label that is not a UISlider or if value is outside of the possible values.  Because this step simulates drag events, the value reached may not be the exact value requested and the app may ignore the touch events if the movement is less than the drag gesture recognizer's minimum distance.
  @param value The desired value of the UISlider.
