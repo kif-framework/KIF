@@ -99,7 +99,7 @@
         NSError *error = nil;
         
         while ((result = executionBlock(&error)) == KIFTestStepResultWait && -[startDate timeIntervalSinceNow] < timeout) {
-            CFRunLoopRunInMode([[UIApplication sharedApplication] currentRunLoopMode] ?: kCFRunLoopDefaultMode, 0.1, false);
+            CFRunLoopRunInMode([[UIApplication sharedApplication] currentRunLoopMode] ?: kCFRunLoopDefaultMode, KIFTestStepDelay, false);
         }
         
         if (result == KIFTestStepResultWait) {
@@ -136,6 +136,7 @@
 #pragma mark Class Methods
 
 static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
+static NSTimeInterval KIFTestStepDelay = 0.1;
 
 + (NSTimeInterval)defaultTimeout;
 {
@@ -145,6 +146,16 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
 + (void)setDefaultTimeout:(NSTimeInterval)newDefaultTimeout;
 {
     KIFTestStepDefaultTimeout = newDefaultTimeout;
+}
+
++ (NSTimeInterval)stepDelay;
+{
+    return KIFTestStepDelay;
+}
+
++ (void)setStepDelay:(NSTimeInterval)newStepDelay;
+{
+    KIFTestStepDelay = newStepDelay;
 }
 
 #pragma mark Generic tests
