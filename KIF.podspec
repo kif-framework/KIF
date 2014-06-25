@@ -17,6 +17,7 @@ Pod::Spec.new do |s|
     xctest.exclude_files        = 'Additions/SenTestCase-KIFAdditions.{h,m}'
     xctest.public_header_files  = 'Classes/**/*.h', 'Additions/**/*-KIFAdditions.h'
     xctest.framework            = 'XCTest'
+    xctest.compiler_flags       = '-DKIF_XCTEST'
     xctest.xcconfig             = { 'OTHER_CFLAGS' => '-DKIF_XCTEST' }
     xctest.requires_arc         = true
   end
@@ -26,6 +27,7 @@ Pod::Spec.new do |s|
     sentest.exclude_files       = 'Additions/XCTestCase-KIFAdditions.{h,m}'
     sentest.public_header_files = 'Classes/**/*.h', 'Additions/**/*-KIFAdditions.h'
     sentest.framework           = 'SenTestingKit'
+    sentest.compiler_flags      = '-DKIF_SENTEST'
     sentest.xcconfig            = { 'OTHER_CFLAGS' => '-DKIF_SENTEST' }
     sentest.requires_arc        = true
   end
