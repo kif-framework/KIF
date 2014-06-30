@@ -18,7 +18,9 @@ Pod::Spec.new do |s|
     xctest.public_header_files  = 'Classes/**/*.h', 'Additions/**/*-KIFAdditions.h'
     xctest.framework            = 'XCTest'
     xctest.compiler_flags       = '-DKIF_XCTEST'
-    xctest.xcconfig             = { 'OTHER_CFLAGS' => '-DKIF_XCTEST' }
+    xctest.xcconfig             = {
+         'OTHER_CFLAGS' => '-DKIF_XCTEST',
+         'FRAMEWORK_SEARCH_PATHS' => '$(DEVELOPER_DIR)/Platforms/iPhoneSimulator.platform/Developer/Library/Frameworks' }
     xctest.requires_arc         = true
   end
 
