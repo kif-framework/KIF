@@ -14,7 +14,10 @@
 
 #define SIG(class, selector) [class instanceMethodSignatureForSelector:selector]
 
+
 @implementation KIFTestCase
+
+NSComparisonResult selectorSort(NSInvocation *invocOne, NSInvocation *invocTwo, void *reverse);
 
 + (id)defaultTestSuite
 {
@@ -47,6 +50,20 @@
 - (void)afterAll   { }
 
 #ifndef KIF_SENTEST
+
+NSComparisonResult selectorSort(NSInvocation *invocOne, NSInvocation *invocTwo, void *reverse) {
+    
+    NSString *selectorOne =  NSStringFromSelector([invocOne selector]);
+    NSString *selectorTwo =  NSStringFromSelector([invocTwo selector]);
+    return [selectorOne compare:selectorTwo options:NSCaseInsensitiveSearch];
+}
+
++ (NSArray *)testInvocations
+{
+    NSArray *disorderedInvoc = [super testInvocations];
+    NSArray *newArray = [disorderedInvoc sortedArrayUsingFunction:selectorSort context:NULL];
+    return newArray;
+}
 
 - (void)setUp;
 {
