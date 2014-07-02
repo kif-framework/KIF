@@ -25,10 +25,9 @@ MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
     while (element && ![element isKindOfClass:[UIView class]]) {
         // Sometimes accessibilityContainer will return a view that's too far up the view hierarchy
         // UIAccessibilityElement instances will sometimes respond to view, so try to use that and then fall back to accessibilityContainer
-        // This workaround is only used for UISwitch, other classes still use accessibilityContainer to get the containing view
         id view = [element respondsToSelector:@selector(view)] ? [(id)element view] : nil;
         
-        if (view && [view isKindOfClass:[UISwitch class]]) {
+        if (view) {
             element = view;
         } else {
             element = [element accessibilityContainer];
