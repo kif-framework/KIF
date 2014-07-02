@@ -280,6 +280,14 @@
 
 - (void)enterTextIntoCurrentFirstResponder:(NSString *)text fallbackView:(UIView *)fallbackView;
 {
+
+    UITextAutocorrectionType oldCorrectionType;
+    if (self.autocorrectionDisabled && [fallbackView conformsToProtocol:@protocol(UITextInputTraits)]) {
+        UIView<UITextInputTraits> *input = (UIView<UITextInputTraits> *) fallbackView;
+        oldCorrectionType = input.autocorrectionType;
+        input.autocorrectionType = UITextAutocorrectionTypeNo;
+    }
+
     for (NSUInteger characterIndex = 0; characterIndex < [text length]; characterIndex++) {
         NSString *characterString = [text substringWithRange:NSMakeRange(characterIndex, 1)];
         
@@ -301,6 +309,12 @@
             }
         }
     }
+    
+    if (self.autocorrectionDisabled && [fallbackView conformsToProtocol:@protocol(UITextInputTraits)]) {
+        UIView<UITextInputTraits> *input = (UIView<UITextInputTraits> *) fallbackView;
+        input.autocorrectionType = oldCorrectionType;
+    }
+
 }
 
 - (void)enterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label
