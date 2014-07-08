@@ -558,7 +558,7 @@ typedef struct __GSEvent * GSEventRef;
     }
     
     // Top right
-    tapPoint = CGPointMake(frame.origin.x + 1.0f + frame.size.width - 1.0f, frame.origin.y + 1.0f);
+    tapPoint = CGPointMake(frame.origin.x + frame.size.width - 1.0f, frame.origin.y + 1.0f);
     hitView = [self.window hitTest:tapPoint withEvent:nil];
     if ([self isTappableWithHitTestResultView:hitView]) {
         return [self.window convertPoint:tapPoint toView:self];
