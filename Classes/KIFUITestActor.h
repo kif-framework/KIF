@@ -372,6 +372,15 @@ static inline KIFDisplacement KIFDisplacementForSwipingInDirection(KIFSwipeDirec
 - (void)swipeViewWithAccessibilityLabel:(NSString *)label inDirection:(KIFSwipeDirection)direction;
 
 /*!
+ @abstract Swipes a particular view in the view hierarchy in the given direction.
+ @discussion This step will get the view with the specified accessibility label and swipe the screen in the given direction from the view's center.
+ @param label The accessibility label of the view to swipe.
+ @param traits The accessibility traits of the view to swipe. Elements that do not include at least these traits are ignored.
+ @param direction The direction in which to swipe.
+ */
+- (void)swipeViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits inDirection:(KIFSwipeDirection)direction;
+
+/*!
  @abstract Scrolls a particular view in the view hierarchy by an amount indicated as a fraction of its size.
  @discussion The view will get the view with the specified accessibility label and scroll it by the indicated fraction of its size, with the scroll centered on the center of the view.
  @param label The accessibility label of the view to scroll.

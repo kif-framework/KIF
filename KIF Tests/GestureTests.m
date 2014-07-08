@@ -53,6 +53,35 @@
     KIFExpectFailure([[tester usingTimeout:0.25] swipeViewWithAccessibilityLabel:@"Unknown" inDirection:KIFSwipeDirectionDown]);
 }
 
+- (void)testSwipingLeftWithTraits
+{
+    [tester swipeViewWithAccessibilityLabel:@"Swipe Me" traits:UIAccessibilityTraitStaticText inDirection:KIFSwipeDirectionLeft];
+    [tester waitForViewWithAccessibilityLabel:@"Left"];
+}
+
+- (void)testSwipingRightWithTraits
+{
+    [tester swipeViewWithAccessibilityLabel:@"Swipe Me" traits:UIAccessibilityTraitStaticText inDirection:KIFSwipeDirectionRight];
+    [tester waitForViewWithAccessibilityLabel:@"Right"];
+}
+
+- (void)testSwipingUpWithTraits
+{
+    [tester swipeViewWithAccessibilityLabel:@"Swipe Me" traits:UIAccessibilityTraitStaticText inDirection:KIFSwipeDirectionUp];
+    [tester waitForViewWithAccessibilityLabel:@"Up"];
+}
+
+- (void)testSwipingDownWithTraits
+{
+    [tester swipeViewWithAccessibilityLabel:@"Swipe Me" traits:UIAccessibilityTraitStaticText inDirection:KIFSwipeDirectionDown];
+    [tester waitForViewWithAccessibilityLabel:@"Down"];
+}
+
+- (void)testMissingSwipeableElementWithTraits
+{
+    KIFExpectFailure([[tester usingTimeout:0.25] swipeViewWithAccessibilityLabel:@"Unknown" traits:UIAccessibilityTraitStaticText inDirection:KIFSwipeDirectionDown]);
+}
+
 - (void)testScrolling
 {
     [tester scrollViewWithAccessibilityIdentifier:@"Scroll View" byFractionOfSizeHorizontal:-0.9 vertical:-0.9];
