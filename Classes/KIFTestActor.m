@@ -76,6 +76,7 @@
         _line = line;
         _delegate = delegate;
         _executionBlockTimeout = [[self class] defaultTimeout];
+        _animationSpeedFactor = 1.0f;
     }
     return self;
 }
@@ -175,11 +176,21 @@ static NSTimeInterval KIFTestStepDelay = 0.1;
 - (void)waitForTimeInterval:(NSTimeInterval)timeInterval
 {
     NSTimeInterval startTime = [NSDate timeIntervalSinceReferenceDate];
+    timeInterval /= self.animationSpeedFactor;
     
     [self runBlock:^KIFTestStepResult(NSError **error) {
         KIFTestWaitCondition((([NSDate timeIntervalSinceReferenceDate] - startTime) >= timeInterval), error, @"Waiting for time interval to expire.");
         return KIFTestStepResultSuccess;
     } timeout:timeInterval + 1];
+}
+
+- (void)setAnimationSpeedFactor:(float)speedFactor
+{
+    _animationSpeedFactor = speedFactor;
+    NSArray *allWindows = [UIApplication sharedApplication].windows;
+    for (UIWindow *window in allWindows) {
+        window.layer.speed = speedFactor;
+    }
 }
 
 @end
