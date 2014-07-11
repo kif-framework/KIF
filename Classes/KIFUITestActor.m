@@ -639,10 +639,15 @@
 
 - (void)swipeViewWithAccessibilityLabel:(NSString *)label inDirection:(KIFSwipeDirection)direction
 {
-    [self swipeViewWithAccessibilityLabel:label traits:UIAccessibilityTraitNone inDirection:direction];
+    [self swipeViewWithAccessibilityLabel:label value:nil traits:UIAccessibilityTraitNone inDirection:direction];
 }
 
-- (void)swipeViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits inDirection:(KIFSwipeDirection)direction
+- (void)swipeViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value inDirection:(KIFSwipeDirection)direction
+{
+    [self swipeViewWithAccessibilityLabel:label value:value traits:UIAccessibilityTraitNone inDirection:direction];
+}
+
+- (void)swipeViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits inDirection:(KIFSwipeDirection)direction
 {
     const NSUInteger kNumberOfPointsInSwipePath = 20;
 
@@ -651,7 +656,7 @@
     UIView *viewToSwipe = nil;
     UIAccessibilityElement *element = nil;
 
-    [self waitForAccessibilityElement:&element view:&viewToSwipe withLabel:label value:nil traits:traits tappable:NO];
+    [self waitForAccessibilityElement:&element view:&viewToSwipe withLabel:label value:value traits:traits tappable:NO];
 
     // Within this method, all geometry is done in the coordinate system of the view to swipe.
 
