@@ -63,7 +63,7 @@
         _line = line;
         _delegate = delegate;
         _executionBlockTimeout = [[self class] defaultTimeout];
-        _animationSpeedFactor = 1.0f;
+        _animationSpeed = 1.0f;
     }
     return self;
 }
@@ -155,7 +155,9 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
 - (void)waitForTimeInterval:(NSTimeInterval)timeInterval
 {
     NSTimeInterval startTime = [NSDate timeIntervalSinceReferenceDate];
-    timeInterval /= self.animationSpeedFactor;
+    if (fabsf(self.animationSpeed - 1.0f) > FLT_EPSILON) {
+        timeInterval /= self.animationSpeed;
+    }
     
     [self runBlock:^KIFTestStepResult(NSError **error) {
         KIFTestWaitCondition((([NSDate timeIntervalSinceReferenceDate] - startTime) >= timeInterval), error, @"Waiting for time interval to expire.");
@@ -163,12 +165,12 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
     } timeout:timeInterval + 1];
 }
 
-- (void)setAnimationSpeedFactor:(float)speedFactor
+- (void)setAnimationSpeed:(float)animationSpeed
 {
-    _animationSpeedFactor = speedFactor;
+    _animationSpeed = animationSpeed;
     NSArray *allWindows = [UIApplication sharedApplication].windows;
     for (UIWindow *window in allWindows) {
-        window.layer.speed = speedFactor;
+        window.layer.speed = animationSpeed;
     }
 }
 
