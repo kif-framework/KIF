@@ -8,6 +8,7 @@
 
 #import "XCTestCase-KIFAdditions.h"
 #import "LoadableCategory.h"
+#import "UIApplication-KIFAdditions.h"
 
 MAKE_CATEGORIES_LOADABLE(TestCase_KIFAdditions)
 
@@ -16,7 +17,8 @@ MAKE_CATEGORIES_LOADABLE(TestCase_KIFAdditions)
 - (void)failWithException:(NSException *)exception stopTest:(BOOL)stop
 {
     self.continueAfterFailure = YES;
-
+    [self writeScreenshotForException:exception];
+    
     [self recordFailureWithDescription:exception.description inFile:exception.userInfo[@"SenTestFilenameKey"] atLine:[exception.userInfo[@"SenTestLineNumberKey"] unsignedIntegerValue] expected:NO];
 
     if (stop) {
@@ -30,6 +32,10 @@ MAKE_CATEGORIES_LOADABLE(TestCase_KIFAdditions)
     for (NSException *exception in exceptions) {
         [self failWithException:exception stopTest:(exception == lastException ? stop : NO)];
     }
+}
+
+- (void)writeScreenshotForException:(NSException *)exception {
+    [[UIApplication sharedApplication] writeScreenshotForLine:[exception.userInfo[@"SenTestLineNumberKey"] unsignedIntegerValue] inFile:exception.userInfo[@"SenTestFilenameKey"] description:nil error:NULL];
 }
 
 @end
