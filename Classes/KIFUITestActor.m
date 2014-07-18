@@ -639,20 +639,30 @@
 
 - (void)swipeViewWithAccessibilityLabel:(NSString *)label inDirection:(KIFSwipeDirection)direction
 {
-    [self swipeViewWithAccessibilityLabel:label traits:UIAccessibilityTraitNone inDirection:direction];
+    [self swipeViewWithAccessibilityLabel:label value:nil traits:UIAccessibilityTraitNone inDirection:direction];
+}
+
+- (void)swipeViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value inDirection:(KIFSwipeDirection)direction
+{
+    [self swipeViewWithAccessibilityLabel:label value:value traits:UIAccessibilityTraitNone inDirection:direction];
 }
 
 - (void)swipeViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits inDirection:(KIFSwipeDirection)direction
 {
-    const NSUInteger kNumberOfPointsInSwipePath = 20;
+    [self swipeViewWithAccessibilityLabel:label value:nil traits:traits inDirection:direction];
+}
 
+- (void)swipeViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits inDirection:(KIFSwipeDirection)direction
+{
+    const NSUInteger kNumberOfPointsInSwipePath = 20;
+    
     // The original version of this came from http://groups.google.com/group/kif-framework/browse_thread/thread/df3f47eff9f5ac8c
 
     UIView *viewToSwipe = nil;
     UIAccessibilityElement *element = nil;
-
-    [self waitForAccessibilityElement:&element view:&viewToSwipe withLabel:label value:nil traits:traits tappable:NO];
-
+    
+    [self waitForAccessibilityElement:&element view:&viewToSwipe withLabel:label value:value traits:traits tappable:NO];
+    
     // Within this method, all geometry is done in the coordinate system of the view to swipe.
 
     CGRect elementFrame = [viewToSwipe.windowOrIdentityWindow convertRect:element.accessibilityFrame toView:viewToSwipe];
