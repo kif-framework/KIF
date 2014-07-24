@@ -54,6 +54,29 @@ MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
     return YES;
 }
 
++ (BOOL)accessibilityElement:(out UIAccessibilityElement **)foundElement view:(out UIView **)foundView withElementMatchingPredicate:(NSPredicate *)predicate tappable:(BOOL)mustBeTappable error:(out NSError **)error;
+{
+    UIAccessibilityElement *element = [[UIApplication sharedApplication] accessibilityElementMatchingBlock:^BOOL(UIAccessibilityElement *element) {
+        return [predicate evaluateWithObject:element];
+    }];
+    
+    if (!element) {
+        if (error) {
+            *error = [NSError KIFErrorWithFormat:@"Could not find view matching: %@", predicate];
+        }
+        return NO;
+    }
+    
+    UIView *view = [UIAccessibilityElement viewContainingAccessibilityElement:element tappable:mustBeTappable error:error];
+    if (!view) {
+        return NO;
+    }
+    
+    if (foundElement) { *foundElement = element; }
+    if (foundView) { *foundView = view; }
+    return YES;
+}
+
 + (UIAccessibilityElement *)accessibilityElementWithLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits error:(out NSError **)error;
 {
     UIAccessibilityElement *element = [[UIApplication sharedApplication] accessibilityElementWithLabel:label accessibilityValue:value traits:traits];

@@ -91,29 +91,39 @@
     return self;
 }
 
-- (void)runBlock:(KIFTestExecutionBlock)executionBlock complete:(KIFTestCompletionBlock)completionBlock timeout:(NSTimeInterval)timeout
+- (BOOL)tryRunningBlock:(KIFTestExecutionBlock)executionBlock complete:(KIFTestCompletionBlock)completionBlock timeout:(NSTimeInterval)timeout error:(out NSError **)error
 {
+    NSDate *startDate = [NSDate date];
+    KIFTestStepResult result;
+    NSError *internalError;
+    
     @autoreleasepool {
-        NSDate *startDate = [NSDate date];
-        KIFTestStepResult result;
-        NSError *error = nil;
-        
-        while ((result = executionBlock(&error)) == KIFTestStepResultWait && -[startDate timeIntervalSinceNow] < timeout) {
+        while ((result = executionBlock(&internalError)) == KIFTestStepResultWait && -[startDate timeIntervalSinceNow] < timeout) {
             CFRunLoopRunInMode([[UIApplication sharedApplication] currentRunLoopMode] ?: kCFRunLoopDefaultMode, KIFTestStepDelay, false);
         }
         
         if (result == KIFTestStepResultWait) {
-            error = [NSError KIFErrorWithUnderlyingError:error format:@"The step timed out after %.2f seconds: %@", timeout, error.localizedDescription];
+            internalError = [NSError KIFErrorWithUnderlyingError:internalError format:@"The step timed out after %.2f seconds: %@", timeout, internalError.localizedDescription];
             result = KIFTestStepResultFailure;
         }
         
         if (completionBlock) {
-            completionBlock(result, error);
+            completionBlock(result, internalError);
         }
-        
-        if (result == KIFTestStepResultFailure) {
-            [self failWithError:error stopTest:YES];
-        }
+    }
+    
+    if (error) {
+        *error = internalError;
+    }
+    
+    return result != KIFTestStepResultFailure;
+}
+
+- (void)runBlock:(KIFTestExecutionBlock)executionBlock complete:(KIFTestCompletionBlock)completionBlock timeout:(NSTimeInterval)timeout
+{
+    NSError *error = nil;
+    if (![self tryRunningBlock:executionBlock complete:completionBlock timeout:timeout error:&error]) {
+        [self failWithError:error stopTest:YES];
     }
 }
 
