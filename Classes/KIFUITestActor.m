@@ -26,6 +26,36 @@
     }
 }
 
+- (BOOL)existsViewWithAccessibilityLabel:(NSString *)label
+{
+    return [self existsAccessibilityElement:nil view:nil withLabel:label value:nil traits:UIAccessibilityTraitNone tappable:NO];
+}
+
+- (BOOL)existsViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits
+{
+    return [self existsAccessibilityElement:nil view:nil withLabel:label value:nil traits:traits tappable:NO];
+}
+
+- (BOOL)existsViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits
+{
+    return [self existsAccessibilityElement:nil view:nil withLabel:label value:value traits:traits tappable:NO];
+}
+
+- (BOOL)existsTappableViewWithAccessibilityLabel:(NSString *)label
+{
+    return [self existsAccessibilityElement:nil view:nil withLabel:label value:nil traits:UIAccessibilityTraitNone tappable:YES];
+}
+
+- (BOOL)existsTappableViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits
+{
+    return [self existsAccessibilityElement:nil view:nil withLabel:label value:nil traits:traits tappable:YES];
+}
+
+- (BOOL)existsTappableViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits
+{
+    return [self existsAccessibilityElement:nil view:nil withLabel:label value:value traits:traits tappable:YES];
+}
+
 - (UIView *)waitForViewWithAccessibilityLabel:(NSString *)label
 {
     return [self waitForViewWithAccessibilityLabel:label value:nil traits:UIAccessibilityTraitNone tappable:NO];
@@ -54,6 +84,29 @@
 - (UIView *)waitForTappableViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits
 {
     return [self waitForViewWithAccessibilityLabel:label value:value traits:traits tappable:YES];
+}
+
+- (BOOL)existsAccessibilityElement:(UIAccessibilityElement **)element view:(out UIView **)view withLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits tappable:(BOOL)mustBeTappable
+{
+    KIFTestStepResult (^executionBlock)(NSError **) = ^(NSError **error) {
+        return [UIAccessibilityElement accessibilityElement:element view:view withLabel:label value:value traits:traits tappable:mustBeTappable error:error] ? KIFTestStepResultSuccess : KIFTestStepResultWait;
+    };
+    
+    NSDate *startDate = [NSDate date];
+    KIFTestStepResult result;
+    NSError *error = nil;
+    NSTimeInterval timeout = 1.0;
+    
+    while ((result = executionBlock(&error)) == KIFTestStepResultWait && -[startDate timeIntervalSinceNow] < timeout) {
+        CFRunLoopRunInMode([[UIApplication sharedApplication] currentRunLoopMode] ?: kCFRunLoopDefaultMode, 0.1, false);
+    }
+    
+    if (result == KIFTestStepResultWait) {
+        error = [NSError KIFErrorWithUnderlyingError:error format:@"The step timed out after %.2f seconds: %@", timeout, error.localizedDescription];
+        result = KIFTestStepResultFailure;
+    }
+    
+    return (result == KIFTestStepResultSuccess) ? YES : NO;
 }
 
 - (UIView *)waitForViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits tappable:(BOOL)mustBeTappable
