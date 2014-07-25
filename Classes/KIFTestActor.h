@@ -138,6 +138,16 @@ typedef void (^KIFTestCompletionBlock)(KIFTestStepResult result, NSError *error)
  */
 - (void)waitForTimeInterval:(NSTimeInterval)timeInterval;
 
+
+/*!
+ @abstract Changes the speed of all the animations in the current set of Windows.
+ @example A value of 2.0f causes all animations to run twice as fast. (1.0 is default)
+ @note This speed factor also shortens the timeInterval in waitForTimeInterval:.
+ @note Controls that are presented in their own windows after this property is set is not affected by the animation speed (for example UIAlertView).
+ */
+@property (nonatomic, assign) float animationSpeed;
+
+
 @end
 
 @protocol KIFTestActorDelegate <NSObject>

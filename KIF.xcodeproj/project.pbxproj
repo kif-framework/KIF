@@ -9,6 +9,11 @@
 /* Begin PBXBuildFile section */
 		2CDEE1CB181DBED200DF6E63 /* PickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CDEE1CA181DBED200DF6E63 /* PickerController.m */; };
 		2CED883E181F5EE1005ABD20 /* PickerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CED883D181F5EE1005ABD20 /* PickerTests.m */; };
+		6F2EFBBC197153510072E097 /* FastCompositionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F2EFBBB197153510072E097 /* FastCompositionTests.m */; };
+		6F2EFBBE1971535E0072E097 /* FastTappingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F2EFBBD1971535E0072E097 /* FastTappingTests.m */; };
+		6F2EFBC0197153A10072E097 /* FastPickerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F2EFBBF197153A10072E097 /* FastPickerTests.m */; };
+		6F2EFBC2197153B70072E097 /* FastLandscapeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F2EFBC1197153B70072E097 /* FastLandscapeTests.m */; };
+		6F2EFBC4197155AD0072E097 /* FastTableViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F2EFBC3197155AD0072E097 /* FastTableViewTests.m */; };
 		A88930121685098E00FC7C63 /* KIF.h in Headers */ = {isa = PBXBuildFile; fileRef = A88930111685098E00FC7C63 /* KIF.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D927B9DC18F9DF2D00DAD036 /* TableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D927B9DB18F9DF2D00DAD036 /* TableViewController.m */; };
 		D927B9DF18F9E46400DAD036 /* UITableView-KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = D927B9DD18F9E46400DAD036 /* UITableView-KIFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -181,6 +186,11 @@
 		2CDEE1CA181DBED200DF6E63 /* PickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PickerController.m; sourceTree = "<group>"; };
 		2CED883D181F5EE1005ABD20 /* PickerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PickerTests.m; sourceTree = "<group>"; };
 		39160B1013D1E6BB00311E38 /* LoadableCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadableCategory.h; sourceTree = "<group>"; };
+		6F2EFBBB197153510072E097 /* FastCompositionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FastCompositionTests.m; sourceTree = "<group>"; };
+		6F2EFBBD1971535E0072E097 /* FastTappingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FastTappingTests.m; sourceTree = "<group>"; };
+		6F2EFBBF197153A10072E097 /* FastPickerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FastPickerTests.m; sourceTree = "<group>"; };
+		6F2EFBC1197153B70072E097 /* FastLandscapeTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FastLandscapeTests.m; sourceTree = "<group>"; };
+		6F2EFBC3197155AD0072E097 /* FastTableViewTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FastTableViewTests.m; sourceTree = "<group>"; };
 		A88930111685098E00FC7C63 /* KIF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = KIF.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		AAB0726B139719AC008AF393 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		AAB0728113971A63008AF393 /* KIF-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "KIF-Prefix.pch"; path = "Classes/KIF-Prefix.pch"; sourceTree = SOURCE_ROOT; };
@@ -505,6 +515,11 @@
 				EB22B5AF17AF52640090B848 /* CascadingFailureTests.m */,
 				EB9FC00417E144B700138266 /* LandscapeTests.m */,
 				EB09000F17E3696A00AA15B1 /* SearchFieldTests.m */,
+				6F2EFBBB197153510072E097 /* FastCompositionTests.m */,
+				6F2EFBBD1971535E0072E097 /* FastTappingTests.m */,
+				6F2EFBC1197153B70072E097 /* FastLandscapeTests.m */,
+				6F2EFBBF197153A10072E097 /* FastPickerTests.m */,
+				6F2EFBC3197155AD0072E097 /* FastTableViewTests.m */,
 				EB60ECF0177F8DB3005A041A /* Supporting Files */,
 			);
 			path = "KIF Tests";
@@ -817,13 +832,18 @@
 				EABD46B31857A0F300A5F081 /* CompositionTests.m in Sources */,
 				EA4655881905B92500B2C60E /* PickerTests.m in Sources */,
 				EABD46B41857A0F300A5F081 /* LongPressTests.m in Sources */,
+				6F2EFBBE1971535E0072E097 /* FastTappingTests.m in Sources */,
 				EABD46B51857A0F300A5F081 /* ModalViewTests.m in Sources */,
 				EABD46B61857A0F300A5F081 /* SpecificControlTests.m in Sources */,
 				EABD46B71857A0F300A5F081 /* SystemTests.m in Sources */,
+				6F2EFBC2197153B70072E097 /* FastLandscapeTests.m in Sources */,
 				EABD46B81857A0F300A5F081 /* TappingTests.m in Sources */,
 				EABD46B91857A0F300A5F081 /* TypingTests.m in Sources */,
+				6F2EFBC0197153A10072E097 /* FastPickerTests.m in Sources */,
 				EABD46BA1857A0F300A5F081 /* WaitForAbscenceTests.m in Sources */,
 				EA47DA2818EDFD6F0034D2F5 /* CollectionViewTests.m in Sources */,
+				6F2EFBBC197153510072E097 /* FastCompositionTests.m in Sources */,
+				6F2EFBC4197155AD0072E097 /* FastTableViewTests.m in Sources */,
 				EABD46BB1857A0F300A5F081 /* WaitForTappableViewTests.m in Sources */,
 				EABD46BC1857A0F300A5F081 /* WaitForViewTests.m in Sources */,
 				EABD46BD1857A0F300A5F081 /* LandscapeTests.m in Sources */,
