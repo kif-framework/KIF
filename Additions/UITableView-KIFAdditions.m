@@ -13,6 +13,7 @@
 #import "UITouch-KIFAdditions.h"
 #import "CGGeometry-KIFAdditions.h"
 #import "NSError-KIFAdditions.h"
+#import "KIFRunLoop.h"
 
 @implementation UITableView (KIFAdditions)
 
@@ -50,7 +51,7 @@
     [[UIApplication sharedApplication] sendEvent:eventDown];
     
     // Hold long enough to enter reordering mode
-    CFRunLoopRunInMode(UIApplicationCurrentRunMode, 0.2, false);
+    KIFRunLoopRunInMode(UIApplicationCurrentRunMode, 0.2, false);
     
     CGPoint currentLocation = sourcePoint;
     while (currentLocation.y < destinationPoint.y - DRAG_STEP_DISTANCE || currentLocation.y > destinationPoint.y + DRAG_STEP_DISTANCE) {
@@ -66,11 +67,11 @@
         UIEvent *eventDrag = [self eventWithTouch:touch];
         [[UIApplication sharedApplication] sendEvent:eventDrag];
         
-        CFRunLoopRunInMode(UIApplicationCurrentRunMode, 0.01, false);
+        KIFRunLoopRunInMode(UIApplicationCurrentRunMode, 0.01, false);
     }
     
     // Hold long enough for the animations to catch up
-    CFRunLoopRunInMode(UIApplicationCurrentRunMode, 0.2, false);
+    KIFRunLoopRunInMode(UIApplicationCurrentRunMode, 0.2, false);
     
     [touch setPhaseAndUpdateTimestamp:UITouchPhaseEnded];
     

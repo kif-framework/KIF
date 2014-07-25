@@ -15,6 +15,7 @@
 #endif
 
 #import "KIFTestActor.h"
+#import "KIFRunLoop.h"
 #import "NSError-KIFAdditions.h"
 #import <dlfcn.h>
 #import <objc/runtime.h>
@@ -99,7 +100,7 @@
         NSError *error = nil;
         
         while ((result = executionBlock(&error)) == KIFTestStepResultWait && -[startDate timeIntervalSinceNow] < timeout) {
-            CFRunLoopRunInMode([[UIApplication sharedApplication] currentRunLoopMode] ?: kCFRunLoopDefaultMode, KIFTestStepDelay, false);
+            KIFRunLoopRunInMode([[UIApplication sharedApplication] currentRunLoopMode] ?: kCFRunLoopDefaultMode, KIFTestStepDelay, false);
         }
         
         if (result == KIFTestStepResultWait) {

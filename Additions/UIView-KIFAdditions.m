@@ -12,6 +12,7 @@
 #import "UIAccessibilityElement-KIFAdditions.h"
 #import "UIApplication-KIFAdditions.h"
 #import "UITouch-KIFAdditions.h"
+#import "KIFRunLoop.h"
 #import <objc/runtime.h>
 
 typedef struct __GSEvent * GSEventRef;
@@ -232,8 +233,8 @@ typedef struct __GSEvent * GSEventRef;
                 
                 // Scroll to the cell and wait for the animation to complete
                 [collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionNone animated:YES];
-                CFRunLoopRunInMode(UIApplicationCurrentRunMode, 0.5, false);
-                
+                KIFRunLoopRunInMode(UIApplicationCurrentRunMode, 0.5, false);
+
                 // Now try finding the element again
                 return [self accessibilityElementMatchingBlock:matchBlock];
             }
@@ -325,9 +326,9 @@ typedef struct __GSEvent * GSEventRef;
 	UIColor *originalBackgroundColor = self.backgroundColor;
     for (NSUInteger i = 0; i < 5; i++) {
         self.backgroundColor = [UIColor yellowColor];
-        CFRunLoopRunInMode(kCFRunLoopDefaultMode, .05, false);
+        KIFRunLoopRunInMode(kCFRunLoopDefaultMode, .05, false);
         self.backgroundColor = [UIColor blueColor];
-        CFRunLoopRunInMode(kCFRunLoopDefaultMode, .05, false);
+        KIFRunLoopRunInMode(kCFRunLoopDefaultMode, .05, false);
     }
     self.backgroundColor = originalBackgroundColor;
 }
@@ -385,8 +386,8 @@ typedef struct __GSEvent * GSEventRef;
     
     UIEvent *eventDown = [self eventWithTouch:touch];
     [[UIApplication sharedApplication] sendEvent:eventDown];
-    
-    CFRunLoopRunInMode(kCFRunLoopDefaultMode, DRAG_TOUCH_DELAY, false);
+
+    KIFRunLoopRunInMode(kCFRunLoopDefaultMode, DRAG_TOUCH_DELAY, false);
     
     for (NSTimeInterval timeSpent = DRAG_TOUCH_DELAY; timeSpent < duration; timeSpent += DRAG_TOUCH_DELAY)
     {
@@ -394,8 +395,8 @@ typedef struct __GSEvent * GSEventRef;
         
         UIEvent *eventStillDown = [self eventWithTouch:touch];
         [[UIApplication sharedApplication] sendEvent:eventStillDown];
-        
-        CFRunLoopRunInMode(kCFRunLoopDefaultMode, DRAG_TOUCH_DELAY, false);
+
+        KIFRunLoopRunInMode(kCFRunLoopDefaultMode, DRAG_TOUCH_DELAY, false);
     }
     
     [touch setPhaseAndUpdateTimestamp:UITouchPhaseEnded];
@@ -437,42 +438,44 @@ typedef struct __GSEvent * GSEventRef;
 
 - (void)dragAlongPathWithPoints:(CGPoint *)points count:(NSInteger)count;
 {
-    // we need at least two points in order to make segments
-    if (count < 2) {
-        return;
-    }
+    @autoreleasepool {
+        // we need at least two points in order to make segments
+        if (count < 2) {
+            return;
+        }
 
-    // Create the touch (there should only be one touch object for the whole drag)
-    UITouch *touch = [[UITouch alloc] initAtPoint:points[0] inView:self];
-    [touch setPhaseAndUpdateTimestamp:UITouchPhaseBegan];
-    
-    UIEvent *eventDown = [self eventWithTouch:touch];
-    [[UIApplication sharedApplication] sendEvent:eventDown];
-    
-    CFRunLoopRunInMode(UIApplicationCurrentRunMode, DRAG_TOUCH_DELAY, false);
+        // Create the touch (there should only be one touch object for the whole drag)
+        UITouch *touch = [[UITouch alloc] initAtPoint:points[0] inView:self];
+        [touch setPhaseAndUpdateTimestamp:UITouchPhaseBegan];
 
-    for (NSInteger pointIndex = 1; pointIndex < count; pointIndex++) {
-        [touch setLocationInWindow:[self.window convertPoint:points[pointIndex] fromView:self]];
-        [touch setPhaseAndUpdateTimestamp:UITouchPhaseMoved];
-        
-        UIEvent *eventDrag = [self eventWithTouch:touch];
-        [[UIApplication sharedApplication] sendEvent:eventDrag];
+        UIEvent *eventDown = [self eventWithTouch:touch];
+        [[UIApplication sharedApplication] sendEvent:eventDown];
 
-        CFRunLoopRunInMode(UIApplicationCurrentRunMode, DRAG_TOUCH_DELAY, false);
-    }
-    
-    [touch setPhaseAndUpdateTimestamp:UITouchPhaseEnded];
-    
-    UIEvent *eventUp = [self eventWithTouch:touch];
-    [[UIApplication sharedApplication] sendEvent:eventUp];
-    
-    // Dispatching the event doesn't actually update the first responder, so fake it
-    if (touch.view == self && [self canBecomeFirstResponder]) {
-        [self becomeFirstResponder];
-    }
-    
-    while (UIApplicationCurrentRunMode != kCFRunLoopDefaultMode) {
-        CFRunLoopRunInMode(UIApplicationCurrentRunMode, 0.1, false);
+        KIFRunLoopRunInMode(UIApplicationCurrentRunMode, DRAG_TOUCH_DELAY, false);
+
+        for (NSInteger pointIndex = 1; pointIndex < count; pointIndex++) {
+            [touch setLocationInWindow:[self.window convertPoint:points[pointIndex] fromView:self]];
+            [touch setPhaseAndUpdateTimestamp:UITouchPhaseMoved];
+
+            UIEvent *eventDrag = [self eventWithTouch:touch];
+            [[UIApplication sharedApplication] sendEvent:eventDrag];
+
+            KIFRunLoopRunInMode(UIApplicationCurrentRunMode, DRAG_TOUCH_DELAY, false);
+        }
+
+        [touch setPhaseAndUpdateTimestamp:UITouchPhaseEnded];
+
+        UIEvent *eventUp = [self eventWithTouch:touch];
+        [[UIApplication sharedApplication] sendEvent:eventUp];
+
+        // Dispatching the event doesn't actually update the first responder, so fake it
+        if (touch.view == self && [self canBecomeFirstResponder]) {
+            [self becomeFirstResponder];
+        }
+
+        while (UIApplicationCurrentRunMode != kCFRunLoopDefaultMode) {
+            KIFRunLoopRunInMode(UIApplicationCurrentRunMode, 0.1, false);
+        }
     }
 }
 

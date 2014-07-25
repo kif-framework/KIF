@@ -15,6 +15,7 @@
 #import "UITableView-KIFAdditions.h"
 #import "CGGeometry-KIFAdditions.h"
 #import "NSError-KIFAdditions.h"
+#import "KIFRunLoop.h"
 #import "KIFTypist.h"
 
 @implementation KIFUITestActor
@@ -439,7 +440,7 @@
 
                 if ([rowTitle isEqual:pickerColumnValues[componentIndex]]) {
                     [pickerView selectRow:rowIndex inComponent:componentIndex animated:false];
-                    CFRunLoopRunInMode(kCFRunLoopDefaultMode, 1, false);
+                    KIFRunLoopRunInMode(kCFRunLoopDefaultMode, 1, false);
 
                     // Tap in the middle of the picker view to select the item
                     [pickerView tap];
@@ -543,7 +544,7 @@
     }
     UIView *dimmingView = [[window subviewsWithClassNamePrefix:@"UIDimmingView"] lastObject];
     [dimmingView tapAtPoint:CGPointMake(50.0f, 50.0f)];
-    CFRunLoopRunInMode(kCFRunLoopDefaultMode, tapDelay, false);
+    KIFRunLoopRunInMode(kCFRunLoopDefaultMode, tapDelay, false);
 }
 
 - (void)choosePhotoInAlbum:(NSString *)albumName atRow:(NSInteger)row column:(NSInteger)column

@@ -14,6 +14,7 @@
 #import "UIView-KIFAdditions.h"
 #import "LoadableCategory.h"
 #import "KIFTestActor.h"
+#import "KIFRunLoop.h"
 
 MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
 
@@ -114,7 +115,7 @@ MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
             }
             
             // Give the scroll view a small amount of time to perform the scroll.
-            CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.3, false);
+            KIFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.3, false);
         }
         
         superview = superview.superview;

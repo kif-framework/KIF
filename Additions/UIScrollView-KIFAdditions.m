@@ -11,7 +11,7 @@
 #import "LoadableCategory.h"
 #import "UIApplication-KIFAdditions.h"
 #import "UIView-KIFAdditions.h"
-
+#import "KIFRunLoop.h"
 
 MAKE_CATEGORIES_LOADABLE(UIScrollView_KIFAdditions)
 
@@ -37,7 +37,7 @@ MAKE_CATEGORIES_LOADABLE(UIScrollView_KIFAdditions)
     
     if (!CGPointEqualToPoint(contentOffset, self.contentOffset)) {
         [self setContentOffset:contentOffset animated:animated];
-        CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.2, false);
+        KIFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.2, false);
     }
 }
 

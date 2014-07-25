@@ -11,6 +11,7 @@
 #import <UIKit/UIKit.h>
 #import "UIApplication-KIFAdditions.h"
 #import "NSError-KIFAdditions.h"
+#import "KIFRunLoop.h"
 
 @implementation KIFSystemTestActor
 
@@ -62,7 +63,7 @@
             dispatch_semaphore_signal(semaphore);
         }];
         while (dispatch_semaphore_wait(semaphore, DISPATCH_TIME_NOW)) {
-            CFRunLoopRunInMode([[UIApplication sharedApplication] currentRunLoopMode] ?: kCFRunLoopDefaultMode, 0.1, false);
+            KIFRunLoopRunInMode([[UIApplication sharedApplication] currentRunLoopMode] ?: kCFRunLoopDefaultMode, 0.1, false);
         }
     } else {
         [[UIApplication sharedApplication] rotateIfNeeded:orientation];
