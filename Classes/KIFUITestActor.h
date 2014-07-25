@@ -409,6 +409,15 @@ static inline KIFDisplacement KIFDisplacementForSwipingInDirection(KIFSwipeDirec
 - (void)scrollViewWithAccessibilityIdentifier:(NSString *)identifier byFractionOfSizeHorizontal:(CGFloat)horizontalFraction vertical:(CGFloat)verticalFraction NS_AVAILABLE_IOS(5_0);
 
 /*!
+ @abstract Drags a particular view in the view hierarchy in a direction given by two different positions.
+ @discussion The view will get the view with the specified accessibility label and drag the screen in the direction based on the specified two different positions.
+ @param label The accessibility label of the view to swipe.
+ @param from The position where the displacement starts.
+ @param to The position where the displacement ends.
+ */
+- (void)dragViewWithAccessibilityLabel:(NSString *)label fromPoint:(CGPoint)from toPoint:(CGPoint)to;
+
+/*!
  @abstract Waits until a view or accessibility element is the first responder.
  @discussion The first responder is found by searching the view hierarchy of the application's
  main window and its accessibility label is compared to the given value. If they match, the
