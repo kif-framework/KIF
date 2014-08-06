@@ -21,7 +21,7 @@ Podfileに下記のように追加する．
 
 ```
 target 'Acceptance Tests', :exclusive => true do
-  pod 'KIF', '~> 3.0'
+    pod 'KIF'
 end
 ```
 
