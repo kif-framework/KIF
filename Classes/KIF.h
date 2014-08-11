@@ -11,7 +11,6 @@
 #import "KIFTestCase.h"
 #import "KIFSystemTestActor.h"
 #import "KIFUITestActor.h"
-#import "KIFUITestActor.h"
 #import "KIFUITestActor-ConditionalTests.h"
 
 #ifndef KIF_SENTEST
