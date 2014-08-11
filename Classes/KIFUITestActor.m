@@ -82,26 +82,7 @@
 - (void)waitForAccessibilityElement:(UIAccessibilityElement **)element view:(out UIView **)view withElementMatchingPredicate:(NSPredicate *)predicate tappable:(BOOL)mustBeTappable
 {
     [self runBlock:^KIFTestStepResult(NSError **error) {
-        UIAccessibilityElement *foundElement = [[UIApplication sharedApplication] accessibilityElementMatchingBlock:^BOOL(UIAccessibilityElement *element) {
-            return [predicate evaluateWithObject:element];
-        }];
-        
-        KIFTestWaitCondition(foundElement, error, @"Could not find view matching: %@", predicate);
-        
-        UIView *foundView = [UIAccessibilityElement viewContainingAccessibilityElement:foundElement tappable:mustBeTappable error:error];
-        if (!foundView) {
-            return KIFTestStepResultWait;
-        }
-        
-        if (element) {
-            *element = foundElement;
-        }
-        
-        if (view) {
-            *view = foundView;
-        }
-        
-        return KIFTestStepResultSuccess;
+        return [UIAccessibilityElement accessibilityElement:element view:view withElementMatchingPredicate:predicate tappable:mustBeTappable error:error] ? KIFTestStepResultSuccess : KIFTestStepResultWait;
     }];
 }
 
