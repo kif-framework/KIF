@@ -90,7 +90,7 @@
 		EB02523E17AA109400A7D13A /* CompositionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EB02523D17AA109400A7D13A /* CompositionTests.m */; };
 		EB09001017E3696A00AA15B1 /* SearchFieldTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EB09000F17E3696A00AA15B1 /* SearchFieldTests.m */; };
 		EB22B5B017AF52640090B848 /* CascadingFailureTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EB22B5AF17AF52640090B848 /* CascadingFailureTests.m */; };
-		EB2526481981BF7A00DBC747 /* KIFUITestActor-ConditionalTests.h in Headers */ = {isa = PBXBuildFile; fileRef = EB2526461981BF7A00DBC747 /* KIFUITestActor-ConditionalTests.h */; };
+		EB2526481981BF7A00DBC747 /* KIFUITestActor-ConditionalTests.h in Headers */ = {isa = PBXBuildFile; fileRef = EB2526461981BF7A00DBC747 /* KIFUITestActor-ConditionalTests.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EB2526491981BF7A00DBC747 /* KIFUITestActor-ConditionalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EB2526471981BF7A00DBC747 /* KIFUITestActor-ConditionalTests.m */; };
 		EB25264A1981BF8400DBC747 /* KIFUITestActor-ConditionalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EB2526471981BF7A00DBC747 /* KIFUITestActor-ConditionalTests.m */; };
 		EB3F654517AA0B8400469D18 /* TableViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EB3F654417AA0B8400469D18 /* TableViewTests.m */; };
@@ -542,7 +542,6 @@
 				D927B9DF18F9E46400DAD036 /* UITableView-KIFAdditions.h in Headers */,
 				EABD46921857A0C700A5F081 /* CGGeometry-KIFAdditions.h in Headers */,
 				EABD46931857A0C700A5F081 /* UIAccessibilityElement-KIFAdditions.h in Headers */,
-				EB2526481981BF7A00DBC747 /* KIFUITestActor-ConditionalTests.h in Headers */,
 				EABD46941857A0C700A5F081 /* UIApplication-KIFAdditions.h in Headers */,
 				EABD46951857A0C700A5F081 /* UIScrollView-KIFAdditions.h in Headers */,
 				EABD46971857A0C700A5F081 /* UITouch-KIFAdditions.h in Headers */,
@@ -559,8 +558,9 @@
 				EAC8096A1864F19C000E819F /* NSException-KIFAdditions.h in Headers */,
 				EABD46961857A0C700A5F081 /* XCTestCase-KIFAdditions.h in Headers */,
 				EABD46A21857A0C700A5F081 /* NSError-KIFAdditions.h in Headers */,
-				EABD46D51857C54500A5F081 /* KIF-XCTestPrefix.pch in Headers */,
 				EABD46A31857A0C700A5F081 /* KIFTestStepValidation.h in Headers */,
+				EB2526481981BF7A00DBC747 /* KIFUITestActor-ConditionalTests.h in Headers */,
+				EABD46D51857C54500A5F081 /* KIF-XCTestPrefix.pch in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
