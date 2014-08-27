@@ -20,7 +20,7 @@ Pod::Spec.new do |s|
     xctest.compiler_flags       = '-DKIF_XCTEST'
     xctest.xcconfig             = {
          'OTHER_CFLAGS' => '-DKIF_XCTEST',
-         'FRAMEWORK_SEARCH_PATHS' => '$(DEVELOPER_DIR)/Platforms/iPhoneSimulator.platform/Developer/Library/Frameworks' }
+         'FRAMEWORK_SEARCH_PATHS' => '$(PLATFORM_DIR)/Developer/Library/Frameworks' }
     xctest.requires_arc         = true
   end
 
