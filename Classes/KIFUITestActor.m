@@ -381,8 +381,39 @@
     [self selectPickerValue:dataToSelect pickerType:KIFUIPickerView];
 }
 
-- (void) selectPickerValue:(NSArray*)pickerColumnValues pickerType:(KIFPickerType)pickerType {
+- (void)selectPickerViewRowWithTitle:(NSString *)title inComponent:(NSInteger)component
+{
+    NSMutableArray *dataToSelect = [[NSMutableArray alloc] init];
+    
+    // Assume it is datePicker and then test our hypothesis later!
+    UIPickerView *pickerView = [[[[UIApplication sharedApplication] datePickerWindow] subviewsWithClassNameOrSuperClassNamePrefix:@"UIPickerView"] lastObject];
+    
+    // Check which type of UIPickerVIew it is!
+    KIFPickerType pickerType = 0;
+    if ([pickerView respondsToSelector:@selector(setDate:animated:)]) {
+        pickerType = KIFUIDatePicker;
+    }
+    else {
+        pickerType = KIFUIPickerView;
+        pickerView = [[[[UIApplication sharedApplication] pickerViewWindow] subviewsWithClassNameOrSuperClassNamePrefix:@"UIPickerView"] lastObject];
+    }
+    
+    // Add title at component index and add empty strings for other.
+    // This support legacy function re-use.
+    for (int i = 0; i < pickerView.numberOfComponents; i++) {
+        if (component == i) {
+            [dataToSelect addObject:title];
+        }
+        else {
+            [dataToSelect addObject:@""];
+        }
+    }
+    
+    [self selectPickerValue:dataToSelect pickerType:pickerType];
+}
 
+- (void) selectPickerValue:(NSArray*)pickerColumnValues pickerType:(KIFPickerType)pickerType {
+    
     [self runBlock:^KIFTestStepResult(NSError **error) {
         NSInteger columnCount = [pickerColumnValues count];
         NSMutableArray* found_values = [NSMutableArray arrayWithCapacity:columnCount];
@@ -398,12 +429,12 @@
                 KIFTestCondition(pickerView, error, @"No picker view is present");
                 break;
             case KIFUIPickerView:
-                 pickerView = [[[[UIApplication sharedApplication] pickerViewWindow] subviewsWithClassNameOrSuperClassNamePrefix:@"UIPickerView"] lastObject];
+                pickerView = [[[[UIApplication sharedApplication] pickerViewWindow] subviewsWithClassNameOrSuperClassNamePrefix:@"UIPickerView"] lastObject];
         }
-
+        
         NSInteger componentCount = [pickerView.dataSource numberOfComponentsInPickerView:pickerView];
         KIFTestCondition(componentCount == columnCount, error, @"The UIDatePicker does not have the expected column count.");
-
+        
         for (NSInteger componentIndex = 0; componentIndex < componentCount; componentIndex++) {
             NSInteger rowCount = [pickerView.dataSource pickerView:pickerView numberOfRowsInComponent:componentIndex];
             for (NSInteger rowIndex = 0; rowIndex < rowCount; rowIndex++) {
@@ -417,21 +448,21 @@
                     UILabel *label = (labels.count > 0 ? labels[0] : nil);
                     rowTitle = label.text;
                 }
-
+                
                 if ([rowTitle isEqual:pickerColumnValues[componentIndex]]) {
                     [pickerView selectRow:rowIndex inComponent:componentIndex animated:false];
                     CFRunLoopRunInMode(kCFRunLoopDefaultMode, 1, false);
-
+                    
                     // Tap in the middle of the picker view to select the item
                     [pickerView tap];
                     [self waitForTimeInterval:0.5];
-
+                    
                     // The combination of selectRow:inComponent:animated: and tap does not consistently result in
                     // pickerView:didSelectRow:inComponent: being called on the delegate. We need to do it explicitly.
                     if ([pickerView.delegate respondsToSelector:@selector(pickerView:didSelectRow:inComponent:)]) {
                         [pickerView.delegate pickerView:pickerView didSelectRow:rowIndex inComponent:componentIndex];
                     }
-
+                    
                     [found_values replaceObjectAtIndex:componentIndex withObject:@(YES)];
                     break;
                 }
@@ -439,19 +470,25 @@
             if (found_values[componentIndex] == [NSNumber numberWithBool:YES]) {
                 continue;
             }
-
         }
-
+        
+        // Support multiple column by adding flag to check if the value found in
+        // at-least one column
+        BOOL _foundInOneColumn = NO;
         for (NSInteger componentIndex = 0; componentIndex < columnCount; componentIndex++) {
-            if (found_values[componentIndex] == [NSNumber numberWithBool:NO]) {
-                KIFTestCondition(NO, error, @"Failed to select from Picker.");
-                return KIFTestStepResultFailure;
+            if (found_values[componentIndex] != [NSNumber numberWithBool:NO]) {
+                _foundInOneColumn = YES;
             }
         }
-
+        
+        if (!_foundInOneColumn) {
+            KIFTestCondition(NO, error, @"Failed to select from Picker.");
+            return KIFTestStepResultFailure;
+        }
+        
         return KIFTestStepResultSuccess;
     }];
-
+    
 }
 
 - (void)setOn:(BOOL)switchIsOn forSwitchWithAccessibilityLabel:(NSString *)label
