@@ -37,7 +37,7 @@ MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
     return (UIView *)element;
 }
 
-+ (BOOL)accessibilityElement:(out UIAccessibilityElement **)foundElement view:(out UIView **)foundView withLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits tappable:(BOOL)mustBeTappable error:(out NSError **)error;
++ (BOOL)accessibilityElement:(out UIAccessibilityElement *__strong*)foundElement view:(out UIView *__strong*)foundView withLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits tappable:(BOOL)mustBeTappable error:(out NSError **)error;
 {
     UIAccessibilityElement *element = [self accessibilityElementWithLabel:label value:value traits:traits error:error];
     if (!element) {
@@ -54,7 +54,7 @@ MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
     return YES;
 }
 
-+ (BOOL)accessibilityElement:(out UIAccessibilityElement **)foundElement view:(out UIView **)foundView withElementMatchingPredicate:(NSPredicate *)predicate tappable:(BOOL)mustBeTappable error:(out NSError **)error;
++ (BOOL)accessibilityElement:(out UIAccessibilityElement *__strong*)foundElement view:(out UIView *__strong*)foundView withElementMatchingPredicate:(NSPredicate *)predicate tappable:(BOOL)mustBeTappable error:(out NSError **)error;
 {
     UIAccessibilityElement *element = [[UIApplication sharedApplication] accessibilityElementMatchingBlock:^BOOL(UIAccessibilityElement *element) {
         return [predicate evaluateWithObject:element];

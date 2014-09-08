@@ -32,7 +32,7 @@
  @param error A reference to an error object to be populated when no matching element or view is found.  Can be @c NULL.
  @result @c YES if the element and view were found.  Otherwise @c NO.
  */
-+ (BOOL)accessibilityElement:(out UIAccessibilityElement **)foundElement view:(out UIView **)foundView withLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits tappable:(BOOL)mustBeTappable error:(out NSError **)error;
++ (BOOL)accessibilityElement:(out UIAccessibilityElement *__strong*)foundElement view:(out UIView *__strong*)foundView withLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits tappable:(BOOL)mustBeTappable error:(out NSError **)error;
 
 /*!
  @abstract Finds an accessibility element with a matching label, value, and traits.
@@ -53,7 +53,7 @@
  @param error A reference to an error object to be populated when no matching element or view is found.  Can be @c NULL.
  @result @c YES if the element and view were found.  Otherwise @c NO.
  */
-+ (BOOL)accessibilityElement:(out UIAccessibilityElement **)foundElement view:(out UIView **)foundView withElementMatchingPredicate:(NSPredicate *)predicate tappable:(BOOL)mustBeTappable error:(out NSError **)error;
++ (BOOL)accessibilityElement:(out UIAccessibilityElement *__strong*)foundElement view:(out UIView *__strong*)foundView withElementMatchingPredicate:(NSPredicate *)predicate tappable:(BOOL)mustBeTappable error:(out NSError **)error;
 
 /*!
  @abstract Finds and attempts to make visible a view for a given accessibility element.
