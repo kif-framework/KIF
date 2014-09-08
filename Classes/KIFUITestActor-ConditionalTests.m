@@ -47,14 +47,14 @@
     return [self tryFindingAccessibilityElement:NULL view:NULL withLabel:label value:value traits:traits tappable:mustBeTappable error:error];
 }
 
-- (BOOL)tryFindingAccessibilityElement:(out UIAccessibilityElement *__strong*)element view:(out UIView **)view withLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits tappable:(BOOL)mustBeTappable error:(out NSError **)error
+- (BOOL)tryFindingAccessibilityElement:(out UIAccessibilityElement *__strong*)element view:(out UIView *__strong*)view withLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits tappable:(BOOL)mustBeTappable error:(out NSError **)error
 {
     return [self tryRunningBlock:^KIFTestStepResult(NSError *__autoreleasing *error) {
         return [UIAccessibilityElement accessibilityElement:element view:view withLabel:label value:value traits:traits tappable:mustBeTappable error:error] ? KIFTestStepResultSuccess : KIFTestStepResultWait;
     } complete:nil timeout:1.0 error:error];
 }
 
-- (BOOL)tryFindingAccessibilityElement:(out UIAccessibilityElement *__strong*)element view:(out UIView **)view withIdentifier:(NSString *)identifier tappable:(BOOL)mustBeTappable error:(out NSError **)error
+- (BOOL)tryFindingAccessibilityElement:(out UIAccessibilityElement *__strong*)element view:(out UIView *__strong*)view withIdentifier:(NSString *)identifier tappable:(BOOL)mustBeTappable error:(out NSError **)error
 {
     if (![UIAccessibilityElement instancesRespondToSelector:@selector(accessibilityIdentifier)]) {
         [self failWithError:[NSError KIFErrorWithFormat:@"Running test on platform that does not support accessibilityIdentifier"] stopTest:YES];
@@ -63,7 +63,7 @@
     return [self tryFindingAccessibilityElement:element view:view withElementMatchingPredicate:[NSPredicate predicateWithFormat:@"accessibilityIdentifier = %@", identifier] tappable:mustBeTappable error:error];
 }
 
-- (BOOL)tryFindingAccessibilityElement:(out UIAccessibilityElement *__strong*)element view:(out UIView **)view withElementMatchingPredicate:(NSPredicate *)predicate tappable:(BOOL)mustBeTappable error:(out NSError **)error
+- (BOOL)tryFindingAccessibilityElement:(out UIAccessibilityElement *__strong*)element view:(out UIView *__strong*)view withElementMatchingPredicate:(NSPredicate *)predicate tappable:(BOOL)mustBeTappable error:(out NSError **)error
 {
     return [self tryRunningBlock:^KIFTestStepResult(NSError *__autoreleasing *error) {
         return [UIAccessibilityElement accessibilityElement:element view:view withElementMatchingPredicate:predicate tappable:mustBeTappable error:error] ? KIFTestStepResultSuccess : KIFTestStepResultWait;

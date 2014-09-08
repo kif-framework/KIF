@@ -61,8 +61,8 @@
  */
 - (BOOL)tryFindingTappableViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits error:(out NSError **)error;
 
-- (BOOL)tryFindingAccessibilityElement:(out UIAccessibilityElement *__strong*)element view:(out UIView **)view withIdentifier:(NSString *)identifier tappable:(BOOL)mustBeTappable error:(out NSError **)error;
+- (BOOL)tryFindingAccessibilityElement:(out UIAccessibilityElement *__strong*)element view:(out UIView *__strong*)view withIdentifier:(NSString *)identifier tappable:(BOOL)mustBeTappable error:(out NSError **)error;
 
-- (BOOL)tryFindingAccessibilityElement:(out UIAccessibilityElement *__strong*)element view:(out UIView **)view withElementMatchingPredicate:(NSPredicate *)predicate tappable:(BOOL)mustBeTappable error:(out NSError **)error;
+- (BOOL)tryFindingAccessibilityElement:(out UIAccessibilityElement *__strong*)element view:(out UIView *__strong*)view withElementMatchingPredicate:(NSPredicate *)predicate tappable:(BOOL)mustBeTappable error:(out NSError **)error;
 
 @end
