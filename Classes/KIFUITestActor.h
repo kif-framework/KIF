@@ -153,7 +153,7 @@ static inline KIFDisplacement KIFDisplacementForSwipingInDirection(KIFSwipeDirec
  @param traits The accessibility traits of the element to wait for. Elements that do not include at least these traits are ignored.
  @param mustBeTappable If YES, only an element that can be tapped on will be returned.
  */
-- (void)waitForAccessibilityElement:(UIAccessibilityElement **)element view:(out UIView **)view withLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits tappable:(BOOL)mustBeTappable;
+- (void)waitForAccessibilityElement:(UIAccessibilityElement *__strong*)element view:(out UIView *__strong*)view withLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits tappable:(BOOL)mustBeTappable;
 
 /*
  @abstract Waits for an accessibility element and its containing view based the accessibility identifier.
@@ -163,7 +163,7 @@ static inline KIFDisplacement KIFDisplacementForSwipingInDirection(KIFSwipeDirec
  @param identifier The accessibility identifier of the element to wait for.
  @param mustBeTappable If YES, only an element that can be tapped on will be returned.
  */
-- (void)waitForAccessibilityElement:(UIAccessibilityElement **)element view:(out UIView **)view withIdentifier:(NSString *)identifier tappable:(BOOL)mustBeTappable;
+- (void)waitForAccessibilityElement:(UIAccessibilityElement *__strong*)element view:(out UIView *__strong*)view withIdentifier:(NSString *)identifier tappable:(BOOL)mustBeTappable;
 
 /*
  @abstract Waits for an accessibility element and its containing view based on a predicate.
@@ -175,7 +175,7 @@ static inline KIFDisplacement KIFDisplacementForSwipingInDirection(KIFSwipeDirec
  @param predicate The predicate to match.
  @param mustBeTappable If YES, only an element that can be tapped on will be returned.
  */
-- (void)waitForAccessibilityElement:(UIAccessibilityElement **)element view:(out UIView **)view withElementMatchingPredicate:(NSPredicate *)predicate tappable:(BOOL)mustBeTappable;
+- (void)waitForAccessibilityElement:(UIAccessibilityElement *__strong*)element view:(out UIView *__strong*)view withElementMatchingPredicate:(NSPredicate *)predicate tappable:(BOOL)mustBeTappable;
 
 /*!
  @abstract Taps a particular view in the view hierarchy.
