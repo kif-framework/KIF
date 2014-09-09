@@ -59,7 +59,10 @@
 - (UIView *)waitForViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits tappable:(BOOL)mustBeTappable
 {
     UIView *view = nil;
-    [self waitForAccessibilityElement:NULL view:&view withLabel:label value:value traits:traits tappable:mustBeTappable];
+    @autoreleasepool {
+        [self waitForAccessibilityElement:NULL view:&view withLabel:label value:value traits:traits tappable:mustBeTappable];
+    }
+    
     return view;
 }
 
@@ -132,11 +135,12 @@
 
 - (void)tapViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits
 {
-    UIView *view = nil;
-    UIAccessibilityElement *element = nil;
-    
-    [self waitForAccessibilityElement:&element view:&view withLabel:label value:value traits:traits tappable:YES];
-    [self tapAccessibilityElement:element inView:view];
+    @autoreleasepool {
+        UIView *view = nil;
+        UIAccessibilityElement *element = nil;
+        [self waitForAccessibilityElement:&element view:&view withLabel:label value:value traits:traits tappable:YES];
+        [self tapAccessibilityElement:element inView:view];
+    }
 }
 
 - (void)tapAccessibilityElement:(UIAccessibilityElement *)element inView:(UIView *)view
@@ -206,11 +210,12 @@
 
 - (void)longPressViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits duration:(NSTimeInterval)duration;
 {
-    UIView *view = nil;
-    UIAccessibilityElement *element = nil;
-    
-    [self waitForAccessibilityElement:&element view:&view withLabel:label value:value traits:traits tappable:YES];
-    [self longPressAccessibilityElement:element inView:view duration:duration];
+    @autoreleasepool {
+        UIView *view = nil;
+        UIAccessibilityElement *element = nil;
+        [self waitForAccessibilityElement:&element view:&view withLabel:label value:value traits:traits tappable:YES];
+        [self longPressAccessibilityElement:element inView:view duration:duration];
+    }
 }
 
 - (void)longPressAccessibilityElement:(UIAccessibilityElement *)element inView:(UIView *)view duration:(NSTimeInterval)duration;
