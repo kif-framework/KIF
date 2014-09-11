@@ -1061,7 +1061,7 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				DSTROOT = /tmp/KIF.dst;
 				FRAMEWORK_SEARCH_PATHS = (
-					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(PLATFORM_DIR)/Developer/Library/Frameworks\"",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 				);
 				GCC_PREFIX_HEADER = "Classes/KIF-XCTestPrefix.pch";
@@ -1081,7 +1081,7 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				DSTROOT = /tmp/KIF.dst;
 				FRAMEWORK_SEARCH_PATHS = (
-					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(PLATFORM_DIR)/Developer/Library/Frameworks\"",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 				);
 				GCC_PREFIX_HEADER = "Classes/KIF-XCTestPrefix.pch";
@@ -1101,7 +1101,7 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				DSTROOT = /tmp/KIF.dst;
 				FRAMEWORK_SEARCH_PATHS = (
-					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(PLATFORM_DIR)/Developer/Library/Frameworks\"",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 				);
 				GCC_PREFIX_HEADER = "Classes/KIF-XCTestPrefix.pch";
