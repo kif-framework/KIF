@@ -476,23 +476,26 @@ static CGFloat const kTwoFingerConstantWidth = 40;
         }
         else
         {
+            UITouch *touch;
             for (NSUInteger pathIndex = 0; pathIndex < arrayOfPaths.count; pathIndex++)
             {
                 NSArray *path = arrayOfPaths[pathIndex];
                 CGPoint point = [path[pointIndex] CGPointValue];
-                UITouch *touch = touches[pathIndex];
-                if (pointIndex < pointsInPath - 1) {
-                    [touch setLocationInWindow:[self.window convertPoint:point fromView:self]];
-                    [touch setPhaseAndUpdateTimestamp:UITouchPhaseMoved];
-                }
-                else {
-                    [touch setPhaseAndUpdateTimestamp:UITouchPhaseEnded];
-                }
+                touch = touches[pathIndex];
+                [touch setLocationInWindow:[self.window convertPoint:point fromView:self]];
+                [touch setPhaseAndUpdateTimestamp:UITouchPhaseMoved];
             }
             UIEvent *event = [self eventWithTouches:[NSArray arrayWithArray:touches]];
             [[UIApplication sharedApplication] sendEvent:event];
 
             CFRunLoopRunInMode(UIApplicationCurrentRunMode, DRAG_TOUCH_DELAY, false);
+
+            // The last point needs to also send a phase ended touch.
+            if (pointIndex == pointsInPath - 1) {
+                [touch setPhaseAndUpdateTimestamp:UITouchPhaseEnded];
+                UIEvent *eventUp = [self eventWithTouch:touch];
+                [[UIApplication sharedApplication] sendEvent:eventUp];
+            }
         }
     }
 
