@@ -37,6 +37,8 @@
     [tester waitForTimeInterval:1];
     [tester setValue:3 forSliderWithAccessibilityLabel:@"Slider"];
     [tester waitForViewWithAccessibilityLabel:@"Slider" value:@"3" traits:UIAccessibilityTraitNone];
+    [tester setValue:0 forSliderWithAccessibilityLabel:@"Slider"];
+    [tester waitForViewWithAccessibilityLabel:@"Slider" value:@"0" traits:UIAccessibilityTraitNone];
 }
 
 - (void)testReturningFromATextField
