@@ -1,11 +1,11 @@
 Pod::Spec.new do |s|
   s.name            = "KIF"
-  s.version         = "3.0.2"
+  s.version         = "3.0.8"
   s.summary         = "Keep It Functional - iOS UI acceptance testing in an XCUnit harness."
   s.homepage        = "https://github.com/kif-framework/KIF/"
   s.license         = 'Apache 2.0'
   s.authors         = 'Eric Firestone', 'Jim Puls', 'Brian Nickel'
-  s.source          = { :git => "https://github.com/kif-framework/KIF.git", :tag => "v3.0.2" }
+  s.source          = { :git => "https://github.com/kif-framework/KIF.git", :tag => "v3.0.8" }
   s.platform        = :ios, '5.1'
   s.frameworks      = 'CoreGraphics'
   s.default_subspec = 'XCTest'
@@ -17,7 +17,10 @@ Pod::Spec.new do |s|
     xctest.exclude_files        = 'Additions/SenTestCase-KIFAdditions.{h,m}'
     xctest.public_header_files  = 'Classes/**/*.h', 'Additions/**/*-KIFAdditions.h'
     xctest.framework            = 'XCTest'
-    xctest.xcconfig             = { 'OTHER_CFLAGS' => '-DKIF_XCTEST' }
+    xctest.compiler_flags       = '-DKIF_XCTEST'
+    xctest.xcconfig             = {
+         'OTHER_CFLAGS' => '-DKIF_XCTEST',
+         'FRAMEWORK_SEARCH_PATHS' => '$(PLATFORM_DIR)/Developer/Library/Frameworks' }
     xctest.requires_arc         = true
   end
 
@@ -26,6 +29,7 @@ Pod::Spec.new do |s|
     sentest.exclude_files       = 'Additions/XCTestCase-KIFAdditions.{h,m}'
     sentest.public_header_files = 'Classes/**/*.h', 'Additions/**/*-KIFAdditions.h'
     sentest.framework           = 'SenTestingKit'
+    sentest.compiler_flags      = '-DKIF_SENTEST'
     sentest.xcconfig            = { 'OTHER_CFLAGS' => '-DKIF_SENTEST' }
     sentest.requires_arc        = true
   end

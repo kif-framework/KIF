@@ -28,7 +28,15 @@ MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
 	}
 	
     while (element && ![element isKindOfClass:[UIView class]]) {
-        element = [element accessibilityContainer];
+        // Sometimes accessibilityContainer will return a view that's too far up the view hierarchy
+        // UIAccessibilityElement instances will sometimes respond to view, so try to use that and then fall back to accessibilityContainer
+        id view = [element respondsToSelector:@selector(view)] ? [(id)element view] : nil;
+        
+        if (view) {
+            element = view;
+        } else {
+            element = [element accessibilityContainer];
+        }
     }
     
     return (UIView *)element;
@@ -42,6 +50,29 @@ MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
     }
     
     UIView *view = [self viewContainingAccessibilityElement:element tappable:mustBeTappable error:error];
+    if (!view) {
+        return NO;
+    }
+    
+    if (foundElement) { *foundElement = element; }
+    if (foundView) { *foundView = view; }
+    return YES;
+}
+
++ (BOOL)accessibilityElement:(out UIAccessibilityElement **)foundElement view:(out UIView **)foundView withElementMatchingPredicate:(NSPredicate *)predicate tappable:(BOOL)mustBeTappable error:(out NSError **)error;
+{
+    UIAccessibilityElement *element = [[UIApplication sharedApplication] accessibilityElementMatchingBlock:^BOOL(UIAccessibilityElement *element) {
+        return [predicate evaluateWithObject:element];
+    }];
+    
+    if (!element) {
+        if (error) {
+            *error = [NSError KIFErrorWithFormat:@"Could not find view matching: %@", predicate];
+        }
+        return NO;
+    }
+    
+    UIView *view = [UIAccessibilityElement viewContainingAccessibilityElement:element tappable:mustBeTappable error:error];
     if (!view) {
         return NO;
     }

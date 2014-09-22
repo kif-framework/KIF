@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/kif-framework/KIF.svg?branch=master)](https://travis-ci.org/kif-framework/KIF)
+
 KIF iOS Integration Testing Framework
 =====================================
 
@@ -7,7 +9,7 @@ KIF builds and performs the tests using a standard `XCTest` testing target.  Tes
 
 **KIF uses undocumented Apple APIs.** This is true of most iOS testing frameworks, and is safe for testing purposes, but it's important that KIF does not make it into production code, as it will get your app submission denied by Apple. Follow the instructions below to ensure that KIF is configured correctly for your project.
 
-**Note:** KIF 3.0 is not API compatible with KIF 1.0 and uses a different test execution mechanism.  KIF 1.0 can be found in the [Releases](https://github.com/kif-framework/KIF/releases/) section or on [CocoaPods](http://cocoapods.org).
+**Note:** KIF 2.0 is not API compatible with KIF 1.0 and uses a different test execution mechanism.  KIF 1.0 can be found in the [Releases](https://github.com/kif-framework/KIF/releases/) section or on [CocoaPods](http://cocoapods.org).
 
 Features
 --------
@@ -43,7 +45,7 @@ Select your project in Xcode and click on "Add Target" in the bottom left corner
 
 The testing target will add a header and implementation file, likely "Acceptance_Tests.m/h" to match your target name. Delete those.
 
-Once your test target set up, add the following to your Podspec file. Use your target's name as appropriate.
+Once your test target set up, add the following to your Podfile file. Use your target's name as appropriate.
 
 ```Ruby
 target 'Acceptance Tests', :exclusive => true do
@@ -119,7 +121,7 @@ The last step is to configure your unit tests to run when you trigger a test (‚å
 
 Example
 -------
-With your project configured to use KIF, it's time to start writing tests. There are two main classes used in KIF testing: the the test case (`KIFTestCase`, subclass of `XCTestCase`) and the UI test actor (`KIFUITestActor`).  The the XCTest test runner loads the test case classes and executes their test.  Inside these tests, the tester performs the UI operations which generally imitate a user interaction. Three of the most common tester actions are "tap this view," "enter text into this view," and "wait for this view." These steps are included as factory methods on `KIFUITestActor` in the base KIF implementation.
+With your project configured to use KIF, it's time to start writing tests. There are two main classes used in KIF testing: the test case (`KIFTestCase`, subclass of `XCTestCase`) and the UI test actor (`KIFUITestActor`).  The XCTest test runner loads the test case classes and executes their test.  Inside these tests, the tester performs the UI operations which generally imitate a user interaction. Three of the most common tester actions are "tap this view," "enter text into this view," and "wait for this view." These steps are included as factory methods on `KIFUITestActor` in the base KIF implementation.
 
 KIF relies on the built-in accessibility of iOS to perform its test steps. As such, it's important that your app is fully accessible. This is also a great way to ensure that your app is usable by the sight impaired. Making your application accessible is usually as easy as giving your views reasonable labels. More details are available in [Apple's Documentation](http://developer.apple.com/library/ios/#documentation/UserExperience/Conceptual/iPhoneAccessibility/Making_Application_Accessible/Making_Application_Accessible.html#//apple_ref/doc/uid/TP40008785-CH102-SW5).
 

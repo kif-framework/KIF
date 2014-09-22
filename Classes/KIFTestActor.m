@@ -27,19 +27,6 @@
     @autoreleasepool {
         NSLog(@"KIFTester loaded");
         [KIFTestActor _enableAccessibility];
-
-#ifndef KIF_SENTEST
-        if ([[[NSProcessInfo processInfo] environment] objectForKey:@"StartKIFManually"]) {
-            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:XCTestToolKey];
-            XCTSelfTestMain();
-        }
-#else
-        if ([[[NSProcessInfo processInfo] environment] objectForKey:@"StartKIFManually"]) {
-            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:SenTestToolKey];
-            SenSelfTestMain();
-        }
-#endif
-
         [UIApplication swizzleRunLoop];
     }
 }
@@ -91,29 +78,37 @@
     return self;
 }
 
+- (BOOL)tryRunningBlock:(KIFTestExecutionBlock)executionBlock complete:(KIFTestCompletionBlock)completionBlock timeout:(NSTimeInterval)timeout error:(out NSError **)error
+{
+    NSDate *startDate = [NSDate date];
+    KIFTestStepResult result;
+    NSError *internalError;
+    
+    while ((result = executionBlock(&internalError)) == KIFTestStepResultWait && -[startDate timeIntervalSinceNow] < timeout) {
+        CFRunLoopRunInMode([[UIApplication sharedApplication] currentRunLoopMode] ?: kCFRunLoopDefaultMode, KIFTestStepDelay, false);
+    }
+
+    if (result == KIFTestStepResultWait) {
+        internalError = [NSError KIFErrorWithUnderlyingError:internalError format:@"The step timed out after %.2f seconds: %@", timeout, internalError.localizedDescription];
+        result = KIFTestStepResultFailure;
+    }
+
+    if (completionBlock) {
+        completionBlock(result, internalError);
+    }
+
+    if (error) {
+        *error = internalError;
+    }
+    
+    return result != KIFTestStepResultFailure;
+}
+
 - (void)runBlock:(KIFTestExecutionBlock)executionBlock complete:(KIFTestCompletionBlock)completionBlock timeout:(NSTimeInterval)timeout
 {
-    @autoreleasepool {
-        NSDate *startDate = [NSDate date];
-        KIFTestStepResult result;
-        NSError *error = nil;
-        
-        while ((result = executionBlock(&error)) == KIFTestStepResultWait && -[startDate timeIntervalSinceNow] < timeout) {
-            CFRunLoopRunInMode([[UIApplication sharedApplication] currentRunLoopMode] ?: kCFRunLoopDefaultMode, 0.1, false);
-        }
-        
-        if (result == KIFTestStepResultWait) {
-            error = [NSError KIFErrorWithUnderlyingError:error format:@"The step timed out after %.2f seconds: %@", timeout, error.localizedDescription];
-            result = KIFTestStepResultFailure;
-        }
-        
-        if (completionBlock) {
-            completionBlock(result, error);
-        }
-        
-        if (result == KIFTestStepResultFailure) {
-            [self failWithError:error stopTest:YES];
-        }
+    NSError *error = nil;
+    if (![self tryRunningBlock:executionBlock complete:completionBlock timeout:timeout error:&error]) {
+        [self failWithError:error stopTest:YES];
     }
 }
 
@@ -136,6 +131,7 @@
 #pragma mark Class Methods
 
 static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
+static NSTimeInterval KIFTestStepDelay = 0.1;
 
 + (NSTimeInterval)defaultTimeout;
 {
@@ -145,6 +141,16 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
 + (void)setDefaultTimeout:(NSTimeInterval)newDefaultTimeout;
 {
     KIFTestStepDefaultTimeout = newDefaultTimeout;
+}
+
++ (NSTimeInterval)stepDelay;
+{
+    return KIFTestStepDelay;
+}
+
++ (void)setStepDelay:(NSTimeInterval)newStepDelay;
+{
+    KIFTestStepDelay = newStepDelay;
 }
 
 #pragma mark Generic tests

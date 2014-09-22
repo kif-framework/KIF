@@ -16,12 +16,56 @@
 static NSTimeInterval keystrokeDelay = 0.1f;
 
 @interface KIFTypist()
+@property (nonatomic, assign) BOOL keyboardHidden;
 + (NSString *)_representedKeyboardStringForCharacter:(NSString *)characterString;
 + (BOOL)_enterCharacter:(NSString *)characterString history:(NSMutableDictionary *)history;
 + (BOOL)_enterCustomKeyboardCharacter:(NSString *)characterString;
 @end
 
 @implementation KIFTypist
+
++ (KIFTypist *)sharedTypist
+{
+    static dispatch_once_t once;
+    static KIFTypist *sharedObserver = nil;
+    dispatch_once(&once, ^{
+        sharedObserver = [[self alloc] init];
+    });
+    return sharedObserver;
+}
+
++ (void)registerForNotifications {
+    [[self sharedTypist] registerForNotifications];
+}
+
+- (instancetype)init
+{
+    if ((self = [super init])) {
+        self.keyboardHidden = YES;
+    }
+    return self;
+}
+
+- (void)registerForNotifications
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShowNotification:) name:UIKeyboardDidShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHideNotification:) name:UIKeyboardWillHideNotification object:nil];
+}
+
+- (void)keyboardDidShowNotification:(NSNotification *)notification
+{
+    self.keyboardHidden = NO;
+}
+
+- (void)keyboardWillHideNotification:(NSNotification *)notification
+{
+    self.keyboardHidden = YES;
+}
+
++ (BOOL)keyboardHidden
+{
+    return [self sharedTypist].keyboardHidden;
+}
 
 + (NSString *)_representedKeyboardStringForCharacter:(NSString *)characterString;
 {
@@ -157,7 +201,7 @@ static NSTimeInterval keystrokeDelay = 0.1f;
     }
     
     UIView *view = [UIAccessibilityElement viewContainingAccessibilityElement:element];
-    CGRect keyFrame = [view.window convertRect:[element accessibilityFrame] toView:view];
+    CGRect keyFrame = [view.windowOrIdentityWindow convertRect:[element accessibilityFrame] toView:view];
     [view tapAtPoint:CGPointCenteredInRect(keyFrame)];
     CFRunLoopRunInMode(kCFRunLoopDefaultMode, keystrokeDelay, false);
     

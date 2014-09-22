@@ -34,27 +34,22 @@
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return 3;
+    return 200;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     CollectionViewCell *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"CollectionViewCell" forIndexPath:indexPath];
     
-    switch (indexPath.item) {
-        case 0:
-            cell.accessibilityLabel = @"First Cell";
-            cell.label.text = @"First";
-            break;
-        
-        case 2:
-            cell.accessibilityLabel = @"Last Cell";
-            cell.label.text = @"Last";
-            break;
-            
-        default:
-            cell.label.text = @"Filler";
-            break;
+    if (indexPath.item == 0) {
+        cell.accessibilityLabel = @"First Cell";
+        cell.label.text = @"First";
+    } else if (indexPath.item == [collectionView numberOfItemsInSection:indexPath.section] - 1) {
+        cell.accessibilityLabel = @"Last Cell";
+        cell.label.text = @"Last";
+    } else {
+        cell.accessibilityLabel = @"Filler";
+        cell.label.text = @"Filler";
     }
     
     return cell;
