@@ -28,8 +28,7 @@
 {
     __block NSNotification *detectedNotification = nil;
     id observer = [[NSNotificationCenter defaultCenter] addObserverForName:name object:object queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
-        [detectedNotification release];
-        detectedNotification = [note retain];
+        detectedNotification = note;
     }];
     
     if (block) {
@@ -47,7 +46,7 @@
         }
     }];
     
-    return [detectedNotification autorelease];
+    return detectedNotification;
 }
 
 - (void)simulateMemoryWarning
@@ -57,7 +56,17 @@
 
 - (void)simulateDeviceRotationToOrientation:(UIDeviceOrientation)orientation
 {
-    [[UIApplication sharedApplication] rotateIfNeeded:orientation];
+    if ([[UIApplication sharedApplication] respondsToSelector:@selector(rotateIfNeeded:completion:)]) {
+        dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+        [[UIApplication sharedApplication] rotateIfNeeded:orientation completion:^{
+            dispatch_semaphore_signal(semaphore);
+        }];
+        while (dispatch_semaphore_wait(semaphore, DISPATCH_TIME_NOW)) {
+            CFRunLoopRunInMode([[UIApplication sharedApplication] currentRunLoopMode] ?: kCFRunLoopDefaultMode, 0.1, false);
+        }
+    } else {
+        [[UIApplication sharedApplication] rotateIfNeeded:orientation];
+    }
 }
 
 - (void)waitForApplicationToOpenAnyURLWhileExecutingBlock:(void (^)())block returning:(BOOL)returnValue

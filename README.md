@@ -1,9 +1,11 @@
+[![Build Status](https://travis-ci.org/kif-framework/KIF.svg?branch=master)](https://travis-ci.org/kif-framework/KIF)
+
 KIF iOS Integration Testing Framework
 =====================================
 
 KIF, which stands for Keep It Functional, is an iOS integration test framework. It allows for easy automation of iOS apps by leveraging the accessibility attributes that the OS makes available for those with visual disabilities.
 
-KIF builds and performs the tests using a standard `ocunit` testing target.  Testing is conducted synchronously in the main thread (running the run loop to force the passage of time) allowing for more complex logic and composition.  This also allows KIF to take advantage of the Xcode 5 Test Navigator, command line build tools, and Bot test reports.  [Find out more about Xcode 5 features.](https://developer.apple.com/technologies/tools/whats-new.html)
+KIF builds and performs the tests using a standard `XCTest` testing target.  Testing is conducted synchronously in the main thread (running the run loop to force the passage of time) allowing for more complex logic and composition.  This also allows KIF to take advantage of the Xcode 5 Test Navigator, command line build tools, and Bot test reports.  [Find out more about Xcode 5 features.](https://developer.apple.com/technologies/tools/whats-new.html)
 
 **KIF uses undocumented Apple APIs.** This is true of most iOS testing frameworks, and is safe for testing purposes, but it's important that KIF does not make it into production code, as it will get your app submission denied by Apple. Follow the instructions below to ensure that KIF is configured correctly for your project.
 
@@ -43,17 +45,25 @@ Select your project in Xcode and click on "Add Target" in the bottom left corner
 
 The testing target will add a header and implementation file, likely "Acceptance_Tests.m/h" to match your target name. Delete those.
 
-Once your test target set up, add the following to your Podspec file. Use your target's name as appropriate.
+Once your test target set up, add the following to your Podfile file. Use your target's name as appropriate.
 
 ```Ruby
 target 'Acceptance Tests', :exclusive => true do
-  pod 'KIF', '~> 2.0'
+  pod 'KIF', '~> 3.0'
 end
 ```
 
 The `:exclusive => true` option will prevent Cocoapods from including dependencies from your main target in your test target causing double-linking issues when you test link against the app.
 
-After running `pod install` complete the tasks in [**Final Test Target Configurations**](#configure-the-testing-target) below for the final details on getting your tests to run.
+After running `pod install` complete the tasks in [**Final Test Target Configurations**](#final-test-target-configurations) below for the final details on getting your tests to run.
+
+Note: if you are using KIF with OCUnit, you need to use the OCUnit version of KIF as follows:
+
+```Ruby
+target 'Acceptance Tests', :exclusive => true do
+  pod 'KIF/OCUnit', '~> 3.0'
+end
+```
 
 Installation (from GitHub)
 --------------------------
@@ -92,6 +102,8 @@ Now that you have a target for your tests, add the tests to that target. With th
 
 ![Add libKIF library screen shot](https://github.com/kif-framework/KIF/raw/master/Documentation/Images/Add Library Sheet.png)
 
+In the target's Build Settings, add KIF_XCTEST=1 to the Preprocessor Macros section. If you are using OCUnit, then instead add KIF_SENTEST=1.
+
 KIF takes advantage of Objective C's ability to add categories on an object, but this isn't enabled for static libraries by default. To enable this, add the `-ObjC` flag to the "Other Linker Flags" build setting as shown below.
 
 ![Add category linker flags screen shot](https://github.com/kif-framework/KIF/raw/master/Documentation/Images/Add Category Linker Flags.png)
@@ -103,13 +115,13 @@ Final Test Target Configurations
 
 You need your tests to run hosted in your application.  To do this, first add your application by first selecting "Build Phases", expanding the "Target Dependencies" section, clicking on the "+" button, and in the new sheet that appears selecting your application target and clicking "Add".
 
-Next, configure your bundle loader.  In "Build Settings", expand "Linking" and edit "Bundle Loader" to be `$(BUILT_PRODUCTS_DIR)/My App.app/My App` where *My App* is the name of your app.  Expand the "Unit Testing" section and edit "Test Host" to be `$(BUNDLE_LOADER)`. Also make sure that "Wrapper Extension" is set to "octest".
+Next, configure your bundle loader.  In "Build Settings", expand "Linking" and edit "Bundle Loader" to be `$(BUILT_PRODUCTS_DIR)/My App.app/My App` where *My App* is the name of your app.  Expand the "Unit Testing" section and edit "Test Host" to be `$(BUNDLE_LOADER)`. Also make sure that "Wrapper Extension" is set to "xctest".
 
 The last step is to configure your unit tests to run when you trigger a test (⌘U).  Click on your scheme name and select "Edit Scheme…".  Click on "Test" in the sidebar followed by the "+" in the bottom left corner.  Select your testing target and click "OK".
 
 Example
 -------
-With your project configured to use KIF, it's time to start writing tests. There are two main classes used in KIF testing: the the test case (`KIFTestCase`, subclass of `SenTestCase`) and the UI test actor (`KIFUITestActor`).  The the ocunit test runner loads the test case classes and executes their test.  Inside these tests, the tester performs the UI operations which generally imitate a user interaction. Three of the most common tester actions are "tap this view," "enter text into this view," and "wait for this view." These steps are included as factory methods on `KIFUITestActor` in the base KIF implementation.
+With your project configured to use KIF, it's time to start writing tests. There are two main classes used in KIF testing: the test case (`KIFTestCase`, subclass of `XCTestCase`) and the UI test actor (`KIFUITestActor`).  The XCTest test runner loads the test case classes and executes their test.  Inside these tests, the tester performs the UI operations which generally imitate a user interaction. Three of the most common tester actions are "tap this view," "enter text into this view," and "wait for this view." These steps are included as factory methods on `KIFUITestActor` in the base KIF implementation.
 
 KIF relies on the built-in accessibility of iOS to perform its test steps. As such, it's important that your app is fully accessible. This is also a great way to ensure that your app is usable by the sight impaired. Making your application accessible is usually as easy as giving your views reasonable labels. More details are available in [Apple's Documentation](http://developer.apple.com/library/ios/#documentation/UserExperience/Conceptual/iPhoneAccessibility/Making_Application_Accessible/Making_Application_Accessible.html#//apple_ref/doc/uid/TP40008785-CH102-SW5).
 
@@ -189,7 +201,7 @@ Everything should now be configured. When you run the integration tests using th
 Use with other testing frameworks
 ---------------------------------
 
-`KIFTestCase` is not necessary for running KIF tests.  Tests can run directly in `SenTestCase` or any subclass.  The basic requirement is that when you call `tester` or `system`, `self` must be an instance of `SenTestCase`.
+`KIFTestCase` is not necessary for running KIF tests.  Tests can run directly in `XCTestCase` or any subclass.  The basic requirement is that when you call `tester` or `system`, `self` must be an instance of `XCTestCase`.
 
 For example, the following [Specta](https://github.com/specta/specta) test works without any changes to KIF or Specta:
 
@@ -209,21 +221,19 @@ For example, the following [Specta](https://github.com/specta/specta) test works
 
     SpecEnd
 
-If you want to use KIF with a test runner that does not subclass `SenTestCase`, your runner class just needs to implement the `KIFTestActorDelegate` protocol which contains two required methods.
+If you want to use KIF with a test runner that does not subclass `XCTestCase`, your runner class just needs to implement the `KIFTestActorDelegate` protocol which contains two required methods.
 
    - (void)failWithException:(NSException *)exception stopTest:(BOOL)stop;
    - (void)failWithExceptions:(NSArray *)exceptions stopTest:(BOOL)stop;
 
-In the first case, the test runner should log the exception and halt the test execution if `stop` is `YES`.  In the second, the runner should log all the exceptions and halt the test execution if `stop` is `YES`.  The exceptions take advantage of OCUnit's extensions to `NSException` with the properties `lineNumber` and `filename` to be used in recording the error's origin.
+In the first case, the test runner should log the exception and halt the test execution if `stop` is `YES`.  In the second, the runner should log all the exceptions and halt the test execution if `stop` is `YES`.  The exceptions take advantage of KIF's extensions to `NSException` that include the `lineNumber` and `filename` in the exception's `userData` to record the error's origin.
 
 Troubleshooting
 ---------------
 
 ### Simulator launches but app doesn't appear, steps time out after 10 seconds
 
-This issue occurs when ocunit does not have a valid test host.  When this occurs, ocunit will run your tests in logic mode without an app, which causes the UI tests to fail.
-
-Reread the instructions above with regards to the "Bundle Loader" and "Test Host" settings.  You may have missed something.
+This issue occurs when XCTest does not have a valid test host. Reread the instructions above with regards to the "Bundle Loader" and "Test Host" settings.  You may have missed something.
 
 ### Step fails because a view cannot be found
 

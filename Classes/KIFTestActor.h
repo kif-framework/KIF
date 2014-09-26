@@ -59,12 +59,11 @@ return KIFTestStepResultWait; \
  @constant KIFTestStepResultSuccess The step succeeded and the test controller should move to the next step in the current scenario.
  @constant KIFTestStepResultWait The test isn't ready yet and should be tried again after a short delay.
  */
-enum {
+typedef NS_ENUM(NSUInteger, KIFTestStepResult) {
     KIFTestStepResultFailure = 0,
     KIFTestStepResultSuccess,
     KIFTestStepResultWait,
 };
-typedef NSInteger KIFTestStepResult;
 
 /*!
  @typedef KIFTestExecutionBlock
@@ -86,9 +85,9 @@ typedef void (^KIFTestCompletionBlock)(KIFTestStepResult result, NSError *error)
 
 + (instancetype)actorInFile:(NSString *)file atLine:(NSInteger)line delegate:(id<KIFTestActorDelegate>)delegate;
 
-@property (nonatomic, readonly) NSString *file;
+@property (strong, nonatomic, readonly) NSString *file;
 @property (nonatomic, readonly) NSInteger line;
-@property (nonatomic, readonly) id<KIFTestActorDelegate> delegate;
+@property (weak, nonatomic, readonly) id<KIFTestActorDelegate> delegate;
 @property (nonatomic) NSTimeInterval executionBlockTimeout;
 
 - (instancetype)usingTimeout:(NSTimeInterval)executionBlockTimeout;
@@ -97,6 +96,12 @@ typedef void (^KIFTestCompletionBlock)(KIFTestStepResult result, NSError *error)
 - (void)runBlock:(KIFTestExecutionBlock)executionBlock complete:(KIFTestCompletionBlock)completionBlock;
 - (void)runBlock:(KIFTestExecutionBlock)executionBlock timeout:(NSTimeInterval)timeout;
 - (void)runBlock:(KIFTestExecutionBlock)executionBlock;
+
+
+/*!
+ @discussion Attempts to run the test block similar to -runBlock:complete:timeout: but does not halt the test on completion, instead returning NO on failure and providing an error description to the optional error parameter.
+ */
+- (BOOL)tryRunningBlock:(KIFTestExecutionBlock)executionBlock complete:(KIFTestCompletionBlock)completionBlock timeout:(NSTimeInterval)timeout error:(out NSError **)error;
 
 /*!
  @method defaultTimeout
@@ -112,6 +117,19 @@ typedef void (^KIFTestCompletionBlock)(KIFTestStepResult result, NSError *error)
 + (void)setDefaultTimeout:(NSTimeInterval)newDefaultTimeout;
 
 /*!
+ @method stepDelay
+ @abstract The amount of time that execution blocks use before trying again to met desired conditions.
+ @discussion To change the default value of the step delay property, call +setStepDelay: with a different value.
+ */
++ (NSTimeInterval)stepDelay;
+
+/*!
+ @method setStepDelay:
+ @abstract Sets the amount of time that execution blocks use before trying again to met desired conditions.
+ */
++ (void)setStepDelay:(NSTimeInterval)newStepDelay;
+
+/*!
  @abstract Fails the test.
  @discussion Mostly useful for test debugging or as a placeholder when building new tests.
  */
@@ -122,7 +140,7 @@ typedef void (^KIFTestCompletionBlock)(KIFTestStepResult result, NSError *error)
 /*!
  @abstract Waits for a certain amount of time before returning.
  @discussion In general when waiting for the app to get into a known state, it's better to use -waitForTappableViewWithAccessibilityLabel:, however this step may be useful in some situations as well.
- @param interval The number of seconds to wait before returning.
+ @param timeInterval The number of seconds to wait before returning.
  */
 - (void)waitForTimeInterval:(NSTimeInterval)timeInterval;
 

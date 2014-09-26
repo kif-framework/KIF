@@ -23,13 +23,6 @@
     [tester tapViewWithAccessibilityLabel:@"Test Suite" traits:UIAccessibilityTraitButton];
 }
 
-
-- (void)testSelectingAPickerRow
-{
-    [tester selectPickerViewRowWithTitle:@"Charlie"];
-    [tester waitForViewWithAccessibilityLabel:@"Call Sign" value:@"Charlie. 3 of 3" traits:UIAccessibilityTraitNone];
-}
-
 - (void)testTogglingASwitch
 {
     [tester waitForViewWithAccessibilityLabel:@"Happy" value:@"1" traits:UIAccessibilityTraitNone];
@@ -49,6 +42,7 @@
 - (void)testReturningFromATextField
 {
     [tester tapViewWithAccessibilityLabel:@"Greeting"];
+    [tester waitForTimeInterval:1];
     [tester tapViewWithAccessibilityLabel:@"return"];
     [tester waitForAbsenceOfViewWithAccessibilityLabel:@"return"];
 }
