@@ -198,8 +198,6 @@ static NSTimeInterval KIFTestStepDelay = 0.1;
     
     NSException *newException = [NSException failureInFile:self.file atLine:(int)self.line withDescription:@"Failure in child step: %@", firstException.description];
     
-    NSException *newException = [NSException exceptionWithName: @"Failure in Child" reason: firstException.reason  userInfo:firstException.userInfo];
-
     [self.delegate failWithExceptions:[exceptions arrayByAddingObject:newException] stopTest:stop];
 }
 
