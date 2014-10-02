@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface TapViewController : UIViewController<UIPickerViewDataSource, UIPickerViewDelegate, UIPickerViewAccessibilityDelegate, UITextFieldDelegate>
+@interface TapViewController : UIViewController<UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UISlider *slider;
+@property (weak, nonatomic) IBOutlet UILabel *lineBreakLabel;
 @property (weak, nonatomic) IBOutlet UILabel *memoryWarningLabel;
 @property (weak, nonatomic) IBOutlet UITextField *otherTextField;
 @property (weak, nonatomic) IBOutlet UITextField *greetingTextField;
@@ -21,6 +22,7 @@
 {
     [super viewDidLoad];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(memoryWarningNotification:) name:UIApplicationDidReceiveMemoryWarningNotification object:[UIApplication sharedApplication]];
+    self.lineBreakLabel.accessibilityLabel = @"A\nB\nC\n\n";
 }
 
 - (void)memoryWarningNotification:(NSNotification *)notification
@@ -59,26 +61,6 @@
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
-- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
-{
-    return 1;
-}
-
-- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
-{
-    return 3;
-}
-
-- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
-{
-    return [@[@"Alpha", @"Bravo", @"Charlie"] objectAtIndex:row];
-}
-
-- (NSString *)pickerView:(UIPickerView *)pickerView accessibilityLabelForComponent:(NSInteger)component
-{
-    return @"Call Sign";
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField

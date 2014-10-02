@@ -26,6 +26,7 @@
     [tester waitForTappableViewWithAccessibilityLabel:@"Cancel"];
     [tester waitForTappableViewWithAccessibilityLabel:@"Continue"];
     [tester tapViewWithAccessibilityLabel:@"Continue"];
+    [tester waitForAbsenceOfViewWithAccessibilityLabel:@"Message"];
 }
 
 - (void)testInteractionWithAnActionSheet

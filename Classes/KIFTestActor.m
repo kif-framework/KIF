@@ -7,9 +7,15 @@
 //  See the LICENSE file distributed with this work for the terms under
 //  which Square, Inc. licenses this file to you.
 
+#ifndef KIF_SENTEST
+#import <XCTest/XCTest.h>
+#import "NSException-KIFAdditions.h"
+#else
+#import <SenTestingKit/SenTestingKit.h>
+#endif
+
 #import "KIFTestActor.h"
 #import "NSError-KIFAdditions.h"
-//#import <SenTestingKit/SenTestingKit.h>
 #import <dlfcn.h>
 #import <objc/runtime.h>
 #import "UIApplication-KIFAdditions.h"
@@ -21,12 +27,6 @@
     @autoreleasepool {
         NSLog(@"KIFTester loaded");
         [KIFTestActor _enableAccessibility];
-        
-//        if ([[[NSProcessInfo processInfo] environment] objectForKey:@"StartKIFManually"]) {
-//            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:SenTestToolKey];
-//            SenSelfTestMain();
-//        }
-        
         [UIApplication swizzleRunLoop];
     }
 }
@@ -59,7 +59,7 @@
 {
     self = [super init];
     if (self) {
-        _file = [file retain];
+        _file = file;
         _line = line;
         _delegate = delegate;
         _executionBlockTimeout = [[self class] defaultTimeout];
@@ -69,7 +69,7 @@
 
 + (instancetype)actorInFile:(NSString *)file atLine:(NSInteger)line delegate:(id<KIFTestActorDelegate>)delegate
 {
-    return [[[self alloc] initWithFile:file line:line delegate:delegate] autorelease];
+    return [[self alloc] initWithFile:file line:line delegate:delegate];
 }
 
 - (instancetype)usingTimeout:(NSTimeInterval)executionBlockTimeout
@@ -78,26 +78,36 @@
     return self;
 }
 
-- (void)runBlock:(KIFTestExecutionBlock)executionBlock complete:(KIFTestCompletionBlock)completionBlock timeout:(NSTimeInterval)timeout
+- (BOOL)tryRunningBlock:(KIFTestExecutionBlock)executionBlock complete:(KIFTestCompletionBlock)completionBlock timeout:(NSTimeInterval)timeout error:(out NSError **)error
 {
     NSDate *startDate = [NSDate date];
     KIFTestStepResult result;
-    NSError *error = nil;
+    NSError *internalError;
     
-    while ((result = executionBlock(&error)) == KIFTestStepResultWait && -[startDate timeIntervalSinceNow] < timeout) {
-        CFRunLoopRunInMode([[UIApplication sharedApplication] currentRunLoopMode] ?: kCFRunLoopDefaultMode, 0.1, false);
+    while ((result = executionBlock(&internalError)) == KIFTestStepResultWait && -[startDate timeIntervalSinceNow] < timeout) {
+        CFRunLoopRunInMode([[UIApplication sharedApplication] currentRunLoopMode] ?: kCFRunLoopDefaultMode, KIFTestStepDelay, false);
     }
-    
+
     if (result == KIFTestStepResultWait) {
-        error = [NSError KIFErrorWithUnderlyingError:error format:@"The step timed out after %.2f seconds: %@", timeout, error.localizedDescription];
+        internalError = [NSError KIFErrorWithUnderlyingError:internalError format:@"The step timed out after %.2f seconds: %@", timeout, internalError.localizedDescription];
         result = KIFTestStepResultFailure;
     }
-    
+
     if (completionBlock) {
-        completionBlock(result, error);
+        completionBlock(result, internalError);
+    }
+
+    if (error) {
+        *error = internalError;
     }
     
-    if (result == KIFTestStepResultFailure) {
+    return result != KIFTestStepResultFailure;
+}
+
+- (void)runBlock:(KIFTestExecutionBlock)executionBlock complete:(KIFTestCompletionBlock)completionBlock timeout:(NSTimeInterval)timeout
+{
+    NSError *error = nil;
+    if (![self tryRunningBlock:executionBlock complete:completionBlock timeout:timeout error:&error]) {
         [self failWithError:error stopTest:YES];
     }
 }
@@ -117,15 +127,11 @@
     [self runBlock:executionBlock complete:nil];
 }
 
-- (void)dealloc
-{
-    [_file release];
-    [super dealloc];
-}
 
 #pragma mark Class Methods
 
 static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
+static NSTimeInterval KIFTestStepDelay = 0.1;
 
 + (NSTimeInterval)defaultTimeout;
 {
@@ -135,6 +141,16 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
 + (void)setDefaultTimeout:(NSTimeInterval)newDefaultTimeout;
 {
     KIFTestStepDefaultTimeout = newDefaultTimeout;
+}
+
++ (NSTimeInterval)stepDelay;
+{
+    return KIFTestStepDelay;
+}
+
++ (void)setStepDelay:(NSTimeInterval)newStepDelay;
+{
+    KIFTestStepDelay = newStepDelay;
 }
 
 #pragma mark Generic tests
@@ -152,7 +168,7 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
                                                      reason: [error localizedFailureReason]
                                                    userInfo: [error userInfo]];
     
-    //    [self.delegate failWithException:[NSException failureInFile:self.file atLine:self.line withDescription:error.localizedDescription] stopTest:stopTest];
+    [self.delegate failWithException:[NSException failureInFile:self.file atLine:(int)self.line withDescription:error.localizedDescription] stopTest:stopTest];
     
     [self.delegate failWithException: exception stopTest:stopTest];
 }
@@ -180,9 +196,7 @@ static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
 {
     NSException *firstException = [exceptions objectAtIndex:0];
     
-    //    NSException *newException = [NSException failureInFile:self.file atLine:self.line withDescription:@"Failure in child step: %@", firstException.description];
-    
-    NSException *newException = [NSException exceptionWithName: @"Failure in Child" reason: firstException.reason  userInfo:firstException.userInfo];
+    NSException *newException = [NSException failureInFile:self.file atLine:(int)self.line withDescription:@"Failure in child step: %@", firstException.description];
     
     [self.delegate failWithExceptions:[exceptions arrayByAddingObject:newException] stopTest:stop];
 }
