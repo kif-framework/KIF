@@ -326,6 +326,14 @@
     [self expectView:view toContainText:expectedResult ?: text];
 }
 
+- (void)expectText:(NSString *)text inViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits
+{
+    UIView *view = nil;
+    UIAccessibilityElement *element = nil;
+    [self waitForAccessibilityElement:&element view:&view withLabel:label value:nil traits:traits tappable:NO];
+    [self expectView:view toContainText:text];
+}
+
 - (void)expectView:(UIView *)view toContainText:(NSString *)expectedResult
 {
     // We will perform some additional validation if the view is UITextField or UITextView.
