@@ -748,13 +748,13 @@
         return KIFTestStepResultSuccess;
     }];
 
-    [tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
-    [self waitForTimeInterval:0.5];
-    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-
-    if (!cell) {
-        [self failWithError:[NSError KIFErrorWithFormat: @"Table view cell at index path %@ not found", indexPath] stopTest:YES];
-    }
+    __block UITableViewCell *cell = nil;
+    [self runBlock:^KIFTestStepResult(NSError **error) {
+        [tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+        cell = [tableView cellForRowAtIndexPath:indexPath];
+        KIFTestWaitCondition(!!cell, error, @"Table view cell at index path %@ not found", indexPath);
+        return KIFTestStepResultSuccess;
+    }];
 
     return cell;
 }
