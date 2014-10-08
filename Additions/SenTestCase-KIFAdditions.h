@@ -6,9 +6,9 @@
 //
 //
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 #import "KIFTestActor.h"
 
-@interface SenTestCase (KIFAdditions) <KIFTestActorDelegate>
+@interface XCTestCase (KIFAdditions) <KIFTestActorDelegate>
 
 @end
