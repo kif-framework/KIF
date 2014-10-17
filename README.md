@@ -49,7 +49,7 @@ Once your test target set up, add the following to your Podfile file. Use your t
 
 ```Ruby
 target 'Acceptance Tests', :exclusive => true do
-  pod 'KIF', '~> 3.0'
+  pod 'KIF', '~> 3.0', :configurations => ['Debug']
 end
 ```
 
