@@ -41,7 +41,7 @@
 
 - (void)testOutOfBounds
 {
-    KIFExpectFailure([tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:99] inTableViewWithAccessibilityIdentifier:@"TableView Tests Table"]);
+    KIFExpectFailure([[tester usingTimeout:1] tapRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:99] inTableViewWithAccessibilityIdentifier:@"TableView Tests Table"]);
 }
 
 - (void)testUnknownTable
