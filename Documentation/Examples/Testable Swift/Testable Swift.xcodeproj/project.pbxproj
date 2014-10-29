@@ -68,13 +68,6 @@
 			remoteGlobalIDString = EABD46791857A0C700A5F081;
 			remoteInfo = KIF;
 		};
-		A88CD9C91A01A2830064F706 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = A88CD9751A019AFF0064F706 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = A88CD97C1A019AFF0064F706;
-			remoteInfo = "Testable Swift";
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -92,7 +85,6 @@
 		A88CD9BA1A019F0B0064F706 /* Testable SwiftTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Testable SwiftTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		A88CD9BB1A019F0B0064F706 /* SimpleObjCTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleObjCTest.m; sourceTree = "<group>"; };
 		A88CD9BD1A019F300064F706 /* SimpleSwiftTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleSwiftTest.swift; sourceTree = "<group>"; };
-		A88CD9C31A01A2830064F706 /* More Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "More Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,13 +100,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				A88CD9B91A019E430064F706 /* libKIF.a in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		A88CD9C01A01A2830064F706 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -135,7 +120,6 @@
 			children = (
 				A88CD97D1A019AFF0064F706 /* Testable Swift.app */,
 				A88CD9941A019AFF0064F706 /* Testable SwiftTests.xctest */,
-				A88CD9C31A01A2830064F706 /* More Tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -233,24 +217,6 @@
 			productReference = A88CD9941A019AFF0064F706 /* Testable SwiftTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		A88CD9C21A01A2830064F706 /* More Tests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = A88CD9CB1A01A2830064F706 /* Build configuration list for PBXNativeTarget "More Tests" */;
-			buildPhases = (
-				A88CD9BF1A01A2830064F706 /* Sources */,
-				A88CD9C01A01A2830064F706 /* Frameworks */,
-				A88CD9C11A01A2830064F706 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				A88CD9CA1A01A2830064F706 /* PBXTargetDependency */,
-			);
-			name = "More Tests";
-			productName = "More Tests";
-			productReference = A88CD9C31A01A2830064F706 /* More Tests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -263,10 +229,6 @@
 						CreatedOnToolsVersion = 6.1;
 					};
 					A88CD9931A019AFF0064F706 = {
-						CreatedOnToolsVersion = 6.1;
-						TestTargetID = A88CD97C1A019AFF0064F706;
-					};
-					A88CD9C21A01A2830064F706 = {
 						CreatedOnToolsVersion = 6.1;
 						TestTargetID = A88CD97C1A019AFF0064F706;
 					};
@@ -293,7 +255,6 @@
 			targets = (
 				A88CD97C1A019AFF0064F706 /* Testable Swift */,
 				A88CD9931A019AFF0064F706 /* Testable SwiftTests */,
-				A88CD9C21A01A2830064F706 /* More Tests */,
 			);
 		};
 /* End PBXProject section */
@@ -354,13 +315,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		A88CD9C11A01A2830064F706 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -383,13 +337,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		A88CD9BF1A01A2830064F706 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -402,11 +349,6 @@
 			isa = PBXTargetDependency;
 			name = KIF;
 			targetProxy = A88CD9B71A019E2B0064F706 /* PBXContainerItemProxy */;
-		};
-		A88CD9CA1A01A2830064F706 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = A88CD97C1A019AFF0064F706 /* Testable Swift */;
-			targetProxy = A88CD9C91A01A2830064F706 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -578,40 +520,6 @@
 			};
 			name = Release;
 		};
-		A88CD9CC1A01A2830064F706 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = "More Tests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Testable Swift.app/Testable Swift";
-			};
-			name = Debug;
-		};
-		A88CD9CD1A01A2830064F706 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = "More Tests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Testable Swift.app/Testable Swift";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -638,15 +546,6 @@
 			buildConfigurations = (
 				A88CD9A21A019AFF0064F706 /* Debug */,
 				A88CD9A31A019AFF0064F706 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		A88CD9CB1A01A2830064F706 /* Build configuration list for PBXNativeTarget "More Tests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				A88CD9CC1A01A2830064F706 /* Debug */,
-				A88CD9CD1A01A2830064F706 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
