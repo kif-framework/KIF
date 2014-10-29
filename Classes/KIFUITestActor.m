@@ -260,7 +260,7 @@
 
 - (void)enterTextIntoCurrentFirstResponder:(NSString *)text;
 {
-    [self waitForKeyboard];
+    [self waitForTimeInterval:0.25];
     [self enterTextIntoCurrentFirstResponder:text fallbackView:nil];
 }
 
@@ -301,7 +301,7 @@
     
     [self waitForAccessibilityElement:&element view:&view withLabel:label value:nil traits:traits tappable:YES];
     [self tapAccessibilityElement:element inView:view];
-    [self waitForKeyboard];
+    [self waitForTimeInterval:0.25];
     [self enterTextIntoCurrentFirstResponder:text fallbackView:view];
     [self expectView:view toContainText:expectedResult ?: text];
 }

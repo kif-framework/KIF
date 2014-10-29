@@ -42,7 +42,7 @@
 {
     [tester longPressViewWithAccessibilityLabel:@"Greeting" value:@"Hello" duration:2];
     [tester tapViewWithAccessibilityLabel:@"Select All"];
-    [tester tapViewWithAccessibilityLabel:@"Delete"];
+    [tester tapViewWithAccessibilityLabel:@"Cut"];
     [tester enterText:@"Yo" intoViewWithAccessibilityLabel:@"Greeting"];
     [tester waitForViewWithAccessibilityLabel:@"Greeting" value:@"Yo" traits:UIAccessibilityTraitNone];
 }
