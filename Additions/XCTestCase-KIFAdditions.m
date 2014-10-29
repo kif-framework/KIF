@@ -59,3 +59,26 @@ static inline void Swizzle(Class c, SEL orig, SEL new)
 }
 
 @end
+
+@interface XCTestSuite ()
+- (void)_recordUnexpectedFailureForTestRun:(id)arg1 description:(id)arg2 exception:(id)arg3;
+@end
+
+@implementation XCTestSuite (KIFAdditions)
+
++ (void)load
+{
+    Swizzle([XCTestSuite class], @selector(_recordUnexpectedFailureForTestRun:description:exception:), @selector(KIF_recordUnexpectedFailureForTestRun:description:exception:));
+}
+
+- (void)KIF_recordUnexpectedFailureForTestRun:(XCTestSuiteRun *)arg1 description:(id)arg2 exception:(NSException *)arg3
+{
+    if (![[arg3 name] isEqualToString:@"KIFFailureException"]) {
+        [self KIF_recordUnexpectedFailureForTestRun:arg1 description:arg2 exception:arg3];
+    } else {
+        [arg1 recordFailureWithDescription:[NSString stringWithFormat:@"Test suite stopped on fatal error: %@", arg3.description] inFile:arg3.userInfo[@"SenTestFilenameKey"] atLine:[arg3.userInfo[@"SenTestLineNumberKey"] unsignedIntegerValue] expected:NO];
+    }
+}
+
+
+@end
