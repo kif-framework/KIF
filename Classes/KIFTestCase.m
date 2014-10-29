@@ -58,13 +58,6 @@ NSComparisonResult selectorSort(NSInvocation *invocOne, NSInvocation *invocTwo, 
     return [selectorOne compare:selectorTwo options:NSCaseInsensitiveSearch];
 }
 
-+ (NSArray *)testInvocations
-{
-    NSArray *disorderedInvoc = [super testInvocations];
-    NSArray *newArray = [disorderedInvoc sortedArrayUsingFunction:selectorSort context:NULL];
-    return newArray;
-}
-
 - (void)setUp;
 {
     [self beforeEach];
@@ -75,15 +68,8 @@ NSComparisonResult selectorSort(NSInvocation *invocOne, NSInvocation *invocTwo, 
     [self afterEach];
 }
 
-+ (void)setUp
-{
-    [[self new] beforeAll];
-}
-
-+ (void)tearDown
-{
-    [[self new] afterAll];
-}
+// + (void)setUp { } handled in +testInvocations
+// + (void)tearDown { } handled in +testInvocations
 
 #else
 
@@ -105,29 +91,6 @@ NSComparisonResult selectorSort(NSInvocation *invocOne, NSInvocation *invocTwo, 
     [super tearDown];
 }
 
-+ (NSArray *)testInvocations;
-{
-    if (self == [KIFTestCase class]) {
-        return nil;
-    }
-    
-    NSMutableArray *testInvocations = [NSMutableArray arrayWithArray:[super testInvocations]];
-    
-    if ([self instancesRespondToSelector:@selector(beforeAll)]) {
-        NSInvocation *beforeAll = [NSInvocation invocationWithMethodSignature:SIG(self, @selector(beforeAll))];
-        beforeAll.selector = @selector(beforeAll);
-        [testInvocations insertObject:beforeAll atIndex:0];
-    }
-    
-    if ([self instancesRespondToSelector:@selector(afterAll)]) {
-        NSInvocation *afterAll = [NSInvocation invocationWithMethodSignature:SIG(self, @selector(afterAll))];
-        afterAll.selector = @selector(afterAll);
-        [testInvocations addObject:afterAll];
-    }
-    
-    return testInvocations;
-}
-
 - (BOOL)isNotBeforeOrAfter;
 {
     SEL selector = self.invocation.selector;
@@ -135,6 +98,29 @@ NSComparisonResult selectorSort(NSInvocation *invocOne, NSInvocation *invocTwo, 
 }
 
 #endif
+
++ (NSArray *)testInvocations;
+{
+    if (self == [KIFTestCase class]) {
+        return nil;
+    }
+
+    NSMutableArray *testInvocations = [NSMutableArray arrayWithArray:[super testInvocations]];
+
+    if ([self instancesRespondToSelector:@selector(beforeAll)]) {
+        NSInvocation *beforeAll = [NSInvocation invocationWithMethodSignature:SIG(self, @selector(beforeAll))];
+        beforeAll.selector = @selector(beforeAll);
+        [testInvocations insertObject:beforeAll atIndex:0];
+    }
+
+    if ([self instancesRespondToSelector:@selector(afterAll)]) {
+        NSInvocation *afterAll = [NSInvocation invocationWithMethodSignature:SIG(self, @selector(afterAll))];
+        afterAll.selector = @selector(afterAll);
+        [testInvocations addObject:afterAll];
+    }
+
+    return testInvocations;
+}
 
 - (void)failWithException:(NSException *)exception stopTest:(BOOL)stop
 {
