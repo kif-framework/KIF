@@ -242,6 +242,11 @@
 
 - (void)waitForKeyboard
 {
+    [self waitForSoftwareKeyboard];
+}
+
+- (void)waitForSoftwareKeyboard
+{
     [self runBlock:^KIFTestStepResult(NSError **error) {
         KIFTestWaitCondition(![KIFTypist keyboardHidden], error, @"Keyboard is not visible");
         
@@ -250,6 +255,11 @@
 }
 
 - (void)waitForAbsenceOfKeyboard
+{
+    [self waitForAbsenceOfSoftwareKeyboard];
+}
+
+- (void)waitForAbsenceOfSoftwareKeyboard
 {
     [self runBlock:^KIFTestStepResult(NSError **error) {
         KIFTestWaitCondition([KIFTypist keyboardHidden], error, @"Keyboard is visible");
