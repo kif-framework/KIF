@@ -66,6 +66,39 @@ static CGFloat const kTwoFingerConstantWidth = 40;
 
 @end
 
+// On iOS 6 the accessibility label may contain line breaks, so when trying to find the
+// element, these line breaks are necessary. But on iOS 7 the system replaces them with
+// spaces. So the same test breaks on either iOS 6 or iOS 7. iOS8 befuddles this again by
+//limiting replacement to spaces in between strings. To work around this replace
+// the line breaks in both and try again.
+NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual) {
+    if (expected == actual) {
+        return YES;
+    }
+    
+    if (expected.length != actual.length) {
+        return NO;
+    }
+    
+    if ([expected isEqualToString:actual]) {
+        return YES;
+    }
+    
+    if ([expected rangeOfString:@"\n"].location == NSNotFound) {
+        return NO;
+    }
+    
+    for (NSUInteger i = 0; i < expected.length; i ++) {
+        unichar expectedChar = [expected characterAtIndex:i];
+        unichar actualChar = [actual characterAtIndex:i];
+        if (expectedChar != actualChar && !(expectedChar == '\n' && actualChar == ' ')) {
+            return NO;
+        }
+    }
+    
+    return YES;
+}
+
 
 @implementation UIView (KIFAdditions)
 
@@ -109,17 +142,7 @@ static CGFloat const kTwoFingerConstantWidth = 40;
             accessibilityValue = [(NSAttributedString *)accessibilityValue string];
         }
         
-        BOOL labelsMatch = element.accessibilityLabel == label || [element.accessibilityLabel isEqual:label];
-
-        // On iOS 6 the accessibility label may contain line breaks, so when trying to find the
-        // element, these line breaks are necessary. But on iOS 7 the system replaces them with
-        // spaces. So the same test breaks on either iOS 6 or iOS 7. To work around this replace
-        // the line breaks the same way and try again.
-        if (!labelsMatch) {
-            NSString *modifiedLabel = [label stringByReplacingOccurrencesOfString:@"\n" withString:@" "];
-            labelsMatch = element.accessibilityLabel == modifiedLabel || [element.accessibilityLabel isEqual:modifiedLabel];
-        }
-
+        BOOL labelsMatch = StringsMatchExceptLineBreaks(label, element.accessibilityLabel);
         BOOL traitsMatch = ((element.accessibilityTraits) & traits) == traits;
         BOOL valuesMatch = !value || [value isEqual:accessibilityValue];
 
