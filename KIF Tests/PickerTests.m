@@ -61,7 +61,13 @@
 - (void)testSelectingAPickerRow
 {
     [tester selectPickerViewRowWithTitle:@"Charlie"];
-    [tester waitForViewWithAccessibilityLabel:@"Call Sign" value:@"Charlie. 3 of 3" traits:UIAccessibilityTraitNone];
+    
+    NSOperatingSystemVersion iOS8 = {8, 0, 0};
+    if ([NSProcessInfo instancesRespondToSelector:@selector(isOperatingSystemAtLeastVersion:)] && [[NSProcessInfo new] isOperatingSystemAtLeastVersion:iOS8]) {
+        [tester waitForViewWithAccessibilityLabel:@"Call Sign" value:@"Charlie" traits:UIAccessibilityTraitNone];
+    } else {
+        [tester waitForViewWithAccessibilityLabel:@"Call Sign" value:@"Charlie. 3 of 3" traits:UIAccessibilityTraitNone];
+    }
 }
 
 @end
