@@ -258,9 +258,19 @@
     }];
 }
 
+- (void)waitForKeyInputReady
+{
+    [self runBlock:^KIFTestStepResult(NSError **error) {
+        KIFTestWaitCondition(![KIFTypist keyboardHidden] || [KIFTypist hasHardwareKeyboard], error, @"No software or hardware keyboard.");
+        KIFTestWaitCondition([KIFTypist hasKeyInputResponder], error, @"No responder for key inputs.");
+        
+        return KIFTestStepResultSuccess;
+    }];
+}
+
 - (void)enterTextIntoCurrentFirstResponder:(NSString *)text;
 {
-    [self waitForTimeInterval:0.25];
+    [self waitForKeyInputReady];
     [self enterTextIntoCurrentFirstResponder:text fallbackView:nil];
 }
 

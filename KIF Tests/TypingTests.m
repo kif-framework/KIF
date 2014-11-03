@@ -7,6 +7,7 @@
 //
 
 #import <KIF/KIF.h>
+#import "KIFTestStepValidation.h"
 
 @interface TypingTests : KIFTestCase
 @end
@@ -23,11 +24,15 @@
     [tester tapViewWithAccessibilityLabel:@"Test Suite" traits:UIAccessibilityTraitButton];
 }
 
-
 - (void)testWaitingForFirstResponder
 {
     [tester tapViewWithAccessibilityLabel:@"Greeting" value:@"Hello" traits:UIAccessibilityTraitNone];
     [tester waitForFirstResponderWithAccessibilityLabel:@"Greeting"];
+}
+
+- (void)testMissingFirstResponder
+{
+    KIFExpectFailure([[tester usingTimeout:1] waitForFirstResponderWithAccessibilityLabel:@"Greeting"]);
 }
 
 - (void)testEnteringTextIntoFirstResponder
@@ -36,6 +41,11 @@
     [tester tapViewWithAccessibilityLabel:@"Select All"];
     [tester enterTextIntoCurrentFirstResponder:@"Yo"];
     [tester waitForViewWithAccessibilityLabel:@"Greeting" value:@"Yo" traits:UIAccessibilityTraitNone];
+}
+
+- (void)testFailingToEnterTextIntoFirstResponder
+{
+    KIFExpectFailure([[tester usingTimeout:1] enterTextIntoCurrentFirstResponder:@"Yo"]);
 }
 
 - (void)testEnteringTextIntoViewWithAccessibilityLabel

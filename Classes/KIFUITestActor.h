@@ -253,6 +253,10 @@ static inline KIFDisplacement KIFDisplacementForSwipingInDirection(KIFSwipeDirec
 - (void)waitForKeyboard;
 
 - (void)waitForAbsenceOfKeyboard;
+/*!
+ @abstract Waits for the keyboard to be ready for input.  This tests whether or not a hardware or software keyboard is available and if the keyboard has a responder to send events to.
+ */
+- (void)waitForKeyInputReady;
 
 /*!
  @abstract Enters text into a the current first responder.
