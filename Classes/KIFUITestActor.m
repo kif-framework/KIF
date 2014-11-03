@@ -747,10 +747,17 @@
     }];
 
     __block UITableViewCell *cell = nil;
+    __block CGFloat lastYOffset = CGFLOAT_MAX;
     [self runBlock:^KIFTestStepResult(NSError **error) {
         [tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
         cell = [tableView cellForRowAtIndexPath:indexPath];
         KIFTestWaitCondition(!!cell, error, @"Table view cell at index path %@ not found", indexPath);
+        
+        if (lastYOffset != tableView.contentOffset.y) {
+            lastYOffset = tableView.contentOffset.y;
+            KIFTestWaitCondition(NO, error, @"Didn't finish scrolling to cell.");
+        }
+        
         return KIFTestStepResultSuccess;
     }];
 
