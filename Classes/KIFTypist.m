@@ -21,7 +21,7 @@
 @property(retain) UIResponder<UIKeyInput> * delegate;
 @end
 
-static NSTimeInterval keystrokeDelay = 0.0f;
+static NSTimeInterval keystrokeDelay = 0.01f;
 
 @interface KIFTypist()
 @property (nonatomic, assign) BOOL keyboardHidden;
