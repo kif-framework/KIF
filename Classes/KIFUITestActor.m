@@ -242,6 +242,11 @@
 
 - (void)waitForKeyboard
 {
+    [self waitForSoftwareKeyboard];
+}
+
+- (void)waitForSoftwareKeyboard
+{
     [self runBlock:^KIFTestStepResult(NSError **error) {
         KIFTestWaitCondition(![KIFTypist keyboardHidden], error, @"Keyboard is not visible");
         
@@ -251,6 +256,11 @@
 
 - (void)waitForAbsenceOfKeyboard
 {
+    [self waitForAbsenceOfSoftwareKeyboard];
+}
+
+- (void)waitForAbsenceOfSoftwareKeyboard
+{
     [self runBlock:^KIFTestStepResult(NSError **error) {
         KIFTestWaitCondition([KIFTypist keyboardHidden], error, @"Keyboard is visible");
         
@@ -258,9 +268,19 @@
     }];
 }
 
+- (void)waitForKeyInputReady
+{
+    [self runBlock:^KIFTestStepResult(NSError **error) {
+        KIFTestWaitCondition(![KIFTypist keyboardHidden] || [KIFTypist hasHardwareKeyboard], error, @"No software or hardware keyboard.");
+        KIFTestWaitCondition([KIFTypist hasKeyInputResponder], error, @"No responder for key inputs.");
+        
+        return KIFTestStepResultSuccess;
+    }];
+}
+
 - (void)enterTextIntoCurrentFirstResponder:(NSString *)text;
 {
-    [self waitForKeyboard];
+    [self waitForKeyInputReady];
     [self enterTextIntoCurrentFirstResponder:text fallbackView:nil];
 }
 
@@ -301,7 +321,7 @@
     
     [self waitForAccessibilityElement:&element view:&view withLabel:label value:nil traits:traits tappable:YES];
     [self tapAccessibilityElement:element inView:view];
-    [self waitForKeyboard];
+    [self waitForTimeInterval:0.25];
     [self enterTextIntoCurrentFirstResponder:text fallbackView:view];
     [self expectView:view toContainText:expectedResult ?: text];
 }

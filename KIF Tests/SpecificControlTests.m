@@ -39,14 +39,6 @@
     [tester waitForViewWithAccessibilityLabel:@"Slider" value:@"3" traits:UIAccessibilityTraitNone];
 }
 
-- (void)testReturningFromATextField
-{
-    [tester tapViewWithAccessibilityLabel:@"Greeting"];
-    [tester waitForTimeInterval:1];
-    [tester tapViewWithAccessibilityLabel:@"return"];
-    [tester waitForAbsenceOfViewWithAccessibilityLabel:@"return"];
-}
-
 /*
  TODO: Should we implement this test?  It is really domain specific. It depends on a UI element named "Choose Photo" which is wired to create an image picker, an album with a matching name, and photos to be on the device.
  + (NSArray *)stepsToChoosePhotoInAlbum:(NSString *)albumName atRow:(NSInteger)row column:(NSInteger)column;

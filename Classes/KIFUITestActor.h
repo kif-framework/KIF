@@ -250,9 +250,24 @@ static inline KIFDisplacement KIFDisplacementForSwipingInDirection(KIFSwipeDirec
  */
 - (void)longPressViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits duration:(NSTimeInterval)duration;
 
-- (void)waitForKeyboard;
 
-- (void)waitForAbsenceOfKeyboard;
+/*!
+ @abstract Waits for the software keyboard to be visible.
+ @discussion If input is also possible from a hardare keyboard @c waitForKeyInputReady may be more appropriate.
+ */
+- (void)waitForSoftwareKeyboard;
+- (void)waitForKeyboard KIF_DEPRECATED("Use waitForSoftwareKeyboard or waitForKeyInputReady.");
+
+/*!
+ @abstract If present, waits for the software keyboard to dismiss.
+ */
+- (void)waitForAbsenceOfSoftwareKeyboard;
+- (void)waitForAbsenceOfKeyboard KIF_DEPRECATED("Use waitForAbscenseOfSoftwareKeyboard.");
+
+/*!
+ @abstract Waits for the keyboard to be ready for input.  This tests whether or not a hardware or software keyboard is available and if the keyboard has a responder to send events to.
+ */
+- (void)waitForKeyInputReady;
 
 /*!
  @abstract Enters text into a the current first responder.
