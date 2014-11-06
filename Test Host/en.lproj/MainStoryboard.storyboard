@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="6250" systemVersion="14A388b" targetRuntime="iOS.CocoaTouch" variant="6xAndEarlier" propertyAccessControl="none" initialViewController="3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="6250" systemVersion="14B17" targetRuntime="iOS.CocoaTouch" variant="6xAndEarlier" propertyAccessControl="none" initialViewController="3">
     <dependencies>
         <deployment identifier="iOS"/>
         <development version="4600" identifier="xcode"/>
@@ -1400,6 +1400,9 @@
                                 <state key="highlighted">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="X_BUTTON"/>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="toggleSelected:" destination="21" eventType="touchUpInside" id="dBg-Ca-mbc"/>
                                 </connections>

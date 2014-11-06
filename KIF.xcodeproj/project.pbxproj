@@ -91,6 +91,11 @@
 		EAC8096B1864F19C000E819F /* NSException-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = EAC809691864F19C000E819F /* NSException-KIFAdditions.m */; };
 		EB02523E17AA109400A7D13A /* CompositionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EB02523D17AA109400A7D13A /* CompositionTests.m */; };
 		EB09001017E3696A00AA15B1 /* SearchFieldTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EB09000F17E3696A00AA15B1 /* SearchFieldTests.m */; };
+		EB1A44D51A0C3268004A3F61 /* KIFUITestActor-IdentifierTests.h in Headers */ = {isa = PBXBuildFile; fileRef = EB1A44D31A0C3268004A3F61 /* KIFUITestActor-IdentifierTests.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EB1A44D61A0C3268004A3F61 /* KIFUITestActor-IdentifierTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EB1A44D41A0C3268004A3F61 /* KIFUITestActor-IdentifierTests.m */; };
+		EB1A44D71A0C327D004A3F61 /* KIFUITestActor-IdentifierTests.h in Headers */ = {isa = PBXBuildFile; fileRef = EB1A44D31A0C3268004A3F61 /* KIFUITestActor-IdentifierTests.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EB1A44D81A0C3284004A3F61 /* KIFUITestActor-IdentifierTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EB1A44D41A0C3268004A3F61 /* KIFUITestActor-IdentifierTests.m */; };
+		EB1A44DA1A0C33AD004A3F61 /* AccessibilityIdentifierTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EB1A44D91A0C33AD004A3F61 /* AccessibilityIdentifierTests.m */; };
 		EB22B5B017AF52640090B848 /* CascadingFailureTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EB22B5AF17AF52640090B848 /* CascadingFailureTests.m */; };
 		EB2526481981BF7A00DBC747 /* KIFUITestActor-ConditionalTests.h in Headers */ = {isa = PBXBuildFile; fileRef = EB2526461981BF7A00DBC747 /* KIFUITestActor-ConditionalTests.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EB2526491981BF7A00DBC747 /* KIFUITestActor-ConditionalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EB2526471981BF7A00DBC747 /* KIFUITestActor-ConditionalTests.m */; };
@@ -232,6 +237,9 @@
 		EAC809691864F19C000E819F /* NSException-KIFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSException-KIFAdditions.m"; sourceTree = "<group>"; };
 		EB02523D17AA109400A7D13A /* CompositionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CompositionTests.m; sourceTree = "<group>"; };
 		EB09000F17E3696A00AA15B1 /* SearchFieldTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchFieldTests.m; sourceTree = "<group>"; };
+		EB1A44D31A0C3268004A3F61 /* KIFUITestActor-IdentifierTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "KIFUITestActor-IdentifierTests.h"; path = "IdentifierTests/KIFUITestActor-IdentifierTests.h"; sourceTree = "<group>"; };
+		EB1A44D41A0C3268004A3F61 /* KIFUITestActor-IdentifierTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "KIFUITestActor-IdentifierTests.m"; path = "IdentifierTests/KIFUITestActor-IdentifierTests.m"; sourceTree = "<group>"; };
+		EB1A44D91A0C33AD004A3F61 /* AccessibilityIdentifierTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccessibilityIdentifierTests.m; sourceTree = "<group>"; };
 		EB22B5AF17AF52640090B848 /* CascadingFailureTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CascadingFailureTests.m; sourceTree = "<group>"; };
 		EB2526461981BF7A00DBC747 /* KIFUITestActor-ConditionalTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "KIFUITestActor-ConditionalTests.h"; sourceTree = "<group>"; };
 		EB2526471981BF7A00DBC747 /* KIFUITestActor-ConditionalTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "KIFUITestActor-ConditionalTests.m"; sourceTree = "<group>"; };
@@ -441,6 +449,15 @@
 			path = Additions;
 			sourceTree = "<group>";
 		};
+		EB1A44D21A0C3222004A3F61 /* Identifier Tests */ = {
+			isa = PBXGroup;
+			children = (
+				EB1A44D31A0C3268004A3F61 /* KIFUITestActor-IdentifierTests.h */,
+				EB1A44D41A0C3268004A3F61 /* KIFUITestActor-IdentifierTests.m */,
+			);
+			name = "Identifier Tests";
+			sourceTree = "<group>";
+		};
 		EB4C312F167BA39200E31109 /* Actors */ = {
 			isa = PBXGroup;
 			children = (
@@ -459,6 +476,7 @@
 			children = (
 				AAB0729313971AB2008AF393 /* Additions */,
 				AAB0728413971A98008AF393 /* Classes */,
+				EB1A44D21A0C3222004A3F61 /* Identifier Tests */,
 				AAB0726E139719AC008AF393 /* Supporting Files */,
 			);
 			name = KIF;
@@ -519,6 +537,7 @@
 				EB9FC00417E144B700138266 /* LandscapeTests.m */,
 				EB09000F17E3696A00AA15B1 /* SearchFieldTests.m */,
 				2EE1270F198991920031D347 /* MultiFingerTests.m */,
+				EB1A44D91A0C33AD004A3F61 /* AccessibilityIdentifierTests.m */,
 				EB60ECF0177F8DB3005A041A /* Supporting Files */,
 			);
 			path = "KIF Tests";
@@ -542,6 +561,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EB1A44D51A0C3268004A3F61 /* KIFUITestActor-IdentifierTests.h in Headers */,
 				EABD46911857A0C700A5F081 /* KIF.h in Headers */,
 				D927B9DF18F9E46400DAD036 /* UITableView-KIFAdditions.h in Headers */,
 				EABD46921857A0C700A5F081 /* CGGeometry-KIFAdditions.h in Headers */,
@@ -576,6 +596,7 @@
 				EB7204591680DDAD00278DA2 /* CGGeometry-KIFAdditions.h in Headers */,
 				EB72045A1680DDAD00278DA2 /* UIAccessibilityElement-KIFAdditions.h in Headers */,
 				EB72045B1680DDAD00278DA2 /* UIApplication-KIFAdditions.h in Headers */,
+				EB1A44D71A0C327D004A3F61 /* KIFUITestActor-IdentifierTests.h in Headers */,
 				EB72045C1680DDAD00278DA2 /* UIScrollView-KIFAdditions.h in Headers */,
 				EB72045D1680DDAD00278DA2 /* UITouch-KIFAdditions.h in Headers */,
 				EB72045E1680DDAD00278DA2 /* UIView-KIFAdditions.h in Headers */,
@@ -650,7 +671,7 @@
 			name = "KIF Tests";
 			productName = "KIF Tests";
 			productReference = EABD46CD1857A0F300A5F081 /* KIF Tests - XCTest.xctest */;
-			productType = "com.apple.product-type.bundle";
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		EB60ECC0177F8C83005A041A /* Test Host */ = {
 			isa = PBXNativeTarget;
@@ -686,7 +707,7 @@
 			name = "KIF Tests-OCUnit";
 			productName = "KIF Tests";
 			productReference = EB60ECEB177F8DB3005A041A /* KIF Tests-OCUnit.octest */;
-			productType = "com.apple.product-type.bundle";
+			productType = "com.apple.product-type.bundle.ocunit-test";
 		};
 		EB72043E1680DDAD00278DA2 /* KIF-OCUnit */ = {
 			isa = PBXNativeTarget;
@@ -814,6 +835,7 @@
 				EABD46841857A0C700A5F081 /* KIFTestActor.m in Sources */,
 				EABD46851857A0C700A5F081 /* KIFTestCase.m in Sources */,
 				EABD46861857A0C700A5F081 /* XCTestCase-KIFAdditions.m in Sources */,
+				EB1A44D61A0C3268004A3F61 /* KIFUITestActor-IdentifierTests.m in Sources */,
 				EB2526491981BF7A00DBC747 /* KIFUITestActor-ConditionalTests.m in Sources */,
 				EABD46871857A0C700A5F081 /* KIFSystemTestActor.m in Sources */,
 				EAC8096B1864F19C000E819F /* NSException-KIFAdditions.m in Sources */,
@@ -833,6 +855,7 @@
 				EABD46B31857A0F300A5F081 /* CompositionTests.m in Sources */,
 				4A48107B19708CAB0003A32E /* ExistTests.m in Sources */,
 				EA4655881905B92500B2C60E /* PickerTests.m in Sources */,
+				EB1A44DA1A0C33AD004A3F61 /* AccessibilityIdentifierTests.m in Sources */,
 				EABD46B41857A0F300A5F081 /* LongPressTests.m in Sources */,
 				EABD46B51857A0F300A5F081 /* ModalViewTests.m in Sources */,
 				EABD46B61857A0F300A5F081 /* SpecificControlTests.m in Sources */,
@@ -907,6 +930,7 @@
 				EB7204491680DDAD00278DA2 /* UIWindow-KIFAdditions.m in Sources */,
 				EB72044A1680DDAD00278DA2 /* NSFileManager-KIFAdditions.m in Sources */,
 				EB72044B1680DDAD00278DA2 /* KIFTypist.m in Sources */,
+				EB1A44D81A0C3284004A3F61 /* KIFUITestActor-IdentifierTests.m in Sources */,
 				EB25264A1981BF8400DBC747 /* KIFUITestActor-ConditionalTests.m in Sources */,
 				EB72044C1680DDAD00278DA2 /* KIFTestActor.m in Sources */,
 				EB72044D1680DDAD00278DA2 /* KIFTestCase.m in Sources */,

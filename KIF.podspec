@@ -33,4 +33,10 @@ Pod::Spec.new do |s|
     sentest.xcconfig            = { 'OTHER_CFLAGS' => '-DKIF_SENTEST' }
     sentest.requires_arc        = true
   end
+
+  s.subspec 'IdentifierTests' do |kiaf|
+    kiaf.source_files        = 'IdentifierTests'
+    kiaf.public_header_files = 'IdentifierTests/**/*.h'
+    kiaf.requires_arc        = true
+  end
 end
