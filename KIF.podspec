@@ -35,6 +35,7 @@ Pod::Spec.new do |s|
   end
 
   s.subspec 'IdentifierTests' do |kiaf|
+    kiaf.dependency 'KIF/XCTest'
     kiaf.source_files        = 'IdentifierTests'
     kiaf.public_header_files = 'IdentifierTests/**/*.h'
     kiaf.requires_arc        = true
