@@ -81,4 +81,11 @@
     [tester clearTextFromViewWithAccessibilityLabel:@"Greeting"];
 }
 
+- (void)testThatClearingTextHitsTheDelegate
+{
+    [tester enterText:@"hello" intoViewWithAccessibilityLabel:@"Other Text"];
+    [tester clearTextFromViewWithAccessibilityLabel:@"Other Text"];
+    [tester waitForViewWithAccessibilityLabel:@"Greeting" value:@"Deleted something." traits:UIAccessibilityTraitNone];
+}
+
 @end

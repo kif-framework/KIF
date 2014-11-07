@@ -73,4 +73,13 @@
     return NO;
 }
 
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    if (textField == self.otherTextField && range.length != 0) {
+        self.greetingTextField.text = @"Deleted something.";
+    }
+    
+    return YES;
+}
+
 @end

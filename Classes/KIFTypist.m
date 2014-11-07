@@ -16,7 +16,7 @@
 @interface UIKeyboardImpl : NSObject
 + (UIKeyboardImpl *)sharedInstance;
 - (void)addInputString:(NSString *)string;
-- (void)deleteBackward;
+- (void)deleteFromInput;
 @property(getter=isInHardwareKeyboardMode) BOOL inHardwareKeyboardMode;
 @property(retain) UIResponder<UIKeyInput> * delegate;
 @end
@@ -75,7 +75,7 @@ static NSTimeInterval keystrokeDelay = 0.01f;
 + (BOOL)enterCharacter:(NSString *)characterString;
 {
     if ([characterString isEqualToString:@"\b"]) {
-        [[UIKeyboardImpl sharedInstance] deleteBackward];
+        [[UIKeyboardImpl sharedInstance] deleteFromInput];
     } else {
         [[UIKeyboardImpl sharedInstance] addInputString:characterString];
     }
