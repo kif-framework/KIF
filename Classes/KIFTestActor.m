@@ -19,6 +19,7 @@
 #import <dlfcn.h>
 #import <objc/runtime.h>
 #import "UIApplication-KIFAdditions.h"
+#import "UIView-KIFAdditions.h"
 
 @implementation KIFTestActor
 
@@ -176,6 +177,33 @@ static NSTimeInterval KIFTestStepDelay = 0.1;
         return KIFTestStepResultSuccess;
     } timeout:timeInterval + 1];
 }
+
+-(void)waitForAnimationsToFinish {
+    NSTimeInterval maximumWaitingTimeInterval = 3;
+    
+    NSTimeInterval startTime = [NSDate timeIntervalSinceReferenceDate];
+    [self runBlock:^KIFTestStepResult(NSError **error) {
+        __block BOOL runningAnimationFound = false;
+        for (UIWindow *window in [UIApplication sharedApplication].windowsWithKeyWindow) {
+            [window performBlockOnDescendentViews:^(UIView *view, BOOL *stop) {
+                if (view.layer.animationKeys.count != 0 &&
+                    ![view.layer.animationKeys isEqualToArray:@[@"_UIParallaxMotionEffect"]] &&     // explicitly exclude _UIParallaxMotionEffect as it is used in alertviews, and we don't want every alertview to be paused
+                    [view isVisibleInViewHierarchy]                                                 // do not wait for animatinos of views that aren't visible
+                    ) {
+                    
+                    runningAnimationFound = YES;
+                    if (stop != NULL) {
+                        *stop = YES;
+                    }
+                    return;
+                }
+            }];
+        }
+        
+        return runningAnimationFound && ([NSDate timeIntervalSinceReferenceDate] - startTime) < maximumWaitingTimeInterval ? KIFTestStepResultWait : KIFTestStepResultSuccess;
+    }      timeout:maximumWaitingTimeInterval + 1];
+}
+
 
 @end
 

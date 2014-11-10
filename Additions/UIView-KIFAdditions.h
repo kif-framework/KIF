@@ -87,6 +87,25 @@ typedef CGPoint KIFDisplacement;
 - (BOOL)isUserInteractionActuallyEnabled;
 
 /*!
+ @abstract Evaluates if the view and all its superviews are visible.
+ */
+- (BOOL)isVisibleInViewHierarchy;
+
+/*!
+ @method performBlockOnDescendentViews:
+ @abstract Calls a block on the view itself and on all its descendent views.
+ @param block The block that will be called on the views. Stop the traversation of the views by assigning YES to the stop-parameter of the block.
+ */
+- (void)performBlockOnDescendentViews:(void (^)(UIView *view, BOOL *stop))block;
+
+/*!
+ @method performBlockOnAscendentViews:
+ @abstract Calls a block on the view itself and on all its superviews.
+ @param block The block that will be called on the views. Stop the traversation of the views by assigning YES to the stop-parameter of the block.
+ */
+- (void)performBlockOnAscendentViews:(void (^)(UIView *view, BOOL *stop))block;
+
+/*!
  @abstract Returns either the current window or another window if a transform is applied.  Returns `nil` if all windows in the application have transforms.
  */
 @property (nonatomic, readonly) UIWindow *windowOrIdentityWindow;
