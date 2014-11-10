@@ -94,4 +94,16 @@
     [tester waitForViewWithAccessibilityLabel:@"Greeting" value:@"Deleted something." traits:UIAccessibilityTraitNone];
 }
 
+- (void)testExpectText
+{
+    // back out and go into "Typing" view for this test
+    [tester tapViewWithAccessibilityLabel:@"Test Suite" traits:UIAccessibilityTraitButton];
+    [tester tapViewWithAccessibilityLabel:@"Typing"];
+    
+    [tester enterText:@"Mr. Belvedere" intoViewWithAccessibilityLabel:@"Name"];
+    [tester tapViewWithAccessibilityLabel:@"Resign Keyboard"];
+    [tester expectText:@"Hello, Mr. Belvedere!" inViewWithAccessibilityLabel:@"Greeting" traits:UIAccessibilityTraitNone];
+    [tester expectText:@"Mr. Belvedere" inViewWithAccessibilityLabel:@"Name" traits:UIAccessibilityTraitNone];
+}
+
 @end
