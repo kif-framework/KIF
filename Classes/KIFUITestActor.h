@@ -294,6 +294,15 @@ static inline KIFDisplacement KIFDisplacementForSwipingInDirection(KIFSwipeDirec
  */
 - (void)enterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits expectedResult:(NSString *)expectedResult;
 
+/*!
+ @abstract Validates text within a particular view in the view hierarchy.
+ @discussion The view or accessibility element with the given label is searched for in the view hierarchy. Once found, its text value is compared to the text parameter. The element is not assumed to be tappable.
+ @param text The expected value of the element's text.
+ @param label The accessibility label of the element to type into.
+ @param traits The accessibility traits of the element to type into. Elements that do not include at least these traits are ignored.
+ */
+- (void)expectText:(NSString *)text inViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits;
+
 - (void)clearTextFromViewWithAccessibilityLabel:(NSString *)label;
 - (void)clearTextFromViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits;
 
