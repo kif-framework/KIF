@@ -360,28 +360,32 @@
     UIAccessibilityElement *element = nil;
     
     [self waitForAccessibilityElement:&element view:&view withLabel:label value:nil traits:traits tappable:YES];
-    
-    NSUInteger numberOfCharacters = [view respondsToSelector:@selector(text)] ? [(UITextField *)view text].length : element.accessibilityValue.length;
-    
-    [self tapAccessibilityElement:element inView:view];
-    
-    // Per issue #294, the tap occurs in the center of the text view.  If the text is too long, this means not all text gets cleared.  To address this for most cases, we can check if the selected view conforms to UITextInput and select the whole text range.
-    if ([view conformsToProtocol:@protocol(UITextInput)]) {
-        id <UITextInput> textInput = (id <UITextInput>)view;
-        [textInput setSelectedTextRange:[textInput textRangeFromPosition:textInput.beginningOfDocument toPosition:textInput.endOfDocument]];
-        
-        [self waitForTimeInterval:0.1];
-        [self enterTextIntoCurrentFirstResponder:@"\b" fallbackView:view];
-    } else {
-        
-        NSMutableString *text = [NSMutableString string];
-        for (NSInteger i = 0; i < numberOfCharacters; i ++) {
-            [text appendString:@"\b"];
-        }
-        [self enterTextIntoCurrentFirstResponder:text fallbackView:view];
-    }
-    
-    [self expectView:view toContainText:@""];
+	[self clearTextFromElement:element inView:view];
+}
+
+- (void)clearTextFromElement:(UIAccessibilityElement*)element inView:(UIView*)view
+{
+	NSUInteger numberOfCharacters = [view respondsToSelector:@selector(text)] ? [(UITextField *)view text].length : element.accessibilityValue.length;
+	
+	[self tapAccessibilityElement:element inView:view];
+	
+	// Per issue #294, the tap occurs in the center of the text view.  If the text is too long, this means not all text gets cleared.  To address this for most cases, we can check if the selected view conforms to UITextInput and select the whole text range.
+	if ([view conformsToProtocol:@protocol(UITextInput)]) {
+		id <UITextInput> textInput = (id <UITextInput>)view;
+		[textInput setSelectedTextRange:[textInput textRangeFromPosition:textInput.beginningOfDocument toPosition:textInput.endOfDocument]];
+		
+		[self waitForTimeInterval:0.1];
+		[self enterTextIntoCurrentFirstResponder:@"\b" fallbackView:view];
+	} else {
+		
+		NSMutableString *text = [NSMutableString string];
+		for (NSInteger i = 0; i < numberOfCharacters; i ++) {
+			[text appendString:@"\b"];
+		}
+		[self enterTextIntoCurrentFirstResponder:text fallbackView:view];
+	}
+	
+	[self expectView:view toContainText:@""];
 }
 
 - (void)clearTextFromAndThenEnterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label
@@ -515,6 +519,8 @@
     }
 }
 
+
+
 - (void)setValue:(float)value forSliderWithAccessibilityLabel:(NSString *)label
 {
     UISlider *slider = nil;
@@ -524,20 +530,24 @@
     if (![slider isKindOfClass:[UISlider class]]) {
         [self failWithError:[NSError KIFErrorWithFormat:@"View with accessibility label \"%@\" is a %@, not a UISlider", label, NSStringFromClass([slider class])] stopTest:YES];
     }
-    
-    if (value < slider.minimumValue) {
-        [self failWithError:[NSError KIFErrorWithFormat:@"Cannot slide past minimum value of %f", slider.minimumValue] stopTest:YES];
-    }
-    
-    if (value > slider.maximumValue) {
-        [self failWithError:[NSError KIFErrorWithFormat:@"Cannot slide past maximum value of %f", slider.maximumValue] stopTest:YES];
-    }
-    
-    CGRect trackRect = [slider trackRectForBounds:slider.bounds];
-    CGPoint currentPosition = CGPointCenteredInRect([slider thumbRectForBounds:slider.bounds trackRect:trackRect value:slider.value]);
-    CGPoint finalPosition = CGPointCenteredInRect([slider thumbRectForBounds:slider.bounds trackRect:trackRect value:value]);
-    
-    [slider dragFromPoint:currentPosition toPoint:finalPosition steps:10];
+	[self setValue:value forSlider:slider];
+}
+
+- (void)setValue:(float)value forSlider:(UISlider *)slider
+{
+	if (value < slider.minimumValue) {
+		[self failWithError:[NSError KIFErrorWithFormat:@"Cannot slide past minimum value of %f", slider.minimumValue] stopTest:YES];
+	}
+	
+	if (value > slider.maximumValue) {
+		[self failWithError:[NSError KIFErrorWithFormat:@"Cannot slide past maximum value of %f", slider.maximumValue] stopTest:YES];
+	}
+	
+	CGRect trackRect = [slider trackRectForBounds:slider.bounds];
+	CGPoint currentPosition = CGPointCenteredInRect([slider thumbRectForBounds:slider.bounds trackRect:trackRect value:slider.value]);
+	CGPoint finalPosition = CGPointCenteredInRect([slider thumbRectForBounds:slider.bounds trackRect:trackRect value:value]);
+	
+	[slider dragFromPoint:currentPosition toPoint:finalPosition steps:10];
 }
 
 - (void)dismissPopover

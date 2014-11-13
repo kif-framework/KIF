@@ -238,6 +238,8 @@ static inline KIFDisplacement KIFDisplacementForSwipingInDirection(KIFSwipeDirec
  */
 - (void)longPressViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value duration:(NSTimeInterval)duration;
 
+- (void)longPressAccessibilityElement:(UIAccessibilityElement *)element inView:(UIView *)view duration:(NSTimeInterval)duration;
+
 /*!
  @abstract Performs a long press on a particular view in the view hierarchy.
  @discussion The view or accessibility element with the given label is searched for in the view hierarchy. If the element isn't found or isn't currently tappable, then the step will attempt to wait until it is. Once the view is present and tappable, touch events are simulated in the center of the view or element.
@@ -275,6 +277,7 @@ static inline KIFDisplacement KIFDisplacementForSwipingInDirection(KIFSwipeDirec
  @param text The text to enter.
  */
 - (void)enterTextIntoCurrentFirstResponder:(NSString *)text;
+- (void)enterTextIntoCurrentFirstResponder:(NSString *)text fallbackView:(UIView *)fallbackView;
 
 /*!
  @abstract Enters text into a particular view in the view hierarchy.
@@ -296,9 +299,12 @@ static inline KIFDisplacement KIFDisplacementForSwipingInDirection(KIFSwipeDirec
 
 - (void)clearTextFromViewWithAccessibilityLabel:(NSString *)label;
 - (void)clearTextFromViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits;
+- (void)clearTextFromElement:(UIAccessibilityElement*)element inView:(UIView*)view;
 
 - (void)clearTextFromAndThenEnterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label;
 - (void)clearTextFromAndThenEnterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits expectedResult:(NSString *)expectedResult;
+
+- (void)expectView:(UIView *)view toContainText:(NSString *)expectedResult;
 
 /*!
  @abstract Selects an item from a currently visible picker view.
@@ -329,6 +335,7 @@ static inline KIFDisplacement KIFDisplacementForSwipingInDirection(KIFSwipeDirec
  @param label The accessibility label of the element to drag.
  */
 - (void)setValue:(float)value forSliderWithAccessibilityLabel:(NSString *)label;
+- (void)setValue:(float)value forSlider:(UISlider *)slider;
 
 /*!
  @abstract Dismisses a popover on screen.
