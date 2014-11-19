@@ -30,4 +30,9 @@
     [tester waitForViewWithAccessibilityLabel:@"Page 2"];
 }
 
+- (void)testScrolling {
+    // Off screen, the web view will need to be scrolled down
+    [tester waitForViewWithAccessibilityLabel:@"Footer"];
+}
+
 @end
