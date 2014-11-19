@@ -35,4 +35,9 @@
     [tester waitForViewWithAccessibilityLabel:@"Footer"];
 }
 
+- (void)testEnteringText {
+    [tester tapViewWithAccessibilityLabel:@"Input Label"];
+    [tester enterTextIntoCurrentFirstResponder:@"Keyboard text"];
+}
+
 @end
