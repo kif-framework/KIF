@@ -60,6 +60,8 @@ static inline void Swizzle(Class c, SEL orig, SEL new)
 
 @end
 
+#ifdef __IPHONE_8_0
+
 @interface XCTestSuite ()
 - (void)_recordUnexpectedFailureForTestRun:(id)arg1 description:(id)arg2 exception:(id)arg3;
 @end
@@ -80,5 +82,6 @@ static inline void Swizzle(Class c, SEL orig, SEL new)
     }
 }
 
-
 @end
+
+#endif
