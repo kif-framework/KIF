@@ -141,8 +141,7 @@ static const void *KIFRunLoopModesKey = &KIFRunLoopModesKey;
     outputPath = [outputPath stringByExpandingTildeInPath];
 
     NSError *directoryCreationError = nil;
-    [[NSFileManager defaultManager] createDirectoryAtPath:outputPath withIntermediateDirectories:YES attributes:nil error:&directoryCreationError];
-    if (directoryCreationError) {
+    if (![[NSFileManager defaultManager] createDirectoryAtPath:outputPath withIntermediateDirectories:YES attributes:nil error:&directoryCreationError]) {
         *error = [NSError KIFErrorWithFormat:@"Couldn't create directory at path %@ (details: %@)", outputPath, directoryCreationError];
         return NO;
     }
