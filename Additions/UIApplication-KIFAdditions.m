@@ -131,7 +131,7 @@ static const void *KIFRunLoopModesKey = &KIFRunLoopModesKey;
         return NO;
     }
     
-    UIGraphicsBeginImageContextWithOptions([[windows objectAtIndex:0] bounds].size, YES, 0);
+    UIGraphicsBeginImageContext([[windows objectAtIndex:0] bounds].size);
     for (UIWindow *window in windows) {
         [window.layer renderInContext:UIGraphicsGetCurrentContext()];
     }
@@ -141,7 +141,8 @@ static const void *KIFRunLoopModesKey = &KIFRunLoopModesKey;
     outputPath = [outputPath stringByExpandingTildeInPath];
 
     NSError *directoryCreationError = nil;
-    if (![[NSFileManager defaultManager] createDirectoryAtPath:outputPath withIntermediateDirectories:YES attributes:nil error:&directoryCreationError]) {
+    [[NSFileManager defaultManager] createDirectoryAtPath:outputPath withIntermediateDirectories:YES attributes:nil error:&directoryCreationError];
+    if (directoryCreationError) {
         *error = [NSError KIFErrorWithFormat:@"Couldn't create directory at path %@ (details: %@)", outputPath, directoryCreationError];
         return NO;
     }
