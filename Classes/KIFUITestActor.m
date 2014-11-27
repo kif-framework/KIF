@@ -619,6 +619,16 @@
     [self tapRowAtIndexPath:indexPath inTableView:tableView];
 }
 
+- (void)enterText:(NSString *)text intoRowAtIndexPath:(NSIndexPath *)indexPath inTableViewWithAccessibilityIdentifier:(NSString *)identifier
+{
+    UITableView * tableView = nil;
+    [self waitForAccessibilityElement:NULL view:&tableView withIdentifier:identifier tappable:NO];
+    [self tapRowAtIndexPath:indexPath inTableView:tableView];
+    [self waitForKeyboard];
+    [self enterTextIntoCurrentFirstResponder:text fallbackView:tableView];
+    [self expectView:tableView toContainText:text];
+}
+
 - (void)tapRowInTableViewWithAccessibilityLabel:(NSString*)tableViewLabel atIndexPath:(NSIndexPath *)indexPath
 {
     UITableView *tableView = (UITableView *)[self waitForViewWithAccessibilityLabel:tableViewLabel];

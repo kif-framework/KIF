@@ -353,6 +353,15 @@ static inline KIFDisplacement KIFDisplacementForSwipingInDirection(KIFSwipeDirec
 - (void)choosePhotoInAlbum:(NSString *)albumName atRow:(NSInteger)row column:(NSInteger)column;
 
 /*!
+ @abstract Enters text in a text field at the row at indexpath in a table view with the given label.
+ @discussion This step will get the table view with specified accessibility identifier and tap the row at index path.From there it enters text into first responder.
+ @param text The text to enter.
+ @param indexPath Index path of the row with text field.
+ @param identifier Accessibility identifier of the table view.
+ */
+- (void)enterText:(NSString *)text intoRowAtIndexPath:(NSIndexPath *)indexPath inTableViewWithAccessibilityIdentifier:(NSString *)identifier;
+
+/*!
  @abstract Taps the row at indexPath in a table view with the given label.
  @discussion This step will get the view with the specified accessibility label and tap the row at indexPath.
  
