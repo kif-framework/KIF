@@ -146,4 +146,9 @@
     [tester waitForViewWithAccessibilityLabel:@"Button"];
 }
 
+- (void)testEnteringTextIntoATextFieldInATableCell
+{
+    [tester enterText:@"Test-Driven Development" intoViewWithAccessibilityLabel:@"TextField"];
+}
+
 @end
