@@ -313,6 +313,15 @@ static inline KIFDisplacement KIFDisplacementForSwipingInDirection(KIFSwipeDirec
  */
 - (void)selectPickerViewRowWithTitle:(NSString *)title;
 
+
+/*!
+ @abstract Selects an item from each component of the currently visible picker view.
+ @discussion With a picker view already visible, this step will find an item in each component with a title matching that given in the respective position of the passed titles array.
+ @param titles an array of titles to select from the respective components.
+ */
+- (void)selectPickerViewRowsWithTitles:(NSArray *)titles;
+
+
 /*!
  @abstract Selects a value from a currently visible date picker view.
  @discussion With a date picker view already visible, this step will select the different rotating weel values in order of how the array parameter is passed in. After it is done it will hide the date picker. It works with all 4 UIDatePickerMode* modes. The input parameter of type NSArray has to match in what order the date picker is displaying the values/columns. So if the locale is changing the input parameter has to be adjusted. Example: Mode: UIDatePickerModeDate, Locale: en_US, Input param: NSArray *date = @[@"June", @"17", @"1965"];. Example: Mode: UIDatePickerModeDate, Locale: de_DE, Input param: NSArray *date = @[@"17.", @"Juni", @"1965".

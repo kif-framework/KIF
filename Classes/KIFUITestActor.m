@@ -413,6 +413,12 @@
     [self selectPickerValue:dataToSelect pickerType:KIFUIPickerView];
 }
 
+- (void)selectPickerViewRowsWithTitles:(NSArray *)titles
+{
+    NSArray *dataToSelect = titles;
+    [self selectPickerValue:dataToSelect pickerType:KIFUIPickerView];
+}
+
 - (void) selectPickerValue:(NSArray*)pickerColumnValues pickerType:(KIFPickerType)pickerType {
 
     [self runBlock:^KIFTestStepResult(NSError **error) {
