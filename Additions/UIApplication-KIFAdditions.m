@@ -111,7 +111,7 @@ static const void *KIFRunLoopModesKey = &KIFRunLoopModesKey;
     return windows;
 }
 
-#pragma mark - Screenshoting
+#pragma mark - Screenshotting
 
 - (BOOL)writeScreenshotForLine:(NSUInteger)lineNumber inFile:(NSString *)filename description:(NSString *)description error:(NSError **)error;
 {
@@ -137,16 +137,23 @@ static const void *KIFRunLoopModesKey = &KIFRunLoopModesKey;
     }
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-    
-    
+
+    outputPath = [outputPath stringByExpandingTildeInPath];
+
+    NSError *directoryCreationError = nil;
+    if (![[NSFileManager defaultManager] createDirectoryAtPath:outputPath withIntermediateDirectories:YES attributes:nil error:&directoryCreationError]) {
+        *error = [NSError KIFErrorWithFormat:@"Couldn't create directory at path %@ (details: %@)", outputPath, directoryCreationError];
+        return NO;
+    }
+
     NSString *imageName = [NSString stringWithFormat:@"%@, line %lu", [filename lastPathComponent], (unsigned long)lineNumber];
     if (description) {
         imageName = [imageName stringByAppendingFormat:@", %@", description];
     }
-    
-    outputPath = [outputPath stringByExpandingTildeInPath];
+
     outputPath = [outputPath stringByAppendingPathComponent:imageName];
     outputPath = [outputPath stringByAppendingPathExtension:@"png"];
+
     if (![UIImagePNGRepresentation(image) writeToFile:outputPath atomically:YES]) {
         if (error) {
             *error = [NSError KIFErrorWithFormat:@"Could not write file at path %@", outputPath];
