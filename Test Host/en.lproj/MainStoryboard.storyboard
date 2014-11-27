@@ -1369,6 +1369,9 @@
                                 <accessibility key="accessibilityConfiguration" label="Slider">
                                     <accessibilityTraits key="traits" none="YES"/>
                                 </accessibility>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="idSlider"/>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="sliderValueChanged:" destination="21" eventType="valueChanged" id="FEz-u6-GgM"/>
                                 </connections>
@@ -1380,6 +1383,9 @@
                                 </accessibility>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="idGreeting"/>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <outlet property="delegate" destination="21" id="nKd-AR-TdK"/>
                                 </connections>
@@ -1409,6 +1415,9 @@
                             <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="BGR-Qm-fMh">
                                 <rect key="frame" x="103" y="109" width="79" height="27"/>
                                 <accessibility key="accessibilityConfiguration" label="Happy"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="idHappy"/>
+                                </userDefinedRuntimeAttributes>
                             </switch>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="8vQ-kG-S7F">
                                 <rect key="frame" x="0.0" y="-1" width="35" height="282"/>

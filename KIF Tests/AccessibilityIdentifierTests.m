@@ -45,6 +45,32 @@
     [tester tapViewWithAccessibilityLabel:@"Tapping"];
 }
 
+- (void)testLongPressingViewWithAccessibilityIdentifier
+{
+	[tester longPressViewWithAccessibilityIdentifier:@"idGreeting" duration:2];
+	[tester tapViewWithAccessibilityLabel:@"Select All"];
+}
+
+- (void)testEnteringTextIntoViewWithAccessibilityIdentifier
+{
+	[tester longPressViewWithAccessibilityIdentifier:@"idGreeting" duration:2];
+	[tester tapViewWithAccessibilityLabel:@"Select All"];
+	[tester tapViewWithAccessibilityLabel:@"Cut"];
+	[tester enterText:@"Yo" intoViewWithAccessibilityIdentifier:@"idGreeting"];
+}
+
+- (void)testEnteringTextIntoViewWithAccessibilityIdentifierExpectingResults
+{
+	[tester enterText:@", world" intoViewWithAccessibilityIdentifier:@"idGreeting" expectedResult:@"Hello, world"];
+	[tester waitForViewWithAccessibilityLabel:@"Greeting" value:@"Hello, world" traits:UIAccessibilityTraitNone];
+}
+
+- (void)testClearingAndEnteringTextIntoViewWithAccessibilityLabel
+{
+	[tester clearTextFromAndThenEnterText:@"Yo" intoViewWithAccessibilityIdentifier:@"idGreeting"];
+}
+
+
 - (void)afterEach
 {
     [tester tapViewWithAccessibilityLabel:@"Test Suite" traits:UIAccessibilityTraitButton];

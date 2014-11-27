@@ -6,7 +6,7 @@
 //
 //
 
-#import <KIF/KIF.h>
+#import "KIF.h"
 
 @interface KIFUITestActor (ConditionalTests)
 
