@@ -337,9 +337,12 @@
     
     // Some slower machines take longer for typing to catch up, so wait for a bit before failing
     [self runBlock:^KIFTestStepResult(NSError **error) {
-        // We trim \n and \r because they trigger the return key, so they won't show up in the final product on single-line inputs
-        NSString *expected = [expectedResult stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
-        NSString *actual = [textView.text stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+        // We trim \n and \r because they trigger the return key, so they won't show up in the final product on single-line inputs.
+        // Also trim \b (backspace) characters to allow for deletion.
+        NSMutableCharacterSet *charExclusionSet = [NSMutableCharacterSet characterSetWithCharactersInString:@"\b"];
+        [charExclusionSet formUnionWithCharacterSet:[NSCharacterSet newlineCharacterSet]];
+        NSString *expected = [expectedResult stringByTrimmingCharactersInSet:charExclusionSet];
+        NSString *actual = [textView.text stringByTrimmingCharactersInSet:charExclusionSet];
         
         KIFTestWaitCondition([actual isEqualToString:expected], error, @"Failed to get text \"%@\" in field; instead, it was \"%@\"", expected, actual);
         
@@ -423,7 +426,7 @@
                 KIFTestCondition(pickerView, error, @"No picker view is present");
                 break;
             case KIFUIPickerView:
-                 pickerView = [[[[UIApplication sharedApplication] pickerViewWindow] subviewsWithClassNameOrSuperClassNamePrefix:@"UIPickerView"] lastObject];
+                pickerView = [[[[UIApplication sharedApplication] pickerViewWindow] subviewsWithClassNameOrSuperClassNamePrefix:@"UIPickerView"] lastObject];
         }
 
         NSInteger componentCount = [pickerView.dataSource numberOfComponentsInPickerView:pickerView];
