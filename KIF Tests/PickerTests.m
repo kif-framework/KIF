@@ -79,4 +79,13 @@
     [tester waitForViewWithAccessibilityLabel:@"Date Selection" value:@"Dec 17, 2030" traits:UIAccessibilityTraitNone];
 }
 
+- (void)testSelectingRowInComponent
+{
+    [tester tapViewWithAccessibilityLabel:@"Date Selection"];
+    NSArray *date = @[@"December", @"31", @"2030"];
+    [tester selectDatePickerValue:date];
+    [tester selectPickerViewRowWithTitle:@"17" inComponent:1];
+    [tester waitForViewWithAccessibilityLabel:@"Date Selection" value:@"Dec 17, 2030" traits:UIAccessibilityTraitNone];
+}
+
 @end
