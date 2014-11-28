@@ -587,6 +587,12 @@
 	CGPoint currentPosition = CGPointCenteredInRect([slider thumbRectForBounds:slider.bounds trackRect:trackRect value:slider.value]);
 	CGPoint finalPosition = CGPointCenteredInRect([slider thumbRectForBounds:slider.bounds trackRect:trackRect value:value]);
 
+    if (value == slider.minimumValue) {
+        finalPosition.x = 0;
+    } else if (value == slider.maximumValue) {
+        finalPosition.x = slider.bounds.size.width;
+    }
+
 	[slider dragFromPoint:currentPosition toPoint:finalPosition steps:10];
 }
 
