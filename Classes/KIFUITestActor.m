@@ -582,11 +582,17 @@
 	if (value > slider.maximumValue) {
 		[self failWithError:[NSError KIFErrorWithFormat:@"Cannot slide past maximum value of %f", slider.maximumValue] stopTest:YES];
 	}
-	
+
 	CGRect trackRect = [slider trackRectForBounds:slider.bounds];
 	CGPoint currentPosition = CGPointCenteredInRect([slider thumbRectForBounds:slider.bounds trackRect:trackRect value:slider.value]);
 	CGPoint finalPosition = CGPointCenteredInRect([slider thumbRectForBounds:slider.bounds trackRect:trackRect value:value]);
-	
+
+    if (value == slider.minimumValue) {
+        finalPosition.x = 0;
+    } else if (value == slider.maximumValue) {
+        finalPosition.x = slider.bounds.size.width;
+    }
+
 	[slider dragFromPoint:currentPosition toPoint:finalPosition steps:10];
 }
 
