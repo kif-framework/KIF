@@ -1,3 +1,5 @@
 language: objective-c
+osx_image: xcode61
+
 script:
 - xcodebuild -scheme KIF -destination 'platform=iOS Simulator,name=iPhone Retina (4-inch),OS=7.1' test
