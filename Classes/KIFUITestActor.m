@@ -582,11 +582,11 @@
 	if (value > slider.maximumValue) {
 		[self failWithError:[NSError KIFErrorWithFormat:@"Cannot slide past maximum value of %f", slider.maximumValue] stopTest:YES];
 	}
-	
+
 	CGRect trackRect = [slider trackRectForBounds:slider.bounds];
 	CGPoint currentPosition = CGPointCenteredInRect([slider thumbRectForBounds:slider.bounds trackRect:trackRect value:slider.value]);
 	CGPoint finalPosition = CGPointCenteredInRect([slider thumbRectForBounds:slider.bounds trackRect:trackRect value:value]);
-	
+
 	[slider dragFromPoint:currentPosition toPoint:finalPosition steps:10];
 }
 
