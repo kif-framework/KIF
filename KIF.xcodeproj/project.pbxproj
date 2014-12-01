@@ -12,6 +12,12 @@
 		2EE12710198991920031D347 /* MultiFingerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EE1270F198991920031D347 /* MultiFingerTests.m */; };
 		2EE12711198991920031D347 /* MultiFingerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EE1270F198991920031D347 /* MultiFingerTests.m */; };
 		4A48107B19708CAB0003A32E /* ExistTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A48107A19708CAB0003A32E /* ExistTests.m */; };
+		84D293AD1A2C84F700C10944 /* SystemAlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D293AC1A2C84F700C10944 /* SystemAlertViewController.m */; };
+		84D293AF1A2C867300C10944 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84D293AE1A2C867300C10944 /* CoreLocation.framework */; };
+		84D293B11A2C891700C10944 /* SystemAlertTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D293B01A2C891700C10944 /* SystemAlertTests.m */; };
+		84D293B51A2C8B0400C10944 /* KIFSystemAlertHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D293B31A2C8AFF00C10944 /* KIFSystemAlertHandler.m */; };
+		84D293B61A2C8B0800C10944 /* KIFSystemAlertHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D293B31A2C8AFF00C10944 /* KIFSystemAlertHandler.m */; };
+		84D293B81A2C8DF700C10944 /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84D293B71A2C8DF700C10944 /* AddressBookUI.framework */; };
 		A88930121685098E00FC7C63 /* KIF.h in Headers */ = {isa = PBXBuildFile; fileRef = A88930111685098E00FC7C63 /* KIF.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AE62FCD01A1D20E5002B10DA /* WebViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AE62FCCF1A1D20E5002B10DA /* WebViewTests.m */; };
 		AE62FCD61A1D2447002B10DA /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE62FCD51A1D2447002B10DA /* WebViewController.m */; };
@@ -198,6 +204,12 @@
 		2EE1270F198991920031D347 /* MultiFingerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MultiFingerTests.m; sourceTree = "<group>"; };
 		39160B1013D1E6BB00311E38 /* LoadableCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadableCategory.h; sourceTree = "<group>"; };
 		4A48107A19708CAB0003A32E /* ExistTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExistTests.m; sourceTree = "<group>"; };
+		84D293AC1A2C84F700C10944 /* SystemAlertViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SystemAlertViewController.m; sourceTree = "<group>"; };
+		84D293AE1A2C867300C10944 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		84D293B01A2C891700C10944 /* SystemAlertTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SystemAlertTests.m; sourceTree = "<group>"; };
+		84D293B21A2C8AFF00C10944 /* KIFSystemAlertHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KIFSystemAlertHandler.h; sourceTree = "<group>"; };
+		84D293B31A2C8AFF00C10944 /* KIFSystemAlertHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KIFSystemAlertHandler.m; sourceTree = "<group>"; };
+		84D293B71A2C8DF700C10944 /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
 		A88930111685098E00FC7C63 /* KIF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = KIF.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		AAB0726B139719AC008AF393 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		AAB0728113971A63008AF393 /* KIF-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "KIF-Prefix.pch"; path = "Classes/KIF-Prefix.pch"; sourceTree = SOURCE_ROOT; };
@@ -330,6 +342,8 @@
 				EB60ECC2177F8C83005A041A /* UIKit.framework in Frameworks */,
 				EB60ECC3177F8C83005A041A /* Foundation.framework in Frameworks */,
 				EB60ECC5177F8C83005A041A /* CoreGraphics.framework in Frameworks */,
+				84D293AF1A2C867300C10944 /* CoreLocation.framework in Frameworks */,
+				84D293B81A2C8DF700C10944 /* AddressBookUI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -384,6 +398,8 @@
 		AAB0726A139719AC008AF393 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				84D293B71A2C8DF700C10944 /* AddressBookUI.framework */,
+				84D293AE1A2C867300C10944 /* CoreLocation.framework */,
 				EABD46AB1857A0EB00A5F081 /* XCTest.framework */,
 				EB4C3138167BA3D200E31109 /* SenTestingKit.framework */,
 				AAB072B413971AEA008AF393 /* UIKit.framework */,
@@ -414,6 +430,8 @@
 				AAB0728513971A98008AF393 /* KIF-Prefix.pch */,
 				C194255615D83DE9004FC314 /* KIFTypist.h */,
 				C194255715D83DE9004FC314 /* KIFTypist.m */,
+				84D293B21A2C8AFF00C10944 /* KIFSystemAlertHandler.h */,
+				84D293B31A2C8AFF00C10944 /* KIFSystemAlertHandler.m */,
 				EBAE488517A4E5C30005EE19 /* KIFTestStepValidation.h */,
 				EBAE488617A4E5C30005EE19 /* KIFTestStepValidation.m */,
 				EABD46D31857BE8600A5F081 /* KIF-XCTestPrefix.pch */,
@@ -504,6 +522,7 @@
 				D9EA274218F05A6700D87E57 /* ScrollViewController.m */,
 				D927B9DB18F9DF2D00DAD036 /* TableViewController.m */,
 				AE62FCD51A1D2447002B10DA /* WebViewController.m */,
+				84D293AC1A2C84F700C10944 /* SystemAlertViewController.m */,
 				EB60ECC7177F8C83005A041A /* Supporting Files */,
 			);
 			path = "Test Host";
@@ -550,6 +569,7 @@
 				2EE1270F198991920031D347 /* MultiFingerTests.m */,
 				EB1A44D91A0C33AD004A3F61 /* AccessibilityIdentifierTests.m */,
 				AE62FCCF1A1D20E5002B10DA /* WebViewTests.m */,
+				84D293B01A2C891700C10944 /* SystemAlertTests.m */,
 				EB60ECF0177F8DB3005A041A /* Supporting Files */,
 			);
 			path = "KIF Tests";
@@ -843,6 +863,7 @@
 				EABD467F1857A0C700A5F081 /* UITouch-KIFAdditions.m in Sources */,
 				EABD46801857A0C700A5F081 /* UIView-KIFAdditions.m in Sources */,
 				EABD46811857A0C700A5F081 /* UIWindow-KIFAdditions.m in Sources */,
+				84D293B51A2C8B0400C10944 /* KIFSystemAlertHandler.m in Sources */,
 				EABD46821857A0C700A5F081 /* NSFileManager-KIFAdditions.m in Sources */,
 				D927B9E018F9E46400DAD036 /* UITableView-KIFAdditions.m in Sources */,
 				EABD46831857A0C700A5F081 /* KIFTypist.m in Sources */,
@@ -886,6 +907,7 @@
 				2EE12710198991920031D347 /* MultiFingerTests.m in Sources */,
 				D9EA274118F05A6000D87E57 /* ScrollViewTests.m in Sources */,
 				AE62FCD01A1D20E5002B10DA /* WebViewTests.m in Sources */,
+				84D293B11A2C891700C10944 /* SystemAlertTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -895,6 +917,7 @@
 			files = (
 				EB9FB42717A5BACB00DDF160 /* GestureViewController.m in Sources */,
 				EA0F254A1829839E006FF825 /* CollectionViewController.m in Sources */,
+				84D293AD1A2C84F700C10944 /* SystemAlertViewController.m in Sources */,
 				AE62FCD61A1D2447002B10DA /* WebViewController.m in Sources */,
 				EB60ECCD177F8C84005A041A /* main.m in Sources */,
 				EB60ED00177F9032005A041A /* AppDelegate.m in Sources */,
@@ -939,6 +962,7 @@
 				EB7204431680DDAD00278DA2 /* CGGeometry-KIFAdditions.m in Sources */,
 				EB7204441680DDAD00278DA2 /* UIAccessibilityElement-KIFAdditions.m in Sources */,
 				EB7204451680DDAD00278DA2 /* UIApplication-KIFAdditions.m in Sources */,
+				84D293B61A2C8B0800C10944 /* KIFSystemAlertHandler.m in Sources */,
 				EB7204461680DDAD00278DA2 /* UIScrollView-KIFAdditions.m in Sources */,
 				EB7204471680DDAD00278DA2 /* UITouch-KIFAdditions.m in Sources */,
 				EB7204481680DDAD00278DA2 /* UIView-KIFAdditions.m in Sources */,

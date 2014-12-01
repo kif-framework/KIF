@@ -16,6 +16,7 @@
 #import "CGGeometry-KIFAdditions.h"
 #import "NSError-KIFAdditions.h"
 #import "KIFTypist.h"
+#import "KIFSystemAlertHandler.h"
 
 @implementation KIFUITestActor
 
@@ -683,6 +684,10 @@
     UICollectionView *collectionView;
     [self waitForAccessibilityElement:NULL view:&collectionView withIdentifier:identifier tappable:NO];
     [self tapItemAtIndexPath:indexPath inCollectionView:collectionView];
+}
+
+- (void)acknowledgeSystemAlert {
+    [KIFSystemAlertHandler acknowledgeSystemAlert];
 }
 
 - (void)tapItemAtIndexPath:(NSIndexPath *)indexPath inCollectionView:(UICollectionView *)collectionView

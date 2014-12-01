@@ -18,21 +18,26 @@
     if (indexPath.section != 1) {
         return;
     }
-    
+
     switch (indexPath.row) {
         case 0:
         {
             [[[UIAlertView alloc] initWithTitle:@"Alert View" message:@"Message" delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:@"Continue", nil] show];
             break;
         }
-            
+
         case 1:
+        {
+            break;
+        }
+
+        case 2:
         {
             [[[UIActionSheet alloc] initWithTitle:@"Action Sheet" delegate:nil cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Destroy" otherButtonTitles:@"A", @"B", nil] showInView:tableView];
             break;
         }
-            
-        case 2:
+
+        case 3:
         {
             Class AVCClass = NSClassFromString(@"UIActivityViewController");
             if (AVCClass) {
