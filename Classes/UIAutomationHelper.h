@@ -1,5 +1,5 @@
 //
-//  KIFSystemAlertHandler.h
+//  UIAutomationHelper.h
 //  KIF
 //
 //  Created by Joe Masilotti on 12/1/14.
@@ -8,8 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
-@interface KIFSystemAlertHandler : NSObject
+@class KIFTestActor;
 
+@interface UIAutomationHelper : NSObject
+
++ (void)linkAutomationFramework;
 + (void)acknowledgeSystemAlert;
 
 @end

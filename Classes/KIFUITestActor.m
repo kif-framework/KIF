@@ -16,7 +16,7 @@
 #import "CGGeometry-KIFAdditions.h"
 #import "NSError-KIFAdditions.h"
 #import "KIFTypist.h"
-#import "KIFSystemAlertHandler.h"
+#import "UIAutomationHelper.h"
 
 @implementation KIFUITestActor
 
@@ -24,6 +24,7 @@
 {
     if (self == [KIFUITestActor class]) {
         [KIFTypist registerForNotifications];
+        [UIAutomationHelper linkAutomationFramework];
     }
 }
 
@@ -687,7 +688,7 @@
 }
 
 - (void)acknowledgeSystemAlert {
-    [KIFSystemAlertHandler acknowledgeSystemAlert];
+    [UIAutomationHelper acknowledgeSystemAlert];
 }
 
 - (void)tapItemAtIndexPath:(NSIndexPath *)indexPath inCollectionView:(UICollectionView *)collectionView
