@@ -1535,6 +1535,13 @@ Line Break
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Selected Image Size Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="l9a-mW-6Q7">
+                                <rect key="frame" x="27" y="463" width="277" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
@@ -1550,6 +1557,7 @@ Line Break
                         <outlet property="lineBreakLabel" destination="B0B-JK-Dre" id="eOC-HO-sni"/>
                         <outlet property="memoryWarningLabel" destination="cOR-b3-gcc" id="xXg-Fh-Lpo"/>
                         <outlet property="otherTextField" destination="WsR-z2-y1y" id="rq9-9M-Czf"/>
+                        <outlet property="selectedPhotoSizeLabel" destination="l9a-mW-6Q7" id="STW-b2-9nP"/>
                         <outlet property="slider" destination="Dtm-Df-W7N" id="9IE-Qx-X8z"/>
                     </connections>
                 </viewController>
