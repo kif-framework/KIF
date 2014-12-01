@@ -16,6 +16,7 @@
 #import "CGGeometry-KIFAdditions.h"
 #import "NSError-KIFAdditions.h"
 #import "KIFTypist.h"
+#import "UIAutomationHelper.h"
 
 @implementation KIFUITestActor
 
@@ -23,6 +24,7 @@
 {
     if (self == [KIFUITestActor class]) {
         [KIFTypist registerForNotifications];
+        [UIAutomationHelper linkAutomationFramework];
     }
 }
 
@@ -683,6 +685,10 @@
     UICollectionView *collectionView;
     [self waitForAccessibilityElement:NULL view:&collectionView withIdentifier:identifier tappable:NO];
     [self tapItemAtIndexPath:indexPath inCollectionView:collectionView];
+}
+
+- (void)acknowledgeSystemAlert {
+    [UIAutomationHelper acknowledgeSystemAlert];
 }
 
 - (void)tapItemAtIndexPath:(NSIndexPath *)indexPath inCollectionView:(UICollectionView *)collectionView
