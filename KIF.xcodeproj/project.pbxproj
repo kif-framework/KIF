@@ -948,7 +948,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastTestingUpgradeCheck = 0510;
-				LastUpgradeCheck = 0620;
+				LastUpgradeCheck = 0610;
 				TargetAttributes = {
 					9CC9673A1AD4B1B600576D13 = {
 						CreatedOnToolsVersion = 6.2;
