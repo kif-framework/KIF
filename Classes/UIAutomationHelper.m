@@ -67,9 +67,11 @@
 - (void)acknowledgeSystemAlert {
     UIAApplication *application = [[self target] frontMostApp];
     UIAAlert *alert = application.alert;
-    [[alert.buttons lastObject] tap];
 
-    while (![application.alert isKindOfClass:[self nilElementClass]]) { }
+    if (![alert isKindOfClass:[self nilElementClass]]) {
+        [[alert.buttons lastObject] tap];
+        while (![application.alert isKindOfClass:[self nilElementClass]]) { }
+    }
 }
 
 - (UIATarget *)target {
