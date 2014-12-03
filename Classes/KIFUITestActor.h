@@ -354,8 +354,8 @@ static inline KIFDisplacement KIFDisplacementForSwipingInDirection(KIFSwipeDirec
 /*!
  @abstract Select a certain photo from the built in photo picker.
  @discussion This set of steps expects that the photo picker has been initiated and that the sheet is up. From there it will tap the "Choose Photo" button and select the desired photo.
- @param albumName The name of the album to select the photo from.
- @param row The row number in the album for the desired photo.
+ @param albumName The name of the album to select the photo from. (1-indexed)
+ @param row The row number in the album for the desired photo. (1-indexed)
  @param column The column number in the album for the desired photo.
  */
 - (void)choosePhotoInAlbum:(NSString *)albumName atRow:(NSInteger)row column:(NSInteger)column;
