@@ -131,7 +131,7 @@ static const void *KIFRunLoopModesKey = &KIFRunLoopModesKey;
         return NO;
     }
     
-    UIGraphicsBeginImageContext([[windows objectAtIndex:0] bounds].size);
+    UIGraphicsBeginImageContextWithOptions([[windows objectAtIndex:0] bounds].size, YES, 0);
     for (UIWindow *window in windows) {
         [window.layer renderInContext:UIGraphicsGetCurrentContext()];
     }
