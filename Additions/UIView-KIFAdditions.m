@@ -782,4 +782,49 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
     return nil;
 }
 
+- (BOOL)isVisibleInViewHierarchy
+{
+    __block BOOL result = YES;
+    [self performBlockOnAscendentViews:^(UIView *view, BOOL *stop) {
+        if (view.isHidden) {
+            result = NO;
+            if (stop != NULL) {
+                *stop = YES;
+            }
+        }
+    }];
+    return result;
+}
+
+- (void)performBlockOnDescendentViews:(void (^)(UIView *view, BOOL *stop))block
+{
+    BOOL stop = NO;
+    [self performBlockOnDescendentViews:block stop:&stop];
+}
+
+- (void)performBlockOnDescendentViews:(void (^)(UIView *view, BOOL *stop))block stop:(BOOL *)stop
+{
+    block(self, stop);
+    if (*stop) {
+        return;
+    }
+    
+    for (UIView *view in self.subviews) {
+        [view performBlockOnDescendentViews:block stop:stop];
+        if (*stop) {
+            return;
+        }
+    }
+}
+
+- (void)performBlockOnAscendentViews:(void (^)(UIView *view, BOOL *stop))block
+{
+    BOOL stop = NO;
+    UIView *checkedView = self;
+    while(checkedView && stop == NO) {
+        block(checkedView, &stop);
+        checkedView = checkedView.superview;
+    }
+}
+
 @end

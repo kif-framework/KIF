@@ -11,6 +11,8 @@
 		2CED883E181F5EE1005ABD20 /* PickerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CED883D181F5EE1005ABD20 /* PickerTests.m */; };
 		2EE12710198991920031D347 /* MultiFingerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EE1270F198991920031D347 /* MultiFingerTests.m */; };
 		2EE12711198991920031D347 /* MultiFingerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EE1270F198991920031D347 /* MultiFingerTests.m */; };
+		3812FB611A1212A700335733 /* AnimationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3812FB601A1212A700335733 /* AnimationViewController.m */; };
+		3812FB631A12188700335733 /* WaitForAnimationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3812FB621A12188700335733 /* WaitForAnimationTests.m */; };
 		4A48107B19708CAB0003A32E /* ExistTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A48107A19708CAB0003A32E /* ExistTests.m */; };
 		84D293AD1A2C84F700C10944 /* SystemAlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D293AC1A2C84F700C10944 /* SystemAlertViewController.m */; };
 		84D293AF1A2C867300C10944 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84D293AE1A2C867300C10944 /* CoreLocation.framework */; };
@@ -204,6 +206,8 @@
 		2CDEE1CA181DBED200DF6E63 /* PickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PickerController.m; sourceTree = "<group>"; };
 		2CED883D181F5EE1005ABD20 /* PickerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PickerTests.m; sourceTree = "<group>"; };
 		2EE1270F198991920031D347 /* MultiFingerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MultiFingerTests.m; sourceTree = "<group>"; };
+		3812FB601A1212A700335733 /* AnimationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnimationViewController.m; sourceTree = "<group>"; };
+		3812FB621A12188700335733 /* WaitForAnimationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaitForAnimationTests.m; sourceTree = "<group>"; };
 		39160B1013D1E6BB00311E38 /* LoadableCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadableCategory.h; sourceTree = "<group>"; };
 		4A48107A19708CAB0003A32E /* ExistTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExistTests.m; sourceTree = "<group>"; };
 		84D293AC1A2C84F700C10944 /* SystemAlertViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SystemAlertViewController.m; sourceTree = "<group>"; };
@@ -513,6 +517,7 @@
 		EB60ECC6177F8C83005A041A /* Test Host */ = {
 			isa = PBXGroup;
 			children = (
+				3812FB601A1212A700335733 /* AnimationViewController.m */,
 				2CDEE1CA181DBED200DF6E63 /* PickerController.m */,
 				EB60ED04177F9041005A041A /* MainStoryboard.storyboard */,
 				EB60ECFC177F9031005A041A /* AppDelegate.m */,
@@ -551,6 +556,7 @@
 			children = (
 				2CED883D181F5EE1005ABD20 /* PickerTests.m */,
 				EB60ED19177F90C2005A041A /* GestureTests.m */,
+				3812FB621A12188700335733 /* WaitForAnimationTests.m */,
 				EB60ED07177F90BA005A041A /* LongPressTests.m */,
 				EB60ED08177F90BA005A041A /* ModalViewTests.m */,
 				EB60ED09177F90BA005A041A /* SpecificControlTests.m */,
@@ -894,6 +900,7 @@
 				EABD46B31857A0F300A5F081 /* CompositionTests.m in Sources */,
 				4A48107B19708CAB0003A32E /* ExistTests.m in Sources */,
 				EA4655881905B92500B2C60E /* PickerTests.m in Sources */,
+				3812FB631A12188700335733 /* WaitForAnimationTests.m in Sources */,
 				EB1A44DA1A0C33AD004A3F61 /* AccessibilityIdentifierTests.m in Sources */,
 				EABD46B41857A0F300A5F081 /* LongPressTests.m in Sources */,
 				EABD46B51857A0F300A5F081 /* ModalViewTests.m in Sources */,
@@ -931,6 +938,7 @@
 				2CDEE1CB181DBED200DF6E63 /* PickerController.m in Sources */,
 				EB60ED03177F9032005A041A /* TestSuiteViewController.m in Sources */,
 				D9EA274318F05A6700D87E57 /* ScrollViewController.m in Sources */,
+				3812FB611A1212A700335733 /* AnimationViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

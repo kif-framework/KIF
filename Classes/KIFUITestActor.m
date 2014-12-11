@@ -172,6 +172,8 @@
     
     // Wait for the view to stabilize.
     [self waitForTimeInterval:0.5];
+
+    [self waitForAnimationsToFinish];
 }
 
 - (void)tapScreenAtPoint:(CGPoint)screenPoint
@@ -675,6 +677,8 @@
     
     // Wait for the view to stabilize.
     [tester waitForTimeInterval:0.5];
+
+    [self waitForAnimationsToFinish];
 }
 
 - (void)tapItemAtIndexPath:(NSIndexPath *)indexPath inCollectionViewWithAccessibilityIdentifier:(NSString *)identifier
@@ -698,6 +702,8 @@
     
     // Wait for the view to stabilize.
     [tester waitForTimeInterval:0.5];
+
+    [self waitForAnimationsToFinish];
 }
 
 - (void)swipeViewWithAccessibilityLabel:(NSString *)label inDirection:(KIFSwipeDirection)direction
