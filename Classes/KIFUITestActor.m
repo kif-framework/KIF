@@ -24,7 +24,6 @@
 {
     if (self == [KIFUITestActor class]) {
         [KIFTypist registerForNotifications];
-        [UIAutomationHelper linkAutomationFramework];
     }
 }
 

@@ -12,7 +12,6 @@
 
 @interface UIAutomationHelper : NSObject
 
-+ (void)linkAutomationFramework;
 + (void)acknowledgeSystemAlert;
 
 @end
