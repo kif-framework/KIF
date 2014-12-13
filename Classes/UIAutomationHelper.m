@@ -35,20 +35,29 @@
 + (UIAutomationHelper *)sharedHelper
 {
     static dispatch_once_t once;
-    static UIAutomationHelper *sharedObserver = nil;
+    static UIAutomationHelper *sharedHelper = nil;
     dispatch_once(&once, ^{
-        sharedObserver = [[self alloc] init];
+        sharedHelper = [[self alloc] init];
+        [sharedHelper linkAutomationFramework];
     });
-    return sharedObserver;
-}
-
-+ (void)linkAutomationFramework {
-    [[self sharedHelper] linkAutomationFramework];
+    return sharedHelper;
 }
 
 + (void)acknowledgeSystemAlert {
     [[self sharedHelper] acknowledgeSystemAlert];
 }
+
+- (void)acknowledgeSystemAlert {
+    UIAApplication *application = [[self target] frontMostApp];
+    UIAAlert *alert = application.alert;
+
+    if (![alert isKindOfClass:[self nilElementClass]]) {
+        [[alert.buttons lastObject] tap];
+        while (![application.alert isKindOfClass:[self nilElementClass]]) { }
+    }
+}
+
+#pragma mark - Private
 
 - (void)linkAutomationFramework {
     dlopen([@"/Developer/Library/PrivateFrameworks/UIAutomation.framework/UIAutomation" fileSystemRepresentation], RTLD_LOCAL);
@@ -61,16 +70,6 @@
         }
         @catch (NSException *exception) { }
         @finally { }
-    }
-}
-
-- (void)acknowledgeSystemAlert {
-    UIAApplication *application = [[self target] frontMostApp];
-    UIAAlert *alert = application.alert;
-
-    if (![alert isKindOfClass:[self nilElementClass]]) {
-        [[alert.buttons lastObject] tap];
-        while (![application.alert isKindOfClass:[self nilElementClass]]) { }
     }
 }
 
