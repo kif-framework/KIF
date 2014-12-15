@@ -440,7 +440,18 @@
             [dataToSelect addObject:title];
         }
         else {
-            [dataToSelect addObject:@""];
+            NSInteger currentIndex = [pickerView selectedRowInComponent:i];
+            NSString *rowTitle = nil;
+            if ([pickerView.delegate respondsToSelector:@selector(pickerView:titleForRow:forComponent:)]) {
+                rowTitle = [pickerView.delegate pickerView:pickerView titleForRow:currentIndex forComponent: i];
+            } else if ([pickerView.delegate respondsToSelector:@selector(pickerView:viewForRow:forComponent:reusingView:)]) {
+                // This delegate inserts views directly, so try to figure out what the title is by looking for a label
+                UIView *rowView = [pickerView.delegate pickerView:pickerView viewForRow:currentIndex forComponent: i reusingView:nil];
+                NSArray *labels = [rowView subviewsWithClassNameOrSuperClassNamePrefix:@"UILabel"];
+                UILabel *label = (labels.count > 0 ? labels[0] : nil);
+                rowTitle = label.text;
+            }
+            [dataToSelect addObject: rowTitle];
         }
     }
     
@@ -484,7 +495,11 @@
                     rowTitle = label.text;
                 }
                 
-                if ([rowTitle isEqual:pickerColumnValues[componentIndex]]) {
+                if (rowIndex==[pickerView selectedRowInComponent:componentIndex] && [rowTitle isEqual:pickerColumnValues[componentIndex]]){
+                    [found_values replaceObjectAtIndex:componentIndex withObject:@(YES)];
+                    break;
+                }
+                else if ([rowTitle isEqual:pickerColumnValues[componentIndex]]) {
                     [pickerView selectRow:rowIndex inComponent:componentIndex animated:false];
                     CFRunLoopRunInMode(kCFRunLoopDefaultMode, 1, false);
                     
