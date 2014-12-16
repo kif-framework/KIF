@@ -32,4 +32,9 @@
     [self presentViewController:imagePickerController animated:YES completion:nil];
 }
 
+- (IBAction)requestNotificationScheduling {
+    UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert categories:nil];
+    [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
+}
+
 @end

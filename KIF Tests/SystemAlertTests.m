@@ -35,4 +35,9 @@
     [tester tapViewWithAccessibilityLabel:@"Cancel"];
 }
 
+- (void)testNotificationScheduling {
+    [tester tapViewWithAccessibilityLabel:@"Notifications"];
+    [tester acknowledgeSystemAlert];
+}
+
 @end
