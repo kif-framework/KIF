@@ -157,7 +157,7 @@ MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
     }
     
     // If we don't require tappability, at least make sure it's not hidden
-    if ([view isHidden] || view.alpha == 0.0) {
+    if ([view isHidden]) {
         if (error) {
             *error = [NSError KIFErrorWithFormat:@"Accessibility element with label \"%@\" is hidden.", element.accessibilityLabel];
         }

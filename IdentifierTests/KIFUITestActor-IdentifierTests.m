@@ -55,7 +55,7 @@
         KIFTestWaitCondition(view, error, @"Cannot find view containing accessibility element with the identifier \"%@\"", accessibilityIdentifier);
         
         // Hidden views count as absent
-        KIFTestWaitCondition([view isHidden] || view.alpha == 0.0 || [view superview] == nil, error, @"Accessibility element with identifier \"%@\" is visible and not hidden.", accessibilityIdentifier);
+        KIFTestWaitCondition([view isHidden] || [view superview] == nil, error, @"Accessibility element with identifier \"%@\" is visible and not hidden.", accessibilityIdentifier);
         
         return KIFTestStepResultSuccess;
     }];
