@@ -186,11 +186,10 @@ static NSTimeInterval KIFTestStepDelay = 0.1;
         __block BOOL runningAnimationFound = false;
         for (UIWindow *window in [UIApplication sharedApplication].windowsWithKeyWindow) {
             [window performBlockOnDescendentViews:^(UIView *view, BOOL *stop) {
-                if (view.layer.animationKeys.count != 0 &&
-                    ![view.layer.animationKeys isEqualToArray:@[@"_UIParallaxMotionEffect"]] &&     // explicitly exclude _UIParallaxMotionEffect as it is used in alertviews, and we don't want every alertview to be paused
-                    [view isVisibleInViewHierarchy]                                                 // do not wait for animatinos of views that aren't visible
-                    ) {
-                    
+                BOOL isViewVisible = [view isVisibleInViewHierarchy];   // do not wait for animatinos of views that aren't visible
+                BOOL hasAnimation = view.layer.animationKeys.count != 0 && ![view.layer.animationKeys isEqualToArray:@[@"_UIParallaxMotionEffect"]];    // explicitly exclude _UIParallaxMotionEffect as it is used in alertviews, and we don't want every alertview to be paused
+                BOOL hasUnfinishedSystemAnimation = [NSStringFromClass(view.class) isEqualToString:@"_UIParallaxDimmingView"];  // indicates that the view-hierarchy is in an in-between-state of an animation
+                if (isViewVisible && (hasAnimation || hasUnfinishedSystemAnimation)) {
                     runningAnimationFound = YES;
                     if (stop != NULL) {
                         *stop = YES;
@@ -201,7 +200,7 @@ static NSTimeInterval KIFTestStepDelay = 0.1;
         }
         
         return runningAnimationFound && ([NSDate timeIntervalSinceReferenceDate] - startTime) < maximumWaitingTimeInterval ? KIFTestStepResultWait : KIFTestStepResultSuccess;
-    }      timeout:maximumWaitingTimeInterval + 1];
+    } timeout:maximumWaitingTimeInterval + 1];
 }
 
 
