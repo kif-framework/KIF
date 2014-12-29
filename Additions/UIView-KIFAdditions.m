@@ -728,7 +728,8 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
 
 - (UIEvent *)eventWithTouch:(UITouch *)touch;
 {
-    return [self eventWithTouches:@[touch]];
+    NSArray *touches = touch ? @[touch] : nil;
+    return [self eventWithTouches:touches];
 }
 
 - (BOOL)isUserInteractionActuallyEnabled;
