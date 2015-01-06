@@ -39,9 +39,7 @@ NSComparisonResult selectorSort(NSInvocation *invocOne, NSInvocation *invocTwo, 
         return nil;
     }
 
-#ifndef KIF_SENTEST
-    self.continueAfterFailure = NO;
-#else
+#ifdef KIF_SENTEST
     [self raiseAfterFailure];
 #endif
     return self;
