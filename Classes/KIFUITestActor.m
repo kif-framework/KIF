@@ -488,10 +488,16 @@
                 if ([pickerView.delegate respondsToSelector:@selector(pickerView:titleForRow:forComponent:)]) {
                     rowTitle = [pickerView.delegate pickerView:pickerView titleForRow:rowIndex forComponent:componentIndex];
                 } else if ([pickerView.delegate respondsToSelector:@selector(pickerView:viewForRow:forComponent:reusingView:)]) {
-                    // This delegate inserts views directly, so try to figure out what the title is by looking for a label
+                    
                     UIView *rowView = [pickerView.delegate pickerView:pickerView viewForRow:rowIndex forComponent:componentIndex reusingView:nil];
-                    NSArray *labels = [rowView subviewsWithClassNameOrSuperClassNamePrefix:@"UILabel"];
-                    UILabel *label = (labels.count > 0 ? labels[0] : nil);
+                    UILabel *label;
+                    if ([rowView isKindOfClass:[UILabel class]] ) {
+                        label = (id)rowView;
+                    } else {
+                        // This delegate inserts views directly, so try to figure out what the title is by looking for a label
+                        NSArray *labels = [rowView subviewsWithClassNameOrSuperClassNamePrefix:@"UILabel"];
+                        label = (labels.count > 0 ? labels[0] : nil);
+                    }
                     rowTitle = label.text;
                 }
                 
