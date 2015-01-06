@@ -16,6 +16,7 @@
 #import "CGGeometry-KIFAdditions.h"
 #import "NSError-KIFAdditions.h"
 #import "KIFTypist.h"
+#import "UIAutomationHelper.h"
 
 @implementation KIFUITestActor
 
@@ -146,9 +147,8 @@
 - (void)tapAccessibilityElement:(UIAccessibilityElement *)element inView:(UIView *)view
 {
     [self runBlock:^KIFTestStepResult(NSError **error) {
-        
-        KIFTestWaitCondition(view.isUserInteractionActuallyEnabled, error, @"View is not enabled for interaction");
-        
+//        KIFTestWaitCondition(view.isUserInteractionActuallyEnabled, error, @"View is not enabled for interaction");
+
         // If the accessibilityFrame is not set, fallback to the view frame.
         CGRect elementFrame;
         if (CGRectEqualToRect(CGRectZero, element.accessibilityFrame)) {
@@ -170,6 +170,8 @@
     
     // Wait for the view to stabilize.
     [self waitForTimeInterval:0.5];
+
+    [self waitForAnimationsToFinish];
 }
 
 - (void)tapScreenAtPoint:(CGPoint)screenPoint
@@ -337,9 +339,12 @@
     
     // Some slower machines take longer for typing to catch up, so wait for a bit before failing
     [self runBlock:^KIFTestStepResult(NSError **error) {
-        // We trim \n and \r because they trigger the return key, so they won't show up in the final product on single-line inputs
-        NSString *expected = [expectedResult stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
-        NSString *actual = [textView.text stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+        // We trim \n and \r because they trigger the return key, so they won't show up in the final product on single-line inputs.
+        // Also trim \b (backspace) characters to allow for deletion.
+        NSMutableCharacterSet *charExclusionSet = [NSMutableCharacterSet characterSetWithCharactersInString:@"\b"];
+        [charExclusionSet formUnionWithCharacterSet:[NSCharacterSet newlineCharacterSet]];
+        NSString *expected = [expectedResult stringByTrimmingCharactersInSet:charExclusionSet];
+        NSString *actual = [textView.text stringByTrimmingCharactersInSet:charExclusionSet];
         
         KIFTestWaitCondition([actual isEqualToString:expected], error, @"Failed to get text \"%@\" in field; instead, it was \"%@\"", expected, actual);
         
@@ -347,7 +352,13 @@
     } timeout:1.0];
 }
 
-
+- (void)clearTextFromFirstResponder
+{
+    UIView *firstResponder = (id)[[[UIApplication sharedApplication] keyWindow] firstResponder];
+    if ([firstResponder isKindOfClass:[UIView class]]) {
+        [self clearTextFromElement:(UIAccessibilityElement *)firstResponder inView:firstResponder];
+    }
+}
 
 - (void)clearTextFromViewWithAccessibilityLabel:(NSString *)label
 {
@@ -359,29 +370,33 @@
     UIView *view = nil;
     UIAccessibilityElement *element = nil;
     
-    [self waitForAccessibilityElement:&element view:&view withLabel:label value:nil traits:traits tappable:YES];
-    
-    NSUInteger numberOfCharacters = [view respondsToSelector:@selector(text)] ? [(UITextField *)view text].length : element.accessibilityValue.length;
-    
-    [self tapAccessibilityElement:element inView:view];
-    
-    // Per issue #294, the tap occurs in the center of the text view.  If the text is too long, this means not all text gets cleared.  To address this for most cases, we can check if the selected view conforms to UITextInput and select the whole text range.
-    if ([view conformsToProtocol:@protocol(UITextInput)]) {
-        id <UITextInput> textInput = (id <UITextInput>)view;
-        [textInput setSelectedTextRange:[textInput textRangeFromPosition:textInput.beginningOfDocument toPosition:textInput.endOfDocument]];
-        
-        [self waitForTimeInterval:0.1];
-        [self enterTextIntoCurrentFirstResponder:@"\b" fallbackView:view];
-    } else {
-        
-        NSMutableString *text = [NSMutableString string];
-        for (NSInteger i = 0; i < numberOfCharacters; i ++) {
-            [text appendString:@"\b"];
-        }
-        [self enterTextIntoCurrentFirstResponder:text fallbackView:view];
-    }
-    
-    [self expectView:view toContainText:@""];
+    [self waitForAccessibilityElement:&element view:&view withLabel:label value:nil traits:traits tappable:YES];    
+	[self clearTextFromElement:element inView:view];
+}
+
+- (void)clearTextFromElement:(UIAccessibilityElement*)element inView:(UIView*)view
+{
+	NSUInteger numberOfCharacters = [view respondsToSelector:@selector(text)] ? [(UITextField *)view text].length : element.accessibilityValue.length;
+	
+	[self tapAccessibilityElement:element inView:view];
+	
+	// Per issue #294, the tap occurs in the center of the text view.  If the text is too long, this means not all text gets cleared.  To address this for most cases, we can check if the selected view conforms to UITextInput and select the whole text range.
+	if ([view conformsToProtocol:@protocol(UITextInput)]) {
+		id <UITextInput> textInput = (id <UITextInput>)view;
+		[textInput setSelectedTextRange:[textInput textRangeFromPosition:textInput.beginningOfDocument toPosition:textInput.endOfDocument]];
+		
+		[self waitForTimeInterval:0.1];
+		[self enterTextIntoCurrentFirstResponder:@"\b" fallbackView:view];
+	} else {
+		
+		NSMutableString *text = [NSMutableString string];
+		for (NSInteger i = 0; i < numberOfCharacters; i ++) {
+			[text appendString:@"\b"];
+		}
+		[self enterTextIntoCurrentFirstResponder:text fallbackView:view];
+	}
+	
+	[self expectView:view toContainText:@""];
 }
 
 - (void)clearTextFromAndThenEnterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label
@@ -396,6 +411,12 @@
     [self enterText:text intoViewWithAccessibilityLabel:label traits:traits expectedResult:expectedResult];
 }
 
+- (void)clearTextFromViewAndThenEnterTextIntoCurrentFirstResponder:(NSString *)text
+{
+    [self clearTextFromFirstResponder];
+    [self enterTextIntoCurrentFirstResponder:text];
+}
+
 - (void) selectDatePickerValue:(NSArray*)datePickerColumnValues {
     [self selectPickerValue:datePickerColumnValues pickerType:KIFUIDatePicker];
 }
@@ -406,8 +427,50 @@
     [self selectPickerValue:dataToSelect pickerType:KIFUIPickerView];
 }
 
-- (void) selectPickerValue:(NSArray*)pickerColumnValues pickerType:(KIFPickerType)pickerType {
+- (void)selectPickerViewRowWithTitle:(NSString *)title inComponent:(NSInteger)component
+{
+    NSMutableArray *dataToSelect = [[NSMutableArray alloc] init];
+    
+    // Assume it is datePicker and then test our hypothesis later!
+    UIPickerView *pickerView = [[[[UIApplication sharedApplication] datePickerWindow] subviewsWithClassNameOrSuperClassNamePrefix:@"UIPickerView"] lastObject];
+    
+    // Check which type of UIPickerVIew is visible on current window.
+    KIFPickerType pickerType = 0;
+    if ([pickerView respondsToSelector:@selector(setDate:animated:)]) {
+        pickerType = KIFUIDatePicker;
+    }
+    else {
+        pickerType = KIFUIPickerView;
+        pickerView = [[[[UIApplication sharedApplication] pickerViewWindow] subviewsWithClassNameOrSuperClassNamePrefix:@"UIPickerView"] lastObject];
+    }
+    
+    // Add title at component index and add empty strings for other.
+    // This support legacy function re-use.
+    for (int i = 0; i < pickerView.numberOfComponents; i++) {
+        if (component == i) {
+            [dataToSelect addObject:title];
+        }
+        else {
+            NSInteger currentIndex = [pickerView selectedRowInComponent:i];
+            NSString *rowTitle = nil;
+            if ([pickerView.delegate respondsToSelector:@selector(pickerView:titleForRow:forComponent:)]) {
+                rowTitle = [pickerView.delegate pickerView:pickerView titleForRow:currentIndex forComponent: i];
+            } else if ([pickerView.delegate respondsToSelector:@selector(pickerView:viewForRow:forComponent:reusingView:)]) {
+                // This delegate inserts views directly, so try to figure out what the title is by looking for a label
+                UIView *rowView = [pickerView.delegate pickerView:pickerView viewForRow:currentIndex forComponent: i reusingView:nil];
+                NSArray *labels = [rowView subviewsWithClassNameOrSuperClassNamePrefix:@"UILabel"];
+                UILabel *label = (labels.count > 0 ? labels[0] : nil);
+                rowTitle = label.text;
+            }
+            [dataToSelect addObject: rowTitle];
+        }
+    }
+    
+    [self selectPickerValue:dataToSelect pickerType:pickerType];
+}
 
+- (void) selectPickerValue:(NSArray*)pickerColumnValues pickerType:(KIFPickerType)pickerType {
+    
     [self runBlock:^KIFTestStepResult(NSError **error) {
         NSInteger columnCount = [pickerColumnValues count];
         NSMutableArray* found_values = [NSMutableArray arrayWithCapacity:columnCount];
@@ -423,12 +486,12 @@
                 KIFTestCondition(pickerView, error, @"No picker view is present");
                 break;
             case KIFUIPickerView:
-                 pickerView = [[[[UIApplication sharedApplication] pickerViewWindow] subviewsWithClassNameOrSuperClassNamePrefix:@"UIPickerView"] lastObject];
+                pickerView = [[[[UIApplication sharedApplication] pickerViewWindow] subviewsWithClassNameOrSuperClassNamePrefix:@"UIPickerView"] lastObject];
         }
-
+        
         NSInteger componentCount = [pickerView.dataSource numberOfComponentsInPickerView:pickerView];
         KIFTestCondition(componentCount == columnCount, error, @"The UIDatePicker does not have the expected column count.");
-
+        
         for (NSInteger componentIndex = 0; componentIndex < componentCount; componentIndex++) {
             NSInteger rowCount = [pickerView.dataSource pickerView:pickerView numberOfRowsInComponent:componentIndex];
             for (NSInteger rowIndex = 0; rowIndex < rowCount; rowIndex++) {
@@ -436,27 +499,37 @@
                 if ([pickerView.delegate respondsToSelector:@selector(pickerView:titleForRow:forComponent:)]) {
                     rowTitle = [pickerView.delegate pickerView:pickerView titleForRow:rowIndex forComponent:componentIndex];
                 } else if ([pickerView.delegate respondsToSelector:@selector(pickerView:viewForRow:forComponent:reusingView:)]) {
-                    // This delegate inserts views directly, so try to figure out what the title is by looking for a label
+                    
                     UIView *rowView = [pickerView.delegate pickerView:pickerView viewForRow:rowIndex forComponent:componentIndex reusingView:nil];
-                    NSArray *labels = [rowView subviewsWithClassNameOrSuperClassNamePrefix:@"UILabel"];
-                    UILabel *label = (labels.count > 0 ? labels[0] : nil);
+                    UILabel *label;
+                    if ([rowView isKindOfClass:[UILabel class]] ) {
+                        label = (id)rowView;
+                    } else {
+                        // This delegate inserts views directly, so try to figure out what the title is by looking for a label
+                        NSArray *labels = [rowView subviewsWithClassNameOrSuperClassNamePrefix:@"UILabel"];
+                        label = (labels.count > 0 ? labels[0] : nil);
+                    }
                     rowTitle = label.text;
                 }
-
-                if ([rowTitle isEqual:pickerColumnValues[componentIndex]]) {
+                
+                if (rowIndex==[pickerView selectedRowInComponent:componentIndex] && [rowTitle isEqual:pickerColumnValues[componentIndex]]){
+                    [found_values replaceObjectAtIndex:componentIndex withObject:@(YES)];
+                    break;
+                }
+                else if ([rowTitle isEqual:pickerColumnValues[componentIndex]]) {
                     [pickerView selectRow:rowIndex inComponent:componentIndex animated:false];
                     CFRunLoopRunInMode(kCFRunLoopDefaultMode, 1, false);
-
+                    
                     // Tap in the middle of the picker view to select the item
                     [pickerView tap];
                     [self waitForTimeInterval:0.5];
-
+                    
                     // The combination of selectRow:inComponent:animated: and tap does not consistently result in
                     // pickerView:didSelectRow:inComponent: being called on the delegate. We need to do it explicitly.
                     if ([pickerView.delegate respondsToSelector:@selector(pickerView:didSelectRow:inComponent:)]) {
                         [pickerView.delegate pickerView:pickerView didSelectRow:rowIndex inComponent:componentIndex];
                     }
-
+                    
                     [found_values replaceObjectAtIndex:componentIndex withObject:@(YES)];
                     break;
                 }
@@ -464,19 +537,25 @@
             if (found_values[componentIndex] == [NSNumber numberWithBool:YES]) {
                 continue;
             }
-
         }
-
+        
+        // Support multiple column by adding flag to check if the value found in
+        // at-least one column
+        BOOL _foundInOneColumn = NO;
         for (NSInteger componentIndex = 0; componentIndex < columnCount; componentIndex++) {
-            if (found_values[componentIndex] == [NSNumber numberWithBool:NO]) {
-                KIFTestCondition(NO, error, @"Failed to select from Picker.");
-                return KIFTestStepResultFailure;
+            if (found_values[componentIndex] != [NSNumber numberWithBool:NO]) {
+                _foundInOneColumn = YES;
             }
         }
-
+        
+        if (!_foundInOneColumn) {
+            KIFTestCondition(NO, error, @"Failed to select from Picker.");
+            return KIFTestStepResultFailure;
+        }
+        
         return KIFTestStepResultSuccess;
     }];
-
+    
 }
 
 - (void)setOn:(BOOL)switchIsOn forSwitchWithAccessibilityLabel:(NSString *)label
@@ -515,6 +594,8 @@
     }
 }
 
+
+
 - (void)setValue:(float)value forSliderWithAccessibilityLabel:(NSString *)label
 {
     UISlider *slider = nil;
@@ -524,20 +605,30 @@
     if (![slider isKindOfClass:[UISlider class]]) {
         [self failWithError:[NSError KIFErrorWithFormat:@"View with accessibility label \"%@\" is a %@, not a UISlider", label, NSStringFromClass([slider class])] stopTest:YES];
     }
-    
-    if (value < slider.minimumValue) {
-        [self failWithError:[NSError KIFErrorWithFormat:@"Cannot slide past minimum value of %f", slider.minimumValue] stopTest:YES];
+	[self setValue:value forSlider:slider];
+}
+
+- (void)setValue:(float)value forSlider:(UISlider *)slider
+{
+	if (value < slider.minimumValue) {
+		[self failWithError:[NSError KIFErrorWithFormat:@"Cannot slide past minimum value of %f", slider.minimumValue] stopTest:YES];
+	}
+	
+	if (value > slider.maximumValue) {
+		[self failWithError:[NSError KIFErrorWithFormat:@"Cannot slide past maximum value of %f", slider.maximumValue] stopTest:YES];
+	}
+
+	CGRect trackRect = [slider trackRectForBounds:slider.bounds];
+	CGPoint currentPosition = CGPointCenteredInRect([slider thumbRectForBounds:slider.bounds trackRect:trackRect value:slider.value]);
+	CGPoint finalPosition = CGPointCenteredInRect([slider thumbRectForBounds:slider.bounds trackRect:trackRect value:value]);
+
+    if (value == slider.minimumValue) {
+        finalPosition.x = 0;
+    } else if (value == slider.maximumValue) {
+        finalPosition.x = slider.bounds.size.width;
     }
-    
-    if (value > slider.maximumValue) {
-        [self failWithError:[NSError KIFErrorWithFormat:@"Cannot slide past maximum value of %f", slider.maximumValue] stopTest:YES];
-    }
-    
-    CGRect trackRect = [slider trackRectForBounds:slider.bounds];
-    CGPoint currentPosition = CGPointCenteredInRect([slider thumbRectForBounds:slider.bounds trackRect:trackRect value:slider.value]);
-    CGPoint finalPosition = CGPointCenteredInRect([slider thumbRectForBounds:slider.bounds trackRect:trackRect value:value]);
-    
-    [slider dragFromPoint:currentPosition toPoint:finalPosition steps:10];
+
+	[slider dragFromPoint:currentPosition toPoint:finalPosition steps:10];
 }
 
 - (void)dismissPopover
@@ -594,9 +685,6 @@
     thumbnailCenter.x = thumbnailMargin + (MAX(0, column - 1) * (thumbnailSize.width + thumbnailMargin)) + thumbnailSize.width / 2.0;
     thumbnailCenter.y = headerHeight + thumbnailMargin + (MAX(0, row - 1) * (thumbnailSize.height + thumbnailMargin)) + thumbnailSize.height / 2.0;
     [self tapScreenAtPoint:thumbnailCenter];
-    
-    // Dismiss the resize UI
-    [self tapViewWithAccessibilityLabel:@"Choose"];
 }
 
 - (void)tapRowAtIndexPath:(NSIndexPath *)indexPath inTableViewWithAccessibilityIdentifier:(NSString *)identifier
@@ -620,6 +708,8 @@
     
     // Wait for the view to stabilize.
     [tester waitForTimeInterval:0.5];
+
+    [self waitForAnimationsToFinish];
 }
 
 - (void)tapItemAtIndexPath:(NSIndexPath *)indexPath inCollectionViewWithAccessibilityIdentifier:(NSString *)identifier
@@ -627,6 +717,10 @@
     UICollectionView *collectionView;
     [self waitForAccessibilityElement:NULL view:&collectionView withIdentifier:identifier tappable:NO];
     [self tapItemAtIndexPath:indexPath inCollectionView:collectionView];
+}
+
+- (void)acknowledgeSystemAlert {
+    [UIAutomationHelper acknowledgeSystemAlert];
 }
 
 - (void)tapItemAtIndexPath:(NSIndexPath *)indexPath inCollectionView:(UICollectionView *)collectionView
@@ -639,6 +733,8 @@
     
     // Wait for the view to stabilize.
     [tester waitForTimeInterval:0.5];
+
+    [self waitForAnimationsToFinish];
 }
 
 - (void)swipeViewWithAccessibilityLabel:(NSString *)label inDirection:(KIFSwipeDirection)direction
