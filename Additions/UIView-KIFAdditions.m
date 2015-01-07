@@ -242,17 +242,19 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
                     continue;
                 }
                 
-                // Get the cell directly from the dataSource because UICollectionView will only vend visible cells
-                UICollectionViewCell *cell = [collectionView.dataSource collectionView:collectionView cellForItemAtIndexPath:indexPath];
-                
-                UIAccessibilityElement *element = [cell accessibilityElementMatchingBlock:matchBlock];
-                
-                // Remove the cell from the collection view so that it doesn't stick around
-                [cell removeFromSuperview];
-                
-                // Skip this cell if it isn't the one we're looking for
-                if (!element) {
-                    continue;
+                @autoreleasepool {
+                    // Get the cell directly from the dataSource because UICollectionView will only vend visible cells
+                    UICollectionViewCell *cell = [collectionView.dataSource collectionView:collectionView cellForItemAtIndexPath:indexPath];
+                    
+                    UIAccessibilityElement *element = [cell accessibilityElementMatchingBlock:matchBlock];
+                    
+                    // Remove the cell from the collection view so that it doesn't stick around
+                    [cell removeFromSuperview];
+                    
+                    // Skip this cell if it isn't the one we're looking for
+                    if (!element) {
+                        continue;
+                    }
                 }
                 
                 // Scroll to the cell and wait for the animation to complete
