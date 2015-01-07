@@ -168,9 +168,6 @@
         
         return KIFTestStepResultSuccess;
     }];
-    
-    // Wait for the view to stabilize.
-    [self waitForTimeInterval:0.5];
 
     [self waitForAnimationsToFinish];
 }
@@ -695,9 +692,6 @@
     CGRect cellFrame = [cell.contentView convertRect:cell.contentView.frame toView:tableView];
     [tableView tapAtPoint:CGPointCenteredInRect(cellFrame)];
     
-    // Wait for the view to stabilize.
-    [tester waitForTimeInterval:0.5];
-
     [self waitForAnimationsToFinish];
 }
 
@@ -720,9 +714,6 @@
     CGRect cellFrame = [cell.contentView convertRect:cell.contentView.frame toView:collectionView];
     [collectionView tapAtPoint:CGPointCenteredInRect(cellFrame)];
     
-    // Wait for the view to stabilize.
-    [tester waitForTimeInterval:0.5];
-
     [self waitForAnimationsToFinish];
 }
 

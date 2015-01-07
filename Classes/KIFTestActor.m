@@ -64,6 +64,7 @@
         _line = line;
         _delegate = delegate;
         _executionBlockTimeout = [[self class] defaultTimeout];
+        _animationWaitingTimeout = 0.5f;
     }
     return self;
 }
@@ -179,7 +180,13 @@ static NSTimeInterval KIFTestStepDelay = 0.1;
 }
 
 -(void)waitForAnimationsToFinish {
-    NSTimeInterval maximumWaitingTimeInterval = 3;
+    NSTimeInterval maximumWaitingTimeInterval = self.animationWaitingTimeout;
+    if(maximumWaitingTimeInterval <= 0) {
+        return;
+    }
+    
+    // Wait for the view to stabilize and give them a chance to start animations before we wait for them.
+    [self waitForTimeInterval:0.5f];
     
     NSTimeInterval startTime = [NSDate timeIntervalSinceReferenceDate];
     [self runBlock:^KIFTestStepResult(NSError **error) {

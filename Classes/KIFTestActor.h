@@ -89,6 +89,7 @@ typedef void (^KIFTestCompletionBlock)(KIFTestStepResult result, NSError *error)
 @property (nonatomic, readonly) NSInteger line;
 @property (weak, nonatomic, readonly) id<KIFTestActorDelegate> delegate;
 @property (nonatomic) NSTimeInterval executionBlockTimeout;
+@property (nonatomic) NSTimeInterval animationWaitingTimeout;
 
 - (instancetype)usingTimeout:(NSTimeInterval)executionBlockTimeout;
 
