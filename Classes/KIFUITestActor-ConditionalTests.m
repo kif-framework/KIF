@@ -17,6 +17,11 @@
     return [self tryFindingViewWithAccessibilityLabel:label value:nil traits:UIAccessibilityTraitNone tappable:NO error:error];
 }
 
+- (BOOL)tryFindingViewWithAccessibilityIdentifier:(NSString *)identifier error:(out NSError **)error
+{
+    return [self tryFindingViewWithAccessibilityIdentifier:identifier tappable:NO error:error];
+}
+
 - (BOOL)tryFindingViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits error:(out NSError **)error
 {
     return [self tryFindingViewWithAccessibilityLabel:label value:nil traits:traits tappable:NO error:error];
@@ -32,6 +37,11 @@
     return [self tryFindingViewWithAccessibilityLabel:label value:nil traits:UIAccessibilityTraitNone tappable:YES error:error];
 }
 
+- (BOOL)tryFindingTappableViewWithAccessibilityIdentifier:(NSString *)identifier error:(out NSError **)error
+{
+    return [self tryFindingViewWithAccessibilityIdentifier:identifier tappable:YES error:error];
+}
+
 - (BOOL)tryFindingTappableViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits error:(out NSError **)error
 {
     return [self tryFindingViewWithAccessibilityLabel:label value:nil traits:traits tappable:YES error:error];
@@ -45,6 +55,11 @@
 - (BOOL)tryFindingViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits tappable:(BOOL)mustBeTappable error:(out NSError **)error
 {
     return [self tryFindingAccessibilityElement:NULL view:NULL withLabel:label value:value traits:traits tappable:mustBeTappable error:error];
+}
+
+- (BOOL)tryFindingViewWithAccessibilityIdentifier:(NSString *)identifier tappable:(BOOL)mustBeTappable error:(out NSError **)error
+{
+    return [self tryFindingAccessibilityElement:NULL view:NULL withIdentifier:identifier tappable:mustBeTappable error:error];
 }
 
 - (BOOL)tryFindingAccessibilityElement:(out UIAccessibilityElement **)element view:(out UIView **)view withLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits tappable:(BOOL)mustBeTappable error:(out NSError **)error
