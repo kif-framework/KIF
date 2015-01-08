@@ -19,6 +19,7 @@
  
  */
 - (BOOL)tryFindingViewWithAccessibilityLabel:(NSString *)label error:(out NSError **)error;
+- (BOOL)tryFindingViewWithAccessibilityIdentifier:(NSString *)identifier error:(out NSError **)error;
 
 /*!
  @abstract Checks if an accessibility element is visible on screen.
@@ -43,6 +44,7 @@
  @param label The accessibility label of the element to wait for.
  */
 - (BOOL)tryFindingTappableViewWithAccessibilityLabel:(NSString *)label error:(out NSError **)error;
+- (BOOL)tryFindingTappableViewWithAccessibilityIdentifier:(NSString *)identifier error:(out NSError **)error;
 
 /*!
  @abstract Checks if an accessibility element is visible on screen.
@@ -59,6 +61,7 @@
  @param value The accessibility value of the element to tap.
  @param traits The accessibility traits of the element to wait for. Elements that do not include at least these traits are ignored.
  */
+
 - (BOOL)tryFindingTappableViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits error:(out NSError **)error;
 
 - (BOOL)tryFindingAccessibilityElement:(out UIAccessibilityElement **)element view:(out UIView **)view withIdentifier:(NSString *)identifier tappable:(BOOL)mustBeTappable error:(out NSError **)error;
