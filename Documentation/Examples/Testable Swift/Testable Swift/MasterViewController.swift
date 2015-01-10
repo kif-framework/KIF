@@ -12,7 +12,7 @@ import UIKit
 class MasterViewController: UITableViewController {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let cell = tableView.cellForRowAtIndexPath(indexPath)
-        if let text = cell?.textLabel.text? {
+        if let text = cell?.textLabel?.text? {
             navigationItem.title = "Selected: " + text
         }
     }
