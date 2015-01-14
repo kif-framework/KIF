@@ -125,13 +125,19 @@
 }
 
 - (void)waitForAnimationsToFinish {
+    static const CGFloat kStabilizationWait = 0.5f;
+    
     NSTimeInterval maximumWaitingTimeInterval = self.animationWaitingTimeout;
-    if(maximumWaitingTimeInterval <= 0) {
+    if (maximumWaitingTimeInterval < kStabilizationWait) {
+        if(maximumWaitingTimeInterval >= 0) {
+            [self waitForTimeInterval:maximumWaitingTimeInterval];
+        }
+        
         return;
     }
     
     // Wait for the view to stabilize and give them a chance to start animations before we wait for them.
-    [self waitForTimeInterval:0.5f];
+    [self waitForTimeInterval:kStabilizationWait];
     
     NSTimeInterval startTime = [NSDate timeIntervalSinceReferenceDate];
     [self runBlock:^KIFTestStepResult(NSError **error) {
