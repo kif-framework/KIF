@@ -133,7 +133,11 @@ static const void *KIFRunLoopModesKey = &KIFRunLoopModesKey;
     
     UIGraphicsBeginImageContextWithOptions([[windows objectAtIndex:0] bounds].size, YES, 0);
     for (UIWindow *window in windows) {
-        [window.layer renderInContext:UIGraphicsGetCurrentContext()];
+        if ([window respondsToSelector:@selector(drawViewHierarchyInRect:afterScreenUpdates:)]) {
+            [window drawViewHierarchyInRect:window.bounds afterScreenUpdates:YES];
+        } else {
+            [window.layer renderInContext:UIGraphicsGetCurrentContext()];
+        }
     }
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
