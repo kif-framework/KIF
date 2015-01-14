@@ -19,9 +19,6 @@
     
     // simulate a time-consuming calculation
     sleep(2);
-}
-
-- (IBAction)showLabelAction:(id)sender {
     self.testLabel.hidden = NO;
 }
 

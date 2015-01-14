@@ -25,7 +25,6 @@
 }
 
 - (void)testWaitForFinishingAnimation {
-    [tester tapScreenAtPoint:CGPointMake(100, 100)];
     [tester waitForViewWithAccessibilityLabel:@"Label"];
 }
 
