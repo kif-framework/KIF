@@ -179,38 +179,6 @@ static NSTimeInterval KIFTestStepDelay = 0.1;
     } timeout:timeInterval + 1];
 }
 
--(void)waitForAnimationsToFinish {
-    NSTimeInterval maximumWaitingTimeInterval = self.animationWaitingTimeout;
-    if(maximumWaitingTimeInterval <= 0) {
-        return;
-    }
-    
-    // Wait for the view to stabilize and give them a chance to start animations before we wait for them.
-    [self waitForTimeInterval:0.5f];
-    
-    NSTimeInterval startTime = [NSDate timeIntervalSinceReferenceDate];
-    [self runBlock:^KIFTestStepResult(NSError **error) {
-        __block BOOL runningAnimationFound = false;
-        for (UIWindow *window in [UIApplication sharedApplication].windowsWithKeyWindow) {
-            [window performBlockOnDescendentViews:^(UIView *view, BOOL *stop) {
-                BOOL isViewVisible = [view isVisibleInViewHierarchy];   // do not wait for animatinos of views that aren't visible
-                BOOL hasAnimation = view.layer.animationKeys.count != 0 && ![view.layer.animationKeys isEqualToArray:@[@"_UIParallaxMotionEffect"]];    // explicitly exclude _UIParallaxMotionEffect as it is used in alertviews, and we don't want every alertview to be paused
-                BOOL hasUnfinishedSystemAnimation = [NSStringFromClass(view.class) isEqualToString:@"_UIParallaxDimmingView"];  // indicates that the view-hierarchy is in an in-between-state of an animation
-                if (isViewVisible && (hasAnimation || hasUnfinishedSystemAnimation)) {
-                    runningAnimationFound = YES;
-                    if (stop != NULL) {
-                        *stop = YES;
-                    }
-                    return;
-                }
-            }];
-        }
-        
-        return runningAnimationFound && ([NSDate timeIntervalSinceReferenceDate] - startTime) < maximumWaitingTimeInterval ? KIFTestStepResultWait : KIFTestStepResultSuccess;
-    } timeout:maximumWaitingTimeInterval + 1];
-}
-
-
 @end
 
 @implementation KIFTestActor (Delegate)
