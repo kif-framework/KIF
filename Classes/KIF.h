@@ -13,6 +13,9 @@
 #import "KIFUITestActor.h"
 #import "KIFUITestActor-ConditionalTests.h"
 
+#import "KIFUIViewTestActor.h"
+#import "KIFUIObject.h"
+
 #ifndef KIF_SENTEST
 #import "XCTestCase-KIFAdditions.h"
 #else
