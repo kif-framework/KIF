@@ -66,4 +66,10 @@
  */
 + (UIView *)viewContainingAccessibilityElement:(UIAccessibilityElement *)element tappable:(BOOL)mustBeTappable error:(NSError **)error;
 
+/*!
+ @abstract Returns a human readable string of UIAccessiblityTrait names, derived from UIAccessibilityConstants.h.
+ @param traits The accessibility traits to list.
+*/
++ (NSString *)stringFromAccessibilityTraits:(UIAccessibilityTraits)traits;
+
 @end

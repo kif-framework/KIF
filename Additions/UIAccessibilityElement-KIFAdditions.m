@@ -8,6 +8,7 @@
 //  which Square, Inc. licenses this file to you.
 
 #import "NSError-KIFAdditions.h"
+#import "NSPredicate+KIFAdditions.h"
 #import "UIAccessibilityElement-KIFAdditions.h"
 #import "UIApplication-KIFAdditions.h"
 #import "UIScrollView-KIFAdditions.h"
@@ -62,7 +63,7 @@ MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
     
     if (!element) {
         if (error) {
-            *error = [NSError KIFErrorWithFormat:@"Could not find view matching: %@", predicate];
+            *error = [self errorForFailingPredicate:predicate];
         }
         return NO;
     }
@@ -172,6 +173,120 @@ MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
     }
     
     return view;
+}
+
++ (NSError *)errorForFailingPredicate:(NSPredicate*)failingPredicate;
+{
+    NSPredicate *closestMatchingPredicate = [self findClosestMatchingPredicate:failingPredicate];
+    if (closestMatchingPredicate) {
+        return [NSError KIFErrorWithFormat:@"Found element with %@ but not %@", \
+                closestMatchingPredicate.kifPredicateDescription, \
+                [failingPredicate minusSubpredicatesFrom:closestMatchingPredicate].kifPredicateDescription];
+    }
+    return [NSError KIFErrorWithFormat:@"Could not find element with %@", failingPredicate.kifPredicateDescription];
+}
+
++ (NSPredicate *)findClosestMatchingPredicate:(NSPredicate *)aPredicate;
+{
+    if (!aPredicate) {
+        return nil;
+    }
+    
+    UIAccessibilityElement *match = [[UIApplication sharedApplication] accessibilityElementMatchingBlock:^BOOL (UIAccessibilityElement *element) {
+        return [aPredicate evaluateWithObject:element];
+    }];
+    if (match) {
+        return aPredicate;
+    }
+    
+    // Breadth-First algorithm to match as many subpredicates as possible
+    NSMutableArray *queue = [NSMutableArray arrayWithObject:aPredicate];
+    while (queue.count > 0) {
+        // Dequeuing
+        NSPredicate *predicate = [queue firstObject];
+        [queue removeObject:predicate];
+        
+        // Remove one subpredicate at a time an then check if an element would match this resulting predicate
+        for (NSPredicate *subpredicate in [predicate flatten]) {
+            NSPredicate *predicateMinusOneCondition = [predicate minusSubpredicatesFrom:subpredicate];
+            if (predicateMinusOneCondition) {
+                UIAccessibilityElement *match = [[UIApplication sharedApplication] accessibilityElementMatchingBlock:^BOOL (UIAccessibilityElement *element) {
+                    return [predicateMinusOneCondition evaluateWithObject:element];
+                }];
+                if (match) {
+                    return predicateMinusOneCondition;
+                }
+                [queue addObject:predicateMinusOneCondition];
+            }
+        }
+    }
+    return nil;
+}
+
++ (NSString *)stringFromAccessibilityTraits:(UIAccessibilityTraits)traits;
+{
+    if (traits == UIAccessibilityTraitNone) {
+        return  @"UIAccessibilityTraitNone";
+    }
+    
+    NSString *string = @"";
+    
+    NSArray *allTraits = @[
+                           @(UIAccessibilityTraitButton),
+                           @(UIAccessibilityTraitLink),
+                           @(UIAccessibilityTraitHeader),
+                           @(UIAccessibilityTraitSearchField),
+                           @(UIAccessibilityTraitImage),
+                           @(UIAccessibilityTraitSelected),
+                           @(UIAccessibilityTraitPlaysSound),
+                           @(UIAccessibilityTraitKeyboardKey),
+                           @(UIAccessibilityTraitStaticText),
+                           @(UIAccessibilityTraitSummaryElement),
+                           @(UIAccessibilityTraitNotEnabled),
+                           @(UIAccessibilityTraitUpdatesFrequently),
+                           @(UIAccessibilityTraitStartsMediaSession),
+                           @(UIAccessibilityTraitAdjustable),
+                           @(UIAccessibilityTraitAllowsDirectInteraction),
+                           @(UIAccessibilityTraitCausesPageTurn)
+                           ];
+    
+    NSArray *traitNames = @[
+                            @"UIAccessibilityTraitButton",
+                            @"UIAccessibilityTraitLink",
+                            @"UIAccessibilityTraitHeader",
+                            @"UIAccessibilityTraitSearchField",
+                            @"UIAccessibilityTraitImage",
+                            @"UIAccessibilityTraitSelected",
+                            @"UIAccessibilityTraitPlaysSound",
+                            @"UIAccessibilityTraitKeyboardKey",
+                            @"UIAccessibilityTraitStaticText",
+                            @"UIAccessibilityTraitSummaryElement",
+                            @"UIAccessibilityTraitNotEnabled",
+                            @"UIAccessibilityTraitUpdatesFrequently",
+                            @"UIAccessibilityTraitStartsMediaSession",
+                            @"UIAccessibilityTraitAdjustable",
+                            @"UIAccessibilityTraitAllowsDirectInteraction",
+                            @"UIAccessibilityTraitCausesPageTurn"
+                            ];
+                            
+    
+    for (NSNumber *trait in allTraits) {
+        if ((traits & trait.longLongValue) == trait.longLongValue) {
+            NSString *name = [traitNames objectAtIndex:[allTraits indexOfObject:trait]];
+            if (string.length > 0) {
+                string = [string stringByAppendingString:@", "];
+            }
+            string = [string stringByAppendingString:name];
+            traits &= ~trait.longLongValue;
+        }
+    }
+    if (traits != UIAccessibilityTraitNone) {
+        if (string.length > 0) {
+            string = [string stringByAppendingString:@", "];
+        }
+        string = [string stringByAppendingFormat:@"UNKNOWN ACCESSIBILITY TRAIT: %llu", traits];
+    }
+    return string;
 }
 
 @end
