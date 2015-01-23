@@ -8,7 +8,7 @@
 
 #import "KIFUIViewTestActor.h"
 
-@interface KIFTestActor (privateInit)
+@interface KIFTestActor (PrivateInit)
 - (instancetype)initWithFile:(NSString *)file line:(NSInteger)line delegate:(id<KIFTestActorDelegate>)delegate;
 @end
 
@@ -20,22 +20,20 @@
 @property (nonatomic, weak, readwrite) UIView *view;
 @property (nonatomic, weak, readwrite) UIAccessibilityElement *element;
 @property (nonatomic, strong, readwrite) NSPredicate *predicate;
-@property (nonatomic, assign, readwrite) Class expectedClass;
+
 @end
 
 
 @implementation KIFUIViewTestActor
 
 #pragma mark - Initialization
+
 - (instancetype)initWithFile:(NSString *)file line:(NSInteger)line delegate:(id<KIFTestActorDelegate>)delegate;
 {
     self = [super initWithFile:file line:line delegate:delegate];
     if (self)
     {
         _actor = [KIFUITestActor actorInFile:self.file atLine:self.line delegate:self.delegate];
-        _view = nil;
-        _element = nil;
-        _predicate = nil;
     }
     return self;
 }
@@ -59,40 +57,31 @@
     return [self usingPredicateWithFormat:@"accessibilityIdentifier = %@", identifier];
 }
 
-- (instancetype)withExpectedClass:(Class)expectedClass;
+- (instancetype)usingExpectedClass:(Class)expectedClass;
 {
-    NSPredicate *classPredicate = [NSPredicate predicateWithFormat:@"class == %@",  expectedClass];
-    [self _appendPredicate:classPredicate];
-    return self;
+    return [self usingPredicateWithFormat:@"class == %@",  expectedClass];
 }
 
 #pragma mark - 
-
-- (void)invalidate;
-{
-    self.view = nil;
-    self.element = nil;
-}
 
 - (NSString *)description;
 {
     if (![self isValid]) {
-        return [NSString stringWithFormat:@"Searching for element and view with predicate: %@", self.predicate];
+        return [NSString stringWithFormat:@"<%@; predicate=%@", [super description], self.predicate];
     }
-    return [NSString stringWithFormat:@"Actor on Element: %@ in VIew: %@ with Predicate: %@", self.view, self.element, self.predicate];
+    return [NSString stringWithFormat:@"<%@; view=%@; element=%@; predicate=%@>", [super description], _view, _element, _predicate];
 }
 
-#pragma mark - 
+#pragma mark - Waiting
 
 - (void)waitForMatch;
 {
-    [self _predicateSearchWithRequiresMatch:YES mustBeTapable:NO];
+    [self _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
 }
 
-- (void)waitToBecomeTapable;
+- (void)waitToBecomeTappable;
 {
-    [self _predicateSearchWithRequiresMatch:YES mustBeTapable:YES];
-
+    [self _predicateSearchWithRequiresMatch:YES mustBeTappable:YES];
 }
 
 #pragma mark - Tap Actions
@@ -145,23 +134,23 @@
 - (UIView *)view;
 {
     if (!_view || !_element) {
-        [self _predicateSearchWithRequiresMatch:YES mustBeTapable: NO];
+        [self _predicateSearchWithRequiresMatch:YES mustBeTappable: NO];
     }
     return _view;
 }
 
 - (UIAccessibilityElement *)element;
 {
-    if (!_element || !_view) {
-        [self _predicateSearchWithRequiresMatch:YES mustBeTapable:NO];
+    if (!self.isValid) {
+        [self _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
     }
     return _element;
 }
 
 - (BOOL)hasMatch;
 {
-    if (!_view || !_element) {
-        [self _predicateSearchWithRequiresMatch:NO mustBeTapable:NO];
+    if (!self.isValid) {
+        [self _predicateSearchWithRequiresMatch:NO mustBeTappable:NO];
     }
     return (_view && _element);
 }
@@ -183,16 +172,16 @@
     }
 }
 
-- (void)_predicateSearchWithRequiresMatch:(BOOL)requiresMatch mustBeTapable:(BOOL)tapable;
+- (void)_predicateSearchWithRequiresMatch:(BOOL)requiresMatch mustBeTappable:(BOOL)tappable;
 {
     UIView *foundView = nil;
     UIAccessibilityElement *foundElement = nil;
     
     [self.actor usingTimeout:self.executionBlockTimeout];
     if (requiresMatch) {
-        [self.actor waitForAccessibilityElement:&foundElement view:&foundView withElementMatchingPredicate:self.predicate tappable:tapable];
+        [self.actor waitForAccessibilityElement:&foundElement view:&foundView withElementMatchingPredicate:self.predicate tappable:tappable];
     } else {
-        [self.actor tryFindingAccessibilityElement:&foundElement view:&foundView withElementMatchingPredicate:self.predicate tappable:NO error:nil];
+        [self.actor tryFindingAccessibilityElement:&foundElement view:&foundView withElementMatchingPredicate:self.predicate tappable:tappable error:nil];
     }
  
     _view = foundView;

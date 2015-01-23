@@ -20,22 +20,22 @@
 @property (nonatomic, assign, readonly) BOOL isValid;
 
 - (instancetype)usingPredicateWithFormat:(NSString *)predicateFormat, ...;
-- (instancetype)usingAccessibilityLabel:(NSString*)label;
-- (instancetype)usingAccessibilityIdentifier:(NSString*)identifier;
+- (instancetype)usingAccessibilityLabel:(NSString *)label;
+- (instancetype)usingAccessibilityIdentifier:(NSString *)identifier;
+- (instancetype)usingExpectedClass:(Class)expectedClass;
+
 
 - (void)tap;
 - (void)longPress;
 - (void)longPressWithDuration:(NSTimeInterval)duration;
 
 - (void)waitForMatch;
-- (void)waitToBecomeTapable;
+- (void)waitToBecomeTappable;
 
 - (void)clearText;
 - (void)enterText:(NSString *)text;
 - (void)enterText:(NSString *)text expectedResult:(NSString *)expectedResult;
 - (void)clearAndEnterText:(NSString *)text;
 - (void)clearAndEnterText:(NSString *)text expectedResult:(NSString *)expectedResult;
-
-- (void)invalidate;
 
 @end
