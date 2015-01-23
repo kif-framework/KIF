@@ -362,8 +362,14 @@
     UIAccessibilityElement *element = nil;
     
     [self waitForAccessibilityElement:&element view:&view withLabel:label value:nil traits:traits tappable:YES];
+    
+    [self enterText:text intoElement:element inView:view expectedResult:expectedResult];
+}
+
+- (void)enterText:(NSString *)text intoElement:(UIAccessibilityElement *)element inView:(UIView *)view expectedResult:(NSString *)expectedResult;
+{
     [self tapAccessibilityElement:element inView:view];
-    [self waitForTimeInterval:0.25];
+    [self waitForTimeInterval:0.25]; // should confirm the view became first responder
     [self enterTextIntoCurrentFirstResponder:text fallbackView:view];
     [self expectView:view toContainText:expectedResult ?: text];
 }

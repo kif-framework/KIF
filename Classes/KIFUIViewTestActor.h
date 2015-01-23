@@ -17,13 +17,25 @@
 @property (nonatomic, weak, readonly) UIAccessibilityElement *element;
 @property (nonatomic, strong, readonly) NSPredicate *predicate;
 @property (nonatomic, assign, readonly) BOOL hasMatch;
+@property (nonatomic, assign, readonly) BOOL isValid;
 
 - (instancetype)usingPredicateWithFormat:(NSString *)predicateFormat, ...;
 - (instancetype)usingAccessibilityLabel:(NSString*)label;
 - (instancetype)usingAccessibilityIdentifier:(NSString*)identifier;
 
 - (void)tap;
+- (void)longPress;
 - (void)longPressWithDuration:(NSTimeInterval)duration;
+
+- (void)waitForMatch;
+- (void)waitToBecomeTapable;
+
+- (void)clearText;
+- (void)enterText:(NSString *)text;
+- (void)enterText:(NSString *)text expectedResult:(NSString *)expectedResult;
+- (void)clearAndEnterText:(NSString *)text;
+- (void)clearAndEnterText:(NSString *)text expectedResult:(NSString *)expectedResult;
+
 - (void)invalidate;
 
 @end
