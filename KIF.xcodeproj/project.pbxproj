@@ -249,10 +249,11 @@
 		EBAE488217A460E50005EE19 /* NSError-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = EBAE488017A460E50005EE19 /* NSError-KIFAdditions.m */; };
 		EBAE488717A4E5C30005EE19 /* KIFTestStepValidation.h in Headers */ = {isa = PBXBuildFile; fileRef = EBAE488517A4E5C30005EE19 /* KIFTestStepValidation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EBAE488817A4E5C30005EE19 /* KIFTestStepValidation.m in Sources */ = {isa = PBXBuildFile; fileRef = EBAE488617A4E5C30005EE19 /* KIFTestStepValidation.m */; };
-		FA8BDCCD1A76B3A80042A989 /* KIFUIObject.h in Headers */ = {isa = PBXBuildFile; fileRef = FA8BDCCB1A76B3A80042A989 /* KIFUIObject.h */; };
+		FA8BDCCD1A76B3A80042A989 /* KIFUIObject.h in Headers */ = {isa = PBXBuildFile; fileRef = FA8BDCCB1A76B3A80042A989 /* KIFUIObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FA8BDCCE1A76B3A80042A989 /* KIFUIObject.m in Sources */ = {isa = PBXBuildFile; fileRef = FA8BDCCC1A76B3A80042A989 /* KIFUIObject.m */; };
 		FAC3A53E1A703A8300802118 /* KIFUIViewTestActor.h in Headers */ = {isa = PBXBuildFile; fileRef = FAC3A53C1A703A8300802118 /* KIFUIViewTestActor.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FAC3A53F1A703A8300802118 /* KIFUIViewTestActor.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC3A53D1A703A8300802118 /* KIFUIViewTestActor.m */; };
+		FAE2D7631A76DDA90068B440 /* ViewTapingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FAE2D7621A76DDA90068B440 /* ViewTapingTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -401,6 +402,7 @@
 		FA8BDCCC1A76B3A80042A989 /* KIFUIObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KIFUIObject.m; sourceTree = "<group>"; };
 		FAC3A53C1A703A8300802118 /* KIFUIViewTestActor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KIFUIViewTestActor.h; sourceTree = "<group>"; };
 		FAC3A53D1A703A8300802118 /* KIFUIViewTestActor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KIFUIViewTestActor.m; sourceTree = "<group>"; };
+		FAE2D7621A76DDA90068B440 /* ViewTapingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewTapingTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -692,6 +694,7 @@
 				EB60ED09177F90BA005A041A /* SpecificControlTests.m */,
 				EB60ED0A177F90BA005A041A /* SystemTests.m */,
 				EB60ED0B177F90BA005A041A /* TappingTests.m */,
+				FAE2D7621A76DDA90068B440 /* ViewTapingTests.m */,
 				EB3F654417AA0B8400469D18 /* TableViewTests.m */,
 				EA0F2546182979BE006FF825 /* CollectionViewTests.m */,
 				D9EA274018F05A6000D87E57 /* ScrollViewTests.m */,
@@ -1140,6 +1143,7 @@
 				EABD46B41857A0F300A5F081 /* LongPressTests.m in Sources */,
 				EABD46B51857A0F300A5F081 /* ModalViewTests.m in Sources */,
 				EABD46B61857A0F300A5F081 /* SpecificControlTests.m in Sources */,
+				FAE2D7631A76DDA90068B440 /* ViewTapingTests.m in Sources */,
 				EABD46B71857A0F300A5F081 /* SystemTests.m in Sources */,
 				EABD46B81857A0F300A5F081 /* TappingTests.m in Sources */,
 				EABD46B91857A0F300A5F081 /* TypingTests.m in Sources */,

@@ -7,6 +7,7 @@
 //
 
 #import "KIFUIViewTestActor.h"
+#import "UIWindow-KIFAdditions.h"
 
 
 @interface KIFTestActor (PrivateInit)
@@ -46,17 +47,50 @@
 
 - (instancetype)usingAccessibilityLabel:(NSString *)label;
 {
-    return [self usingPredicateWithFormat:@"accessibilityLabel = %@", label];
+    int os = [UIDevice currentDevice].systemVersion.intValue;
+
+    if ([label rangeOfString:@"\n"].location == NSNotFound || os == 6) {
+        return [self usingPredicateWithFormat:@"accessibilityLabel == %@", label];
+    }
+
+    // On iOS 6 the accessibility label may contain line breaks, so when trying to find the
+    // element, these line breaks are necessary. But on iOS 7 the system replaces them with
+    // spaces. So the same test breaks on either iOS 6 or iOS 7. iOS8 befuddles this again by
+    // limiting replacement to spaces in between strings.
+    // UNLESS the accessibility label is set programatically in which case the line breaks remain regardless of os version.
+    // To work around this replace the line breaks and try matching both.
+
+    //this feels horibly hacky and looks bad in our - (NSString *)description :( but tests are passing
+    // We might consider replaceing the predicate with a block that can do cleaner checking,
+
+    NSString *alternate = nil;
+    if (os == 7) {
+        alternate = [label stringByReplacingOccurrencesOfString:@"\n" withString:@" "];
+    } else {
+        alternate = [label stringByReplacingOccurrencesOfString:@"\\b\\n\\b" withString:@" " options:NSRegularExpressionSearch range:NSMakeRange(0, label.length)];
+    }
+
+    return [self usingPredicateWithFormat:@"accessibilityLabel == %@ OR accessibilityLabel == %@", label, alternate];
 }
 
 - (instancetype)usingAccessibilityIdentifier:(NSString *)identifier;
 {
-    return [self usingPredicateWithFormat:@"accessibilityIdentifier = %@", identifier];
+    return [self usingPredicateWithFormat:@"accessibilityIdentifier == %@", identifier];
 }
 
 - (instancetype)usingExpectedClass:(Class)expectedClass;
 {
     return [self usingPredicateWithFormat:@"class == %@", expectedClass];
+}
+
+- (instancetype)usingTraits:(UIAccessibilityTraits)traits;
+{
+    return [self usingPredicateWithFormat:@"(accessibilityTraits & %i) == %i", traits, traits];
+}
+
+- (instancetype)usingValue:(NSString *)value;
+{
+    return [self usingPredicateWithFormat:@"accessibilityValue like %@", value];
 }
 
 #pragma mark -
@@ -69,7 +103,7 @@
 
 #pragma mark - Waiting
 
-- (void)waitForMatch;
+- (void)waitForView;
 {
     [self _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
 }
@@ -77,6 +111,20 @@
 - (void)waitToBecomeTappable;
 {
     [self _predicateSearchWithRequiresMatch:YES mustBeTappable:YES];
+}
+
+- (void)waitToBecomeFirstResponder;
+{
+    [self runBlock:^KIFTestStepResult(NSError **error) {
+        UIResponder *firstResponder = [[[UIApplication sharedApplication] keyWindow] firstResponder];
+        if ([firstResponder isKindOfClass:NSClassFromString(@"UISearchBarTextField")]) {
+            do {
+                firstResponder = [(UIView *)firstResponder superview];
+            } while (firstResponder && ![firstResponder isKindOfClass:[UISearchBar class]]);
+        }
+        KIFTestWaitCondition([self.predicate evaluateWithObject:firstResponder], error, @"Expected first responder to match '%@', got '%@'", self.predicate, firstResponder);
+        return KIFTestStepResultSuccess;
+    }];
 }
 
 #pragma mark - Tap Actions
@@ -96,6 +144,11 @@
 {
     KIFUIObject *found = [self _predicateSearchWithRequiresMatch:YES mustBeTappable:YES];
     [self.actor longPressAccessibilityElement:found.element inView:found.view duration:duration];
+}
+
+- (void)tapScreenAtPoint:(CGPoint)screenPoint;
+{
+    [self.actor tapScreenAtPoint:screenPoint];
 }
 
 #pragma mark - Text Actions;

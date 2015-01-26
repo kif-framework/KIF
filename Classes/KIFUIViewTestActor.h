@@ -22,13 +22,18 @@
 - (instancetype)usingAccessibilityLabel:(NSString *)label;
 - (instancetype)usingAccessibilityIdentifier:(NSString *)identifier;
 - (instancetype)usingExpectedClass:(Class)expectedClass;
+- (instancetype)usingTraits:(UIAccessibilityTraits)traits;
+- (instancetype)usingValue:(NSString *)value;
 
 - (void)tap;
 - (void)longPress;
 - (void)longPressWithDuration:(NSTimeInterval)duration;
+- (void)tapScreenAtPoint:(CGPoint)screenPoint;
 
-- (void)waitForMatch;
+
+- (void)waitForView;
 - (void)waitToBecomeTappable;
+- (void)waitToBecomeFirstResponder;
 
 - (void)clearText;
 - (void)enterText:(NSString *)text;
