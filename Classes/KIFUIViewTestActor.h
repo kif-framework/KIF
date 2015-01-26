@@ -11,19 +11,17 @@
 #define viewTester KIFActorWithClass(KIFUIViewTestActor)
 
 
-@interface KIFUIViewTestActor : KIFTestActor 
+@interface KIFUIViewTestActor : KIFTestActor
 
-@property (nonatomic, weak, readonly) UIView *view;
-@property (nonatomic, weak, readonly) UIAccessibilityElement *element;
+@property (nonatomic, strong, readonly) UIView *view;
+@property (nonatomic, strong, readonly) UIAccessibilityElement *element;
 @property (nonatomic, strong, readonly) NSPredicate *predicate;
 @property (nonatomic, assign, readonly) BOOL hasMatch;
-@property (nonatomic, assign, readonly) BOOL isValid;
 
 - (instancetype)usingPredicateWithFormat:(NSString *)predicateFormat, ...;
 - (instancetype)usingAccessibilityLabel:(NSString *)label;
 - (instancetype)usingAccessibilityIdentifier:(NSString *)identifier;
 - (instancetype)usingExpectedClass:(Class)expectedClass;
-
 
 - (void)tap;
 - (void)longPress;

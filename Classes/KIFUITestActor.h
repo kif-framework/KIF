@@ -340,7 +340,7 @@ static inline KIFDisplacement KIFDisplacementForSwipingInDirection(KIFSwipeDirec
 - (void)clearTextFromFirstResponder;
 - (void)clearTextFromViewWithAccessibilityLabel:(NSString *)label;
 - (void)clearTextFromViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits;
-- (void)clearTextFromElement:(UIAccessibilityElement*)element inView:(UIView*)view;
+- (void)clearTextFromElement:(UIAccessibilityElement *)element inView:(UIView *)view;
 
 - (void)clearTextFromAndThenEnterTextIntoCurrentFirstResponder:(NSString *)text;
 - (void)clearTextFromAndThenEnterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label;
