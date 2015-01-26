@@ -8,6 +8,7 @@
 
 #import "KIFUIViewTestActor.h"
 
+
 @interface KIFTestActor (PrivateInit)
 - (instancetype)initWithFile:(NSString *)file line:(NSInteger)line delegate:(id<KIFTestActorDelegate>)delegate;
 @end

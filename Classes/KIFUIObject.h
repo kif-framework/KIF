@@ -10,8 +10,8 @@
 
 @interface KIFUIObject : NSObject
 
-@property (nonatomic, strong, readonly) UIView *view;
-@property (nonatomic, strong, readonly) UIAccessibilityElement *element;
+@property (nonatomic, weak, readonly) UIView *view;
+@property (nonatomic, weak, readonly) UIAccessibilityElement *element;
 
 - (instancetype)initWithElement:(UIAccessibilityElement *)element view:(UIView *)view;
 

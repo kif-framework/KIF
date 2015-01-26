@@ -7,12 +7,7 @@
 //
 
 #import "KIFUIObject.h"
-@interface KIFUIObject ()
 
-@property (nonatomic, strong, readwrite) UIView *view;
-@property (nonatomic, strong, readwrite) UIAccessibilityElement *element;
-
-@end
 
 @implementation KIFUIObject
 
