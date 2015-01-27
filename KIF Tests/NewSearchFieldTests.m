@@ -10,19 +10,19 @@
 #import <KIF/KIF.h>
 #import <KIF/UIApplication-KIFAdditions.h>
 
-@interface ViewSearchFieldTests : KIFTestCase
+@interface NewSearchFieldTests : KIFTestCase
 @end
 
-@implementation ViewSearchFieldTests
+@implementation NewSearchFieldTests
 
 - (void)beforeEach
 {
-    [[viewTester usingAccessibilityLabel:@"TableViews"] tap];
+    [[viewTester usingLabel:@"TableViews"] tap];
 }
 
 - (void)afterEach
 {
-    [[[viewTester usingAccessibilityLabel:@"Test Suite"] usingTraits:UIAccessibilityTraitButton] tap];
+    [[[viewTester usingLabel:@"Test Suite"] usingTraits:UIAccessibilityTraitButton] tap];
 }
 
 - (void)testWaitingForSearchFieldToBecomeFirstResponder

@@ -20,4 +20,9 @@
     }
     return self;
 }
+
+- (NSString *)description;
+{
+    return [NSString stringWithFormat:@"<%@; element=%@; view=%@>", [super description], self.element, self.view];
+}
 @end

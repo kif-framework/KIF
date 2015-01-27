@@ -19,9 +19,8 @@
 @property (nonatomic, assign, readonly) BOOL hasMatch;
 
 - (instancetype)usingPredicateWithFormat:(NSString *)predicateFormat, ...;
-- (instancetype)usingAccessibilityLabel:(NSString *)label;
-- (instancetype)usingAccessibilityIdentifier:(NSString *)identifier;
-- (instancetype)usingExpectedClass:(Class)expectedClass;
+- (instancetype)usingLabel:(NSString *)label;
+- (instancetype)usingIdentifier:(NSString *)identifier;
 - (instancetype)usingTraits:(UIAccessibilityTraits)traits;
 - (instancetype)usingValue:(NSString *)value;
 
@@ -31,8 +30,12 @@
 - (void)tapScreenAtPoint:(CGPoint)screenPoint;
 
 - (void)waitForView;
+- (void)waitForAbsenceOfView;
 - (void)waitToBecomeTappable;
 - (void)waitToBecomeFirstResponder;
+
+- (BOOL)tryFindingView;
+- (BOOL)tryFindingTappableView;
 
 - (void)enterText:(NSString *)text;
 - (void)enterText:(NSString *)text expectedResult:(NSString *)expectedResult;
@@ -41,5 +44,7 @@
 - (void)clearText;
 - (void)clearAndEnterText:(NSString *)text;
 - (void)clearAndEnterText:(NSString *)text expectedResult:(NSString *)expectedResult;
+
+- (void)acknowledgeSystemAlert;
 
 @end

@@ -15,5 +15,4 @@
 
 - (instancetype)initWithElement:(UIAccessibilityElement *)element view:(UIView *)view;
 
-
 @end

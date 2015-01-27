@@ -45,7 +45,7 @@
     return self;
 }
 
-- (instancetype)usingAccessibilityLabel:(NSString *)label;
+- (instancetype)usingLabel:(NSString *)label;
 {
     int os = [UIDevice currentDevice].systemVersion.intValue;
 
@@ -60,7 +60,7 @@
     // UNLESS the accessibility label is set programatically in which case the line breaks remain regardless of os version.
     // To work around this replace the line breaks and try matching both.
 
-    //this feels horibly hacky and looks bad in our - (NSString *)description :( but tests are passing
+    //this feels horribly hacky and looks bad in our - (NSString *)description :( but tests are passing
     // We might consider replaceing the predicate with a block that can do cleaner checking,
 
     NSString *alternate = nil;
@@ -73,14 +73,9 @@
     return [self usingPredicateWithFormat:@"accessibilityLabel == %@ OR accessibilityLabel == %@", label, alternate];
 }
 
-- (instancetype)usingAccessibilityIdentifier:(NSString *)identifier;
+- (instancetype)usingIdentifier:(NSString *)identifier;
 {
     return [self usingPredicateWithFormat:@"accessibilityIdentifier == %@", identifier];
-}
-
-- (instancetype)usingExpectedClass:(Class)expectedClass;
-{
-    return [self usingPredicateWithFormat:@"class == %@", expectedClass];
 }
 
 - (instancetype)usingTraits:(UIAccessibilityTraits)traits;
@@ -101,11 +96,38 @@
     return [NSString stringWithFormat:@"<%@; view=%@; element=%@; predicate=%@>", [super description], found.view, found.element, self.predicate];
 }
 
+- (void)acknowledgeSystemAlert;
+{
+    [self.actor acknowledgeSystemAlert];
+}
+
 #pragma mark - Waiting
 
 - (void)waitForView;
 {
     [self _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
+}
+
+- (void)waitForAbsenceOfView;
+{
+    [self runBlock:^KIFTestStepResult(NSError **error) {
+        // If the app is ignoring interaction events, then wait before doing our analysis
+        KIFTestWaitCondition(![[UIApplication sharedApplication] isIgnoringInteractionEvents], error, @"Application is ignoring interaction events.");
+        
+        // If the element can't be found, then we're done
+        KIFUIObject *found = [self _predicateSearchWithRequiresMatch:NO mustBeTappable:NO];
+        if (!found) {
+            return KIFTestStepResultSuccess;
+        }
+        
+        // If we found an element, but it's not associated with a view, then something's wrong. Wait it out and try again.
+        KIFTestWaitCondition(found.view, error, @"Cannot find view containing accessibility element \"%@\"", found.element);
+        
+        // Hidden views count as absent
+        KIFTestWaitCondition([found.view isHidden] || [found.view superview] == nil, error, @"Accessibility element \"%@\" is visible and not hidden.", found);
+        
+        return KIFTestStepResultSuccess;
+    }];
 }
 
 - (void)waitToBecomeTappable;
@@ -122,6 +144,17 @@
         return KIFTestStepResultSuccess;
     }];
 }
+
+- (BOOL)tryFindingView;
+{
+    return [self _predicateSearchWithRequiresMatch:NO mustBeTappable:NO];
+}
+
+- (BOOL)tryFindingTappableView;
+{
+    return [self _predicateSearchWithRequiresMatch:NO mustBeTappable:YES];
+}
+
 
 #pragma mark - Tap Actions
 
