@@ -71,7 +71,7 @@
 - (void)testEnteringReturnCharacterIntoViewWithAccessibilityLabel
 {
     [[viewTester usingAccessibilityLabel:@"Other Text"] enterText:@"Hello\n"];
-    [tester waitForFirstResponderWithAccessibilityLabel:@"Greeting"];
+    [[viewTester usingAccessibilityLabel:@"Greeting"] waitToBecomeFirstResponder];
     [[viewTester usingAccessibilityLabel:@"Greeting"] waitForView];
     [[[viewTester usingAccessibilityLabel:@"Greeting"] usingTraits:UIAccessibilityTraitNone] enterText:@", world\n" expectedResult:@"Hello, world"];
 }

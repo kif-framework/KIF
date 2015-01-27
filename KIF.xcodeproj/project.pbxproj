@@ -259,7 +259,7 @@
 		FA914DB61A7707550073BB19 /* ViewTypingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FA914DB51A7707550073BB19 /* ViewTypingTests.m */; };
 		FAC3A53E1A703A8300802118 /* KIFUIViewTestActor.h in Headers */ = {isa = PBXBuildFile; fileRef = FAC3A53C1A703A8300802118 /* KIFUIViewTestActor.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FAC3A53F1A703A8300802118 /* KIFUIViewTestActor.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC3A53D1A703A8300802118 /* KIFUIViewTestActor.m */; };
-		FAE2D7631A76DDA90068B440 /* ViewTapingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FAE2D7621A76DDA90068B440 /* ViewTapingTests.m */; };
+		FAE2D7631A76DDA90068B440 /* ViewTappingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FAE2D7621A76DDA90068B440 /* ViewTappingTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -414,7 +414,7 @@
 		FA914DB51A7707550073BB19 /* ViewTypingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewTypingTests.m; sourceTree = "<group>"; };
 		FAC3A53C1A703A8300802118 /* KIFUIViewTestActor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KIFUIViewTestActor.h; sourceTree = "<group>"; };
 		FAC3A53D1A703A8300802118 /* KIFUIViewTestActor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KIFUIViewTestActor.m; sourceTree = "<group>"; };
-		FAE2D7621A76DDA90068B440 /* ViewTapingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewTapingTests.m; sourceTree = "<group>"; };
+		FAE2D7621A76DDA90068B440 /* ViewTappingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewTappingTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -744,7 +744,7 @@
 		FA8DA74D1A77117A00E0C644 /* New KIF Tests */ = {
 			isa = PBXGroup;
 			children = (
-				FAE2D7621A76DDA90068B440 /* ViewTapingTests.m */,
+				FAE2D7621A76DDA90068B440 /* ViewTappingTests.m */,
 				FA914DB51A7707550073BB19 /* ViewTypingTests.m */,
 				FA8DA74E1A7711E900E0C644 /* ViewWaitForTappableViewTests.m */,
 				FA8DA7501A7712E300E0C644 /* ViewWaitForAnimationTests.m */,
@@ -1171,7 +1171,7 @@
 				EABD46B41857A0F300A5F081 /* LongPressTests.m in Sources */,
 				EABD46B51857A0F300A5F081 /* ModalViewTests.m in Sources */,
 				EABD46B61857A0F300A5F081 /* SpecificControlTests.m in Sources */,
-				FAE2D7631A76DDA90068B440 /* ViewTapingTests.m in Sources */,
+				FAE2D7631A76DDA90068B440 /* ViewTappingTests.m in Sources */,
 				FA914DB61A7707550073BB19 /* ViewTypingTests.m in Sources */,
 				EABD46B71857A0F300A5F081 /* SystemTests.m in Sources */,
 				EABD46B81857A0F300A5F081 /* TappingTests.m in Sources */,

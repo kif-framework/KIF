@@ -1,5 +1,5 @@
 //
-//  ViewTapingTests.m
+//  ViewTappingTests.m
 //  KIF
 //
 //  Created by Alex Odawa on 1/26/15.
