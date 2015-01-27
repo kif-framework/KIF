@@ -9,11 +9,11 @@
 
 #import <KIF/KIF.h>
 
-@interface NewWaitForAbscenceTests : KIFTestCase
+@interface WaitForAbscenceTests_ViewTestActor : KIFTestCase
 @end
 
 
-@implementation NewWaitForAbscenceTests
+@implementation WaitForAbscenceTests_ViewTestActor
 
 - (void)beforeEach
 {

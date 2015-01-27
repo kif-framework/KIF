@@ -8,10 +8,10 @@
 
 #import <KIF/KIF.h>
 
-@interface NewSpecificControlTests : KIFTestCase
+@interface SpecificControlTests_ViewTestActor : KIFTestCase
 @end
 
-@implementation NewSpecificControlTests
+@implementation SpecificControlTests_ViewTestActor
 
 - (void)beforeEach
 {

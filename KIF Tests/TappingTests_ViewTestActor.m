@@ -9,11 +9,11 @@
 
 #import <KIF/KIF.h>
 
-@interface NewTappingTests : KIFTestCase
+@interface TappingTests_ViewTestActor : KIFTestCase
 @end
 
 
-@implementation NewTappingTests
+@implementation TappingTests_ViewTestActor
 
 - (void)beforeEach
 {

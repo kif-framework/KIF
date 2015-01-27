@@ -9,11 +9,11 @@
 #import <KIF/KIF.h>
 #import <KIF/KIFTestStepValidation.h>
 
-@interface NewAccessibilityIdentifierTests : KIFTestCase
+@interface AccessibilityIdentifierTests_ViewTestActor : KIFTestCase
 @end
 
 
-@implementation NewAccessibilityIdentifierTests
+@implementation AccessibilityIdentifierTests_ViewTestActor
 
 - (void)beforeEach
 {

@@ -253,13 +253,45 @@
     [self.actor swipeElement:found.element inView:found.view inDirection:direction];
 }
 
-#pragma mark - Scroll Actions
+#pragma mark - Scroll/Table/CollectionView Actions
 
 - (void)scrollByFractionOfSizeHorizontal:(CGFloat)horizontalFraction vertical:(CGFloat)verticalFraction;
 {
     KIFUIObject *found = [self _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
     [self.actor scrollAccessibilityElement:found.element inView:found.view byFractionOfSizeHorizontal:horizontalFraction vertical:verticalFraction];
 }
+
+- (void)tapRowInTableViewAtIndexPath:(NSIndexPath *)indexPath;
+{
+    KIFUIObject *found = [[self usingExpectedClass:[UITableView class]] _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
+    [self.actor tapRowAtIndexPath:indexPath inTableView:(UITableView *)found.view];
+}
+
+- (UITableViewCell *)waitForCellInTableViewAtIndexPath:(NSIndexPath *)indexPath;
+{
+    KIFUIObject *found = [[self usingExpectedClass:[UITableView class]] _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
+    return [self.actor waitForCellAtIndexPath:indexPath inTableView:(UITableView *)found.view];
+}
+
+- (void)moveRowInTableViewAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath;
+{
+    KIFUIObject *found = [[self usingExpectedClass:[UITableView class]] _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
+    [self.actor moveRowAtIndexPath:sourceIndexPath toIndexPath:destinationIndexPath inTableView:(UITableView *)found.view];
+}
+
+
+- (void)tapCollectionViewItemAtIndexPath:(NSIndexPath *)indexPath;
+{
+    KIFUIObject *found = [[self usingExpectedClass:[UICollectionView class]] _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
+    [self.actor tapItemAtIndexPath:indexPath inCollectionView:(UICollectionView *)found.view];
+}
+
+- (UICollectionViewCell *)waitForCellInCollectionViewAtIndexPath:(NSIndexPath *)indexPath;
+{
+    KIFUIObject *found = [[self usingExpectedClass:[UICollectionView class]] _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
+    return [self.actor waitForCellAtIndexPath:indexPath inCollectionView:(UICollectionView *)found.view];
+}
+
 
 #pragma mark - UIControl Actions
 

@@ -8,11 +8,11 @@
 
 #import <KIF/KIF.h>
 
-@interface NewLongPressTests : KIFTestCase
+@interface LongPressTests_ViewTestActor : KIFTestCase
 @end
 
 
-@implementation NewLongPressTests
+@implementation LongPressTests_ViewTestActor
 
 - (void)beforeEach
 {

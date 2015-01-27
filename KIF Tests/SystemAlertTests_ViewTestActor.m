@@ -9,11 +9,11 @@
 
 #import <KIF/KIF.h>
 
-@interface NewSystemAlertTests : KIFTestCase
+@interface SystemAlertTests_ViewTestActor : KIFTestCase
 @end
 
 
-@implementation NewSystemAlertTests
+@implementation SystemAlertTests_ViewTestActor
 
 - (void)beforeEach
 {

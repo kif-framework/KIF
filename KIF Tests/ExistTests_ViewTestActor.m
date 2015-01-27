@@ -8,11 +8,11 @@
 
 #import <KIF/KIF.h>
 
-@interface NewExistTests : KIFTestCase
+@interface ExistTests_ViewTestActor : KIFTestCase
 @end
 
 
-@implementation NewExistTests
+@implementation ExistTests_ViewTestActor
 
 - (void)testExistsViewWithAccessibilityLabel
 {

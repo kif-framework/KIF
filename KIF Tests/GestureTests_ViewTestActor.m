@@ -10,10 +10,10 @@
 #import <KIF/KIF.h>
 #import <KIF/KIFTestStepValidation.h>
 
-@interface NewGestureTests : KIFTestCase
+@interface GestureTests_ViewTestActor : KIFTestCase
 @end
 
-@implementation NewGestureTests
+@implementation GestureTests_ViewTestActor
 
 - (void)beforeAll
 {

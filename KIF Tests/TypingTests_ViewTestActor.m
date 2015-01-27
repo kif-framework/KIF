@@ -9,11 +9,11 @@
 #import <KIF/KIF.h>
 #import "KIFTestStepValidation.h"
 
-@interface NewTypingTests : KIFTestCase
+@interface TypingTests_ViewTestActor : KIFTestCase
 @end
 
 
-@implementation NewTypingTests
+@implementation TypingTests_ViewTestActor
 
 - (void)beforeEach
 {

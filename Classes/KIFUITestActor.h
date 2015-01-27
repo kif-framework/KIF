@@ -434,6 +434,17 @@ static inline KIFDisplacement KIFDisplacementForSwipingInDirection(KIFSwipeDirec
 - (void)tapRowAtIndexPath:(NSIndexPath *)indexPath inTableViewWithAccessibilityIdentifier:(NSString *)identifier NS_AVAILABLE_IOS(5_0);
 
 /*!
+ @abstract Taps the row at indexPath in a given table view.
+ @discussion This step will tap the row at indexPath.
+ 
+ For cases where you may need to work from the end of a table view rather than the beginning, negative sections count back from the end of the table view (-1 is the last section) and negative rows count back from the end of the section (-1 is the last row for that section).
+ 
+ @param indexPath Index path of the row to tap.
+ @param tableView UITableView containing row to tap.
+ */
+- (void)tapRowAtIndexPath:(NSIndexPath *)indexPath inTableView:(UITableView *)tableView;
+
+/*!
  @abstract Taps the item at indexPath in a collection view with the given identifier.
  @discussion This step will get the view with the specified accessibility identifier and tap the item at indexPath.
  
@@ -443,12 +454,22 @@ static inline KIFDisplacement KIFDisplacementForSwipingInDirection(KIFSwipeDirec
  @param identifier Accessibility identifier of the collection view.
  */
 - (void)tapItemAtIndexPath:(NSIndexPath *)indexPath inCollectionViewWithAccessibilityIdentifier:(NSString *)identifier;
-
 /*!
- @abstract Taps a stepper to either increment or decrement the stepper. Presumed that - (minus) to decrement is on the left.
+ @abstract Taps the item at indexPath in a given collection view.
+ @discussion This step will get the view with the specified accessibility identifier and tap the item at indexPath.
+ 
+ For cases where you may need to work from the end of a collection view rather than the beginning, negative sections count back from the end of the collection view (-1 is the last section) and negative items count back from the end of the section (-1 is the last item for that section).
+ 
+ @param indexPath Index path of the item to tap.
+ @param collectionView the UICollectionView containing the item.
+ */
+- (void)tapItemAtIndexPath:(NSIndexPath *)indexPath inCollectionView:(UICollectionView *)collectionView;
+/*! @abstract Taps a stepper to either increment or decrement the stepper. Presumed that - (minus) to decrement is on the left.
  @discussion This will locate the left or right half of the stepper and perform a calculated click.
+ 
  @param label The accessibility identifier of the view to interact with.
  @param stepperDirection The direction in which to change the value of the stepper (KIFStepperDirectionIncrement | KIFStepperDirectionDecrement)
+ @param collectionView the UICollectionView containing the item.
  */
 -(void) tapStepperWithAccessibilityLabel: (NSString *)accessibilityLabel increment: (KIFStepperDirection) stepperDirection;
 
@@ -558,6 +579,31 @@ static inline KIFDisplacement KIFDisplacementForSwipingInDirection(KIFSwipeDirec
 - (UITableViewCell *)waitForCellAtIndexPath:(NSIndexPath *)indexPath inTableViewWithAccessibilityIdentifier:(NSString *)identifier;
 
 /*!
+ @abstract Waits for the cell at indexPath in a given table view.
+ @discussion This step will get the cell at the indexPath.
+ 
+ For cases where you may need to work from the end of a table view rather than the beginning, negative sections count back from the end of the table view (-1 is the last section) and negative rows count back from the end of the section (-1 is the last row for that section).
+ 
+ @param indexPath Index path of the cell.
+ @param tableView UITableView containing the cell.
+ @result Table view cell at index path
+ */
+- (UITableViewCell *)waitForCellAtIndexPath:(NSIndexPath *)indexPath inTableView:(UITableView *)tableView;
+
+/*!
+ @abstract Waits for the cell at indexPath in a given collection view.
+ @discussion This step will get the cell at the indexPath.
+ 
+ For cases where you may need to work from the end of a table view rather than the beginning, negative sections count back from the end of the table view (-1 is the last section) and negative rows count back from the end of the section (-1 is the last row for that section).
+ 
+ @param indexPath Index path of the cell.
+ @param collectionView UICollectionView containing the cell.
+ @result Collection view cell at index path
+ */
+- (UICollectionViewCell *)waitForCellAtIndexPath:(NSIndexPath *)indexPath inCollectionView:(UICollectionView *)collectionView;
+
+
+/*!
  @abstract Waits for the cell at indexPath in a collection view with the given identifier.
  @discussion This step will get the view with the specified accessibility identifier and then get the cell at indexPath.
  
@@ -581,6 +627,17 @@ static inline KIFDisplacement KIFDisplacementForSwipingInDirection(KIFSwipeDirec
  */
 - (void)moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath inTableViewWithAccessibilityIdentifier:(NSString *)identifier;
 
+/*!
+ @abstract Moves the row at sourceIndexPath to destinationIndexPath in a given table view.
+ @discussion This step will move the row at sourceIndexPath to destinationIndexPath.
+ 
+ For cases where you may need to work from the end of a table view rather than the beginning, negative sections count back from the end of the table view (-1 is the last section) and negative rows count back from the end of the section (-1 is the last row for that section).
+ 
+ @param sourceIndexPath Index path of the row to move.
+ @param destinationIndexPath Desired final index path of the row after moving.
+ @param tableView UITableView containing the cell.
+ */
+- (void)moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath inTableView:(UITableView *)tableView;
 /*!
  @abstract Swipes the row at indexPath in the given direction.
  

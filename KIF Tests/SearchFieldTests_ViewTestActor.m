@@ -10,11 +10,11 @@
 #import <KIF/KIF.h>
 #import <KIF/UIApplication-KIFAdditions.h>
 
-@interface NewSearchFieldTests : KIFTestCase
+@interface SearchFieldTests_ViewTestActor : KIFTestCase
 @end
 
 
-@implementation NewSearchFieldTests
+@implementation SearchFieldTests_ViewTestActor
 
 - (void)beforeEach
 {

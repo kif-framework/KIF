@@ -9,11 +9,11 @@
 
 #import <KIF/KIF.h>
 
-@interface NewWaitForViewTests : KIFTestCase
+@interface WaitForViewTests_ViewTestActor : KIFTestCase
 @end
 
 
-@implementation NewWaitForViewTests
+@implementation WaitForViewTests_ViewTestActor
 
 - (void)testWaitingForViewWithAccessibilityLabel
 {

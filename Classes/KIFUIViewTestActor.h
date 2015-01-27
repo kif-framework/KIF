@@ -57,6 +57,13 @@
 - (void)setSliderValue:(float)value;
 - (void)setSwitchOn:(BOOL)switchIsOn;
 
+- (void)tapRowInTableViewAtIndexPath:(NSIndexPath *)indexPath;
+- (UITableViewCell *)waitForCellInTableViewAtIndexPath:(NSIndexPath *)indexPath;
+- (void)moveRowInTableViewAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath;
+
+- (void)tapCollectionViewItemAtIndexPath:(NSIndexPath *)indexPath;
+- (UICollectionViewCell *)waitForCellInCollectionViewAtIndexPath:(NSIndexPath *)indexPath;
+
 - (void)scrollByFractionOfSizeHorizontal:(CGFloat)horizontalFraction vertical:(CGFloat)verticalFraction;
 
 - (void)selectPickerViewRowWithTitle:(NSString *)title;
@@ -64,9 +71,12 @@
 - (void)selectDatePickerValue:(NSArray *)datePickerColumnValues;
 - (void)choosePhotoInAlbum:(NSString *)albumName atRow:(NSInteger)row column:(NSInteger)column;
 
-- (void)acknowledgeSystemAlert;
 - (void)tapStatusBar;
 - (void)dismissPopover;
+
+#if TARGET_IPHONE_SIMULATOR
+- (void)acknowledgeSystemAlert;
+#endif
 
 
 @end

@@ -8,11 +8,11 @@
 
 #import <KIF/KIF.h>
 
-@interface NewWaitForAnimationTests : KIFTestCase
+@interface WaitForAnimationTests_ViewTestActor : KIFTestCase
 @end
 
 
-@implementation NewWaitForAnimationTests
+@implementation WaitForAnimationTests_ViewTestActor
 
 - (void)beforeEach
 {

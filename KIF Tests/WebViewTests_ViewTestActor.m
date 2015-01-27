@@ -10,11 +10,11 @@
 #import <KIF/KIFUITestActor-IdentifierTests.h>
 #import <KIF/KIFTestStepValidation.h>
 
-@interface NewWebViewTests : KIFTestCase
+@interface WebViewTests_ViewTestActor : KIFTestCase
 @end
 
 
-@implementation NewWebViewTests
+@implementation WebViewTests_ViewTestActor
 
 - (void)beforeEach
 {
