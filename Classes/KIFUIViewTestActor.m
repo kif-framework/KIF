@@ -117,11 +117,7 @@
 {
     [self runBlock:^KIFTestStepResult(NSError **error) {
         UIResponder *firstResponder = [[[UIApplication sharedApplication] keyWindow] firstResponder];
-        if ([firstResponder isKindOfClass:NSClassFromString(@"UISearchBarTextField")]) {
-            do {
-                firstResponder = [(UIView *)firstResponder superview];
-            } while (firstResponder && ![firstResponder isKindOfClass:[UISearchBar class]]);
-        }
+
         KIFTestWaitCondition([self.predicate evaluateWithObject:firstResponder], error, @"Expected first responder to match '%@', got '%@'", self.predicate, firstResponder);
         return KIFTestStepResultSuccess;
     }];

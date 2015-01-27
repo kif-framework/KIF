@@ -30,7 +30,6 @@
 - (void)longPressWithDuration:(NSTimeInterval)duration;
 - (void)tapScreenAtPoint:(CGPoint)screenPoint;
 
-
 - (void)waitForView;
 - (void)waitToBecomeTappable;
 - (void)waitToBecomeFirstResponder;
