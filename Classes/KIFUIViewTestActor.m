@@ -10,14 +10,9 @@
 #import "UIWindow-KIFAdditions.h"
 
 
-@interface KIFTestActor (PrivateInit)
-- (instancetype)initWithFile:(NSString *)file line:(NSInteger)line delegate:(id<KIFTestActorDelegate>)delegate;
-@end
-
-
 @interface KIFUIViewTestActor ()
 
-@property (nonatomic, strong) KIFUITestActor *actor;
+@property (nonatomic, strong, readonly) KIFUITestActor *actor;
 @property (nonatomic, strong, readwrite) NSPredicate *predicate;
 
 @end
@@ -26,15 +21,6 @@
 @implementation KIFUIViewTestActor
 
 #pragma mark - Initialization
-
-- (instancetype)initWithFile:(NSString *)file line:(NSInteger)line delegate:(id<KIFTestActorDelegate>)delegate;
-{
-    self = [super initWithFile:file line:line delegate:delegate];
-    if (self) {
-        _actor = [KIFUITestActor actorInFile:self.file atLine:self.line delegate:self.delegate];
-    }
-    return self;
-}
 
 - (instancetype)usingPredicateWithFormat:(NSString *)predicateFormat, ...;
 {
@@ -289,6 +275,29 @@
     [self.actor setSwitch:(UISwitch *)found.view element:found.element On:switchIsOn];
 }
 
+#pragma mark - Picker Actions
+
+- (void)selectPickerViewRowWithTitle:(NSString *)title;
+{
+    [self.actor selectPickerViewRowWithTitle:title];
+}
+
+- (void)selectPickerViewRowWithTitle:(NSString *)title inComponent:(NSInteger)component;
+{
+    [self.actor selectPickerViewRowWithTitle:title inComponent:component];
+}
+
+- (void)selectDatePickerValue:(NSArray *)datePickerColumnValues;
+{
+    [self.actor selectDatePickerValue:datePickerColumnValues];
+}
+
+- (void)choosePhotoInAlbum:(NSString *)albumName atRow:(NSInteger)row column:(NSInteger)column;
+{
+    [self.actor choosePhotoInAlbum:albumName atRow:row column:column];
+}
+
+
 #pragma mark - Getters
 
 - (UIView *)view;
@@ -304,6 +313,11 @@
 - (BOOL)hasMatch;
 {
     return [self _predicateSearchWithRequiresMatch:NO mustBeTappable:NO];
+}
+
+- (KIFUITestActor *)actor;
+{
+    return [[KIFUITestActor actorInFile:self.file atLine:self.line delegate:self.delegate] usingTimeout:self.executionBlockTimeout];
 }
 
 #pragma mark - NSObject
@@ -331,7 +345,6 @@
     UIView *foundView = nil;
     UIAccessibilityElement *foundElement = nil;
 
-    [self.actor usingTimeout:self.executionBlockTimeout];
     if (requiresMatch) {
         [self.actor waitForAccessibilityElement:&foundElement view:&foundView withElementMatchingPredicate:self.predicate tappable:tappable];
     } else {
