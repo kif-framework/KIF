@@ -618,22 +618,26 @@
     if (![view isKindOfClass:[UISwitch class]]) {
         [self failWithError:[NSError KIFErrorWithFormat:@"View with accessibility label \"%@\" is a %@, not a UISwitch", label, NSStringFromClass([view class])] stopTest:YES];
     }
-
     UISwitch *switchView = (UISwitch *)view;
 
+    [self setSwitch:switchView element:element On:switchIsOn];
+}
+
+- (void)setSwitch:(UISwitch *)switchView element:(UIAccessibilityElement *)element On:(BOOL)switchIsOn
+{
     // No need to switch it if it's already in the correct position
     if (switchView.isOn == switchIsOn) {
         return;
     }
 
-    [self tapAccessibilityElement:element inView:view];
+    [self tapAccessibilityElement:element inView:switchView];
 
     // If we succeeded, stop the test.
     if (switchView.isOn == switchIsOn) {
         return;
     }
 
-    NSLog(@"Faking turning switch %@ with accessibility label %@", switchIsOn ? @"ON" : @"OFF", label);
+    NSLog(@"Faking turning switch %@", switchIsOn ? @"ON" : @"OFF");
     [switchView setOn:switchIsOn animated:YES];
     [switchView sendActionsForControlEvents:UIControlEventValueChanged];
     [self waitForTimeInterval:0.5];
@@ -818,6 +822,8 @@
 
 - (void)swipeAccessibilityElement:(UIAccessibilityElement *)element inView:(UIView *)viewToSwipe inDirection:(KIFSwipeDirection)direction
 {
+    const NSUInteger kNumberOfPointsInSwipePath = 20;
+
     // The original version of this came from http://groups.google.com/group/kif-framework/browse_thread/thread/df3f47eff9f5ac8c
   
     const NSUInteger kNumberOfPointsInSwipePath = 20;

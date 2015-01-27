@@ -55,11 +55,10 @@ typedef NS_ENUM(NSUInteger, KIFStepperDirection) {
 
 static inline KIFDisplacement KIFDisplacementForSwipingInDirection(KIFSwipeDirection direction)
 {
-    switch (direction)
-    {
-            // As discovered on the Frank mailing lists, it won't register as a
-            // swipe if you move purely horizontally or vertically, so need a
-            // slight orthogonal offset too.
+    switch (direction) {
+        // As discovered on the Frank mailing lists, it won't register as a
+        // swipe if you move purely horizontally or vertically, so need a
+        // slight orthogonal offset too.
         case KIFSwipeDirectionRight:
             return CGPointMake(kKIFMajorSwipeDisplacement, kKIFMinorSwipeDisplacement);
         case KIFSwipeDirectionLeft:
@@ -368,7 +367,7 @@ static inline KIFDisplacement KIFDisplacementForSwipingInDirection(KIFSwipeDirec
  @discussion With a date picker view already visible, this step will select the different rotating weel values in order of how the array parameter is passed in. After it is done it will hide the date picker. It works with all 4 UIDatePickerMode* modes. The input parameter of type NSArray has to match in what order the date picker is displaying the values/columns. So if the locale is changing the input parameter has to be adjusted. Example: Mode: UIDatePickerModeDate, Locale: en_US, Input param: NSArray *date = @[@"June", @"17", @"1965"];. Example: Mode: UIDatePickerModeDate, Locale: de_DE, Input param: NSArray *date = @[@"17.", @"Juni", @"1965".
  @param datePickerColumnValues Each element in the NSArray represents a rotating wheel in the date picker control. Elements from 0 - n are listed in the order of the rotating wheels, left to right.
  */
-- (void) selectDatePickerValue:(NSArray*)datePickerColumnValues;
+- (void)selectDatePickerValue:(NSArray *)datePickerColumnValues;
 
 /*!
  @abstract Toggles a UISwitch into a specified position.
@@ -377,6 +376,16 @@ static inline KIFDisplacement KIFDisplacementForSwipingInDirection(KIFSwipeDirec
  @param label The accessibility label of the element to switch.
  */
 - (void)setOn:(BOOL)switchIsOn forSwitchWithAccessibilityLabel:(NSString *)label;
+
+/*!
+ @abstract Toggles a UISwitch into a specified position.
+ @discussion If the Switch isn't currently tappable, then the step will attempt to wait until it is. Once the view is present, the step will return if it's already in the desired position. If the switch is tappable but not in the desired position, a tap event is simulated in the center of the view or element, toggling the switch into the desired position.
+ @param switchIsOn The desired position of the UISwitch.
+ @param switchView The switch to switch.
+ @param switchView The accessibility element for the switch.
+
+ */
+- (void)setSwitch:(UISwitch *)switchView element:(UIAccessibilityElement *)element On:(BOOL)switchIsOn;
 
 /*!
  @abstract Slides a UISlider to a specified value.
@@ -411,7 +420,7 @@ static inline KIFDisplacement KIFDisplacementForSwipingInDirection(KIFSwipeDirec
  @param tableViewLabel Accessibility label of the table view.
  @param indexPath Index path of the row to tap.
  */
-- (void)tapRowInTableViewWithAccessibilityLabel:(NSString*)tableViewLabel atIndexPath:(NSIndexPath *)indexPath KIF_DEPRECATED("Use tapRowAtIndexPath:inTableViewWithAccessibilityIdentifier:");
+- (void)tapRowInTableViewWithAccessibilityLabel:(NSString *)tableViewLabel atIndexPath:(NSIndexPath *)indexPath KIF_DEPRECATED("Use tapRowAtIndexPath:inTableViewWithAccessibilityIdentifier:");
 
 /*!
  @abstract Taps the row at indexPath in a table view with the given identifier.
@@ -481,6 +490,7 @@ static inline KIFDisplacement KIFDisplacementForSwipingInDirection(KIFSwipeDirec
 /*!
  @abstract Swipes a particular view in the view heirarchy.
  @discussion Unlike the -swipeViewWithAccessibilityLabel: family of methods, this method allows you to swipe an arbitrary element.  Combined with -waitForAccessibilityElement:view:withLabel:value:traits:tappable: or +[UIAccessibilityElement accessibilityElement:view:withLabel:value:traits:tappable:error:] this provides an opportunity for more complex logic.
+@param element The accessibility element of the view to swipe.
  @param element The accessibility element to tap.
  @param viewToSwipe The view containing the accessibility element.
  */
@@ -503,6 +513,16 @@ static inline KIFDisplacement KIFDisplacementForSwipingInDirection(KIFSwipeDirec
  @param verticalFraction The vertical displacement of the scroll action, as a fraction of the height of the view.
  */
 - (void)scrollViewWithAccessibilityIdentifier:(NSString *)identifier byFractionOfSizeHorizontal:(CGFloat)horizontalFraction vertical:(CGFloat)verticalFraction NS_AVAILABLE_IOS(5_0);
+
+/*!
+ @abstract Scrolls a particular view in the view hierarchy by an amount indicated as a fraction of its size.
+ @discussion The view will scroll by the indicated fraction of its size, with the scroll centered on the center of the view.
+ @param element The accessibility element of the view to scroll.
+ @param viewToScroll the view to scroll.
+ @param horizontalFraction The horizontal displacement of the scroll action, as a fraction of the width of the view.
+ @param verticalFraction The vertical displacement of the scroll action, as a fraction of the height of the view.
+ */
+- (void)scrollAccessibilityElement:(UIAccessibilityElement *)element inView:(UIView *)viewToScroll byFractionOfSizeHorizontal:(CGFloat)horizontalFraction vertical:(CGFloat)verticalFraction;
 
 /*!
  @abstract Waits until a view or accessibility element is the first responder.

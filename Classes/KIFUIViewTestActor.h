@@ -23,11 +23,14 @@
 - (instancetype)usingIdentifier:(NSString *)identifier;
 - (instancetype)usingTraits:(UIAccessibilityTraits)traits;
 - (instancetype)usingValue:(NSString *)value;
+- (instancetype)usingExpectedClass:(Class)expectedClass;
 
 - (void)tap;
 - (void)longPress;
 - (void)longPressWithDuration:(NSTimeInterval)duration;
+
 - (void)tapScreenAtPoint:(CGPoint)screenPoint;
+- (void)swipeInDirection:(KIFSwipeDirection)direction;
 
 - (void)waitForView;
 - (void)waitForAbsenceOfView;
@@ -40,11 +43,25 @@
 - (void)enterText:(NSString *)text;
 - (void)enterText:(NSString *)text expectedResult:(NSString *)expectedResult;
 - (void)enterTextIntoCurrentFirstResponder:(NSString *)text;
+- (void)enterTextIntoCurrentFirstResponder:(NSString *)text fallbackView:(UIView *)fallbackView;
 
 - (void)clearText;
+- (void)clearTextFromFirstResponder;
 - (void)clearAndEnterText:(NSString *)text;
 - (void)clearAndEnterText:(NSString *)text expectedResult:(NSString *)expectedResult;
 
+- (void)waitForSoftwareKeyboard;
+- (void)waitForAbsenceOfSoftwareKeyboard;
+- (void)waitForKeyInputReady;
+
+- (void)setSliderValue:(float)value;
+- (void)setSwitchOn:(BOOL)switchIsOn;
+
+- (void)scrollByFractionOfSizeHorizontal:(CGFloat)horizontalFraction vertical:(CGFloat)verticalFraction;
+
 - (void)acknowledgeSystemAlert;
+- (void)tapStatusBar;
+- (void)dismissPopover;
+
 
 @end

@@ -23,6 +23,6 @@
 
 - (NSString *)description;
 {
-    return [NSString stringWithFormat:@"<%@; element=%@; view=%@>", [super description], self.element, self.view];
+    return [NSString stringWithFormat:@"<%@;\n| element=%@;\n| |  view=%@>", [super description], self.element, self.view];
 }
 @end

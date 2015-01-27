@@ -257,6 +257,7 @@
 		FA8A3C5D1A772CD100206350 /* NewWaitForAbsenceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FA8A3C5C1A772CD100206350 /* NewWaitForAbsenceTests.m */; };
 		FA8A3C5F1A772E6800206350 /* NewAccessibilityIdentifierTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FA8A3C5E1A772E6800206350 /* NewAccessibilityIdentifierTests.m */; };
 		FA8A3C611A77320000206350 /* NewSystemAlertTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FA8A3C601A77320000206350 /* NewSystemAlertTests.m */; };
+		FA8BB6A81A778725003969FF /* NewGestureTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FA8BB6A71A778725003969FF /* NewGestureTests.m */; };
 		FA8BDCCD1A76B3A80042A989 /* KIFUIObject.h in Headers */ = {isa = PBXBuildFile; fileRef = FA8BDCCB1A76B3A80042A989 /* KIFUIObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FA8BDCCE1A76B3A80042A989 /* KIFUIObject.m in Sources */ = {isa = PBXBuildFile; fileRef = FA8BDCCC1A76B3A80042A989 /* KIFUIObject.m */; };
 		FA8DA74F1A7711E900E0C644 /* NewWaitForTappableViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FA8DA74E1A7711E900E0C644 /* NewWaitForTappableViewTests.m */; };
@@ -417,6 +418,7 @@
 		FA8A3C5C1A772CD100206350 /* NewWaitForAbsenceTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewWaitForAbsenceTests.m; sourceTree = "<group>"; };
 		FA8A3C5E1A772E6800206350 /* NewAccessibilityIdentifierTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewAccessibilityIdentifierTests.m; sourceTree = "<group>"; };
 		FA8A3C601A77320000206350 /* NewSystemAlertTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewSystemAlertTests.m; sourceTree = "<group>"; };
+		FA8BB6A71A778725003969FF /* NewGestureTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewGestureTests.m; sourceTree = "<group>"; };
 		FA8BDCCB1A76B3A80042A989 /* KIFUIObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KIFUIObject.h; sourceTree = "<group>"; };
 		FA8BDCCC1A76B3A80042A989 /* KIFUIObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KIFUIObject.m; sourceTree = "<group>"; };
 		FA8DA74E1A7711E900E0C644 /* NewWaitForTappableViewTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewWaitForTappableViewTests.m; sourceTree = "<group>"; };
@@ -711,6 +713,7 @@
 				FA8DA74D1A77117A00E0C644 /* New KIF Tests */,
 				2CED883D181F5EE1005ABD20 /* PickerTests.m */,
 				EB60ED19177F90C2005A041A /* GestureTests.m */,
+				FA8BB6A71A778725003969FF /* NewGestureTests.m */,
 				3812FB621A12188700335733 /* WaitForAnimationTests.m */,
 				EB60ED07177F90BA005A041A /* LongPressTests.m */,
 				EB60ED08177F90BA005A041A /* ModalViewTests.m */,
@@ -1191,6 +1194,7 @@
 				EABD46B61857A0F300A5F081 /* SpecificControlTests.m in Sources */,
 				FAE2D7631A76DDA90068B440 /* NewTappingTests.m in Sources */,
 				FA914DB61A7707550073BB19 /* NewTypingTests.m in Sources */,
+				FA8BB6A81A778725003969FF /* NewGestureTests.m in Sources */,
 				EABD46B71857A0F300A5F081 /* SystemTests.m in Sources */,
 				EABD46B81857A0F300A5F081 /* TappingTests.m in Sources */,
 				EABD46B91857A0F300A5F081 /* TypingTests.m in Sources */,

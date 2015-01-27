@@ -47,24 +47,24 @@
 
 - (instancetype)usingLabel:(NSString *)label;
 {
-    int os = [UIDevice currentDevice].systemVersion.intValue;
+    int systemVersion = [UIDevice currentDevice].systemVersion.intValue;
 
-    if ([label rangeOfString:@"\n"].location == NSNotFound || os == 6) {
+    if ([label rangeOfString:@"\n"].location == NSNotFound || systemVersion == 6) {
         return [self usingPredicateWithFormat:@"accessibilityLabel == %@", label];
     }
 
     // On iOS 6 the accessibility label may contain line breaks, so when trying to find the
     // element, these line breaks are necessary. But on iOS 7 the system replaces them with
-    // spaces. So the same test breaks on either iOS 6 or iOS 7. iOS8 befuddles this again by
+    // spaces. So the same test breaks on either iOS 6 or iOS 7. iOS 8 befuddles this again by
     // limiting replacement to spaces in between strings.
-    // UNLESS the accessibility label is set programatically in which case the line breaks remain regardless of os version.
-    // To work around this replace the line breaks and try matching both.
+    // UNLESS the accessibility label is set programatically in which case the line breaks remain regardless of OS version.
+    // To work around this replace the line breaks using the preferred method and try matching both.
 
     //this feels horribly hacky and looks bad in our - (NSString *)description :( but tests are passing
     // We might consider replaceing the predicate with a block that can do cleaner checking,
 
     NSString *alternate = nil;
-    if (os == 7) {
+    if (systemVersion == 7) {
         alternate = [label stringByReplacingOccurrencesOfString:@"\n" withString:@" "];
     } else {
         alternate = [label stringByReplacingOccurrencesOfString:@"\\b\\n\\b" withString:@" " options:NSRegularExpressionSearch range:NSMakeRange(0, label.length)];
@@ -88,17 +88,27 @@
     return [self usingPredicateWithFormat:@"accessibilityValue like %@", value];
 }
 
-#pragma mark -
-
-- (NSString *)description;
+- (instancetype)usingExpectedClass:(Class)expectedClass;
 {
-    KIFUIObject *found = [self _predicateSearchWithRequiresMatch:YES mustBeTappable:YES];
-    return [NSString stringWithFormat:@"<%@; view=%@; element=%@; predicate=%@>", [super description], found.view, found.element, self.predicate];
+    return [self usingPredicateWithFormat:@"class == %@", expectedClass];
 }
+
+
+#pragma mark - System Actions
 
 - (void)acknowledgeSystemAlert;
 {
     [self.actor acknowledgeSystemAlert];
+}
+
+- (void)tapStatusBar;
+{
+    [self.actor tapStatusBar];
+}
+
+- (void)dismissPopover;
+{
+    [self.actor dismissPopover];
 }
 
 #pragma mark - Waiting
@@ -131,6 +141,7 @@
 }
 
 - (void)waitToBecomeTappable;
+
 {
     [self _predicateSearchWithRequiresMatch:YES mustBeTappable:YES];
 }
@@ -144,6 +155,22 @@
         return KIFTestStepResultSuccess;
     }];
 }
+#pragma mark Typist Waiting
+
+- (void)waitForSoftwareKeyboard;
+{
+    [self.actor waitForSoftwareKeyboard];
+}
+- (void)waitForAbsenceOfSoftwareKeyboard;
+{
+    [self.actor waitForAbsenceOfSoftwareKeyboard];
+}
+- (void)waitForKeyInputReady;
+{
+    [self.actor waitForKeyInputReady];
+}
+
+#pragma mark - Conditionals
 
 - (BOOL)tryFindingView;
 {
@@ -175,17 +202,17 @@
     [self.actor longPressAccessibilityElement:found.element inView:found.view duration:duration];
 }
 
-- (void)tapScreenAtPoint:(CGPoint)screenPoint;
-{
-    [self.actor tapScreenAtPoint:screenPoint];
-}
-
 #pragma mark - Text Actions;
 
 - (void)clearText;
 {
     KIFUIObject *found = [self _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
     [self.actor clearTextFromElement:found.element inView:found.view];
+}
+
+- (void)clearTextFromFirstResponder;
+{
+    [self.actor clearTextFromFirstResponder];
 }
 
 - (void)enterText:(NSString *)text;
@@ -209,11 +236,58 @@
     [self clearText];
     [self enterText:text expectedResult:expectedResult];
 }
+
 - (void)enterTextIntoCurrentFirstResponder:(NSString *)text;
 {
     [self.actor enterTextIntoCurrentFirstResponder:text];
 }
 
+- (void)enterTextIntoCurrentFirstResponder:(NSString *)text fallbackView:(UIView *)fallbackView;
+{
+    [self.actor enterTextIntoCurrentFirstResponder:text fallbackView:fallbackView];
+}
+
+- (void)expectToContainText:(NSString *)expectedResult;
+{
+    KIFUIObject *found = [self _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
+    [self.actor expectView:found.view toContainText:expectedResult];
+}
+
+
+#pragma mark - Touch Actions
+
+- (void)tapScreenAtPoint:(CGPoint)screenPoint;
+{
+    [self.actor tapScreenAtPoint:screenPoint];
+}
+
+- (void)swipeInDirection:(KIFSwipeDirection)direction;
+{
+    KIFUIObject *found = [self _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
+    [self.actor swipeElement:found.element inView:found.view inDirection:direction];
+}
+
+#pragma mark - Scroll Actions
+
+- (void)scrollByFractionOfSizeHorizontal:(CGFloat)horizontalFraction vertical:(CGFloat)verticalFraction;
+{
+    KIFUIObject *found = [self _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
+    [self.actor scrollAccessibilityElement:found.element inView:found.view byFractionOfSizeHorizontal:horizontalFraction vertical:verticalFraction];
+}
+
+#pragma mark - UIControl Actions
+
+- (void)setSliderValue:(float)value;
+{
+    KIFUIObject *found = [[self usingExpectedClass:[UISlider class]] _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
+    [self.actor setValue:value forSlider:(UISlider *)found.view];
+}
+
+- (void)setSwitchOn:(BOOL)switchIsOn;
+{
+    KIFUIObject *found = [[self usingExpectedClass:[UISwitch class]] _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
+    [self.actor setSwitch:(UISwitch *)found.view element:found.element On:switchIsOn];
+}
 
 #pragma mark - Getters
 
@@ -232,6 +306,13 @@
     return [self _predicateSearchWithRequiresMatch:NO mustBeTappable:NO];
 }
 
+#pragma mark - NSObject
+
+- (NSString *)description;
+{
+    KIFUIObject *found = [self _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
+    return [NSString stringWithFormat:@"<%@; view=%@; element=%@; predicate=%@>", [super description], found.view, found.element, self.predicate];
+}
 
 #pragma mark - Private Methods
 
