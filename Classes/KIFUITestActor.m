@@ -960,7 +960,11 @@
 {
     UITableView *tableView;
     [self waitForAccessibilityElement:NULL view:&tableView withIdentifier:identifier tappable:NO];
+    [self moveRowAtIndexPath:sourceIndexPath toIndexPath:destinationIndexPath inTableView:tableView];
+}
 
+- (void)moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath inTableView:(UITableView *)tableView
+{
     UITableViewCell *cell = [self waitForCellAtIndexPath:sourceIndexPath inTableView:tableView];
 
     NSError *error = nil;
