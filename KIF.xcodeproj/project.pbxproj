@@ -251,6 +251,7 @@
 		EBAE488817A4E5C30005EE19 /* KIFTestStepValidation.m in Sources */ = {isa = PBXBuildFile; fileRef = EBAE488617A4E5C30005EE19 /* KIFTestStepValidation.m */; };
 		FA8BDCCD1A76B3A80042A989 /* KIFUIObject.h in Headers */ = {isa = PBXBuildFile; fileRef = FA8BDCCB1A76B3A80042A989 /* KIFUIObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FA8BDCCE1A76B3A80042A989 /* KIFUIObject.m in Sources */ = {isa = PBXBuildFile; fileRef = FA8BDCCC1A76B3A80042A989 /* KIFUIObject.m */; };
+		FA914DB61A7707550073BB19 /* ViewTypingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FA914DB51A7707550073BB19 /* ViewTypingTests.m */; };
 		FAC3A53E1A703A8300802118 /* KIFUIViewTestActor.h in Headers */ = {isa = PBXBuildFile; fileRef = FAC3A53C1A703A8300802118 /* KIFUIViewTestActor.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FAC3A53F1A703A8300802118 /* KIFUIViewTestActor.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC3A53D1A703A8300802118 /* KIFUIViewTestActor.m */; };
 		FAE2D7631A76DDA90068B440 /* ViewTapingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FAE2D7621A76DDA90068B440 /* ViewTapingTests.m */; };
@@ -400,6 +401,7 @@
 		EBAE488617A4E5C30005EE19 /* KIFTestStepValidation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KIFTestStepValidation.m; sourceTree = "<group>"; };
 		FA8BDCCB1A76B3A80042A989 /* KIFUIObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KIFUIObject.h; sourceTree = "<group>"; };
 		FA8BDCCC1A76B3A80042A989 /* KIFUIObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KIFUIObject.m; sourceTree = "<group>"; };
+		FA914DB51A7707550073BB19 /* ViewTypingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewTypingTests.m; sourceTree = "<group>"; };
 		FAC3A53C1A703A8300802118 /* KIFUIViewTestActor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KIFUIViewTestActor.h; sourceTree = "<group>"; };
 		FAC3A53D1A703A8300802118 /* KIFUIViewTestActor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KIFUIViewTestActor.m; sourceTree = "<group>"; };
 		FAE2D7621A76DDA90068B440 /* ViewTapingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewTapingTests.m; sourceTree = "<group>"; };
@@ -700,6 +702,7 @@
 				D9EA274018F05A6000D87E57 /* ScrollViewTests.m */,
 				EB02523D17AA109400A7D13A /* CompositionTests.m */,
 				EB60ED0C177F90BA005A041A /* TypingTests.m */,
+				FA914DB51A7707550073BB19 /* ViewTypingTests.m */,
 				EB60ED0D177F90BA005A041A /* WaitForAbscenceTests.m */,
 				4A48107A19708CAB0003A32E /* ExistTests.m */,
 				EB60ED0E177F90BA005A041A /* WaitForTappableViewTests.m */,
@@ -1144,6 +1147,7 @@
 				EABD46B51857A0F300A5F081 /* ModalViewTests.m in Sources */,
 				EABD46B61857A0F300A5F081 /* SpecificControlTests.m in Sources */,
 				FAE2D7631A76DDA90068B440 /* ViewTapingTests.m in Sources */,
+				FA914DB61A7707550073BB19 /* ViewTypingTests.m in Sources */,
 				EABD46B71857A0F300A5F081 /* SystemTests.m in Sources */,
 				EABD46B81857A0F300A5F081 /* TappingTests.m in Sources */,
 				EABD46B91857A0F300A5F081 /* TypingTests.m in Sources */,

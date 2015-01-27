@@ -35,9 +35,11 @@
 - (void)waitToBecomeTappable;
 - (void)waitToBecomeFirstResponder;
 
-- (void)clearText;
 - (void)enterText:(NSString *)text;
 - (void)enterText:(NSString *)text expectedResult:(NSString *)expectedResult;
+- (void)enterTextIntoCurrentFirstResponder:(NSString *)text;
+
+- (void)clearText;
 - (void)clearAndEnterText:(NSString *)text;
 - (void)clearAndEnterText:(NSString *)text expectedResult:(NSString *)expectedResult;
 

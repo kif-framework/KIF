@@ -180,6 +180,11 @@
     [self clearText];
     [self enterText:text expectedResult:expectedResult];
 }
+- (void)enterTextIntoCurrentFirstResponder:(NSString *)text;
+{
+    [self.actor enterTextIntoCurrentFirstResponder:text];
+}
+
 
 #pragma mark - Getters
 
