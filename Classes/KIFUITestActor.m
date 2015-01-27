@@ -125,9 +125,13 @@
 }
 
 - (void)waitForAnimationsToFinish {
+    [self waitForAnimationsToFinishWithTimeout:self.animationWaitingTimeout];
+}
+
+- (void)waitForAnimationsToFinishWithTimeout:(NSTimeInterval)timeout {
     static const CGFloat kStabilizationWait = 0.5f;
     
-    NSTimeInterval maximumWaitingTimeInterval = self.animationWaitingTimeout;
+    NSTimeInterval maximumWaitingTimeInterval = timeout;
     if (maximumWaitingTimeInterval <= kStabilizationWait) {
         if(maximumWaitingTimeInterval >= 0) {
             [self waitForTimeInterval:maximumWaitingTimeInterval];
