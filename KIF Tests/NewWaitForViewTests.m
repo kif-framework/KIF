@@ -12,6 +12,7 @@
 @interface NewWaitForViewTests : KIFTestCase
 @end
 
+
 @implementation NewWaitForViewTests
 
 - (void)testWaitingForViewWithAccessibilityLabel

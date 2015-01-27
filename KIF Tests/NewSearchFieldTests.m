@@ -13,6 +13,7 @@
 @interface NewSearchFieldTests : KIFTestCase
 @end
 
+
 @implementation NewSearchFieldTests
 
 - (void)beforeEach

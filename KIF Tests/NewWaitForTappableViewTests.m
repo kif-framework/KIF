@@ -11,6 +11,7 @@
 @interface NewWaitForTappableViewTests : KIFTestCase
 @end
 
+
 @implementation NewWaitForTappableViewTests
 
 - (void)beforeEach
@@ -23,7 +24,6 @@
 {
     [[[viewTester usingLabel:@"Test Suite"] usingTraits:UIAccessibilityTraitButton] tap];
 }
-
 
 - (void)testWaitingForTappableViewWithAccessibilityLabel
 {

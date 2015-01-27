@@ -12,6 +12,7 @@
 @interface NewWaitForAbscenceTests : KIFTestCase
 @end
 
+
 @implementation NewWaitForAbscenceTests
 
 - (void)beforeEach

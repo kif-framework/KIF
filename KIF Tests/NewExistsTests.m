@@ -9,8 +9,8 @@
 #import <KIF/KIF.h>
 
 @interface NewExistTests : KIFTestCase
-
 @end
+
 
 @implementation NewExistTests
 
@@ -28,6 +28,5 @@
         [tester fail];
     }
 }
-
 
 @end

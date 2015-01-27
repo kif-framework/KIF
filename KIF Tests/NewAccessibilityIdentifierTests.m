@@ -6,12 +6,12 @@
 //
 //
 
-#import <KIF/KIFTestCase.h>
-#import <KIF/KIFUITestActor-IdentifierTests.h>
+#import <KIF/KIF.h>
 #import <KIF/KIFTestStepValidation.h>
 
 @interface NewAccessibilityIdentifierTests : KIFTestCase
 @end
+
 
 @implementation NewAccessibilityIdentifierTests
 
@@ -69,7 +69,6 @@
 {
     [[viewTester usingIdentifier:@"idGreeting"] clearAndEnterText:@"Yo"];
 }
-
 
 - (void)afterEach
 {

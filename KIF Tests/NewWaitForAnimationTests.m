@@ -9,8 +9,8 @@
 #import <KIF/KIF.h>
 
 @interface NewWaitForAnimationTests : KIFTestCase
-
 @end
+
 
 @implementation NewWaitForAnimationTests
 

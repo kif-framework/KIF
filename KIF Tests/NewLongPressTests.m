@@ -11,6 +11,7 @@
 @interface NewLongPressTests : KIFTestCase
 @end
 
+
 @implementation NewLongPressTests
 
 - (void)beforeEach
@@ -22,7 +23,6 @@
 {
     [[[viewTester usingLabel:@"Test Suite"] usingTraits:UIAccessibilityTraitButton] tap];
 }
-
 
 - (void)testLongPressingViewWithAccessibilityLabel
 {

@@ -10,8 +10,8 @@
 #import <KIF/KIF.h>
 
 @interface NewSystemAlertTests : KIFTestCase
-
 @end
+
 
 @implementation NewSystemAlertTests
 

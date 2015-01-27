@@ -12,6 +12,7 @@
 @interface NewTappingTests : KIFTestCase
 @end
 
+
 @implementation NewTappingTests
 
 - (void)beforeEach

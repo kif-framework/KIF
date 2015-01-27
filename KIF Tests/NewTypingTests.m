@@ -12,6 +12,7 @@
 @interface NewTypingTests : KIFTestCase
 @end
 
+
 @implementation NewTypingTests
 
 - (void)beforeEach
