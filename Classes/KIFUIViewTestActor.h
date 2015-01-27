@@ -59,6 +59,11 @@
 
 - (void)scrollByFractionOfSizeHorizontal:(CGFloat)horizontalFraction vertical:(CGFloat)verticalFraction;
 
+- (void)selectPickerViewRowWithTitle:(NSString *)title;
+- (void)selectPickerViewRowWithTitle:(NSString *)title inComponent:(NSInteger)component;
+- (void)selectDatePickerValue:(NSArray *)datePickerColumnValues;
+- (void)choosePhotoInAlbum:(NSString *)albumName atRow:(NSInteger)row column:(NSInteger)column;
+
 - (void)acknowledgeSystemAlert;
 - (void)tapStatusBar;
 - (void)dismissPopover;
