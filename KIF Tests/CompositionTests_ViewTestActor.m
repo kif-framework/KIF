@@ -52,17 +52,17 @@
 - (void)testTappingViewWithHint
 {
     [viewTester tapViewWithAccessibilityHint:@"A button for A"];
-    [tester waitForViewWithAccessibilityLabel:@"A" traits:UIAccessibilityTraitSelected];
+    [[[viewTester usingLabel:@"A"] usingTraits:UIAccessibilityTraitSelected] waitForView];
 }
 
 - (void)testTappingOnlyIfNotSelected
 {
     [viewTester tapViewIfNotSelected:@"A"];
-    [tester waitForViewWithAccessibilityLabel:@"A" traits:UIAccessibilityTraitSelected];
+    [[[viewTester usingLabel:@"A"] usingTraits:UIAccessibilityTraitSelected] waitForView];
 
     // This should not deselect the element.
     [viewTester tapViewIfNotSelected:@"A"];
-    [tester waitForViewWithAccessibilityLabel:@"A" traits:UIAccessibilityTraitSelected];
+    [[[viewTester usingLabel:@"A"] usingTraits:UIAccessibilityTraitSelected] waitForView];
 }
 
 @end
