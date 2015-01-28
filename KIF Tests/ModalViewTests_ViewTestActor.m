@@ -22,7 +22,6 @@
 {
     [[viewTester usingLabel:@"UIAlertView"] tap];
     [[viewTester usingLabel:@"Alert View"] waitForView];
-    [tester waitForViewWithAccessibilityLabel:@"Message"];
     [[viewTester usingLabel:@"Message"] waitForView];
     [[viewTester usingLabel:@"Cancel"] waitToBecomeTappable];
     [[viewTester usingLabel:@"Continue"] waitToBecomeTappable];

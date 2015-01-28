@@ -25,7 +25,7 @@
     if ([[viewTester usingLabel:@"Test Suite"] tryFindingTappableView] && ![[viewTester usingLabel:@"Tapping"] tryFindingTappableView]) {
         [[[viewTester usingLabel:@"Test Suite"] usingTraits:UIAccessibilityTraitButton] tap];
     } else {
-        [tester fail];
+        [viewTester fail];
     }
 }
 

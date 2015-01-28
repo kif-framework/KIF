@@ -16,7 +16,7 @@
 - (void)beforeAll
 {
     [system simulateDeviceRotationToOrientation:UIDeviceOrientationLandscapeLeft];
-    [tester scrollViewWithAccessibilityIdentifier:@"Test Suite TableView" byFractionOfSizeHorizontal:0 vertical:-0.2];
+    [[viewTester usingIdentifier:@"Test Suite TableView"] scrollByFractionOfSizeHorizontal:0 vertical:-0.2];
 }
 
 - (void)afterAll

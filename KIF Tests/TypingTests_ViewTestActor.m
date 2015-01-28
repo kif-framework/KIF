@@ -86,7 +86,6 @@
 - (void)testThatClearingTextHitsTheDelegate
 {
     [[viewTester usingLabel:@"Other Text"] enterText:@"hello"];
-    [tester clearTextFromViewWithAccessibilityLabel:@"Other Text"];
     [[viewTester usingLabel:@"Other Text"] clearText];
     [[[[viewTester usingLabel:@"Greeting"] usingValue:@"Deleted something."] usingTraits:UIAccessibilityTraitNone] waitForView];
 }
