@@ -36,6 +36,7 @@ typedef CGPoint KIFDisplacement;
 - (void)flash;
 - (void)tap;
 - (void)tapAtPoint:(CGPoint)point;
+- (void)twoFingerTapAtPoint:(CGPoint)point;
 - (void)longPressAtPoint:(CGPoint)point duration:(NSTimeInterval)duration;
 
 /*!

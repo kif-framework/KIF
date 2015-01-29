@@ -11,6 +11,7 @@
 #import <KIF/UIApplication-KIFAdditions.h>
 
 @interface MultiFingerTests : KIFTestCase
+@property (nonatomic, readwrite) BOOL twoFingerTapSuccess;
 @property (nonatomic, readwrite) BOOL twoFingerPanSuccess;
 @property (nonatomic, readwrite) BOOL zoomSuccess;
 @end
@@ -25,6 +26,7 @@
     UIScrollView *scrollView = (UIScrollView *)[tester waitForViewWithAccessibilityLabel:@"Scroll View"];
     scrollView.contentOffset = CGPointZero;
 
+    self.twoFingerTapSuccess = NO;
     self.twoFingerPanSuccess = NO;
     self.zoomSuccess = NO;
 }
@@ -32,8 +34,26 @@
 - (void)afterEach
 {
     [tester tapViewWithAccessibilityLabel:@"Test Suite" traits:UIAccessibilityTraitButton];
+    self.twoFingerTapSuccess = NO;
     self.twoFingerPanSuccess = NO;
     self.zoomSuccess = NO;
+}
+
+- (void)testTwoFingerTap {
+    UIScrollView *scrollView = (UIScrollView *)[tester waitForViewWithAccessibilityLabel:@"Scroll View"];
+    UITapGestureRecognizer *twoFingerTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                                             action:@selector(twoFingerTapped)];
+    twoFingerTapRecognizer.numberOfTouchesRequired = 2;
+    [scrollView addGestureRecognizer:twoFingerTapRecognizer];
+
+    [scrollView twoFingerTapAtPoint:CGPointMake(CGRectGetMidX(scrollView.bounds), CGRectGetMidY(scrollView.bounds))];
+
+    __KIFAssertEqual(self.twoFingerTapSuccess, YES);
+    [scrollView removeGestureRecognizer:twoFingerTapRecognizer];
+}
+
+- (void)twoFingerTapped {
+    self.twoFingerTapSuccess = YES;
 }
 
 - (void)testTwoFingerPan
@@ -50,6 +70,7 @@
     [scrollView twoFingerPanFromPoint:startPoint toPoint:endPoint steps:10];
 
     __KIFAssertEqual(self.twoFingerPanSuccess, YES);
+    [scrollView removeGestureRecognizer:panGestureRecognizer];
 }
 
 - (void)twoFingerPanned {
@@ -69,6 +90,7 @@
     [scrollView zoomAtPoint:startPoint distance:distance steps:10];
 
     __KIFAssertEqual(self.zoomSuccess, YES);
+    [scrollView removeGestureRecognizer:pinchRecognizer];
 }
 
 - (void)zoomed:(UIPinchGestureRecognizer *)pinchRecognizer {

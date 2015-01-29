@@ -403,6 +403,23 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
 
 }
 
+- (void)twoFingerTapAtPoint:(CGPoint)point {
+    CGPoint finger1 = CGPointMake(point.x - kTwoFingerConstantWidth, point.y - kTwoFingerConstantWidth);
+    CGPoint finger2 = CGPointMake(point.x + kTwoFingerConstantWidth, point.y + kTwoFingerConstantWidth);
+    UITouch *touch1 = [[UITouch alloc] initAtPoint:finger1 inView:self];
+    UITouch *touch2 = [[UITouch alloc] initAtPoint:finger2 inView:self];
+    [touch1 setPhaseAndUpdateTimestamp:UITouchPhaseBegan];
+    [touch2 setPhaseAndUpdateTimestamp:UITouchPhaseBegan];
+
+    UIEvent *event = [self eventWithTouches:@[touch1, touch2]];
+    [[UIApplication sharedApplication] sendEvent:event];
+
+    [touch1 setPhaseAndUpdateTimestamp:UITouchPhaseEnded];
+    [touch2 setPhaseAndUpdateTimestamp:UITouchPhaseEnded];
+
+    [[UIApplication sharedApplication] sendEvent:event];
+}
+
 #define DRAG_TOUCH_DELAY 0.01
 
 - (void)longPressAtPoint:(CGPoint)point duration:(NSTimeInterval)duration
