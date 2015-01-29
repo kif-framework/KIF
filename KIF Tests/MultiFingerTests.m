@@ -14,6 +14,7 @@
 @property (nonatomic, readwrite) BOOL twoFingerTapSuccess;
 @property (nonatomic, readwrite) BOOL twoFingerPanSuccess;
 @property (nonatomic, readwrite) BOOL zoomSuccess;
+@property (nonatomic, readwrite) double latestRotation;
 @end
 
 @implementation MultiFingerTests
@@ -29,6 +30,7 @@
     self.twoFingerTapSuccess = NO;
     self.twoFingerPanSuccess = NO;
     self.zoomSuccess = NO;
+    self.latestRotation = 0;
 }
 
 - (void)afterEach
@@ -37,6 +39,7 @@
     self.twoFingerTapSuccess = NO;
     self.twoFingerPanSuccess = NO;
     self.zoomSuccess = NO;
+    self.latestRotation = 0;
 }
 
 - (void)testTwoFingerTap {
@@ -103,6 +106,40 @@
         }
     }
 
+}
+
+- (void)testRotate {
+    UIScrollView *scrollView = (UIScrollView *)[tester waitForViewWithAccessibilityLabel:@"Scroll View"];
+    UIRotationGestureRecognizer *rotateRecognizer =
+        [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(rotated:)];
+
+    [scrollView addGestureRecognizer:rotateRecognizer];
+
+    [self assertThatLatestRotationIsWithinThreshold:45];
+    [self assertThatLatestRotationIsWithinThreshold:90];
+    [self assertThatLatestRotationIsWithinThreshold:180];
+    [self assertThatLatestRotationIsWithinThreshold:270];
+    [self assertThatLatestRotationIsWithinThreshold:360];
+
+    [scrollView removeGestureRecognizer:rotateRecognizer];
+}
+
+- (void)assertThatLatestRotationIsWithinThreshold:(double)targetRotationInDegrees {
+    UIScrollView *scrollView = (UIScrollView *)[tester waitForViewWithAccessibilityLabel:@"Scroll View"];
+    CGPoint startPoint = CGPointMake(CGRectGetMidX(scrollView.bounds), CGRectGetMidY(scrollView.bounds));
+    [scrollView twoFingerRotateAtPoint:startPoint angle:targetRotationInDegrees];
+
+    // check we have rotated to within some small threshold of the target rotation amount
+    // 0.2 radians is ~12 degrees
+    BOOL withinThreshold = (self.latestRotation - KIFDegreesToRadians(targetRotationInDegrees)) < 0.2;
+    __KIFAssertEqual(withinThreshold, YES);
+}
+
+- (void)rotated:(UIRotationGestureRecognizer *)recognizer {
+    if (recognizer.state == UIGestureRecognizerStateEnded)
+    {
+        self.latestRotation = recognizer.rotation;
+    }
 }
 
 @end
