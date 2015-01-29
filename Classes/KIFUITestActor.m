@@ -376,7 +376,7 @@
     UIView *view = nil;
     UIAccessibilityElement *element = nil;
 
-    [self waitForAccessibilityElement:&element view:&view withLabel:label value:nil traits:traits tappable:YES];
+    [self waitForAccessibilityElement:&element view:&view withLabel:label value:nil traits:traits tappable:YES];    
     [self clearTextFromElement:element inView:view];
 }
 
