@@ -22,13 +22,11 @@
 
 #pragma mark - Initialization
 
-- (instancetype)usingPredicateWithFormat:(NSString *)predicateFormat, ...;
+- (instancetype)usingPredicate:(NSPredicate *)predicate;
 {
-    va_list args;
-    va_start(args, predicateFormat);
-    [self _appendPredicate:[NSPredicate predicateWithFormat:predicateFormat arguments:args]];
-    va_end(args);
-    return self;
+
+    [self _appendPredicate:predicate];
+    return  self;
 }
 
 - (instancetype)usingLabel:(NSString *)label;
@@ -36,7 +34,7 @@
     int systemVersion = [UIDevice currentDevice].systemVersion.intValue;
 
     if ([label rangeOfString:@"\n"].location == NSNotFound || systemVersion == 6) {
-        return [self usingPredicateWithFormat:@"accessibilityLabel == %@", label];
+        return [self usingPredicate:[NSPredicate predicateWithFormat:@"accessibilityLabel == %@", label]];
     }
 
     // On iOS 6 the accessibility label may contain line breaks, so when trying to find the
@@ -56,27 +54,27 @@
         alternate = [label stringByReplacingOccurrencesOfString:@"\\b\\n\\b" withString:@" " options:NSRegularExpressionSearch range:NSMakeRange(0, label.length)];
     }
 
-    return [self usingPredicateWithFormat:@"accessibilityLabel == %@ OR accessibilityLabel == %@", label, alternate];
+    return [self usingPredicate:[NSPredicate predicateWithFormat:@"accessibilityLabel == %@ OR accessibilityLabel == %@", label, alternate]];
 }
 
 - (instancetype)usingIdentifier:(NSString *)identifier;
 {
-    return [self usingPredicateWithFormat:@"accessibilityIdentifier == %@", identifier];
+    return [self usingPredicate:[NSPredicate predicateWithFormat:@"accessibilityIdentifier == %@", identifier]];
 }
 
 - (instancetype)usingTraits:(UIAccessibilityTraits)traits;
 {
-    return [self usingPredicateWithFormat:@"(accessibilityTraits & %i) == %i", traits, traits];
+    return [self usingPredicate:[NSPredicate predicateWithFormat:@"(accessibilityTraits & %i) == %i", traits, traits]];
 }
 
 - (instancetype)usingValue:(NSString *)value;
 {
-    return [self usingPredicateWithFormat:@"accessibilityValue like %@", value];
+    return [self usingPredicate:[NSPredicate predicateWithFormat:@"accessibilityValue like %@", value]];
 }
 
 - (instancetype)usingExpectedClass:(Class)expectedClass;
 {
-    return [self usingPredicateWithFormat:@"class == %@", expectedClass];
+    return [self usingPredicate:[NSPredicate predicateWithFormat:@"class == %@", expectedClass]];
 }
 
 
