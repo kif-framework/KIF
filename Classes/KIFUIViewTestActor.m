@@ -29,12 +29,12 @@
     return  self;
 }
 
-- (instancetype)usingLabel:(NSString *)label;
+- (instancetype)usingLabel:(NSString *)accessibilityLabel;
 {
     int systemVersion = [UIDevice currentDevice].systemVersion.intValue;
 
-    if ([label rangeOfString:@"\n"].location == NSNotFound || systemVersion == 6) {
-        return [self usingPredicate:[NSPredicate predicateWithFormat:@"accessibilityLabel == %@", label]];
+    if ([accessibilityLabel rangeOfString:@"\n"].location == NSNotFound || systemVersion == 6) {
+        return [self usingPredicate:[NSPredicate predicateWithFormat:@"accessibilityLabel MATCHES %@", accessibilityLabel]];
     }
 
     // On iOS 6 the accessibility label may contain line breaks, so when trying to find the
@@ -49,17 +49,17 @@
 
     NSString *alternate = nil;
     if (systemVersion == 7) {
-        alternate = [label stringByReplacingOccurrencesOfString:@"\n" withString:@" "];
+        alternate = [accessibilityLabel stringByReplacingOccurrencesOfString:@"\n" withString:@" "];
     } else {
-        alternate = [label stringByReplacingOccurrencesOfString:@"\\b\\n\\b" withString:@" " options:NSRegularExpressionSearch range:NSMakeRange(0, label.length)];
+        alternate = [accessibilityLabel stringByReplacingOccurrencesOfString:@"\\b\\n\\b" withString:@" " options:NSRegularExpressionSearch range:NSMakeRange(0, accessibilityLabel.length)];
     }
 
-    return [self usingPredicate:[NSPredicate predicateWithFormat:@"accessibilityLabel == %@ OR accessibilityLabel == %@", label, alternate]];
+    return [self usingPredicate:[NSPredicate predicateWithFormat:@"accessibilityLabel MATCHES %@ OR accessibilityLabel MATCHES %@", accessibilityLabel, alternate]];
 }
 
-- (instancetype)usingIdentifier:(NSString *)identifier;
+- (instancetype)usingIdentifier:(NSString *)accessibilityIdentifier;
 {
-    return [self usingPredicate:[NSPredicate predicateWithFormat:@"accessibilityIdentifier == %@", identifier]];
+    return [self usingPredicate:[NSPredicate predicateWithFormat:@"accessibilityIdentifier MATCHES %@", accessibilityIdentifier]];
 }
 
 - (instancetype)usingTraits:(UIAccessibilityTraits)traits;
@@ -69,12 +69,12 @@
 
 - (instancetype)usingValue:(NSString *)value;
 {
-    return [self usingPredicate:[NSPredicate predicateWithFormat:@"accessibilityValue like %@", value]];
+    return [self usingPredicate:[NSPredicate predicateWithFormat:@"accessibilityValue MATCHES %@", value]];
 }
 
 - (instancetype)usingExpectedClass:(Class)expectedClass;
 {
-    return [self usingPredicate:[NSPredicate predicateWithFormat:@"class == %@", expectedClass]];
+    return [self usingPredicate:[NSPredicate predicateWithFormat:@"class MATCHES %@", expectedClass]];
 }
 
 
