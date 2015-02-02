@@ -62,7 +62,23 @@ MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
     
     if (!element) {
         if (error) {
-            *error = [NSError KIFErrorWithFormat:@"Could not find view matching: %@", predicate];
+            if ([predicate isKindOfClass:[NSCompoundPredicate class]]) {
+                NSArray *subPredicates = ((NSCompoundPredicate *)predicate).subpredicates;
+                for (NSPredicate *subPredicate in subPredicates){
+                        UIAccessibilityElement *match = [[UIApplication sharedApplication] accessibilityElementMatchingBlock:^BOOL (UIAccessibilityElement *element) {
+                                return [subPredicate evaluateWithObject:match];
+                        }];
+                    if (!match) {
+                        
+                        
+                        *error = [NSError KIFErrorWithFormat:@"%@", [self _errorStringForFailingPredicate:subPredicate]];
+                    }
+                }
+            }
+            
+            else {
+                *error = [NSError KIFErrorWithFormat:@"%@",[self _errorStringForFailingPredicate:predicate]];
+            }
         }
         return NO;
     }
@@ -75,6 +91,17 @@ MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
     if (foundElement) { *foundElement = element; }
     if (foundView) { *foundView = view; }
     return YES;
+}
+
++ (NSString *)_errorStringForFailingPredicate:(NSPredicate*)failingPredicate;
+{
+    NSString *format = failingPredicate.predicateFormat;
+    if ([format rangeOfString:@"MATCHES"].location != NSNotFound) {
+        NSArray *split = [format componentsSeparatedByString:@" MATCHES "];
+        return [NSString stringWithFormat:@"could not find accessibility element with the %@ matching %@", split.firstObject, split.lastObject];
+    }
+    
+    return [NSString stringWithFormat:@"Could not find accessibility element matching: %@", failingPredicate];
 }
 
 + (UIAccessibilityElement *)accessibilityElementWithLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits error:(out NSError **)error;
