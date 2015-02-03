@@ -352,7 +352,7 @@ static inline KIFDisplacement KIFDisplacementForSwipingInDirection(KIFSwipeDirec
  @discussion If the Switch isn't currently tappable, then the step will attempt to wait until it is. Once the view is present, the step will return if it's already in the desired position. If the switch is tappable but not in the desired position, a tap event is simulated in the center of the view or element, toggling the switch into the desired position.
  @param switchIsOn The desired position of the UISwitch.
  @param switchView The switch to switch.
- @param switchView The accessibility element for the switch.
+ @param element The accessibility element for the switch.
 
  */
 - (void)setSwitch:(UISwitch *)switchView element:(UIAccessibilityElement *)element On:(BOOL)switchIsOn;

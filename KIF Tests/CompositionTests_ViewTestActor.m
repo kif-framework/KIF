@@ -23,13 +23,13 @@
 {
     UIAccessibilityElement *element = [viewTester usingLabel:label].element;
     if ((element.accessibilityTraits & UIAccessibilityTraitSelected) == UIAccessibilityTraitNone) {
-        [[[viewTester usingLabel:label] usingPredicateWithFormat:@"(accessibilityTraits & %i) == %i", UIAccessibilityTraitSelected, UIAccessibilityTraitNone] tap];
+        [[[viewTester usingLabel:label] usingPredicate:[NSPredicate predicateWithFormat:@"(accessibilityTraits & %i) == %i", UIAccessibilityTraitSelected, UIAccessibilityTraitNone]] tap];
     }
 }
 
 - (void)tapViewWithAccessibilityHint:(NSString *)hint
 {
-    [[viewTester usingPredicateWithFormat:@"accessibilityHint like %@", hint] tap];
+    [[viewTester usingPredicate:[NSPredicate predicateWithFormat:@"accessibilityHint like %@", hint]] tap];
 }
 
 @end

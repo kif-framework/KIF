@@ -18,9 +18,9 @@
 @property (nonatomic, strong, readonly) NSPredicate *predicate;
 @property (nonatomic, assign, readonly) BOOL hasMatch;
 
-- (instancetype)usingPredicateWithFormat:(NSString *)predicateFormat, ...;
-- (instancetype)usingLabel:(NSString *)label;
-- (instancetype)usingIdentifier:(NSString *)identifier;
+- (instancetype)usingPredicate:(NSPredicate *)predicate;
+- (instancetype)usingLabel:(NSString *)accessibilityLabel;
+- (instancetype)usingIdentifier:(NSString *)accessibilityIdentifier;
 - (instancetype)usingTraits:(UIAccessibilityTraits)traits;
 - (instancetype)usingValue:(NSString *)value;
 - (instancetype)usingExpectedClass:(Class)expectedClass;
