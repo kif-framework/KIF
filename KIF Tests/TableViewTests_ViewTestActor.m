@@ -55,7 +55,7 @@
     [[viewTester usingAccessibilityIdentifier:@"TableView Tests Table"] tapRowInTableViewAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:2]];
     [viewTester tapStatusBar];
 
-    UITableView *tableView = (UITableView *)[[viewTester usingIdentifier:@"TableView Tests Table"] usingExpectedClass:[UITableView class]].view;
+    UITableView *tableView = (UITableView *)[[viewTester usingAccessibilityIdentifier:@"TableView Tests Table"] usingExpectedClass:[UITableView class]].view;
     [viewTester runBlock:^KIFTestStepResult(NSError *__autoreleasing *error) {
         KIFTestWaitCondition(tableView.contentOffset.y == - tableView.contentInset.top, error, @"Waited for scroll view to scroll to top, but it ended at %@", NSStringFromCGPoint(tableView.contentOffset));
         return KIFTestStepResultSuccess;
@@ -129,7 +129,7 @@
 {
     [[viewTester usingAccessibilityLabel:@"Button"] waitForView];
 
-    [[viewTester usingLabel:@"Button"].view removeFromSuperview];
+    [[viewTester usingAccessibilityLabel:@"Button"].view removeFromSuperview];
     [[viewTester usingAccessibilityLabel:@"Button"] waitForAbsenceOfView];
 }
 
@@ -137,7 +137,7 @@
 {
     [[viewTester usingAccessibilityLabel:@"Button"] waitForView];
 
-    UIView *button = [viewTester usingLabel:@"Button"].view;
+    UIView *button = [viewTester usingAccessibilityLabel:@"Button"].view;
 
     [button setHidden:YES];
     [[viewTester usingAccessibilityLabel:@"Button"] waitForAbsenceOfView];

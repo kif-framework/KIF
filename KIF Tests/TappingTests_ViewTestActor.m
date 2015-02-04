@@ -9,6 +9,20 @@
 
 #import <KIF/KIF.h>
 
+@implementation KIFUIViewTestActor (tappingtests)
+
+- (KIFUIViewTestActor *)xButton;
+{
+    return [[self usingAccessibilityLabel:@"X"] usingTraits:UIAccessibilityTraitButton];
+}
+
+- (KIFUIViewTestActor *)greeting;
+{
+    return [self usingAccessibilityLabel:@"Greeting"];
+}
+
+@end
+
 @interface TappingTests_ViewTestActor : KIFTestCase
 @end
 
@@ -27,27 +41,28 @@
 
 - (void)testTappingViewWithAccessibilityLabel
 {
+    [[viewTester xButton] tap];
     // Since the tap has occurred in setup, we just need to wait for the result.
     [[viewTester usingAccessibilityLabel:@"TapViewController"] waitForView];
 }
 
 - (void)testTappingViewWithTraits
 {
-    [[[viewTester usingAccessibilityLabel:@"X"] usingTraits:UIAccessibilityTraitButton] tap];
-    [[[viewTester usingAccessibilityLabel:@"X"] usingTraits:UIAccessibilityTraitButton | UIAccessibilityTraitSelected] waitForView];
+    [[viewTester xButton] tap];
+    [[[viewTester xButton] usingTraits:UIAccessibilityTraitSelected] waitForView];
 }
 
 - (void)testTappingViewWithValue
 {
-    [[[[viewTester usingAccessibilityLabel:@"Greeting"] usingValue:@"Hello"] usingTraits:UIAccessibilityTraitNone] tap];
-    [[viewTester usingAccessibilityLabel:@"Greeting"] waitToBecomeFirstResponder];
+    [[[[viewTester greeting] usingValue:@"Hello"] usingTraits:UIAccessibilityTraitNone] tap];
+    [[viewTester greeting] waitToBecomeFirstResponder];
 }
 
 - (void)testTappingViewWithScreenAtPoint
 {
     [viewTester waitForTimeInterval:0.75];
     [viewTester tapScreenAtPoint:CGPointMake(15, 200)];
-    [[[viewTester usingAccessibilityLabel:@"X"] usingTraits:UIAccessibilityTraitSelected] waitForView];
+    [[[viewTester xButton] usingTraits:UIAccessibilityTraitSelected] waitForView];
 }
 
 - (void)testTappingViewPartiallyOffscreenAndWithinScrollView
@@ -65,5 +80,6 @@
     [[viewTester usingAccessibilityLabel:@"Label with\nLine Break\n\n"] tap];
     [[viewTester usingAccessibilityLabel:@"A\nB\nC\n\n"] tap];
 }
+
 
 @end

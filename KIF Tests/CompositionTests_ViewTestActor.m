@@ -21,7 +21,7 @@
 
 - (void)tapViewIfNotSelected:(NSString *)label
 {
-    UIAccessibilityElement *element = [viewTester usingLabel:label].element;
+    UIAccessibilityElement *element = [viewTester usingAccessibilityLabel:label].element;
     if ((element.accessibilityTraits & UIAccessibilityTraitSelected) == UIAccessibilityTraitNone) {
         [[[viewTester usingAccessibilityLabel:label] usingPredicate:[NSPredicate predicateWithFormat:@"(accessibilityTraits & %i) == %i", UIAccessibilityTraitSelected, UIAccessibilityTraitNone]] tap];
     }

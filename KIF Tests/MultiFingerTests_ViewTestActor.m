@@ -22,7 +22,7 @@
 {
     [[viewTester usingAccessibilityLabel:@"ScrollViews"] tap];
     // reset scroll view
-    UIScrollView *scrollView = (UIScrollView *)[viewTester usingLabel:@"Scroll View"].view;
+    UIScrollView *scrollView = (UIScrollView *)[viewTester usingAccessibilityLabel:@"Scroll View"].view;
     scrollView.contentOffset = CGPointZero;
 
     self.twoFingerPanSuccess = NO;
@@ -40,7 +40,7 @@
 {
     CGFloat offset = 50.0;
 
-    UIScrollView *scrollView = (UIScrollView *)[viewTester usingLabel:@"Scroll View"].view;
+    UIScrollView *scrollView = (UIScrollView *)[viewTester usingAccessibilityLabel:@"Scroll View"].view;
     UIPanGestureRecognizer *panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(twoFingerPanned)];
     panGestureRecognizer.minimumNumberOfTouches = 2;
     [scrollView addGestureRecognizer:panGestureRecognizer];
@@ -61,7 +61,7 @@
 {
     CGFloat distance = 50.0;
 
-    UIScrollView *scrollView = (UIScrollView *)[viewTester usingLabel:@"Scroll View"].view;
+    UIScrollView *scrollView = (UIScrollView *)[viewTester usingAccessibilityLabel:@"Scroll View"].view;
     UIPinchGestureRecognizer *pinchRecognizer = [[UIPinchGestureRecognizer alloc] initWithTarget:self
                                                                                           action:@selector(zoomed:)];
 
