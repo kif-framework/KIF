@@ -9,6 +9,14 @@
 
 #import <KIF/KIF.h>
 #import <KIF/KIFTestStepValidation.h>
+@implementation KIFUIViewTestActor (gesturetests)
+
+- (KIFUIViewTestActor *)swipeMe
+{
+    return [self usingAccessibilityLabel:@"Swipe Me"];
+}
+@end
+
 
 @interface GestureTests_ViewTestActor : KIFTestCase
 @end
@@ -27,25 +35,25 @@
 
 - (void)testSwipingLeft
 {
-    [[viewTester usingAccessibilityLabel:@"Swipe Me"] swipeInDirection:KIFSwipeDirectionLeft];
+    [[viewTester swipeMe] swipeInDirection:KIFSwipeDirectionLeft];
     [[viewTester usingAccessibilityLabel:@"Left"] waitForView];
 }
 
 - (void)testSwipingRight
 {
-    [[viewTester usingAccessibilityLabel:@"Swipe Me"] swipeInDirection:KIFSwipeDirectionRight];
+    [[viewTester swipeMe] swipeInDirection:KIFSwipeDirectionRight];
     [[viewTester usingAccessibilityLabel:@"Right"] waitForView];
 }
 
 - (void)testSwipingUp
 {
-    [[viewTester usingAccessibilityLabel:@"Swipe Me"] swipeInDirection:KIFSwipeDirectionUp];
+    [[viewTester swipeMe] swipeInDirection:KIFSwipeDirectionUp];
     [[viewTester usingAccessibilityLabel:@"Up"] waitForView];
 }
 
 - (void)testSwipingDown
 {
-    [[viewTester usingAccessibilityLabel:@"Swipe Me"] swipeInDirection:KIFSwipeDirectionDown];
+    [[viewTester swipeMe] swipeInDirection:KIFSwipeDirectionDown];
     [[viewTester usingAccessibilityLabel:@"Down"] waitForView];
 }
 
@@ -56,25 +64,25 @@
 
 - (void)testSwipingLeftWithTraits
 {
-    [[[viewTester usingAccessibilityLabel:@"Swipe Me"] usingTraits:UIAccessibilityTraitStaticText] swipeInDirection:KIFSwipeDirectionLeft];
+    [[[viewTester swipeMe] usingTraits:UIAccessibilityTraitStaticText] swipeInDirection:KIFSwipeDirectionLeft];
     [[viewTester usingAccessibilityLabel:@"Left"] waitForView];
 }
 
 - (void)testSwipingRightWithTraits
 {
-    [[[viewTester usingAccessibilityLabel:@"Swipe Me"] usingTraits:UIAccessibilityTraitStaticText] swipeInDirection:KIFSwipeDirectionRight];
+    [[[viewTester swipeMe] usingTraits:UIAccessibilityTraitStaticText] swipeInDirection:KIFSwipeDirectionRight];
     [[viewTester usingAccessibilityLabel:@"Right"] waitForView];
 }
 
 - (void)testSwipingUpWithTraits
 {
-    [[[viewTester usingAccessibilityLabel:@"Swipe Me"] usingTraits:UIAccessibilityTraitStaticText] swipeInDirection:KIFSwipeDirectionUp];
+    [[[viewTester swipeMe] usingTraits:UIAccessibilityTraitStaticText] swipeInDirection:KIFSwipeDirectionUp];
     [[viewTester usingAccessibilityLabel:@"Up"] waitForView];
 }
 
 - (void)testSwipingDownWithTraits
 {
-    [[[viewTester usingAccessibilityLabel:@"Swipe Me"] usingTraits:UIAccessibilityTraitStaticText] swipeInDirection:KIFSwipeDirectionDown];
+    [[[viewTester swipeMe] usingTraits:UIAccessibilityTraitStaticText] swipeInDirection:KIFSwipeDirectionDown];
     [[viewTester usingAccessibilityLabel:@"Down"] waitForView];
 }
 
