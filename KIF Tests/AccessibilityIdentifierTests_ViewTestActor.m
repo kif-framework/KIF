@@ -17,62 +17,62 @@
 
 - (void)beforeEach
 {
-    [[viewTester usingLabel:@"Tapping"] tap];
+    [[viewTester usingAccessibilityLabel:@"Tapping"] tap];
 }
 
 - (void)testWaitingForViewWithAccessibilityIdentifier
 {
     // Since the tap has occurred in setup, we just need to wait for the result.
-    [[viewTester usingIdentifier:@"X_BUTTON"] waitForView];
-    KIFExpectFailure([[[viewTester usingTimeout:0.5] usingIdentifier:@"NOT_X_BUTTON"] waitForView]);
+    [[viewTester usingAccessibilityIdentifier:@"X_BUTTON"] waitForView];
+    KIFExpectFailure([[[viewTester usingTimeout:0.5] usingAccessibilityIdentifier:@"NOT_X_BUTTON"] waitForView]);
 }
 
 - (void)testTappingViewWithAccessibilityIdentifier
 {
-    [[viewTester usingIdentifier:@"X_BUTTON"] tap];
-    [[[viewTester usingLabel:@"X"] usingTraits:UIAccessibilityTraitButton | UIAccessibilityTraitSelected] waitForView];
-    KIFExpectFailure([[[viewTester usingTimeout:0.5] usingIdentifier:@"NOT_X_BUTTON"] tap]);
+    [[viewTester usingAccessibilityIdentifier:@"X_BUTTON"] tap];
+    [[[viewTester usingAccessibilityLabel:@"X"] usingTraits:UIAccessibilityTraitButton | UIAccessibilityTraitSelected] waitForView];
+    KIFExpectFailure([[[viewTester usingTimeout:0.5] usingAccessibilityIdentifier:@"NOT_X_BUTTON"] tap]);
 }
 
 - (void)testWaitingForAbscenceOfViewWithAccessibilityIdentifier
 {
     // Since the tap has occurred in setup, we just need to wait for the result.
-    [[viewTester usingIdentifier:@"X_BUTTON"] waitForView];
-    [[viewTester usingIdentifier:@"NOT_X_BUTTON"] waitForAbsenceOfView];
-    KIFExpectFailure([[[viewTester usingTimeout:0.5] usingIdentifier:@"X_BUTTON"] waitForAbsenceOfView]);
-    [[[viewTester usingLabel:@"Test Suite"] usingTraits:UIAccessibilityTraitButton] tap];
-    [[viewTester usingIdentifier:@"X_BUTTON"] waitForAbsenceOfView];
-    [[viewTester usingLabel:@"Tapping"] tap];
+    [[viewTester usingAccessibilityIdentifier:@"X_BUTTON"] waitForView];
+    [[viewTester usingAccessibilityIdentifier:@"NOT_X_BUTTON"] waitForAbsenceOfView];
+    KIFExpectFailure([[[viewTester usingTimeout:0.5] usingAccessibilityIdentifier:@"X_BUTTON"] waitForAbsenceOfView]);
+    [[[viewTester usingAccessibilityLabel:@"Test Suite"] usingTraits:UIAccessibilityTraitButton] tap];
+    [[viewTester usingAccessibilityIdentifier:@"X_BUTTON"] waitForAbsenceOfView];
+    [[viewTester usingAccessibilityLabel:@"Tapping"] tap];
 }
 
 - (void)testLongPressingViewWithAccessibilityIdentifier
 {
-    [[viewTester usingIdentifier:@"idGreeting"] longPressWithDuration:2];
-    [[viewTester usingLabel:@"Select All"] tap];
+    [[viewTester usingAccessibilityIdentifier:@"idGreeting"] longPressWithDuration:2];
+    [[viewTester usingAccessibilityLabel:@"Select All"] tap];
 }
 
 - (void)testEnteringTextIntoViewWithAccessibilityIdentifier
 {
-    [[viewTester usingIdentifier:@"idGreeting"] longPressWithDuration:2];
-    [[viewTester usingLabel:@"Select All"] tap];
-    [[viewTester usingLabel:@"Cut"] tap];
-    [[viewTester usingIdentifier:@"idGreeting"] enterText:@"Yo"];
+    [[viewTester usingAccessibilityIdentifier:@"idGreeting"] longPressWithDuration:2];
+    [[viewTester usingAccessibilityLabel:@"Select All"] tap];
+    [[viewTester usingAccessibilityLabel:@"Cut"] tap];
+    [[viewTester usingAccessibilityIdentifier:@"idGreeting"] enterText:@"Yo"];
 }
 
 - (void)testEnteringTextIntoViewWithAccessibilityIdentifierExpectingResults
 {
-    [[viewTester usingIdentifier:@"idGreeting"] enterText:@", world" expectedResult:@"Hello, world"];
-    [[[[viewTester usingLabel:@"Greeting"] usingValue:@"Hello, world"] usingTraits:UIAccessibilityTraitNone] waitForView];
+    [[viewTester usingAccessibilityIdentifier:@"idGreeting"] enterText:@", world" expectedResult:@"Hello, world"];
+    [[[[viewTester usingAccessibilityLabel:@"Greeting"] usingValue:@"Hello, world"] usingTraits:UIAccessibilityTraitNone] waitForView];
 }
 
 - (void)testClearingAndEnteringTextIntoViewWithAccessibilityLabel
 {
-    [[viewTester usingIdentifier:@"idGreeting"] clearAndEnterText:@"Yo"];
+    [[viewTester usingAccessibilityIdentifier:@"idGreeting"] clearAndEnterText:@"Yo"];
 }
 
 - (void)afterEach
 {
-    [[[viewTester usingLabel:@"Test Suite"] usingTraits:UIAccessibilityTraitButton] tap];
+    [[[viewTester usingAccessibilityLabel:@"Test Suite"] usingTraits:UIAccessibilityTraitButton] tap];
 }
 
 @end

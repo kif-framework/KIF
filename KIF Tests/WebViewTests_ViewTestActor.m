@@ -18,29 +18,29 @@
 
 - (void)beforeEach
 {
-    [[viewTester usingLabel:@"WebViews"] tap];
+    [[viewTester usingAccessibilityLabel:@"WebViews"] tap];
 }
 
 - (void)afterEach
 {
-    [[[viewTester usingLabel:@"Test Suite"] usingTraits:UIAccessibilityTraitButton] tap];
+    [[[viewTester usingAccessibilityLabel:@"Test Suite"] usingTraits:UIAccessibilityTraitButton] tap];
 }
 
 - (void)testTappingLinks
 {
-    [[viewTester usingLabel:@"A link"] tap];
-    [[viewTester usingLabel:@"Page 2"] waitForView];
+    [[viewTester usingAccessibilityLabel:@"A link"] tap];
+    [[viewTester usingAccessibilityLabel:@"Page 2"] waitForView];
 }
 
 - (void)testScrolling
 {
     // Off screen, the web view will need to be scrolled down
-    [[viewTester usingLabel:@"Footer"] waitForView];
+    [[viewTester usingAccessibilityLabel:@"Footer"] waitForView];
 }
 
 - (void)testEnteringText
 {
-    [[viewTester usingLabel:@"Input Label"] tap];
+    [[viewTester usingAccessibilityLabel:@"Input Label"] tap];
     [viewTester enterTextIntoCurrentFirstResponder:@"Keyboard text"];
 }
 

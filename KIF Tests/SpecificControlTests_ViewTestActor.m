@@ -15,37 +15,37 @@
 
 - (void)beforeEach
 {
-    [[viewTester usingLabel:@"Tapping"] tap];
+    [[viewTester usingAccessibilityLabel:@"Tapping"] tap];
 }
 
 - (void)afterEach
 {
-    [[[viewTester usingLabel:@"Test Suite"] usingTraits:UIAccessibilityTraitButton] tap];
+    [[[viewTester usingAccessibilityLabel:@"Test Suite"] usingTraits:UIAccessibilityTraitButton] tap];
 }
 
 - (void)testTogglingASwitch
 {
-    [[[[viewTester usingLabel:@"Happy"] usingValue:@"1"] usingTraits:UIAccessibilityTraitNone] waitForView];
-    [[viewTester usingLabel:@"Happy"] setSwitchOn:NO];
-    [[[[viewTester usingLabel:@"Happy"] usingValue:@"0"] usingTraits:UIAccessibilityTraitNone] waitForView];
-    [[viewTester usingLabel:@"Happy"] setSwitchOn:YES];
-    [[[[viewTester usingLabel:@"Happy"] usingValue:@"1"] usingTraits:UIAccessibilityTraitNone] waitForView];
+    [[[[viewTester usingAccessibilityLabel:@"Happy"] usingValue:@"1"] usingTraits:UIAccessibilityTraitNone] waitForView];
+    [[viewTester usingAccessibilityLabel:@"Happy"] setSwitchOn:NO];
+    [[[[viewTester usingAccessibilityLabel:@"Happy"] usingValue:@"0"] usingTraits:UIAccessibilityTraitNone] waitForView];
+    [[viewTester usingAccessibilityLabel:@"Happy"] setSwitchOn:YES];
+    [[[[viewTester usingAccessibilityLabel:@"Happy"] usingValue:@"1"] usingTraits:UIAccessibilityTraitNone] waitForView];
 }
 
 - (void)testMovingASlider
 {
     [viewTester waitForTimeInterval:1];
-    [[viewTester usingLabel:@"Slider"] setSliderValue:3];
-    [[[[viewTester usingLabel:@"Slider"] usingValue:@"3"] usingTraits:UIAccessibilityTraitNone] waitForView];
-    [[viewTester usingLabel:@"Slider"] setSliderValue:0];
-    [[[[viewTester usingLabel:@"Slider"] usingValue:@"0"] usingTraits:UIAccessibilityTraitNone] waitForView];
-    [[viewTester usingLabel:@"Slider"] setSliderValue:5];
-    [[[[viewTester usingLabel:@"Slider"] usingValue:@"5"] usingTraits:UIAccessibilityTraitNone] waitForView];
+    [[viewTester usingAccessibilityLabel:@"Slider"] setSliderValue:3];
+    [[[[viewTester usingAccessibilityLabel:@"Slider"] usingValue:@"3"] usingTraits:UIAccessibilityTraitNone] waitForView];
+    [[viewTester usingAccessibilityLabel:@"Slider"] setSliderValue:0];
+    [[[[viewTester usingAccessibilityLabel:@"Slider"] usingValue:@"0"] usingTraits:UIAccessibilityTraitNone] waitForView];
+    [[viewTester usingAccessibilityLabel:@"Slider"] setSliderValue:5];
+    [[[[viewTester usingAccessibilityLabel:@"Slider"] usingValue:@"5"] usingTraits:UIAccessibilityTraitNone] waitForView];
 }
 
 - (void)testPickingAPhoto
 {
-    [[viewTester usingLabel:@"Photos"] tap];
+    [[viewTester usingAccessibilityLabel:@"Photos"] tap];
     [viewTester acknowledgeSystemAlert];
     [viewTester waitForTimeInterval:0.5f]; // Wait for view to stabilize
 
@@ -55,7 +55,7 @@
     } else {
         [viewTester choosePhotoInAlbum:@"Saved Photos" atRow:1 column:2];
     }
-    [[viewTester usingLabel:@"{834, 1250}"] waitForView];
+    [[viewTester usingAccessibilityLabel:@"{834, 1250}"] waitForView];
 }
 
 @end

@@ -17,30 +17,30 @@
 
 - (void)beforeEach
 {
-    [[viewTester usingLabel:@"System Alerts"] tap];
+    [[viewTester usingAccessibilityLabel:@"System Alerts"] tap];
 }
 
 - (void)afterEach
 {
-    [[[viewTester usingLabel:@"Test Suite"] usingTraits:UIAccessibilityTraitButton] tap];
+    [[[viewTester usingAccessibilityLabel:@"Test Suite"] usingTraits:UIAccessibilityTraitButton] tap];
 }
 
 - (void)testAuthorizingLocationServices
 {
-    [[viewTester usingLabel:@"Location Services"] tap];
+    [[viewTester usingAccessibilityLabel:@"Location Services"] tap];
     [viewTester acknowledgeSystemAlert];
 }
 
 - (void)testAuthorizingPhotosAccess
 {
-    [[viewTester usingLabel:@"Photos"] tap];
+    [[viewTester usingAccessibilityLabel:@"Photos"] tap];
     [viewTester acknowledgeSystemAlert];
-    [[viewTester usingLabel:@"Cancel"] tap];
+    [[viewTester usingAccessibilityLabel:@"Cancel"] tap];
 }
 
 - (void)testNotificationScheduling
 {
-    [[viewTester usingLabel:@"Notifications"] tap];
+    [[viewTester usingAccessibilityLabel:@"Notifications"] tap];
     [viewTester acknowledgeSystemAlert];
 }
 

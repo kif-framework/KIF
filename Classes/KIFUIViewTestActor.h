@@ -19,8 +19,8 @@
 @property (nonatomic, assign, readonly) BOOL hasMatch;
 
 - (instancetype)usingPredicate:(NSPredicate *)predicate;
-- (instancetype)usingLabel:(NSString *)accessibilityLabel;
-- (instancetype)usingIdentifier:(NSString *)accessibilityIdentifier;
+- (instancetype)usingAccessibilityLabel:(NSString *)accessibilityLabel;
+- (instancetype)usingAccessibilityIdentifier:(NSString *)accessibilityIdentifier;
 - (instancetype)usingTraits:(UIAccessibilityTraits)traits;
 - (instancetype)usingValue:(NSString *)value;
 - (instancetype)usingExpectedClass:(Class)expectedClass;

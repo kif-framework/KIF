@@ -23,7 +23,7 @@
 {
     UIAccessibilityElement *element = [viewTester usingLabel:label].element;
     if ((element.accessibilityTraits & UIAccessibilityTraitSelected) == UIAccessibilityTraitNone) {
-        [[[viewTester usingLabel:label] usingPredicate:[NSPredicate predicateWithFormat:@"(accessibilityTraits & %i) == %i", UIAccessibilityTraitSelected, UIAccessibilityTraitNone]] tap];
+        [[[viewTester usingAccessibilityLabel:label] usingPredicate:[NSPredicate predicateWithFormat:@"(accessibilityTraits & %i) == %i", UIAccessibilityTraitSelected, UIAccessibilityTraitNone]] tap];
     }
 }
 
@@ -41,28 +41,28 @@
 
 - (void)beforeEach
 {
-    [[viewTester usingLabel:@"Show/Hide"] tap];
+    [[viewTester usingAccessibilityLabel:@"Show/Hide"] tap];
 }
 
 - (void)afterEach
 {
-    [[[viewTester usingLabel:@"Test Suite"] usingTraits:UIAccessibilityTraitButton] tap];
+    [[[viewTester usingAccessibilityLabel:@"Test Suite"] usingTraits:UIAccessibilityTraitButton] tap];
 }
 
 - (void)testTappingViewWithHint
 {
     [viewTester tapViewWithAccessibilityHint:@"A button for A"];
-    [[[viewTester usingLabel:@"A"] usingTraits:UIAccessibilityTraitSelected] waitForView];
+    [[[viewTester usingAccessibilityLabel:@"A"] usingTraits:UIAccessibilityTraitSelected] waitForView];
 }
 
 - (void)testTappingOnlyIfNotSelected
 {
     [viewTester tapViewIfNotSelected:@"A"];
-    [[[viewTester usingLabel:@"A"] usingTraits:UIAccessibilityTraitSelected] waitForView];
+    [[[viewTester usingAccessibilityLabel:@"A"] usingTraits:UIAccessibilityTraitSelected] waitForView];
 
     // This should not deselect the element.
     [viewTester tapViewIfNotSelected:@"A"];
-    [[[viewTester usingLabel:@"A"] usingTraits:UIAccessibilityTraitSelected] waitForView];
+    [[[viewTester usingAccessibilityLabel:@"A"] usingTraits:UIAccessibilityTraitSelected] waitForView];
 }
 
 @end

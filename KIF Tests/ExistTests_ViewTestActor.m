@@ -16,14 +16,14 @@
 
 - (void)testExistsViewWithAccessibilityLabel
 {
-    if ([[viewTester usingLabel:@"Tapping"] tryFindingTappableView] && ![[[viewTester usingLabel:@"Test Suite"] usingTraits:UIAccessibilityTraitButton] tryFindingTappableView]) {
-        [[viewTester usingLabel:@"Tapping"] tap];
+    if ([[viewTester usingAccessibilityLabel:@"Tapping"] tryFindingTappableView] && ![[[viewTester usingAccessibilityLabel:@"Test Suite"] usingTraits:UIAccessibilityTraitButton] tryFindingTappableView]) {
+        [[viewTester usingAccessibilityLabel:@"Tapping"] tap];
     } else {
         [viewTester fail];
     }
 
-    if ([[viewTester usingLabel:@"Test Suite"] tryFindingTappableView] && ![[viewTester usingLabel:@"Tapping"] tryFindingTappableView]) {
-        [[[viewTester usingLabel:@"Test Suite"] usingTraits:UIAccessibilityTraitButton] tap];
+    if ([[viewTester usingAccessibilityLabel:@"Test Suite"] tryFindingTappableView] && ![[viewTester usingAccessibilityLabel:@"Tapping"] tryFindingTappableView]) {
+        [[[viewTester usingAccessibilityLabel:@"Test Suite"] usingTraits:UIAccessibilityTraitButton] tap];
     } else {
         [viewTester fail];
     }

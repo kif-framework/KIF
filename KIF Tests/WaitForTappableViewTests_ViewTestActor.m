@@ -16,28 +16,28 @@
 
 - (void)beforeEach
 {
-    [[viewTester usingLabel:@"Show/Hide"] tap];
-    [[viewTester usingLabel:@"Cover/Uncover"] tap];
+    [[viewTester usingAccessibilityLabel:@"Show/Hide"] tap];
+    [[viewTester usingAccessibilityLabel:@"Cover/Uncover"] tap];
 }
 
 - (void)afterEach
 {
-    [[[viewTester usingLabel:@"Test Suite"] usingTraits:UIAccessibilityTraitButton] tap];
+    [[[viewTester usingAccessibilityLabel:@"Test Suite"] usingTraits:UIAccessibilityTraitButton] tap];
 }
 
 - (void)testWaitingForTappableViewWithAccessibilityLabel
 {
-    [[viewTester usingLabel:@"B"] waitToBecomeTappable];
+    [[viewTester usingAccessibilityLabel:@"B"] waitToBecomeTappable];
 }
 
 - (void)testWaitingForViewWithTraits
 {
-    [[[viewTester usingLabel:@"B"] usingTraits:UIAccessibilityTraitButton] waitToBecomeTappable];
+    [[[viewTester usingAccessibilityLabel:@"B"] usingTraits:UIAccessibilityTraitButton] waitToBecomeTappable];
 }
 
 - (void)testWaitingForViewWithValue
 {
-    [[[[viewTester usingLabel:@"B"] usingValue:@"BB"] usingTraits:UIAccessibilityTraitButton] waitToBecomeTappable];
+    [[[[viewTester usingAccessibilityLabel:@"B"] usingValue:@"BB"] usingTraits:UIAccessibilityTraitButton] waitToBecomeTappable];
 }
 
 @end

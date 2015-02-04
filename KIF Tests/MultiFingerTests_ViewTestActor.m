@@ -20,7 +20,7 @@
 
 - (void)beforeEach
 {
-    [[viewTester usingLabel:@"ScrollViews"] tap];
+    [[viewTester usingAccessibilityLabel:@"ScrollViews"] tap];
     // reset scroll view
     UIScrollView *scrollView = (UIScrollView *)[viewTester usingLabel:@"Scroll View"].view;
     scrollView.contentOffset = CGPointZero;
@@ -31,7 +31,7 @@
 
 - (void)afterEach
 {
-    [[[viewTester usingLabel:@"Test Suite"] usingTraits:UIAccessibilityTraitButton] tap];
+    [[[viewTester usingAccessibilityLabel:@"Test Suite"] usingTraits:UIAccessibilityTraitButton] tap];
     self.twoFingerPanSuccess = NO;
     self.zoomSuccess = NO;
 }

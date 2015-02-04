@@ -18,12 +18,12 @@
 
 - (void)beforeEach
 {
-    [[viewTester usingLabel:@"TableViews"] tap];
+    [[viewTester usingAccessibilityLabel:@"TableViews"] tap];
 }
 
 - (void)afterEach
 {
-    [[[viewTester usingLabel:@"Test Suite"] usingTraits:UIAccessibilityTraitButton] tap];
+    [[[viewTester usingAccessibilityLabel:@"Test Suite"] usingTraits:UIAccessibilityTraitButton] tap];
 }
 
 - (void)testWaitingForSearchFieldToBecomeFirstResponder

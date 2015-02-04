@@ -16,20 +16,20 @@
 
 - (void)beforeEach
 {
-    [[viewTester usingLabel:@"Tapping"] tap];
-    [[viewTester usingLabel:@"Animations"] tap];
+    [[viewTester usingAccessibilityLabel:@"Tapping"] tap];
+    [[viewTester usingAccessibilityLabel:@"Animations"] tap];
 }
 
 - (void)afterEach
 {
-    [[viewTester usingLabel:@"Back"] tap];
-    [[[viewTester usingLabel:@"Test Suite"] usingTraits:UIAccessibilityTraitButton] tap];
+    [[viewTester usingAccessibilityLabel:@"Back"] tap];
+    [[[viewTester usingAccessibilityLabel:@"Test Suite"] usingTraits:UIAccessibilityTraitButton] tap];
 }
 
 - (void)testWaitForFinishingAnimation
 {
     [viewTester tapScreenAtPoint:CGPointMake(100, 100)];
-    [[viewTester usingLabel:@"Label"] waitForView];
+    [[viewTester usingAccessibilityLabel:@"Label"] waitForView];
 }
 
 @end

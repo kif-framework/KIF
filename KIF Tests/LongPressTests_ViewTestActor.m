@@ -16,30 +16,30 @@
 
 - (void)beforeEach
 {
-    [[viewTester usingLabel:@"Tapping"] tap];
+    [[viewTester usingAccessibilityLabel:@"Tapping"] tap];
 }
 
 - (void)afterEach
 {
-    [[[viewTester usingLabel:@"Test Suite"] usingTraits:UIAccessibilityTraitButton] tap];
+    [[[viewTester usingAccessibilityLabel:@"Test Suite"] usingTraits:UIAccessibilityTraitButton] tap];
 }
 
 - (void)testLongPressingViewWithAccessibilityLabel
 {
-    [[viewTester usingLabel:@"Greeting"] longPressWithDuration:2];
-    [[viewTester usingLabel:@"Select All"] tap];
+    [[viewTester usingAccessibilityLabel:@"Greeting"] longPressWithDuration:2];
+    [[viewTester usingAccessibilityLabel:@"Select All"] tap];
 }
 
 - (void)testLongPressingViewViewWithTraits
 {
-    [[[viewTester usingLabel:@"Greeting"] usingValue:@"Hello"] longPressWithDuration:2];
-    [[viewTester usingLabel:@"Select All"] tap];
+    [[[viewTester usingAccessibilityLabel:@"Greeting"] usingValue:@"Hello"] longPressWithDuration:2];
+    [[viewTester usingAccessibilityLabel:@"Select All"] tap];
 }
 
 - (void)testLongPressingViewViewWithValue
 {
-    [[[[viewTester usingLabel:@"Greeting"] usingValue:@"Hello"] usingTraits:UIAccessibilityTraitUpdatesFrequently] longPressWithDuration:2];
-    [[viewTester usingLabel:@"Select All"] tap];
+    [[[[viewTester usingAccessibilityLabel:@"Greeting"] usingValue:@"Hello"] usingTraits:UIAccessibilityTraitUpdatesFrequently] longPressWithDuration:2];
+    [[viewTester usingAccessibilityLabel:@"Select All"] tap];
 }
 
 @end

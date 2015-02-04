@@ -16,25 +16,25 @@
 
 - (void)beforeEach
 {
-    [[viewTester usingLabel:@"ScrollViews"] tap];
+    [[viewTester usingAccessibilityLabel:@"ScrollViews"] tap];
 }
 
 - (void)afterEach
 {
-    [[[viewTester usingLabel:@"Test Suite"] usingTraits:UIAccessibilityTraitButton] tap];
+    [[[viewTester usingAccessibilityLabel:@"Test Suite"] usingTraits:UIAccessibilityTraitButton] tap];
 }
 
 - (void)testScrollingToTapOffscreenViews
 {
-    [[viewTester usingLabel:@"Down"] tap];
-    [[viewTester usingLabel:@"Up"] tap];
-    [[viewTester usingLabel:@"Right"] tap];
-    [[viewTester usingLabel:@"Left"] tap];
+    [[viewTester usingAccessibilityLabel:@"Down"] tap];
+    [[viewTester usingAccessibilityLabel:@"Up"] tap];
+    [[viewTester usingAccessibilityLabel:@"Right"] tap];
+    [[viewTester usingAccessibilityLabel:@"Left"] tap];
 }
 
 - (void)testScrollingToTapOffscreenTextView
 {
-    [[viewTester usingLabel:@"TextView"] tap];
+    [[viewTester usingAccessibilityLabel:@"TextView"] tap];
 }
 
 @end

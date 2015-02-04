@@ -17,17 +17,17 @@
 
 - (void)testWaitingForViewWithAccessibilityLabel
 {
-    [[viewTester usingLabel:@"Test Suite"] waitForView];
+    [[viewTester usingAccessibilityLabel:@"Test Suite"] waitForView];
 }
 
 - (void)testWaitingForViewWithTraits
 {
-    [[[viewTester usingLabel:@"Test Suite"] usingTraits:UIAccessibilityTraitStaticText] waitForView];
+    [[[viewTester usingAccessibilityLabel:@"Test Suite"] usingTraits:UIAccessibilityTraitStaticText] waitForView];
 }
 
 - (void)testWaitingForViewWithValue
 {
-    [[[[viewTester usingLabel:@"Switch 1"] usingValue:@"1"] usingTraits:UIAccessibilityTraitNone] waitForView];
+    [[[[viewTester usingAccessibilityLabel:@"Switch 1"] usingValue:@"1"] usingTraits:UIAccessibilityTraitNone] waitForView];
 }
 
 @end

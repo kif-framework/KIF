@@ -17,27 +17,27 @@
 
 - (void)beforeEach
 {
-    [[viewTester usingLabel:@"Tapping"] tap];
+    [[viewTester usingAccessibilityLabel:@"Tapping"] tap];
 }
 
 - (void)afterEach
 {
-    [[[viewTester usingLabel:@"Test Suite"] usingTraits:UIAccessibilityTraitButton] tap];
+    [[[viewTester usingAccessibilityLabel:@"Test Suite"] usingTraits:UIAccessibilityTraitButton] tap];
 }
 
 - (void)testWaitingForAbsenceOfViewWithAccessibilityLabel
 {
-    [[viewTester usingLabel:@"Tapping"] waitForAbsenceOfView];
+    [[viewTester usingAccessibilityLabel:@"Tapping"] waitForAbsenceOfView];
 }
 
 - (void)testWaitingForAbsenceOfViewWithTraits
 {
-    [[[viewTester usingLabel:@"Tapping"] usingTraits:UIAccessibilityTraitStaticText] waitForAbsenceOfView];
+    [[[viewTester usingAccessibilityLabel:@"Tapping"] usingTraits:UIAccessibilityTraitStaticText] waitForAbsenceOfView];
 }
 
 - (void)testWaitingForAbsenceOfViewWithValue
 {
-    [[[[viewTester usingLabel:@"Switch 1"] usingValue:@"1"] usingTraits:UIAccessibilityTraitNone] waitForAbsenceOfView];
+    [[[[viewTester usingAccessibilityLabel:@"Switch 1"] usingValue:@"1"] usingTraits:UIAccessibilityTraitNone] waitForAbsenceOfView];
 }
 
 @end

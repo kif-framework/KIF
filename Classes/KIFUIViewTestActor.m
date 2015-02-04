@@ -29,7 +29,7 @@
     return  self;
 }
 
-- (instancetype)usingLabel:(NSString *)accessibilityLabel;
+- (instancetype)usingAccessibilityLabel:(NSString *)accessibilityLabel;
 {
     int systemVersion = [UIDevice currentDevice].systemVersion.intValue;
 
@@ -57,7 +57,7 @@
     return [self usingPredicate:[NSPredicate predicateWithFormat:@"accessibilityLabel MATCHES %@ OR accessibilityLabel MATCHES %@", accessibilityLabel, alternate]];
 }
 
-- (instancetype)usingIdentifier:(NSString *)accessibilityIdentifier;
+- (instancetype)usingAccessibilityIdentifier:(NSString *)accessibilityIdentifier;
 {
     return [self usingPredicate:[NSPredicate predicateWithFormat:@"accessibilityIdentifier MATCHES %@", accessibilityIdentifier]];
 }
