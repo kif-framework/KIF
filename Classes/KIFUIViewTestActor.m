@@ -374,14 +374,13 @@
 {
     __block UIView *foundView = nil;
     __block UIAccessibilityElement *foundElement = nil;
-    __block NSPredicate *predicate = self.predicate;
 
     if (requiresMatch) {
         [self.actor waitForAccessibilityElement:&foundElement view:&foundView withElementMatchingPredicate:self.predicate tappable:tappable];
     } else {
         NSError *error;
         [self tryRunningBlock:^KIFTestStepResult(NSError **error) {
-            KIFTestWaitCondition([self.actor tryFindingAccessibilityElement:&foundElement view:&foundView withElementMatchingPredicate:predicate tappable:tappable error:error], error, @"Waiting on view matching predicate %@", predicate);
+            KIFTestWaitCondition([self.actor tryFindingAccessibilityElement:&foundElement view:&foundView withElementMatchingPredicate:self.predicate tappable:tappable error:error], error, @"Waiting on view matching predicate %@", self.predicate);
             return KIFTestStepResultSuccess;
         } complete:nil timeout:1.0 error:&error];
     }
