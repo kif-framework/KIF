@@ -64,7 +64,7 @@
 
 - (instancetype)usingTraits:(UIAccessibilityTraits)traits;
 {
-    NSNumber *number = @(traits); //this works around some werid bug whrer the predicate would end up "(accessibilityTraits & 1) == 0"
+    NSNumber *number = @(traits); //this works around some wierd bug where the predicate would end up "(accessibilityTraits & 1) == 0"
     NSPredicate *traitspredicate = [NSPredicate predicateWithFormat:@"(accessibilityTraits & %@) == %@", number, number];
     return [self usingPredicate:traitspredicate];
 
