@@ -64,7 +64,7 @@
 
 - (instancetype)usingTraits:(UIAccessibilityTraits)traits;
 {
-     return [self usingPredicate:[NSPredicate predicateWithFormat:@"(accessibilityTraits & %ulld) == %ulld", traits, traits]];
+    return [self usingPredicate:[NSPredicate predicateWithFormat:@"(accessibilityTraits & %@) == %@", @(traits), @(traits)]];
 }
 
 - (instancetype)usingValue:(NSString *)value;
