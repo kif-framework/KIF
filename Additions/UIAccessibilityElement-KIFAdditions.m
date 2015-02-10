@@ -73,9 +73,7 @@ MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
                         *error = [NSError KIFErrorWithFormat:@"%@\nPredicate: %@", [self _errorStringForFailingPredicate:subPredicate], predicate];
                     }
                 }
-            }
-            
-            else {
+            } else {
                 *error = [NSError KIFErrorWithFormat:@"%@\nPredicate: %@", [self _errorStringForFailingPredicate:predicate], predicate];
             }
         }

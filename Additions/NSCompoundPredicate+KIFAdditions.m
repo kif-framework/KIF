@@ -8,6 +8,7 @@
 
 #import "NSCompoundPredicate+KIFAdditions.h"
 
+
 @implementation NSCompoundPredicate (KIFAdditions)
 
 - (NSArray *)decomposedSubpredicates;
