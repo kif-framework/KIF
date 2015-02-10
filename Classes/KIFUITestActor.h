@@ -406,6 +406,17 @@ static inline KIFDisplacement KIFDisplacementForSwipingInDirection(KIFSwipeDirec
  */
 - (void)tapItemAtIndexPath:(NSIndexPath *)indexPath inCollectionViewWithAccessibilityIdentifier:(NSString *)identifier;
 
+/*!
+ @abstract Taps the item at indexPath in a collection view with the given identifier.
+ @discussion This step will get the view with the specified accessibility identifier and tap the item at indexPath.
+ 
+ For cases where you may need to work from the end of a collection view rather than the beginning, negative sections count back from the end of the collection view (-1 is the last section) and negative items count back from the end of the section (-1 is the last item for that section).
+ 
+ @param indexPath Index path of the item to tap.
+ @param identifier Accessibility identifier of the collection view.
+ */
+-(void)tapItemInCollectionViewWithAccessibilityLabel:(NSString *)collectionLabel atIndexPath:(NSIndexPath *)indexPath;
+
 #if TARGET_IPHONE_SIMULATOR
 /*!
  @abstract If present, dismisses a system alert with the last button, usually 'Allow'.
