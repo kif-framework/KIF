@@ -755,6 +755,12 @@
     [self tapItemAtIndexPath:indexPath inCollectionView:collectionView];
 }
 
+-(void)tapItemInCollectionViewWithAccessibilityLabel:(NSString *)collectionLabel atIndexPath:(NSIndexPath *)indexPath
+{
+    UICollectionView *collection = (UICollectionView *)[self waitForViewWithAccessibilityLabel:collectionLabel];
+    [self tapItemAtIndexPath:indexPath inCollectionView:collection];
+}
+
 - (void)acknowledgeSystemAlert {
     [UIAutomationHelper acknowledgeSystemAlert];
 }
