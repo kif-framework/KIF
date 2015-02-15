@@ -436,6 +436,50 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
     
 }
 
+- (void)longPressAtPoint:(CGPoint)startPoint duration:(NSTimeInterval)duration dragToPoint:(CGPoint)endPoint steps:(NSUInteger)stepCount
+{
+    UITouch *touch = [[UITouch alloc] initAtPoint:startPoint inView:self];
+    [touch setPhaseAndUpdateTimestamp:UITouchPhaseBegan];
+    
+    UIEvent *eventDown = [self eventWithTouch:touch];
+    [[UIApplication sharedApplication] sendEvent:eventDown];
+    
+    CFRunLoopRunInMode(kCFRunLoopDefaultMode, DRAG_TOUCH_DELAY, false);
+    
+    for (NSTimeInterval timeSpent = DRAG_TOUCH_DELAY; timeSpent < duration; timeSpent += DRAG_TOUCH_DELAY)
+    {
+        [touch setPhaseAndUpdateTimestamp:UITouchPhaseStationary];
+        
+        UIEvent *eventStillDown = [self eventWithTouch:touch];
+        [[UIApplication sharedApplication] sendEvent:eventStillDown];
+        
+        CFRunLoopRunInMode(kCFRunLoopDefaultMode, DRAG_TOUCH_DELAY, false);
+    }
+    
+    NSArray *path = [self pointsFromStartPoint:startPoint toPoint:endPoint steps:stepCount];
+    for (NSUInteger pointIndex = 0; pointIndex < path.count; pointIndex++) {
+        
+        CGPoint point = [path[pointIndex] CGPointValue];
+        [touch setLocationInWindow:[self.window convertPoint:point fromView:self]];
+        [touch setPhaseAndUpdateTimestamp:UITouchPhaseMoved];
+        
+        UIEvent *event = [self eventWithTouch:touch];
+        [[UIApplication sharedApplication] sendEvent:event];
+        
+        CFRunLoopRunInMode(UIApplicationCurrentRunMode, DRAG_TOUCH_DELAY, false);
+    }
+    
+    [touch setPhaseAndUpdateTimestamp:UITouchPhaseEnded];
+    UIEvent *eventUp = [self eventWithTouch:touch];
+    [[UIApplication sharedApplication] sendEvent:eventUp];
+    
+    // Dispatching the event doesn't actually update the first responder, so fake it
+    if ([touch.view isDescendantOfView:self] && [self canBecomeFirstResponder]) {
+        [self becomeFirstResponder];
+    }
+    
+}
+
 - (void)dragFromPoint:(CGPoint)startPoint toPoint:(CGPoint)endPoint;
 {
     [self dragFromPoint:startPoint toPoint:endPoint steps:3];
