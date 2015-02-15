@@ -8,7 +8,7 @@
 //  which Square, Inc. licenses this file to you.
 
 #import "NSError-KIFAdditions.h"
-#import "NSCompoundPredicate+KIFAdditions.h"
+#import "NSPredicate+KIFAdditions.h"
 #import "UIAccessibilityElement-KIFAdditions.h"
 #import "UIApplication-KIFAdditions.h"
 #import "UIScrollView-KIFAdditions.h"
@@ -63,21 +63,7 @@ MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
     
     if (!element) {
         if (error) {
-            if ([predicate isKindOfClass:[NSCompoundPredicate class]]) {
-                NSArray *subPredicates = [(NSCompoundPredicate *)predicate decomposedSubpredicates];
-                for (NSPredicate *subPredicate in subPredicates){
-                        UIAccessibilityElement *match = [[UIApplication sharedApplication] accessibilityElementMatchingBlock:^BOOL (UIAccessibilityElement *element) {
-                            return [subPredicate evaluateWithObject:element];
-                        }];
-                    if (!match) {
-                        *error = [NSError KIFErrorWithFormat:@"%@\nPredicate: %@", [self _errorStringForFailingPredicate:subPredicate], predicate];
-                    }
-                }
-            }
-            
-            else {
-                *error = [NSError KIFErrorWithFormat:@"%@\nPredicate: %@", [self _errorStringForFailingPredicate:predicate], predicate];
-            }
+            *error = [self errorForFailingPredicate:predicate];
         }
         return NO;
     }
@@ -90,38 +76,6 @@ MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
     if (foundElement) { *foundElement = element; }
     if (foundView) { *foundView = view; }
     return YES;
-}
-
-+ (NSString *)_errorStringForFailingPredicate:(NSPredicate*)failingPredicate;
-{
-    NSString *format = failingPredicate.predicateFormat;
-    
-    if ([format rangeOfString:@"MATCHES"].location != NSNotFound) {
-        NSArray *split = [format componentsSeparatedByString:@" MATCHES "];
-        return [NSString stringWithFormat:@"could not find accessibility element with the %@ matching %@", split.firstObject, split.lastObject];
-    }
-    
-    if ([format rangeOfString:@"LIKE"].location != NSNotFound) {
-        NSArray *split = [format componentsSeparatedByString:@" LIKE "];
-        return [NSString stringWithFormat:@"could not find accessibility element with the %@ like %@", split.firstObject, split.lastObject];
-    }
-    
-    if ([format rangeOfString:@"CONTAINS"].location != NSNotFound) {
-        NSArray *split = [format componentsSeparatedByString:@" CONTAINS "];
-        return [NSString stringWithFormat:@"could not find accessibility element with the %@ containing %@", split.firstObject, split.lastObject];
-    }
-    
-    if ([format rangeOfString:@"BEGINSWITH"].location != NSNotFound) {
-        NSArray *split = [format componentsSeparatedByString:@" BEGINSWITH "];
-        return [NSString stringWithFormat:@"could not find accessibility element with the %@ beginning with %@", split.firstObject, split.lastObject];
-    }
-    
-    if ([format rangeOfString:@"ENDSWITH"].location != NSNotFound) {
-        NSArray *split = [format componentsSeparatedByString:@" ENDSWITH "];
-        return [NSString stringWithFormat:@"could not find accessibility element with the %@ ending with %@", split.firstObject, split.lastObject];
-    }
-    
-    return @"Could not find accessibility element";
 }
 
 + (UIAccessibilityElement *)accessibilityElementWithLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits error:(out NSError **)error;
@@ -219,6 +173,54 @@ MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
     }
     
     return view;
+}
+
++ (NSError *)errorForFailingPredicate:(NSPredicate*)failingPredicate;
+{
+    NSPredicate *closestMatchingPredicate = [self findClosestMatchingPredicate:failingPredicate];
+    if (closestMatchingPredicate) {
+        return [NSError KIFErrorWithFormat:@"Found element matching predicate '%@' but not '%@'", \
+                closestMatchingPredicate, \
+                [failingPredicate minusSubpredicatesFrom:closestMatchingPredicate]];
+    }
+    return [NSError KIFErrorWithFormat:@"Could not find element matching predicate '%@'", failingPredicate];
+}
+
++ (NSPredicate *)findClosestMatchingPredicate:(NSPredicate *)aPredicate;
+{
+    if (!aPredicate) {
+        return nil;
+    }
+    
+    UIAccessibilityElement *match = [[UIApplication sharedApplication] accessibilityElementMatchingBlock:^BOOL (UIAccessibilityElement *element) {
+        return [aPredicate evaluateWithObject:element];
+    }];
+    if (match) {
+        return aPredicate;
+    }
+    
+    // Breadth-First algorithm to match as many subpredicates as possible
+    NSMutableArray *queue = [NSMutableArray arrayWithObject:aPredicate];
+    while (queue.count > 0) {
+        // Dequeuing
+        NSPredicate *predicate = [queue firstObject];
+        [queue removeObject:predicate];
+        
+        // Remove one subpredicate at a time an then check if an element would match this resulting predicate
+        for (NSPredicate *subpredicate in [predicate flatten]) {
+            NSPredicate *predicateMinusOneCondition = [predicate minusSubpredicatesFrom:subpredicate];
+            if (predicateMinusOneCondition) {
+                UIAccessibilityElement *match = [[UIApplication sharedApplication] accessibilityElementMatchingBlock:^BOOL (UIAccessibilityElement *element) {
+                    return [predicateMinusOneCondition evaluateWithObject:element];
+                }];
+                if (match) {
+                    return predicateMinusOneCondition;
+                }
+                [queue addObject:predicateMinusOneCondition];
+            }
+        }
+    }
+    return nil;
 }
 
 @end
