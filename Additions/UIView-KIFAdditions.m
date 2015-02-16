@@ -14,6 +14,14 @@
 #import "UITouch-KIFAdditions.h"
 #import <objc/runtime.h>
 
+double KIFDegreesToRadians(double deg) {
+    return (deg) / 180.0 * M_PI;
+}
+
+double KIFRadiansToDegrees(double rad) {
+    return ((rad) * (180.0 / M_PI));
+}
+
 typedef struct __GSEvent * GSEventRef;
 
 static CGFloat const kTwoFingerConstantWidth = 40;
@@ -403,6 +411,23 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
 
 }
 
+- (void)twoFingerTapAtPoint:(CGPoint)point {
+    CGPoint finger1 = CGPointMake(point.x - kTwoFingerConstantWidth, point.y - kTwoFingerConstantWidth);
+    CGPoint finger2 = CGPointMake(point.x + kTwoFingerConstantWidth, point.y + kTwoFingerConstantWidth);
+    UITouch *touch1 = [[UITouch alloc] initAtPoint:finger1 inView:self];
+    UITouch *touch2 = [[UITouch alloc] initAtPoint:finger2 inView:self];
+    [touch1 setPhaseAndUpdateTimestamp:UITouchPhaseBegan];
+    [touch2 setPhaseAndUpdateTimestamp:UITouchPhaseBegan];
+
+    UIEvent *event = [self eventWithTouches:@[touch1, touch2]];
+    [[UIApplication sharedApplication] sendEvent:event];
+
+    [touch1 setPhaseAndUpdateTimestamp:UITouchPhaseEnded];
+    [touch2 setPhaseAndUpdateTimestamp:UITouchPhaseEnded];
+
+    [[UIApplication sharedApplication] sendEvent:event];
+}
+
 #define DRAG_TOUCH_DELAY 0.01
 
 - (void)longPressAtPoint:(CGPoint)point duration:(NSTimeInterval)duration
@@ -578,6 +603,35 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
     NSArray *paths = @[finger1Path, finger2Path];
 
     [self dragPointsAlongPaths:paths];
+}
+
+- (void)twoFingerRotateAtPoint:(CGPoint)centerPoint angle:(CGFloat)angleInDegrees {
+    NSInteger stepCount = ABS(angleInDegrees)/2; // very rough approximation. 90deg = ~45 steps, 360 deg = ~180 steps
+    CGFloat radius = kTwoFingerConstantWidth*2;
+    double angleInRadians = KIFDegreesToRadians(angleInDegrees);
+
+    NSMutableArray *finger1Path = [NSMutableArray array];
+    NSMutableArray *finger2Path = [NSMutableArray array];
+    for (NSUInteger i = 0; i < stepCount; i++) {
+        double currentAngle = 0;
+        if (i == stepCount - 1) {
+            currentAngle = angleInRadians; // do not interpolate for the last step for maximum accuracy
+        }
+        else {
+            double interpolation = i/(double)stepCount;
+            currentAngle = interpolation * angleInRadians;
+        }
+        // interpolate betwen 0 and the target rotation
+        CGPoint offset1 = CGPointMake(radius * cos(currentAngle), radius * sin(currentAngle));
+        CGPoint offset2 = CGPointMake(-offset1.x, -offset1.y); // second finger is just opposite of the first
+
+        CGPoint finger1 = CGPointMake(centerPoint.x + offset1.x, centerPoint.y + offset1.y);
+        CGPoint finger2 = CGPointMake(centerPoint.x + offset2.x, centerPoint.y + offset2.y);
+
+        [finger1Path addObject:[NSValue valueWithCGPoint:finger1]];
+        [finger2Path addObject:[NSValue valueWithCGPoint:finger2]];
+    }
+    [self dragPointsAlongPaths:@[[finger1Path copy], [finger2Path copy]]];
 }
 
 - (NSArray *)pointsFromStartPoint:(CGPoint)startPoint toPoint:(CGPoint)toPoint steps:(NSUInteger)stepCount {

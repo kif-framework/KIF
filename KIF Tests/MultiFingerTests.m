@@ -11,8 +11,10 @@
 #import <KIF/UIApplication-KIFAdditions.h>
 
 @interface MultiFingerTests : KIFTestCase
+@property (nonatomic, readwrite) BOOL twoFingerTapSuccess;
 @property (nonatomic, readwrite) BOOL twoFingerPanSuccess;
 @property (nonatomic, readwrite) BOOL zoomSuccess;
+@property (nonatomic, readwrite) double latestRotation;
 @end
 
 @implementation MultiFingerTests
@@ -25,15 +27,36 @@
     UIScrollView *scrollView = (UIScrollView *)[tester waitForViewWithAccessibilityLabel:@"Scroll View"];
     scrollView.contentOffset = CGPointZero;
 
+    self.twoFingerTapSuccess = NO;
     self.twoFingerPanSuccess = NO;
     self.zoomSuccess = NO;
+    self.latestRotation = 0;
 }
 
 - (void)afterEach
 {
     [tester tapViewWithAccessibilityLabel:@"Test Suite" traits:UIAccessibilityTraitButton];
+    self.twoFingerTapSuccess = NO;
     self.twoFingerPanSuccess = NO;
     self.zoomSuccess = NO;
+    self.latestRotation = 0;
+}
+
+- (void)testTwoFingerTap {
+    UIScrollView *scrollView = (UIScrollView *)[tester waitForViewWithAccessibilityLabel:@"Scroll View"];
+    UITapGestureRecognizer *twoFingerTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                                             action:@selector(twoFingerTapped)];
+    twoFingerTapRecognizer.numberOfTouchesRequired = 2;
+    [scrollView addGestureRecognizer:twoFingerTapRecognizer];
+
+    [scrollView twoFingerTapAtPoint:CGPointMake(CGRectGetMidX(scrollView.bounds), CGRectGetMidY(scrollView.bounds))];
+
+    __KIFAssertEqual(self.twoFingerTapSuccess, YES);
+    [scrollView removeGestureRecognizer:twoFingerTapRecognizer];
+}
+
+- (void)twoFingerTapped {
+    self.twoFingerTapSuccess = YES;
 }
 
 - (void)testTwoFingerPan
@@ -50,6 +73,7 @@
     [scrollView twoFingerPanFromPoint:startPoint toPoint:endPoint steps:10];
 
     __KIFAssertEqual(self.twoFingerPanSuccess, YES);
+    [scrollView removeGestureRecognizer:panGestureRecognizer];
 }
 
 - (void)twoFingerPanned {
@@ -69,6 +93,7 @@
     [scrollView zoomAtPoint:startPoint distance:distance steps:10];
 
     __KIFAssertEqual(self.zoomSuccess, YES);
+    [scrollView removeGestureRecognizer:pinchRecognizer];
 }
 
 - (void)zoomed:(UIPinchGestureRecognizer *)pinchRecognizer {
@@ -81,6 +106,40 @@
         }
     }
 
+}
+
+- (void)testRotate {
+    UIScrollView *scrollView = (UIScrollView *)[tester waitForViewWithAccessibilityLabel:@"Scroll View"];
+    UIRotationGestureRecognizer *rotateRecognizer =
+        [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(rotated:)];
+
+    [scrollView addGestureRecognizer:rotateRecognizer];
+
+    [self assertThatLatestRotationIsWithinThreshold:45];
+    [self assertThatLatestRotationIsWithinThreshold:90];
+    [self assertThatLatestRotationIsWithinThreshold:180];
+    [self assertThatLatestRotationIsWithinThreshold:270];
+    [self assertThatLatestRotationIsWithinThreshold:360];
+
+    [scrollView removeGestureRecognizer:rotateRecognizer];
+}
+
+- (void)assertThatLatestRotationIsWithinThreshold:(double)targetRotationInDegrees {
+    UIScrollView *scrollView = (UIScrollView *)[tester waitForViewWithAccessibilityLabel:@"Scroll View"];
+    CGPoint startPoint = CGPointMake(CGRectGetMidX(scrollView.bounds), CGRectGetMidY(scrollView.bounds));
+    [scrollView twoFingerRotateAtPoint:startPoint angle:targetRotationInDegrees];
+
+    // check we have rotated to within some small threshold of the target rotation amount
+    // 0.2 radians is ~12 degrees
+    BOOL withinThreshold = (self.latestRotation - KIFDegreesToRadians(targetRotationInDegrees)) < 0.2;
+    __KIFAssertEqual(withinThreshold, YES);
+}
+
+- (void)rotated:(UIRotationGestureRecognizer *)recognizer {
+    if (recognizer.state == UIGestureRecognizerStateEnded)
+    {
+        self.latestRotation = recognizer.rotation;
+    }
 }
 
 @end
