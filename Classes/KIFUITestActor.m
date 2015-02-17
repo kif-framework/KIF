@@ -149,7 +149,7 @@
 - (void)tapAccessibilityElement:(UIAccessibilityElement *)element inView:(UIView *)view
 {
     [self runBlock:^KIFTestStepResult(NSError **error) {
-s        KIFTestWaitCondition(view.isUserInteractionActuallyEnabled, error, @"View is not enabled for interaction");
+        KIFTestWaitCondition(view.isUserInteractionActuallyEnabled, error, @"View is not enabled for interaction");
 
         // If the accessibilityFrame is not set, fallback to the view frame.
         CGRect elementFrame;
@@ -224,7 +224,7 @@ s        KIFTestWaitCondition(view.isUserInteractionActuallyEnabled, error, @"Vi
 {
     [self runBlock:^KIFTestStepResult(NSError **error) {
         
-s        KIFTestWaitCondition(view.isUserInteractionActuallyEnabled, error, @"View is not enabled for interaction");
+        KIFTestWaitCondition(view.isUserInteractionActuallyEnabled, error, @"View is not enabled for interaction");
         
         CGRect elementFrame = [view.windowOrIdentityWindow convertRect:element.accessibilityFrame toView:view];
         CGPoint tappablePointInElement = [view tappablePointInRect:elementFrame];
