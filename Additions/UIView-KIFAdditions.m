@@ -398,11 +398,10 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
     [touch setPhaseAndUpdateTimestamp:UITouchPhaseBegan];
     
     UIEvent *event = [self eventWithTouch:touch];
-
-    [[UIApplication sharedApplication] sendEvent:event];
+    [self touchesBegan:event.allTouches withEvent:event];
     
     [touch setPhaseAndUpdateTimestamp:UITouchPhaseEnded];
-    [[UIApplication sharedApplication] sendEvent:event];
+    [self touchesEnded:event.allTouches withEvent:event];
 
     // Dispatching the event doesn't actually update the first responder, so fake it
     if ([touch.view isDescendantOfView:self] && [self canBecomeFirstResponder]) {
@@ -420,12 +419,12 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
     [touch2 setPhaseAndUpdateTimestamp:UITouchPhaseBegan];
 
     UIEvent *event = [self eventWithTouches:@[touch1, touch2]];
-    [[UIApplication sharedApplication] sendEvent:event];
+    [self touchesBegan:event.allTouches withEvent:event];
 
     [touch1 setPhaseAndUpdateTimestamp:UITouchPhaseEnded];
     [touch2 setPhaseAndUpdateTimestamp:UITouchPhaseEnded];
 
-    [[UIApplication sharedApplication] sendEvent:event];
+    [self touchesEnded:event.allTouches withEvent:event];
 }
 
 #define DRAG_TOUCH_DELAY 0.01
@@ -436,7 +435,7 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
     [touch setPhaseAndUpdateTimestamp:UITouchPhaseBegan];
     
     UIEvent *eventDown = [self eventWithTouch:touch];
-    [[UIApplication sharedApplication] sendEvent:eventDown];
+    [self touchesBegan:eventDown.allTouches withEvent:eventDown];
     
     CFRunLoopRunInMode(kCFRunLoopDefaultMode, DRAG_TOUCH_DELAY, false);
     
@@ -445,14 +444,15 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
         [touch setPhaseAndUpdateTimestamp:UITouchPhaseStationary];
         
         UIEvent *eventStillDown = [self eventWithTouch:touch];
-        [[UIApplication sharedApplication] sendEvent:eventStillDown];
+        
+        [self touchesBegan:eventStillDown.allTouches withEvent:eventStillDown];
         
         CFRunLoopRunInMode(kCFRunLoopDefaultMode, DRAG_TOUCH_DELAY, false);
     }
     
     [touch setPhaseAndUpdateTimestamp:UITouchPhaseEnded];
     UIEvent *eventUp = [self eventWithTouch:touch];
-    [[UIApplication sharedApplication] sendEvent:eventUp];
+    [self touchesEnded:eventUp.allTouches withEvent:eventUp];
     
     // Dispatching the event doesn't actually update the first responder, so fake it
     if ([touch.view isDescendantOfView:self] && [self canBecomeFirstResponder]) {
@@ -522,21 +522,21 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
                 [touches addObject:touch];
             }
             UIEvent *eventDown = [self eventWithTouches:[NSArray arrayWithArray:touches]];
-            [[UIApplication sharedApplication] sendEvent:eventDown];
+            [self touchesBegan:eventDown.allTouches withEvent:eventDown];
         }
         else
         {
             UITouch *touch;
             for (NSUInteger pathIndex = 0; pathIndex < arrayOfPaths.count; pathIndex++)
             {
-                NSArray *path = arrayOfPaths[pathIndex];
-                CGPoint point = [path[pointIndex] CGPointValue];
+//                NSArray *path = arrayOfPaths[pathIndex];
+//                CGPoint point = [path[pointIndex] CGPointValue];
                 touch = touches[pathIndex];
-                [touch setLocationInWindow:[self.window convertPoint:point fromView:self]];
+//                [touch setLocationInWindow:[self.window convertPoint:point fromView:self]];
                 [touch setPhaseAndUpdateTimestamp:UITouchPhaseMoved];
             }
             UIEvent *event = [self eventWithTouches:[NSArray arrayWithArray:touches]];
-            [[UIApplication sharedApplication] sendEvent:event];
+            [self touchesMoved:event.allTouches withEvent:event];
 
             CFRunLoopRunInMode(UIApplicationCurrentRunMode, DRAG_TOUCH_DELAY, false);
 
@@ -544,7 +544,7 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
             if (pointIndex == pointsInPath - 1) {
                 [touch setPhaseAndUpdateTimestamp:UITouchPhaseEnded];
                 UIEvent *eventUp = [self eventWithTouch:touch];
-                [[UIApplication sharedApplication] sendEvent:eventUp];
+                [self touchesEnded:eventUp.allTouches withEvent:eventUp];
             }
         }
     }
