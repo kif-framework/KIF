@@ -70,4 +70,11 @@
  */
 - (void)waitForFirstResponderWithAccessibilityIdentifier:(NSString *)accessibilityIdentifier;
 
+/*!
+ @abstract returns YES or NO if the element is visible.
+ @discussion if the element described by the accessibility identifier is visible, the method returns true.
+ @param accessibilityIdentifier The accessibility identifier of the element to query for
+ */
+- (BOOL) tryFindingViewWithAccessibilityIdentifier:(NSString *) accessibilityIdentifier;
+
 @end

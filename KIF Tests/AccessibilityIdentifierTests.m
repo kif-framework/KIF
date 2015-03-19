@@ -70,6 +70,18 @@
 	[tester clearTextFromAndThenEnterText:@"Yo" intoViewWithAccessibilityIdentifier:@"idGreeting"];
 }
 
+- (void)testTryFindingViewWithAccessibilityIdentifier
+{
+    if (![tester tryFindingViewWithAccessibilityIdentifier:@"idGreeting"])
+    {
+        [tester fail];
+    }
+
+    if ([tester tryFindingViewWithAccessibilityIdentifier:@"idDoesNotExist"])
+    {
+        [tester fail];
+    }
+}
 
 - (void)afterEach
 {

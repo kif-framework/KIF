@@ -196,7 +196,11 @@
 	}];
 }
 
-
+- (BOOL) tryFindingViewWithAccessibilityIdentifier:(NSString *) accessibilityIdentifier
+{
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"accessibilityIdentifier = %@", accessibilityIdentifier];
+    return [UIAccessibilityElement accessibilityElement:nil view:nil withElementMatchingPredicate:predicate tappable:NO error:nil];
+}
 
 
 @end
