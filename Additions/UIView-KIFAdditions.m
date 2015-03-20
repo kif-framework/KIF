@@ -221,7 +221,8 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
                     [cell removeFromSuperview];
                     
                     // Skip this cell if it isn't the one we're looking for
-                    if (!element) {
+                    // Sometimes we get cells with no size here which can cause an endless loop, so we ignore those
+                    if (!element || CGSizeEqualToSize(cell.frame.size, CGSizeZero)) {
                         continue;
                     }
                 }
