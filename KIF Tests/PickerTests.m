@@ -38,8 +38,7 @@
     [tester tapViewWithAccessibilityLabel:@"Date Time Selection"];
     NSArray *dateTime = @[@"Jun 17", @"6", @"43", @"AM"];
     [tester selectDatePickerValue:dateTime];
-    [tester waitForViewWithAccessibilityLabel:@"Date Time Selection" value:@"Sunday, Jun 17, 06:43 AM" traits:UIAccessibilityTraitNone];
-    ;
+    [tester waitForViewWithAccessibilityLabel:@"Date Time Selection" value:@"Jun 17, 06:43 AM" traits:UIAccessibilityTraitNone];
 }
 
 - (void)testSelectingTime
