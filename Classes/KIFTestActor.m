@@ -19,6 +19,7 @@
 #import <dlfcn.h>
 #import <objc/runtime.h>
 #import "UIApplication-KIFAdditions.h"
+#import "UIView-KIFAdditions.h"
 
 @implementation KIFTestActor
 
@@ -63,6 +64,7 @@
         _line = line;
         _delegate = delegate;
         _executionBlockTimeout = [[self class] defaultTimeout];
+        _animationWaitingTimeout = 0.5f;
     }
     return self;
 }

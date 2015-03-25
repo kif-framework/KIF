@@ -101,7 +101,7 @@
 
 - (void)dateTimePickerChanged:(id)sender {
     NSDateFormatter  *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"cccc, MMM d, hh:mm aa"];
+    [dateFormatter setDateFormat:@"MMM d, hh:mm aa"];
     NSString *string = [NSString stringWithFormat:@"%@",
                         [dateFormatter stringFromDate:dateTimePicker.date]];
     self.dateTimeSelectionTextField.text = string;

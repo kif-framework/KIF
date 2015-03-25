@@ -88,6 +88,11 @@
         returnValue = [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"test123://"]];
     } returning:YES];
     KIFAssertEqual(YES, returnValue, @"openURL: should have returned YES");
+
+    [system waitForApplicationToOpenURLWithScheme:@"test123" whileExecutingBlock:^{
+        returnValue = [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"test123://"]];
+    } returning:YES];
+    KIFAssertEqual(YES, returnValue, @"openURL: should have returned YES");
     
     [system waitForApplicationToOpenAnyURLWhileExecutingBlock:^{
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"423543523454://"]];

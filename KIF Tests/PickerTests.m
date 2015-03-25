@@ -38,8 +38,7 @@
     [tester tapViewWithAccessibilityLabel:@"Date Time Selection"];
     NSArray *dateTime = @[@"Jun 17", @"6", @"43", @"AM"];
     [tester selectDatePickerValue:dateTime];
-    [tester waitForViewWithAccessibilityLabel:@"Date Time Selection" value:@"Sunday, Jun 17, 06:43 AM" traits:UIAccessibilityTraitNone];
-    ;
+    [tester waitForViewWithAccessibilityLabel:@"Date Time Selection" value:@"Jun 17, 06:43 AM" traits:UIAccessibilityTraitNone];
 }
 
 - (void)testSelectingTime
@@ -61,7 +60,22 @@
 - (void)testSelectingAPickerRow
 {
     [tester selectPickerViewRowWithTitle:@"Charlie"];
-    [tester waitForViewWithAccessibilityLabel:@"Call Sign" value:@"Charlie. 3 of 3" traits:UIAccessibilityTraitNone];
+    
+    NSOperatingSystemVersion iOS8 = {8, 0, 0};
+    if ([NSProcessInfo instancesRespondToSelector:@selector(isOperatingSystemAtLeastVersion:)] && [[NSProcessInfo new] isOperatingSystemAtLeastVersion:iOS8]) {
+        [tester waitForViewWithAccessibilityLabel:@"Call Sign" value:@"Charlie" traits:UIAccessibilityTraitNone];
+    } else {
+        [tester waitForViewWithAccessibilityLabel:@"Call Sign" value:@"Charlie. 3 of 3" traits:UIAccessibilityTraitNone];
+    }
+}
+
+- (void)testSelectingRowInComponent
+{
+    [tester tapViewWithAccessibilityLabel:@"Date Selection"];
+    NSArray *date = @[@"December", @"31", @"2030"];
+    [tester selectDatePickerValue:date];
+    [tester selectPickerViewRowWithTitle:@"17" inComponent:1];
+    [tester waitForViewWithAccessibilityLabel:@"Date Selection" value:@"Dec 17, 2030" traits:UIAccessibilityTraitNone];
 }
 
 @end

@@ -40,7 +40,7 @@
 
 - (void)testOutOfBounds
 {
-    KIFExpectFailure([tester tapItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:99] inCollectionViewWithAccessibilityIdentifier:@"CollectionView Tests CollectionView"]);
+    KIFExpectFailure([[tester usingTimeout:1] tapItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:99] inCollectionViewWithAccessibilityIdentifier:@"CollectionView Tests CollectionView"]);
 }
 
 - (void)testUnknownCollectionView

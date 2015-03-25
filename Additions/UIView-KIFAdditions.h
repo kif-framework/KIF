@@ -9,6 +9,9 @@
 
 #import <UIKit/UIKit.h>
 
+extern double KIFDegreesToRadians(double deg);
+extern double KIFRadiansToDegrees(double rad);
+
 typedef CGPoint KIFDisplacement;
 
 @interface UIView (KIFAdditions)
@@ -36,6 +39,7 @@ typedef CGPoint KIFDisplacement;
 - (void)flash;
 - (void)tap;
 - (void)tapAtPoint:(CGPoint)point;
+- (void)twoFingerTapAtPoint:(CGPoint)point;
 - (void)longPressAtPoint:(CGPoint)point duration:(NSTimeInterval)duration;
 
 /*!
@@ -52,6 +56,7 @@ typedef CGPoint KIFDisplacement;
 - (void)twoFingerPanFromPoint:(CGPoint)startPoint toPoint:(CGPoint)toPoint steps:(NSUInteger)stepCount;
 - (void)pinchAtPoint:(CGPoint)centerPoint distance:(CGFloat)distance steps:(NSUInteger)stepCount;
 - (void)zoomAtPoint:(CGPoint)centerPoint distance:(CGFloat)distance steps:(NSUInteger)stepCount;
+- (void)twoFingerRotateAtPoint:(CGPoint)centerPoint angle:(CGFloat)angleInDegrees;
 /*!
  @method isTappableWithHitTestResultView:
  @abstract Easy hook to override whether a hit test result makes a view tappable.
@@ -85,6 +90,25 @@ typedef CGPoint KIFDisplacement;
  @abstract Evaluates if user interaction is enabled including edge cases.
  */
 - (BOOL)isUserInteractionActuallyEnabled;
+
+/*!
+ @abstract Evaluates if the view and all its superviews are visible.
+ */
+- (BOOL)isVisibleInViewHierarchy;
+
+/*!
+ @method performBlockOnDescendentViews:
+ @abstract Calls a block on the view itself and on all its descendent views.
+ @param block The block that will be called on the views. Stop the traversation of the views by assigning YES to the stop-parameter of the block.
+ */
+- (void)performBlockOnDescendentViews:(void (^)(UIView *view, BOOL *stop))block;
+
+/*!
+ @method performBlockOnAscendentViews:
+ @abstract Calls a block on the view itself and on all its superviews.
+ @param block The block that will be called on the views. Stop the traversation of the views by assigning YES to the stop-parameter of the block.
+ */
+- (void)performBlockOnAscendentViews:(void (^)(UIView *view, BOOL *stop))block;
 
 /*!
  @abstract Returns either the current window or another window if a transform is applied.  Returns `nil` if all windows in the application have transforms.
