@@ -95,8 +95,17 @@
 - (void)waitForApplicationToOpenURLMatchingBlock:(void (^)(NSURL *actualURL))URLMatcherBlock whileExecutingBlock:(void (^)())block returning:(BOOL)returnValue
 {
     [UIApplication startMockingOpenURLWithReturnValue:returnValue];
+
+    id canOpenURLObserver = [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidMockCanOpenURLNotification object:[UIApplication sharedApplication] queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *notification) {
+        if (URLMatcherBlock) {
+            NSURL *actualURL = [notification.userInfo objectForKey:UIApplicationOpenedURLKey];
+            URLMatcherBlock(actualURL);
+        }
+    }];
+
     NSNotification *notification = [self waitForNotificationName:UIApplicationDidMockOpenURLNotification object:[UIApplication sharedApplication] whileExecutingBlock:block complete:^{
         [UIApplication stopMockingOpenURL];
+        [[NSNotificationCenter defaultCenter] removeObserver:canOpenURLObserver];
     }];
 
     if (URLMatcherBlock) {
