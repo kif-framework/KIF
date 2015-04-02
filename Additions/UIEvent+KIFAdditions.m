@@ -89,6 +89,7 @@ typedef struct __GSEvent * GSEventRef;
 @interface UIEvent (KIFAdditionsMorePrivateHeaders)
 - (void)_setGSEvent:(GSEventRef)event;
 - (void)_setHIDEvent:(IOHIDEventRef)event;
+- (void)_setTimestamp:(NSTimeInterval)timestemp;
 @end
 
 @implementation UIEvent (KIFAdditions)
@@ -122,6 +123,7 @@ typedef struct __GSEvent * GSEventRef;
     
     [self _setGSEvent:(GSEventRef)gsEventProxy];
     
+    [self _setTimestamp:(((UITouch*)touches[0]).timestamp)];
 }
 
 - (void)kif_setIOHIDEventWithTouches:(NSArray *)touches
