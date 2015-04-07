@@ -127,7 +127,9 @@ typedef struct __GSEvent * GSEventRef;
 - (void)kif_setIOHIDEventWithTouches:(NSArray *)touches
 {
     uint64_t abTime = mach_absolute_time();
-    AbsoluteTime timeStamp = *(AbsoluteTime *) &abTime;
+    AbsoluteTime timeStamp;
+    timeStamp.hi = (UInt32)(abTime >> 32);
+    timeStamp.lo = (UInt32)(abTime);
     
     IOHIDEventRef handEvent = IOHIDEventCreateDigitizerEvent(kCFAllocatorDefault, timeStamp, kIOHIDDigitizerTransducerTypeHand, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
     
