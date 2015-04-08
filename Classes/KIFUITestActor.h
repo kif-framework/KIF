@@ -515,4 +515,16 @@ static inline KIFDisplacement KIFDisplacementForSwipingInDirection(KIFSwipeDirec
  @param identifier Accessibility identifier of the table view.
  */
 - (void)moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath inTableViewWithAccessibilityIdentifier:(NSString *)identifier;
+
+/*!
+ @abstract Remove the row at sourceIndexPath in a table view with the given identifier.
+ @discussion This step will get the view with the specified accessibility identifier and remove the row at sourceIndexPath.
+ 
+ For cases where you may need to work from the end of a table view rather than the beginning, negative sections count back from the end of the table view (-1 is the last section) and negative rows count back from the end of the section (-1 is the last row for that section).
+ 
+ @param sourceIndexPath Index path of the row to remove.
+ @param identifier Accessibility identifier of the table view.
+ */
+- (void)removeRowAtIndexPath:(NSIndexPath *)indexPath inTableViewWithAccessibilityIdentifier:(NSString *)identifier;
+
 @end

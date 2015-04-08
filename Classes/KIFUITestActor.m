@@ -786,15 +786,18 @@
 
 - (void)swipeViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits inDirection:(KIFSwipeDirection)direction
 {
-    const NSUInteger kNumberOfPointsInSwipePath = 20;
-
-    // The original version of this came from http://groups.google.com/group/kif-framework/browse_thread/thread/df3f47eff9f5ac8c
-
     UIView *viewToSwipe = nil;
     UIAccessibilityElement *element = nil;
 
     [self waitForAccessibilityElement:&element view:&viewToSwipe withLabel:label value:value traits:traits tappable:NO];
+    [self swipeAccessibilityElement:element view:viewToSwipe inDirection:direction];
+}
 
+- (void)swipeAccessibilityElement:(UIAccessibilityElement *)element view:(UIView *)viewToSwipe inDirection:(KIFSwipeDirection)direction
+{
+    const NSUInteger kNumberOfPointsInSwipePath = 20;
+    
+    // The original version of this came from http://groups.google.com/group/kif-framework/browse_thread/thread/df3f47eff9f5ac8c
     // Within this method, all geometry is done in the coordinate system of the view to swipe.
 
     CGRect elementFrame = [viewToSwipe.windowOrIdentityWindow convertRect:element.accessibilityFrame toView:viewToSwipe];
@@ -1009,6 +1012,20 @@
     if (![tableView dragCell:cell toIndexPath:destinationIndexPath error:&error]) {
         [self failWithError:error stopTest:YES];
     }
+}
+
+- (void)removeRowAtIndexPath:(NSIndexPath *)indexPath inTableViewWithAccessibilityIdentifier:(NSString *)identifier {
+    
+    UITableView *tableView;
+    [self waitForAccessibilityElement:NULL view:&tableView withIdentifier:identifier tappable:NO];
+    
+    UITableViewCell *cell = [self waitForCellAtIndexPath:indexPath inTableView:tableView];
+    UIAccessibilityElement *element = [cell accessibilityElementAtIndex:0];
+    
+    [self swipeAccessibilityElement:element view:cell inDirection:KIFSwipeDirectionLeft];
+    
+    UIAccessibilityElement *deleteElement = [cell accessibilityElementWithLabel:@"Delete"];
+    [self tapAccessibilityElement:deleteElement inView:cell];
 }
 
 @end
