@@ -207,7 +207,7 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
             for (NSUInteger item = 0, numberOfItems = [collectionView numberOfItemsInSection:section]; item < numberOfItems; item++) {
                 // Skip visible items because they are already handled
                 NSIndexPath *indexPath = [NSIndexPath indexPathForItem:item inSection:section];
-                if ([indexPathsForVisibleItems containsObject:indexPath]) {
+                if (![indexPathsForVisibleItems containsObject:indexPath]) {
                     continue;
                 }
                 
