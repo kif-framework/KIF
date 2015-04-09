@@ -43,7 +43,8 @@
     [tester waitForViewWithAccessibilityLabel:@"Slider" value:@"5" traits:UIAccessibilityTraitNone];
 }
 
-- (void)testPickingAPhoto {
+- (void)testPickingAPhoto
+{
     [tester tapViewWithAccessibilityLabel:@"Photos"];
     [tester acknowledgeSystemAlert];
     [tester waitForTimeInterval:0.5f]; // Wait for view to stabilize
