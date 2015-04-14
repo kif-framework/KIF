@@ -760,7 +760,9 @@
 }
 
 - (void)acknowledgeSystemAlert {
+    #if TARGET_IPHONE_SIMULATOR
     [UIAutomationHelper acknowledgeSystemAlert];
+    #endif
 }
 
 - (void)tapItemAtIndexPath:(NSIndexPath *)indexPath inCollectionView:(UICollectionView *)collectionView
