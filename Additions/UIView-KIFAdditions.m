@@ -987,7 +987,7 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
                 printf("|\t");
             }
             UIAccessibilityElement *e = [(UIAccessibilityElement*)self accessibilityElementAtIndex:i];
-            printf("UIAccessibilityElement, label: %s", e.accessibilityLabel.UTF8String);
+            printf("%s, label: %s", NSStringFromClass([e class]).UTF8String, e.accessibilityLabel.UTF8String);
             if(e.accessibilityValue && e.accessibilityValue.length > 0) {
                 printf(", value: %s", e.accessibilityValue.UTF8String);
             }
