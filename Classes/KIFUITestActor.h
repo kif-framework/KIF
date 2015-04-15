@@ -442,6 +442,14 @@ static inline KIFDisplacement KIFDisplacementForSwipingInDirection(KIFSwipeDirec
 - (void)swipeViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits inDirection:(KIFSwipeDirection)direction;
 
 /*!
+ @abstract Swipes a particular view in the view heirarchy.
+ @discussion Unlike the -swipeViewWithAccessibilityLabel: family of methods, this method allows you to swipe an arbitrary element.  Combined with -waitForAccessibilityElement:view:withLabel:value:traits:tappable: or +[UIAccessibilityElement accessibilityElement:view:withLabel:value:traits:tappable:error:] this provides an opportunity for more complex logic.
+ @param element The accessibility element to tap.
+ @param viewToSwipe The view containing the accessibility element.
+ */
+- (void)swipeAccessibilityElement:(UIAccessibilityElement *)element inView:(UIView *)viewToSwipe inDirection:(KIFSwipeDirection)direction;
+
+/*!
  @abstract Scrolls a particular view in the view hierarchy by an amount indicated as a fraction of its size.
  @discussion The view will get the view with the specified accessibility label and scroll it by the indicated fraction of its size, with the scroll centered on the center of the view.
  @param label The accessibility label of the view to scroll.
