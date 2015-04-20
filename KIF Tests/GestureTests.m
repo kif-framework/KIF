@@ -8,6 +8,7 @@
 
 #import <KIF/KIF.h>
 #import <KIF/KIFTestStepValidation.h>
+#import <KIF/KIFUITestActor-IdentifierTests.h>
 
 @interface GestureTests : KIFTestCase
 @end
@@ -80,6 +81,30 @@
 - (void)testMissingSwipeableElementWithTraits
 {
     KIFExpectFailure([[tester usingTimeout:0.25] swipeViewWithAccessibilityLabel:@"Unknown" value:nil traits:UIAccessibilityTraitStaticText inDirection:KIFSwipeDirectionDown]);
+}
+
+- (void)testSwipingLeftWithIdentifier
+{
+    [tester swipeViewWithAccessibilityIdentifier:@"gestures.swipeMe" inDirection:KIFSwipeDirectionLeft];
+    [tester waitForViewWithAccessibilityLabel:@"Left"];
+}
+
+- (void)testSwipingRightWithIdentifier
+{
+    [tester swipeViewWithAccessibilityIdentifier:@"gestures.swipeMe" inDirection:KIFSwipeDirectionRight];
+    [tester waitForViewWithAccessibilityLabel:@"Right"];
+}
+
+- (void)testSwipingUpWithIdentifier
+{
+    [tester swipeViewWithAccessibilityIdentifier:@"gestures.swipeMe" inDirection:KIFSwipeDirectionUp];
+    [tester waitForViewWithAccessibilityLabel:@"Up"];
+}
+
+- (void)testSwipingDownWithIdentifier
+{
+    [tester swipeViewWithAccessibilityIdentifier:@"gestures.swipeMe" inDirection:KIFSwipeDirectionDown];
+    [tester waitForViewWithAccessibilityLabel:@"Down"];
 }
 
 - (void)testScrolling
