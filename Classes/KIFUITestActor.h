@@ -523,4 +523,14 @@ static inline KIFDisplacement KIFDisplacementForSwipingInDirection(KIFSwipeDirec
  @param identifier Accessibility identifier of the table view.
  */
 - (void)moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath inTableViewWithAccessibilityIdentifier:(NSString *)identifier;
+
+/*!
+ @abstract Swipes the row at indexPath in the given direction.
+ 
+ @param indexPath Index path of the row to swipe.
+ @param tableView Table view to operate on.
+ @param direction Direction of the swipe.
+ */
+- (void)swipeRowAtIndexPath:(NSIndexPath *)indexPath inTableView:(UITableView *)tableView inDirection:(KIFSwipeDirection)direction;
+
 @end

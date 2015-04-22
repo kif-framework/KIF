@@ -752,6 +752,21 @@
     [self waitForAnimationsToFinish];
 }
 
+- (void)swipeRowAtIndexPath:(NSIndexPath *)indexPath inTableView:(UITableView *)tableView inDirection:(KIFSwipeDirection)direction
+{
+    const NSUInteger kNumberOfPointsInSwipePath = 20;
+    
+    UITableViewCell *cell = [self waitForCellAtIndexPath:indexPath inTableView:tableView];
+    CGRect cellFrame = [cell.contentView convertRect:cell.contentView.frame toView:tableView];
+    CGPoint swipeStart = CGPointCenteredInRect(cellFrame);
+    KIFDisplacement swipeDisplacement = KIFDisplacementForSwipingInDirection(direction);
+    [tableView dragFromPoint:swipeStart displacement:swipeDisplacement steps:kNumberOfPointsInSwipePath];
+    
+    // Wait for the view to stabilize.
+    [tester waitForTimeInterval:0.5];
+    
+}
+
 - (void)tapItemAtIndexPath:(NSIndexPath *)indexPath inCollectionViewWithAccessibilityIdentifier:(NSString *)identifier
 {
     UICollectionView *collectionView;
