@@ -1198,6 +1198,9 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="gestures.swipeMe"/>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <outletCollection property="gestureRecognizers" destination="sWb-g6-Zbn" appends="YES" id="MEn-RE-WeD"/>
                                     <outletCollection property="gestureRecognizers" destination="lsG-Xj-9Cs" appends="YES" id="pne-b0-ZJx"/>

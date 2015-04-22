@@ -77,4 +77,12 @@
  */
 - (BOOL) tryFindingViewWithAccessibilityIdentifier:(NSString *) accessibilityIdentifier;
 
+/*!
+ @abstract Swipes a particular view in the view hierarchy in the given direction.
+ @discussion This step will get the view with the specified accessibility identifier and swipe the screen in the given direction from the view's center.
+ @param identifier The accessibility identifier of the view to swipe.
+ @param direction The direction in which to swipe.
+ */
+- (void)swipeViewWithAccessibilityIdentifier:(NSString *)identifier inDirection:(KIFSwipeDirection)direction;
+
 @end
