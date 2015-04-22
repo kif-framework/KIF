@@ -41,7 +41,7 @@
 
 - (void)testOutOfBounds
 {
-    KIFExpectFailure([tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:99] inTableViewWithAccessibilityIdentifier:@"TableView Tests Table"]);
+    KIFExpectFailure([[tester usingTimeout:1] tapRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:99] inTableViewWithAccessibilityIdentifier:@"TableView Tests Table"]);
 }
 
 - (void)testUnknownTable
@@ -127,23 +127,26 @@
 
 - (void)testButtonAbsentAfterRemoveFromSuperview
 {
-    [tester waitForViewWithAccessibilityLabel:@"Button"];
-    UIAccessibilityElement *element = [[UIApplication sharedApplication] accessibilityElementWithLabel:@"Button" accessibilityValue:nil traits:0];
-
-    [[(id)element view] removeFromSuperview];
+    UIView *view = [tester waitForViewWithAccessibilityLabel:@"Button"];
+    
+    [view removeFromSuperview];
     [tester waitForAbsenceOfViewWithAccessibilityLabel:@"Button"];
 }
 
 - (void)testButtonAbsentAfterSetHidden
 {
-    [tester waitForViewWithAccessibilityLabel:@"Button"];
-    UIAccessibilityElement *element = [[UIApplication sharedApplication] accessibilityElementWithLabel:@"Button" accessibilityValue:nil traits:0];
-
-    [[(id)element view] setHidden:YES];
+    UIView *view = [tester waitForViewWithAccessibilityLabel:@"Button"];
+    
+    [view setHidden:YES];
     [tester waitForAbsenceOfViewWithAccessibilityLabel:@"Button"];
 
-    [[(id)element view] setHidden:NO];
+    [view setHidden:NO];
     [tester waitForViewWithAccessibilityLabel:@"Button"];
+}
+
+- (void)testEnteringTextIntoATextFieldInATableCell
+{
+    [tester enterText:@"Test-Driven Development" intoViewWithAccessibilityLabel:@"TextField"];
 }
 
 @end

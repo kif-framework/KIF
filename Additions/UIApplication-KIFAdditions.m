@@ -28,6 +28,7 @@ static BOOL _KIF_UIApplicationMockOpenURL_returnValue = NO;
 @end
 
 NSString *const UIApplicationDidMockOpenURLNotification = @"UIApplicationDidMockOpenURLNotification";
+NSString *const UIApplicationDidMockCanOpenURLNotification = @"UIApplicationDidMockCanOpenURLNotification";
 NSString *const UIApplicationOpenedURLKey = @"UIApplicationOpenedURL";
 static const void *KIFRunLoopModesKey = &KIFRunLoopModesKey;
 
@@ -111,7 +112,7 @@ static const void *KIFRunLoopModesKey = &KIFRunLoopModesKey;
     return windows;
 }
 
-#pragma mark - Screenshoting
+#pragma mark - Screenshotting
 
 - (BOOL)writeScreenshotForLine:(NSUInteger)lineNumber inFile:(NSString *)filename description:(NSString *)description error:(NSError **)error;
 {
@@ -131,22 +132,33 @@ static const void *KIFRunLoopModesKey = &KIFRunLoopModesKey;
         return NO;
     }
     
-    UIGraphicsBeginImageContext([[windows objectAtIndex:0] bounds].size);
+    UIGraphicsBeginImageContextWithOptions([[windows objectAtIndex:0] bounds].size, YES, 0);
     for (UIWindow *window in windows) {
-        [window.layer renderInContext:UIGraphicsGetCurrentContext()];
+        if ([window respondsToSelector:@selector(drawViewHierarchyInRect:afterScreenUpdates:)]) {
+            [window drawViewHierarchyInRect:window.bounds afterScreenUpdates:YES];
+        } else {
+            [window.layer renderInContext:UIGraphicsGetCurrentContext()];
+        }
     }
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-    
-    
+
+    outputPath = [outputPath stringByExpandingTildeInPath];
+
+    NSError *directoryCreationError = nil;
+    if (![[NSFileManager defaultManager] createDirectoryAtPath:outputPath withIntermediateDirectories:YES attributes:nil error:&directoryCreationError]) {
+        *error = [NSError KIFErrorWithFormat:@"Couldn't create directory at path %@ (details: %@)", outputPath, directoryCreationError];
+        return NO;
+    }
+
     NSString *imageName = [NSString stringWithFormat:@"%@, line %lu", [filename lastPathComponent], (unsigned long)lineNumber];
     if (description) {
         imageName = [imageName stringByAppendingFormat:@", %@", description];
     }
-    
-    outputPath = [outputPath stringByExpandingTildeInPath];
+
     outputPath = [outputPath stringByAppendingPathComponent:imageName];
     outputPath = [outputPath stringByAppendingPathExtension:@"png"];
+
     if (![UIImagePNGRepresentation(image) writeToFile:outputPath atomically:YES]) {
         if (error) {
             *error = [NSError KIFErrorWithFormat:@"Could not write file at path %@", outputPath];
@@ -209,6 +221,16 @@ static const void *KIFRunLoopModesKey = &KIFRunLoopModesKey;
     }
 }
 
+- (BOOL)KIF_canOpenURL:(NSURL *)URL;
+{
+    if (_KIF_UIApplicationMockOpenURL) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationDidMockCanOpenURLNotification object:self userInfo:@{UIApplicationOpenedURLKey: URL}];
+        return _KIF_UIApplicationMockOpenURL_returnValue;
+    } else {
+        return [self KIF_canOpenURL:URL];
+    }
+}
+
 static inline void Swizzle(Class c, SEL orig, SEL new)
 {
     Method origMethod = class_getInstanceMethod(c, orig);
@@ -237,6 +259,7 @@ static inline void Swizzle(Class c, SEL orig, SEL new)
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         Swizzle(self, @selector(openURL:), @selector(KIF_openURL:));
+        Swizzle(self, @selector(canOpenURL:), @selector(KIF_canOpenURL:));
     });
 
     _KIF_UIApplicationMockOpenURL = YES;

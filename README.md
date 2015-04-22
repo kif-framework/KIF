@@ -21,7 +21,7 @@ All of the tests for KIF are written in Objective C. This allows for maximum int
 KIF integrates directly into your Xcode project, so there's no need to run an additional web server or install any additional packages.
 
 #### Wide OS coverage
-KIF's test suite has been run against iOS 5.1 and above (including iOS 7), though lower versions will likely work.
+KIF's test suite has been run against iOS 5.1 and above (including iOS 8), though lower versions will likely work.
 
 #### Test Like a User
 KIF attempts to imitate actual user input. Automation is done using tap events wherever possible.
@@ -49,7 +49,7 @@ Once your test target set up, add the following to your Podfile file. Use your t
 
 ```Ruby
 target 'Acceptance Tests', :exclusive => true do
-  pod 'KIF', '~> 3.0'
+  pod 'KIF', '~> 3.0', :configurations => ['Debug']
 end
 ```
 
@@ -68,9 +68,12 @@ end
 Installation (from GitHub)
 --------------------------
 
-To install KIF, you'll need to link the libKIF static library directly into your application. Download the source from the [kif-framework/KIF](https://github.com/kif-framework/KIF/) and follow the instructions below.
+To install KIF, you'll need to link the libKIF static library directly into your application. Download the source from the [kif-framework/KIF](https://github.com/kif-framework/KIF/) and follow the instructions below. The screenshots are from Xcode 6 on Yosemite, but the instructions should be the same for Xcode 5 or later on any OS version.
 
-*NOTE* These instruction assume you are using Xcode 4 or later. For Xcode 3 you won't be able to take advantage of Workspaces, so the instructions will differ slightly.
+We'll be using a simple project as an example, and you can find it in `Documentation/Examples/Testable Swift` in this repository.
+
+![Simple App](https://github.com/kif-framework/KIF/raw/master/Documentation/Images/Simple App.png)
+
 
 ### Add KIF to your project files
 The first step is to add the KIF project into the ./Frameworks/KIF subdirectory of your existing app. If your project uses Git for version control, you can use submodules to make updating in the future easier:
@@ -81,30 +84,29 @@ mkdir Frameworks
 git submodule add https://github.com/kif-framework/KIF.git Frameworks/KIF
 ```
 
-If you're not using Git, simply download the source and copy it into the ./Frameworks/KIF directory.
+If you're not using Git, simply download the source and copy it into the `./Frameworks/KIF` directory.
 
 ### Add KIF to Your Workspace
-Let your project know about KIF by adding the KIF project into a workspace along with your main project. Find the KIF.xcodeproj file in Finder and drag it into the Project Navigator (⌘1). If you don't already have a workspace, Xcode will ask if you want to create a new one. Click "Save" when it does.
+Let your project know about KIF by adding the KIF project into a workspace along with your main project. Find the `KIF.xcodeproj` file in Finder and drag it into the Project Navigator (⌘1).
 
-![Create workspace screen shot](https://github.com/kif-framework/KIF/raw/master/Documentation/Images/Create Workspace.png)
+![Added KIF to the project](https://github.com/kif-framework/KIF/raw/master/Documentation/Images/Added KIF to Project.png)
+
 
 ### Create a Testing Target
-You'll need to create a test target for your app.  You may already have one named *MyApplication*_Tests if you selected to automatically create unit tests.  If you did, you can keep using it if you aren't using it for unit tests.  Otherwise, follow these directions to create a new one.
+You'll need to create a test target for your app.  You may already have one named *MyApplication*Tests if you selected to automatically create unit tests when you created the project.  If you did, you can keep using it if you aren't using it for unit tests.  Otherwise, follow these directions to create a new one.
 
-Select your project in Xcode and click on "Add Target" in the bottom left corner of the editor.  Select iOS -> Other -> Cocoa Touch Unit Testing Bundle.  Give it a product name like "Acceptance Tests", "UI Tests", or something that indicates the intent of your testing process.  You can select "Use Automatic Reference Counting" even if the remainder of your app doesn't, just to make your life easier.
+Select your project in Xcode and click on "Add Target" in the bottom left corner of the editor.  Select iOS -> Other -> Cocoa Touch  Testing Bundle.  Give it a product name like "Acceptance Tests", "UI Tests", or something that indicates the intent of your testing process.
 
 The testing target will add a header and implementation file, likely "Acceptance_Tests.m/h" to match your target name. Delete those.
 
 ### Configure the Testing Target
-Now that you have a target for your tests, add the tests to that target. With the project settings still selected in the Project Navigator, and the new integration tests target selected in the project settings, select the "Build Phases" tab. Under the "Link Binary With Libraries" section, hit the "+" button. In the sheet that appears, select "libKIF.a" and click "Add".  Repeat the process for CoreGraphics.framework.
+Now that you have a target for your tests, add the tests to that target. With the project settings still selected in the Project Navigator, and the new integration tests target selected in the project settings, select the "Build Phases" tab. Under the "Link Binary With Libraries" section, hit the "+" button. In the sheet that appears, select "libKIF.a" and click "Add".  Repeat the process for CoreGraphics.framework and IOKit.framework.
 
 ![Add libKIF library screen shot](https://github.com/kif-framework/KIF/raw/master/Documentation/Images/Add Library.png)
 
 ![Add libKIF library screen shot](https://github.com/kif-framework/KIF/raw/master/Documentation/Images/Add Library Sheet.png)
 
-In the target's Build Settings, add KIF_XCTEST=1 to the Preprocessor Macros section. If you are using OCUnit, then instead add KIF_SENTEST=1.
-
-KIF takes advantage of Objective C's ability to add categories on an object, but this isn't enabled for static libraries by default. To enable this, add the `-ObjC` flag to the "Other Linker Flags" build setting as shown below.
+KIF takes advantage of Objective C's ability to add categories on an object, but this isn't enabled for static libraries by default. To enable this, add the `-ObjC` flag to the "Other Linker Flags" build setting on your test bundle target as shown below.
 
 ![Add category linker flags screen shot](https://github.com/kif-framework/KIF/raw/master/Documentation/Images/Add Category Linker Flags.png)
 
@@ -113,14 +115,15 @@ Read **Final Test Target Configurations** below for the final details on getting
 Final Test Target Configurations
 --------------------------------
 
-You need your tests to run hosted in your application.  To do this, first add your application by first selecting "Build Phases", expanding the "Target Dependencies" section, clicking on the "+" button, and in the new sheet that appears selecting your application target and clicking "Add".
+You need your tests to run hosted in your application. **Xcode does this for you by default** when creating a new testing bundle target, but if you're migrating an older bundle, follow the steps below.
 
-Next, configure your bundle loader.  In "Build Settings", expand "Linking" and edit "Bundle Loader" to be `$(BUILT_PRODUCTS_DIR)/My App.app/My App` where *My App* is the name of your app.  Expand the "Unit Testing" section and edit "Test Host" to be `$(BUNDLE_LOADER)`. Also make sure that "Wrapper Extension" is set to "xctest".
+First add your application by selecting "Build Phases", expanding the "Target Dependencies" section, clicking on the "+" button, and in the new sheet that appears selecting your application target and clicking "Add".
+
+Next, configure your bundle loader.  In "Build Settings", expand "Linking" and edit "Bundle Loader" to be `$(BUILT_PRODUCTS_DIR)/MyApplication.app/MyApplication` where *MyApplication* is the name of your app.  Expand the "Unit Testing" section and edit "Test Host" to be `$(BUNDLE_LOADER)`. Also make sure that "Wrapper Extension" is set to "xctest".
 
 The last step is to configure your unit tests to run when you trigger a test (⌘U).  Click on your scheme name and select "Edit Scheme…".  Click on "Test" in the sidebar followed by the "+" in the bottom left corner.  Select your testing target and click "OK".
 
-Example
--------
+## Example test cases
 With your project configured to use KIF, it's time to start writing tests. There are two main classes used in KIF testing: the test case (`KIFTestCase`, subclass of `XCTestCase`) and the UI test actor (`KIFUITestActor`).  The XCTest test runner loads the test case classes and executes their test.  Inside these tests, the tester performs the UI operations which generally imitate a user interaction. Three of the most common tester actions are "tap this view," "enter text into this view," and "wait for this view." These steps are included as factory methods on `KIFUITestActor` in the base KIF implementation.
 
 KIF relies on the built-in accessibility of iOS to perform its test steps. As such, it's important that your app is fully accessible. This is also a great way to ensure that your app is usable by the sight impaired. Making your application accessible is usually as easy as giving your views reasonable labels. More details are available in [Apple's Documentation](http://developer.apple.com/library/ios/#documentation/UserExperience/Conceptual/iPhoneAccessibility/Making_Application_Accessible/Making_Application_Accessible.html#//apple_ref/doc/uid/TP40008785-CH102-SW5).
@@ -129,72 +132,80 @@ The first step is to create a test class to test some functionality.  In our cas
 
 *LoginTestCase.h*
 
-	#import <KIF/KIF.h>
-	
-	@interface LoginTests : KIFTestCase
-	@end
+```objective-c
+#import <KIF/KIF.h>
+
+@interface LoginTests : KIFTestCase
+@end
+```
 
 *LoginTestCase.m*
 
-	#import "LoginTests.h"
-	#import "KIFUITestActor+EXAdditions.h"
+```objective-c
+#import "LoginTests.h"
+#import "KIFUITestActor+EXAdditions.h"
 
-	@implementation LoginTests
+@implementation LoginTests
 
-	- (void)beforeEach
-	{
-	    [tester navigateToLoginPage];
-	}
-	
-	- (void)afterEach
-	{
-	    [tester returnToLoggedOutHomeScreen];
-	}
-	
-	- (void)testSuccessfulLogin
-	{
-	    [tester enterText:@"user@example.com" intoViewWithAccessibilityLabel:@"Login User Name"];
-	    [tester enterText:@"thisismypassword" intoViewWithAccessibilityLabel:@"Login Password"];
-	    [tester tapViewWithAccessibilityLabel:@"Log In"];
+- (void)beforeEach
+{
+    [tester navigateToLoginPage];
+}
 
-	    // Verify that the login succeeded
-	    [tester waitForTappableViewWithAccessibilityLabel:@"Welcome"];
-	}
-	
-	@end
+- (void)afterEach
+{
+    [tester returnToLoggedOutHomeScreen];
+}
+
+- (void)testSuccessfulLogin
+{
+    [tester enterText:@"user@example.com" intoViewWithAccessibilityLabel:@"Login User Name"];
+    [tester enterText:@"thisismypassword" intoViewWithAccessibilityLabel:@"Login Password"];
+    [tester tapViewWithAccessibilityLabel:@"Log In"];
+
+    // Verify that the login succeeded
+    [tester waitForTappableViewWithAccessibilityLabel:@"Welcome"];
+}
+
+@end
+```
 
 Most of the tester actions in the test are already defined by the KIF framework, but `-navigateToLoginPage` and `-returnToLoggedOutHomeScreen` are not. These are examples of custom actions which are specific to your application. Adding such steps is easy, and is done using a factory method in a category of `KIFUITestActor`, similar to how we added the scenario.
 
 *KIFUITestActor+EXAdditions.h*
 
-	#import <KIF/KIF.h>
+```objective-c
+#import <KIF/KIF.h>
 
-	@interface KIFUITestActor (EXAdditions)
-	
-	- (void)navigateToLoginPage;
-	- (void)returnToLoggedOutHomeScreen;
+@interface KIFUITestActor (EXAdditions)
 
-	@end
+- (void)navigateToLoginPage;
+- (void)returnToLoggedOutHomeScreen;
+
+@end
+```
 
 *KIFUITestActor+EXAdditions.m*
 
-	#import "KIFUITestActor+EXAdditions.h"
+```objective-c
+#import "KIFUITestActor+EXAdditions.h"
 
-	@implementation KIFUITestActor (EXAdditions)
+@implementation KIFUITestActor (EXAdditions)
 
-	- (void)navigateToLoginPage
-	{
-	    [self tapViewWithAccessibilityLabel:@"Login/Sign Up"];
-	    [self tapViewWithAccessibilityLabel:@"Skip this ad"];
-	}
+- (void)navigateToLoginPage
+{
+    [self tapViewWithAccessibilityLabel:@"Login/Sign Up"];
+    [self tapViewWithAccessibilityLabel:@"Skip this ad"];
+}
 
-	- (void)returnToLoggedOutHomeScreen
-	{
-	    [self tapViewWithAccessibilityLabel:@"Logout"];
-	    [self tapViewWithAccessibilityLabel:@"Logout"]; // Dismiss alert.
-	}
+- (void)returnToLoggedOutHomeScreen
+{
+    [self tapViewWithAccessibilityLabel:@"Logout"];
+    [self tapViewWithAccessibilityLabel:@"Logout"]; // Dismiss alert.
+}
 
-	@end
+@end
+```
 
 Everything should now be configured. When you run the integration tests using the test button, ⌘U, or the Xcode 5 Test Navigator (⌘5).
 
@@ -205,21 +216,23 @@ Use with other testing frameworks
 
 For example, the following [Specta](https://github.com/specta/specta) test works without any changes to KIF or Specta:
 
-    #import <Specta.h>
-    #import <KIF.h>
+```objective-c
+#import <Specta.h>
+#import <KIF.h>
 
-    SpecBegin(App)
+SpecBegin(App)
 
-    describe(@"Tab controller", ^{
-    
-      it(@"should show second view when I tap on the second tab", ^{
-        [tester tapViewWithAccessibilityLabel:@"Second" traits:UIAccessibilityTraitButton];
-        [tester waitForViewWithAccessibilityLabel:@"Second View"];
-      });
-    
-    });
+describe(@"Tab controller", ^{
 
-    SpecEnd
+  it(@"should show second view when I tap on the second tab", ^{
+    [tester tapViewWithAccessibilityLabel:@"Second" traits:UIAccessibilityTraitButton];
+    [tester waitForViewWithAccessibilityLabel:@"Second View"];
+  });
+
+});
+
+SpecEnd
+```
 
 If you want to use KIF with a test runner that does not subclass `XCTestCase`, your runner class just needs to implement the `KIFTestActorDelegate` protocol which contains two required methods.
 
@@ -227,6 +240,38 @@ If you want to use KIF with a test runner that does not subclass `XCTestCase`, y
    - (void)failWithExceptions:(NSArray *)exceptions stopTest:(BOOL)stop;
 
 In the first case, the test runner should log the exception and halt the test execution if `stop` is `YES`.  In the second, the runner should log all the exceptions and halt the test execution if `stop` is `YES`.  The exceptions take advantage of KIF's extensions to `NSException` that include the `lineNumber` and `filename` in the exception's `userData` to record the error's origin.
+
+## Use with Swift
+
+Since it's easy to combine Swift and Objective-C code in a single project, KIF is fully capable of testing apps written in both Objective-C and Swift.
+
+If you want to write your test cases in Swift, you'll need to keep two things in mind.
+
+1. Your test bundle's bridging header will need to `#import <KIF/KIF.h>`, since KIF is a static library and not a header.
+2. The `tester` and `system` keywords are C preprocessor macros which aren't available in Swift. You can easily write a small extension to `XCTestCase` or any other class to access them:
+
+```swift
+extension XCTestCase {
+    func tester(_ file : String = __FILE__, _ line : Int = __LINE__) -> KIFUITestActor {
+        return KIFUITestActor(inFile: file, atLine: line, delegate: self)
+    }
+
+    func system(_ file : String = __FILE__, _ line : Int = __LINE__) -> KIFSystemTestActor {
+        return KIFSystemTestActor(inFile: file, atLine: line, delegate: self)
+    }
+}
+
+extension KIFTestActor {
+    func tester(_ file : String = __FILE__, _ line : Int = __LINE__) -> KIFUITestActor {
+        return KIFUITestActor(inFile: file, atLine: line, delegate: self)
+    }
+
+    func system(_ file : String = __FILE__, _ line : Int = __LINE__) -> KIFSystemTestActor {
+        return KIFSystemTestActor(inFile: file, atLine: line, delegate: self)
+    }
+}
+```
+
 
 Troubleshooting
 ---------------

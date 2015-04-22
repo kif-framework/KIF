@@ -8,10 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@interface TapViewController : UIViewController<UITextFieldDelegate>
+@interface TapViewController : UIViewController<UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 @property (weak, nonatomic) IBOutlet UISlider *slider;
 @property (weak, nonatomic) IBOutlet UILabel *lineBreakLabel;
 @property (weak, nonatomic) IBOutlet UILabel *memoryWarningLabel;
+@property (weak, nonatomic) IBOutlet UILabel *selectedPhotoSizeLabel;
 @property (weak, nonatomic) IBOutlet UITextField *otherTextField;
 @property (weak, nonatomic) IBOutlet UITextField *greetingTextField;
 @end
@@ -55,6 +56,7 @@
 {
     UIImagePickerController *controller = [[UIImagePickerController alloc] init];
     controller.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    controller.delegate = self;
     [self presentViewController:controller animated:YES completion:nil];
 }
 
@@ -71,6 +73,22 @@
         [self.greetingTextField becomeFirstResponder];
     }
     return NO;
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    if (textField == self.otherTextField && range.length != 0) {
+        self.greetingTextField.text = @"Deleted something.";
+    }
+    
+    return YES;
+}
+
+#pragma mark - <UIImagePickerControllerDelegate>
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    self.selectedPhotoSizeLabel.text = NSStringFromCGSize([info[UIImagePickerControllerOriginalImage] size]);
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end

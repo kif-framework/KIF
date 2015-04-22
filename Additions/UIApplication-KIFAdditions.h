@@ -17,6 +17,11 @@
 UIKIT_EXTERN NSString *const UIApplicationDidMockOpenURLNotification;
 
 /*!
+ @abstract When mocking @c -canOpenURL:, this notification is posted.
+ */
+UIKIT_EXTERN NSString *const UIApplicationDidMockCanOpenURLNotification;
+
+/*!
  @abstract The key for the opened URL in the @c UIApplicationDidMockOpenURLNotification notification.
  */
 UIKIT_EXTERN NSString *const UIApplicationOpenedURLKey;
@@ -35,7 +40,7 @@ UIKIT_EXTERN NSString *const UIApplicationOpenedURLKey;
 /*!
  @abstract Finds an accessibility element where @c matchBlock returns @c YES, across all windows in the application starting at the fronmost window.
  @discussion This method should be used if @c accessibilityElementWithLabel:accessibilityValue:traits: does not meet your requirements.  For example, if you are searching for an element that begins with a pattern or if of a certain view type.
- @param matchBlock.  A block to be performed on each element to see if it passes.
+ @param matchBlock  A block to be performed on each element to see if it passes.
  */
 - (UIAccessibilityElement *)accessibilityElementMatchingBlock:(BOOL(^)(UIAccessibilityElement *))matchBlock;
 

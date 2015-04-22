@@ -37,19 +37,24 @@
     [tester waitForTimeInterval:1];
     [tester setValue:3 forSliderWithAccessibilityLabel:@"Slider"];
     [tester waitForViewWithAccessibilityLabel:@"Slider" value:@"3" traits:UIAccessibilityTraitNone];
+    [tester setValue:0 forSliderWithAccessibilityLabel:@"Slider"];
+    [tester waitForViewWithAccessibilityLabel:@"Slider" value:@"0" traits:UIAccessibilityTraitNone];
+    [tester setValue:5 forSliderWithAccessibilityLabel:@"Slider"];
+    [tester waitForViewWithAccessibilityLabel:@"Slider" value:@"5" traits:UIAccessibilityTraitNone];
 }
 
-- (void)testReturningFromATextField
-{
-    [tester tapViewWithAccessibilityLabel:@"Greeting"];
-    [tester waitForTimeInterval:1];
-    [tester tapViewWithAccessibilityLabel:@"return"];
-    [tester waitForAbsenceOfViewWithAccessibilityLabel:@"return"];
-}
+- (void)testPickingAPhoto {
+    [tester tapViewWithAccessibilityLabel:@"Photos"];
+    [tester acknowledgeSystemAlert];
+    [tester waitForTimeInterval:0.5f]; // Wait for view to stabilize
 
-/*
- TODO: Should we implement this test?  It is really domain specific. It depends on a UI element named "Choose Photo" which is wired to create an image picker, an album with a matching name, and photos to be on the device.
- + (NSArray *)stepsToChoosePhotoInAlbum:(NSString *)albumName atRow:(NSInteger)row column:(NSInteger)column;
- */
+    NSOperatingSystemVersion iOS8 = {8, 0, 0};
+    if ([NSProcessInfo instancesRespondToSelector:@selector(isOperatingSystemAtLeastVersion:)] && [[NSProcessInfo new] isOperatingSystemAtLeastVersion:iOS8]) {
+        [tester choosePhotoInAlbum:@"Camera Roll" atRow:1 column:2];
+    } else {
+        [tester choosePhotoInAlbum:@"Saved Photos" atRow:1 column:2];
+    }
+    [tester waitForViewWithAccessibilityLabel:@"{834, 1250}"];
+}
 
 @end

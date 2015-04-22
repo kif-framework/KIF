@@ -69,21 +69,48 @@
     }
 }
 
+
 - (void)waitForApplicationToOpenAnyURLWhileExecutingBlock:(void (^)())block returning:(BOOL)returnValue
 {
     [self waitForApplicationToOpenURL:nil whileExecutingBlock:block returning:returnValue];
 }
 
-- (void)waitForApplicationToOpenURL:(NSString *)URLString whileExecutingBlock:(void (^)())block returning:(BOOL)returnValue
+- (void)waitForApplicationToOpenURLWithScheme:(NSString *)URLScheme whileExecutingBlock:(void (^)())block returning:(BOOL)returnValue {
+    [self waitForApplicationToOpenURLMatchingBlock:^(NSURL *actualURL){
+        if (URLScheme && ![URLScheme isEqualToString:actualURL.scheme]) {
+            [self failWithError:[NSError KIFErrorWithFormat:@"Expected %@ to start with %@", actualURL.absoluteString, URLScheme] stopTest:YES];
+        }
+    } whileExecutingBlock:block returning:returnValue];
+}
+
+- (void)waitForApplicationToOpenURL:(NSString *)URLString whileExecutingBlock:(void (^)())block returning:(BOOL)returnValue {
+    [self waitForApplicationToOpenURLMatchingBlock:^(NSURL *actualURL){
+
+        if (URLString && ![[actualURL absoluteString] isEqualToString:URLString]) {
+            [self failWithError:[NSError KIFErrorWithFormat:@"Expected %@, got %@", URLString, actualURL.absoluteString] stopTest:YES];
+        }
+    } whileExecutingBlock:block returning:returnValue];
+}
+
+- (void)waitForApplicationToOpenURLMatchingBlock:(void (^)(NSURL *actualURL))URLMatcherBlock whileExecutingBlock:(void (^)())block returning:(BOOL)returnValue
 {
     [UIApplication startMockingOpenURLWithReturnValue:returnValue];
+
+    id canOpenURLObserver = [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidMockCanOpenURLNotification object:[UIApplication sharedApplication] queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *notification) {
+        if (URLMatcherBlock) {
+            NSURL *actualURL = [notification.userInfo objectForKey:UIApplicationOpenedURLKey];
+            URLMatcherBlock(actualURL);
+        }
+    }];
+
     NSNotification *notification = [self waitForNotificationName:UIApplicationDidMockOpenURLNotification object:[UIApplication sharedApplication] whileExecutingBlock:block complete:^{
         [UIApplication stopMockingOpenURL];
+        [[NSNotificationCenter defaultCenter] removeObserver:canOpenURLObserver];
     }];
-    
-    NSString *actualURLString = [[notification.userInfo objectForKey:UIApplicationOpenedURLKey] absoluteString];
-    if (URLString && ![URLString isEqualToString:actualURLString]) {
-        [self failWithError:[NSError KIFErrorWithFormat:@"Expected %@, got %@", URLString, actualURLString] stopTest:YES];
+
+    if (URLMatcherBlock) {
+        NSURL *actualURL = [notification.userInfo objectForKey:UIApplicationOpenedURLKey];
+        URLMatcherBlock(actualURL);
     }
 }
 
