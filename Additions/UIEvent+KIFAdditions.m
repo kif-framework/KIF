@@ -148,9 +148,11 @@ typedef struct __GSEvent * GSEventRef;
                                                                                     0, 0, 0, 0, 0, 0, 0, 0,
                                                                                     (IOHIDFloat)isTouching, (IOHIDFloat)isTouching, 0);
         IOHIDEventAppendEvent(handEvent, fingerEvent);
+        CFRelease(fingerEvent);
     }
     
     [self _setHIDEvent:handEvent];
+    CFRelease(handEvent);
 }
 
 @end
