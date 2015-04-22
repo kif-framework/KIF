@@ -166,7 +166,13 @@ static NSTimeInterval KIFTestStepDelay = 0.1;
 
 - (void)failWithError:(NSError *)error stopTest:(BOOL)stopTest
 {
+    NSException *exception = [NSException exceptionWithName: [error localizedDescription]
+                                                     reason: [error localizedFailureReason]
+                                                   userInfo: [error userInfo]];
+    
     [self.delegate failWithException:[NSException failureInFile:self.file atLine:(int)self.line withDescription:error.localizedDescription] stopTest:stopTest];
+    
+    [self.delegate failWithException: exception stopTest:stopTest];
 }
 
 - (void)waitForTimeInterval:(NSTimeInterval)timeInterval
@@ -191,8 +197,9 @@ static NSTimeInterval KIFTestStepDelay = 0.1;
 - (void)failWithExceptions:(NSArray *)exceptions stopTest:(BOOL)stop
 {
     NSException *firstException = [exceptions objectAtIndex:0];
+    
     NSException *newException = [NSException failureInFile:self.file atLine:(int)self.line withDescription:@"Failure in child step: %@", firstException.description];
-
+    
     [self.delegate failWithExceptions:[exceptions arrayByAddingObject:newException] stopTest:stop];
 }
 

@@ -11,14 +11,14 @@
 
 MAKE_CATEGORIES_LOADABLE(SenTestCase_KIFAdditions)
 
-@implementation SenTestCase (KIFAdditions)
+@implementation XCTestCase (KIFAdditions)
 
 - (void)failWithException:(NSException *)exception stopTest:(BOOL)stop
 {
-    if (stop) {
-        [self raiseAfterFailure];
-    }
-    [self failWithException:exception];
+//    if (stop) {
+//        [self raiseAfterFailure];
+//    }
+//    [self failWithException:exception];
     [self continueAfterFailure];
 }
 

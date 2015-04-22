@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>E7BA2255-74F5-4EC3-962B-1644B8F741CB</string>
+	<key>IDESourceControlProjectName</key>
+	<string>KIF</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>CA489723-305A-4258-BE0B-336EDC64A75A</key>
+		<string>https://github.com/walmartlabs/KIF.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>KIF.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>CA489723-305A-4258-BE0B-336EDC64A75A</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/walmartlabs/KIF.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>CA489723-305A-4258-BE0B-336EDC64A75A</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>CA489723-305A-4258-BE0B-336EDC64A75A</string>
+			<key>IDESourceControlWCCName</key>
+			<string>KIF</string>
+		</dict>
+	</array>
+</dict>
+</plist>
