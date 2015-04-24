@@ -18,8 +18,8 @@
 		3812FB611A1212A700335733 /* AnimationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3812FB601A1212A700335733 /* AnimationViewController.m */; };
 		3812FB631A12188700335733 /* WaitForAnimationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3812FB621A12188700335733 /* WaitForAnimationTests.m */; };
 		4A48107B19708CAB0003A32E /* ExistTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A48107A19708CAB0003A32E /* ExistTests.m */; };
-		5C4733C71AC35E5400269A66 /* kif-iOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C4733C61AC35E5400269A66 /* kif-iOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5C4733E71AC35F1100269A66 /* kif-OCUnit-iOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C4733E61AC35F1100269A66 /* kif-OCUnit-iOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5C4733C71AC35E5400269A66 /* kif.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C4733C61AC35E5400269A66 /* kif.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5C4733E71AC35F1100269A66 /* kif.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C4733E61AC35F1100269A66 /* kif.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5C4733FD1AC35FCC00269A66 /* LoadableCategory.h in Headers */ = {isa = PBXBuildFile; fileRef = 39160B1013D1E6BB00311E38 /* LoadableCategory.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5C4733FE1AC35FCC00269A66 /* CGGeometry-KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = AAB0729413971AB2008AF393 /* CGGeometry-KIFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5C4733FF1AC35FCC00269A66 /* NSFileManager-KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = CDFD8E84139728B4008D299F /* NSFileManager-KIFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -142,13 +142,12 @@
 		5CDAE1241AE88675006C582E /* KIFSystemTestActor.h in Copy Files */ = {isa = PBXBuildFile; fileRef = EB4C3130167BA3AC00E31109 /* KIFSystemTestActor.h */; };
 		5CDAE1251AE88675006C582E /* KIFUITestActor.h in Copy Files */ = {isa = PBXBuildFile; fileRef = EB4C3132167BA3AC00E31109 /* KIFUITestActor.h */; };
 		5CDAE1261AE88675006C582E /* KIFUITestActor-ConditionalTests.h in Copy Files */ = {isa = PBXBuildFile; fileRef = EB2526461981BF7A00DBC747 /* KIFUITestActor-ConditionalTests.h */; };
-		5CDAE1271AE88675006C582E /* KIF.h in Copy Files */ = {isa = PBXBuildFile; fileRef = A88930111685098E00FC7C63 /* KIF.h */; };
 		5CDAE1281AE88675006C582E /* KIFTestCase.h in Copy Files */ = {isa = PBXBuildFile; fileRef = EB4C3127167BA37B00E31109 /* KIFTestCase.h */; };
 		5CDAE1291AE88675006C582E /* KIFTestActor.h in Copy Files */ = {isa = PBXBuildFile; fileRef = EB4C3123167BA37B00E31109 /* KIFTestActor.h */; };
 		5CDAE12A1AE88675006C582E /* KIFTypist.h in Copy Files */ = {isa = PBXBuildFile; fileRef = C194255615D83DE9004FC314 /* KIFTypist.h */; };
 		5CDAE12B1AE88675006C582E /* KIFTestStepValidation.h in Copy Files */ = {isa = PBXBuildFile; fileRef = EBAE488517A4E5C30005EE19 /* KIFTestStepValidation.h */; };
 		5CDAE12C1AE88675006C582E /* KIFUITestActor-IdentifierTests.h in Copy Files */ = {isa = PBXBuildFile; fileRef = EB1A44D31A0C3268004A3F61 /* KIFUITestActor-IdentifierTests.h */; };
-		5CDAE12D1AE88675006C582E /* kif-iOS.h in Copy Files */ = {isa = PBXBuildFile; fileRef = 5C4733C61AC35E5400269A66 /* kif-iOS.h */; };
+		5CDAE12D1AE88675006C582E /* kif.h in Copy Files */ = {isa = PBXBuildFile; fileRef = 5C4733C61AC35E5400269A66 /* kif.h */; };
 		5CDAE12F1AE8883B006C582E /* LoadableCategory.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 39160B1013D1E6BB00311E38 /* LoadableCategory.h */; };
 		5CDAE1301AE8883B006C582E /* CGGeometry-KIFAdditions.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AAB0729413971AB2008AF393 /* CGGeometry-KIFAdditions.h */; };
 		5CDAE1311AE8883B006C582E /* NSFileManager-KIFAdditions.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = CDFD8E84139728B4008D299F /* NSFileManager-KIFAdditions.h */; };
@@ -164,13 +163,12 @@
 		5CDAE13B1AE8883B006C582E /* SenTestCase-KIFAdditions.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = EABD4749185F509E00A5F081 /* SenTestCase-KIFAdditions.h */; };
 		5CDAE13C1AE8883B006C582E /* KIFSystemTestActor.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = EB4C3130167BA3AC00E31109 /* KIFSystemTestActor.h */; };
 		5CDAE13D1AE8883B006C582E /* KIFUITestActor.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = EB4C3132167BA3AC00E31109 /* KIFUITestActor.h */; };
-		5CDAE13E1AE8883B006C582E /* KIF.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = A88930111685098E00FC7C63 /* KIF.h */; };
 		5CDAE13F1AE8883B006C582E /* KIFTestCase.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = EB4C3127167BA37B00E31109 /* KIFTestCase.h */; };
 		5CDAE1401AE8883B006C582E /* KIFTestActor.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = EB4C3123167BA37B00E31109 /* KIFTestActor.h */; };
 		5CDAE1411AE8883B006C582E /* KIFTypist.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = C194255615D83DE9004FC314 /* KIFTypist.h */; };
 		5CDAE1421AE8883B006C582E /* KIFTestStepValidation.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = EBAE488517A4E5C30005EE19 /* KIFTestStepValidation.h */; };
 		5CDAE1431AE8883B006C582E /* KIFUITestActor-IdentifierTests.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = EB1A44D31A0C3268004A3F61 /* KIFUITestActor-IdentifierTests.h */; };
-		5CDAE1441AE8883B006C582E /* kif-OCUnit-iOS.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5C4733E61AC35F1100269A66 /* kif-OCUnit-iOS.h */; };
+		5CDAE1441AE8883B006C582E /* kif.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5C4733E61AC35F1100269A66 /* kif.h */; };
 		84D293AD1A2C84F700C10944 /* SystemAlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D293AC1A2C84F700C10944 /* SystemAlertViewController.m */; };
 		84D293AF1A2C867300C10944 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84D293AE1A2C867300C10944 /* CoreLocation.framework */; };
 		84D293B11A2C891700C10944 /* SystemAlertTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D293B01A2C891700C10944 /* SystemAlertTests.m */; };
@@ -388,13 +386,12 @@
 				5CDAE1241AE88675006C582E /* KIFSystemTestActor.h in Copy Files */,
 				5CDAE1251AE88675006C582E /* KIFUITestActor.h in Copy Files */,
 				5CDAE1261AE88675006C582E /* KIFUITestActor-ConditionalTests.h in Copy Files */,
-				5CDAE1271AE88675006C582E /* KIF.h in Copy Files */,
 				5CDAE1281AE88675006C582E /* KIFTestCase.h in Copy Files */,
 				5CDAE1291AE88675006C582E /* KIFTestActor.h in Copy Files */,
 				5CDAE12A1AE88675006C582E /* KIFTypist.h in Copy Files */,
 				5CDAE12B1AE88675006C582E /* KIFTestStepValidation.h in Copy Files */,
 				5CDAE12C1AE88675006C582E /* KIFUITestActor-IdentifierTests.h in Copy Files */,
-				5CDAE12D1AE88675006C582E /* kif-iOS.h in Copy Files */,
+				5CDAE12D1AE88675006C582E /* kif.h in Copy Files */,
 			);
 			name = "Copy Files";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -420,13 +417,12 @@
 				5CDAE13B1AE8883B006C582E /* SenTestCase-KIFAdditions.h in CopyFiles */,
 				5CDAE13C1AE8883B006C582E /* KIFSystemTestActor.h in CopyFiles */,
 				5CDAE13D1AE8883B006C582E /* KIFUITestActor.h in CopyFiles */,
-				5CDAE13E1AE8883B006C582E /* KIF.h in CopyFiles */,
 				5CDAE13F1AE8883B006C582E /* KIFTestCase.h in CopyFiles */,
 				5CDAE1401AE8883B006C582E /* KIFTestActor.h in CopyFiles */,
 				5CDAE1411AE8883B006C582E /* KIFTypist.h in CopyFiles */,
 				5CDAE1421AE8883B006C582E /* KIFTestStepValidation.h in CopyFiles */,
 				5CDAE1431AE8883B006C582E /* KIFUITestActor-IdentifierTests.h in CopyFiles */,
-				5CDAE1441AE8883B006C582E /* kif-OCUnit-iOS.h in CopyFiles */,
+				5CDAE1441AE8883B006C582E /* kif.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -446,10 +442,10 @@
 		4A48107A19708CAB0003A32E /* ExistTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExistTests.m; sourceTree = "<group>"; };
 		5C4733C21AC35E5400269A66 /* kif.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = kif.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5C4733C51AC35E5400269A66 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5C4733C61AC35E5400269A66 /* kif-iOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "kif-iOS.h"; sourceTree = "<group>"; };
+		5C4733C61AC35E5400269A66 /* kif.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = kif.h; sourceTree = "<group>"; };
 		5C4733E21AC35F1100269A66 /* kifOCUnit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = kifOCUnit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5C4733E51AC35F1100269A66 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5C4733E61AC35F1100269A66 /* kif-OCUnit-iOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "kif-OCUnit-iOS.h"; sourceTree = "<group>"; };
+		5C4733E61AC35F1100269A66 /* kif.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = kif.h; sourceTree = "<group>"; };
 		84D293AC1A2C84F700C10944 /* SystemAlertViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SystemAlertViewController.m; sourceTree = "<group>"; };
 		84D293AE1A2C867300C10944 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		84D293B01A2C891700C10944 /* SystemAlertTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SystemAlertTests.m; sourceTree = "<group>"; };
@@ -647,7 +643,7 @@
 		5C4733C31AC35E5400269A66 /* kif-iOS */ = {
 			isa = PBXGroup;
 			children = (
-				5C4733C61AC35E5400269A66 /* kif-iOS.h */,
+				5C4733C61AC35E5400269A66 /* kif.h */,
 				5C4733C41AC35E5400269A66 /* Supporting Files */,
 			);
 			path = "kif-iOS";
@@ -664,7 +660,7 @@
 		5C4733E31AC35F1100269A66 /* kif-OCUnit-iOS */ = {
 			isa = PBXGroup;
 			children = (
-				5C4733E61AC35F1100269A66 /* kif-OCUnit-iOS.h */,
+				5C4733E61AC35F1100269A66 /* kif.h */,
 				5C4733E41AC35F1100269A66 /* Supporting Files */,
 			);
 			path = "kif-OCUnit-iOS";
@@ -933,7 +929,7 @@
 				5C4734041AC35FCC00269A66 /* UIView-KIFAdditions.h in Headers */,
 				5C4734031AC35FCC00269A66 /* UITouch-KIFAdditions.h in Headers */,
 				5C4733FD1AC35FCC00269A66 /* LoadableCategory.h in Headers */,
-				5C4733C71AC35E5400269A66 /* kif-iOS.h in Headers */,
+				5C4733C71AC35E5400269A66 /* kif.h in Headers */,
 				5C4734011AC35FCC00269A66 /* UIApplication-KIFAdditions.h in Headers */,
 				5C4734071AC35FCC00269A66 /* NSBundle-KIFAdditions.h in Headers */,
 				5C4734171AC35FF200269A66 /* NSException-KIFAdditions.h in Headers */,
@@ -966,7 +962,7 @@
 				5C4734421AC3609700269A66 /* KIFUITestActor.h in Headers */,
 				5C47340F1AC35FCC00269A66 /* UITouch-KIFAdditions.h in Headers */,
 				5C4734091AC35FCC00269A66 /* LoadableCategory.h in Headers */,
-				5C4733E71AC35F1100269A66 /* kif-OCUnit-iOS.h in Headers */,
+				5C4733E71AC35F1100269A66 /* kif.h in Headers */,
 				5C47343D1AC3608E00269A66 /* KIFSystemTestActor.h in Headers */,
 				5C47340D1AC35FCC00269A66 /* UIApplication-KIFAdditions.h in Headers */,
 				5C4734131AC35FCC00269A66 /* NSBundle-KIFAdditions.h in Headers */,
