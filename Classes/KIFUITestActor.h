@@ -325,6 +325,9 @@ static inline KIFDisplacement KIFDisplacementForSwipingInDirection(KIFSwipeDirec
  @param title The title of the row to select.
  */
 - (void)selectPickerViewRowWithTitle:(NSString *)title;
+- (void)selectPickerRow:(NSInteger)row component:(NSInteger)component;
+
+- (void)selectSegmentAtIndex:(NSInteger)index intoSegmentedControlWithAccessibilityLabel:(NSString *)label;
 
 /*!
  @abstract Selects an item from a currently visible picker view in specified component.

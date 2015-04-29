@@ -17,6 +17,7 @@
 #import "NSError-KIFAdditions.h"
 #import "KIFTypist.h"
 #import "UIAutomationHelper.h"
+#import "UISegmentedControl+KIFAdditions.h"
 
 @implementation KIFUITestActor
 
@@ -590,15 +591,63 @@
                 _foundInOneColumn = YES;
             }
         }
-        
+
         if (!_foundInOneColumn) {
             KIFTestCondition(NO, error, @"Failed to select from Picker.");
             return KIFTestStepResultFailure;
         }
-        
+
         return KIFTestStepResultSuccess;
     }];
-    
+
+}
+
+- (void)selectPickerRow:(NSInteger)row component:(NSInteger)component {
+	[self runBlock:^KIFTestStepResult(NSError **error) {
+        // Find the picker view
+        UIPickerView *pickerView = [[[[UIApplication sharedApplication] pickerViewWindow] subviewsWithClassNameOrSuperClassNamePrefix:@"UIPickerView"] lastObject];
+        KIFTestCondition(pickerView, error, @"No picker view is present");
+        
+        NSInteger componentCount = [pickerView.dataSource numberOfComponentsInPickerView:pickerView];
+        KIFTestCondition(component < componentCount, error, @"The picker view does not have enough component.");
+        
+		NSInteger rowCount = [pickerView.dataSource pickerView:pickerView numberOfRowsInComponent:component];
+        KIFTestCondition(row < rowCount, error, @"The picker view does not have enough row in component.");
+		[pickerView selectRow:row inComponent:component animated:YES];
+		CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.5, false);
+		
+		// Tap in the middle of the picker view to select the item
+		[pickerView tap];
+		
+		// The combination of selectRow:inComponent:animated: and tap does not consistently result in
+		// pickerView:didSelectRow:inComponent: being called on the delegate. We need to do it explicitly.
+		if ([pickerView.delegate respondsToSelector:@selector(pickerView:didSelectRow:inComponent:)]) {
+			[pickerView.delegate pickerView:pickerView didSelectRow:row inComponent:component];
+		}
+		
+		return KIFTestStepResultSuccess;
+    }];
+
+}
+
+- (void)selectSegmentAtIndex:(NSInteger)index intoSegmentedControlWithAccessibilityLabel:(NSString *)label {
+	[self runBlock:^KIFTestStepResult(NSError **error) {
+		// get a hold of the segmented control
+		UISegmentedControl *control = (UISegmentedControl *) [self waitForViewWithAccessibilityLabel:label];
+		 KIFTestCondition([control isKindOfClass:UISegmentedControl.class], error, @"View with accessibility label %@ is not a segmented control.", label);
+		
+		// now figure out where in that control is the segment we want to touch
+		CGPoint relativePosition = CGPointZero;
+		relativePosition.y = CGRectGetHeight(control.frame) / 2.0f;
+		for (int i = 0; i < index; i++) {
+			relativePosition.x += [control KIF_widthForSegmentAtIndex:i];
+		}
+		relativePosition.x += [control KIF_widthForSegmentAtIndex: index] / 2.0f;
+		
+		CGPoint globalPosition = [control convertPoint:relativePosition toView:nil];
+		[self tapScreenAtPoint:globalPosition];
+		return KIFTestStepResultSuccess;
+	}];
 }
 
 - (void)setOn:(BOOL)switchIsOn forSwitchWithAccessibilityLabel:(NSString *)label

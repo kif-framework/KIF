@@ -22,4 +22,6 @@ build
 .gitattributes
 
 *.orig
+build.output
+git.output
 DerivedData/*

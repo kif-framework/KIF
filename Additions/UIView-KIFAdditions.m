@@ -29,6 +29,7 @@ static CGFloat const kTwoFingerConstantWidth = 40;
 - (UIEvent *)_touchesEvent;
 @end
 
+
 @interface NSObject (UIWebDocumentViewInternal)
 
 - (void)tapInteractionWithLocation:(CGPoint)point;
@@ -111,11 +112,13 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
             accessibilityValue = [(NSAttributedString *)accessibilityValue string];
         }
         
-        BOOL labelsMatch = StringsMatchExceptLineBreaks(label, element.accessibilityLabel);
+        BOOL labelsMatch = StringsMatchExceptLineBreaks(label, element.accessibilityLabel) || StringsMatchExceptLineBreaks(label, element.accessibilityIdentifier);
         BOOL traitsMatch = ((element.accessibilityTraits) & traits) == traits;
         BOOL valuesMatch = !value || [value isEqual:accessibilityValue];
-
-        return (BOOL)(labelsMatch && traitsMatch && valuesMatch);
+		
+		BOOL animating = [value isKindOfClass: UIView.class] && [(UIView *) value isAnimating];
+		
+        return (BOOL)(labelsMatch && traitsMatch && valuesMatch && !animating);
     }];
 }
 
@@ -363,6 +366,18 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
         return YES;
     }
     return [self.superview isDescendantOfFirstResponder];
+}
+
+- (BOOL) isAnimating {
+    if (self.layer.animationKeys.count > 0) {
+		return YES;
+	}
+	
+	if(self.superview != nil) {
+		return [self.superview isAnimating];
+	}
+	
+	return NO;
 }
 
 - (void)flash;
