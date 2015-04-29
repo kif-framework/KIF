@@ -149,4 +149,24 @@
     [tester enterText:@"Test-Driven Development" intoViewWithAccessibilityLabel:@"TextField"];
 }
 
+// Delete first and last rows in table view
+- (void)testSwipingRows {
+    
+    UITableView *tableView;
+    [tester waitForAccessibilityElement:NULL view:&tableView withIdentifier:@"TableView Tests Table" tappable:NO];
+    
+    // First row
+    [tester swipeRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] inTableView:tableView inDirection:KIFSwipeDirectionLeft];
+    [tester tapViewWithAccessibilityLabel:@"Delete"];
+    
+    __KIFAssertEqualObjects([tester waitForCellAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] inTableViewWithAccessibilityIdentifier:@"TableView Tests Table"].textLabel.text, @"Deleted", @"");
+    
+    // Last row
+    [tester swipeRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:2] inTableView:tableView inDirection:KIFSwipeDirectionLeft];
+    [tester tapViewWithAccessibilityLabel:@"Delete"];
+    
+    __KIFAssertEqualObjects([tester waitForCellAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:2] inTableViewWithAccessibilityIdentifier:@"TableView Tests Table"].textLabel.text, @"Deleted", @"");
+    
+}
+
 @end
