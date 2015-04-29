@@ -100,7 +100,9 @@ Select your project in Xcode and click on "Add Target" in the bottom left corner
 The testing target will add a header and implementation file, likely "Acceptance_Tests.m/h" to match your target name. Delete those.
 
 ### Configure the Testing Target
-Now that you have a target for your tests, add the tests to that target. With the project settings still selected in the Project Navigator, and the new integration tests target selected in the project settings, select the "Build Phases" tab. Under the "Link Binary With Libraries" section, hit the "+" button. In the sheet that appears, select "libKIF.a" and click "Add".  Repeat the process for CoreGraphics.framework and IOKit.framework. _Note that as of Xcode 6.3, you need to manually import IOKit from the Xcode.app bundle_
+Now that you have a target for your tests, add the tests to that target. With the project settings still selected in the Project Navigator, and the new integration tests target selected in the project settings, select the "Build Phases" tab. Under the "Link Binary With Libraries" section, hit the "+" button. In the sheet that appears, select "libKIF.a" and click "Add".  Repeat the process for CoreGraphics.framework. 
+
+KIF requires the IOKit.framework. Unfortunately as of Xcode 6.3 you need to manually add IOKit from the Xcode.app bundle. After doing so remove `$(DEVELOPER_DIR)/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks` from the Framework Search Path setting (Xcode automatically adds it after manually importing).
 
 ![Add libKIF library screen shot](https://github.com/kif-framework/KIF/raw/master/Documentation/Images/Add Library.png)
 
