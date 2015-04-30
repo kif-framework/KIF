@@ -10,8 +10,10 @@
 
 @interface GestureViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UILabel *lastSwipeDescriptionLabel;
+@property (weak, nonatomic) IBOutlet UILabel *lastVelocityVeluesLabel;
 @property (weak, nonatomic) IBOutlet UILabel *bottomRightLabel;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (weak, nonatomic) IBOutlet UILabel *panAreaLabel;
 
 @end
 
@@ -44,5 +46,14 @@
     self.lastSwipeDescriptionLabel.text = @"Right";
 }
 
+- (IBAction)hadlePanGestureRecognizer:(UIPanGestureRecognizer *)sender
+{
+    self.lastVelocityVeluesLabel.text = [self formattedVelocityValues:[sender velocityInView:self.panAreaLabel]];
+}
+
+- (NSString*)formattedVelocityValues:(CGPoint)velocity
+{
+    return [NSString stringWithFormat:@"X:%.2f Y:%.2f", velocity.x, velocity.y];
+}
 
 @end
