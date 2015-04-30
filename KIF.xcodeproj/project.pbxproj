@@ -278,8 +278,6 @@
 		9CC9673B1AD4B1B600576D13 /* KIFFramework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = KIFFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9CC9673E1AD4B1B600576D13 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9CC9673F1AD4B1B600576D13 /* KIFFramework.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KIFFramework.h; sourceTree = "<group>"; };
-		9CC9674B1AD4B1B600576D13 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		9CC9674C1AD4B1B600576D13 /* KIFFrameworkTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KIFFrameworkTests.m; sourceTree = "<group>"; };
 		A88930111685098E00FC7C63 /* KIF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = KIF.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		AAB0726B139719AC008AF393 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		AAB0728113971A63008AF393 /* KIF-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "KIF-Prefix.pch"; path = "Classes/KIF-Prefix.pch"; sourceTree = SOURCE_ROOT; };
@@ -477,24 +475,6 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		9CC967491AD4B1B600576D13 /* KIF FrameworkTests */ = {
-			isa = PBXGroup;
-			children = (
-				9CC9674C1AD4B1B600576D13 /* KIFFrameworkTests.m */,
-				9CC9674A1AD4B1B600576D13 /* Supporting Files */,
-			);
-			name = "KIF FrameworkTests";
-			path = KIFFrameworkTests;
-			sourceTree = "<group>";
-		};
-		9CC9674A1AD4B1B600576D13 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				9CC9674B1AD4B1B600576D13 /* Info.plist */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
 		AAB0725D139719AC008AF393 = {
 			isa = PBXGroup;
 			children = (
@@ -502,7 +482,6 @@
 				EB60ECC6177F8C83005A041A /* Test Host */,
 				EB60ECEF177F8DB3005A041A /* KIF Tests */,
 				9CC9673C1AD4B1B600576D13 /* KIF Framework */,
-				9CC967491AD4B1B600576D13 /* KIF FrameworkTests */,
 				AAB0726A139719AC008AF393 /* Frameworks */,
 				AAB07269139719AC008AF393 /* Products */,
 			);
