@@ -9,6 +9,16 @@
 #import <KIF/KIF.h>
 #import <KIF/KIFTestStepValidation.h>
 #import <KIF/KIFUITestActor-IdentifierTests.h>
+#import <KIF/UIView-KIFAdditions.h>
+
+#define kPanMeAccessibilityString               @"Pan Me"
+#define kVelocityValueLabelAccessibilityString  @"velocityValueLabel"
+
+#define kPanLeftRegex                           @"^X:-[0-9\\.]+ Y:0.00$"
+#define kPanUpRegex                             @"^X:0.00 Y:-[0-9\\.]+$"
+#define kPanRightRegex                          @"^X:[0-9\\.]+ Y:0.00$"
+#define kPanDownRegex                           @"^X:0.00 Y:[0-9\\.]+$"
+#define KPanNoVelocityValue                     @"^X:0.00 Y:0.00$"
 
 @interface GestureTests : KIFTestCase
 @end
@@ -47,6 +57,79 @@
 {
     [tester swipeViewWithAccessibilityLabel:@"Swipe Me" inDirection:KIFSwipeDirectionDown];
     [tester waitForViewWithAccessibilityLabel:@"Down"];
+}
+
+- (void)testPanningLeft
+{
+    NSString* regexPattern = kPanLeftRegex;
+    NSPredicate *resultTestPredicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regexPattern];
+    NSPredicate *noVelocityPredicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", KPanNoVelocityValue];
+    
+    UIView* velocityResultView = [tester waitForViewWithAccessibilityLabel:kVelocityValueLabelAccessibilityString];
+    XCTAssertTrue([velocityResultView isKindOfClass:[UILabel class]], @"Found view is not a UILabel instance!");
+    UILabel* velocityLabel = (UILabel*)velocityResultView;
+    
+    UIView* panLabel = [tester waitForTappableViewWithAccessibilityLabel:kPanMeAccessibilityString];
+    CGPoint centerInView = CGPointMake(panLabel.frame.size.width / 2.0, panLabel.frame.size.height / 2.0);
+    
+    [panLabel dragFromPoint:centerInView toPoint:CGPointMake(centerInView.x - 30, centerInView.y)];
+    XCTAssertFalse([noVelocityPredicate evaluateWithObject:velocityLabel.text], @"No valocity value found!");
+    XCTAssertTrue([resultTestPredicate evaluateWithObject:velocityLabel.text], @"The result doesn`t match the %@ regex pattern", regexPattern);
+}
+
+- (void)testPanningRight
+{
+    NSString* regexPattern = kPanRightRegex;
+    NSPredicate *resultTestPredicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regexPattern];
+    NSPredicate *noVelocityPredicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", KPanNoVelocityValue];
+    
+    UIView* velocityResultView = [tester waitForViewWithAccessibilityLabel:kVelocityValueLabelAccessibilityString];
+    XCTAssertTrue([velocityResultView isKindOfClass:[UILabel class]], @"Found view is not a UILabel instance!");
+    UILabel* velocityLabel = (UILabel*)velocityResultView;
+    
+    UIView* panLabel = [tester waitForTappableViewWithAccessibilityLabel:kPanMeAccessibilityString];
+    CGPoint centerInView = CGPointMake(panLabel.frame.size.width / 2.0, panLabel.frame.size.height / 2.0);
+    
+    [panLabel dragFromPoint:centerInView toPoint:CGPointMake(centerInView.x + 30, centerInView.y)];
+    XCTAssertFalse([noVelocityPredicate evaluateWithObject:velocityLabel.text], @"No valocity value found!");
+    XCTAssertTrue([resultTestPredicate evaluateWithObject:velocityLabel.text], @"The result doesn`t match the %@ regex pattern", regexPattern);
+}
+
+- (void)testPanningUp
+{
+    NSString* regexPattern = kPanUpRegex;
+    NSPredicate *resultTestPredicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regexPattern];
+    NSPredicate *noVelocityPredicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", KPanNoVelocityValue];
+    
+    UIView* velocityResultView = [tester waitForViewWithAccessibilityLabel:kVelocityValueLabelAccessibilityString];
+    XCTAssertTrue([velocityResultView isKindOfClass:[UILabel class]], @"Found view is not a UILabel instance!");
+    UILabel* velocityLabel = (UILabel*)velocityResultView;
+    
+    UIView* panLabel = [tester waitForTappableViewWithAccessibilityLabel:kPanMeAccessibilityString];
+    CGPoint centerInView = CGPointMake(panLabel.frame.size.width / 2.0, panLabel.frame.size.height / 2.0);
+    
+    [panLabel dragFromPoint:centerInView toPoint:CGPointMake(centerInView.x, centerInView.y - 30)];
+    XCTAssertFalse([noVelocityPredicate evaluateWithObject:velocityLabel.text], @"No valocity value found!");
+    XCTAssertTrue([resultTestPredicate evaluateWithObject:velocityLabel.text], @"The result doesn`t match the %@ regex pattern", regexPattern);
+}
+
+
+- (void)testPanningDown
+{
+    NSString* regexPattern = kPanDownRegex;
+    NSPredicate *resultTestPredicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regexPattern];
+    NSPredicate *noVelocityPredicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", KPanNoVelocityValue];
+    
+    UIView* velocityResultView = [tester waitForViewWithAccessibilityLabel:kVelocityValueLabelAccessibilityString];
+    XCTAssertTrue([velocityResultView isKindOfClass:[UILabel class]], @"Found view is not a UILabel instance!");
+    UILabel* velocityLabel = (UILabel*)velocityResultView;
+    
+    UIView* panLabel = [tester waitForTappableViewWithAccessibilityLabel:kPanMeAccessibilityString];
+    CGPoint centerInView = CGPointMake(panLabel.frame.size.width / 2.0, panLabel.frame.size.height / 2.0);
+    
+    [panLabel dragFromPoint:centerInView toPoint:CGPointMake(centerInView.x, centerInView.y + 30)];
+    XCTAssertFalse([noVelocityPredicate evaluateWithObject:velocityLabel.text], @"No valocity value found!");
+    XCTAssertTrue([resultTestPredicate evaluateWithObject:velocityLabel.text], @"The result doesn`t match the %@ regex pattern", regexPattern);
 }
 
 - (void)testMissingSwipeableElement
