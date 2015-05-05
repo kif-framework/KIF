@@ -53,14 +53,17 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
         return YES;
     }
     
-    if ([expected rangeOfString:@"\n"].location == NSNotFound) {
+    if ([expected rangeOfString:@"\n"].location == NSNotFound &&
+        [actual rangeOfString:@"\n"].location == NSNotFound) {
         return NO;
     }
     
     for (NSUInteger i = 0; i < expected.length; i ++) {
         unichar expectedChar = [expected characterAtIndex:i];
         unichar actualChar = [actual characterAtIndex:i];
-        if (expectedChar != actualChar && !(expectedChar == '\n' && actualChar == ' ')) {
+        if (expectedChar != actualChar &&
+           !(expectedChar == '\n' && actualChar == ' ') &&
+           !(expectedChar == ' '  && actualChar == '\n')) {
             return NO;
         }
     }
