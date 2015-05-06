@@ -10,12 +10,12 @@
 
 @implementation KIFUIViewTestActor (longPressTests)
 
--(instancetype)greeting;
+-(instancetype)longPressTestGreeting;
 {
     return [viewTester usingAccessibilityLabel:@"Greeting"];
 }
 
--(instancetype)selectAll;
+-(instancetype)longPressTestSelectAll;
 {
     return [viewTester usingAccessibilityLabel:@"Select All"];
 }
@@ -40,20 +40,20 @@
 
 - (void)testLongPressingViewWithAccessibilityLabel
 {
-    [[viewTester greeting] longPressWithDuration:2];
-    [[viewTester selectAll] tap];
+    [[viewTester longPressTestGreeting] longPressWithDuration:2];
+    [[viewTester longPressTestSelectAll] tap];
 }
 
 - (void)testLongPressingViewViewWithTraits
 {
-    [[[viewTester greeting] usingValue:@"Hello"] longPressWithDuration:2];
-    [[viewTester selectAll] tap];
+    [[[viewTester longPressTestGreeting] usingValue:@"Hello"] longPressWithDuration:2];
+    [[viewTester longPressTestSelectAll] tap];
 }
 
 - (void)testLongPressingViewViewWithValue
 {
-    [[[[viewTester greeting] usingValue:@"Hello"] usingTraits:UIAccessibilityTraitUpdatesFrequently] longPressWithDuration:2];
-    [[viewTester selectAll] tap];
+    [[[[viewTester longPressTestGreeting] usingValue:@"Hello"] usingTraits:UIAccessibilityTraitUpdatesFrequently] longPressWithDuration:2];
+    [[viewTester longPressTestSelectAll] tap];
 }
 
 @end

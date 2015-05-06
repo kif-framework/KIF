@@ -11,12 +11,12 @@
 
 @implementation KIFUIViewTestActor (tappingtests)
 
-- (KIFUIViewTestActor *)xButton;
+- (KIFUIViewTestActor *)tappingTestsXButton;
 {
     return [[self usingAccessibilityLabel:@"X"] usingTraits:UIAccessibilityTraitButton];
 }
 
-- (KIFUIViewTestActor *)greeting;
+- (KIFUIViewTestActor *)tappingTestsGreeting;
 {
     return [self usingAccessibilityLabel:@"Greeting"];
 }
@@ -47,21 +47,21 @@
 
 - (void)testTappingViewWithTraits
 {
-    [[viewTester xButton] tap];
-    [[[viewTester xButton] usingTraits:UIAccessibilityTraitSelected] waitForView];
+    [[viewTester tappingTestsXButton] tap];
+    [[[viewTester tappingTestsXButton] usingTraits:UIAccessibilityTraitSelected] waitForView];
 }
 
 - (void)testTappingViewWithValue
 {
-    [[[[viewTester greeting] usingValue:@"Hello"] usingTraits:UIAccessibilityTraitNone] tap];
-    [[viewTester greeting] waitToBecomeFirstResponder];
+    [[[[viewTester tappingTestsGreeting] usingValue:@"Hello"] usingTraits:UIAccessibilityTraitNone] tap];
+    [[viewTester tappingTestsGreeting] waitToBecomeFirstResponder];
 }
 
 - (void)testTappingViewWithScreenAtPoint
 {
     [viewTester waitForTimeInterval:0.75];
     [viewTester tapScreenAtPoint:CGPointMake(15, 200)];
-    [[[viewTester xButton] usingTraits:UIAccessibilityTraitSelected] waitForView];
+    [[[viewTester tappingTestsXButton] usingTraits:UIAccessibilityTraitSelected] waitForView];
 }
 
 - (void)testTappingViewPartiallyOffscreenAndWithinScrollView

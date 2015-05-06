@@ -9,12 +9,12 @@
 #import <KIF/KIF.h>
 @implementation KIFUIViewTestActor (absenceTests)
 
-- (instancetype)tapping;
+- (instancetype)absenceTestsTapping;
 {
     return [viewTester usingAccessibilityLabel:@"Tapping"];
 }
 
-- (instancetype)testSuite;
+- (instancetype)absenceTestsTestSuite;
 {
     return [viewTester usingAccessibilityLabel:@"Test Suite"];
 }
@@ -30,14 +30,14 @@
 
 - (void)testExistsViewWithAccessibilityLabel
 {
-    if ([[viewTester tapping] tryFindingTappableView] && ![[[viewTester testSuite] usingTraits:UIAccessibilityTraitButton] tryFindingTappableView]) {
-        [[viewTester tapping] tap];
+    if ([[viewTester absenceTestsTapping] tryFindingTappableView] && ![[[viewTester absenceTestsTestSuite] usingTraits:UIAccessibilityTraitButton] tryFindingTappableView]) {
+        [[viewTester absenceTestsTapping] tap];
     } else {
         [viewTester fail];
     }
 
-    if ([[viewTester testSuite] tryFindingTappableView] && ![[viewTester tapping] tryFindingTappableView]) {
-        [[[viewTester testSuite] usingTraits:UIAccessibilityTraitButton] tap];
+    if ([[viewTester absenceTestsTestSuite] tryFindingTappableView] && ![[viewTester absenceTestsTapping] tryFindingTappableView]) {
+        [[[viewTester absenceTestsTestSuite] usingTraits:UIAccessibilityTraitButton] tap];
     } else {
         [viewTester fail];
     }

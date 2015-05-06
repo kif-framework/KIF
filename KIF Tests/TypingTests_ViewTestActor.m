@@ -11,12 +11,12 @@
 
 @implementation KIFUIViewTestActor (typingTests)
 
-- (instancetype)greeting;
+- (instancetype)typingTestsGreeting;
 {
     return [viewTester usingAccessibilityLabel:@"Greeting"];
 }
 
-- (instancetype)selectAll;
+- (instancetype)typingTestsSelectAll;
 {
     return [viewTester usingAccessibilityLabel:@"Select All"];
 }
@@ -47,8 +47,8 @@
 
 - (void)testWaitingForFirstResponder
 {
-    [[[[viewTester greeting] usingValue:@"Hello"] usingTraits:UIAccessibilityTraitNone] tap];
-    [[viewTester greeting] waitToBecomeFirstResponder];
+    [[[[viewTester typingTestsGreeting] usingValue:@"Hello"] usingTraits:UIAccessibilityTraitNone] tap];
+    [[viewTester typingTestsGreeting] waitToBecomeFirstResponder];
 }
 
 - (void)testMissingFirstResponder
@@ -58,10 +58,10 @@
 
 - (void)testEnteringTextIntoFirstResponder
 {
-    [[[viewTester greeting] usingValue:@"Hello"] longPressWithDuration:2];
-    [[viewTester selectAll] tap];
+    [[[viewTester typingTestsGreeting] usingValue:@"Hello"] longPressWithDuration:2];
+    [[viewTester typingTestsSelectAll] tap];
     [viewTester enterTextIntoCurrentFirstResponder:@"Yo"];
-    [[[[viewTester greeting] usingValue:@"Yo"] usingTraits:UIAccessibilityTraitNone] waitForView];
+    [[[[viewTester typingTestsGreeting] usingValue:@"Yo"] usingTraits:UIAccessibilityTraitNone] waitForView];
 }
 
 - (void)testFailingToEnterTextIntoFirstResponder
@@ -71,49 +71,49 @@
 
 - (void)testEnteringTextIntoViewWithAccessibilityLabel
 {
-    [[[viewTester greeting] usingValue:@"Hello"] longPressWithDuration:2];
-    [[viewTester selectAll] tap];
+    [[[viewTester typingTestsGreeting] usingValue:@"Hello"] longPressWithDuration:2];
+    [[viewTester typingTestsSelectAll] tap];
     [[viewTester usingAccessibilityLabel:@"Cut"] tap];
-    [[viewTester greeting] enterText:@"Yo"];
-    [[[[viewTester greeting] usingValue:@"Yo"] usingTraits:UIAccessibilityTraitNone] waitForView];
+    [[viewTester typingTestsGreeting] enterText:@"Yo"];
+    [[[[viewTester typingTestsGreeting] usingValue:@"Yo"] usingTraits:UIAccessibilityTraitNone] waitForView];
 }
 
 - (void)testEnteringTextIntoViewWithAccessibilityLabelExpectingResults
 {
-    [[[viewTester greeting] usingTraits:UIAccessibilityTraitNone] enterText:@", world" expectedResult:@"Hello, world"];
-    [[[[viewTester greeting] usingValue:@"Hello, world"] usingTraits:UIAccessibilityTraitNone] waitForView];
+    [[[viewTester typingTestsGreeting] usingTraits:UIAccessibilityTraitNone] enterText:@", world" expectedResult:@"Hello, world"];
+    [[[[viewTester typingTestsGreeting] usingValue:@"Hello, world"] usingTraits:UIAccessibilityTraitNone] waitForView];
 }
 
 - (void)testClearingAndEnteringTextIntoViewWithAccessibilityLabel
 {
-    [[viewTester greeting] clearAndEnterText:@"Yo"];
+    [[viewTester typingTestsGreeting] clearAndEnterText:@"Yo"];
 }
 
 - (void)testEnteringReturnCharacterIntoViewWithAccessibilityLabel
 {
     [[viewTester otherText] enterText:@"Hello\n"];
-    [[viewTester greeting] waitToBecomeFirstResponder];
-    [[viewTester greeting] waitForView];
-    [[[viewTester greeting] usingTraits:UIAccessibilityTraitNone] enterText:@", world\n" expectedResult:@"Hello, world"];
+    [[viewTester typingTestsGreeting] waitToBecomeFirstResponder];
+    [[viewTester typingTestsGreeting] waitForView];
+    [[[viewTester typingTestsGreeting] usingTraits:UIAccessibilityTraitNone] enterText:@", world\n" expectedResult:@"Hello, world"];
 }
 
 - (void)testClearingALongTextField
 {
-    [[viewTester greeting] clearAndEnterText:@"A man, a plan, a canal, Panama.  Able was I, ere I saw Elba."];
-    [[viewTester greeting] clearText];
+    [[viewTester typingTestsGreeting] clearAndEnterText:@"A man, a plan, a canal, Panama.  Able was I, ere I saw Elba."];
+    [[viewTester typingTestsGreeting] clearText];
 }
 
 - (void)testThatClearingTextHitsTheDelegate
 {
     [[viewTester otherText] enterText:@"hello"];
     [[viewTester otherText] clearText];
-    [[[[viewTester greeting] usingValue:@"Deleted something."] usingTraits:UIAccessibilityTraitNone] waitForView];
+    [[[[viewTester typingTestsGreeting] usingValue:@"Deleted something."] usingTraits:UIAccessibilityTraitNone] waitForView];
 }
 
 - (void)testThatBackspaceDeletesOneCharacter
 {
     [[[viewTester otherText] usingTraits:UIAccessibilityTraitNone] enterText:@"hi\bello" expectedResult:@"hello"];
-    [[[[viewTester greeting] usingValue:@"Deleted something."] usingTraits:UIAccessibilityTraitNone] waitForView];
+    [[[[viewTester typingTestsGreeting] usingValue:@"Deleted something."] usingTraits:UIAccessibilityTraitNone] waitForView];
 }
 
 @end

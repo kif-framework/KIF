@@ -33,12 +33,12 @@
     return [viewTester usingAccessibilityLabel:@"Button"];
 }
 
-- (instancetype)firstCell;
+- (instancetype)firstTableViewCell;
 {
     return [viewTester usingAccessibilityLabel:@"First Cell"];
 }
 
-- (instancetype)lastCell;
+- (instancetype)lastTableViewCell;
 {
     return [viewTester usingAccessibilityLabel:@"Last Cell"];
 }
@@ -68,15 +68,15 @@
 - (void)testTappingRows
 {
     [[viewTester table] tapRowInTableViewAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:2]];
-    [[[viewTester lastCell] usingTraits:UIAccessibilityTraitSelected] waitForView];
+    [[[viewTester lastTableViewCell] usingTraits:UIAccessibilityTraitSelected] waitForView];
     [[viewTester table] tapRowInTableViewAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
-    [[[viewTester firstCell] usingTraits:UIAccessibilityTraitSelected] waitForView];
+    [[[viewTester firstTableViewCell] usingTraits:UIAccessibilityTraitSelected] waitForView];
 }
 
 - (void)testTappingLastRowAndSection
 {
     [[viewTester table] tapRowInTableViewAtIndexPath:[NSIndexPath indexPathForRow:-1 inSection:-1]];
-    [[[viewTester lastCell] usingTraits:UIAccessibilityTraitSelected] waitForView];
+    [[[viewTester lastTableViewCell] usingTraits:UIAccessibilityTraitSelected] waitForView];
 }
 
 - (void)testOutOfBounds
@@ -104,13 +104,13 @@
 - (void)testTappingRowsByLabel
 {
     // Tap the first row, which is already visible
-    [[viewTester firstCell] tap];
+    [[viewTester firstTableViewCell] tap];
 
     // Tap the last row, which will need to be scrolled up
-    [[viewTester lastCell] tap];
+    [[viewTester lastTableViewCell] tap];
 
     // Tap the first row, which will need to be scrolled down
-    [[viewTester firstCell] tap];
+    [[viewTester firstTableViewCell] tap];
 }
 
 - (void)testMoveRowDown

@@ -16,12 +16,12 @@
     return [viewTester usingAccessibilityIdentifier:@"CollectionView Tests CollectionView"];
 }
 
-- (instancetype)firstCell;
+- (instancetype)firstCollectionViewCell;
 {
     return [viewTester usingAccessibilityLabel:@"First Cell"];
 }
 
-- (instancetype)lastCell;
+- (instancetype)lastCollectionViewCell;
 {
     return [viewTester usingAccessibilityLabel:@"Last Cell"];
 }
@@ -46,15 +46,15 @@
 - (void)testTappingItems
 {
     [[viewTester collectionView] tapCollectionViewItemAtIndexPath:[NSIndexPath indexPathForItem:199 inSection:0]];
-    [[[viewTester lastCell] usingTraits:UIAccessibilityTraitSelected] waitForView];
+    [[[viewTester lastCollectionViewCell] usingTraits:UIAccessibilityTraitSelected] waitForView];
     [[viewTester collectionView] tapCollectionViewItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0]];
-    [[[viewTester firstCell] usingTraits:UIAccessibilityTraitSelected] waitForView];
+    [[[viewTester firstCollectionViewCell] usingTraits:UIAccessibilityTraitSelected] waitForView];
 }
 
 - (void)testTappingLastItemAndSection
 {
     [[viewTester collectionView] tapCollectionViewItemAtIndexPath:[NSIndexPath indexPathForItem:-1 inSection:-1]];
-    [[[viewTester lastCell] usingTraits:UIAccessibilityTraitSelected] waitForView];
+    [[[viewTester lastCollectionViewCell] usingTraits:UIAccessibilityTraitSelected] waitForView];
 }
 
 - (void)testOutOfBounds
@@ -70,13 +70,13 @@
 - (void)testTappingItemsByLabel
 {
     // Tap the first item, which is already visible
-    [[viewTester firstCell] tap];
+    [[viewTester firstCollectionViewCell] tap];
 
     // Tap the last item, which will need to be scrolled up
-    [[viewTester lastCell] tap];
+    [[viewTester lastCollectionViewCell] tap];
 
     // Tap the first item, which will need to be scrolled down
-    [[viewTester firstCell] tap];
+    [[viewTester firstCollectionViewCell] tap];
 }
 
 @end
