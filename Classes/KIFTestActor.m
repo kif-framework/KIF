@@ -7,12 +7,8 @@
 //  See the LICENSE file distributed with this work for the terms under
 //  which Square, Inc. licenses this file to you.
 
-#ifndef KIF_SENTEST
 #import <XCTest/XCTest.h>
 #import "NSException-KIFAdditions.h"
-#else
-#import <SenTestingKit/SenTestingKit.h>
-#endif
 
 #import "KIFTestActor.h"
 #import "NSError-KIFAdditions.h"
@@ -162,6 +158,16 @@ static NSTimeInterval KIFTestStepDelay = 0.1;
     [self runBlock:^KIFTestStepResult(NSError **error) {
         KIFTestCondition(NO, error, @"This test always fails");
     }];
+}
+
+- (void)failWithMessage:(NSString *)message, ...;
+{
+    va_list args;
+    va_start(args, message);
+    NSString *formattedMessage = [[NSString alloc] initWithFormat:message arguments:args];
+    NSError *error = [NSError errorWithDomain:@"KIFTest" code:KIFTestStepResultFailure userInfo:[NSDictionary dictionaryWithObjectsAndKeys:formattedMessage, NSLocalizedDescriptionKey, nil]];
+    [self failWithError:error stopTest:YES];
+    va_end(args);
 }
 
 - (void)failWithError:(NSError *)error stopTest:(BOOL)stopTest

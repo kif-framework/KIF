@@ -9,19 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "KIFTestCase.h"
 
-#ifndef KIF_SENTEST
-
 #define __KIFFail XCTFail
 #define __KIFAssertEqual XCTAssertEqual
 #define __KIFAssertEqualObjects XCTAssertEqualObjects
-
-#else
-
-#define __KIFFail STFail
-#define __KIFAssertEqual STAssertEquals
-#define __KIFAssertEqualObjects STAssertEqualObjects
-
-#endif
 
 #define KIFExpectFailure(stmt) \
 {\
