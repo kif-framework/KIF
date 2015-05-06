@@ -10,14 +10,7 @@ Pod::Spec.new do |s|
   s.frameworks      = 'CoreGraphics', 'IOKit', 'XCTest'
   s.requires_arc    = true
   s.prefix_header_contents = '#import <CoreGraphics/CoreGraphics.h>'
-  s.source_files         = 'Classes', 'Additions'
-  s.public_header_files  = 'Classes/**/*.h', 'Additions/**/*-KIFAdditions.h'
+  s.source_files         = 'Classes', 'Additions', 'IdentifierTests'
+  s.public_header_files  = 'Classes/**/*.h', 'Additions/**/*-KIFAdditions.h', 'IdentifierTests/**/*.h'
   s.xcconfig             = { 'FRAMEWORK_SEARCH_PATHS' => '$(PLATFORM_DIR)/Developer/Library/Frameworks' }
-
-  s.subspec 'IdentifierTests' do |kiaf|
-    kiaf.dependency 'KIF/XCTest'
-    kiaf.source_files        = 'IdentifierTests'
-    kiaf.public_header_files = 'IdentifierTests/**/*.h'
-    kiaf.requires_arc        = true
-  end
 end
