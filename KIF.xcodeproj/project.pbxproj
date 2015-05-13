@@ -14,6 +14,8 @@
 		3812FB611A1212A700335733 /* AnimationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3812FB601A1212A700335733 /* AnimationViewController.m */; };
 		3812FB631A12188700335733 /* WaitForAnimationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3812FB621A12188700335733 /* WaitForAnimationTests.m */; };
 		4A48107B19708CAB0003A32E /* ExistTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A48107A19708CAB0003A32E /* ExistTests.m */; };
+		5126B62C1B04004600B5F845 /* BackgroundViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5126B62B1B04004600B5F845 /* BackgroundViewController.m */; };
+		5126B62E1B0401A000B5F845 /* BackgroundTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5126B62D1B0401A000B5F845 /* BackgroundTests.m */; };
 		84D293AD1A2C84F700C10944 /* SystemAlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D293AC1A2C84F700C10944 /* SystemAlertViewController.m */; };
 		84D293AF1A2C867300C10944 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84D293AE1A2C867300C10944 /* CoreLocation.framework */; };
 		84D293B11A2C891700C10944 /* SystemAlertTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D293B01A2C891700C10944 /* SystemAlertTests.m */; };
@@ -268,6 +270,8 @@
 		3812FB621A12188700335733 /* WaitForAnimationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaitForAnimationTests.m; sourceTree = "<group>"; };
 		39160B1013D1E6BB00311E38 /* LoadableCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadableCategory.h; sourceTree = "<group>"; };
 		4A48107A19708CAB0003A32E /* ExistTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExistTests.m; sourceTree = "<group>"; };
+		5126B62B1B04004600B5F845 /* BackgroundViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BackgroundViewController.m; sourceTree = "<group>"; };
+		5126B62D1B0401A000B5F845 /* BackgroundTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BackgroundTests.m; sourceTree = "<group>"; };
 		84D293AC1A2C84F700C10944 /* SystemAlertViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SystemAlertViewController.m; sourceTree = "<group>"; };
 		84D293AE1A2C867300C10944 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		84D293B01A2C891700C10944 /* SystemAlertTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SystemAlertTests.m; sourceTree = "<group>"; };
@@ -633,6 +637,7 @@
 				D927B9DB18F9DF2D00DAD036 /* TableViewController.m */,
 				AE62FCD51A1D2447002B10DA /* WebViewController.m */,
 				84D293AC1A2C84F700C10944 /* SystemAlertViewController.m */,
+				5126B62B1B04004600B5F845 /* BackgroundViewController.m */,
 				EB60ECC7177F8C83005A041A /* Supporting Files */,
 			);
 			path = "Test Host";
@@ -681,6 +686,7 @@
 				EB1A44D91A0C33AD004A3F61 /* AccessibilityIdentifierTests.m */,
 				AE62FCCF1A1D20E5002B10DA /* WebViewTests.m */,
 				84D293B01A2C891700C10944 /* SystemAlertTests.m */,
+				5126B62D1B0401A000B5F845 /* BackgroundTests.m */,
 				EB60ECF0177F8DB3005A041A /* Supporting Files */,
 			);
 			path = "KIF Tests";
@@ -1110,6 +1116,7 @@
 				EA47DA2818EDFD6F0034D2F5 /* CollectionViewTests.m in Sources */,
 				EABD46BB1857A0F300A5F081 /* WaitForTappableViewTests.m in Sources */,
 				EABD46BC1857A0F300A5F081 /* WaitForViewTests.m in Sources */,
+				5126B62E1B0401A000B5F845 /* BackgroundTests.m in Sources */,
 				EABD46BD1857A0F300A5F081 /* LandscapeTests.m in Sources */,
 				EABD46BE1857A0F300A5F081 /* TableViewTests.m in Sources */,
 				EABD46BF1857A0F300A5F081 /* GestureTests.m in Sources */,
@@ -1124,6 +1131,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5126B62C1B04004600B5F845 /* BackgroundViewController.m in Sources */,
 				EB9FB42717A5BACB00DDF160 /* GestureViewController.m in Sources */,
 				EA0F254A1829839E006FF825 /* CollectionViewController.m in Sources */,
 				84D293AD1A2C84F700C10944 /* SystemAlertViewController.m in Sources */,
