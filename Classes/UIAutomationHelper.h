@@ -14,4 +14,6 @@
 
 + (void)acknowledgeSystemAlert;
 
++ (void)deactivateAppForDuration:(NSNumber *)duration;
+
 @end
