@@ -13,6 +13,32 @@
 
 @implementation TestSuiteViewController
 
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleApplicationDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleSystemTestsNotification:) name:@"SystemTestsNotification" object:nil];
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)handleApplicationDidEnterBackground:(NSNotification *)notification {
+    self.navigationController.navigationBar.topItem.prompt = @"Back";
+}
+
+- (void)handleSystemTestsNotification:(NSNotification *)notification {
+    if (notification.userInfo &&
+        notification.userInfo[@"setup"]) {
+        BOOL setup = [notification.userInfo[@"setup"] boolValue];
+        if (setup) {
+            self.navigationController.navigationBar.topItem.prompt = @"Start";
+        } else {
+            self.navigationController.navigationBar.topItem.prompt = nil;
+        }
+    }
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section != 1) {

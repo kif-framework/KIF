@@ -33,6 +33,14 @@
 
 @implementation SystemTests
 
+- (void)setUp {
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"SystemTestsNotification" object:nil userInfo:@{@"setup" : @YES}];
+}
+
+- (void)tearDown {
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"SystemTestsNotification" object:nil userInfo:@{@"setup" : @NO}];
+}
+
 - (void)testWaitingForTimeInterval
 {
     NSTimeInterval startTime = [NSDate timeIntervalSinceReferenceDate];
@@ -115,6 +123,12 @@
     NSURL *fakeURL = [NSURL URLWithString:@"this-is-a-fake-url://"];
     KIFAssertFalse([[UIApplication sharedApplication] canOpenURL:fakeURL], @"Should no longer be mocking, reject bad URL.");
     KIFAssertFalse([[UIApplication sharedApplication] openURL:fakeURL], @"Should no longer be mocking, reject bad URL.");
+}
+
+- (void)testBackgroundApp {
+    [tester waitForViewWithAccessibilityLabel:@"Start"];
+    [tester deactivateAppForDuration:5];
+    [tester waitForViewWithAccessibilityLabel:@"Back"];
 }
 
 @end
