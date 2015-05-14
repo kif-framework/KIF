@@ -223,9 +223,6 @@
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
-                                        <connections>
-                                            <segue destination="dV6-em-txs" kind="push" id="UnP-Cr-rMs"/>
-                                        </connections>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
@@ -1814,33 +1811,6 @@ Line Break
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EJz-ue-kNV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="459" y="1423"/>
-        </scene>
-        <!--Background View Controller-->
-        <scene sceneID="MkC-7B-6uJ">
-            <objects>
-                <viewController id="dV6-em-txs" customClass="BackgroundViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="13I-Q2-mEi">
-                        <rect key="frame" x="0.0" y="20" width="320" height="504"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="iOT-WX-32u">
-                                <rect key="frame" x="131" y="117" width="42" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="v3C-NV-q6H"/>
-                    <connections>
-                        <outlet property="label" destination="iOT-WX-32u" id="rDb-11-2dN"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="u38-2s-b6D" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="956" y="1423"/>
         </scene>
         <!--Animation View Controller-->
         <scene sceneID="odg-A0-FBB">
