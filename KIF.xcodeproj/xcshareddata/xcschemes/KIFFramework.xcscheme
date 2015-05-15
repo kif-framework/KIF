@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "9CC9673A1AD4B1B600576D13"
-               BuildableName = "KIFFramework.framework"
+               BuildableName = "KIF.framework"
                BlueprintName = "KIFFramework"
                ReferencedContainer = "container:KIF.xcodeproj">
             </BuildableReference>
@@ -33,7 +33,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "9CC9673A1AD4B1B600576D13"
-            BuildableName = "KIFFramework.framework"
+            BuildableName = "KIF.framework"
             BlueprintName = "KIFFramework"
             ReferencedContainer = "container:KIF.xcodeproj">
          </BuildableReference>
@@ -52,7 +52,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "9CC9673A1AD4B1B600576D13"
-            BuildableName = "KIFFramework.framework"
+            BuildableName = "KIF.framework"
             BlueprintName = "KIFFramework"
             ReferencedContainer = "container:KIF.xcodeproj">
          </BuildableReference>
