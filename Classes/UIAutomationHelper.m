@@ -24,6 +24,7 @@
 @interface UIATarget : UIAElement
 + (UIATarget *)localTarget;
 - (UIAApplication *)frontMostApp;
+- (void)deactivateAppForDuration:(NSNumber *)duration;
 @end
 
 @interface UIAElementNil : UIAElement
@@ -45,6 +46,10 @@
 
 + (void)acknowledgeSystemAlert {
     [[self sharedHelper] acknowledgeSystemAlert];
+}
+
++ (void)deactivateAppForDuration:(NSNumber *)duration {
+    [[self sharedHelper] deactivateAppForDuration:duration];
 }
 
 - (void)acknowledgeSystemAlert {
@@ -79,6 +84,10 @@
 
 - (Class)nilElementClass {
     return NSClassFromString(@"UIAElementNil");
+}
+
+- (void)deactivateAppForDuration:(NSNumber *)duration {
+    [[self target] deactivateAppForDuration:duration];
 }
 
 @end
