@@ -39,3 +39,4 @@ FOUNDATION_EXPORT const unsigned char KIFVersionString[];
 #import <KIF/UITouch-KIFAdditions.h>
 #import <KIF/UIWindow-KIFAdditions.h>
 #import <KIF/XCTestCase-KIFAdditions.h>
+#import <KIF/UIView-Debugging.h>

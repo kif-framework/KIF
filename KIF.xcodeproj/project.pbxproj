@@ -16,9 +16,11 @@
 		3ADD2532FE4917CD5755AA59 /* UIView-Debugging.h in Headers */ = {isa = PBXBuildFile; fileRef = 3ADD26484C6C438B71DC15C5 /* UIView-Debugging.h */; };
 		3ADD25CC71BF27D675768787 /* UIView-Debugging.h in Headers */ = {isa = PBXBuildFile; fileRef = 3ADD26484C6C438B71DC15C5 /* UIView-Debugging.h */; };
 		4A48107B19708CAB0003A32E /* ExistTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A48107A19708CAB0003A32E /* ExistTests.m */; };
-		5C877DD01B057E13006A3AC6 /* KIFUITestActor-IdentifierTests.h in Headers */ = {isa = PBXBuildFile; fileRef = EB1A44D31A0C3268004A3F61 /* KIFUITestActor-IdentifierTests.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4D2FD4EE1AF5936700E61192 /* UIView-Debugging.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ADD2160096BE41C780FBD95 /* UIView-Debugging.m */; };
 		4D2FD4EF1AF5936800E61192 /* UIView-Debugging.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ADD2160096BE41C780FBD95 /* UIView-Debugging.m */; };
+		5C877DD01B057E13006A3AC6 /* KIFUITestActor-IdentifierTests.h in Headers */ = {isa = PBXBuildFile; fileRef = EB1A44D31A0C3268004A3F61 /* KIFUITestActor-IdentifierTests.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5C877DD11B0A8B8F006A3AC6 /* UIView-Debugging.h in Headers */ = {isa = PBXBuildFile; fileRef = 3ADD26484C6C438B71DC15C5 /* UIView-Debugging.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5C877DD21B0A8B93006A3AC6 /* UIView-Debugging.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ADD2160096BE41C780FBD95 /* UIView-Debugging.m */; };
 		84D293AD1A2C84F700C10944 /* SystemAlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D293AC1A2C84F700C10944 /* SystemAlertViewController.m */; };
 		84D293AF1A2C867300C10944 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84D293AE1A2C867300C10944 /* CoreLocation.framework */; };
 		84D293B11A2C891700C10944 /* SystemAlertTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D293B01A2C891700C10944 /* SystemAlertTests.m */; };
@@ -732,6 +734,7 @@
 				9CC967651AD4B1F100576D13 /* UIWindow-KIFAdditions.h in Headers */,
 				9CC967671AD4B1F100576D13 /* UITableView-KIFAdditions.h in Headers */,
 				9CC967691AD4B1F100576D13 /* NSBundle-KIFAdditions.h in Headers */,
+				5C877DD11B0A8B8F006A3AC6 /* UIView-Debugging.h in Headers */,
 				9CC9676B1AD4B1F100576D13 /* NSError-KIFAdditions.h in Headers */,
 				9CC9676D1AD4B1F100576D13 /* XCTestCase-KIFAdditions.h in Headers */,
 				9CC9676F1AD4B1F100576D13 /* NSException-KIFAdditions.h in Headers */,
@@ -1066,6 +1069,7 @@
 				9CC967CA1AD4B58C00576D13 /* XCTestCase-KIFAdditions.m in Sources */,
 				9CC967CB1AD4B58C00576D13 /* NSException-KIFAdditions.m in Sources */,
 				9CC967CC1AD4B58C00576D13 /* UIEvent+KIFAdditions.m in Sources */,
+				5C877DD21B0A8B93006A3AC6 /* UIView-Debugging.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
