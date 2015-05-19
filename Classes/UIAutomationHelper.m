@@ -24,6 +24,7 @@
 @interface UIATarget : UIAElement
 + (UIATarget *)localTarget;
 - (UIAApplication *)frontMostApp;
+- (void)deactivateAppForDuration:(NSNumber *)duration;
 @end
 
 @interface UIAElementNil : UIAElement
@@ -47,6 +48,10 @@
     [[self sharedHelper] acknowledgeSystemAlert];
 }
 
++ (void)deactivateAppForDuration:(NSNumber *)duration {
+    [[self sharedHelper] deactivateAppForDuration:duration];
+}
+
 - (void)acknowledgeSystemAlert {
     UIAApplication *application = [[self target] frontMostApp];
     UIAAlert *alert = application.alert;
@@ -55,6 +60,10 @@
         [[alert.buttons lastObject] tap];
         while (![application.alert isKindOfClass:[self nilElementClass]]) { }
     }
+}
+
+- (void)deactivateAppForDuration:(NSNumber *)duration {
+    [[self target] deactivateAppForDuration:duration];
 }
 
 #pragma mark - Private

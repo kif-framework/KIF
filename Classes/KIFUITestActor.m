@@ -1031,5 +1031,9 @@
     }
 }
 
+- (void)deactivateAppForDuration:(NSTimeInterval)duration {
+    [UIAutomationHelper deactivateAppForDuration:@(duration)];
+}
+
 @end
 
