@@ -215,7 +215,15 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
         if ([self isKindOfClass:[UITableView class]]) {
             UITableView *tableView = (UITableView *)self;
             
-            NSArray *indexPathsForVisibleRows = [tableView indexPathsForVisibleRows];
+            // Because of a bug in [UITableView indexPathsForVisibleRows] http://openradar.appspot.com/radar?id=5191284490764288
+            // We use [UITableView visibleCells] to determine the index path of the visible cells
+            NSMutableArray *indexPathsForVisibleRows = [[NSMutableArray alloc] init];
+            [[tableView visibleCells] enumerateObjectsUsingBlock:^(UITableViewCell *cell, NSUInteger idx, BOOL *stop) {
+                NSIndexPath *indexPath = [tableView indexPathForCell:cell];
+                if (indexPath) {
+                    [indexPathsForVisibleRows addObject:indexPath];
+                }
+            }];
             
             for (NSUInteger section = 0, numberOfSections = [tableView numberOfSections]; section < numberOfSections; section++) {
                 for (NSUInteger row = 0, numberOfRows = [tableView numberOfRowsInSection:section]; row < numberOfRows; row++) {
