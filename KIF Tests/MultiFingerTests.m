@@ -64,7 +64,7 @@
     CGFloat offset = 50.0;
 
     UIScrollView *scrollView = (UIScrollView *)[tester waitForViewWithAccessibilityLabel:@"Scroll View"];
-    UIPanGestureRecognizer *panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(twoFingerPanned)];
+    UIPanGestureRecognizer *panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(twoFingerPanned:)];
     panGestureRecognizer.minimumNumberOfTouches = 2;
     [scrollView addGestureRecognizer:panGestureRecognizer];
 
@@ -76,8 +76,12 @@
     [scrollView removeGestureRecognizer:panGestureRecognizer];
 }
 
-- (void)twoFingerPanned {
-    self.twoFingerPanSuccess = YES;
+- (void)twoFingerPanned:(UIGestureRecognizer*) gr{
+    
+    if (gr.state == UIGestureRecognizerStateEnded) {
+        self.twoFingerPanSuccess = YES;
+    }
+    
 }
 
 - (void)testZoom {

@@ -565,9 +565,13 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
 
             // The last point needs to also send a phase ended touch.
             if (pointIndex == pointsInPath - 1) {
-                [touch setPhaseAndUpdateTimestamp:UITouchPhaseEnded];
-                UIEvent *eventUp = [self eventWithTouch:touch];
-                [[UIApplication sharedApplication] sendEvent:eventUp];
+                for (UITouch * touch in touches) {
+                    [touch setPhaseAndUpdateTimestamp:UITouchPhaseEnded];
+                    UIEvent *eventUp = [self eventWithTouch:touch];
+                    [[UIApplication sharedApplication] sendEvent:eventUp];
+                    
+                }
+
             }
         }
     }
