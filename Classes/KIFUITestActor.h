@@ -10,7 +10,6 @@
 #import "KIFTestActor.h"
 #import <UIKit/UIKit.h>
 #import "UIView-KIFAdditions.h"
-#import "UIView-Debugging.h"
 
 #define tester KIFActorWithClass(KIFUITestActor)
 
