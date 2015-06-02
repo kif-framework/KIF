@@ -27,7 +27,7 @@ KIF's test suite has been run against iOS 5.1 and above (including iOS 8), thoug
 KIF attempts to imitate actual user input. Automation is done using tap events wherever possible.
 
 #### Automatic Integration with Xcode 5 Testing Tools
-Xcode 5 introduces [new testing an continuous integration tools](https://developer.apple.com/technologies/tools/whats-new.html) built on the same testing platform as KIF.  You can easily run a single KIF test with the Test Navigator or kick off nightly acceptance tests with Bots.
+Xcode 5 introduces [new testing and continuous integration tools](https://developer.apple.com/technologies/tools/whats-new.html) built on the same testing platform as KIF.  You can easily run a single KIF test with the Test Navigator or kick off nightly acceptance tests with Bots.
 
 See KIF in Action
 -----------------
