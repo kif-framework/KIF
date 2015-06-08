@@ -39,6 +39,17 @@ typedef NS_ENUM(NSUInteger, KIFPickerType) {
     KIFUIDatePicker
 };
 
+/*!
+ @enum KIFStepperDirection
+ @abstract Direction in which to increment or decrement the stepper.
+ @constant KIFStepperDirectionIncrement Increment the stepper
+ @constant KIFUIDatePicker Decrement the stepper
+ */
+typedef NS_ENUM(NSUInteger, KIFStepperDirection) {
+	KIFStepperDirectionIncrement,
+	KIFStepperDirectionDecrement
+};
+
 #define kKIFMajorSwipeDisplacement 200
 #define kKIFMinorSwipeDisplacement 5
 
@@ -405,6 +416,14 @@ static inline KIFDisplacement KIFDisplacementForSwipingInDirection(KIFSwipeDirec
  @param identifier Accessibility identifier of the collection view.
  */
 - (void)tapItemAtIndexPath:(NSIndexPath *)indexPath inCollectionViewWithAccessibilityIdentifier:(NSString *)identifier;
+
+/*!
+ @abstract Taps a stepper to either increment or decrement the stepper. Presumed that - (minus) to decrement is on the left.
+ @discussion This will locate the left or right half of the stepper and perform a calculated click.
+ @param label The accessibility identifier of the view to interact with.
+ @param stepperDirection The direction in which to change the value of the stepper (KIFStepperDirectionIncrement | KIFStepperDirectionDecrement)
+ */
+-(void) tapStepperWithAccessibilityLabel: (NSString *)label increment: (KIFStepperDirection) stepperDirection;
 
 #if TARGET_IPHONE_SIMULATOR
 /*!

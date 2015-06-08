@@ -1035,5 +1035,27 @@
     [UIAutomationHelper deactivateAppForDuration:@(duration)];
 }
 
+-(void) tapStepperWithAccessibilityLabel: (NSString *)label increment: (KIFStepperDirection) stepperDirection
+{
+	UIStepper *stepper = (UIStepper *)[self waitForViewWithAccessibilityLabel: label];
+	CGPoint stepperCenter = [stepper.window convertPoint:stepper.center fromView:stepper.superview];
+
+	CGPoint minusButton = stepperCenter;
+	minusButton.x -= CGRectGetWidth(stepper.frame) / 4;
+
+	CGPoint plusButton = stepperCenter;
+	plusButton.x += CGRectGetWidth(stepper.frame) / 4;
+
+	switch (stepperDirection)
+	{
+		case KIFStepperDirectionIncrement:
+			[self tapScreenAtPoint: plusButton];
+			break;
+		case KIFStepperDirectionDecrement:
+			[self tapScreenAtPoint: minusButton];
+			break;
+	}
+}
+
 @end
 

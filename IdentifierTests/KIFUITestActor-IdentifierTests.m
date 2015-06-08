@@ -212,4 +212,27 @@
     [self swipeAccessibilityElement:element inView:viewToSwipe inDirection:direction];
 }
 
+//inspired by http://www.raywenderlich.com/61419/ios-ui-testing-with-kif
+-(void) tapStepperWithAccessibilityIdentifier: (NSString *)identifier increment: (KIFStepperDirection) stepperDirection
+{
+	UIStepper *stepper = (UIStepper *)[self waitForViewWithAccessibilityIdentifier: identifier];
+	CGPoint stepperCenter = [stepper.window convertPoint:stepper.center fromView:stepper.superview];
+
+	CGPoint minusButton = stepperCenter;
+	minusButton.x -= CGRectGetWidth(stepper.frame) / 4;
+
+	CGPoint plusButton = stepperCenter;
+	plusButton.x += CGRectGetWidth(stepper.frame) / 4;
+
+	switch (stepperDirection)
+	{
+		case KIFStepperDirectionIncrement:
+			[self tapScreenAtPoint: plusButton];
+			break;
+		case KIFStepperDirectionDecrement:
+			[self tapScreenAtPoint: minusButton];
+			break;
+	}
+
+}
 @end
