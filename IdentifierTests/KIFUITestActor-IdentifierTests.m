@@ -212,4 +212,13 @@
     [self swipeAccessibilityElement:element inView:viewToSwipe inDirection:direction];
 }
 
+-(void) tapStepperWithAccessibilityIdentifier: (NSString *)accessibilityIdentifier increment: (KIFStepperDirection) stepperDirection
+{
+	@autoreleasepool {
+		UIView *view = nil;
+		UIAccessibilityElement *element = nil;
+		[self waitForAccessibilityElement:&element view:&view withIdentifier:accessibilityIdentifier tappable:YES];
+		[self tapStepperWithAccessibilityElement:element increment:stepperDirection inView:view];
+	}
+}
 @end

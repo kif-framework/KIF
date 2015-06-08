@@ -1035,5 +1035,54 @@
     [UIAutomationHelper deactivateAppForDuration:@(duration)];
 }
 
+-(void) tapStepperWithAccessibilityLabel: (NSString *)accessibilityLabel increment: (KIFStepperDirection) stepperDirection
+{
+	@autoreleasepool {
+		UIView *view = nil;
+		UIAccessibilityElement *element = nil;
+		[self waitForAccessibilityElement:&element view:&view withLabel:accessibilityLabel value:nil traits:UIAccessibilityTraitNone tappable:YES];
+		[self tapStepperWithAccessibilityElement:element increment:stepperDirection inView:view];
+	}
+}
+
+//inspired by http://www.raywenderlich.com/61419/ios-ui-testing-with-kif
+- (void)tapStepperWithAccessibilityElement:(UIAccessibilityElement *)element increment: (KIFStepperDirection) stepperDirection inView:(UIView *)view
+{
+	[self runBlock:^KIFTestStepResult(NSError **error) {
+
+		KIFTestWaitCondition(view.isUserInteractionActuallyEnabled, error, @"View is not enabled for interaction");
+
+		// If the accessibilityFrame is not set, fallback to the view frame.
+		CGRect elementFrame;
+		if (CGRectEqualToRect(CGRectZero, element.accessibilityFrame)) {
+			elementFrame.origin = CGPointZero;
+			elementFrame.size = view.frame.size;
+		} else {
+			elementFrame = [view.windowOrIdentityWindow convertRect:element.accessibilityFrame toView:view];
+		}
+
+		CGPoint stepperPointToTap = [view tappablePointInRect:elementFrame];
+
+		switch (stepperDirection)
+		{
+			case KIFStepperDirectionIncrement:
+				stepperPointToTap.x += CGRectGetWidth(view.frame) / 4;
+				break;
+			case KIFStepperDirectionDecrement:
+				stepperPointToTap.x -= CGRectGetWidth(view.frame) / 4;
+				break;
+		}
+
+		// This is mostly redundant of the test in _accessibilityElementWithLabel:
+		KIFTestWaitCondition(!isnan(stepperPointToTap.x), error, @"View is not tappable");
+		[view tapAtPoint:stepperPointToTap];
+
+		KIFTestCondition(![view canBecomeFirstResponder] || [view isDescendantOfFirstResponder], error, @"Failed to make the view into the first responder");
+
+		return KIFTestStepResultSuccess;
+	}];
+
+	[self waitForAnimationsToFinish];
+}
 @end
 
