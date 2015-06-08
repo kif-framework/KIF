@@ -804,7 +804,7 @@
     UIView *viewToSwipe = nil;
     UIAccessibilityElement *element = nil;
 
-    [self waitForAccessibilityElement:&element view:&viewToSwipe withLabel:label value:value traits:traits tappable:NO];
+    [self waitForAccessibilityElement:&element view:&viewToSwipe withLabel:label value:value traits:traits tappable:YES];
 
     [self swipeAccessibilityElement:element inView:viewToSwipe inDirection:direction];
 }
