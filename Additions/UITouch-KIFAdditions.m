@@ -26,10 +26,10 @@ typedef struct {
 @property(assign) BOOL isTap;
 @property(assign) NSUInteger tapCount;
 @property(assign) UITouchPhase phase;
-@property(retain) UIView *view;
-@property(retain) UIWindow *window;
 @property(assign) NSTimeInterval timestamp;
 
+- (void)setWindow:(UIWindow *)window;
+- (void)setView:(UIView *)view;
 - (void)setGestureView:(UIView *)view;
 - (void)_setLocationInWindow:(CGPoint)location resetPrevious:(BOOL)resetPrevious;
 - (void)_setIsFirstTouchForView:(BOOL)firstTouchForView;
