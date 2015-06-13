@@ -41,6 +41,7 @@ typedef CGPoint KIFDisplacement;
 - (void)tapAtPoint:(CGPoint)point;
 - (void)twoFingerTapAtPoint:(CGPoint)point;
 - (void)longPressAtPoint:(CGPoint)point duration:(NSTimeInterval)duration;
+- (void)longPressAndDragAtPoint:(CGPoint)point toPoint:(CGPoint)toPoint steps:(NSInteger)steps;
 
 /*!
  @method dragFromPoint:toPoint:

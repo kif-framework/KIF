@@ -18,6 +18,10 @@
 		4A48107B19708CAB0003A32E /* ExistTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A48107A19708CAB0003A32E /* ExistTests.m */; };
 		4D2FD4EE1AF5936700E61192 /* UIView-Debugging.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ADD2160096BE41C780FBD95 /* UIView-Debugging.m */; };
 		4D2FD4EF1AF5936800E61192 /* UIView-Debugging.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ADD2160096BE41C780FBD95 /* UIView-Debugging.m */; };
+		5AA602BB1B2B9D8E00A045AD /* DraggingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AA602BA1B2B9D8E00A045AD /* DraggingViewController.m */; };
+		5AA602BE1B2BAE1500A045AD /* monkey_1.png in Resources */ = {isa = PBXBuildFile; fileRef = 5AA602BC1B2BAE1500A045AD /* monkey_1.png */; };
+		5AA602BF1B2BAE1500A045AD /* object_bananabunch.png in Resources */ = {isa = PBXBuildFile; fileRef = 5AA602BD1B2BAE1500A045AD /* object_bananabunch.png */; };
+		5AA602C11B2BBB4900A045AD /* DraggingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AA602C01B2BBB4900A045AD /* DraggingTests.m */; };
 		5C877DD01B057E13006A3AC6 /* KIFUITestActor-IdentifierTests.h in Headers */ = {isa = PBXBuildFile; fileRef = EB1A44D31A0C3268004A3F61 /* KIFUITestActor-IdentifierTests.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5C877DD11B0A8B8F006A3AC6 /* UIView-Debugging.h in Headers */ = {isa = PBXBuildFile; fileRef = 3ADD26484C6C438B71DC15C5 /* UIView-Debugging.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5C877DD21B0A8B93006A3AC6 /* UIView-Debugging.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ADD2160096BE41C780FBD95 /* UIView-Debugging.m */; };
@@ -278,6 +282,11 @@
 		3ADD2160096BE41C780FBD95 /* UIView-Debugging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView-Debugging.m"; sourceTree = "<group>"; };
 		3ADD26484C6C438B71DC15C5 /* UIView-Debugging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView-Debugging.h"; sourceTree = "<group>"; };
 		4A48107A19708CAB0003A32E /* ExistTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExistTests.m; sourceTree = "<group>"; };
+		5AA602BA1B2B9D8E00A045AD /* DraggingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DraggingViewController.m; sourceTree = "<group>"; };
+		5AA602BC1B2BAE1500A045AD /* monkey_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = monkey_1.png; sourceTree = "<group>"; };
+		5AA602BD1B2BAE1500A045AD /* object_bananabunch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = object_bananabunch.png; sourceTree = "<group>"; };
+		5AA602C01B2BBB4900A045AD /* DraggingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DraggingTests.m; sourceTree = "<group>"; };
+		5AA602C91B2C8E3000A045AD /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		84D293AC1A2C84F700C10944 /* SystemAlertViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SystemAlertViewController.m; sourceTree = "<group>"; };
 		84D293AE1A2C867300C10944 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		84D293B01A2C891700C10944 /* SystemAlertTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SystemAlertTests.m; sourceTree = "<group>"; };
@@ -637,6 +646,7 @@
 				3812FB601A1212A700335733 /* AnimationViewController.m */,
 				2CDEE1CA181DBED200DF6E63 /* PickerController.m */,
 				EB60ED04177F9041005A041A /* MainStoryboard.storyboard */,
+				5AA602C91B2C8E3000A045AD /* AppDelegate.h */,
 				EB60ECFC177F9031005A041A /* AppDelegate.m */,
 				EB60ECFD177F9031005A041A /* ShowHideViewController.m */,
 				EB9FB42617A5BACB00DDF160 /* GestureViewController.m */,
@@ -648,6 +658,7 @@
 				AE62FCD51A1D2447002B10DA /* WebViewController.m */,
 				84D293AC1A2C84F700C10944 /* SystemAlertViewController.m */,
 				97E8A5CE1B0A62F700124E3B /* BackgroundViewController.m */,
+				5AA602BA1B2B9D8E00A045AD /* DraggingViewController.m */,
 				EB60ECC7177F8C83005A041A /* Supporting Files */,
 			);
 			path = "Test Host";
@@ -656,6 +667,8 @@
 		EB60ECC7177F8C83005A041A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				5AA602BC1B2BAE1500A045AD /* monkey_1.png */,
+				5AA602BD1B2BAE1500A045AD /* object_bananabunch.png */,
 				EB60ECC8177F8C83005A041A /* Test Host-Info.plist */,
 				EB60ECC9177F8C83005A041A /* InfoPlist.strings */,
 				EB60ECCC177F8C84005A041A /* main.m */,
@@ -697,6 +710,7 @@
 				AE62FCCF1A1D20E5002B10DA /* WebViewTests.m */,
 				84D293B01A2C891700C10944 /* SystemAlertTests.m */,
 				97E8A5D01B0A63D100124E3B /* BackgroundTests.m */,
+				5AA602C01B2BBB4900A045AD /* DraggingTests.m */,
 				EB60ECF0177F8DB3005A041A /* Supporting Files */,
 			);
 			path = "KIF Tests";
@@ -1000,11 +1014,13 @@
 			files = (
 				EB60ECCB177F8C84005A041A /* InfoPlist.strings in Resources */,
 				EB60ECD3177F8C84005A041A /* Default.png in Resources */,
+				5AA602BE1B2BAE1500A045AD /* monkey_1.png in Resources */,
 				EB60ECD5177F8C84005A041A /* Default@2x.png in Resources */,
 				AE62FCD81A1D2667002B10DA /* index.html in Resources */,
 				EB60ECD7177F8C84005A041A /* Default-568h@2x.png in Resources */,
 				EB60ED06177F9041005A041A /* MainStoryboard.storyboard in Resources */,
 				AE62FCDA1A1D26BB002B10DA /* page2.html in Resources */,
+				5AA602BF1B2BAE1500A045AD /* object_bananabunch.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1132,6 +1148,7 @@
 				EABD46BB1857A0F300A5F081 /* WaitForTappableViewTests.m in Sources */,
 				EABD46BC1857A0F300A5F081 /* WaitForViewTests.m in Sources */,
 				97E8A5D11B0A63D100124E3B /* BackgroundTests.m in Sources */,
+				5AA602C11B2BBB4900A045AD /* DraggingTests.m in Sources */,
 				EABD46BD1857A0F300A5F081 /* LandscapeTests.m in Sources */,
 				EABD46BE1857A0F300A5F081 /* TableViewTests.m in Sources */,
 				EABD46BF1857A0F300A5F081 /* GestureTests.m in Sources */,
@@ -1151,6 +1168,7 @@
 				EA0F254A1829839E006FF825 /* CollectionViewController.m in Sources */,
 				84D293AD1A2C84F700C10944 /* SystemAlertViewController.m in Sources */,
 				AE62FCD61A1D2447002B10DA /* WebViewController.m in Sources */,
+				5AA602BB1B2B9D8E00A045AD /* DraggingViewController.m in Sources */,
 				EB60ECCD177F8C84005A041A /* main.m in Sources */,
 				EB60ED00177F9032005A041A /* AppDelegate.m in Sources */,
 				D927B9DC18F9DF2D00DAD036 /* TableViewController.m in Sources */,

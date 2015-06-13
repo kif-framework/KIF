@@ -482,6 +482,35 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
     
 }
 
+- (void)longPressAndDragAtPoint:(CGPoint)point toPoint:(CGPoint)toPoint steps:(NSInteger)steps
+{
+	UITouch *touch = [[UITouch alloc] initAtPoint:point inView:self];
+	[touch setPhaseAndUpdateTimestamp:UITouchPhaseBegan];
+
+	UIEvent *eventDown = [self eventWithTouch:touch];
+	[[UIApplication sharedApplication] sendEvent:eventDown];
+
+	CFRunLoopRunInMode(kCFRunLoopDefaultMode, DRAG_TOUCH_DELAY, false);
+
+	[touch setPhaseAndUpdateTimestamp:UITouchPhaseStationary];
+
+	UIEvent *eventStillDown = [self eventWithTouch:touch];
+	[[UIApplication sharedApplication] sendEvent:eventStillDown];
+
+	CFRunLoopRunInMode(kCFRunLoopDefaultMode, DRAG_TOUCH_DELAY, false);
+	[self dragFromPoint:point toPoint:toPoint steps:steps];
+
+
+	[touch setPhaseAndUpdateTimestamp:UITouchPhaseEnded];
+	UIEvent *eventUp = [self eventWithTouch:touch];
+	[[UIApplication sharedApplication] sendEvent:eventUp];
+
+	// Dispatching the event doesn't actually update the first responder, so fake it
+	if ([touch.view isDescendantOfView:self] && [self canBecomeFirstResponder]) {
+		[self becomeFirstResponder];
+	}
+}
+
 - (void)dragFromPoint:(CGPoint)startPoint toPoint:(CGPoint)endPoint;
 {
     [self dragFromPoint:startPoint toPoint:endPoint steps:3];

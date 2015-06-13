@@ -239,6 +239,15 @@ static inline KIFDisplacement KIFDisplacementForSwipingInDirection(KIFSwipeDirec
 - (void)longPressViewWithAccessibilityLabel:(NSString *)label duration:(NSTimeInterval)duration;
 
 /*!
+ @abstract Performs a long press starting with the points of a particular view (by its label) and ending with the CGPoint passed in.
+ @discussion The view or accessibility element with the given label is searched for in the view hierarchy. If the element isn't found or isn't currently tappable, then the step will attempt to wait until it is. Once the view is present and tappable, touch (down) events are simulated in the center of the view or element and then the drag is performed.
+ @param label The accessibility label of the element to tap.
+ @param toPoint The CGPoint where you want the long press to end.
+ @param steps how many steps it takes to complete the drag. More steps = slower drag.
+ */
+- (void)longPressAndDragViewWithAccessibilityLabel:(NSString *)label toPoint:(CGPoint) toPoint steps:(NSInteger) steps;
+
+/*!
  @abstract Performs a long press on a particular view in the view hierarchy.
  @discussion The view or accessibility element with the given label is searched for in the view hierarchy. If the element isn't found or isn't currently tappable, then the step will attempt to wait until it is. Once the view is present and tappable, touch events are simulated in the center of the view or element.
  
