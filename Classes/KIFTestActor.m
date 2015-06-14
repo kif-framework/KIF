@@ -64,7 +64,7 @@
         _line = line;
         _delegate = delegate;
         _executionBlockTimeout = [[self class] defaultTimeout];
-        _animationWaitingTimeout = 0.5f;
+        _animationWaitingTimeout = [[self class] defaultAnimationWaitingTimeout];
     }
     return self;
 }
@@ -132,8 +132,19 @@
 
 #pragma mark Class Methods
 
+static NSTimeInterval KIFTestStepDefaultAnimationWaitingTimeout = 0.5;
 static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
 static NSTimeInterval KIFTestStepDelay = 0.1;
+
++ (NSTimeInterval)defaultAnimationWaitingTimeout
+{
+    return KIFTestStepDefaultAnimationWaitingTimeout;
+}
+
++ (void)setDefaultAnimationWaitingTimeout:(NSTimeInterval)newDefaultAnimationWaitingTimeout;
+{
+    KIFTestStepDefaultAnimationWaitingTimeout = newDefaultAnimationWaitingTimeout;
+}
 
 + (NSTimeInterval)defaultTimeout;
 {

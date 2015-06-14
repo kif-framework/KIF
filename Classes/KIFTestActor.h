@@ -105,6 +105,19 @@ typedef void (^KIFTestCompletionBlock)(KIFTestStepResult result, NSError *error)
 - (BOOL)tryRunningBlock:(KIFTestExecutionBlock)executionBlock complete:(KIFTestCompletionBlock)completionBlock timeout:(NSTimeInterval)timeout error:(out NSError **)error;
 
 /*!
+ @method defaultAnimationWaitingTimeout
+ @abstract The default amount of time to wait for an animation to complete.
+ @discussion To change the default value of the timeout property, call +setDefaultAnimationWaitingTimeout: with a different value.
+ */
++ (NSTimeInterval)defaultAnimationWaitingTimeout;
+
+/*!
+ @method setDefaultAnimationWaitingTimeout:
+ @abstract Sets the default amount of time to wait for an animation to complete.
+ */
++ (void)setDefaultAnimationWaitingTimeout:(NSTimeInterval)newDefaultAnimationWaitingTimeout;
+
+/*!
  @method defaultTimeout
  @abstract The default amount of time to assign to execution blocks before assuming they failed.
  @discussion To change the default value of the timeout property, call +setDefaultTimeout: with a different value.
