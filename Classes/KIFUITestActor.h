@@ -406,13 +406,11 @@ static inline KIFDisplacement KIFDisplacementForSwipingInDirection(KIFSwipeDirec
  */
 - (void)tapItemAtIndexPath:(NSIndexPath *)indexPath inCollectionViewWithAccessibilityIdentifier:(NSString *)identifier;
 
-#if TARGET_IPHONE_SIMULATOR
 /*!
  @abstract If present, dismisses a system alert with the last button, usually 'Allow'.
  @discussion Use this to dissmiss a location services authorization dialog or a photos access dialog by tapping the 'Allow' button. No action is taken if no alert is present.
  */
 - (void)acknowledgeSystemAlert;
-#endif
 
 /*!
  @abstract Swipes a particular view in the view hierarchy in the given direction.
