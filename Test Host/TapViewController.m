@@ -15,6 +15,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *selectedPhotoSizeLabel;
 @property (weak, nonatomic) IBOutlet UITextField *otherTextField;
 @property (weak, nonatomic) IBOutlet UITextField *greetingTextField;
+@property (weak, nonatomic) IBOutlet UIStepper *stepper;
+@property (weak, nonatomic) IBOutlet UILabel *stepperValueLabel;
 @end
 
 @implementation TapViewController
@@ -24,6 +26,8 @@
     [super viewDidLoad];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(memoryWarningNotification:) name:UIApplicationDidReceiveMemoryWarningNotification object:[UIApplication sharedApplication]];
     self.lineBreakLabel.accessibilityLabel = @"A\nB\nC\n\n";
+	self.stepper.isAccessibilityElement = YES;
+	self.stepper.accessibilityLabel = @"theStepper";
 }
 
 - (void)memoryWarningNotification:(NSNotification *)notification
@@ -58,6 +62,11 @@
     controller.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     controller.delegate = self;
     [self presentViewController:controller animated:YES completion:nil];
+}
+
+- (IBAction)stepperValueChanged:(UIStepper *)sender forEvent:(UIEvent *)event
+{
+	self.stepperValueLabel.text = [NSString stringWithFormat:@"%ld", (long)sender.value];
 }
 
 - (void)dealloc

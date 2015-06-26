@@ -1637,6 +1637,27 @@ Line Break
                                     <segue destination="Xab-av-lrL" kind="push" id="lGV-1q-NHR"/>
                                 </connections>
                             </button>
+                            <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="50" maximumValue="100" id="Fpq-Ns-iQa">
+                                <rect key="frame" x="160" y="411" width="94" height="27"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="tapViewController.stepper"/>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="stepperValueChanged:forEvent:" destination="21" eventType="valueChanged" id="bN7-Tn-ggD"/>
+                                </connections>
+                            </stepper>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="50" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ipJ-pw-qkz">
+                                <rect key="frame" x="102" y="411" width="42" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <accessibility key="accessibilityConfiguration" label="stepperValue"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="tapViewController.stepperValue"/>
+                                </userDefinedRuntimeAttributes>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
@@ -1654,6 +1675,8 @@ Line Break
                         <outlet property="otherTextField" destination="WsR-z2-y1y" id="rq9-9M-Czf"/>
                         <outlet property="selectedPhotoSizeLabel" destination="l9a-mW-6Q7" id="STW-b2-9nP"/>
                         <outlet property="slider" destination="Dtm-Df-W7N" id="9IE-Qx-X8z"/>
+                        <outlet property="stepper" destination="Fpq-Ns-iQa" id="fg1-xs-X2K"/>
+                        <outlet property="stepperValueLabel" destination="ipJ-pw-qkz" id="OFH-cp-l7m"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="23" sceneMemberID="firstResponder"/>
