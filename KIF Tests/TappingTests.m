@@ -26,7 +26,7 @@
 - (void)testTappingViewWithAccessibilityLabel
 {
     // Since the tap has occurred in setup, we just need to wait for the result.
-    [tester waitForViewWithAccessibilityLabel:@"TapViewController"];
+    [tester waitForViewWithAccessibilityLabel:@"TapView"];
 }
 
 - (void)testTappingViewWithTraits
