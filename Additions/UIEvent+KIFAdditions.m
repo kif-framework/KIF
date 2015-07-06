@@ -8,54 +8,9 @@
 
 #import "UIEvent+KIFAdditions.h"
 #import "LoadableCategory.h"
-#import <mach/mach_time.h>
+#import "IOHIDEvent+KIF.h"
 
 MAKE_CATEGORIES_LOADABLE(UIEvent_KIFAdditions)
-
-/* IOKit Private Headers */
-#ifdef __LP64__
-typedef double IOHIDFloat;
-#else
-typedef float IOHIDFloat;
-#endif
-typedef struct __IOHIDEvent * IOHIDEventRef;
-typedef UInt32 IOOptionBits;
-typedef uint32_t IOHIDDigitizerTransducerType;
-void IOHIDEventAppendEvent(IOHIDEventRef event, IOHIDEventRef childEvent);
-enum {
-    kIOHIDDigitizerTransducerTypeStylus  = 0x20,
-    kIOHIDDigitizerTransducerTypePuck,
-    kIOHIDDigitizerTransducerTypeFinger,
-    kIOHIDDigitizerTransducerTypeHand
-};
-enum {
-    kIOHIDDigitizerEventRange                               = 0x00000001,
-    kIOHIDDigitizerEventTouch                               = 0x00000002,
-    kIOHIDDigitizerEventPosition                            = 0x00000004,
-    kIOHIDDigitizerEventStop                                = 0x00000008,
-    kIOHIDDigitizerEventPeak                                = 0x00000010,
-    kIOHIDDigitizerEventIdentity                            = 0x00000020,
-    kIOHIDDigitizerEventAttribute                           = 0x00000040,
-    kIOHIDDigitizerEventCancel                              = 0x00000080,
-    kIOHIDDigitizerEventStart                               = 0x00000100,
-    kIOHIDDigitizerEventResting                             = 0x00000200,
-    kIOHIDDigitizerEventSwipeUp                             = 0x01000000,
-    kIOHIDDigitizerEventSwipeDown                           = 0x02000000,
-    kIOHIDDigitizerEventSwipeLeft                           = 0x04000000,
-    kIOHIDDigitizerEventSwipeRight                          = 0x08000000,
-    kIOHIDDigitizerEventSwipeMask                           = 0xFF000000,
-};
-IOHIDEventRef IOHIDEventCreateDigitizerEvent(CFAllocatorRef allocator, AbsoluteTime timeStamp, IOHIDDigitizerTransducerType type,
-                                             uint32_t index, uint32_t identity, uint32_t eventMask, uint32_t buttonMask,
-                                             IOHIDFloat x, IOHIDFloat y, IOHIDFloat z, IOHIDFloat tipPressure, IOHIDFloat barrelPressure,
-                                             Boolean range, Boolean touch, IOOptionBits options);
-IOHIDEventRef IOHIDEventCreateDigitizerFingerEventWithQuality(CFAllocatorRef allocator, AbsoluteTime timeStamp,
-                                                              uint32_t index, uint32_t identity, uint32_t eventMask,
-                                                              IOHIDFloat x, IOHIDFloat y, IOHIDFloat z, IOHIDFloat tipPressure, IOHIDFloat twist,
-                                                              IOHIDFloat minorRadius, IOHIDFloat majorRadius, IOHIDFloat quality, IOHIDFloat density, IOHIDFloat irregularity,
-                                                              Boolean range, Boolean touch, IOOptionBits options);
-
-/* END of IOKit Private Headers */
 
 //
 // GSEvent is an undeclared object. We don't need to use it ourselves but some
@@ -128,31 +83,8 @@ typedef struct __GSEvent * GSEventRef;
 
 - (void)kif_setIOHIDEventWithTouches:(NSArray *)touches
 {
-    uint64_t abTime = mach_absolute_time();
-    AbsoluteTime timeStamp;
-    timeStamp.hi = (UInt32)(abTime >> 32);
-    timeStamp.lo = (UInt32)(abTime);
-    
-    IOHIDEventRef handEvent = IOHIDEventCreateDigitizerEvent(kCFAllocatorDefault, timeStamp, kIOHIDDigitizerTransducerTypeHand, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-    
-    for (UITouch *touch in touches)
-    {
-        uint32_t eventMask = (touch.phase == UITouchPhaseMoved) ? kIOHIDDigitizerEventPosition : (kIOHIDDigitizerEventRange | kIOHIDDigitizerEventTouch);
-        uint32_t isTouching = (touch.phase == UITouchPhaseEnded) ? 0 : 1;
-        
-        CGPoint touchLocation = [touch locationInView:touch.window];
-        
-        IOHIDEventRef fingerEvent = IOHIDEventCreateDigitizerFingerEventWithQuality(kCFAllocatorDefault, timeStamp,
-                                                                                    (UInt32)[touches indexOfObject:touch], 2,
-                                                                                    eventMask, (IOHIDFloat)touchLocation.x, (IOHIDFloat)touchLocation.y,
-                                                                                    0, 0, 0, 0, 0, 0, 0, 0,
-                                                                                    (IOHIDFloat)isTouching, (IOHIDFloat)isTouching, 0);
-        IOHIDEventAppendEvent(handEvent, fingerEvent);
-        CFRelease(fingerEvent);
-    }
-    
-    [self _setHIDEvent:handEvent];
-    CFRelease(handEvent);
+    IOHIDEventRef event = kif_IOHIDEventWithTouches(touches);
+    [self _setHIDEvent:event];
 }
 
 @end
