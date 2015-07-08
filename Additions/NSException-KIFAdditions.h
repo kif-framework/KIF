@@ -10,6 +10,7 @@
 
 @interface NSException (KIFAdditions)
 
-+ (NSException *)failureInFile:(NSString *)file atLine:(NSInteger)line withDescription:(NSString *)formatString, ...;
++ (NSException *)failureInFile:(NSString *)file atLine:(NSInteger)line withDescriptionFormat:(NSString *)formatString, ...;
++ (NSException *)failureInFile:(NSString *)file atLine:(NSInteger)line withDescription:(NSString *)string;
 
 @end

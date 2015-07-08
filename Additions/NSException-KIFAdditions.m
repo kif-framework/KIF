@@ -10,7 +10,7 @@
 
 @implementation NSException (KIFAdditions)
 
-+ (NSException *)failureInFile:(NSString *)file atLine:(NSInteger)line withDescription:(NSString *)formatString, ...
++ (NSException *)failureInFile:(NSString *)file atLine:(NSInteger)line withDescriptionFormat:(NSString *)formatString, ...
 {
     va_list argumentList;
     va_start(argumentList, formatString);
@@ -19,8 +19,13 @@
 
     va_end(argumentList);
 
+    return [NSException failureInFile:file atLine:line withDescription:reason];
+}
+
++ (NSException *)failureInFile:(NSString *)file atLine:(NSInteger)line withDescription:(NSString *)string
+{
     return [NSException exceptionWithName:@"KIFFailureException"
-                                   reason: reason
+                                   reason: string
                                  userInfo:@{@"SenTestFilenameKey": file,
                                             @"SenTestLineNumberKey": @(line)}];
 }
