@@ -7,6 +7,7 @@
 //
 
 #import <KIF/KIF.h>
+#import <KIF/KIFUITestActor-IdentifierTests.h>
 
 @interface TappingTests : KIFTestCase
 @end
@@ -21,6 +22,18 @@
 - (void)afterEach
 {
     [tester tapViewWithAccessibilityLabel:@"Test Suite" traits:UIAccessibilityTraitButton];
+}
+
+- (void)testTappingViewFromSpecificView
+{
+    UIView *scrollView = [tester waitForViewWithAccessibilityIdentifier:@"TapViewController Inner ScrollView"];
+    UIView *buttonView;
+    UIAccessibilityElement *element;
+    [tester waitForAccessibilityElement:&element view:&buttonView withIdentifier:@"Inner Button" fromRootView:scrollView tappable:YES];
+    
+    if (buttonView != NULL) {
+        [tester tapAccessibilityElement:element inView:buttonView];
+    }
 }
 
 - (void)testTappingViewWithAccessibilityLabel

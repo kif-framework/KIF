@@ -38,9 +38,14 @@ MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
     return (UIView *)element;
 }
 
-+ (BOOL)accessibilityElement:(out UIAccessibilityElement **)foundElement view:(out UIView **)foundView withLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits tappable:(BOOL)mustBeTappable error:(out NSError **)error;
++ (BOOL)accessibilityElement:(out UIAccessibilityElement **)foundElement view:(out UIView **)foundView withLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits tappable:(BOOL)mustBeTappable error:(out NSError **)error
 {
-    UIAccessibilityElement *element = [self accessibilityElementWithLabel:label value:value traits:traits error:error];
+    return [self accessibilityElement:foundElement view:foundView withLabel:label value:value traits:traits fromRootView:NULL tappable:mustBeTappable error:error];
+}
+
++ (BOOL)accessibilityElement:(out UIAccessibilityElement **)foundElement view:(out UIView **)foundView withLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits fromRootView:(UIView *)fromView tappable:(BOOL)mustBeTappable error:(out NSError **)error
+{
+    UIAccessibilityElement *element = [self accessibilityElementWithLabel:label value:value traits:traits fromRootView:fromView error:error];
     if (!element) {
         return NO;
     }
@@ -85,9 +90,42 @@ MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
     return YES;
 }
 
-+ (UIAccessibilityElement *)accessibilityElementWithLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits error:(out NSError **)error;
++ (BOOL)accessibilityElement:(out UIAccessibilityElement *__autoreleasing *)foundElement view:(out UIView *__autoreleasing *)foundView withElementMatchingPredicate:(NSPredicate *)predicate fromRootView:(UIView *)fromView tappable:(BOOL)mustBeTappable error:(out NSError *__autoreleasing *)error
 {
-    UIAccessibilityElement *element = [[UIApplication sharedApplication] accessibilityElementWithLabel:label accessibilityValue:value traits:traits];
+    UIAccessibilityElement *element = [fromView accessibilityElementMatchingBlock:^BOOL(UIAccessibilityElement *element) {
+        return [predicate evaluateWithObject:element];
+    }];
+    
+    if (!element) {
+        if (error) {
+            *error = [NSError KIFErrorWithFormat:@"Could not find view matching: %@", predicate];
+        }
+        return NO;
+    }
+    
+    UIView *view = [UIAccessibilityElement viewContainingAccessibilityElement:element tappable:mustBeTappable error:error];
+    if (!view) {
+        return NO;
+    }
+    
+    if (foundElement) { *foundElement = element; }
+    if (foundView) { *foundView = view; }
+    return YES;
+}
+
++ (UIAccessibilityElement *)accessibilityElementWithLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits error:(out NSError **)error
+{
+    return [self accessibilityElementWithLabel:label value:value traits:traits fromRootView:NULL error:error];
+}
+
++ (UIAccessibilityElement *)accessibilityElementWithLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits fromRootView:(UIView *)fromView error:(out NSError **)error;
+{
+    UIAccessibilityElement *element = NULL;
+    if (fromView == NULL) {
+        element = [[UIApplication sharedApplication] accessibilityElementWithLabel:label accessibilityValue:value traits:traits];
+    } else {
+        element = [fromView accessibilityElementWithLabel:label accessibilityValue:value traits:traits];
+    }
     if (element || !error) {
         return element;
     }
