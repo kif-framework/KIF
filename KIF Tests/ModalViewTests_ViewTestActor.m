@@ -53,8 +53,7 @@
     [[viewTester usingLabel:@"UIActivityViewController"] tap];
     [[viewTester usingLabel:@"Copy"] waitToBecomeTappable];
     [[viewTester usingLabel:@"Mail"] waitToBecomeTappable];
-    [[viewTester usingLabel:@"Cancel"] waitToBecomeTappable];
-    [[viewTester usingLabel:@"Cancel"] tap];
+    [[viewTester usingLabel:@"Copy"] tap];
 }
 
 @end

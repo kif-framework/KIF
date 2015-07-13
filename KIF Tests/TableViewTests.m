@@ -139,7 +139,7 @@
     
     [view setHidden:YES];
     [tester waitForAbsenceOfViewWithAccessibilityLabel:@"Button"];
-
+    
     [view setHidden:NO];
     [tester waitForViewWithAccessibilityLabel:@"Button"];
 }

@@ -46,16 +46,21 @@
 - (void)testPickingAPhoto
 {
     [[viewTester usingLabel:@"Photos"] tap];
+    [viewTester waitForTimeInterval:0.5f]; // Wait for view to stabilize
     [viewTester acknowledgeSystemAlert];
     [viewTester waitForTimeInterval:0.5f]; // Wait for view to stabilize
 
+    NSString  *albumName = nil;
+
     NSOperatingSystemVersion iOS8 = {8, 0, 0};
     if ([NSProcessInfo instancesRespondToSelector:@selector(isOperatingSystemAtLeastVersion:)] && [[NSProcessInfo new] isOperatingSystemAtLeastVersion:iOS8]) {
-        [viewTester choosePhotoInAlbum:@"Camera Roll" atRow:1 column:2];
+        albumName = @"Camera Roll";
     } else {
-        [viewTester choosePhotoInAlbum:@"Saved Photos" atRow:1 column:2];
+        albumName = @"Saved Photos";
     }
-    [[viewTester usingLabel:@"{834, 1250}"] waitForView];
+    [viewTester choosePhotoInAlbum:albumName atRow:1 column:2];
+    [[viewTester usingLabel:albumName] waitForAbsenceOfView];
+    
 }
 
 @end

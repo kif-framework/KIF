@@ -267,7 +267,7 @@
 {
     [self runBlock:^KIFTestStepResult(NSError **error) {
         
-//        KIFTestWaitCondition(view.isUserInteractionActuallyEnabled, error, @"View is not enabled for interaction");
+        KIFTestWaitCondition(view.isUserInteractionActuallyEnabled, error, @"View is not enabled for interaction");
         
         CGRect elementFrame = [view.windowOrIdentityWindow convertRect:element.accessibilityFrame toView:view];
         CGPoint tappablePointInElement = [view tappablePointInRect:elementFrame];
@@ -784,10 +784,13 @@
     [self tapItemAtIndexPath:indexPath inCollectionView:collectionView];
 }
 
+#if TARGET_IPHONE_SIMULATOR
+
 - (void)acknowledgeSystemAlert
 {
     [UIAutomationHelper acknowledgeSystemAlert];
 }
+#endif
 
 - (void)tapItemAtIndexPath:(NSIndexPath *)indexPath inCollectionView:(UICollectionView *)collectionView
 {
@@ -825,9 +828,6 @@
     const NSUInteger kNumberOfPointsInSwipePath = 20;
 
     // The original version of this came from http://groups.google.com/group/kif-framework/browse_thread/thread/df3f47eff9f5ac8c
-  
-    const NSUInteger kNumberOfPointsInSwipePath = 20;
-  
     // Within this method, all geometry is done in the coordinate system of the view to swipe.
   
     CGRect elementFrame = [viewToSwipe.windowOrIdentityWindow convertRect:element.accessibilityFrame toView:viewToSwipe];

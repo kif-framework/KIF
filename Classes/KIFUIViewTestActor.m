@@ -10,6 +10,19 @@
 #import "UIWindow-KIFAdditions.h"
 
 
+// Adding the method -string to NSString so that it has parity with NSattributedString and we can use .string in our predicates.
+@interface NSString (KIFAdditions)
+- (NSString*)string;
+@end
+
+@implementation NSString (KIFAdditions)
+- (NSString*)string;
+{
+    return self;
+}
+@end
+
+
 @interface KIFUIViewTestActor ()
 
 @property (nonatomic, strong, readonly) KIFUITestActor *actor;
@@ -54,12 +67,12 @@
         alternate = [accessibilityLabel stringByReplacingOccurrencesOfString:@"\\b\\n\\b" withString:@" " options:NSRegularExpressionSearch range:NSMakeRange(0, accessibilityLabel.length)];
     }
 
-    return [self usingPredicate:[NSPredicate predicateWithFormat:@"accessibilityLabel MATCHES %@ OR accessibilityLabel MATCHES %@", accessibilityLabel, alternate]];
+    return [self usingPredicate:[NSPredicate predicateWithFormat:@"accessibilityLabel.string MATCHES %@ OR accessibilityLabel.string MATCHES %@", accessibilityLabel, alternate]];
 }
 
 - (instancetype)usingIdentifier:(NSString *)accessibilityIdentifier;
 {
-    return [self usingPredicate:[NSPredicate predicateWithFormat:@"accessibilityIdentifier MATCHES %@", accessibilityIdentifier]];
+    return [self usingPredicate:[NSPredicate predicateWithFormat:@"accessibilityIdentifier.string MATCHES %@", accessibilityIdentifier]];
 }
 
 - (instancetype)usingTraits:(UIAccessibilityTraits)traits;
@@ -69,12 +82,12 @@
 
 - (instancetype)usingValue:(NSString *)value;
 {
-    return [self usingPredicate:[NSPredicate predicateWithFormat:@"accessibilityValue MATCHES %@", value]];
+    return [self usingPredicate:[NSPredicate predicateWithFormat:@"accessibilityValue.string MATCHES %@", value]];
 }
 
 - (instancetype)usingExpectedClass:(Class)expectedClass;
 {
-    return [self usingPredicate:[NSPredicate predicateWithFormat:@"class MATCHES %@", expectedClass]];
+    return [self usingPredicate:[NSPredicate predicateWithFormat:@"class.description MATCHES %@", expectedClass.description]];
 }
 
 
@@ -252,7 +265,7 @@
 - (void)swipeInDirection:(KIFSwipeDirection)direction;
 {
     KIFUIObject *found = [self _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
-    [self.actor swipeElement:found.element inView:found.view inDirection:direction];
+    [self.actor swipeAccessibilityElement:found.element inView:found.view inDirection:direction];
 }
 
 #pragma mark - Scroll/Table/CollectionView Actions
