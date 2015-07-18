@@ -12,7 +12,7 @@
 
 @interface UIAutomationHelper : NSObject
 
-+ (void)acknowledgeSystemAlert;
++ (BOOL)acknowledgeSystemAlert;
 
 + (void)deactivateAppForDuration:(NSNumber *)duration;
 

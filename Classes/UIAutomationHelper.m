@@ -8,6 +8,7 @@
 
 #import "UIAutomationHelper.h"
 #include <dlfcn.h>
+#import <UIView-KIFAdditions.h>
 
 @interface UIAElement : NSObject <NSCopying>
 - (void)tap;
@@ -15,6 +16,8 @@
 
 @interface UIAAlert : UIAElement
 - (NSArray *)buttons;
+- (BOOL)isValid;
+- (BOOL)isVisible;
 @end
 
 @interface UIAApplication : UIAElement
@@ -44,22 +47,23 @@
     return sharedHelper;
 }
 
-+ (void)acknowledgeSystemAlert {
-    [[self sharedHelper] acknowledgeSystemAlert];
++ (BOOL)acknowledgeSystemAlert {
+    return [[self sharedHelper] acknowledgeSystemAlert];
 }
 
 + (void)deactivateAppForDuration:(NSNumber *)duration {
     [[self sharedHelper] deactivateAppForDuration:duration];
 }
-
-- (void)acknowledgeSystemAlert {
+- (BOOL)acknowledgeSystemAlert {
     UIAApplication *application = [[self target] frontMostApp];
-    UIAAlert *alert = application.alert;
-
-    if (![alert isKindOfClass:[self nilElementClass]]) {
-        [[alert.buttons lastObject] tap];
-        while (![application.alert isKindOfClass:[self nilElementClass]]) { }
-    }
+	UIAAlert* alert = application.alert;
+	if (![alert isKindOfClass:[self nilElementClass]]) {
+		[[alert.buttons lastObject] tap];
+		while ([alert isValid] && [alert isVisible]) {
+		}
+		return YES;
+	}
+    return NO;
 }
 
 - (void)deactivateAppForDuration:(NSNumber *)duration {

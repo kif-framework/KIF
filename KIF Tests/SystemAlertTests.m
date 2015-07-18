@@ -24,20 +24,17 @@
     [tester tapViewWithAccessibilityLabel:@"Test Suite" traits:UIAccessibilityTraitButton];
 }
 
-- (void)testAuthorizingLocationServices {
-    [tester tapViewWithAccessibilityLabel:@"Location Services"];
-    [tester acknowledgeSystemAlert];
+- (void)testAuthorizingLocationServicesAndNotificationsScheduling {
+    [tester tapViewWithAccessibilityLabel:@"Location Services and Notifications"];
+    XCTAssertTrue([tester acknowledgeSystemAlert]);
+	XCTAssertTrue([tester acknowledgeSystemAlert]);
+	XCTAssertFalse([tester acknowledgeSystemAlert]);
 }
 
 - (void)testAuthorizingPhotosAccess {
     [tester tapViewWithAccessibilityLabel:@"Photos"];
     [tester acknowledgeSystemAlert];
     [tester tapViewWithAccessibilityLabel:@"Cancel"];
-}
-
-- (void)testNotificationScheduling {
-    [tester tapViewWithAccessibilityLabel:@"Notifications"];
-    [tester acknowledgeSystemAlert];
 }
 
 @end

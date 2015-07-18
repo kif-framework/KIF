@@ -435,10 +435,10 @@ static inline KIFDisplacement KIFDisplacementForSwipingInDirection(KIFSwipeDirec
 
 #if TARGET_IPHONE_SIMULATOR
 /*!
- @abstract If present, dismisses a system alert with the last button, usually 'Allow'.
+ @abstract If present, dismisses a system alert with the last button, usually 'Allow'. Returns YES if a dialog was dismissed, NO otherwise.
  @discussion Use this to dissmiss a location services authorization dialog or a photos access dialog by tapping the 'Allow' button. No action is taken if no alert is present.
  */
-- (void)acknowledgeSystemAlert;
+- (BOOL)acknowledgeSystemAlert;
 #endif
 
 /*!
