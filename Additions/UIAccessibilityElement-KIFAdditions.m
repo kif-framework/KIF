@@ -8,6 +8,7 @@
 //  which Square, Inc. licenses this file to you.
 
 #import "NSError-KIFAdditions.h"
+#import "NSCompoundPredicate+KIFAdditions.h"
 #import "UIAccessibilityElement-KIFAdditions.h"
 #import "UIApplication-KIFAdditions.h"
 #import "UIScrollView-KIFAdditions.h"
@@ -62,7 +63,19 @@ MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
     
     if (!element) {
         if (error) {
-            *error = [NSError KIFErrorWithFormat:@"Could not find view matching: %@", predicate];
+            if ([predicate isKindOfClass:[NSCompoundPredicate class]]) {
+                NSArray *subPredicates = [(NSCompoundPredicate *)predicate decomposedSubpredicates];
+                for (NSPredicate *subPredicate in subPredicates){
+                        UIAccessibilityElement *match = [[UIApplication sharedApplication] accessibilityElementMatchingBlock:^BOOL (UIAccessibilityElement *element) {
+                            return [subPredicate evaluateWithObject:element];
+                        }];
+                    if (!match) {
+                        *error = [NSError KIFErrorWithFormat:@"%@\nPredicate: %@", [self _errorStringForFailingPredicate:subPredicate], predicate];
+                    }
+                }
+            } else {
+                *error = [NSError KIFErrorWithFormat:@"%@\nPredicate: %@", [self _errorStringForFailingPredicate:predicate], predicate];
+            }
         }
         return NO;
     }
@@ -75,6 +88,38 @@ MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
     if (foundElement) { *foundElement = element; }
     if (foundView) { *foundView = view; }
     return YES;
+}
+
++ (NSString *)_errorStringForFailingPredicate:(NSPredicate*)failingPredicate;
+{
+    NSString *format = failingPredicate.predicateFormat;
+    
+    if ([format rangeOfString:@"MATCHES"].location != NSNotFound) {
+        NSArray *split = [format componentsSeparatedByString:@" MATCHES "];
+        return [NSString stringWithFormat:@"could not find accessibility element with the %@ matching %@", split.firstObject, split.lastObject];
+    }
+    
+    if ([format rangeOfString:@"LIKE"].location != NSNotFound) {
+        NSArray *split = [format componentsSeparatedByString:@" LIKE "];
+        return [NSString stringWithFormat:@"could not find accessibility element with the %@ like %@", split.firstObject, split.lastObject];
+    }
+    
+    if ([format rangeOfString:@"CONTAINS"].location != NSNotFound) {
+        NSArray *split = [format componentsSeparatedByString:@" CONTAINS "];
+        return [NSString stringWithFormat:@"could not find accessibility element with the %@ containing %@", split.firstObject, split.lastObject];
+    }
+    
+    if ([format rangeOfString:@"BEGINSWITH"].location != NSNotFound) {
+        NSArray *split = [format componentsSeparatedByString:@" BEGINSWITH "];
+        return [NSString stringWithFormat:@"could not find accessibility element with the %@ beginning with %@", split.firstObject, split.lastObject];
+    }
+    
+    if ([format rangeOfString:@"ENDSWITH"].location != NSNotFound) {
+        NSArray *split = [format componentsSeparatedByString:@" ENDSWITH "];
+        return [NSString stringWithFormat:@"could not find accessibility element with the %@ ending with %@", split.firstObject, split.lastObject];
+    }
+    
+    return @"Could not find accessibility element";
 }
 
 + (UIAccessibilityElement *)accessibilityElementWithLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits error:(out NSError **)error;

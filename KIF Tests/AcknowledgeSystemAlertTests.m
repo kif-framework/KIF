@@ -8,11 +8,11 @@
 
 #import <KIF/KIF.h>
 
-@interface SystemAlertTests : KIFTestCase
+@interface AcknowledgeSystemAlertTests : KIFTestCase
 
 @end
 
-@implementation SystemAlertTests
+@implementation AcknowledgeSystemAlertTests
 
 - (void)beforeEach
 {

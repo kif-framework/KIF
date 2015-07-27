@@ -43,18 +43,24 @@
     [tester waitForViewWithAccessibilityLabel:@"Slider" value:@"5" traits:UIAccessibilityTraitNone];
 }
 
-- (void)testPickingAPhoto {
+- (void)testPickingAPhoto
+{
     [tester tapViewWithAccessibilityLabel:@"Photos"];
+    [tester waitForTimeInterval:0.5f]; // Wait for view to stabilize
     [tester acknowledgeSystemAlert];
     [tester waitForTimeInterval:0.5f]; // Wait for view to stabilize
 
+    NSString  *albumName = nil;
+    
     NSOperatingSystemVersion iOS8 = {8, 0, 0};
     if ([NSProcessInfo instancesRespondToSelector:@selector(isOperatingSystemAtLeastVersion:)] && [[NSProcessInfo new] isOperatingSystemAtLeastVersion:iOS8]) {
-        [tester choosePhotoInAlbum:@"Camera Roll" atRow:1 column:2];
+        albumName = @"Camera Roll";
     } else {
-        [tester choosePhotoInAlbum:@"Saved Photos" atRow:1 column:2];
+        albumName = @"Saved Photos";
     }
-    [tester waitForViewWithAccessibilityLabel:@"{834, 1250}"];
+    [tester choosePhotoInAlbum:albumName atRow:1 column:2];
+    [tester waitForAbsenceOfViewWithAccessibilityLabel:albumName];
+
 }
 
 @end
