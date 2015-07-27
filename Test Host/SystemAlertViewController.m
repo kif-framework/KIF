@@ -39,4 +39,9 @@
     }
 }
 
+- (IBAction)requestLocationServicesAndNotificicationsSchedulingAccesses {
+	[self requestLocationServicesAccess];
+	[self requestNotificationScheduling];
+}
+
 @end

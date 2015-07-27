@@ -774,8 +774,8 @@
     [self tapItemAtIndexPath:indexPath inCollectionView:collectionView];
 }
 
-- (void)acknowledgeSystemAlert {
-    [UIAutomationHelper acknowledgeSystemAlert];
+- (BOOL)acknowledgeSystemAlert {
+    return [UIAutomationHelper acknowledgeSystemAlert];
 }
 
 - (void)tapItemAtIndexPath:(NSIndexPath *)indexPath inCollectionView:(UICollectionView *)collectionView
