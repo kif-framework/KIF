@@ -8,6 +8,7 @@
 
 #import "XCTestCase-KIFAdditions.h"
 #import "LoadableCategory.h"
+#import "UIApplication-KIFAdditions.h"
 #import <objc/runtime.h>
 
 MAKE_CATEGORIES_LOADABLE(TestCase_KIFAdditions)
@@ -35,6 +36,7 @@ static inline void Swizzle(Class c, SEL orig, SEL new)
     [self recordFailureWithDescription:exception.description inFile:exception.userInfo[@"SenTestFilenameKey"] atLine:[exception.userInfo[@"SenTestLineNumberKey"] unsignedIntegerValue] expected:NO];
 
     if (stop) {
+        [self writeScreenshotForException:exception];
         static dispatch_once_t onceToken;
         dispatch_once(&onceToken, ^{
             Swizzle([XCTestCase class], @selector(_recordUnexpectedFailureWithDescription:exception:), @selector(KIF_recordUnexpectedFailureWithDescription:exception:));
@@ -56,6 +58,15 @@ static inline void Swizzle(Class c, SEL orig, SEL new)
     if (![[arg2 name] isEqualToString:@"KIFFailureException"]) {
         [self KIF_recordUnexpectedFailureWithDescription:arg1 exception:arg2];
     }
+}
+
+- (void)writeScreenshotForException:(NSException *)exception;
+{
+#ifndef KIF_SENTEST
+    [[UIApplication sharedApplication] writeScreenshotForLine:[exception.userInfo[@"SenTestLineNumberKey"] unsignedIntegerValue] inFile:exception.userInfo[@"SenTestFilenameKey"] description:nil error:NULL];
+#else
+    [[UIApplication sharedApplication] writeScreenshotForLine:exception.lineNumber.unsignedIntegerValue inFile:exception.filename description:nil error:NULL];
+#endif
 }
 
 @end

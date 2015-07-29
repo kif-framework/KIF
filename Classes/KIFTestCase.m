@@ -147,7 +147,6 @@ NSComparisonResult selectorSort(NSInvocation *invocOne, NSInvocation *invocTwo, 
 - (void)failWithException:(NSException *)exception stopTest:(BOOL)stop
 {
     if (stop) {
-        [self writeScreenshotForException:exception];
         _stoppingException = exception;
     }
     
@@ -162,15 +161,6 @@ NSComparisonResult selectorSort(NSInvocation *invocOne, NSInvocation *invocTwo, 
     } else {
         [super failWithException:exception stopTest:stop];
     }
-}
-
-- (void)writeScreenshotForException:(NSException *)exception;
-{
-#ifndef KIF_SENTEST
-    [[UIApplication sharedApplication] writeScreenshotForLine:[exception.userInfo[@"SenTestLineNumberKey"] unsignedIntegerValue] inFile:exception.userInfo[@"SenTestFilenameKey"] description:nil error:NULL];
-#else
-    [[UIApplication sharedApplication] writeScreenshotForLine:exception.lineNumber.unsignedIntegerValue inFile:exception.filename description:nil error:NULL];
-#endif
 }
 
 @end
