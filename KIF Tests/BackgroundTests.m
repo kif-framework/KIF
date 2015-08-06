@@ -22,6 +22,7 @@
     [tester tapViewWithAccessibilityLabel:@"Test Suite" traits:UIAccessibilityTraitButton];
 }
 
+//TODO: Fail on iOS 9 (crash on UITarget.deactivateAppForDuration) and iOS 7
 - (void)testBackgroundApp {
     [tester waitForViewWithAccessibilityLabel:@"Start"];
     [tester deactivateAppForDuration:5];
