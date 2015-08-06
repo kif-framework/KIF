@@ -250,16 +250,6 @@
     [self longPressViewWithAccessibilityLabel:label value:value traits:UIAccessibilityTraitNone duration:duration];
 }
 
-- (void)longPressViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits duration:(NSTimeInterval)duration;
-{
-    @autoreleasepool {
-        UIView *view = nil;
-        UIAccessibilityElement *element = nil;
-        [self waitForAccessibilityElement:&element view:&view withLabel:label value:value traits:traits tappable:YES];
-        [self longPressAccessibilityElement:element inView:view duration:duration];
-    }
-}
-
 - (void)longPressAccessibilityElement:(UIAccessibilityElement *)element inView:(UIView *)view duration:(NSTimeInterval)duration;
 {
     [self runBlock:^KIFTestStepResult(NSError **error) {
@@ -280,6 +270,58 @@
     
     // Wait for view to settle.
     [self waitForTimeInterval:0.5];
+}
+
+- (void)longPressViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits duration:(NSTimeInterval)duration;
+{
+	@autoreleasepool {
+		UIView *view = nil;
+		UIAccessibilityElement *element = nil;
+		[self waitForAccessibilityElement:&element view:&view withLabel:label value:value traits:traits tappable:YES];
+		[self longPressAccessibilityElement:element inView:view duration:duration];
+	}
+}
+
+- (void)longPressAndDragViewWithAccessibilityLabel:(NSString *)label toPoint:(CGPoint) toPoint steps:(NSInteger) steps
+{
+	[self longPressAndDragViewWithAccessibilityLabel:label toPoint: toPoint value:nil steps:steps];
+}
+
+- (void)longPressAndDragViewWithAccessibilityLabel:(NSString *)label toPoint:(CGPoint) toPoint value:(NSString *)value steps:(NSInteger)steps;
+{
+	[self longPressAndDragViewWithAccessibilityLabel:label toPoint: toPoint value:value traits:UIAccessibilityTraitNone steps:steps];
+}
+
+- (void)longPressAndDragViewWithAccessibilityLabel:(NSString *)label toPoint:(CGPoint) toPoint value:(NSString *)value traits:(UIAccessibilityTraits)traits steps:(NSInteger)steps;
+{
+	@autoreleasepool {
+		UIView *view = nil;
+		UIAccessibilityElement *element = nil;
+		[self waitForAccessibilityElement:&element view:&view withLabel:label value:value traits:traits tappable:YES];
+		[self longPressAndDragAccessibilityElement:element inView:view toPoint: toPoint steps:steps];
+	}
+}
+
+- (void)longPressAndDragAccessibilityElement:(UIAccessibilityElement *)element inView:(UIView *)view toPoint:(CGPoint) toPoint steps:(NSInteger)steps
+{
+	[self runBlock:^KIFTestStepResult(NSError **error) {
+
+		KIFTestWaitCondition(view.isUserInteractionActuallyEnabled, error, @"View is not enabled for interaction");
+
+		CGRect elementFrame = [view.windowOrIdentityWindow convertRect:element.accessibilityFrame toView:view];
+		CGPoint tappablePointInElement = [view tappablePointInRect:elementFrame];
+
+		// This is mostly redundant of the test in _accessibilityElementWithLabel:
+		KIFTestWaitCondition(!isnan(tappablePointInElement.x), error, @"View is not tappable");
+		[view longPressAndDragAtPoint:tappablePointInElement toPoint: toPoint steps:steps];
+
+		KIFTestCondition(![view canBecomeFirstResponder] || [view isDescendantOfFirstResponder], error, @"Failed to make the view into the first responder");
+
+		return KIFTestStepResultSuccess;
+	}];
+
+	// Wait for view to settle.
+	[self waitForTimeInterval:0.5];
 }
 
 - (void)waitForKeyboard
