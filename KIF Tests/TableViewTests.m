@@ -25,6 +25,7 @@
     [tester tapViewWithAccessibilityLabel:@"Test Suite" traits:UIAccessibilityTraitButton];
 }
 
+//TODO: Fail on iOS 9 (UITableViewCell accessibilityTraits is incorrect when selected)
 - (void)testTappingRows
 {
     [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:2] inTableViewWithAccessibilityIdentifier:@"TableView Tests Table"];
@@ -33,6 +34,7 @@
     [tester waitForViewWithAccessibilityLabel:@"First Cell" traits:UIAccessibilityTraitSelected];
 }
 
+//TODO: Fail on iOS 9 (UITableViewCell accessibilityTraits is incorrect when selected)
 - (void)testTappingLastRowAndSection
 {
     [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:-1 inSection:-1] inTableViewWithAccessibilityIdentifier:@"TableView Tests Table"];

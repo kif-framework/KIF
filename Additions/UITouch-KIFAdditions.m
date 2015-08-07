@@ -10,6 +10,7 @@
 #import "UITouch-KIFAdditions.h"
 #import "LoadableCategory.h"
 #import <objc/runtime.h>
+#import "IOHIDEvent+KIF.h"
 
 MAKE_CATEGORIES_LOADABLE(UITouch_KIFAdditions)
 
@@ -23,16 +24,18 @@ typedef struct {
 
 @interface UITouch ()
 
-@property(assign) BOOL isTap;
-@property(assign) NSUInteger tapCount;
-@property(assign) UITouchPhase phase;
-@property(retain) UIView *view;
-@property(retain) UIWindow *window;
-@property(assign) NSTimeInterval timestamp;
 
+- (void)setWindow:(UIWindow *)window;
+- (void)setView:(UIView *)view;
+- (void)setTapCount:(NSUInteger)tapCount;
+- (void)setIsTap:(BOOL)isTap;
+- (void)setTimestamp:(NSTimeInterval)timestamp;
+- (void)setPhase:(UITouchPhase)touchPhase;
 - (void)setGestureView:(UIView *)view;
 - (void)_setLocationInWindow:(CGPoint)location resetPrevious:(BOOL)resetPrevious;
 - (void)_setIsFirstTouchForView:(BOOL)firstTouchForView;
+
+- (void)_setHidEvent:(IOHIDEventRef)event;
 
 @end
 
@@ -70,6 +73,12 @@ typedef struct {
         [self setGestureView:hitTestView];
     }
     
+    // Starting with iOS 9, internal IOHIDEvent must be set for UITouch object
+    NSOperatingSystemVersion iOS9 = {9, 0, 0};
+    if ([NSProcessInfo instancesRespondToSelector:@selector(isOperatingSystemAtLeastVersion:)] && [[NSProcessInfo new] isOperatingSystemAtLeastVersion:iOS9]) {
+        [self kif_setHidEvent];
+    }
+    
 	return self;
 }
 
@@ -93,6 +102,11 @@ typedef struct {
 {
     [self setTimestamp:[[NSProcessInfo processInfo] systemUptime]];
     [self setPhase:phase];
+}
+
+- (void)kif_setHidEvent {
+    IOHIDEventRef event = kif_IOHIDEventWithTouches(@[self]);
+    [self _setHidEvent:event];
 }
 
 @end

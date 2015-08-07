@@ -204,6 +204,10 @@
         
         // This is mostly redundant of the test in _accessibilityElementWithLabel:
         KIFTestWaitCondition(!isnan(tappablePointInElement.x), error, @"View is not tappable");
+        
+        if ([NSStringFromClass([view class]) isEqualToString:@"_UIAlertControllerActionView"]) {
+            [view longPressAtPoint:tappablePointInElement duration:0.1];
+        }
         [view tapAtPoint:tappablePointInElement];
         
         KIFTestCondition(![view canBecomeFirstResponder] || [view isDescendantOfFirstResponder], error, @"Failed to make the view into the first responder");

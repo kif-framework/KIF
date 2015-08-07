@@ -12,7 +12,7 @@
 @property (weak, nonatomic) IBOutlet UISlider *slider;
 @property (weak, nonatomic) IBOutlet UILabel *lineBreakLabel;
 @property (weak, nonatomic) IBOutlet UILabel *memoryWarningLabel;
-@property (weak, nonatomic) IBOutlet UILabel *selectedPhotoSizeLabel;
+@property (weak, nonatomic) IBOutlet UILabel *selectedPhotoClass;
 @property (weak, nonatomic) IBOutlet UITextField *otherTextField;
 @property (weak, nonatomic) IBOutlet UITextField *greetingTextField;
 @property (weak, nonatomic) IBOutlet UIStepper *stepper;
@@ -96,7 +96,7 @@
 #pragma mark - <UIImagePickerControllerDelegate>
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-    self.selectedPhotoSizeLabel.text = NSStringFromCGSize([info[UIImagePickerControllerOriginalImage] size]);
+    self.selectedPhotoClass.text = NSStringFromClass([info[UIImagePickerControllerOriginalImage] class]);
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 

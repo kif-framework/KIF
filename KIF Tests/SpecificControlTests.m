@@ -54,7 +54,7 @@
     } else {
         [tester choosePhotoInAlbum:@"Saved Photos" atRow:1 column:2];
     }
-    [tester waitForViewWithAccessibilityLabel:@"{834, 1250}"];
+    [tester waitForViewWithAccessibilityLabel:@"UIImage"];
 }
 
 @end

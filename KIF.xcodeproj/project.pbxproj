@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0E27A9EE1B45B53D00A6DE6E /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9AD81F91AA180B900B369FD /* IOKit.framework */; };
+		0EAA1C131B4B371700FFB2FB /* IOHIDEvent+KIF.h in Headers */ = {isa = PBXBuildFile; fileRef = 0EAA1C111B4B371700FFB2FB /* IOHIDEvent+KIF.h */; };
+		0EAA1C141B4B371700FFB2FB /* IOHIDEvent+KIF.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAA1C121B4B371700FFB2FB /* IOHIDEvent+KIF.m */; };
+		0EAA1C151B4B372500FFB2FB /* IOHIDEvent+KIF.h in Headers */ = {isa = PBXBuildFile; fileRef = 0EAA1C111B4B371700FFB2FB /* IOHIDEvent+KIF.h */; };
+		0EAA1C161B4B372500FFB2FB /* IOHIDEvent+KIF.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAA1C121B4B371700FFB2FB /* IOHIDEvent+KIF.m */; };
+		0EAA1C171B4B372700FFB2FB /* IOHIDEvent+KIF.h in Headers */ = {isa = PBXBuildFile; fileRef = 0EAA1C111B4B371700FFB2FB /* IOHIDEvent+KIF.h */; };
+		0EAA1C181B4B372700FFB2FB /* IOHIDEvent+KIF.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAA1C121B4B371700FFB2FB /* IOHIDEvent+KIF.m */; };
 		2CDEE1CB181DBED200DF6E63 /* PickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CDEE1CA181DBED200DF6E63 /* PickerController.m */; };
 		2CED883E181F5EE1005ABD20 /* PickerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CED883D181F5EE1005ABD20 /* PickerTests.m */; };
 		2EE12710198991920031D347 /* MultiFingerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EE1270F198991920031D347 /* MultiFingerTests.m */; };
@@ -99,7 +106,6 @@
 		E977D1071AA4062B005645BF /* UIEvent+KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = E977D1051AA4062B005645BF /* UIEvent+KIFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E977D1081AA4062B005645BF /* UIEvent+KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = E977D1061AA4062B005645BF /* UIEvent+KIFAdditions.m */; };
 		E977D1091AA40736005645BF /* UIEvent+KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = E977D1061AA4062B005645BF /* UIEvent+KIFAdditions.m */; };
-		E9AD81FA1AA180B900B369FD /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9AD81F91AA180B900B369FD /* IOKit.framework */; };
 		E9F646F81AA3BABA00C37EA3 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9AD81F91AA180B900B369FD /* IOKit.framework */; };
 		EA0F2547182979BE006FF825 /* CollectionViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EA0F2546182979BE006FF825 /* CollectionViewTests.m */; };
 		EA0F254A1829839E006FF825 /* CollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EA0F25491829839E006FF825 /* CollectionViewController.m */; };
@@ -269,6 +275,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0EAA1C111B4B371700FFB2FB /* IOHIDEvent+KIF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "IOHIDEvent+KIF.h"; sourceTree = "<group>"; };
+		0EAA1C121B4B371700FFB2FB /* IOHIDEvent+KIF.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "IOHIDEvent+KIF.m"; sourceTree = "<group>"; };
 		2CDEE1CA181DBED200DF6E63 /* PickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PickerController.m; sourceTree = "<group>"; };
 		2CED883D181F5EE1005ABD20 /* PickerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PickerTests.m; sourceTree = "<group>"; };
 		2EE1270F198991920031D347 /* MultiFingerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MultiFingerTests.m; sourceTree = "<group>"; };
@@ -415,7 +423,7 @@
 				EABD46D21857A24E00A5F081 /* XCTest.framework in Frameworks */,
 				EABD468E1857A0C700A5F081 /* Foundation.framework in Frameworks */,
 				EABD468F1857A0C700A5F081 /* UIKit.framework in Frameworks */,
-				E9AD81FA1AA180B900B369FD /* IOKit.framework in Frameworks */,
+				0E27A9EE1B45B53D00A6DE6E /* IOKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -554,6 +562,8 @@
 				EABD46D31857BE8600A5F081 /* KIF-XCTestPrefix.pch */,
 				84D293B91A2CC30B00C10944 /* UIAutomationHelper.h */,
 				84D293BA1A2CC30B00C10944 /* UIAutomationHelper.m */,
+				0EAA1C111B4B371700FFB2FB /* IOHIDEvent+KIF.h */,
+				0EAA1C121B4B371700FFB2FB /* IOHIDEvent+KIF.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -725,6 +735,7 @@
 				9CC967571AD4B1F100576D13 /* CGGeometry-KIFAdditions.h in Headers */,
 				9CC967591AD4B1F100576D13 /* NSFileManager-KIFAdditions.h in Headers */,
 				9CC9675B1AD4B1F100576D13 /* UIAccessibilityElement-KIFAdditions.h in Headers */,
+				0EAA1C171B4B372700FFB2FB /* IOHIDEvent+KIF.h in Headers */,
 				9CC9675D1AD4B1F100576D13 /* UIApplication-KIFAdditions.h in Headers */,
 				9CC9675F1AD4B1F100576D13 /* UIScrollView-KIFAdditions.h in Headers */,
 				9CC967731AD4B1FF00576D13 /* KIFSystemTestActor.h in Headers */,
@@ -765,6 +776,7 @@
 				EABD46981857A0C700A5F081 /* UIView-KIFAdditions.h in Headers */,
 				EABD46991857A0C700A5F081 /* UIWindow-KIFAdditions.h in Headers */,
 				EABD469A1857A0C700A5F081 /* NSFileManager-KIFAdditions.h in Headers */,
+				0EAA1C131B4B371700FFB2FB /* IOHIDEvent+KIF.h in Headers */,
 				EABD469B1857A0C700A5F081 /* LoadableCategory.h in Headers */,
 				EABD469C1857A0C700A5F081 /* KIFTypist.h in Headers */,
 				EABD469D1857A0C700A5F081 /* KIFTestActor.h in Headers */,
@@ -803,6 +815,7 @@
 				84D293BC1A2CC30B00C10944 /* UIAutomationHelper.h in Headers */,
 				EB7204641680DDAD00278DA2 /* KIFTestCase.h in Headers */,
 				EB7204651680DDAD00278DA2 /* KIFSystemTestActor.h in Headers */,
+				0EAA1C151B4B372500FFB2FB /* IOHIDEvent+KIF.h in Headers */,
 				EB7204661680DDAD00278DA2 /* KIFUITestActor.h in Headers */,
 				EBAE487C17A45A8E0005EE19 /* NSBundle-KIFAdditions.h in Headers */,
 				EBAE488117A460E50005EE19 /* NSError-KIFAdditions.h in Headers */,
@@ -948,7 +961,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastTestingUpgradeCheck = 0510;
-				LastUpgradeCheck = 0620;
+				LastUpgradeCheck = 0700;
 				TargetAttributes = {
 					9CC9673A1AD4B1B600576D13 = {
 						CreatedOnToolsVersion = 6.2;
@@ -1053,6 +1066,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9CC967D01AD4B5B900576D13 /* KIFTestCase.m in Sources */,
+				0EAA1C181B4B372700FFB2FB /* IOHIDEvent+KIF.m in Sources */,
 				9CC967D11AD4B5B900576D13 /* KIFTestActor.m in Sources */,
 				9CC967D21AD4B5B900576D13 /* KIFTypist.m in Sources */,
 				9CC967D31AD4B5B900576D13 /* KIFTestStepValidation.m in Sources */,
@@ -1084,6 +1098,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EABD467B1857A0C700A5F081 /* CGGeometry-KIFAdditions.m in Sources */,
+				0EAA1C141B4B371700FFB2FB /* IOHIDEvent+KIF.m in Sources */,
 				EABD467C1857A0C700A5F081 /* UIAccessibilityElement-KIFAdditions.m in Sources */,
 				84D293BD1A2CC30B00C10944 /* UIAutomationHelper.m in Sources */,
 				EABD467D1857A0C700A5F081 /* UIApplication-KIFAdditions.m in Sources */,
@@ -1213,6 +1228,7 @@
 				EBAE488217A460E50005EE19 /* NSError-KIFAdditions.m in Sources */,
 				EBAE488817A4E5C30005EE19 /* KIFTestStepValidation.m in Sources */,
 				EABD474C185F509E00A5F081 /* SenTestCase-KIFAdditions.m in Sources */,
+				0EAA1C161B4B372500FFB2FB /* IOHIDEvent+KIF.m in Sources */,
 				E977D1091AA40736005645BF /* UIEvent+KIFAdditions.m in Sources */,
 				4D2FD4EF1AF5936800E61192 /* UIView-Debugging.m in Sources */,
 			);
@@ -1265,11 +1281,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = (
-					"$(ARCHS_STANDARD)",
-					i386,
-					x86_64,
-				);
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -1312,6 +1323,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.square.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = KIF;
 				PUBLIC_HEADERS_FOLDER_PATH = "$(CONTENTS_FOLDER_PATH)/Headers";
 				SKIP_INSTALL = YES;
@@ -1325,11 +1337,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = (
-					"$(ARCHS_STANDARD)",
-					i386,
-					x86_64,
-				);
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -1367,6 +1374,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.square.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = KIF;
 				PUBLIC_HEADERS_FOLDER_PATH = "$(CONTENTS_FOLDER_PATH)/Headers";
 				SKIP_INSTALL = YES;
@@ -1381,11 +1389,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = (
-					"$(ARCHS_STANDARD)",
-					i386,
-					x86_64,
-				);
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -1423,6 +1426,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.square.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = KIF;
 				PUBLIC_HEADERS_FOLDER_PATH = "$(CONTENTS_FOLDER_PATH)/Headers";
 				SKIP_INSTALL = YES;
@@ -1489,6 +1493,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREFIX_HEADER = "Classes/KIF-Prefix.pch";
@@ -1531,11 +1536,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				DSTROOT = /tmp/KIF.dst;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(PLATFORM_DIR)/Developer/Library/Frameworks";
 				GCC_PREFIX_HEADER = "Classes/KIF-XCTestPrefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					DEBUG,
@@ -1553,11 +1554,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				DSTROOT = /tmp/KIF.dst;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(PLATFORM_DIR)/Developer/Library/Frameworks";
 				GCC_PREFIX_HEADER = "Classes/KIF-XCTestPrefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					DEBUG,
@@ -1575,11 +1572,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				DSTROOT = /tmp/KIF.dst;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(PLATFORM_DIR)/Developer/Library/Frameworks";
 				GCC_PREFIX_HEADER = "Classes/KIF-XCTestPrefix.pch";
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = "-ObjC";
@@ -1618,6 +1611,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.square.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "KIF Tests - XCTest";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
@@ -1656,6 +1650,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.square.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "KIF Tests - XCTest";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
@@ -1687,6 +1682,7 @@
 				INFOPLIST_FILE = "KIF Tests/KIF Tests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.square.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "KIF Tests - XCTest";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				VALIDATE_PRODUCT = YES;
@@ -1719,6 +1715,7 @@
 				INFOPLIST_FILE = "Test Host/Test Host-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.square.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
@@ -1745,6 +1742,7 @@
 				INFOPLIST_FILE = "Test Host/Test Host-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.square.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -1780,6 +1778,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.square.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = octest;
@@ -1808,6 +1807,7 @@
 				INFOPLIST_FILE = "KIF Tests/KIF Tests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.square.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				VALIDATE_PRODUCT = YES;
@@ -1943,6 +1943,7 @@
 				INFOPLIST_FILE = "Test Host/Test Host-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.square.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
@@ -1978,6 +1979,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.square.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = octest;
