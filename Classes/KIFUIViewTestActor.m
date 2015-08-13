@@ -114,9 +114,9 @@
 
 #pragma mark - Waiting
 
-- (void)waitForView;
+- (UIView *)waitForView;
 {
-    [self _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
+   return [self _predicateSearchWithRequiresMatch:YES mustBeTappable:NO].view;
 }
 
 - (void)waitForAbsenceOfView;
@@ -141,10 +141,10 @@
     }];
 }
 
-- (void)waitToBecomeTappable;
+- (UIView *)waitToBecomeTappable;
 
 {
-    [self _predicateSearchWithRequiresMatch:YES mustBeTappable:YES];
+    return [self _predicateSearchWithRequiresMatch:YES mustBeTappable:YES].view;
 }
 
 - (void)waitToBecomeFirstResponder;
