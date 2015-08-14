@@ -60,25 +60,17 @@
         }
     }
     
-    // Enabling the Accessibility Inspector is necessary on iOS 9 because
-    // accessibilityLabel of UI elements will not return a value unless
-    // a feature using accessibility (like VoiceOver, Switch control or the Accessibility inspector) is running
-    NSOperatingSystemVersion iOS9 = {9, 0, 0};
-    if ([NSProcessInfo instancesRespondToSelector:@selector(isOperatingSystemAtLeastVersion:)]
-        && [[NSProcessInfo new] isOperatingSystemAtLeastVersion:iOS9]) {
-        NSString* accessibilitySettingsBundleLocation = @"/System/Library/PreferenceBundles/AccessibilitySettings.bundle/AccessibilitySettings";
-        if (simulatorRoot) {
-            accessibilitySettingsBundleLocation = [simulatorRoot stringByAppendingString:accessibilitySettingsBundleLocation];
-        }
-        const char *accessibilitySettingsBundlePath = [accessibilitySettingsBundleLocation fileSystemRepresentation];
-        void* accessibilitySettingsBundle = dlopen(accessibilitySettingsBundlePath, RTLD_LAZY);
-        if (accessibilitySettingsBundle) {
-            Class axSettingsPrefControllerClass = NSClassFromString(@"AccessibilitySettingsController");
-            id axSettingPrefController = [[axSettingsPrefControllerClass alloc] init];
-            [axSettingPrefController setAXInspectorEnabled:@(YES) specifier:nil];
-        }
+    NSString* accessibilitySettingsBundleLocation = @"/System/Library/PreferenceBundles/AccessibilitySettings.bundle/AccessibilitySettings";
+    if (simulatorRoot) {
+        accessibilitySettingsBundleLocation = [simulatorRoot stringByAppendingString:accessibilitySettingsBundleLocation];
     }
-    
+    const char *accessibilitySettingsBundlePath = [accessibilitySettingsBundleLocation fileSystemRepresentation];
+    void* accessibilitySettingsBundle = dlopen(accessibilitySettingsBundlePath, RTLD_LAZY);
+    if (accessibilitySettingsBundle) {
+        Class axSettingsPrefControllerClass = NSClassFromString(@"AccessibilitySettingsController");
+        id axSettingPrefController = [[axSettingsPrefControllerClass alloc] init];
+        [axSettingPrefController setAXInspectorEnabled:@(YES) specifier:nil];
+    }
 }
 
 - (instancetype)initWithFile:(NSString *)file line:(NSInteger)line delegate:(id<KIFTestActorDelegate>)delegate
