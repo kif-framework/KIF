@@ -96,6 +96,7 @@
 - (void)acknowledgeSystemAlert;
 {
 #if TARGET_IPHONE_SIMULATOR
+    [self.actor waitForTimeInterval:0.25];
     [self.actor acknowledgeSystemAlert];
 #else
     NSLog(@"Cannot acknowledge system alert on an actual device");
