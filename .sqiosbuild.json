@@ -1,16 +1,16 @@
 {
-  "debug-ios7-32bit": {
+  "debug-ios7-64bit": {
     "project":"KIF.xcodeproj",
     "scheme":"KIF",
     "configuration":"Debug",
-    "sim_device_type": "iPad-Retina",
+    "sim_device_type": "iPhone-5s",
     "sim_runtime": "iOS-7"
   },
   "debug-ios8-64bit": {
     "project":"KIF.xcodeproj",
     "scheme":"KIF",
     "configuration":"Debug",
-    "sim_device_type": "iPhone-6",
+    "sim_device_type": "iPad-Air",
     "sim_runtime": "iOS-8"
   }
 }
