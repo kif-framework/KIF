@@ -1,7 +1,7 @@
 # Runs after each time the master branch ref changes
 [build "CI"]
-  template = iOS-Builder-Xcode6-PR-Template
-  build_script = ./sqiosbuild/sqiosbuild.sh --update-dependencies debug-ios7-32bit debug-ios8-64bit
+  template = iOS-Builder-Xcode63-PR-Template
+  build_script = ./sqiosbuild/sqiosbuild.sh --update-dependencies debug-ios7-64bit debug-ios8-64bit
 # Runs each time a PR is opened or updated
 [build "PR"]
   copy_from = CI

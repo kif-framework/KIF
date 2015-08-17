@@ -96,6 +96,7 @@
 - (void)acknowledgeSystemAlert;
 {
 #if TARGET_IPHONE_SIMULATOR
+    [self.actor waitForTimeInterval:0.25];
     [self.actor acknowledgeSystemAlert];
 #else
     NSLog(@"Cannot acknowledge system alert on an actual device");
@@ -114,9 +115,9 @@
 
 #pragma mark - Waiting
 
-- (void)waitForView;
+- (UIView *)waitForView;
 {
-    [self _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
+   return [self _predicateSearchWithRequiresMatch:YES mustBeTappable:NO].view;
 }
 
 - (void)waitForAbsenceOfView;
@@ -141,10 +142,10 @@
     }];
 }
 
-- (void)waitToBecomeTappable;
+- (UIView *)waitToBecomeTappable;
 
 {
-    [self _predicateSearchWithRequiresMatch:YES mustBeTappable:YES];
+    return [self _predicateSearchWithRequiresMatch:YES mustBeTappable:YES].view;
 }
 
 - (void)waitToBecomeFirstResponder;

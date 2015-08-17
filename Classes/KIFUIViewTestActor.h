@@ -32,9 +32,9 @@
 - (void)tapScreenAtPoint:(CGPoint)screenPoint;
 - (void)swipeInDirection:(KIFSwipeDirection)direction;
 
-- (void)waitForView;
+- (UIView *)waitForView;
 - (void)waitForAbsenceOfView;
-- (void)waitToBecomeTappable;
+- (UIView *)waitToBecomeTappable;
 - (void)waitToBecomeFirstResponder;
 
 - (BOOL)tryFindingView;
