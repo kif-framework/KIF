@@ -23,6 +23,7 @@
 {
     [system simulateDeviceRotationToOrientation:UIDeviceOrientationPortrait];
     [viewTester waitForTimeInterval:0.5];
+    [[viewTester usingIdentifier:@"Test Suite TableView"] scrollByFractionOfSizeHorizontal:0 vertical:0.2];
 }
 
 - (void)beforeEach
