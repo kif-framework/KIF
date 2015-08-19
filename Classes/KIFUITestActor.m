@@ -788,6 +788,7 @@
 
 - (void)acknowledgeSystemAlert
 {
+    [self waitForTimeInterval:0.25];
     [UIAutomationHelper acknowledgeSystemAlert];
 }
 #endif
