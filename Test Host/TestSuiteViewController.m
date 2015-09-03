@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface TestSuiteViewController : UITableViewController
+@interface TestSuiteViewController : UITableViewController <UIActionSheetDelegate>
 @end
 
 @implementation TestSuiteViewController
@@ -33,7 +33,7 @@
 
         case 2:
         {
-            [[[UIActionSheet alloc] initWithTitle:@"Action Sheet" delegate:nil cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Destroy" otherButtonTitles:@"A", @"B", nil] showInView:tableView];
+            [[[UIActionSheet alloc] initWithTitle:@"Action Sheet" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Destroy" otherButtonTitles:@"A", @"B", nil] showInView:tableView];
             break;
         }
 
@@ -47,6 +47,13 @@
             break;
         }
     }
+}
+
+#pragma mark - UIActionSheetDelegate
+
+- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    [[[UIAlertView alloc] initWithTitle:@"Alert View" message:@"Message" delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:@"Continue", nil] show];
 }
 
 @end
