@@ -75,6 +75,14 @@
     [tester enterText:@", world\n" intoViewWithAccessibilityLabel:@"Greeting" traits:UIAccessibilityTraitNone expectedResult:@"Hello, world"];
 }
 
+- (void)testEnteringEmijoCharacterIntoViewWithAccessibilityLabel
+{
+	NSString *text = @" 😓He😤ll👿o";
+	[tester clearTextFromAndThenEnterText:text intoViewWithAccessibilityLabel:@"Greeting"];
+	UITextField * tf = (UITextField*)[tester waitForViewWithAccessibilityLabel:@"Greeting"];
+	XCTAssertTrue([tf.text isEqualToString:text]);
+}
+
 - (void)testClearingALongTextField
 {
     [tester clearTextFromAndThenEnterText:@"A man, a plan, a canal, Panama.  Able was I, ere I saw Elba." intoViewWithAccessibilityLabel:@"Greeting"];
