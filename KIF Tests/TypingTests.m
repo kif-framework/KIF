@@ -75,7 +75,7 @@
     [tester enterText:@", world\n" intoViewWithAccessibilityLabel:@"Greeting" traits:UIAccessibilityTraitNone expectedResult:@"Hello, world"];
 }
 
-- (void)testEnteringEmijoCharacterIntoViewWithAccessibilityLabel
+- (void)testEnteringEmojiCharactersIntoViewWithAccessibilityLabel
 {
 	NSString *text = @" 😓He😤ll👿o";
 	[tester clearTextFromAndThenEnterText:text intoViewWithAccessibilityLabel:@"Greeting"];
