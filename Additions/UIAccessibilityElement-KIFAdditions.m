@@ -129,7 +129,7 @@ MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
         if ([superview isKindOfClass:[UIScrollView class]]) {
             UIScrollView *scrollView = (UIScrollView *)superview;
             
-            if (((UIAccessibilityElement *)view == element) && ![view isKindOfClass:[UITableViewCell class]]) {
+            if (((UIAccessibilityElement *)view == element) && ![view isKindOfClass:[UITableViewCell class]] && [view.superview isEqual:superview]) {
                 [scrollView scrollViewToVisible:view animated:YES];
             } else {
                 CGRect elementFrame = [view.window convertRect:element.accessibilityFrame toView:scrollView];
