@@ -14,7 +14,6 @@
 
 #define SIG(class, selector) [class instanceMethodSignatureForSelector:selector]
 
-
 @implementation KIFTestCase
 {
     NSException *_stoppingException;
@@ -39,11 +38,7 @@ NSComparisonResult selectorSort(NSInvocation *invocOne, NSInvocation *invocTwo, 
         return nil;
     }
 
-#ifndef KIF_SENTEST
     self.continueAfterFailure = NO;
-#else
-    [self raiseAfterFailure];
-#endif
     return self;
 }
 
@@ -51,8 +46,6 @@ NSComparisonResult selectorSort(NSInvocation *invocOne, NSInvocation *invocTwo, 
 - (void)afterEach  { }
 - (void)beforeAll  { }
 - (void)afterAll   { }
-
-#ifndef KIF_SENTEST
 
 NSComparisonResult selectorSort(NSInvocation *invocOne, NSInvocation *invocTwo, void *reverse) {
     
@@ -92,33 +85,6 @@ NSComparisonResult selectorSort(NSInvocation *invocOne, NSInvocation *invocTwo, 
         [testCase->_stoppingException raise];
     }
 }
-
-#else
-
-+ (NSArray *)testInvocations;
-{
-    if (self == [KIFTestCase class]) {
-        return nil;
-    }
-    
-    NSMutableArray *testInvocations = [NSMutableArray arrayWithArray:[super testInvocations]];
-    
-    if ([self instancesRespondToSelector:@selector(beforeAll)]) {
-        NSInvocation *beforeAll = [NSInvocation invocationWithMethodSignature:SIG(self, @selector(beforeAll))];
-        beforeAll.selector = @selector(beforeAll);
-        [testInvocations insertObject:beforeAll atIndex:0];
-    }
-    
-    if ([self instancesRespondToSelector:@selector(afterAll)]) {
-        NSInvocation *afterAll = [NSInvocation invocationWithMethodSignature:SIG(self, @selector(afterAll))];
-        afterAll.selector = @selector(afterAll);
-        [testInvocations addObject:afterAll];
-    }
-    
-    return testInvocations;
-}
-
-#endif
 
 - (void)setUp;
 {

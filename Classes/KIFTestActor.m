@@ -7,13 +7,8 @@
 //  See the LICENSE file distributed with this work for the terms under
 //  which Square, Inc. licenses this file to you.
 
-#ifndef KIF_SENTEST
 #import <XCTest/XCTest.h>
 #import "NSException-KIFAdditions.h"
-#else
-#import <SenTestingKit/SenTestingKit.h>
-#endif
-
 #import "KIFTestActor.h"
 #import "NSError-KIFAdditions.h"
 #import <dlfcn.h>

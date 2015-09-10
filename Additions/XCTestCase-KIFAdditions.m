@@ -62,11 +62,7 @@ static inline void Swizzle(Class c, SEL orig, SEL new)
 
 - (void)writeScreenshotForException:(NSException *)exception;
 {
-#ifndef KIF_SENTEST
     [[UIApplication sharedApplication] writeScreenshotForLine:[exception.userInfo[@"SenTestLineNumberKey"] unsignedIntegerValue] inFile:exception.userInfo[@"SenTestFilenameKey"] description:nil error:NULL];
-#else
-    [[UIApplication sharedApplication] writeScreenshotForLine:exception.lineNumber.unsignedIntegerValue inFile:exception.filename description:nil error:NULL];
-#endif
 }
 
 @end

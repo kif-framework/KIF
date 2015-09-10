@@ -8,26 +8,12 @@
 
 #import <KIF/KIF.h>
 
-#ifndef KIF_SENTEST
-
 #define KIFAssertEqual XCTAssertEqual
 #define KIFAssertEqualObjects XCTAssertEqualObjects
 #define KIFAssertTrue XCTAssertTrue
 #define KIFAssertFalse XCTAssertFalse
 
 @interface SystemTests : XCTestCase
-
-#else
-
-#define KIFAssertEqual STAssertEquals
-#define KIFAssertEqualObjects STAssertEqualObjects
-#define KIFAssertTrue STAssertTrue
-#define KIFAssertFalse STAssertFalse
-
-@interface SystemTests : SenTestCase
-
-#endif
-
 
 @end
 
