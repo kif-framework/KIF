@@ -21,8 +21,8 @@
 
     return [NSException exceptionWithName:@"KIFFailureException"
                                    reason: reason
-                                 userInfo:@{@"SenTestFilenameKey": file,
-                                            @"SenTestLineNumberKey": @(line)}];
+                                 userInfo:@{@"FilenameKey": file,
+                                            @"LineNumberKey": @(line)}];
 }
 
 @end
