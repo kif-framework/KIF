@@ -7,14 +7,20 @@ Pod::Spec.new do |s|
   s.authors                 = 'Eric Firestone', 'Jim Puls', 'Brian Nickel'
   s.source                  = { :git => "https://github.com/kif-framework/KIF.git", :tag => "v3.3.0" }
   s.platform                = :ios, '5.1'
-  s.requires_arc            = true
-  s.source_files            = 'Classes', 'Additions'
   s.frameworks              = 'CoreGraphics', 'IOKit', 'XCTest'
-  s.xcconfig                = { 'FRAMEWORK_SEARCH_PATHS' => '$(PLATFORM_DIR)/Developer/Library/Frameworks' }
-  s.public_header_files     = 'Classes/**/*.h', 'Additions/**/*-KIFAdditions.h', 'Additions/UIView-Debugging.h'
+  s.default_subspec         = 'Core'
+  s.requires_arc            = true
   s.prefix_header_contents  = '#import <CoreGraphics/CoreGraphics.h>'
 
+  s.subspec 'Core' do |core|
+    core.source_files         = 'Classes', 'Additions'
+    core.public_header_files  = 'Classes/**/*.h', 'Additions/**/*-KIFAdditions.h', 'Additions/UIView-Debugging.h'
+    core.xcconfig             = { 'FRAMEWORK_SEARCH_PATHS' => '$(PLATFORM_DIR)/Developer/Library/Frameworks' }
+    core.requires_arc         = true
+  end
+
   s.subspec 'IdentifierTests' do |kiaf|
+    kiaf.dependency 'KIF/Core'
     kiaf.source_files        = 'IdentifierTests'
     kiaf.public_header_files = 'IdentifierTests/**/*.h'
     kiaf.requires_arc        = true
