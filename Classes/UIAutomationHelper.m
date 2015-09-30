@@ -7,11 +7,21 @@
 //
 
 #import "UIAutomationHelper.h"
-#include <dlfcn.h>
+#import <dlfcn.h>
+#import <objc/runtime.h>
 #import <UIView-KIFAdditions.h>
 
 @interface UIAElement : NSObject <NSCopying>
 - (void)tap;
+- (NSNumber *)pid;
+@end
+
+@interface UIAXElement : NSObject
+- (BOOL)isValid;
+@end
+
+@interface UIAElementArray : NSArray
+- (id)firstWithPredicate:(id)predicate;
 @end
 
 @interface UIAAlert : UIAElement
@@ -22,6 +32,8 @@
 
 @interface UIAApplication : UIAElement
 - (UIAAlert *)alert;
+- (NSString *)name;
+- (id)appItemScrollView;
 @end
 
 @interface UIATarget : UIAElement
@@ -35,6 +47,47 @@
 @end
 
 @implementation UIAutomationHelper
+
+static UIAApplication * (*frontMostAppIMP)(id, SEL);
+static id (*firstWithPredicateIMP)(id, SEL, id);
+
+static UIAApplication * KIF_frontMostApp(id self, SEL _cmd)
+{
+    UIAApplication *frontMostApp = frontMostAppIMP(self, _cmd);
+    if (![frontMostApp name] && [@(getpid()) isEqual:[frontMostApp pid]]) {
+        NSBundle *mainBundle = [NSBundle mainBundle];
+        NSString *appName = [mainBundle objectForInfoDictionaryKey:@"CFBundleDisplayName"] ?: [mainBundle objectForInfoDictionaryKey:@"CFBundleName"];
+        [frontMostApp setValue:appName forKey:@"name"];
+    }
+    return frontMostApp;
+}
+
+static id KIF_firstWithPredicate(id self, SEL _cmd, id predicate)
+{
+    NSArray *callStackSymbols = [NSThread callStackSymbols];
+    if (callStackSymbols.count > 1 && [callStackSymbols[1] containsString:@"-[UIATarget reactivateApp]"]) {
+        id firstWithPredicate = firstWithPredicateIMP(self, _cmd, predicate);
+        // -[UIATarget reactivateApp] was not rewritten for the new iOS 9 app switcher
+        return [firstWithPredicate isValid] ? firstWithPredicate : [[[[UIAutomationHelper sharedHelper] target] frontMostApp] appItemScrollView];
+    } else {
+        return firstWithPredicateIMP(self, _cmd, predicate);
+    }
+}
+
+static void FixReactivateApp(void)
+{
+    NSProcessInfo *processInfo = [NSProcessInfo processInfo];
+    if ([processInfo respondsToSelector:@selector(isOperatingSystemAtLeastVersion:)] && [processInfo isOperatingSystemAtLeastVersion:(NSOperatingSystemVersion){9, 0, 0}]) {
+        // Workaround bug in iOS 9: https://github.com/kif-framework/KIF/issues/703
+        Method frontMostApp = class_getInstanceMethod(objc_lookUpClass("UIATarget"), @selector(frontMostApp));
+        frontMostAppIMP = (__typeof__(frontMostAppIMP))method_getImplementation(frontMostApp);
+        method_setImplementation(frontMostApp, (IMP)KIF_frontMostApp);
+        
+        Method firstWithPredicate = class_getInstanceMethod(objc_lookUpClass("UIAElementArray"), @selector(firstWithPredicate:));
+        firstWithPredicateIMP = (__typeof__(firstWithPredicateIMP))method_getImplementation(firstWithPredicate);
+        method_setImplementation(firstWithPredicate, (IMP)KIF_firstWithPredicate);
+    }
+}
 
 + (UIAutomationHelper *)sharedHelper
 {
@@ -74,6 +127,7 @@
 
 - (void)linkAutomationFramework {
     dlopen([@"/Developer/Library/PrivateFrameworks/UIAutomation.framework/UIAutomation" fileSystemRepresentation], RTLD_LOCAL);
+    FixReactivateApp();
 
     // Keep trying until the accessibility server starts up (it takes a little while on iOS 7)
     UIATarget *target = nil;
