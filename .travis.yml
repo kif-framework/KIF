@@ -1,6 +1,16 @@
 language: objective-c
-osx_image: xcode61
-sudo: false
+osx_image: xcode7
+env:
+  matrix:
+    - 'DESTINATION="platform=iOS Simulator,name=iPhone 6,OS=8.4"'
+    - 'DESTINATION="platform=iOS Simulator,name=iPhone 6,OS=9.0"'
 
+before_install:
+  - xcrun simctl list
+  - brew update
+install:
+  - brew install coreutils
+  - gem install xcpretty --no-rdoc --no-ri --no-document --quiet
 script:
-- xcodebuild -scheme KIF -destination 'platform=iOS Simulator,name=iPhone 6,OS=8.1' test
+  - open -b com.apple.iphonesimulator # Workaround https://github.com/travis-ci/travis-ci/issues/3040
+  - gstdbuf -o 0 xcodebuild test -scheme KIF -destination "${DESTINATION}" | xcpretty -c && exit ${PIPESTATUS[0]}
