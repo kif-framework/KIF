@@ -87,6 +87,10 @@
 		AE62FCD61A1D2447002B10DA /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE62FCD51A1D2447002B10DA /* WebViewController.m */; };
 		AE62FCD81A1D2667002B10DA /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = AE62FCD71A1D2667002B10DA /* index.html */; };
 		AE62FCDA1A1D26BB002B10DA /* page2.html in Resources */ = {isa = PBXBuildFile; fileRef = AE62FCD91A1D26BB002B10DA /* page2.html */; };
+		BD6A1CA11BCE8DD000EF07D2 /* KIFAccessibilityEnabler.h in Headers */ = {isa = PBXBuildFile; fileRef = BD6A1C9F1BCE8DD000EF07D2 /* KIFAccessibilityEnabler.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BD6A1CA21BCE8DD000EF07D2 /* KIFAccessibilityEnabler.h in Headers */ = {isa = PBXBuildFile; fileRef = BD6A1C9F1BCE8DD000EF07D2 /* KIFAccessibilityEnabler.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		BD6A1CA31BCE8DD000EF07D2 /* KIFAccessibilityEnabler.m in Sources */ = {isa = PBXBuildFile; fileRef = BD6A1CA01BCE8DD000EF07D2 /* KIFAccessibilityEnabler.m */; settings = {ASSET_TAGS = (); }; };
+		BD6A1CA41BCE8DD000EF07D2 /* KIFAccessibilityEnabler.m in Sources */ = {isa = PBXBuildFile; fileRef = BD6A1CA01BCE8DD000EF07D2 /* KIFAccessibilityEnabler.m */; settings = {ASSET_TAGS = (); }; };
 		D927B9DC18F9DF2D00DAD036 /* TableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D927B9DB18F9DF2D00DAD036 /* TableViewController.m */; };
 		D927B9DF18F9E46400DAD036 /* UITableView-KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = D927B9DD18F9E46400DAD036 /* UITableView-KIFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D927B9E018F9E46400DAD036 /* UITableView-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D927B9DE18F9E46400DAD036 /* UITableView-KIFAdditions.m */; };
@@ -238,6 +242,8 @@
 		AE62FCD51A1D2447002B10DA /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
 		AE62FCD71A1D2667002B10DA /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		AE62FCD91A1D26BB002B10DA /* page2.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = page2.html; sourceTree = "<group>"; };
+		BD6A1C9F1BCE8DD000EF07D2 /* KIFAccessibilityEnabler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KIFAccessibilityEnabler.h; sourceTree = "<group>"; };
+		BD6A1CA01BCE8DD000EF07D2 /* KIFAccessibilityEnabler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KIFAccessibilityEnabler.m; sourceTree = "<group>"; };
 		C194255615D83DE9004FC314 /* KIFTypist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KIFTypist.h; sourceTree = "<group>"; };
 		C194255715D83DE9004FC314 /* KIFTypist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KIFTypist.m; sourceTree = "<group>"; };
 		CDFD8E84139728B4008D299F /* NSFileManager-KIFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFileManager-KIFAdditions.h"; sourceTree = "<group>"; };
@@ -451,6 +457,8 @@
 				EABD46D31857BE8600A5F081 /* KIF-XCTestPrefix.pch */,
 				84D293B91A2CC30B00C10944 /* UIAutomationHelper.h */,
 				84D293BA1A2CC30B00C10944 /* UIAutomationHelper.m */,
+				BD6A1C9F1BCE8DD000EF07D2 /* KIFAccessibilityEnabler.h */,
+				BD6A1CA01BCE8DD000EF07D2 /* KIFAccessibilityEnabler.m */,
 				0EAA1C111B4B371700FFB2FB /* IOHIDEvent+KIF.h */,
 				0EAA1C121B4B371700FFB2FB /* IOHIDEvent+KIF.m */,
 			);
@@ -623,6 +631,7 @@
 				9CC967591AD4B1F100576D13 /* NSFileManager-KIFAdditions.h in Headers */,
 				9CC9675B1AD4B1F100576D13 /* UIAccessibilityElement-KIFAdditions.h in Headers */,
 				0EAA1C171B4B372700FFB2FB /* IOHIDEvent+KIF.h in Headers */,
+				BD6A1CA21BCE8DD000EF07D2 /* KIFAccessibilityEnabler.h in Headers */,
 				9CC9675D1AD4B1F100576D13 /* UIApplication-KIFAdditions.h in Headers */,
 				9CC9675F1AD4B1F100576D13 /* UIScrollView-KIFAdditions.h in Headers */,
 				9CC967731AD4B1FF00576D13 /* KIFSystemTestActor.h in Headers */,
@@ -675,6 +684,7 @@
 				EABD46961857A0C700A5F081 /* XCTestCase-KIFAdditions.h in Headers */,
 				84D293BB1A2CC30B00C10944 /* UIAutomationHelper.h in Headers */,
 				E977D1071AA4062B005645BF /* UIEvent+KIFAdditions.h in Headers */,
+				BD6A1CA11BCE8DD000EF07D2 /* KIFAccessibilityEnabler.h in Headers */,
 				EABD46A21857A0C700A5F081 /* NSError-KIFAdditions.h in Headers */,
 				EABD46A31857A0C700A5F081 /* KIFTestStepValidation.h in Headers */,
 				3ADD25CC71BF27D675768787 /* UIView-Debugging.h in Headers */,
@@ -869,6 +879,7 @@
 				9CC967CB1AD4B58C00576D13 /* NSException-KIFAdditions.m in Sources */,
 				9CC967CC1AD4B58C00576D13 /* UIEvent+KIFAdditions.m in Sources */,
 				5C877DD21B0A8B93006A3AC6 /* UIView-Debugging.m in Sources */,
+				BD6A1CA41BCE8DD000EF07D2 /* KIFAccessibilityEnabler.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -901,6 +912,7 @@
 				EABD468A1857A0C700A5F081 /* NSError-KIFAdditions.m in Sources */,
 				EABD468B1857A0C700A5F081 /* KIFTestStepValidation.m in Sources */,
 				4D2FD4EE1AF5936700E61192 /* UIView-Debugging.m in Sources */,
+				BD6A1CA31BCE8DD000EF07D2 /* KIFAccessibilityEnabler.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

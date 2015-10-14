@@ -16,55 +16,13 @@
 #import "UIApplication-KIFAdditions.h"
 #import "UIView-KIFAdditions.h"
 
-@interface AccessibilitySettingsController
-- (void)setAXInspectorEnabled:(NSNumber*)enabled specifier:(id)specifier;
-@end
-
-
 @implementation KIFTestActor
 
 + (void)load
 {
     @autoreleasepool {
         NSLog(@"KIFTester loaded");
-        [KIFTestActor _enableAccessibility];
         [UIApplication swizzleRunLoop];
-    }
-}
-
-+ (void)_enableAccessibility;
-{
-    NSDictionary *environment = [[NSProcessInfo processInfo] environment];
-    NSString *simulatorRoot = [environment objectForKey:@"IPHONE_SIMULATOR_ROOT"];
-    
-    NSString *appSupportLocation = @"/System/Library/PrivateFrameworks/AppSupport.framework/AppSupport";
-    if (simulatorRoot) {
-        appSupportLocation = [simulatorRoot stringByAppendingString:appSupportLocation];
-    }
-    
-    void *appSupportLibrary = dlopen([appSupportLocation fileSystemRepresentation], RTLD_LAZY);
-    
-    CFStringRef (*copySharedResourcesPreferencesDomainForDomain)(CFStringRef domain) = dlsym(appSupportLibrary, "CPCopySharedResourcesPreferencesDomainForDomain");
-    
-    if (copySharedResourcesPreferencesDomainForDomain) {
-        CFStringRef accessibilityDomain = copySharedResourcesPreferencesDomainForDomain(CFSTR("com.apple.Accessibility"));
-        
-        if (accessibilityDomain) {
-            CFPreferencesSetValue(CFSTR("ApplicationAccessibilityEnabled"), kCFBooleanTrue, accessibilityDomain, kCFPreferencesAnyUser, kCFPreferencesAnyHost);
-            CFRelease(accessibilityDomain);
-        }
-    }
-    
-    NSString* accessibilitySettingsBundleLocation = @"/System/Library/PreferenceBundles/AccessibilitySettings.bundle/AccessibilitySettings";
-    if (simulatorRoot) {
-        accessibilitySettingsBundleLocation = [simulatorRoot stringByAppendingString:accessibilitySettingsBundleLocation];
-    }
-    const char *accessibilitySettingsBundlePath = [accessibilitySettingsBundleLocation fileSystemRepresentation];
-    void* accessibilitySettingsBundle = dlopen(accessibilitySettingsBundlePath, RTLD_LAZY);
-    if (accessibilitySettingsBundle) {
-        Class axSettingsPrefControllerClass = NSClassFromString(@"AccessibilitySettingsController");
-        id axSettingPrefController = [[axSettingsPrefControllerClass alloc] init];
-        [axSettingPrefController setAXInspectorEnabled:@(YES) specifier:nil];
     }
 }
 
