@@ -10,6 +10,18 @@
 #import <XCTest/XCTest.h>
 #import <dlfcn.h>
 
+
+#if __IPHONE_OS_VERSION_MAX_ALLOWED < 90000
+@protocol XCTestObservation <NSObject>
+@end
+
+@interface XCTestObservationCenter : NSObject
++ (XCTestObservationCenter *)sharedTestObservationCenter;
+- (void)addTestObserver:(id <XCTestObservation>)testObserver;
+@end
+#endif
+
+
 @interface AccessibilitySettingsController
 - (void)setAXInspectorEnabled:(NSNumber*)enabled specifier:(id)specifier;
 - (NSNumber *)AXInspectorEnabled:(id)specifier;
@@ -29,8 +41,10 @@
 + (void)load
 {
     @autoreleasepool {
-        XCTestObservationCenter *observationCenter = [XCTestObservationCenter sharedTestObservationCenter];
-        [observationCenter addTestObserver:[self sharedAccessibilityEnabler]];
+        if ([XCTestObservationCenter respondsToSelector:@selector(sharedTestObservationCenter)]) {
+            XCTestObservationCenter *observationCenter = [XCTestObservationCenter sharedTestObservationCenter];
+            [observationCenter addTestObserver:[self sharedAccessibilityEnabler]];
+        }
     }
 }
 
