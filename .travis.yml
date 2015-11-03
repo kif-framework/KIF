@@ -7,7 +7,7 @@ env:
 
 before_install:
   - xcrun simctl list
-  - brew update
+  - brew update || brew update
 install:
   - brew install coreutils
   - gem install xcpretty --no-rdoc --no-ri --no-document --quiet
