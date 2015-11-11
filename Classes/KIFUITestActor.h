@@ -205,6 +205,13 @@ static inline KIFDisplacement KIFDisplacementForSwipingInDirection(KIFSwipeDirec
 - (void)waitForAccessibilityElement:(UIAccessibilityElement **)element view:(out UIView **)view withElementMatchingPredicate:(NSPredicate *)predicate tappable:(BOOL)mustBeTappable;
 
 /*!
+ @abstract Waits until an accessibility element is no longer present.
+ @discussion The accessibility element matching the given predicate is found in the view hierarchy. If the element is found, then the step will attempt to wait until it isn't. Note that the associated view does not necessarily have to be visible on the screen, and may be behind another view or offscreen. Views with their hidden property set to YES are considered absent.
+ @param predicate The predicate to match.
+ */
+- (void)waitForAbsenceOfViewWithElementMatchingPredicate:(NSPredicate *)predicate;
+
+/*!
  @abstract Tries to guess if there are any unfinished animations and waits for a certain amount of time to let them finish.
  */
 - (void)waitForAnimationsToFinish;
