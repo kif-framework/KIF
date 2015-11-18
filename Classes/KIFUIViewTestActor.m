@@ -72,7 +72,7 @@
 
 - (instancetype)usingIdentifier:(NSString *)accessibilityIdentifier;
 {
-    return [self usingPredicate:[NSPredicate predicateWithFormat:@"accessibilityIdentifier.string MATCHES %@", accessibilityIdentifier]];
+    return [self usingPredicate:[NSPredicate predicateWithFormat:@"accessibilityIdentifier = %@", accessibilityIdentifier]];
 }
 
 - (instancetype)usingTraits:(UIAccessibilityTraits)traits;
