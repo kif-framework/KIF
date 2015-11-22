@@ -832,6 +832,51 @@
     [viewToSwipe dragFromPoint:swipeStart displacement:swipeDisplacement steps:kNumberOfPointsInSwipePath];
 }
 
+- (void)pullToRefreshViewWithAccessibilityLabel:(NSString *)label
+{
+	[self pullToRefreshViewWithAccessibilityLabel:label value:nil pullDownDuration:nil traits:UIAccessibilityTraitNone];
+}
+
+- (void)pullToRefreshViewWithAccessibilityLabel:(NSString *)label pullDownDuration:(KIFPullToRefreshTiming) pullDownDuration
+{
+	[self pullToRefreshViewWithAccessibilityLabel:label value:nil pullDownDuration: pullDownDuration traits:UIAccessibilityTraitNone];
+}
+
+- (void)pullToRefreshViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value
+{
+	[self pullToRefreshViewWithAccessibilityLabel:label value:value pullDownDuration: nil traits:UIAccessibilityTraitNone];
+}
+
+- (void)pullToRefreshViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value pullDownDuration:(KIFPullToRefreshTiming) pullDownDuration traits:(UIAccessibilityTraits)traits
+{
+	UIView *viewToSwipe = nil;
+	UIAccessibilityElement *element = nil;
+
+	[self waitForAccessibilityElement:&element view:&viewToSwipe withLabel:label value:value traits:traits tappable:YES];
+
+	[self pullToRefreshAccessibilityElement:element inView:viewToSwipe pullDownDuration:pullDownDuration];
+}
+
+- (void)pullToRefreshAccessibilityElement:(UIAccessibilityElement *)element inView:(UIView *)viewToSwipe pullDownDuration:(KIFPullToRefreshTiming) pullDownDuration
+{
+	//Based on swipeAccessibilityElement
+
+	const NSUInteger kNumberOfPointsInSwipePath = pullDownDuration ? pullDownDuration : KIFPullToRefreshInAboutAHalfSecond;
+
+	// Within this method, all geometry is done in the coordinate system of the view to swipe.
+
+	CGFloat height = [(UITableView *)viewToSwipe contentSize].height;
+	CGFloat	width = [(UITableView *)viewToSwipe contentSize].width;
+	CGRect elementFrame = CGRectMake(0,0, width, height);
+
+	CGFloat halfHeight = height/2.0;
+	CGPoint swipeDisplacement = CGPointMake(width, halfHeight);
+
+	CGPoint swipeStart = CGPointCenteredInRect(elementFrame);
+
+	[viewToSwipe dragFromPoint:swipeStart displacement:swipeDisplacement steps:kNumberOfPointsInSwipePath];
+}
+
 - (void)scrollViewWithAccessibilityLabel:(NSString *)label byFractionOfSizeHorizontal:(CGFloat)horizontalFraction vertical:(CGFloat)verticalFraction
 {
     UIView *viewToScroll;

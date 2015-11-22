@@ -212,6 +212,26 @@
     [self swipeAccessibilityElement:element inView:viewToSwipe inDirection:direction];
 }
 
+- (void)pullToRefreshViewWithAccessibilityIdentifier:(NSString *)identifier
+{
+	UIView *viewToSwipe = nil;
+	UIAccessibilityElement *element = nil;
+
+	[self waitForAccessibilityElement: &element view:&viewToSwipe withIdentifier:identifier tappable:NO];
+
+	[self pullToRefreshAccessibilityElement:element inView:viewToSwipe pullDownDuration:nil];
+}
+
+- (void)pullToRefreshViewWithAccessibilityIdentifier:(NSString *)identifier pullDownDuration:(KIFPullToRefreshTiming) pullDownDuration
+{
+	UIView *viewToSwipe = nil;
+	UIAccessibilityElement *element = nil;
+
+	[self waitForAccessibilityElement: &element view:&viewToSwipe withIdentifier:identifier tappable:NO];
+
+	[self pullToRefreshAccessibilityElement:element inView:viewToSwipe pullDownDuration:pullDownDuration];
+}
+
 -(void) tapStepperWithAccessibilityIdentifier: (NSString *)accessibilityIdentifier increment: (KIFStepperDirection) stepperDirection
 {
 	@autoreleasepool {

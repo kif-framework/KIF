@@ -50,6 +50,22 @@ typedef NS_ENUM(NSUInteger, KIFStepperDirection) {
 	KIFStepperDirectionDecrement
 };
 
+/*!
+ @enum KIFPullToRefreshTiming
+ @discussion The approximate time in which the pull to refresh travels downward.
+ @abstract Timing in which to perform the pull down before release.
+ @constant KIFPullToRefreshInAboutAHalfSecond about half a second
+ @constant KIFPullToRefreshInAboutOneSecond about one second
+ @constant KIFPullToRefreshInAboutTwoSeconds about two seconds
+ @constant KIFPullToRefreshInAboutThreeSeconds about three seconds.
+ */
+typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
+	KIFPullToRefreshInAboutAHalfSecond = 20, //faster
+	KIFPullToRefreshInAboutOneSecond = 100,
+	KIFPullToRefreshInAboutTwoSeconds = 150,
+	KIFPullToRefreshInAboutThreeSeconds = 200, //slower
+};
+
 #define kKIFMajorSwipeDisplacement 200
 #define kKIFMinorSwipeDisplacement 5
 
@@ -475,6 +491,31 @@ static inline KIFDisplacement KIFDisplacementForSwipingInDirection(KIFSwipeDirec
  @param viewToSwipe The view containing the accessibility element.
  */
 - (void)swipeAccessibilityElement:(UIAccessibilityElement *)element inView:(UIView *)viewToSwipe inDirection:(KIFSwipeDirection)direction;
+
+/*!
+ @abstract Pulls down on the view that enables the pull to refresh.
+ @discussion This will enact the pull to refresh by pulling down the distance of 1/2 the height of the view found by the accessibility label.
+ @param label The accessibility label of the view to swipe.
+ @param pullDownDuration The enum describing the approximate time for the pull down to travel the entire distance
+ */
+- (void)pullToRefreshViewWithAccessibilityLabel:(NSString *)label pullDownDuration:(KIFPullToRefreshTiming) pullDownDuration;
+
+/*!
+ @abstract Pulls down on the view that enables the pull to refresh.
+ @discussion This will enact the pull to refresh by pulling down the distance of 1/2 the height of the view found by the accessibility label.
+ @param label The accessibility label of the view to swipe.
+ @param value The accessibility value of the view to swipe.
+ */
+- (void)pullToRefreshViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value;
+
+/*!
+ @abstract Pulls down on the view that enables the pull to refresh.
+ @discussion This will enact the pull to refresh by pulling down the distance of 1/2 the height of the view found by the accessibility label.
+ @param element The accessibility element to perform the pull down on.
+ @param viewToSwipe The view containing the accessibility element.
+ @param pullDownDuration The enum describing the approximate time for the pull down to travel the entire distance
+ */
+- (void)pullToRefreshAccessibilityElement:(UIAccessibilityElement *)element inView:(UIView *)viewToSwipe pullDownDuration:(KIFPullToRefreshTiming) pullDownDuration;
 
 /*!
  @abstract Scrolls a particular view in the view hierarchy by an amount indicated as a fraction of its size.

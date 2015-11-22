@@ -13,6 +13,37 @@
 
 @implementation TestSuiteViewController
 
+-(void) viewDidLoad
+{
+	[super viewDidLoad];
+
+	//set up an accessibility label on the table.
+	self.tableView.isAccessibilityElement = NO;
+	self.tableView.accessibilityLabel = @"Table View";
+
+	//set up the pull to refresh with handler.
+}
+
+- (void) setupRefreshControl
+{
+	self.refreshControl = [[UIRefreshControl alloc] init];
+	self.refreshControl.backgroundColor = [UIColor grayColor];
+	self.refreshControl.tintColor = [UIColor whiteColor];
+	[self.refreshControl addTarget:self
+							action:@selector(pullToRefreshHandler)
+				  forControlEvents:UIControlEventValueChanged];
+	self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"Refreshing...", @"") attributes:nil];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+	[super viewDidAppear:animated];
+
+	dispatch_async(dispatch_get_main_queue(), ^{
+		[self setupRefreshControl];
+	});
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section != 1) {
@@ -49,6 +80,13 @@
     }
 }
 
+-(void)pullToRefreshHandler
+{
+	self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"Bingo!", @"") attributes:nil];
+	[self.refreshControl performSelector: @selector(endRefreshing) withObject: nil afterDelay: 4.0f];
+	[self performSelector: @selector(endedRefreshing) withObject: nil afterDelay: 4.5f]; //just a little hacky
+}
+
 #pragma mark - UIActionSheetDelegate
 
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
@@ -56,4 +94,8 @@
     [[[UIAlertView alloc] initWithTitle:@"Alert View" message:@"Message" delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:@"Continue", nil] show];
 }
 
+- (void) endedRefreshing
+{
+	self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"Refreshing...", @"") attributes:nil];
+}
 @end
