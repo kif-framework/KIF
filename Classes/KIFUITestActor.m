@@ -118,7 +118,7 @@
         KIFTestWaitCondition(view, error, @"Cannot find view containing accessibility element with the label \"%@\"", label);
 
         // Hidden views count as absent
-        KIFTestWaitCondition([view isHidden] || [view superview] == nil, error, @"Accessibility element with label \"%@\" is visible and not hidden.", label);
+        KIFTestWaitCondition([view isHidden] || [view superview] == nil, error, @"Accessibility element %@ with label \"%@\" is visible and not hidden.", view, label);
         
         return KIFTestStepResultSuccess;
     }];
@@ -190,7 +190,7 @@
 {
     [self runBlock:^KIFTestStepResult(NSError **error) {
         
-        KIFTestWaitCondition(view.isUserInteractionActuallyEnabled, error, @"View is not enabled for interaction");
+        KIFTestWaitCondition(view.isUserInteractionActuallyEnabled, error, @"View is not enabled for interaction: %@", view);
         
         // If the accessibilityFrame is not set, fallback to the view frame.
         CGRect elementFrame;
@@ -203,7 +203,7 @@
         CGPoint tappablePointInElement = [view tappablePointInRect:elementFrame];
         
         // This is mostly redundant of the test in _accessibilityElementWithLabel:
-        KIFTestWaitCondition(!isnan(tappablePointInElement.x), error, @"View is not tappable");
+        KIFTestWaitCondition(!isnan(tappablePointInElement.x), error, @"View is not tappable: %@", view);
         
         NSOperatingSystemVersion iOS9 = {9, 0, 0};
         BOOL isOperatingSystemAtLeastVersion9 = [NSProcessInfo instancesRespondToSelector:@selector(isOperatingSystemAtLeastVersion:)] && [[NSProcessInfo new] isOperatingSystemAtLeastVersion:iOS9];
@@ -213,7 +213,7 @@
             [view tapAtPoint:tappablePointInElement];
         }
 
-        KIFTestCondition(![view canBecomeFirstResponder] || [view isDescendantOfFirstResponder], error, @"Failed to make the view into the first responder");
+        KIFTestCondition(![view canBecomeFirstResponder] || [view isDescendantOfFirstResponder], error, @"Failed to make the view into the first responder: %@", view);
         
         return KIFTestStepResultSuccess;
     }];
@@ -271,16 +271,16 @@
 {
     [self runBlock:^KIFTestStepResult(NSError **error) {
         
-        KIFTestWaitCondition(view.isUserInteractionActuallyEnabled, error, @"View is not enabled for interaction");
+        KIFTestWaitCondition(view.isUserInteractionActuallyEnabled, error, @"View is not enabled for interaction: %@", view);
         
         CGRect elementFrame = [view.windowOrIdentityWindow convertRect:element.accessibilityFrame toView:view];
         CGPoint tappablePointInElement = [view tappablePointInRect:elementFrame];
         
         // This is mostly redundant of the test in _accessibilityElementWithLabel:
-        KIFTestWaitCondition(!isnan(tappablePointInElement.x), error, @"View is not tappable");
+        KIFTestWaitCondition(!isnan(tappablePointInElement.x), error, @"View is not tappable: %@", view);
         [view longPressAtPoint:tappablePointInElement duration:duration];
         
-        KIFTestCondition(![view canBecomeFirstResponder] || [view isDescendantOfFirstResponder], error, @"Failed to make the view into the first responder");
+        KIFTestCondition(![view canBecomeFirstResponder] || [view isDescendantOfFirstResponder], error, @"Failed to make the view into the first responder: %@", view);
         
         return KIFTestStepResultSuccess;
     }];
@@ -934,7 +934,7 @@
         
         // foundLabel == label checks for the case where both are nil.
         KIFTestWaitCondition(foundLabel == label || [foundLabel isEqualToString:label], error, @"Expected accessibility label for first responder to be '%@', got '%@'", label, foundLabel);
-        KIFTestWaitCondition(firstResponder.accessibilityTraits & traits, error, @"Found first responder with accessibility label, but not traits.");
+        KIFTestWaitCondition(firstResponder.accessibilityTraits & traits, error, @"Found first responder with accessibility label, but not traits. First responder: %@", firstResponder);
         
         return KIFTestStepResultSuccess;
     }];
@@ -1103,7 +1103,7 @@
 {
 	[self runBlock:^KIFTestStepResult(NSError **error) {
 
-		KIFTestWaitCondition(view.isUserInteractionActuallyEnabled, error, @"View is not enabled for interaction");
+		KIFTestWaitCondition(view.isUserInteractionActuallyEnabled, error, @"View is not enabled for interaction: %@", view);
 
 		// If the accessibilityFrame is not set, fallback to the view frame.
 		CGRect elementFrame;
@@ -1127,10 +1127,10 @@
 		}
 
 		// This is mostly redundant of the test in _accessibilityElementWithLabel:
-		KIFTestWaitCondition(!isnan(stepperPointToTap.x), error, @"View is not tappable");
+		KIFTestWaitCondition(!isnan(stepperPointToTap.x), error, @"View is not tappable: %@", view);
 		[view tapAtPoint:stepperPointToTap];
 
-		KIFTestCondition(![view canBecomeFirstResponder] || [view isDescendantOfFirstResponder], error, @"Failed to make the view into the first responder");
+		KIFTestCondition(![view canBecomeFirstResponder] || [view isDescendantOfFirstResponder], error, @"Failed to make the view into the first responder: %@", view);
 
 		return KIFTestStepResultSuccess;
 	}];
