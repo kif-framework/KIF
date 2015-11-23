@@ -24,16 +24,6 @@ Pod::Spec.new do |s|
     xctest.requires_arc         = true
   end
 
-  s.subspec 'OCUnit' do |sentest|
-    sentest.source_files        = 'Classes', 'Additions'
-    sentest.exclude_files       = 'Additions/XCTestCase-KIFAdditions.{h,m}'
-    sentest.public_header_files = 'Classes/**/*.h', 'Additions/**/*-KIFAdditions.h', 'Additions/UIView-Debugging.h'
-    sentest.framework           = 'SenTestingKit'
-    sentest.compiler_flags      = '-DKIF_SENTEST'
-    sentest.xcconfig            = { 'OTHER_CFLAGS' => '-DKIF_SENTEST' }
-    sentest.requires_arc        = true
-  end
-
   s.subspec 'IdentifierTests' do |kiaf|
     kiaf.dependency 'KIF/XCTest'
     kiaf.source_files        = 'IdentifierTests'
