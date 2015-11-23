@@ -18,7 +18,7 @@
 	[super viewDidLoad];
 
 	//set up an accessibility label on the table.
-	self.tableView.isAccessibilityElement = NO;
+	self.tableView.isAccessibilityElement = YES;
 	self.tableView.accessibilityLabel = @"Table View";
 
 	//set up the pull to refresh with handler.
