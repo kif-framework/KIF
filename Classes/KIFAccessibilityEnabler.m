@@ -44,6 +44,8 @@
         if ([XCTestObservationCenter respondsToSelector:@selector(sharedTestObservationCenter)]) {
             XCTestObservationCenter *observationCenter = [XCTestObservationCenter sharedTestObservationCenter];
             [observationCenter addTestObserver:[self sharedAccessibilityEnabler]];
+        } else {
+            [[self sharedAccessibilityEnabler] _enableAccessibility];
         }
     }
 }
