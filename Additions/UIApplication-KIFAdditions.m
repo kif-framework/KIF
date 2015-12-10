@@ -132,6 +132,13 @@ static const void *KIFRunLoopModesKey = &KIFRunLoopModesKey;
         return NO;
     }
     
+    if (!filename.length) {
+        if (error) {
+            *error = [NSError KIFErrorWithFormat:@"Missing screenshot filename."];
+        }
+        return NO;
+    }
+    
     UIGraphicsBeginImageContextWithOptions([[windows objectAtIndex:0] bounds].size, YES, 0);
     for (UIWindow *window in windows) {
 		//avoid https://github.com/kif-framework/KIF/issues/679
@@ -158,11 +165,8 @@ static const void *KIFRunLoopModesKey = &KIFRunLoopModesKey;
         return NO;
     }
 
-    NSString *imageName = [NSString stringWithFormat:@"%@, line %lu", [filename lastPathComponent], (unsigned long)lineNumber];
-    if (description) {
-        imageName = [imageName stringByAppendingFormat:@", %@", description];
-    }
-
+    NSString *imageName = [self imageNameForFile:filename lineNumber:lineNumber description:description];
+    
     outputPath = [outputPath stringByAppendingPathComponent:imageName];
     outputPath = [outputPath stringByAppendingPathExtension:@"png"];
 
@@ -174,6 +178,24 @@ static const void *KIFRunLoopModesKey = &KIFRunLoopModesKey;
     }
     
     return YES;
+}
+
+- (NSString *)imageNameForFile:(NSString *)filename lineNumber:(NSUInteger)lineNumber description:(NSString *)description {
+    if (!filename.length) {
+        return nil;
+    }
+    
+    NSString *imageName = [filename lastPathComponent];
+    
+    if (lineNumber > 0) {
+        imageName = [imageName stringByAppendingFormat:@", line %lu", (unsigned long)lineNumber];
+    }
+    
+    if (description.length) {
+        imageName = [imageName stringByAppendingFormat:@", %@", description];
+    }
+
+    return imageName;
 }
 
 #pragma mark - Run loop monitoring
