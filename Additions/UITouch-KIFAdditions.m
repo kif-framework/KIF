@@ -39,6 +39,8 @@ typedef struct {
 - (void)_setPressure:(float)arg1 resetPrevious:(BOOL)arg2;
 - (void)_setNeedsForceUpdate:(BOOL)arg1;
 
+- (float)_pressure;
+
 @end
 
 @implementation UITouch (KIFAdditions)
