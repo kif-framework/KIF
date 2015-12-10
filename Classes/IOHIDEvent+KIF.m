@@ -21,6 +21,12 @@ typedef uint32_t IOHIDDigitizerTransducerType;
 typedef uint32_t IOHIDEventField;
 typedef uint32_t IOHIDEventType;
 
+@interface UITouch ()
+
+- (float)_pressure;
+
+@end
+
 void IOHIDEventAppendEvent(IOHIDEventRef event, IOHIDEventRef childEvent);
 void IOHIDEventSetIntegerValue(IOHIDEventRef event, IOHIDEventField field, int value);
 void IOHIDEventSetSenderID(IOHIDEventRef event, uint64_t sender);
@@ -168,7 +174,7 @@ IOHIDEventRef kif_IOHIDEventWithTouches(NSArray *touches) {
                                                                                     (IOHIDFloat)touchLocation.x, // x
                                                                                     (IOHIDFloat)touchLocation.y, // y
                                                                                     0.0, // z
-                                                                                    0, // tipPressure
+                                                                                    [touch _pressure], // tipPressure
                                                                                     0, // twist
                                                                                     5.0, // minor radius
                                                                                     5.0, // major radius
