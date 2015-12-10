@@ -43,7 +43,7 @@
     CGPoint destinationPoint = CGPointMake(sourcePoint.x, CGPointCenteredInRect([self rectForRowAtIndexPath:indexPath]).y);
     
     // Create the touch (there should only be one touch object for the whole drag)
-    UITouch *touch = [[UITouch alloc] initAtPoint:sourcePoint inView:self];
+    UITouch *touch = [[UITouch alloc] initAtPoint:sourcePoint inView:self withForce:0.0f];
     [touch setPhaseAndUpdateTimestamp:UITouchPhaseBegan];
     
     UIEvent *eventDown = [self eventWithTouch:touch];
