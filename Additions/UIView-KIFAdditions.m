@@ -395,7 +395,7 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
     [self tapAtPoint:centerPoint];
 }
 
-- (void)tapAtPoint:(CGPoint)point;
+- (void)tapAtPoint:(CGPoint)point withForce:(float)force;
 {
     // Web views don't handle touches in a normal fashion, but they do have a method we can call to tap them
     // This may not be necessary anymore. We didn't properly support controls that used gesture recognizers
@@ -415,7 +415,7 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
     }
     
     // Handle touches in the normal way for other views
-    UITouch *touch = [[UITouch alloc] initAtPoint:point inView:self];
+    UITouch *touch = [[UITouch alloc] initAtPoint:point inView:self withForce:force];
     [touch setPhaseAndUpdateTimestamp:UITouchPhaseBegan];
     
     UIEvent *event = [self eventWithTouch:touch];
@@ -435,8 +435,8 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
 - (void)twoFingerTapAtPoint:(CGPoint)point {
     CGPoint finger1 = CGPointMake(point.x - kTwoFingerConstantWidth, point.y - kTwoFingerConstantWidth);
     CGPoint finger2 = CGPointMake(point.x + kTwoFingerConstantWidth, point.y + kTwoFingerConstantWidth);
-    UITouch *touch1 = [[UITouch alloc] initAtPoint:finger1 inView:self];
-    UITouch *touch2 = [[UITouch alloc] initAtPoint:finger2 inView:self];
+    UITouch *touch1 = [[UITouch alloc] initAtPoint:finger1 inView:self withForce:0.0f];
+    UITouch *touch2 = [[UITouch alloc] initAtPoint:finger2 inView:self withForce:0.0f];
     [touch1 setPhaseAndUpdateTimestamp:UITouchPhaseBegan];
     [touch2 setPhaseAndUpdateTimestamp:UITouchPhaseBegan];
 
@@ -451,9 +451,9 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
 
 #define DRAG_TOUCH_DELAY 0.01
 
-- (void)longPressAtPoint:(CGPoint)point duration:(NSTimeInterval)duration
+- (void)longPressAtPoint:(CGPoint)point duration:(NSTimeInterval)duration withForce:(float)force
 {
-    UITouch *touch = [[UITouch alloc] initAtPoint:point inView:self];
+    UITouch *touch = [[UITouch alloc] initAtPoint:point inView:self withForce:force];
     [touch setPhaseAndUpdateTimestamp:UITouchPhaseBegan];
     
     UIEvent *eventDown = [self eventWithTouch:touch];
@@ -538,7 +538,7 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
             for (NSArray *path in arrayOfPaths)
             {
                 CGPoint point = [path[pointIndex] CGPointValue];
-                UITouch *touch = [[UITouch alloc] initAtPoint:point inView:self];
+                UITouch *touch = [[UITouch alloc] initAtPoint:point inView:self withForce:0.0f];
                 [touch setPhaseAndUpdateTimestamp:UITouchPhaseBegan];
                 [touches addObject:touch];
             }

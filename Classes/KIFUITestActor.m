@@ -168,25 +168,25 @@
 
 - (void)tapViewWithAccessibilityLabel:(NSString *)label
 {
-    [self tapViewWithAccessibilityLabel:label value:nil traits:UIAccessibilityTraitNone];
+    [self tapViewWithAccessibilityLabel:label value:nil traits:UIAccessibilityTraitNone force:0.0f];
 }
 
 - (void)tapViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits
 {
-    [self tapViewWithAccessibilityLabel:label value:nil traits:traits];
+    [self tapViewWithAccessibilityLabel:label value:nil traits:traits force:0.0f];
 }
 
-- (void)tapViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits
+- (void)tapViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits force:(float)force
 {
     @autoreleasepool {
         UIView *view = nil;
         UIAccessibilityElement *element = nil;
         [self waitForAccessibilityElement:&element view:&view withLabel:label value:value traits:traits tappable:YES];
-        [self tapAccessibilityElement:element inView:view];
+        [self tapAccessibilityElement:element inView:view withForce:force];
     }
 }
 
-- (void)tapAccessibilityElement:(UIAccessibilityElement *)element inView:(UIView *)view
+- (void)tapAccessibilityElement:(UIAccessibilityElement *)element inView:(UIView *)view withForce:(float)force
 {
     [self runBlock:^KIFTestStepResult(NSError **error) {
         
@@ -208,9 +208,9 @@
         NSOperatingSystemVersion iOS9 = {9, 0, 0};
         BOOL isOperatingSystemAtLeastVersion9 = [NSProcessInfo instancesRespondToSelector:@selector(isOperatingSystemAtLeastVersion:)] && [[NSProcessInfo new] isOperatingSystemAtLeastVersion:iOS9];
         if (isOperatingSystemAtLeastVersion9 && [NSStringFromClass([view class]) isEqualToString:@"_UIAlertControllerActionView"]) {
-            [view longPressAtPoint:tappablePointInElement duration:0.1];
+          [view longPressAtPoint:tappablePointInElement duration:0.1 withForce:force];
         } else {
-            [view tapAtPoint:tappablePointInElement];
+          [view tapAtPoint:tappablePointInElement withForce:force];
         }
 
         KIFTestCondition(![view canBecomeFirstResponder] || [view isDescendantOfFirstResponder], error, @"Failed to make the view into the first responder: %@", view);
@@ -370,7 +370,7 @@
     UIAccessibilityElement *element = nil;
     
     [self waitForAccessibilityElement:&element view:&view withLabel:label value:nil traits:traits tappable:YES];
-    [self tapAccessibilityElement:element inView:view];
+    [self tapAccessibilityElement:element inView:view withForce:0.0f];
     [self waitForTimeInterval:0.25];
     [self enterTextIntoCurrentFirstResponder:text fallbackView:view];
     [self expectView:view toContainText:expectedResult ?: text];
@@ -424,7 +424,7 @@
 
 - (void)clearTextFromElement:(UIAccessibilityElement*)element inView:(UIView*)view
 {
-    [self tapAccessibilityElement:element inView:view];
+    [self tapAccessibilityElement:element inView:view withForce:0.0f];
 
     // Per issue #294, the tap occurs in the center of the text view.  If the text is too long, this means not all text gets cleared.  To address this for most cases, we can check if the selected view conforms to UITextInput and select the whole text range.
     if ([view conformsToProtocol:@protocol(UITextInput)]) {
@@ -627,7 +627,7 @@
         return;
     }
     
-    [self tapAccessibilityElement:element inView:view];
+    [self tapAccessibilityElement:element inView:view withForce:0.0f];
     
     // If we succeeded, stop the test.
     if (switchView.isOn == switchIsOn) {
@@ -1068,7 +1068,7 @@
         [self failWithError:[NSError KIFErrorWithFormat: @"Could not find the status bar"] stopTest:YES];
     }
     
-    [self tapAccessibilityElement:statusBars[0] inView:statusBars[0]];
+    [self tapAccessibilityElement:statusBars[0] inView:statusBars[0] withForce:0.0f];
 }
 
 - (void)moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath inTableViewWithAccessibilityIdentifier:(NSString *)identifier
