@@ -207,9 +207,13 @@
         // This is mostly redundant of the test in _accessibilityElementWithLabel:
         KIFTestWaitCondition(!isnan(tappablePointInElement.x), error, @"View is not tappable");
         [view tapAtPoint:tappablePointInElement];
-        
-        KIFTestCondition(![view canBecomeFirstResponder] || [view isDescendantOfFirstResponder], error, @"Failed to make the view into the first responder");
-        
+
+        return KIFTestStepResultSuccess;
+    }];
+    
+    // Controls might not synchronously become first-responders. Some controls could show popovers and we need to wait a bit until they become a first responder.
+    [self runBlock:^KIFTestStepResult(NSError *__autoreleasing *error) {
+        KIFTestWaitCondition(![view canBecomeFirstResponder] || [view isDescendantOfFirstResponder], error, @"Failed to make the view into the first responder");
         return KIFTestStepResultSuccess;
     }];
 
@@ -276,12 +280,7 @@
         KIFTestWaitCondition(!isnan(tappablePointInElement.x), error, @"View is not tappable");
         [view longPressAtPoint:tappablePointInElement duration:duration];
         
-        return KIFTestStepResultSuccess;
-    }];
-    
-    // Controls might not synchronously become first-responders. Some controls could show popovers and we need to wait a bit until they become a first responder.
-    [self runBlock:^KIFTestStepResult(NSError *__autoreleasing *error) {
-        KIFTestWaitCondition(![view canBecomeFirstResponder] || [view isDescendantOfFirstResponder], error, @"Failed to make the view into the first responder");
+        KIFTestCondition(![view canBecomeFirstResponder] || [view isDescendantOfFirstResponder], error, @"Failed to make the view into the first responder");
         return KIFTestStepResultSuccess;
     }];
 
