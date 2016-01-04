@@ -834,17 +834,17 @@
 
 - (void)pullToRefreshViewWithAccessibilityLabel:(NSString *)label
 {
-	[self pullToRefreshViewWithAccessibilityLabel:label value:nil pullDownDuration:nil traits:UIAccessibilityTraitNone];
+	[self pullToRefreshViewWithAccessibilityLabel:label value:nil pullDownDuration:0 traits:UIAccessibilityTraitNone];
 }
 
 - (void)pullToRefreshViewWithAccessibilityLabel:(NSString *)label pullDownDuration:(KIFPullToRefreshTiming) pullDownDuration
 {
-	[self pullToRefreshViewWithAccessibilityLabel:label value:nil pullDownDuration: pullDownDuration traits:UIAccessibilityTraitNone];
+	[self pullToRefreshViewWithAccessibilityLabel:label value:nil pullDownDuration:pullDownDuration traits:UIAccessibilityTraitNone];
 }
 
 - (void)pullToRefreshViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value
 {
-	[self pullToRefreshViewWithAccessibilityLabel:label value:value pullDownDuration: nil traits:UIAccessibilityTraitNone];
+	[self pullToRefreshViewWithAccessibilityLabel:label value:value pullDownDuration:0 traits:UIAccessibilityTraitNone];
 }
 
 - (void)pullToRefreshViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value pullDownDuration:(KIFPullToRefreshTiming) pullDownDuration traits:(UIAccessibilityTraits)traits
