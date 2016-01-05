@@ -107,6 +107,7 @@ typedef struct {
 - (void)kif_setHidEvent {
     IOHIDEventRef event = kif_IOHIDEventWithTouches(@[self]);
     [self _setHidEvent:event];
+    CFRelease(event);
 }
 
 @end

@@ -85,6 +85,7 @@ typedef struct __GSEvent * GSEventRef;
 {
     IOHIDEventRef event = kif_IOHIDEventWithTouches(touches);
     [self _setHIDEvent:event];
+    CFRelease(event);
 }
 
 @end
