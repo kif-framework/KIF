@@ -7,18 +7,54 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5600E9461C3BBBC000235220 /* libKIF.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5600E93B1C3BBB8300235220 /* libKIF.a */; };
+		5600E94A1C3BBCC800235220 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5600E9491C3BBCC700235220 /* IOKit.framework */; };
 		A88CD9831A019AFF0064F706 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A88CD9821A019AFF0064F706 /* AppDelegate.swift */; };
 		A88CD9851A019AFF0064F706 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A88CD9841A019AFF0064F706 /* MasterViewController.swift */; };
 		A88CD98A1A019AFF0064F706 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A88CD9881A019AFF0064F706 /* Main.storyboard */; };
 		A88CD98C1A019AFF0064F706 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A88CD98B1A019AFF0064F706 /* Images.xcassets */; };
 		A88CD98F1A019AFF0064F706 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = A88CD98D1A019AFF0064F706 /* LaunchScreen.xib */; };
 		A88CD99B1A019AFF0064F706 /* Testable_SwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A88CD99A1A019AFF0064F706 /* Testable_SwiftTests.swift */; };
-		A88CD9B91A019E430064F706 /* libKIF.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A88CD9AE1A019D520064F706 /* libKIF.a */; };
 		A88CD9BC1A019F0B0064F706 /* SimpleObjCTest.m in Sources */ = {isa = PBXBuildFile; fileRef = A88CD9BB1A019F0B0064F706 /* SimpleObjCTest.m */; };
 		A88CD9BE1A019F300064F706 /* SimpleSwiftTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A88CD9BD1A019F300064F706 /* SimpleSwiftTest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		5600E93A1C3BBB8300235220 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5600E9321C3BBB8300235220 /* KIF.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = EABD46AA1857A0C700A5F081;
+			remoteInfo = KIF;
+		};
+		5600E93C1C3BBB8300235220 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5600E9321C3BBB8300235220 /* KIF.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = EB60ECC1177F8C83005A041A;
+			remoteInfo = "Test Host";
+		};
+		5600E93E1C3BBB8300235220 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5600E9321C3BBB8300235220 /* KIF.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = EABD46CD1857A0F300A5F081;
+			remoteInfo = "KIF Tests";
+		};
+		5600E9401C3BBB8300235220 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5600E9321C3BBB8300235220 /* KIF.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 9CC9673B1AD4B1B600576D13;
+			remoteInfo = KIFFramework;
+		};
+		5600E9421C3BBB9700235220 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5600E9321C3BBB8300235220 /* KIF.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = EABD46791857A0C700A5F081;
+			remoteInfo = KIF;
+		};
 		A88CD9951A019AFF0064F706 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = A88CD9751A019AFF0064F706 /* Project object */;
@@ -26,51 +62,12 @@
 			remoteGlobalIDString = A88CD97C1A019AFF0064F706;
 			remoteInfo = "Testable Swift";
 		};
-		A88CD9AD1A019D520064F706 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = A88CD9A41A019D510064F706 /* KIF.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = EABD46AA1857A0C700A5F081;
-			remoteInfo = KIF;
-		};
-		A88CD9AF1A019D520064F706 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = A88CD9A41A019D510064F706 /* KIF.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = EB72047C1680DDAD00278DA2;
-			remoteInfo = "KIF-OCUnit";
-		};
-		A88CD9B11A019D520064F706 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = A88CD9A41A019D510064F706 /* KIF.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = EB60ECC1177F8C83005A041A;
-			remoteInfo = "Test Host";
-		};
-		A88CD9B31A019D520064F706 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = A88CD9A41A019D510064F706 /* KIF.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = EABD46CD1857A0F300A5F081;
-			remoteInfo = "KIF Tests";
-		};
-		A88CD9B51A019D520064F706 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = A88CD9A41A019D510064F706 /* KIF.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = EB60ECEB177F8DB3005A041A;
-			remoteInfo = "KIF Tests-OCUnit";
-		};
-		A88CD9B71A019E2B0064F706 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = A88CD9A41A019D510064F706 /* KIF.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = EABD46791857A0C700A5F081;
-			remoteInfo = KIF;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5600E9301C3BB8F700235220 /* KIF.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KIF.framework; path = "../../../../build/Debug-iphoneos/KIF.framework"; sourceTree = "<group>"; };
+		5600E9321C3BBB8300235220 /* KIF.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = KIF.xcodeproj; path = ../../../KIF.xcodeproj; sourceTree = SOURCE_ROOT; };
+		5600E9491C3BBCC700235220 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/IOKit.framework; sourceTree = DEVELOPER_DIR; };
 		A88CD97D1A019AFF0064F706 /* Testable Swift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Testable Swift.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A88CD9811A019AFF0064F706 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A88CD9821A019AFF0064F706 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -81,7 +78,6 @@
 		A88CD9941A019AFF0064F706 /* Testable SwiftTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Testable SwiftTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A88CD9991A019AFF0064F706 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A88CD99A1A019AFF0064F706 /* Testable_SwiftTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Testable_SwiftTests.swift; sourceTree = "<group>"; };
-		A88CD9A41A019D510064F706 /* KIF.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = KIF.xcodeproj; path = ../../../../KIF.xcodeproj; sourceTree = "<group>"; };
 		A88CD9BA1A019F0B0064F706 /* Testable SwiftTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Testable SwiftTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		A88CD9BB1A019F0B0064F706 /* SimpleObjCTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleObjCTest.m; sourceTree = "<group>"; };
 		A88CD9BD1A019F300064F706 /* SimpleSwiftTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleSwiftTest.swift; sourceTree = "<group>"; };
@@ -99,13 +95,25 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A88CD9B91A019E430064F706 /* libKIF.a in Frameworks */,
+				5600E9461C3BBBC000235220 /* libKIF.a in Frameworks */,
+				5600E94A1C3BBCC800235220 /* IOKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5600E9331C3BBB8300235220 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				5600E93B1C3BBB8300235220 /* libKIF.a */,
+				5600E93D1C3BBB8300235220 /* Test Host.app */,
+				5600E93F1C3BBB8300235220 /* KIF Tests - XCTest.xctest */,
+				5600E9411C3BBB8300235220 /* KIF.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		A88CD9741A019AFF0064F706 = {
 			isa = PBXGroup;
 			children = (
@@ -148,12 +156,14 @@
 		A88CD9971A019AFF0064F706 /* Testable SwiftTests */ = {
 			isa = PBXGroup;
 			children = (
-				A88CD9A41A019D510064F706 /* KIF.xcodeproj */,
+				5600E9321C3BBB8300235220 /* KIF.xcodeproj */,
+				5600E9491C3BBCC700235220 /* IOKit.framework */,
 				A88CD99A1A019AFF0064F706 /* Testable_SwiftTests.swift */,
 				A88CD9981A019AFF0064F706 /* Supporting Files */,
 				A88CD9BB1A019F0B0064F706 /* SimpleObjCTest.m */,
 				A88CD9BD1A019F300064F706 /* SimpleSwiftTest.swift */,
 				A88CD9BA1A019F0B0064F706 /* Testable SwiftTests-Bridging-Header.h */,
+				5600E9301C3BB8F700235220 /* KIF.framework */,
 			);
 			path = "Testable SwiftTests";
 			sourceTree = "<group>";
@@ -164,18 +174,6 @@
 				A88CD9991A019AFF0064F706 /* Info.plist */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		A88CD9A51A019D510064F706 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				A88CD9AE1A019D520064F706 /* libKIF.a */,
-				A88CD9B01A019D520064F706 /* libKIF-OCUnit.a */,
-				A88CD9B21A019D520064F706 /* Test Host.app */,
-				A88CD9B41A019D520064F706 /* KIF Tests - XCTest.xctest */,
-				A88CD9B61A019D520064F706 /* KIF Tests-OCUnit.octest */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -209,8 +207,8 @@
 			buildRules = (
 			);
 			dependencies = (
-				A88CD9B81A019E2B0064F706 /* PBXTargetDependency */,
 				A88CD9961A019AFF0064F706 /* PBXTargetDependency */,
+				5600E9431C3BBB9700235220 /* PBXTargetDependency */,
 			);
 			name = "Testable SwiftTests";
 			productName = "Testable SwiftTests";
@@ -223,7 +221,8 @@
 		A88CD9751A019AFF0064F706 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0610;
+				LastSwiftUpdateCheck = 0720;
+				LastUpgradeCheck = 0720;
 				TargetAttributes = {
 					A88CD97C1A019AFF0064F706 = {
 						CreatedOnToolsVersion = 6.1;
@@ -247,8 +246,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = A88CD9A51A019D510064F706 /* Products */;
-					ProjectRef = A88CD9A41A019D510064F706 /* KIF.xcodeproj */;
+					ProductGroup = 5600E9331C3BBB8300235220 /* Products */;
+					ProjectRef = 5600E9321C3BBB8300235220 /* KIF.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -260,39 +259,32 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		A88CD9AE1A019D520064F706 /* libKIF.a */ = {
+		5600E93B1C3BBB8300235220 /* libKIF.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libKIF.a;
-			remoteRef = A88CD9AD1A019D520064F706 /* PBXContainerItemProxy */;
+			remoteRef = 5600E93A1C3BBB8300235220 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		A88CD9B01A019D520064F706 /* libKIF-OCUnit.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = "libKIF-OCUnit.a";
-			remoteRef = A88CD9AF1A019D520064F706 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		A88CD9B21A019D520064F706 /* Test Host.app */ = {
+		5600E93D1C3BBB8300235220 /* Test Host.app */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.application;
 			path = "Test Host.app";
-			remoteRef = A88CD9B11A019D520064F706 /* PBXContainerItemProxy */;
+			remoteRef = 5600E93C1C3BBB8300235220 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		A88CD9B41A019D520064F706 /* KIF Tests - XCTest.xctest */ = {
+		5600E93F1C3BBB8300235220 /* KIF Tests - XCTest.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = "KIF Tests - XCTest.xctest";
-			remoteRef = A88CD9B31A019D520064F706 /* PBXContainerItemProxy */;
+			remoteRef = 5600E93E1C3BBB8300235220 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		A88CD9B61A019D520064F706 /* KIF Tests-OCUnit.octest */ = {
+		5600E9411C3BBB8300235220 /* KIF.framework */ = {
 			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = "KIF Tests-OCUnit.octest";
-			remoteRef = A88CD9B51A019D520064F706 /* PBXContainerItemProxy */;
+			fileType = wrapper.framework;
+			path = KIF.framework;
+			remoteRef = 5600E9401C3BBB8300235220 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -340,15 +332,15 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		5600E9431C3BBB9700235220 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = KIF;
+			targetProxy = 5600E9421C3BBB9700235220 /* PBXContainerItemProxy */;
+		};
 		A88CD9961A019AFF0064F706 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = A88CD97C1A019AFF0064F706 /* Testable Swift */;
 			targetProxy = A88CD9951A019AFF0064F706 /* PBXContainerItemProxy */;
-		};
-		A88CD9B81A019E2B0064F706 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = KIF;
-			targetProxy = A88CD9B71A019E2B0064F706 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -392,6 +384,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -455,6 +448,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = "Testable Swift/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.squareup.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -465,6 +459,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = "Testable Swift/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.squareup.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -474,10 +469,6 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ENABLE_MODULES = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -490,6 +481,7 @@
 					XCTest,
 					"-ObjC",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.squareup.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Testable SwiftTests/Testable SwiftTests-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -502,10 +494,6 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ENABLE_MODULES = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
 				INFOPLIST_FILE = "Testable SwiftTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -514,6 +502,7 @@
 					XCTest,
 					"-ObjC",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.squareup.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Testable SwiftTests/Testable SwiftTests-Bridging-Header.h";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Testable Swift.app/Testable Swift";
