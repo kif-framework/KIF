@@ -256,21 +256,21 @@ If you want to write your test cases in Swift, you'll need to keep two things in
 import KIF
  
 extension XCTestCase {
-    func tester(_ file : String = __FILE__, _ line : Int = __LINE__) -> KIFUITestActor {
+    func tester(file : String = __FILE__, _ line : Int = __LINE__) -> KIFUITestActor {
         return KIFUITestActor(inFile: file, atLine: line, delegate: self)
     }
 
-    func system(_ file : String = __FILE__, _ line : Int = __LINE__) -> KIFSystemTestActor {
+    func system(file : String = __FILE__, _ line : Int = __LINE__) -> KIFSystemTestActor {
         return KIFSystemTestActor(inFile: file, atLine: line, delegate: self)
     }
 }
 
 extension KIFTestActor {
-    func tester(_ file : String = __FILE__, _ line : Int = __LINE__) -> KIFUITestActor {
+    func tester(file : String = __FILE__, _ line : Int = __LINE__) -> KIFUITestActor {
         return KIFUITestActor(inFile: file, atLine: line, delegate: self)
     }
 
-    func system(_ file : String = __FILE__, _ line : Int = __LINE__) -> KIFSystemTestActor {
+    func system(file : String = __FILE__, _ line : Int = __LINE__) -> KIFSystemTestActor {
         return KIFSystemTestActor(inFile: file, atLine: line, delegate: self)
     }
 }
