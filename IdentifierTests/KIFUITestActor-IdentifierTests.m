@@ -219,7 +219,7 @@
 
 	[self waitForAccessibilityElement: &element view:&viewToSwipe withIdentifier:identifier tappable:NO];
 
-	[self pullToRefreshAccessibilityElement:element inView:viewToSwipe pullDownDuration:nil];
+	[self pullToRefreshAccessibilityElement:element inView:viewToSwipe pullDownDuration:0];
 }
 
 - (void)pullToRefreshViewWithAccessibilityIdentifier:(NSString *)identifier pullDownDuration:(KIFPullToRefreshTiming) pullDownDuration
