@@ -863,16 +863,10 @@
 
 	const NSUInteger kNumberOfPointsInSwipePath = pullDownDuration ? pullDownDuration : KIFPullToRefreshInAboutAHalfSecond;
 
-	// Within this method, all geometry is done in the coordinate system of the view to swipe.
-
-	CGFloat height = [(UITableView *)viewToSwipe contentSize].height;
-	CGFloat	width = [(UITableView *)viewToSwipe contentSize].width;
-	CGRect elementFrame = CGRectMake(0,0, width, height);
-
-	CGFloat halfHeight = height/2.0;
-	CGPoint swipeDisplacement = CGPointMake(width, halfHeight);
-
-	CGPoint swipeStart = CGPointCenteredInRect(elementFrame);
+    // Can handle only the touchable space.
+    CGRect elementFrame = [viewToSwipe convertRect:viewToSwipe.bounds toView:[UIApplication sharedApplication].keyWindow.rootViewController.view];
+    CGPoint swipeStart = CGPointCenteredInRect(elementFrame);
+	CGPoint swipeDisplacement = CGPointMake(CGRectGetMidX(elementFrame), CGRectGetMaxY(elementFrame));
 
 	[viewToSwipe dragFromPoint:swipeStart displacement:swipeDisplacement steps:kNumberOfPointsInSwipePath];
 }
