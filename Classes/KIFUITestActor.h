@@ -66,7 +66,7 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
 	KIFPullToRefreshInAboutThreeSeconds = 200, //slower
 };
 
-#define kKIFMajorSwipeDisplacement 200
+#define kKIFMajorSwipeDisplacement [UIScreen mainScreen].applicationFrame.size.width * 0.625
 #define kKIFMinorSwipeDisplacement 5
 
 static inline KIFDisplacement KIFDisplacementForSwipingInDirection(KIFSwipeDirection direction)
