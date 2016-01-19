@@ -726,15 +726,20 @@
     
     // Wait for media picker view controller to be pushed.
     [self waitForTimeInterval:1];
-    
+   
     // Tap the desired photo in the grid
     // TODO: This currently only works for the first page of photos. It should scroll appropriately at some point.
-    const CGFloat headerHeight = 64.0;
+     UIAccessibilityElement *headerElt = [[UIApplication sharedApplication] accessibilityElementMatchingBlock:^(UIAccessibilityElement *element) {
+        return [NSStringFromClass(element.class) isEqual:@"UINavigationItemButtonView"];
+    }];
+    UIView* headerView = [UIAccessibilityElement viewContainingAccessibilityElement:headerElt];
+    CGRect headerFrame = [headerView convertRect:headerView.frame toView:headerView.window];
+    const CGFloat headerBottom =  headerFrame.origin.y + headerFrame.size.height;
     const CGSize thumbnailSize = CGSizeMake(75.0, 75.0);
     const CGFloat thumbnailMargin = 5.0;
     CGPoint thumbnailCenter;
     thumbnailCenter.x = thumbnailMargin + (MAX(0, column - 1) * (thumbnailSize.width + thumbnailMargin)) + thumbnailSize.width / 2.0;
-    thumbnailCenter.y = headerHeight + thumbnailMargin + (MAX(0, row - 1) * (thumbnailSize.height + thumbnailMargin)) + thumbnailSize.height / 2.0;
+    thumbnailCenter.y = headerBottom + thumbnailMargin + (MAX(0, row - 1) * (thumbnailSize.height + thumbnailMargin)) + thumbnailSize.height / 2.0;
     [self tapScreenAtPoint:thumbnailCenter];
 }
 
