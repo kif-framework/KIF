@@ -829,6 +829,20 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
         }
     }
     
+    // Somtimes views are inside a UIControl and don't have user interaction enabled.
+    // Walk up the hierarchary evaluating the parent UIControl subclass and use that instead.
+    if (!isUserInteractionEnabled && [self.superview isKindOfClass:[UIControl class]]) {
+        // If this view is inside a UIControl, and it is enabled, then consider the view enabled
+        UIControl *control = (UIControl *)[self superview];
+        while (control && [control isKindOfClass:[UIControl class]]) {
+            if (control.isUserInteractionEnabled) {
+                isUserInteractionEnabled = YES;
+                break;
+            }
+            control = (UIControl *)[control superview];
+        }
+    }
+    
     return isUserInteractionEnabled;
 }
 
