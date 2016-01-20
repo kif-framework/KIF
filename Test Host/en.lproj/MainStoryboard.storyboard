@@ -1113,6 +1113,9 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="TableViews" id="dc2-IR-8qH"/>
+                    <connections>
+                        <outlet property="searchBar" destination="Z4D-JG-zAq" id="Nzh-4x-NwO"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7d4-dI-Ro3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

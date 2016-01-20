@@ -8,6 +8,8 @@
 
 @interface TableViewController : UITableViewController
 
+@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
+
 @end
 
 @implementation TableViewController
@@ -17,6 +19,9 @@
     [super viewDidLoad];
     
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
+
+    // Need to set this explicitly, as the default is different between iPhone and iPad and the value is ignored if set explicitly to "none"
+    self.searchBar.autocapitalizationType = UITextAutocapitalizationTypeNone;
 }
 
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath
