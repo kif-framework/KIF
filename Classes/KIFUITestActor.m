@@ -370,8 +370,13 @@
     UIAccessibilityElement *element = nil;
     
     [self waitForAccessibilityElement:&element view:&view withLabel:label value:nil traits:traits tappable:YES];
-    [self tapAccessibilityElement:element inView:view];
-    [self waitForTimeInterval:0.25];
+
+    // In iOS7, tapping a field that is already first responder moves the cursor to the front of the field
+    if (view.window.firstResponder != view) {
+        [self tapAccessibilityElement:element inView:view];
+        [self waitForTimeInterval:0.25];
+    }
+
     [self enterTextIntoCurrentFirstResponder:text fallbackView:view];
     [self expectView:view toContainText:expectedResult ?: text];
 }
