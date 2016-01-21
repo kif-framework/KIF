@@ -73,7 +73,15 @@
             Class AVCClass = NSClassFromString(@"UIActivityViewController");
             if (AVCClass) {
                 UIActivityViewController *controller = [[AVCClass alloc] initWithActivityItems:@[@"Hello World"] applicationActivities:nil];
-                [self presentViewController:controller animated:YES completion:nil];
+
+                if ([controller respondsToSelector:@selector(popoverPresentationController)] && UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+                    // iOS 8 iPad presents in a popover
+                    controller.popoverPresentationController.sourceView = [tableView cellForRowAtIndexPath:indexPath];
+                    UIPopoverController *popover = [[UIPopoverController alloc] initWithContentViewController:controller];
+                    [popover presentPopoverFromRect:controller.popoverPresentationController.sourceView.frame inView:tableView permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+                } else {
+                    [self presentViewController:controller animated:YES completion:nil];
+                }
             }
             break;
         }
