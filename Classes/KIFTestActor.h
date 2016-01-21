@@ -151,6 +151,8 @@ typedef void (^KIFTestCompletionBlock)(KIFTestStepResult result, NSError *error)
 
 - (void)failWithError:(NSError *)error stopTest:(BOOL)stopTest;
 
+- (void)failWithMessage:(NSString *)message, ...;
+
 /*!
  @abstract Waits for a certain amount of time before returning.
  @discussion In general when waiting for the app to get into a known state, it's better to use -waitForTappableViewWithAccessibilityLabel:, however this step may be useful in some situations as well.
