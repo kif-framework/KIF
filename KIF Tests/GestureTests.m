@@ -28,6 +28,9 @@
 - (void)beforeAll
 {
     [tester tapViewWithAccessibilityLabel:@"Gestures"];
+
+    // Wait for the push animation to complete before trying to interact with the view
+    [tester waitForTimeInterval:.25];
 }
 
 - (void)afterAll
@@ -192,9 +195,10 @@
 
 - (void)testScrolling
 {
-    [tester scrollViewWithAccessibilityIdentifier:@"Scroll View" byFractionOfSizeHorizontal:-0.9 vertical:-0.9];
+    // Needs to be offset from the edge to prevent the navigation controller's interactivePopGestureRecognizer from triggering
+    [tester scrollViewWithAccessibilityIdentifier:@"Scroll View" byFractionOfSizeHorizontal:-0.80 vertical:-0.80];
     [tester waitForTappableViewWithAccessibilityLabel:@"Bottom Right"];
-    [tester scrollViewWithAccessibilityIdentifier:@"Scroll View" byFractionOfSizeHorizontal:0.9 vertical:0.9];
+    [tester scrollViewWithAccessibilityIdentifier:@"Scroll View" byFractionOfSizeHorizontal:0.80 vertical:0.80];
     [tester waitForTappableViewWithAccessibilityLabel:@"Top Left"];
 }
 
