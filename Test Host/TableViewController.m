@@ -35,7 +35,7 @@
 }
 
 // Work around a bug on iOS9 that accessibility trait Selected doesn't get set
-- (nullable NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath;
+- (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath;
 {
     if ([[[UIDevice currentDevice] systemVersion] compare:@"9.0" options:NSNumericSearch] == NSOrderedSame) {
         UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
@@ -45,7 +45,7 @@
     return indexPath;
 }
 
-- (nullable NSIndexPath *)tableView:(UITableView *)tableView willDeselectRowAtIndexPath:(NSIndexPath *)indexPath;
+- (NSIndexPath *)tableView:(UITableView *)tableView willDeselectRowAtIndexPath:(NSIndexPath *)indexPath;
 {
     if ([[[UIDevice currentDevice] systemVersion] compare:@"9.0" options:NSNumericSearch] == NSOrderedSame) {
         UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
