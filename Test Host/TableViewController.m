@@ -6,7 +6,7 @@
 //
 //
 
-@interface TableViewController : UITableViewController
+@interface TableViewController : UITableViewController <UITableViewDelegate>
 
 @end
 
@@ -27,7 +27,27 @@
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
 
     return YES;
+}
+
+// Work around a bug on iOS9 that accessibility trait Selected doesn't get set
+- (nullable NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath;
+{
+    if ([[[UIDevice currentDevice] systemVersion] compare:@"9.0" options:NSNumericSearch] == NSOrderedSame) {
+        UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+        [cell setAccessibilityTraits:cell.accessibilityTraits | UIAccessibilityTraitSelected];
+    }
+
+    return indexPath;
+}
+
+- (nullable NSIndexPath *)tableView:(UITableView *)tableView willDeselectRowAtIndexPath:(NSIndexPath *)indexPath;
+{
+    if ([[[UIDevice currentDevice] systemVersion] compare:@"9.0" options:NSNumericSearch] == NSOrderedSame) {
+        UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+        [cell setAccessibilityTraits:cell.accessibilityTraits ^ UIAccessibilityTraitSelected];
+    }
     
+    return indexPath;
 }
 
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
