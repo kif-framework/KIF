@@ -41,10 +41,11 @@
         [tester dismissPopover];
     } else {
         [tester tapViewWithAccessibilityLabel:@"Cancel"];
-        [tester waitForViewWithAccessibilityLabel:@"Alert View"];
-        [tester tapViewWithAccessibilityLabel:@"Continue"];
-        [tester waitForAbsenceOfViewWithAccessibilityLabel:@"Alert View"];
     }
+
+    [tester waitForViewWithAccessibilityLabel:@"Alert View"];
+    [tester tapViewWithAccessibilityLabel:@"Continue"];
+    [tester waitForAbsenceOfViewWithAccessibilityLabel:@"Alert View"];
 }
 
 - (void)testInteractionWithAnActivityViewController
