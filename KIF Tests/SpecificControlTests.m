@@ -43,17 +43,19 @@
     [tester waitForViewWithAccessibilityLabel:@"Slider" value:@"5" traits:UIAccessibilityTraitNone];
 }
 
-- (void)testPickingAPhoto {
+- (void)testPickingAPhoto
+{
+    // 'acknowledgeSystemAlert' can't be used on iOS7
+    // The console shows a message "AX Lookup problem! 22 com.apple.iphone.axserver:-1"
+    if ([UIDevice.currentDevice.systemVersion compare:@"8.0" options:NSNumericSearch] < 0) {
+        return;
+    }
+
     [tester tapViewWithAccessibilityLabel:@"Photos"];
     [tester acknowledgeSystemAlert];
     [tester waitForTimeInterval:0.5f]; // Wait for view to stabilize
 
-    NSOperatingSystemVersion iOS8 = {8, 0, 0};
-    if ([NSProcessInfo instancesRespondToSelector:@selector(isOperatingSystemAtLeastVersion:)] && [[NSProcessInfo new] isOperatingSystemAtLeastVersion:iOS8]) {
-        [tester choosePhotoInAlbum:@"Camera Roll" atRow:1 column:2];
-    } else {
-        [tester choosePhotoInAlbum:@"Saved Photos" atRow:1 column:2];
-    }
+    [tester choosePhotoInAlbum:@"Camera Roll" atRow:1 column:2];
     [tester waitForViewWithAccessibilityLabel:@"UIImage"];
 }
 
