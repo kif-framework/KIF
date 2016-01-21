@@ -36,6 +36,10 @@ typedef struct {
 - (void)_setIsFirstTouchForView:(BOOL)firstTouchForView;
 
 - (void)_setHidEvent:(IOHIDEventRef)event;
+- (void)_setPressure:(float)arg1 resetPrevious:(BOOL)arg2;
+- (void)_setNeedsForceUpdate:(BOOL)arg1;
+
+- (float)_pressure;
 
 @end
 
@@ -45,10 +49,10 @@ typedef struct {
 {
     CGRect frame = view.frame;    
     CGPoint centerPoint = CGPointMake(frame.size.width * 0.5f, frame.size.height * 0.5f);
-    return [self initAtPoint:centerPoint inView:view];
+    return [self initAtPoint:centerPoint inView:view withForce:0.0f];
 }
 
-- (id)initAtPoint:(CGPoint)point inWindow:(UIWindow *)window;
+- (id)initAtPoint:(CGPoint)point inWindow:(UIWindow *)window withForce:(float)force
 {
 	self = [super init];
 	if (self == nil) {
@@ -77,14 +81,16 @@ typedef struct {
     NSOperatingSystemVersion iOS9 = {9, 0, 0};
     if ([NSProcessInfo instancesRespondToSelector:@selector(isOperatingSystemAtLeastVersion:)] && [[NSProcessInfo new] isOperatingSystemAtLeastVersion:iOS9]) {
         [self kif_setHidEvent];
+        [self _setNeedsForceUpdate:YES];
+        [self _setPressure:force resetPrevious:YES];
     }
     
 	return self;
 }
 
-- (id)initAtPoint:(CGPoint)point inView:(UIView *)view;
+- (id)initAtPoint:(CGPoint)point inView:(UIView *)view withForce:(float)force
 {
-    return [self initAtPoint:[view.window convertPoint:point fromView:view] inWindow:view.window];
+    return [self initAtPoint:[view.window convertPoint:point fromView:view] inWindow:view.window withForce:force];
 }
 
 //

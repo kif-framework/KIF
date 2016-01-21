@@ -238,16 +238,18 @@ static inline KIFDisplacement KIFDisplacementForSwipingInDirection(KIFSwipeDirec
  @param label The accessibility label of the element to tap.
  @param value The accessibility value of the element to tap.
  @param traits The accessibility traits of the element to tap. Elements that do not include at least these traits are ignored.
+ @param force The amount of force that is to be exerted on the screen.
  */
-- (void)tapViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits;
+- (void)tapViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits force:(float)force;
 
 /*!
  @abstract Taps a particular view in the view heirarchy.
  @discussion Unlike the -tapViewWithAccessibilityLabel: family of methods, this method allows you to tap an arbitrary element.  Combined with -waitForAccessibilityElement:view:withLabel:value:traits:tappable: or +[UIAccessibilityElement accessibilityElement:view:withLabel:value:traits:tappable:error:] this provides an opportunity for more complex logic.
  @param element The accessibility element to tap.
  @param view The view containing the accessibility element.
+ @param force The amount of force that is to be exerted on the screen.
  */
-- (void)tapAccessibilityElement:(UIAccessibilityElement *)element inView:(UIView *)view;
+- (void)tapAccessibilityElement:(UIAccessibilityElement *)element inView:(UIView *)view withForce:(float)force;
 
 /*!
  @abstract Taps the increment|decrement button of a UIStepper view in the view heirarchy.
