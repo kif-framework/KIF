@@ -792,9 +792,14 @@
     [self tapItemAtIndexPath:indexPath inCollectionView:collectionView];
 }
 
-- (BOOL)acknowledgeSystemAlert {
+#if TARGET_IPHONE_SIMULATOR
+
+- (BOOL)acknowledgeSystemAlert
+{
     return [UIAutomationHelper acknowledgeSystemAlert];
 }
+
+#endif
 
 - (void)tapItemAtIndexPath:(NSIndexPath *)indexPath inCollectionView:(UICollectionView *)collectionView
 {
