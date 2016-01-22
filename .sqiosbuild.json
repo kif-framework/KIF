@@ -1,0 +1,24 @@
+{
+  "debug-xc6-ios7-32bit-iphone": {
+    "project":"KIF.xcodeproj",
+    "scheme":"KIF",
+    "sim_device_type": "iPhone-4s",
+    "sim_runtime": "iOS-7",
+    "xcode_version": "6"
+  },
+  "debug-xc7-ios8-64bit-iphone": {
+    "project":"KIF.xcodeproj",
+    "scheme":"KIF",
+    "sim_device_type": "iPhone-6-Plus",
+    "sim_runtime": "iOS-8",
+    "xcode_version": "7"
+  },
+  "debug-xc7-ios9-64bit-ipad": {
+    "project":"KIF.xcodeproj",
+    "scheme":"KIF",
+    "sim_device_type": "iPad-Air",
+    "sim_runtime": "iOS-9",
+    "xcode_version": "7"
+  }
+}
+

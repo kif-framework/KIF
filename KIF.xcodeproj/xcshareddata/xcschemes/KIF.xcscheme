@@ -70,6 +70,13 @@
             ReferencedContainer = "container:KIF.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
+      <EnvironmentVariables>
+         <EnvironmentVariable
+            key = "KIF_SCREENSHOTS"
+            value = "~/Documents/sim_artifacts/kif_screenshots"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+      </EnvironmentVariables>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>

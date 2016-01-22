@@ -23,3 +23,7 @@ build
 
 *.orig
 DerivedData/*
+
+# Square specific
+.bin
+.bundle
