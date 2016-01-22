@@ -1,0 +1,14 @@
+[build "CI"]
+	template = iOS-Builder-Multi-Xcode-PR-Template
+        branch = square-fork
+	build_script = ./sqiosbuild/sqiosbuild.sh debug-xc6-ios7-32bit-iphone debug-xc7-ios8-64bit-iphone debug-xc7-ios9-64bit-ipad
+[build "PR-XC6-32bit-iOS7-iPhone"]
+	copy_from = CI
+	pull_request = true
+	build_script = ./sqiosbuild/sqiosbuild.sh debug-xc6-ios7-32bit-iphone
+[build "PR-XC7-64bit-IOS8-iPhone"]
+	copy_from = PR-XC6-32bit-IOS7-iPhone
+	build_script = ./sqiosbuild/sqiosbuild.sh debug-xc7-ios8-64bit-iphone
+[build "PR-XC7-64bit-IOS9-iPad"]
+	copy_from = PR-XC6-32bit-IOS7-iPhone
+	build_script = ./sqiosbuild/sqiosbuild.sh debug-xc7-ios9-64bit-ipad
