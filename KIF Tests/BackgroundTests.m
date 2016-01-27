@@ -18,7 +18,8 @@
 {
     // 'deactivateAppForDuration' can't be used on iOS7
     // The console shows a message "AX Lookup problem! 22 com.apple.iphone.axserver:-1"
-    if ([UIDevice.currentDevice.systemVersion compare:@"8.0" options:NSNumericSearch] < 0) {
+    // On iOS8 under Mac OS 10.11 we are seeing infinate hangs where the app never returns, skip these too.
+    if ([UIDevice.currentDevice.systemVersion compare:@"9.0" options:NSNumericSearch] < 0) {
         return nil;
     }
     
