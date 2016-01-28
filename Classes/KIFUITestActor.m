@@ -12,6 +12,7 @@
 #import "UIWindow-KIFAdditions.h"
 #import "UIAccessibilityElement-KIFAdditions.h"
 #import "UIView-KIFAdditions.h"
+#import "CALayer-KIFAdditions.h"
 #import "UITableView-KIFAdditions.h"
 #import "CGGeometry-KIFAdditions.h"
 #import "NSError-KIFAdditions.h"
@@ -149,10 +150,9 @@
         __block BOOL runningAnimationFound = false;
         for (UIWindow *window in [UIApplication sharedApplication].windowsWithKeyWindow) {
             [window performBlockOnDescendentViews:^(UIView *view, BOOL *stop) {
-                BOOL isViewVisible = [view isVisibleInViewHierarchy];   // do not wait for animatinos of views that aren't visible
-                BOOL hasAnimation = view.layer.animationKeys.count != 0 && ![view.layer.animationKeys isEqualToArray:@[@"_UIParallaxMotionEffect"]];    // explicitly exclude _UIParallaxMotionEffect as it is used in alertviews, and we don't want every alertview to be paused
+                BOOL isViewVisible = [view isVisibleInViewHierarchy];   // do not wait for animations of views that aren't visible
                 BOOL hasUnfinishedSystemAnimation = [NSStringFromClass(view.class) isEqualToString:@"_UIParallaxDimmingView"];  // indicates that the view-hierarchy is in an in-between-state of an animation
-                if (isViewVisible && (hasAnimation || hasUnfinishedSystemAnimation)) {
+                if (isViewVisible && ([view.layer hasAnimations] || hasUnfinishedSystemAnimation)) {
                     runningAnimationFound = YES;
                     if (stop != NULL) {
                         *stop = YES;

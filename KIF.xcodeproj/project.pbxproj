@@ -31,6 +31,13 @@
 		84D293B81A2C8DF700C10944 /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84D293B71A2C8DF700C10944 /* AddressBookUI.framework */; };
 		84D293BB1A2CC30B00C10944 /* UIAutomationHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 84D293B91A2CC30B00C10944 /* UIAutomationHelper.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		84D293BD1A2CC30B00C10944 /* UIAutomationHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D293BA1A2CC30B00C10944 /* UIAutomationHelper.m */; };
+		85DB946E1C5A3E860025F83E /* CALayer-KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 85DB946C1C5A3E860025F83E /* CALayer-KIFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		85DB946F1C5A3E860025F83E /* CALayer-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 85DB946D1C5A3E860025F83E /* CALayer-KIFAdditions.m */; };
+		85DB94701C5A5B590025F83E /* CALayer-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 85DB946D1C5A3E860025F83E /* CALayer-KIFAdditions.m */; };
+		85DB94721C5A5D430025F83E /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85DB94711C5A5D430025F83E /* QuartzCore.framework */; };
+		85DB94731C5A5FD50025F83E /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85DB94711C5A5D430025F83E /* QuartzCore.framework */; };
+		85DB94741C5A5FE10025F83E /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85DB94711C5A5D430025F83E /* QuartzCore.framework */; };
+		85DB94751C5A5FEA0025F83E /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85DB94711C5A5D430025F83E /* QuartzCore.framework */; };
 		97E8A5CF1B0A62F700124E3B /* BackgroundViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97E8A5CE1B0A62F700124E3B /* BackgroundViewController.m */; };
 		97E8A5D11B0A63D100124E3B /* BackgroundTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 97E8A5D01B0A63D100124E3B /* BackgroundTests.m */; };
 		9CC881A91AD4CE39002CD34C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAB072B413971AEA008AF393 /* UIKit.framework */; };
@@ -92,8 +99,8 @@
 		AE62FCDA1A1D26BB002B10DA /* page2.html in Resources */ = {isa = PBXBuildFile; fileRef = AE62FCD91A1D26BB002B10DA /* page2.html */; };
 		BD6A1CA11BCE8DD000EF07D2 /* KIFAccessibilityEnabler.h in Headers */ = {isa = PBXBuildFile; fileRef = BD6A1C9F1BCE8DD000EF07D2 /* KIFAccessibilityEnabler.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BD6A1CA21BCE8DD000EF07D2 /* KIFAccessibilityEnabler.h in Headers */ = {isa = PBXBuildFile; fileRef = BD6A1C9F1BCE8DD000EF07D2 /* KIFAccessibilityEnabler.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		BD6A1CA31BCE8DD000EF07D2 /* KIFAccessibilityEnabler.m in Sources */ = {isa = PBXBuildFile; fileRef = BD6A1CA01BCE8DD000EF07D2 /* KIFAccessibilityEnabler.m */; settings = {ASSET_TAGS = (); }; };
-		BD6A1CA41BCE8DD000EF07D2 /* KIFAccessibilityEnabler.m in Sources */ = {isa = PBXBuildFile; fileRef = BD6A1CA01BCE8DD000EF07D2 /* KIFAccessibilityEnabler.m */; settings = {ASSET_TAGS = (); }; };
+		BD6A1CA31BCE8DD000EF07D2 /* KIFAccessibilityEnabler.m in Sources */ = {isa = PBXBuildFile; fileRef = BD6A1CA01BCE8DD000EF07D2 /* KIFAccessibilityEnabler.m */; };
+		BD6A1CA41BCE8DD000EF07D2 /* KIFAccessibilityEnabler.m in Sources */ = {isa = PBXBuildFile; fileRef = BD6A1CA01BCE8DD000EF07D2 /* KIFAccessibilityEnabler.m */; };
 		D927B9DC18F9DF2D00DAD036 /* TableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D927B9DB18F9DF2D00DAD036 /* TableViewController.m */; };
 		D927B9DF18F9E46400DAD036 /* UITableView-KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = D927B9DD18F9E46400DAD036 /* UITableView-KIFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D927B9E018F9E46400DAD036 /* UITableView-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D927B9DE18F9E46400DAD036 /* UITableView-KIFAdditions.m */; };
@@ -219,6 +226,9 @@
 		84D293B71A2C8DF700C10944 /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
 		84D293B91A2CC30B00C10944 /* UIAutomationHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIAutomationHelper.h; sourceTree = "<group>"; };
 		84D293BA1A2CC30B00C10944 /* UIAutomationHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIAutomationHelper.m; sourceTree = "<group>"; };
+		85DB946C1C5A3E860025F83E /* CALayer-KIFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CALayer-KIFAdditions.h"; sourceTree = "<group>"; };
+		85DB946D1C5A3E860025F83E /* CALayer-KIFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CALayer-KIFAdditions.m"; sourceTree = "<group>"; };
+		85DB94711C5A5D430025F83E /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		97E8A5CE1B0A62F700124E3B /* BackgroundViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BackgroundViewController.m; sourceTree = "<group>"; };
 		97E8A5D01B0A63D100124E3B /* BackgroundTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BackgroundTests.m; sourceTree = "<group>"; };
 		9CC881A21AD4CAAC002CD34C /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
@@ -333,6 +343,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				85DB94751C5A5FEA0025F83E /* QuartzCore.framework in Frameworks */,
 				9CC881A91AD4CE39002CD34C /* UIKit.framework in Frameworks */,
 				9CC881AC1AD4CE4B002CD34C /* Foundation.framework in Frameworks */,
 				9CC881AA1AD4CE45002CD34C /* IOKit.framework in Frameworks */,
@@ -345,6 +356,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				85DB94721C5A5D430025F83E /* QuartzCore.framework in Frameworks */,
 				EABD46D21857A24E00A5F081 /* XCTest.framework in Frameworks */,
 				EABD468E1857A0C700A5F081 /* Foundation.framework in Frameworks */,
 				EABD468F1857A0C700A5F081 /* UIKit.framework in Frameworks */,
@@ -356,6 +368,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				85DB94741C5A5FE10025F83E /* QuartzCore.framework in Frameworks */,
 				EABD46D61858C8ED00A5F081 /* libKIF.a in Frameworks */,
 				EABD46CF1857A15400A5F081 /* XCTest.framework in Frameworks */,
 				EABD46C31857A0F300A5F081 /* UIKit.framework in Frameworks */,
@@ -369,6 +382,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				85DB94731C5A5FD50025F83E /* QuartzCore.framework in Frameworks */,
 				EB60ECC2177F8C83005A041A /* UIKit.framework in Frameworks */,
 				EB60ECC3177F8C83005A041A /* Foundation.framework in Frameworks */,
 				EB60ECC5177F8C83005A041A /* CoreGraphics.framework in Frameworks */,
@@ -424,6 +438,7 @@
 		AAB0726A139719AC008AF393 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				85DB94711C5A5D430025F83E /* QuartzCore.framework */,
 				9CC881A21AD4CAAC002CD34C /* CoreFoundation.framework */,
 				E9AD81F91AA180B900B369FD /* IOKit.framework */,
 				84D293B71A2C8DF700C10944 /* AddressBookUI.framework */,
@@ -475,6 +490,8 @@
 			isa = PBXGroup;
 			children = (
 				39160B1013D1E6BB00311E38 /* LoadableCategory.h */,
+				85DB946C1C5A3E860025F83E /* CALayer-KIFAdditions.h */,
+				85DB946D1C5A3E860025F83E /* CALayer-KIFAdditions.m */,
 				AAB0729413971AB2008AF393 /* CGGeometry-KIFAdditions.h */,
 				AAB0729513971AB2008AF393 /* CGGeometry-KIFAdditions.m */,
 				CDFD8E84139728B4008D299F /* NSFileManager-KIFAdditions.h */,
@@ -679,8 +696,9 @@
 				EABD46951857A0C700A5F081 /* UIScrollView-KIFAdditions.h in Headers */,
 				EABD46971857A0C700A5F081 /* UITouch-KIFAdditions.h in Headers */,
 				EABD46981857A0C700A5F081 /* UIView-KIFAdditions.h in Headers */,
-				EABD46991857A0C700A5F081 /* UIWindow-KIFAdditions.h in Headers */,
 				EABD469A1857A0C700A5F081 /* NSFileManager-KIFAdditions.h in Headers */,
+				EABD46991857A0C700A5F081 /* UIWindow-KIFAdditions.h in Headers */,
+				85DB946E1C5A3E860025F83E /* CALayer-KIFAdditions.h in Headers */,
 				0EAA1C131B4B371700FFB2FB /* IOHIDEvent+KIF.h in Headers */,
 				EABD469B1857A0C700A5F081 /* LoadableCategory.h in Headers */,
 				EABD469C1857A0C700A5F081 /* KIFTypist.h in Headers */,
@@ -881,6 +899,7 @@
 				9CC967C41AD4B58C00576D13 /* UITouch-KIFAdditions.m in Sources */,
 				9CC967C51AD4B58C00576D13 /* UIView-KIFAdditions.m in Sources */,
 				9CC967C61AD4B58C00576D13 /* UIWindow-KIFAdditions.m in Sources */,
+				85DB94701C5A5B590025F83E /* CALayer-KIFAdditions.m in Sources */,
 				9CC967C71AD4B58C00576D13 /* UITableView-KIFAdditions.m in Sources */,
 				9CC967C81AD4B58C00576D13 /* NSBundle-KIFAdditions.m in Sources */,
 				9CC967C91AD4B58C00576D13 /* NSError-KIFAdditions.m in Sources */,
@@ -914,6 +933,7 @@
 				EB1A44D61A0C3268004A3F61 /* KIFUITestActor-IdentifierTests.m in Sources */,
 				EB2526491981BF7A00DBC747 /* KIFUITestActor-ConditionalTests.m in Sources */,
 				E977D1081AA4062B005645BF /* UIEvent+KIFAdditions.m in Sources */,
+				85DB946F1C5A3E860025F83E /* CALayer-KIFAdditions.m in Sources */,
 				EABD46871857A0C700A5F081 /* KIFSystemTestActor.m in Sources */,
 				EAC8096B1864F19C000E819F /* NSException-KIFAdditions.m in Sources */,
 				EABD46881857A0C700A5F081 /* KIFUITestActor.m in Sources */,
