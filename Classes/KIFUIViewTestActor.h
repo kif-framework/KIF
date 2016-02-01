@@ -16,7 +16,6 @@
 @property (nonatomic, strong, readonly) UIView *view;
 @property (nonatomic, strong, readonly) UIAccessibilityElement *element;
 @property (nonatomic, strong, readonly) NSPredicate *predicate;
-@property (nonatomic, assign, readonly) BOOL hasMatch;
 
 - (instancetype)usingPredicate:(NSPredicate *)predicate;
 - (instancetype)usingLabel:(NSString *)accessibilityLabel;

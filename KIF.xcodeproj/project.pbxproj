@@ -29,7 +29,6 @@
 		84D293AF1A2C867300C10944 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84D293AE1A2C867300C10944 /* CoreLocation.framework */; };
 		84D293B11A2C891700C10944 /* SystemAlertTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D293B01A2C891700C10944 /* SystemAlertTests.m */; };
 		84D293B81A2C8DF700C10944 /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84D293B71A2C8DF700C10944 /* AddressBookUI.framework */; };
-		84D293BB1A2CC30B00C10944 /* UIAutomationHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 84D293B91A2CC30B00C10944 /* UIAutomationHelper.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		84D293BD1A2CC30B00C10944 /* UIAutomationHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D293BA1A2CC30B00C10944 /* UIAutomationHelper.m */; };
 		85DB946E1C5A3E860025F83E /* CALayer-KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 85DB946C1C5A3E860025F83E /* CALayer-KIFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		85DB946F1C5A3E860025F83E /* CALayer-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 85DB946D1C5A3E860025F83E /* CALayer-KIFAdditions.m */; };
@@ -218,6 +217,7 @@
 		FA914DB61A7707550073BB19 /* TypingTests_ViewTestActor.m in Sources */ = {isa = PBXBuildFile; fileRef = FA914DB51A7707550073BB19 /* TypingTests_ViewTestActor.m */; };
 		FA9E18791C5AC962004E5E8D /* NSString+KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = FA9E18771C5AC962004E5E8D /* NSString+KIFAdditions.h */; };
 		FA9E187A1C5AC962004E5E8D /* NSString+KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = FA9E18781C5AC962004E5E8D /* NSString+KIFAdditions.m */; };
+		FAB2F2481C5FDAD200ED58A5 /* UIAutomationHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 84D293B91A2CC30B00C10944 /* UIAutomationHelper.h */; };
 		FAB4C4741A815CA900C52EDF /* NSPredicate+KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = FAB4C4721A815CA900C52EDF /* NSPredicate+KIFAdditions.h */; };
 		FAB4C4751A815CA900C52EDF /* NSPredicate+KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = FAB4C4731A815CA900C52EDF /* NSPredicate+KIFAdditions.m */; };
 		FAC3A53E1A703A8300802118 /* KIFUIViewTestActor.h in Headers */ = {isa = PBXBuildFile; fileRef = FAC3A53C1A703A8300802118 /* KIFUIViewTestActor.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -793,7 +793,7 @@
 				EABD46941857A0C700A5F081 /* UIApplication-KIFAdditions.h in Headers */,
 				FA9E18791C5AC962004E5E8D /* NSString+KIFAdditions.h in Headers */,
 				FAB4C4741A815CA900C52EDF /* NSPredicate+KIFAdditions.h in Headers */,
-				84D293BB1A2CC30B00C10944 /* UIAutomationHelper.h in Headers */,
+				FAB2F2481C5FDAD200ED58A5 /* UIAutomationHelper.h in Headers */,
 				EABD46951857A0C700A5F081 /* UIScrollView-KIFAdditions.h in Headers */,
 				FAC3A53E1A703A8300802118 /* KIFUIViewTestActor.h in Headers */,
 				EABD46971857A0C700A5F081 /* UITouch-KIFAdditions.h in Headers */,
@@ -812,7 +812,6 @@
 				EABD46A11857A0C700A5F081 /* NSBundle-KIFAdditions.h in Headers */,
 				EAC8096A1864F19C000E819F /* NSException-KIFAdditions.h in Headers */,
 				EABD46961857A0C700A5F081 /* XCTestCase-KIFAdditions.h in Headers */,
-				84D293BB1A2CC30B00C10944 /* UIAutomationHelper.h in Headers */,
 				E977D1071AA4062B005645BF /* UIEvent+KIFAdditions.h in Headers */,
 				BD6A1CA11BCE8DD000EF07D2 /* KIFAccessibilityEnabler.h in Headers */,
 				EABD46A21857A0C700A5F081 /* NSError-KIFAdditions.h in Headers */,
@@ -919,7 +918,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastTestingUpgradeCheck = 0510;
-				LastUpgradeCheck = 0700;
+				LastUpgradeCheck = 0710;
 				TargetAttributes = {
 					9CC9673A1AD4B1B600576D13 = {
 						CreatedOnToolsVersion = 6.2;
