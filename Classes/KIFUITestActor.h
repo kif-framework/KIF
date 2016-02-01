@@ -444,7 +444,7 @@ static inline KIFDisplacement KIFDisplacementForSwipingInDirection(KIFSwipeDirec
 /*!
  @abstract Taps a stepper to either increment or decrement the stepper. Presumed that - (minus) to decrement is on the left.
  @discussion This will locate the left or right half of the stepper and perform a calculated click.
- @param label The accessibility identifier of the view to interact with.
+ @param accessibilityLabel The accessibility identifier of the view to interact with.
  @param stepperDirection The direction in which to change the value of the stepper (KIFStepperDirectionIncrement | KIFStepperDirectionDecrement)
  */
 -(void) tapStepperWithAccessibilityLabel: (NSString *)accessibilityLabel increment: (KIFStepperDirection) stepperDirection;
