@@ -605,6 +605,6 @@ static inline KIFDisplacement KIFDisplacementForSwipingInDirection(KIFSwipeDirec
  @abstract Backgrounds app using UIAutomation command, simulating pressing the Home button
  @param duration Amount of time for a background event before the app becomes active again
  */
-- (void)deactivateAppForDuration:(NSTimeInterval)duration;
+- (void)deactivateAppForDuration:(NSTimeInterval)duration DEPRECATED_MSG_ATTRIBUTE("This method has been deprecated, use [system deactivateAppForDuration:] instead.");
 
 @end
