@@ -183,12 +183,12 @@
 
 - (BOOL)tryFindingView;
 {
-    return [self _predicateSearchWithRequiresMatch:NO mustBeTappable:NO];
+    return ([self _predicateSearchWithRequiresMatch:NO mustBeTappable:NO] != nil);
 }
 
 - (BOOL)tryFindingTappableView;
 {
-    return [self _predicateSearchWithRequiresMatch:NO mustBeTappable:YES];
+    return ([self _predicateSearchWithRequiresMatch:NO mustBeTappable:YES] != nil);
 }
 
 
@@ -363,11 +363,6 @@
 - (UIAccessibilityElement *)element;
 {
     return [self _predicateSearchWithRequiresMatch:YES mustBeTappable:NO].element;
-}
-
-- (BOOL)hasMatch;
-{
-    return [self _predicateSearchWithRequiresMatch:NO mustBeTappable:NO];
 }
 
 - (KIFUITestActor *)actor;
