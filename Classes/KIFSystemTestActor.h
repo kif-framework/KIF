@@ -76,4 +76,10 @@
  */
 - (void)captureScreenshotWithDescription:(NSString *)description;
 
+/*!
+ @abstract Backgrounds app using UIAutomation command, simulating pressing the Home button
+ @param duration Amount of time for a background event before the app becomes active again
+ */
+- (void)deactivateAppForDuration:(NSTimeInterval)duration;
+
 @end

@@ -35,7 +35,7 @@
 
 - (void)testBackgroundApp {
     [tester waitForViewWithAccessibilityLabel:@"Start"];
-    [tester deactivateAppForDuration:5];
+    [system deactivateAppForDuration:5];
     [tester waitForViewWithAccessibilityLabel:@"Back"];
 }
 
