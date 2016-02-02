@@ -43,8 +43,7 @@
     [tester waitForViewWithAccessibilityLabel:@"Slider" value:@"5" traits:UIAccessibilityTraitNone];
 }
 
-// Temporarily disabling this test until we figure out why it is failing in Square's CI system
-- (void)DISABLED_testPickingAPhoto
+- (void)testPickingAPhoto
 {
     // 'acknowledgeSystemAlert' can't be used on iOS7
     // The console shows a message "AX Lookup problem! 22 com.apple.iphone.axserver:-1"
