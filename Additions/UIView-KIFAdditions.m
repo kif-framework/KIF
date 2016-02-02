@@ -215,25 +215,10 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
     if ([self isKindOfClass:[UITableView class]]) {
         UITableView *tableView = (UITableView *)self;
 
-        // Because of a bug in [UITableView indexPathsForVisibleRows] http://openradar.appspot.com/radar?id=5191284490764288
-        // We use [UITableView visibleCells] to determine the index path of the visible cells
-        NSMutableArray *indexPathsForVisibleRows = [[NSMutableArray alloc] init];
-        [[tableView visibleCells] enumerateObjectsUsingBlock:^(UITableViewCell *cell, NSUInteger idx, BOOL *stop) {
-            NSIndexPath *indexPath = [tableView indexPathForCell:cell];
-            BOOL isCellFullyInView = CGRectContainsRect(tableView.bounds, cell.frame);
-
-            if (indexPath && isCellFullyInView) {
-                [indexPathsForVisibleRows addObject:indexPath];
-            }
-        }];
-
         for (NSUInteger section = 0, numberOfSections = [tableView numberOfSections]; section < numberOfSections; section++) {
             for (NSUInteger row = 0, numberOfRows = [tableView numberOfRowsInSection:section]; row < numberOfRows; row++) {
                 // Skip visible rows because they are already handled
                 NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:section];
-                if ([indexPathsForVisibleRows containsObject:indexPath]) {
-                    continue;
-                }
 
                 @autoreleasepool {
                     // Get the cell directly from the dataSource because UITableView will only vend visible cells
@@ -242,7 +227,9 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
                     UIAccessibilityElement *element = [cell accessibilityElementMatchingBlock:matchBlock notHidden:NO];
 
                     // Remove the cell from the table view so that it doesn't stick around
-                    [cell removeFromSuperview];
+                    if (! [[tableView visibleCells] containsObject:cell]) {
+                        [cell removeFromSuperview];
+                    }
 
                     // Skip this cell if it isn't the one we're looking for
                     if (!element) {
