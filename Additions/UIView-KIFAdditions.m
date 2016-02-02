@@ -703,8 +703,27 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
             }
         }
     }];
-    
-    return hasTapGestureRecognizer;
+
+    if (!hasTapGestureRecognizer) {
+        return NO;
+    }
+
+    // Tap gesture recognizers are only useful if the elements are visible within their ancestor views
+    CGRect viewScreenRect = [self convertRect:self.bounds toView:self.window];
+
+    UIView *superview = self.superview;
+    while (superview) {
+        CGRect superviewScreenRect = [superview convertRect:superview.bounds toView:self.window];
+        viewScreenRect = CGRectIntersection(viewScreenRect, superviewScreenRect);
+
+        if (CGRectIsNull(viewScreenRect)) {
+            return NO;
+        }
+
+        superview = superview.superview;
+    }
+
+    return YES;
 }
 
 - (BOOL)isTappableInRect:(CGRect)rect;
