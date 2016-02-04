@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
+
 @class KIFTestActor;
 
 @interface UIAutomationHelper : NSObject
