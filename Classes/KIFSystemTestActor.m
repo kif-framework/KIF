@@ -11,6 +11,8 @@
 #import <UIKit/UIKit.h>
 #import "UIApplication-KIFAdditions.h"
 #import "NSError-KIFAdditions.h"
+#import "UIAutomationHelper.h"
+
 
 @implementation KIFSystemTestActor
 
@@ -110,6 +112,10 @@
     if (![[UIApplication sharedApplication] writeScreenshotForLine:(NSUInteger)self.line inFile:self.file description:description error:&error]) {
         [self failWithError:error stopTest:NO];
     }
+}
+
+- (void)deactivateAppForDuration:(NSTimeInterval)duration {
+    [UIAutomationHelper deactivateAppForDuration:@(duration)];
 }
 
 @end

@@ -8,6 +8,7 @@
 //  which Square, Inc. licenses this file to you.
 
 #import "KIFUITestActor.h"
+#import "KIFSystemTestActor.h"
 #import "UIApplication-KIFAdditions.h"
 #import "UIWindow-KIFAdditions.h"
 #import "UIAccessibilityElement-KIFAdditions.h"
@@ -1099,7 +1100,7 @@
 }
 
 - (void)deactivateAppForDuration:(NSTimeInterval)duration {
-    [UIAutomationHelper deactivateAppForDuration:@(duration)];
+    [system deactivateAppForDuration:duration];
 }
 
 -(void) tapStepperWithAccessibilityLabel: (NSString *)accessibilityLabel increment: (KIFStepperDirection) stepperDirection
