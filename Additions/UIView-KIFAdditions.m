@@ -210,88 +210,76 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
             }
         }
     }
-    
-    if (!matchingButOccludedElement) {
-        if ([self isKindOfClass:[UITableView class]]) {
-            UITableView *tableView = (UITableView *)self;
-            
-            // Because of a bug in [UITableView indexPathsForVisibleRows] http://openradar.appspot.com/radar?id=5191284490764288
-            // We use [UITableView visibleCells] to determine the index path of the visible cells
-            NSMutableArray *indexPathsForVisibleRows = [[NSMutableArray alloc] init];
-            [[tableView visibleCells] enumerateObjectsUsingBlock:^(UITableViewCell *cell, NSUInteger idx, BOOL *stop) {
-                NSIndexPath *indexPath = [tableView indexPathForCell:cell];
-                if (indexPath) {
-                    [indexPathsForVisibleRows addObject:indexPath];
-                }
-            }];
-            
-            for (NSUInteger section = 0, numberOfSections = [tableView numberOfSections]; section < numberOfSections; section++) {
-                for (NSUInteger row = 0, numberOfRows = [tableView numberOfRowsInSection:section]; row < numberOfRows; row++) {
-                    // Skip visible rows because they are already handled
-                    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:section];
-                    if ([indexPathsForVisibleRows containsObject:indexPath]) {
+
+    // Prefer a visible tableview or collectionview over a known offscreen element
+    if ([self isKindOfClass:[UITableView class]]) {
+        UITableView *tableView = (UITableView *)self;
+
+        for (NSUInteger section = 0, numberOfSections = [tableView numberOfSections]; section < numberOfSections; section++) {
+            for (NSUInteger row = 0, numberOfRows = [tableView numberOfRowsInSection:section]; row < numberOfRows; row++) {
+                // Skip visible rows because they are already handled
+                NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:section];
+
+                @autoreleasepool {
+                    // Get the cell directly from the dataSource because UITableView will only vend visible cells
+                    UITableViewCell *cell = [tableView.dataSource tableView:tableView cellForRowAtIndexPath:indexPath];
+
+                    UIAccessibilityElement *element = [cell accessibilityElementMatchingBlock:matchBlock notHidden:NO];
+
+                    // Remove the cell from the table view so that it doesn't stick around
+                    if (! [[tableView visibleCells] containsObject:cell]) {
+                        [cell removeFromSuperview];
+                    }
+
+                    // Skip this cell if it isn't the one we're looking for
+                    if (!element) {
                         continue;
                     }
-                    
-                    @autoreleasepool {
-                        // Get the cell directly from the dataSource because UITableView will only vend visible cells
-                        UITableViewCell *cell = [tableView.dataSource tableView:tableView cellForRowAtIndexPath:indexPath];
-                        
-                        UIAccessibilityElement *element = [cell accessibilityElementMatchingBlock:matchBlock notHidden:NO];
-                        
-                        // Remove the cell from the table view so that it doesn't stick around
-                        [cell removeFromSuperview];
-                        
-                        // Skip this cell if it isn't the one we're looking for
-                        if (!element) {
-                            continue;
-                        }
-                    }
-                    
-                    // Scroll to the cell and wait for the animation to complete
-                    [tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionNone animated:YES];
-                    CFRunLoopRunInMode(UIApplicationCurrentRunMode, 0.5, false);
-                    
-                    // Now try finding the element again
-                    return [self accessibilityElementMatchingBlock:matchBlock];
                 }
+
+                // Scroll to the cell and wait for the animation to complete
+                [tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionNone animated:YES];
+                CFRunLoopRunInMode(UIApplicationCurrentRunMode, 0.5, false);
+
+                // Now try finding the element again
+                return [self accessibilityElementMatchingBlock:matchBlock];
             }
-        } else if ([self isKindOfClass:[UICollectionView class]]) {
-            UICollectionView *collectionView = (UICollectionView *)self;
-            
-            NSArray *indexPathsForVisibleItems = [collectionView indexPathsForVisibleItems];
-            
-            for (NSUInteger section = 0, numberOfSections = [collectionView numberOfSections]; section < numberOfSections; section++) {
-                for (NSUInteger item = 0, numberOfItems = [collectionView numberOfItemsInSection:section]; item < numberOfItems; item++) {
-                    // Skip visible items because they are already handled
-                    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:item inSection:section];
-                    if ([indexPathsForVisibleItems containsObject:indexPath]) {
+        }
+    } else if ([self isKindOfClass:[UICollectionView class]]) {
+        UICollectionView *collectionView = (UICollectionView *)self;
+
+        NSArray *indexPathsForVisibleItems = [collectionView indexPathsForVisibleItems];
+
+        for (NSUInteger section = 0, numberOfSections = [collectionView numberOfSections]; section < numberOfSections; section++) {
+            for (NSUInteger item = 0, numberOfItems = [collectionView numberOfItemsInSection:section]; item < numberOfItems; item++) {
+                // Skip visible items because they are already handled
+                NSIndexPath *indexPath = [NSIndexPath indexPathForItem:item inSection:section];
+                if ([indexPathsForVisibleItems containsObject:indexPath]) {
+                    continue;
+                }
+
+                @autoreleasepool {
+                    // Get the cell directly from the dataSource because UICollectionView will only vend visible cells
+                    UICollectionViewCell *cell = [collectionView.dataSource collectionView:collectionView cellForItemAtIndexPath:indexPath];
+
+                    UIAccessibilityElement *element = [cell accessibilityElementMatchingBlock:matchBlock notHidden:NO];
+
+                    // Remove the cell from the collection view so that it doesn't stick around
+                    [cell removeFromSuperview];
+
+                    // Skip this cell if it isn't the one we're looking for
+                    // Sometimes we get cells with no size here which can cause an endless loop, so we ignore those
+                    if (!element || CGSizeEqualToSize(cell.frame.size, CGSizeZero)) {
                         continue;
                     }
-                    
-                    @autoreleasepool {
-                        // Get the cell directly from the dataSource because UICollectionView will only vend visible cells
-                        UICollectionViewCell *cell = [collectionView.dataSource collectionView:collectionView cellForItemAtIndexPath:indexPath];
-                        
-                        UIAccessibilityElement *element = [cell accessibilityElementMatchingBlock:matchBlock notHidden:NO];
-                        
-                        // Remove the cell from the collection view so that it doesn't stick around
-                        [cell removeFromSuperview];
-                        
-                        // Skip this cell if it isn't the one we're looking for
-                        // Sometimes we get cells with no size here which can cause an endless loop, so we ignore those
-                        if (!element || CGSizeEqualToSize(cell.frame.size, CGSizeZero)) {
-                            continue;
-                        }
-                    }
-                    
-                    // Scroll to the cell and wait for the animation to complete
-                    [collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionNone animated:YES];
-                    CFRunLoopRunInMode(UIApplicationCurrentRunMode, 0.5, false);
-                    
-                    // Now try finding the element again
-                    return [self accessibilityElementMatchingBlock:matchBlock];
                 }
+
+                // Scroll to the cell and wait for the animation to complete
+                [collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionNone animated:YES];
+                CFRunLoopRunInMode(UIApplicationCurrentRunMode, 0.5, false);
+
+                // Now try finding the element again
+                return [self accessibilityElementMatchingBlock:matchBlock];
             }
         }
     }
@@ -703,8 +691,27 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
             }
         }
     }];
-    
-    return hasTapGestureRecognizer;
+
+    if (!hasTapGestureRecognizer) {
+        return NO;
+    }
+
+    // Tap gesture recognizers are only useful if the elements are visible within their ancestor views
+    CGRect viewScreenRect = [self convertRect:self.bounds toView:self.window];
+
+    UIView *superview = self.superview;
+    while (superview) {
+        CGRect superviewScreenRect = [superview convertRect:superview.bounds toView:self.window];
+        viewScreenRect = CGRectIntersection(viewScreenRect, superviewScreenRect);
+
+        if (CGRectIsNull(viewScreenRect)) {
+            return NO;
+        }
+
+        superview = superview.superview;
+    }
+
+    return YES;
 }
 
 - (BOOL)isTappableInRect:(CGRect)rect;
