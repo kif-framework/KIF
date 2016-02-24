@@ -37,9 +37,14 @@
 
 - (void)testAuthorizingLocationServicesAndNotificationsScheduling {
     [tester tapViewWithAccessibilityLabel:@"Location Services and Notifications"];
-    XCTAssertTrue([tester acknowledgeSystemAlert]);
-	XCTAssertTrue([tester acknowledgeSystemAlert]);
-	XCTAssertFalse([tester acknowledgeSystemAlert]);
+
+    // In a clean state this will pop two alerts, but in a dirty state it will pop one or none.
+    // Call acknowledgeSystemAlert 2x without checking the return value (as the alerts might not be there).
+    // Finally check that the final attempt is indeed false and no alerts remain on screen.
+    
+    [tester acknowledgeSystemAlert];
+    [tester acknowledgeSystemAlert];
+    XCTAssertFalse([tester acknowledgeSystemAlert]);
 }
 
 - (void)testAuthorizingPhotosAccess {

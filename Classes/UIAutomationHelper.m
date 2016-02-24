@@ -9,7 +9,7 @@
 #import "UIAutomationHelper.h"
 #import <dlfcn.h>
 #import <objc/runtime.h>
-#import <UIView-KIFAdditions.h>
+#import "UIApplication-KIFAdditions.h"
 
 @interface UIAElement : NSObject <NSCopying>
 - (void)tap;
@@ -107,14 +107,19 @@ static void FixReactivateApp(void)
 + (void)deactivateAppForDuration:(NSNumber *)duration {
     [[self sharedHelper] deactivateAppForDuration:duration];
 }
+
 - (BOOL)acknowledgeSystemAlert {
     UIAApplication *application = [[self target] frontMostApp];
 	UIAAlert* alert = application.alert;
-	if (![alert isKindOfClass:[self nilElementClass]]) {
-		[[alert.buttons lastObject] tap];
-		while ([alert isValid] && [alert isVisible]) {
-		}
-		return YES;
+	if (![alert isKindOfClass:[self nilElementClass]] && [self _alertIsValidAndVisible:alert]) {
+            [[alert.buttons lastObject] tap];
+            while ([self _alertIsValidAndVisible:alert]) {
+                // Wait for button press to complete.
+                CFRunLoopRunInMode(UIApplicationCurrentRunMode, 0.1, false);
+            }
+            // Wait for alert dismissial animation.
+            CFRunLoopRunInMode(UIApplicationCurrentRunMode, 0.4, false);
+            return YES;
 	}
     return NO;
 }
@@ -124,6 +129,16 @@ static void FixReactivateApp(void)
 }
 
 #pragma mark - Private
+
+- (BOOL)_alertIsValidAndVisible:(UIAAlert *)alert;
+{
+    // [alert isValid] is returning an __NSCFBoolean which is really hard to compare against.
+    // Translate the __NSCFBoolean into a vanilla BOOL.
+    // See https://www.bignerdranch.com/blog/bools-sharp-corners/ for more details.
+    
+    BOOL visible = [[alert valueForKeyPath:@"isVisible"] boolValue];
+    return ([alert isValid] && visible);
+}
 
 - (void)linkAutomationFramework {
     dlopen([@"/Developer/Library/PrivateFrameworks/UIAutomation.framework/UIAutomation" fileSystemRepresentation], RTLD_LOCAL);
