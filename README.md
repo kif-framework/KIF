@@ -57,14 +57,6 @@ The `:exclusive => true` option will prevent CocoaPods from including dependenci
 
 After running `pod install` complete the tasks in [**Final Test Target Configurations**](#final-test-target-configurations) below for the final details on getting your tests to run.
 
-Note: if you are using KIF with OCUnit, you need to use the OCUnit version of KIF as follows:
-
-```Ruby
-target 'Acceptance Tests', :exclusive => true do
-  pod 'KIF/OCUnit', '~> 3.0'
-end
-```
-
 Installation (from GitHub)
 --------------------------
 
