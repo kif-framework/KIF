@@ -10,4 +10,6 @@
 
 @interface UIScreen (KIFAdditions)
 
+@property (nonatomic, readonly) CGFloat majorSwipeDisplacement;
+
 @end
