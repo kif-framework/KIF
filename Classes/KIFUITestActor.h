@@ -10,6 +10,7 @@
 #import "KIFTestActor.h"
 #import <UIKit/UIKit.h>
 #import "UIView-KIFAdditions.h"
+#import "UIScreen+KIFAdditions.h"
 
 #define tester KIFActorWithClass(KIFUITestActor)
 
@@ -66,7 +67,6 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
 	KIFPullToRefreshInAboutThreeSeconds = 200, //slower
 };
 
-#define kKIFMajorSwipeDisplacement 200
 #define kKIFMinorSwipeDisplacement 5
 
 static inline KIFDisplacement KIFDisplacementForSwipingInDirection(KIFSwipeDirection direction)
@@ -77,13 +77,13 @@ static inline KIFDisplacement KIFDisplacementForSwipingInDirection(KIFSwipeDirec
             // swipe if you move purely horizontally or vertically, so need a
             // slight orthogonal offset too.
         case KIFSwipeDirectionRight:
-            return CGPointMake(kKIFMajorSwipeDisplacement, kKIFMinorSwipeDisplacement);
+            return CGPointMake(UIScreen.mainScreen.majorSwipeDisplacement, kKIFMinorSwipeDisplacement);
         case KIFSwipeDirectionLeft:
-            return CGPointMake(-kKIFMajorSwipeDisplacement, kKIFMinorSwipeDisplacement);
+            return CGPointMake(-UIScreen.mainScreen.majorSwipeDisplacement, kKIFMinorSwipeDisplacement);
         case KIFSwipeDirectionUp:
-            return CGPointMake(kKIFMinorSwipeDisplacement, -kKIFMajorSwipeDisplacement);
+            return CGPointMake(kKIFMinorSwipeDisplacement, -UIScreen.mainScreen.majorSwipeDisplacement);
         case KIFSwipeDirectionDown:
-            return CGPointMake(kKIFMinorSwipeDisplacement, kKIFMajorSwipeDisplacement);
+            return CGPointMake(kKIFMinorSwipeDisplacement, UIScreen.mainScreen.majorSwipeDisplacement);
     }
 }
 
