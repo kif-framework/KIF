@@ -48,12 +48,14 @@ The testing target will add a header and implementation file, likely "Acceptance
 Once your test target set up, add the following to your Podfile file. Use your target's name as appropriate.
 
 ```Ruby
-target 'Acceptance Tests', :exclusive => true do
+target 'Your Apps' do
+  ...
+end
+
+target 'Acceptance Tests' do
   pod 'KIF', '~> 3.0', :configurations => ['Debug']
 end
 ```
-
-The `:exclusive => true` option will prevent CocoaPods from including dependencies from your main target in your test target causing double-linking issues when you test link against the app.
 
 After running `pod install` complete the tasks in [**Final Test Target Configurations**](#final-test-target-configurations) below for the final details on getting your tests to run.
 
