@@ -617,7 +617,7 @@ static inline KIFDisplacement KIFDisplacementForSwipingInDirection(KIFSwipeDirec
 - (void)tapStatusBar;
 
 /*!
- @abstract Waits for the cell at indexPath in a table view with the given identifier.
+ @abstract Scrolls a table view with the given identifier while waiting for the cell at the given indexPath to appear.
  @discussion This step will get the view with the specified accessibility identifier and then get the cell at the indexPath.
  
  For cases where you may need to work from the end of a table view rather than the beginning, negative sections count back from the end of the table view (-1 is the last section) and negative rows count back from the end of the section (-1 is the last row for that section).
@@ -629,7 +629,7 @@ static inline KIFDisplacement KIFDisplacementForSwipingInDirection(KIFSwipeDirec
 - (UITableViewCell *)waitForCellAtIndexPath:(NSIndexPath *)indexPath inTableViewWithAccessibilityIdentifier:(NSString *)identifier;
 
 /*!
- @abstract Waits for the cell at indexPath in a given table view.
+ @abstract Scrolls a table view while waiting for the cell at the given indexPath to appear.
  @discussion This step will get the cell at the indexPath.
  
  For cases where you may need to work from the end of a table view rather than the beginning, negative sections count back from the end of the table view (-1 is the last section) and negative rows count back from the end of the section (-1 is the last row for that section).
@@ -641,7 +641,7 @@ static inline KIFDisplacement KIFDisplacementForSwipingInDirection(KIFSwipeDirec
 - (UITableViewCell *)waitForCellAtIndexPath:(NSIndexPath *)indexPath inTableView:(UITableView *)tableView;
 
 /*!
- @abstract Waits for the cell at indexPath in a given collection view.
+ @abstract Scrolls a collection view while waiting for the cell at the given indexPath to appear.
  @discussion This step will get the cell at the indexPath.
  
  For cases where you may need to work from the end of a table view rather than the beginning, negative sections count back from the end of the table view (-1 is the last section) and negative rows count back from the end of the section (-1 is the last row for that section).
@@ -654,7 +654,7 @@ static inline KIFDisplacement KIFDisplacementForSwipingInDirection(KIFSwipeDirec
 
 
 /*!
- @abstract Waits for the cell at indexPath in a collection view with the given identifier.
+ @abstract Scrolls a given collection view while waiting for the item at the given indexPath to appear.
  @discussion This step will get the view with the specified accessibility identifier and then get the cell at indexPath.
  
  For cases where you may need to work from the end of a collection view rather than the beginning, negative sections count back from the end of the collection view (-1 is the last section) and negative items count back from the end of the section (-1 is the last item for that section).
