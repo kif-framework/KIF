@@ -108,7 +108,7 @@
 		D927B9E018F9E46400DAD036 /* UITableView-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D927B9DE18F9E46400DAD036 /* UITableView-KIFAdditions.m */; };
 		D9EA274118F05A6000D87E57 /* ScrollViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D9EA274018F05A6000D87E57 /* ScrollViewTests.m */; };
 		D9EA274318F05A6700D87E57 /* ScrollViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9EA274218F05A6700D87E57 /* ScrollViewController.m */; };
-		E977D1071AA4062B005645BF /* UIEvent+KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = E977D1051AA4062B005645BF /* UIEvent+KIFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E977D1071AA4062B005645BF /* UIEvent+KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = E977D1051AA4062B005645BF /* UIEvent+KIFAdditions.h */; };
 		E977D1081AA4062B005645BF /* UIEvent+KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = E977D1061AA4062B005645BF /* UIEvent+KIFAdditions.m */; };
 		E9F646F81AA3BABA00C37EA3 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9AD81F91AA180B900B369FD /* IOKit.framework */; };
 		EA0F254A1829839E006FF825 /* CollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EA0F25491829839E006FF825 /* CollectionViewController.m */; };
@@ -223,6 +223,7 @@
 		FAB2F2481C5FDAD200ED58A5 /* UIAutomationHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 84D293B91A2CC30B00C10944 /* UIAutomationHelper.h */; };
 		FAB4C4741A815CA900C52EDF /* NSPredicate+KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = FAB4C4721A815CA900C52EDF /* NSPredicate+KIFAdditions.h */; };
 		FAB4C4751A815CA900C52EDF /* NSPredicate+KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = FAB4C4731A815CA900C52EDF /* NSPredicate+KIFAdditions.m */; };
+		FAC00C4C1C8E6D9900C38752 /* UIScreen+KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = BFE4708A1C7F42FB00580EF9 /* UIScreen+KIFAdditions.h */; };
 		FAC3A53E1A703A8300802118 /* KIFUIViewTestActor.h in Headers */ = {isa = PBXBuildFile; fileRef = FAC3A53C1A703A8300802118 /* KIFUIViewTestActor.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FAC3A53F1A703A8300802118 /* KIFUIViewTestActor.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC3A53D1A703A8300802118 /* KIFUIViewTestActor.m */; };
 		FAC3A5621C5C0CD1003B681E /* PullToRefreshTests_ViewTestActor.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC3A5611C5C0CD1003B681E /* PullToRefreshTests_ViewTestActor.m */; };
@@ -789,6 +790,7 @@
 				9CC967611AD4B1F100576D13 /* UITouch-KIFAdditions.h in Headers */,
 				9CC967631AD4B1F100576D13 /* UIView-KIFAdditions.h in Headers */,
 				9CC967651AD4B1F100576D13 /* UIWindow-KIFAdditions.h in Headers */,
+				FAC00C4C1C8E6D9900C38752 /* UIScreen+KIFAdditions.h in Headers */,
 				9CC967671AD4B1F100576D13 /* UITableView-KIFAdditions.h in Headers */,
 				9CC967691AD4B1F100576D13 /* NSBundle-KIFAdditions.h in Headers */,
 				5C877DD11B0A8B8F006A3AC6 /* UIView-Debugging.h in Headers */,

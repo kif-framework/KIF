@@ -12,6 +12,7 @@
 #import "UIApplication-KIFAdditions.h"
 #import "UIWindow-KIFAdditions.h"
 #import "UIAccessibilityElement-KIFAdditions.h"
+#import "UIScreen+KIFAdditions.h"
 #import "UIView-KIFAdditions.h"
 #import "CALayer-KIFAdditions.h"
 #import "UITableView-KIFAdditions.h"
@@ -19,6 +20,8 @@
 #import "NSError-KIFAdditions.h"
 #import "KIFTypist.h"
 #import "UIAutomationHelper.h"
+
+#define kKIFMinorSwipeDisplacement 5
 
 @implementation KIFUITestActor
 
@@ -820,7 +823,7 @@
     UITableViewCell *cell = [self waitForCellAtIndexPath:indexPath inTableView:tableView];
     CGRect cellFrame = [cell.contentView convertRect:cell.contentView.frame toView:tableView];
     CGPoint swipeStart = CGPointCenteredInRect(cellFrame);
-    KIFDisplacement swipeDisplacement = KIFDisplacementForSwipingInDirection(direction);
+    KIFDisplacement swipeDisplacement = [self _displacementForSwipingInDirection:direction];
     [tableView dragFromPoint:swipeStart displacement:swipeDisplacement steps:kNumberOfPointsInSwipePath];
     
     // Wait for the view to stabilize.
@@ -885,7 +888,7 @@
   
     CGRect elementFrame = [viewToSwipe.windowOrIdentityWindow convertRect:element.accessibilityFrame toView:viewToSwipe];
     CGPoint swipeStart = CGPointCenteredInRect(elementFrame);
-    KIFDisplacement swipeDisplacement = KIFDisplacementForSwipingInDirection(direction);
+    KIFDisplacement swipeDisplacement = [self _displacementForSwipingInDirection:direction];
   
     [viewToSwipe dragFromPoint:swipeStart displacement:swipeDisplacement steps:kNumberOfPointsInSwipePath];
 }
@@ -1193,4 +1196,22 @@
 
 	[self waitForAnimationsToFinish];
 }
+
+- (KIFDisplacement)_displacementForSwipingInDirection:(KIFSwipeDirection)direction;
+{
+    switch (direction) {
+            // As discovered on the Frank mailing lists, it won't register as a
+            // swipe if you move purely horizontally or vertically, so need a
+            // slight orthogonal offset too.
+        case KIFSwipeDirectionRight:
+            return CGPointMake(UIScreen.mainScreen.majorSwipeDisplacement, kKIFMinorSwipeDisplacement);
+        case KIFSwipeDirectionLeft:
+            return CGPointMake(-UIScreen.mainScreen.majorSwipeDisplacement, kKIFMinorSwipeDisplacement);
+        case KIFSwipeDirectionUp:
+            return CGPointMake(kKIFMinorSwipeDisplacement, -UIScreen.mainScreen.majorSwipeDisplacement);
+        case KIFSwipeDirectionDown:
+            return CGPointMake(kKIFMinorSwipeDisplacement, UIScreen.mainScreen.majorSwipeDisplacement);
+    }
+}
+
 @end
