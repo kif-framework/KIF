@@ -18,3 +18,4 @@ install:
 script:
   - open -b com.apple.iphonesimulator # Workaround https://github.com/travis-ci/travis-ci/issues/3040
   - env NSUnbufferedIO=YES xcodebuild test -scheme KIF -destination "platform=iOS Simulator,${SIMULATOR}" | xcpretty -c && exit ${PIPESTATUS[0]}
+  - env NSUnbufferedIO=YES xcodebuild build -scheme KIFFramework -destination "platform=iOS Simulator,${SIMULATOR}" | xcpretty -c && exit ${PIPESTATUS[0]}
