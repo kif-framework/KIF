@@ -1,5 +1,5 @@
 //
-//  KIFTester+UI.h
+//  KIFUITestActor.h
 //  KIF
 //
 //  Created by Brian Nickel on 12/14/12.
@@ -10,7 +10,6 @@
 #import "KIFTestActor.h"
 #import <UIKit/UIKit.h>
 #import "UIView-KIFAdditions.h"
-#import "UIScreen+KIFAdditions.h"
 
 #define tester KIFActorWithClass(KIFUITestActor)
 
@@ -66,25 +65,6 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
 	KIFPullToRefreshInAboutTwoSeconds = 150,
 	KIFPullToRefreshInAboutThreeSeconds = 200, //slower
 };
-
-#define kKIFMinorSwipeDisplacement 5
-
-static inline KIFDisplacement KIFDisplacementForSwipingInDirection(KIFSwipeDirection direction)
-{
-    switch (direction) {
-        // As discovered on the Frank mailing lists, it won't register as a
-        // swipe if you move purely horizontally or vertically, so need a
-        // slight orthogonal offset too.
-        case KIFSwipeDirectionRight:
-            return CGPointMake(UIScreen.mainScreen.majorSwipeDisplacement, kKIFMinorSwipeDisplacement);
-        case KIFSwipeDirectionLeft:
-            return CGPointMake(-UIScreen.mainScreen.majorSwipeDisplacement, kKIFMinorSwipeDisplacement);
-        case KIFSwipeDirectionUp:
-            return CGPointMake(kKIFMinorSwipeDisplacement, -UIScreen.mainScreen.majorSwipeDisplacement);
-        case KIFSwipeDirectionDown:
-            return CGPointMake(kKIFMinorSwipeDisplacement, UIScreen.mainScreen.majorSwipeDisplacement);
-    }
-}
 
 @interface KIFUITestActor : KIFTestActor
 
