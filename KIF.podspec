@@ -4,7 +4,7 @@ Pod::Spec.new do |s|
   s.summary                 = "Keep It Functional - iOS UI acceptance testing in an XCUnit harness."
   s.homepage                = "https://github.com/kif-framework/KIF/"
   s.license                 = 'Apache 2.0'
-  s.authors                 = 'Eric Firestone', 'Jim Puls', 'Brian Nickel'
+  s.authors                 = 'Michael Thole', 'Eric Firestone', 'Jim Puls', 'Brian Nickel'
   s.source                  = { :git => "https://github.com/kif-framework/KIF.git", :tag => "v#{ s.version.to_s }" }
   s.platform                = :ios, '5.1'
   s.frameworks              = 'CoreGraphics', 'QuartzCore', 'IOKit', 'XCTest'
