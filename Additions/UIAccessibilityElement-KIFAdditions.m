@@ -35,6 +35,13 @@ MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
         }
     }
     
+    // Because of how tableviews mock their accessibility, KIF will often find a UITableViewLabel inside a UITableViewCell which is NOT its accessibility container. Walk the view hierarchy to find the view instead.
+    if ([element isKindOfClass:NSClassFromString(@"UITableViewLabel")]) {
+        while (element && ![element isKindOfClass:[UITableViewCell class]]) {
+            element = (id)[(id)element superview];
+        }
+    }
+    
     return (UIView *)element;
 }
 
