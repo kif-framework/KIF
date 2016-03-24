@@ -11,6 +11,7 @@
 #import <UIKit/UIKit.h>
 #import "UIApplication-KIFAdditions.h"
 #import "KIFTestActor.h"
+#import "KIFAccessibilityEnabler.h"
 
 #define SIG(class, selector) [class instanceMethodSignatureForSelector:selector]
 
@@ -63,6 +64,10 @@ NSComparisonResult selectorSort(NSInvocation *invocOne, NSInvocation *invocTwo, 
 
 + (void)setUp
 {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        [[KIFAccessibilityEnabler sharedAccessibilityEnabler] enableAccessibility];
+    });
     [self performSetupTearDownWithSelector:@selector(beforeAll)];
 }
 

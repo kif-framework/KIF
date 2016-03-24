@@ -10,4 +10,7 @@
 
 @interface KIFAccessibilityEnabler : NSObject
 
++ (instancetype)sharedAccessibilityEnabler;
+- (void)enableAccessibility;
+
 @end
