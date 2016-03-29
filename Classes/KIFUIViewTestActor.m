@@ -7,6 +7,7 @@
 //
 
 #import "KIFUIViewTestActor.h"
+#import "KIFUIObject.h"
 #import "UIWindow-KIFAdditions.h"
 #import "NSPredicate+KIFAdditions.h"
 #import "UIAccessibilityElement-KIFAdditions.h"

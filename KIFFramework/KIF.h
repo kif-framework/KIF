@@ -24,6 +24,8 @@ FOUNDATION_EXPORT const unsigned char KIFVersionString[];
 #import <KIF/KIFUITestActor.h>
 #import <KIF/KIFUITestActor-ConditionalTests.h>
 #import <KIF/KIFUITestActor-IdentifierTests.h>
+#import <KIF/KIFUIViewTestActor.h>
+#import <KIF/KIFUIObject.h>
 #import <KIF/CGGeometry-KIFAdditions.h>
 #import <KIF/KIFTestStepValidation.h>
 #import <KIF/KIFTypist.h>
