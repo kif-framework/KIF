@@ -236,7 +236,6 @@
 		FAB8A0061CAC546A00C6DFC1 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAB8A0051CAC546A00C6DFC1 /* ViewController.m */; };
 		FAB8A0091CAC546A00C6DFC1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FAB8A0071CAC546A00C6DFC1 /* Main.storyboard */; };
 		FAB8A00B1CAC546A00C6DFC1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FAB8A00A1CAC546A00C6DFC1 /* Assets.xcassets */; };
-		FAB8A00E1CAC546A00C6DFC1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FAB8A00C1CAC546A00C6DFC1 /* LaunchScreen.storyboard */; };
 		FAB8A0191CAC546A00C6DFC1 /* KIFFrameworkConsumerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FAB8A0181CAC546A00C6DFC1 /* KIFFrameworkConsumerTests.m */; };
 		FAB8A0231CAC547400C6DFC1 /* KIF.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CC9673B1AD4B1B600576D13 /* KIF.framework */; };
 		FAC00C4C1C8E6D9900C38752 /* UIScreen+KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = BFE4708A1C7F42FB00580EF9 /* UIScreen+KIFAdditions.h */; };
@@ -432,7 +431,6 @@
 		FAB8A0051CAC546A00C6DFC1 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		FAB8A0081CAC546A00C6DFC1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		FAB8A00A1CAC546A00C6DFC1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		FAB8A00D1CAC546A00C6DFC1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FAB8A00F1CAC546A00C6DFC1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FAB8A0141CAC546A00C6DFC1 /* KIFFrameworkConsumerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KIFFrameworkConsumerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FAB8A0181CAC546A00C6DFC1 /* KIFFrameworkConsumerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KIFFrameworkConsumerTests.m; sourceTree = "<group>"; };
@@ -827,7 +825,6 @@
 				FAB8A0051CAC546A00C6DFC1 /* ViewController.m */,
 				FAB8A0071CAC546A00C6DFC1 /* Main.storyboard */,
 				FAB8A00A1CAC546A00C6DFC1 /* Assets.xcassets */,
-				FAB8A00C1CAC546A00C6DFC1 /* LaunchScreen.storyboard */,
 				FAB8A00F1CAC546A00C6DFC1 /* Info.plist */,
 				FAB89FFE1CAC546A00C6DFC1 /* Supporting Files */,
 			);
@@ -1140,7 +1137,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FAB8A00E1CAC546A00C6DFC1 /* LaunchScreen.storyboard in Resources */,
 				FAB8A00B1CAC546A00C6DFC1 /* Assets.xcassets in Resources */,
 				FAB8A0091CAC546A00C6DFC1 /* Main.storyboard in Resources */,
 			);
@@ -1377,14 +1373,6 @@
 				FAB8A0081CAC546A00C6DFC1 /* Base */,
 			);
 			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		FAB8A00C1CAC546A00C6DFC1 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				FAB8A00D1CAC546A00C6DFC1 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
