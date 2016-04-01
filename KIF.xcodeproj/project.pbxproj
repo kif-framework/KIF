@@ -205,6 +205,8 @@
 		FA4915671A783C5500A78E57 /* TableViewTests_ViewTestActor.m in Sources */ = {isa = PBXBuildFile; fileRef = FA4915661A783C5500A78E57 /* TableViewTests_ViewTestActor.m */; };
 		FA4915691A78449C00A78E57 /* CollectionViewTests_ViewTestActor.m in Sources */ = {isa = PBXBuildFile; fileRef = FA4915681A78449C00A78E57 /* CollectionViewTests_ViewTestActor.m */; };
 		FA64D8341A78171000D96787 /* SpecificControlTests_ViewTestActor.m in Sources */ = {isa = PBXBuildFile; fileRef = FA64D8331A78171000D96787 /* SpecificControlTests_ViewTestActor.m */; };
+		FA7176941CAEE5960041FEEE /* UIScreen+KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = BFE4708B1C7F42FB00580EF9 /* UIScreen+KIFAdditions.m */; };
+		FA7176951CAEE6120041FEEE /* CALayer-KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 85DB946C1C5A3E860025F83E /* CALayer-KIFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FA8A3C551A77157F00206350 /* LongPressTests_ViewTestActor.m in Sources */ = {isa = PBXBuildFile; fileRef = FA8A3C541A77157F00206350 /* LongPressTests_ViewTestActor.m */; };
 		FA8A3C571A771B6F00206350 /* WaitForViewTests_ViewTestActor.m in Sources */ = {isa = PBXBuildFile; fileRef = FA8A3C561A771B6F00206350 /* WaitForViewTests_ViewTestActor.m */; };
 		FA8A3C591A771C5500206350 /* SearchFieldTests_ViewTestActor.m in Sources */ = {isa = PBXBuildFile; fileRef = FA8A3C581A771C5500206350 /* SearchFieldTests_ViewTestActor.m */; };
@@ -888,6 +890,7 @@
 				9CC967711AD4B1F100576D13 /* UIEvent+KIFAdditions.h in Headers */,
 				9CC967841AD4B20700576D13 /* UIAutomationHelper.h in Headers */,
 				FAB89FBA1CAAED6800C6DFC1 /* KIFUIObject.h in Headers */,
+				FA7176951CAEE6120041FEEE /* CALayer-KIFAdditions.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1176,6 +1179,7 @@
 				9CC967C31AD4B58C00576D13 /* UIScrollView-KIFAdditions.m in Sources */,
 				9CC967C41AD4B58C00576D13 /* UITouch-KIFAdditions.m in Sources */,
 				9CC967C51AD4B58C00576D13 /* UIView-KIFAdditions.m in Sources */,
+				FA7176941CAEE5960041FEEE /* UIScreen+KIFAdditions.m in Sources */,
 				9CC967C61AD4B58C00576D13 /* UIWindow-KIFAdditions.m in Sources */,
 				85DB94701C5A5B590025F83E /* CALayer-KIFAdditions.m in Sources */,
 				9CC967C71AD4B58C00576D13 /* UITableView-KIFAdditions.m in Sources */,
