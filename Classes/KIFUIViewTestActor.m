@@ -82,7 +82,7 @@
 
 - (instancetype)usingTraits:(UIAccessibilityTraits)accessibilityTraits;
 {
-    NSPredicate *predicate =[NSPredicate predicateWithFormat:@"(accessibilityTraits & %@) == %@", @(accessibilityTraits), @(accessibilityTraits)];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(accessibilityTraits & %@) == %@", @(accessibilityTraits), @(accessibilityTraits)];
     predicate.kifPredicateDescription = [NSString stringWithFormat:@"Accessibility traits including \"%@\"", [UIAccessibilityElement stringFromAccessibilityTraits:accessibilityTraits]];
     
     return [self usingPredicate:predicate];
@@ -90,13 +90,16 @@
 
 - (instancetype)usingValue:(NSString *)accessibilityValue;
 {
-    return [self usingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
+    NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
         NSString *value = [evaluatedObject accessibilityValue];
         if ([value isKindOfClass:[NSAttributedString class]]) {
             value = [(NSAttributedString *)value string];
         }
         return [value isEqualToString:accessibilityValue];
-    }]];
+    }];
+    predicate.kifPredicateDescription = [NSString stringWithFormat:@"Accessibility Value equal to \"%@\"", accessibilityValue];
+    
+    return [self usingPredicate: predicate];
 }
 
 #pragma mark - System Actions
