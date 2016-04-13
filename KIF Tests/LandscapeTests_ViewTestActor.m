@@ -15,13 +15,13 @@
 
 - (void)beforeAll
 {
-    [system simulateDeviceRotationToOrientation:UIDeviceOrientationLandscapeLeft];
+    [kif_system simulateDeviceRotationToOrientation:UIDeviceOrientationLandscapeLeft];
     [[viewTester usingIdentifier:@"Test Suite TableView"] scrollByFractionOfSizeHorizontal:0 vertical:-0.2];
 }
 
 - (void)afterAll
 {
-    [system simulateDeviceRotationToOrientation:UIDeviceOrientationPortrait];
+    [kif_system simulateDeviceRotationToOrientation:UIDeviceOrientationPortrait];
     [viewTester waitForTimeInterval:0.5];
 }
 

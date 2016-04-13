@@ -39,7 +39,7 @@
         [[NSNotificationCenter defaultCenter] postNotificationName:Name object:obj userInfo:@{@"A": @"B"}];
     });
     
-    NSNotification *notification = [system waitForNotificationName:Name object:obj];
+    NSNotification *notification = [kif_system waitForNotificationName:Name object:obj];
     KIFAssertEqualObjects(@"B", [notification.userInfo objectForKey:@"A"], @"Expected notification to match user data.");
 }
 
@@ -48,7 +48,7 @@
     static NSString *const Name = @"Notification";
     id obj = [[NSObject alloc] init];
     
-    NSNotification *notification = [system waitForNotificationName:Name object:obj whileExecutingBlock:^{
+    NSNotification *notification = [kif_system waitForNotificationName:Name object:obj whileExecutingBlock:^{
         [[NSNotificationCenter defaultCenter] postNotificationName:Name object:obj userInfo:@{@"A": @"B"}];
     }];
     
@@ -57,8 +57,8 @@
 
 - (void)testMemoryWarningSimulator
 {
-    [system waitForNotificationName:UIApplicationDidReceiveMemoryWarningNotification object:[UIApplication sharedApplication] whileExecutingBlock:^{
-        [system simulateMemoryWarning];
+    [kif_system waitForNotificationName:UIApplicationDidReceiveMemoryWarningNotification object:[UIApplication sharedApplication] whileExecutingBlock:^{
+        [kif_system simulateMemoryWarning];
     }];
 }
 
@@ -66,7 +66,7 @@
 {
     __block BOOL openURLReturnValue;
     __block BOOL canOpenURLReturnValue;
-    [system waitForApplicationToOpenURL:@"test123://" whileExecutingBlock:^{
+    [kif_system waitForApplicationToOpenURL:@"test123://" whileExecutingBlock:^{
         NSURL *uninstalledAppURL = [NSURL URLWithString:@"test123://"];
         openURLReturnValue = [[UIApplication sharedApplication] canOpenURL:uninstalledAppURL];
         canOpenURLReturnValue = [[UIApplication sharedApplication] openURL:uninstalledAppURL];
@@ -74,7 +74,7 @@
     KIFAssertEqual(NO, openURLReturnValue, @"openURL: should have returned NO");
     KIFAssertEqual(NO, canOpenURLReturnValue, @"openURL: should have returned NO");
     
-    [system waitForApplicationToOpenURL:@"test123://" whileExecutingBlock:^{
+    [kif_system waitForApplicationToOpenURL:@"test123://" whileExecutingBlock:^{
         NSURL *installedAppURL = [NSURL URLWithString:@"test123://"];
         openURLReturnValue = [[UIApplication sharedApplication] canOpenURL:installedAppURL];
         canOpenURLReturnValue = [[UIApplication sharedApplication] openURL:installedAppURL];
@@ -82,7 +82,7 @@
     KIFAssertEqual(YES, openURLReturnValue, @"openURL: should have returned YES");
     KIFAssertEqual(YES, canOpenURLReturnValue, @"openURL: should have returned YES");
 
-    [system waitForApplicationToOpenURLWithScheme:@"test123" whileExecutingBlock:^{
+    [kif_system waitForApplicationToOpenURLWithScheme:@"test123" whileExecutingBlock:^{
         NSURL *installedAppURL = [NSURL URLWithString:@"test123://some/path?query"];
         openURLReturnValue = [[UIApplication sharedApplication] canOpenURL:installedAppURL];
         canOpenURLReturnValue = [[UIApplication sharedApplication] openURL:installedAppURL];
@@ -90,7 +90,7 @@
     KIFAssertEqual(YES, openURLReturnValue, @"openURL: should have returned YES");
     KIFAssertEqual(YES, canOpenURLReturnValue, @"openURL: should have returned YES");
 
-    [system waitForApplicationToOpenAnyURLWhileExecutingBlock:^{
+    [kif_system waitForApplicationToOpenAnyURLWhileExecutingBlock:^{
         NSURL *someURL = [NSURL URLWithString:@"423543523454://"];
         openURLReturnValue = [[UIApplication sharedApplication] canOpenURL:someURL];
         canOpenURLReturnValue = [[UIApplication sharedApplication] openURL:someURL];
