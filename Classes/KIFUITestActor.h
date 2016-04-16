@@ -472,7 +472,6 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  
  For cases where you may need to work from the end of a collection view rather than the beginning, negative sections count back from the end of the collection view (-1 is the last section) and negative items count back from the end of the section (-1 is the last item for that section).
  
- @param label The accessibility identifier of the view to interact with.
  @param indexPath Index path of the item to tap.
  @param collectionView the UICollectionView containing the item.
  */
