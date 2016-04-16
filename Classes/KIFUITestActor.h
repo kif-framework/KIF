@@ -515,8 +515,7 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
 /*!
  @abstract Swipes a particular view in the view heirarchy.
  @discussion Unlike the -swipeViewWithAccessibilityLabel: family of methods, this method allows you to swipe an arbitrary element.  Combined with -waitForAccessibilityElement:view:withLabel:value:traits:tappable: or +[UIAccessibilityElement accessibilityElement:view:withLabel:value:traits:tappable:error:] this provides an opportunity for more complex logic.
-@param element The accessibility element of the view to swipe.
- @param element The accessibility element to tap.
+ @param element The accessibility element of the view to swipe.
  @param viewToSwipe The view containing the accessibility element.
  */
 - (void)swipeAccessibilityElement:(UIAccessibilityElement *)element inView:(UIView *)viewToSwipe inDirection:(KIFSwipeDirection)direction;
