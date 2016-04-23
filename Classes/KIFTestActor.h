@@ -1,5 +1,5 @@
 //
-//  KIFTester.h
+//  KIFTestActor.h
 //  KIF
 //
 //  Created by Brian Nickel on 12/13/12.

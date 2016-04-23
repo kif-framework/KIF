@@ -238,7 +238,7 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
 /*!
  @abstract Taps a stepper to either increment or decrement the stepper. Presumed that - (minus) to decrement is on the left.
  @discussion This will locate the left or right half of the stepper and perform a calculated click.
- @param label The accessibility identifier of the view to interact with.
+ @param accessibilityLabel The accessibility identifier of the view to interact with.
  @param stepperDirection The direction in which to change the value of the stepper (KIFStepperDirectionIncrement | KIFStepperDirectionDecrement)
  */
 -(void)tapStepperWithAccessibilityLabel:(NSString *)accessibilityLabel increment:(KIFStepperDirection)stepperDirection;
@@ -472,7 +472,6 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  
  For cases where you may need to work from the end of a collection view rather than the beginning, negative sections count back from the end of the collection view (-1 is the last section) and negative items count back from the end of the section (-1 is the last item for that section).
  
- @param label The accessibility identifier of the view to interact with.
  @param indexPath Index path of the item to tap.
  @param collectionView the UICollectionView containing the item.
  */
@@ -516,8 +515,7 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
 /*!
  @abstract Swipes a particular view in the view heirarchy.
  @discussion Unlike the -swipeViewWithAccessibilityLabel: family of methods, this method allows you to swipe an arbitrary element.  Combined with -waitForAccessibilityElement:view:withLabel:value:traits:tappable: or +[UIAccessibilityElement accessibilityElement:view:withLabel:value:traits:tappable:error:] this provides an opportunity for more complex logic.
-@param element The accessibility element of the view to swipe.
- @param element The accessibility element to tap.
+ @param element The accessibility element of the view to swipe.
  @param viewToSwipe The view containing the accessibility element.
  */
 - (void)swipeAccessibilityElement:(UIAccessibilityElement *)element inView:(UIView *)viewToSwipe inDirection:(KIFSwipeDirection)direction;
