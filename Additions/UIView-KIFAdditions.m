@@ -286,7 +286,8 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
                     }
                     
                     // Scroll to the cell and wait for the animation to complete
-                    [collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionNone animated:YES];
+                    CGRect frame = [collectionView.collectionViewLayout layoutAttributesForItemAtIndexPath:indexPath].frame;
+                    [collectionView scrollRectToVisible:frame animated:YES];
                     CFRunLoopRunInMode(UIApplicationCurrentRunMode, 0.5, false);
                     
                     // Now try finding the element again
