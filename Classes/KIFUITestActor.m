@@ -158,8 +158,10 @@
 }
 
 - (void)waitForAnimationsToFinishWithTimeout:(NSTimeInterval)timeout {
-    static const CGFloat kStabilizationWait = 0.5f;
-    
+    const CGFloat layerSpeed = UIApplication.sharedApplication.keyWindow.layer.speed;
+    timeout /= layerSpeed;
+    const CGFloat kStabilizationWait = 0.5f / layerSpeed;
+
     NSTimeInterval maximumWaitingTimeInterval = timeout;
     if (maximumWaitingTimeInterval <= kStabilizationWait) {
         if(maximumWaitingTimeInterval >= 0) {
@@ -321,7 +323,7 @@
     }];
 
     // Wait for view to settle.
-    [self waitForTimeInterval:0.5];
+    [self waitForTimeInterval:0.5 / UIApplication.sharedApplication.keyWindow.layer.speed];
 }
 
 - (void)waitForKeyboard
@@ -416,7 +418,7 @@
     // In iOS7, tapping a field that is already first responder moves the cursor to the front of the field
     if (view.window.firstResponder != view) {
         [self tapAccessibilityElement:element inView:view];
-        [self waitForTimeInterval:0.25];
+        [self waitForTimeInterval:0.25 / UIApplication.sharedApplication.keyWindow.layer.speed];
     }
 
     [self enterTextIntoCurrentFirstResponder:text fallbackView:view];
