@@ -82,6 +82,8 @@ typedef void (^KIFTestCompletionBlock)(KIFTestStepResult result, NSError *error)
 
 @interface KIFTestActor : NSObject
 
++ (instancetype)new NS_UNAVAILABLE;
+- (instancetype)init NS_UNAVAILABLE;
 + (instancetype)actorInFile:(NSString *)file atLine:(NSInteger)line delegate:(id<KIFTestActorDelegate>)delegate;
 
 @property (strong, nonatomic, readonly) NSString *file;
