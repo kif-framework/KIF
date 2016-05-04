@@ -158,21 +158,19 @@
 }
 
 - (void)waitForAnimationsToFinishWithTimeout:(NSTimeInterval)timeout {
-    const CGFloat layerSpeed = UIApplication.sharedApplication.keyWindow.layer.speed;
-    timeout /= layerSpeed;
-    const CGFloat kStabilizationWait = 0.5f / layerSpeed;
-
+    static const CGFloat kStabilizationWait = 0.5f;
+    
     NSTimeInterval maximumWaitingTimeInterval = timeout;
     if (maximumWaitingTimeInterval <= kStabilizationWait) {
         if(maximumWaitingTimeInterval >= 0) {
-            [self waitForTimeInterval:maximumWaitingTimeInterval];
+            [self waitForTimeInterval:maximumWaitingTimeInterval relativeToAnimationSpeed:YES];
         }
         
         return;
     }
     
     // Wait for the view to stabilize and give them a chance to start animations before we wait for them.
-    [self waitForTimeInterval:kStabilizationWait];
+    [self waitForTimeInterval:kStabilizationWait relativeToAnimationSpeed:YES];
     maximumWaitingTimeInterval -= kStabilizationWait;
     
     NSTimeInterval startTime = [NSDate timeIntervalSinceReferenceDate];
@@ -323,7 +321,7 @@
     }];
 
     // Wait for view to settle.
-    [self waitForTimeInterval:0.5 / UIApplication.sharedApplication.keyWindow.layer.speed];
+    [self waitForTimeInterval:0.5 relativeToAnimationSpeed:YES];
 }
 
 - (void)waitForKeyboard
@@ -418,7 +416,7 @@
     // In iOS7, tapping a field that is already first responder moves the cursor to the front of the field
     if (view.window.firstResponder != view) {
         [self tapAccessibilityElement:element inView:view];
-        [self waitForTimeInterval:0.25 / UIApplication.sharedApplication.keyWindow.layer.speed];
+        [self waitForTimeInterval:0.25 relativeToAnimationSpeed:YES];
     }
 
     [self enterTextIntoCurrentFirstResponder:text fallbackView:view];
@@ -480,7 +478,7 @@
         id<UITextInput> textInput = (id<UITextInput>)view;
         [textInput setSelectedTextRange:[textInput textRangeFromPosition:textInput.beginningOfDocument toPosition:textInput.endOfDocument]];
         
-        [self waitForTimeInterval:0.1];
+        [self waitForTimeInterval:0.1 relativeToAnimationSpeed:YES];
         [self enterTextIntoCurrentFirstResponder:@"\b" fallbackView:view];
     } else {
         NSUInteger numberOfCharacters = [view respondsToSelector:@selector(text)] ? [(UITextField *)view text].length : element.accessibilityValue.length;
@@ -619,11 +617,11 @@
                 }
                 else if ([rowTitle isEqual:pickerColumnValues[componentIndex]]) {
                     [pickerView selectRow:rowIndex inComponent:componentIndex animated:false];
-                    CFRunLoopRunInMode(kCFRunLoopDefaultMode, 1, false);
+                    KIFRunLoopRunInModeRelativeToAnimationSpeed(kCFRunLoopDefaultMode, 1.0f, false);
                     
                     // Tap in the middle of the picker view to select the item
                     [pickerView tap];
-                    [self waitForTimeInterval:0.5];
+                    [self waitForTimeInterval:0.5 relativeToAnimationSpeed:YES];
                     
                     // The combination of selectRow:inComponent:animated: and tap does not consistently result in
                     // pickerView:didSelectRow:inComponent: being called on the delegate. We need to do it explicitly.
@@ -690,7 +688,7 @@
     NSLog(@"Faking turning switch %@", switchIsOn ? @"ON" : @"OFF");
     [switchView setOn:switchIsOn animated:YES];
     [switchView sendActionsForControlEvents:UIControlEventValueChanged];
-    [self waitForTimeInterval:0.5];
+    [self waitForTimeInterval:0.5 relativeToAnimationSpeed:YES];
 
     // We gave it our best shot.  Fail the test.
     if (switchView.isOn != switchIsOn) {
@@ -744,7 +742,7 @@
     }
     UIView *dimmingView = [[window subviewsWithClassNamePrefix:@"UIDimmingView"] lastObject];
     [dimmingView tapAtPoint:CGPointMake(50.0f, 50.0f)];
-    CFRunLoopRunInMode(kCFRunLoopDefaultMode, tapDelay, false);
+    KIFRunLoopRunInModeRelativeToAnimationSpeed(kCFRunLoopDefaultMode, tapDelay, false);
 }
 
 - (void)choosePhotoInAlbum:(NSString *)albumName atRow:(NSInteger)row column:(NSInteger)column
@@ -778,7 +776,7 @@
     }];
 
     // Wait for media picker view controller to be pushed.
-    [self waitForTimeInterval:1];
+    [self waitForTimeInterval:1 relativeToAnimationSpeed:YES];
 
     // Tap the desired photo in the grid
     // TODO: This currently only works for the first page of photos. It should scroll appropriately at some point.
@@ -829,7 +827,7 @@
     [tableView dragFromPoint:swipeStart displacement:swipeDisplacement steps:kNumberOfPointsInSwipePath];
     
     // Wait for the view to stabilize.
-    [tester waitForTimeInterval:0.5];
+    [tester waitForTimeInterval:0.5 relativeToAnimationSpeed:YES];
     
 }
 
@@ -1044,7 +1042,7 @@
         return KIFTestStepResultSuccess;
     }];
 
-    [self waitForTimeInterval:0.1]; // Let things settle.
+    [self waitForTimeInterval:0.1 relativeToAnimationSpeed:YES]; // Let things settle.
 
 
     return cell;
@@ -1091,7 +1089,10 @@
                            atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally | UICollectionViewScrollPositionCenteredVertically
                                    animated:YES];
 
-    [self waitForAnimationsToFinish];
+    // waitForAnimationsToFinish doesn't allow collection view to settle when animations are sped up
+    // So use waitForTimeInterval instead
+    const NSTimeInterval animationWaitTime = 0.5f;
+    [self waitForTimeInterval:animationWaitTime relativeToAnimationSpeed:YES];
     UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
 
     //For big collection views with many cells the cell might not be ready yet. Relayout and try again.
@@ -1099,8 +1100,9 @@
         [collectionView layoutIfNeeded];
         [collectionView scrollToItemAtIndexPath:indexPath
                                atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally | UICollectionViewScrollPositionCenteredVertically
-                                       animated:YES];
-        [self waitForAnimationsToFinish];
+                                       animated:NO];
+        // waitForAnimationsToFinish doesn't allow collection view to settle when animations are sped up
+        [self waitForTimeInterval:animationWaitTime relativeToAnimationSpeed:YES];
         cell = [collectionView cellForItemAtIndexPath:indexPath];
     }
     

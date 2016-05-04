@@ -154,6 +154,15 @@ static NSTimeInterval KIFTestStepDelay = 0.1;
 
 - (void)waitForTimeInterval:(NSTimeInterval)timeInterval
 {
+    [self waitForTimeInterval:timeInterval relativeToAnimationSpeed:NO];
+}
+
+- (void)waitForTimeInterval:(NSTimeInterval)timeInterval relativeToAnimationSpeed:(BOOL)scaleTime
+{
+    if (scaleTime) {
+        timeInterval /= [UIApplication sharedApplication].animationSpeed;
+    }
+    
     NSTimeInterval startTime = [NSDate timeIntervalSinceReferenceDate];
     
     [self runBlock:^KIFTestStepResult(NSError **error) {
