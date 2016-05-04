@@ -115,10 +115,10 @@ static void FixReactivateApp(void)
             [[alert.buttons lastObject] tap];
             while ([self _alertIsValidAndVisible:alert]) {
                 // Wait for button press to complete.
-                CFRunLoopRunInMode(UIApplicationCurrentRunMode, 0.1, false);
+                KIFRunLoopRunInModeRelativeToAnimationSpeed(UIApplicationCurrentRunMode, 0.1, false);
             }
             // Wait for alert dismissial animation.
-            CFRunLoopRunInMode(UIApplicationCurrentRunMode, 0.4, false);
+            KIFRunLoopRunInModeRelativeToAnimationSpeed(UIApplicationCurrentRunMode, 0.4, false);
             return YES;
 	}
     return NO;
