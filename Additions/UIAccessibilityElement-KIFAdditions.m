@@ -50,6 +50,13 @@ MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
         return NO;
     }
     
+    // viewContainingAccessibilityElement:.. can cause scrolling, which can cause cell reuse.
+    // If this happens, the element we kept a reference to might have been reconfigured, and a
+    // different element might be the one that matches.
+    if (![UIView accessibilityElement:element hasLabel:label accessibilityValue:value traits:traits]) {
+        return NO;
+    }
+    
     if (foundElement) { *foundElement = element; }
     if (foundView) { *foundView = view; }
     return YES;
