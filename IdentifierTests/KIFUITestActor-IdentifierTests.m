@@ -72,10 +72,7 @@
 	UIAccessibilityElement *element = nil;
 	
 	[self waitForAccessibilityElement:&element view:&view withIdentifier:accessibilityIdentifier tappable:YES];
-	[self tapAccessibilityElement:element inView:view];
-	[self waitForTimeInterval:0.25];
-	[self enterTextIntoCurrentFirstResponder:text fallbackView:view];
-	[self expectView:view toContainText:expectedResult ?: text];
+    [self enterText:text intoElement:element inView:view expectedResult:expectedResult];
 }
 
 - (void)clearTextFromViewWithAccessibilityIdentifier:(NSString *)accessibilityIdentifier
