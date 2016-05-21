@@ -20,6 +20,7 @@ FOUNDATION_EXPORT const unsigned char KIFVersionString[];
 
 #import <KIF/KIFTestActor.h>
 #import <KIF/KIFTestCase.h>
+#import <KIF/KIFAccessibilityEnabler.h>
 #import <KIF/KIFSystemTestActor.h>
 #import <KIF/KIFUITestActor.h>
 #import <KIF/KIFUITestActor-ConditionalTests.h>
