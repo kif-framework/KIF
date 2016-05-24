@@ -14,6 +14,8 @@
 #import "UITouch-KIFAdditions.h"
 #import <objc/runtime.h>
 #import "UIEvent+KIFAdditions.h"
+#import "KIFProxyDelegate.h"
+#import "KIFScrollViewDelegates.h"
 
 double KIFDegreesToRadians(double deg) {
     return (deg) / 180.0 * M_PI;
@@ -249,10 +251,23 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
                     }
                     
                     // Scroll to the cell and wait for the animation to complete
+                    KIFTableViewDelegate *kifDelegate = [KIFTableViewDelegate new];
+                    KIFProxyDelegate *delegate = [[KIFProxyDelegate alloc] initWithOriginalDelegate:tableView.delegate
+                                                                                replacementDelegate:kifDelegate];
+                    tableView.delegate = (id<UITableViewDelegate>)delegate;
+
+                    // Initiate scrolling
                     [tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionNone animated:YES];
-                    // Note: using KIFRunLoopRunInModeRelativeToAnimationSpeed here may cause tests to stall
-                    CFRunLoopRunInMode(UIApplicationCurrentRunMode, 0.5, false);
-                    
+
+                    // Wait for scrolling to finish
+                    if (![kifDelegate waitForScrollCompleteToIndexPath:indexPath inTableView:tableView]) {
+                        tableView.delegate = delegate.original;
+                        return nil;
+                    }
+
+                    // Restore the delegate to original
+                    tableView.delegate = delegate.original;
+
                     // Now try finding the element again
                     return [self accessibilityElementMatchingBlock:matchBlock];
                 }
@@ -287,10 +302,24 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
                     }
                     
                     // Scroll to the cell and wait for the animation to complete
+                    KIFCollectionViewDelegate *kifDelegate = [KIFCollectionViewDelegate new];
+                    KIFProxyDelegate *delegate = [[KIFProxyDelegate alloc] initWithOriginalDelegate:collectionView.delegate
+                                                                                replacementDelegate:kifDelegate];
+                    collectionView.delegate = (id<UICollectionViewDelegate>)delegate;
+
+                    // Initiate scrolling
                     CGRect frame = [collectionView.collectionViewLayout layoutAttributesForItemAtIndexPath:indexPath].frame;
                     [collectionView scrollRectToVisible:frame animated:YES];
-                    // Note: using KIFRunLoopRunInModeRelativeToAnimationSpeed here may cause tests to stall
-                    CFRunLoopRunInMode(UIApplicationCurrentRunMode, 0.5, false);
+
+                    // Wait for scrolling to finish
+                    if (![kifDelegate waitForScrollCompleteToIndexPath:indexPath
+                                                      inCollectionView:collectionView]) {
+                        collectionView.delegate = delegate.original;
+                        return nil;
+                    }
+
+                    // Restore the delegate to original
+                    collectionView.delegate = delegate.original;
                     
                     // Now try finding the element again
                     return [self accessibilityElementMatchingBlock:matchBlock];

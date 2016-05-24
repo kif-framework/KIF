@@ -15,6 +15,8 @@
 #import "UIView-KIFAdditions.h"
 #import "LoadableCategory.h"
 #import "KIFTestActor.h"
+#import "KIFProxyDelegate.h"
+#import "KIFScrollViewDelegates.h"
 
 MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
 
@@ -130,8 +132,17 @@ MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
         if ([superview isKindOfClass:[UIScrollView class]]) {
             UIScrollView *scrollView = (UIScrollView *)superview;
             
+            // Replace the scroll view delegate to capture scrolling completion
+            KIFScrollViewDelegate * kifDelegate = [KIFScrollViewDelegate new];
+            KIFProxyDelegate * delegate = [[KIFProxyDelegate alloc] initWithOriginalDelegate:scrollView.delegate
+                                                                         replacementDelegate:kifDelegate];
+            scrollView.delegate = (id<UIScrollViewDelegate>)delegate;
+
             if (((UIAccessibilityElement *)view == element) && ![view isKindOfClass:[UITableViewCell class]]) {
+                // Initiate scrolling
                 [scrollView scrollViewToVisible:view animated:YES];
+                // Wait for scrolling to finish
+                [kifDelegate waitForScrollCompleteOnView:view inScrollView:scrollView];
             } else {
                 CGRect elementFrame = [view.window convertRect:element.accessibilityFrame toView:scrollView];
                 CGRect visibleRect = CGRectMake(scrollView.contentOffset.x, scrollView.contentOffset.y, CGRectGetWidth(scrollView.bounds), CGRectGetHeight(scrollView.bounds));
@@ -139,12 +150,15 @@ MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
                 // Only call scrollRectToVisible if the element isn't already visible
                 // iOS 8 will sometimes incorrectly scroll table views so the element scrolls out of view
                 if (!CGRectContainsRect(visibleRect, elementFrame)) {
+                    // Initiate scrolling
                     [scrollView scrollRectToVisible:elementFrame animated:YES];
+                    // Wait for scrolling to finish
+                    [kifDelegate waitForScrollCompleteOnView:view inScrollView:scrollView];
                 }
             }
             
-            // Give the scroll view a small amount of time to perform the scroll.
-            KIFRunLoopRunInModeRelativeToAnimationSpeed(kCFRunLoopDefaultMode, 0.3, false);
+            // Restore the delegate to original
+            scrollView.delegate = delegate.original;
         }
         
         superview = superview.superview;
