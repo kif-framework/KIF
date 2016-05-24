@@ -146,7 +146,7 @@
 
 - (void)testEnteringTextIntoATextFieldInATableCell
 {
-    [tester enterText:@"Test-Driven Development" intoViewWithAccessibilityLabel:@"TextField"];
+    [tester enterText:inputFieldTestString intoViewWithAccessibilityLabel:@"TextField"];
 }
 
 // Delete first and last rows in table view
@@ -154,7 +154,7 @@
     
     UITableView *tableView;
     [tester waitForAccessibilityElement:NULL view:&tableView withIdentifier:@"TableView Tests Table" tappable:NO];
-    
+	[tester waitForAnimationsToFinish];
     // First row
     NSIndexPath *firstCellPath = [NSIndexPath indexPathForRow:0 inSection:0];
     [tester swipeRowAtIndexPath:firstCellPath inTableView:tableView inDirection:KIFSwipeDirectionLeft];

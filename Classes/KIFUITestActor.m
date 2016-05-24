@@ -465,7 +465,7 @@
         KIFTestWaitCondition([actual isEqualToString:expected], error, @"Failed to get text \"%@\" in field; instead, it was \"%@\"", expected, actual);
         
         return KIFTestStepResultSuccess;
-    } timeout:1.0];
+    } timeout:[KIFTestActor defaultTimeout]];
 }
 
 - (void)clearTextFromFirstResponder

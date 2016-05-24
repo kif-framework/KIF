@@ -17,6 +17,15 @@
 @property (nonatomic, strong, readonly) UIAccessibilityElement *element;
 @property (nonatomic, strong, readonly) NSPredicate *predicate;
 
+
+/*!
+ @abstract a static string to use when typing into text fields.
+ @discussion Do not change this string to something that would be auto-corrected
+ For example, "string-to-test" might be auto-corrected to some other string
+ and hence cause a test to fail.
+ */
+extern NSString *const inputFieldTestString;
+
 #pragma mark - Searching for Accessibility Elements
 /*!
  These methods are used to build the tester's search predicate. they are intended to be chained together allowing for complex searches.
