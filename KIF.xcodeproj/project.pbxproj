@@ -12,10 +12,17 @@
 		0EAA1C141B4B371700FFB2FB /* IOHIDEvent+KIF.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAA1C121B4B371700FFB2FB /* IOHIDEvent+KIF.m */; };
 		0EAA1C171B4B372700FFB2FB /* IOHIDEvent+KIF.h in Headers */ = {isa = PBXBuildFile; fileRef = 0EAA1C111B4B371700FFB2FB /* IOHIDEvent+KIF.h */; };
 		0EAA1C181B4B372700FFB2FB /* IOHIDEvent+KIF.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAA1C121B4B371700FFB2FB /* IOHIDEvent+KIF.m */; };
+		125D35281CF4DE0700A7F87F /* KIFProxyDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 12C111251CF40B3700390595 /* KIFProxyDelegate.m */; };
+		125D35291CF4DE1100A7F87F /* KIFScrollViewDelegates.m in Sources */ = {isa = PBXBuildFile; fileRef = 12C1112B1CF4127900390595 /* KIFScrollViewDelegates.m */; };
+		125D352A1CF4DE1200A7F87F /* KIFScrollViewDelegates.m in Sources */ = {isa = PBXBuildFile; fileRef = 12C1112B1CF4127900390595 /* KIFScrollViewDelegates.m */; };
+		125D352B1CF4DE5000A7F87F /* KIFProxyDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 12C111241CF40B3700390595 /* KIFProxyDelegate.h */; };
+		125D352C1CF4DE5500A7F87F /* KIFScrollViewDelegates.h in Headers */ = {isa = PBXBuildFile; fileRef = 12C1112A1CF4127900390595 /* KIFScrollViewDelegates.h */; };
+		125D352D1CF4DE5500A7F87F /* KIFScrollViewDelegates.h in Headers */ = {isa = PBXBuildFile; fileRef = 12C1112A1CF4127900390595 /* KIFScrollViewDelegates.h */; };
+		125D352E1CF4DE5900A7F87F /* KIFConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 12C1112D1CF4161000390595 /* KIFConstants.h */; };
+		125D352F1CF4DE5900A7F87F /* KIFConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 12C1112D1CF4161000390595 /* KIFConstants.h */; };
 		12C111261CF40B3700390595 /* KIFProxyDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 12C111241CF40B3700390595 /* KIFProxyDelegate.h */; };
 		12C111271CF40B3700390595 /* KIFProxyDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 12C111251CF40B3700390595 /* KIFProxyDelegate.m */; };
 		12C111291CF410F900390595 /* ProxyDelegateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 12C111281CF410F900390595 /* ProxyDelegateTests.m */; };
-		12C1112C1CF4127900390595 /* KIFScrollViewDelegates.m in Sources */ = {isa = PBXBuildFile; fileRef = 12C1112B1CF4127900390595 /* KIFScrollViewDelegates.m */; };
 		2CDEE1CB181DBED200DF6E63 /* PickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CDEE1CA181DBED200DF6E63 /* PickerController.m */; };
 		2EE12710198991920031D347 /* MultiFingerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EE1270F198991920031D347 /* MultiFingerTests.m */; };
 		3812FB611A1212A700335733 /* AnimationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3812FB601A1212A700335733 /* AnimationViewController.m */; };
@@ -889,9 +896,11 @@
 				FAB89FB41CAAECBF00C6DFC1 /* KIFUIViewTestActor.h in Headers */,
 				9CC9677C1AD4B20700576D13 /* KIFTestActor.h in Headers */,
 				9CC9677F1AD4B20700576D13 /* KIFTypist.h in Headers */,
+				125D352C1CF4DE5500A7F87F /* KIFScrollViewDelegates.h in Headers */,
 				9CC967811AD4B20700576D13 /* KIFTestStepValidation.h in Headers */,
 				9CC967751AD4B1FF00576D13 /* KIFUITestActor.h in Headers */,
 				9CC967771AD4B1FF00576D13 /* KIFUITestActor-ConditionalTests.h in Headers */,
+				125D352B1CF4DE5000A7F87F /* KIFProxyDelegate.h in Headers */,
 				FAB89FB61CAAED4A00C6DFC1 /* NSPredicate+KIFAdditions.h in Headers */,
 				9CC967611AD4B1F100576D13 /* UITouch-KIFAdditions.h in Headers */,
 				9CC967631AD4B1F100576D13 /* UIView-KIFAdditions.h in Headers */,
@@ -905,6 +914,7 @@
 				9CC9676F1AD4B1F100576D13 /* NSException-KIFAdditions.h in Headers */,
 				9CC967711AD4B1F100576D13 /* UIEvent+KIFAdditions.h in Headers */,
 				9CC967841AD4B20700576D13 /* UIAutomationHelper.h in Headers */,
+				125D352E1CF4DE5900A7F87F /* KIFConstants.h in Headers */,
 				FAB89FBA1CAAED6800C6DFC1 /* KIFUIObject.h in Headers */,
 				FA7176951CAEE6120041FEEE /* CALayer-KIFAdditions.h in Headers */,
 			);
@@ -936,6 +946,7 @@
 				EABD469B1857A0C700A5F081 /* LoadableCategory.h in Headers */,
 				FA8BDCCD1A76B3A80042A989 /* KIFUIObject.h in Headers */,
 				EABD469C1857A0C700A5F081 /* KIFTypist.h in Headers */,
+				125D352D1CF4DE5500A7F87F /* KIFScrollViewDelegates.h in Headers */,
 				EABD469D1857A0C700A5F081 /* KIFTestActor.h in Headers */,
 				EABD469E1857A0C700A5F081 /* KIFTestCase.h in Headers */,
 				EABD469F1857A0C700A5F081 /* KIFSystemTestActor.h in Headers */,
@@ -944,6 +955,7 @@
 				EAC8096A1864F19C000E819F /* NSException-KIFAdditions.h in Headers */,
 				12C111261CF40B3700390595 /* KIFProxyDelegate.h in Headers */,
 				EABD46961857A0C700A5F081 /* XCTestCase-KIFAdditions.h in Headers */,
+				125D352F1CF4DE5900A7F87F /* KIFConstants.h in Headers */,
 				E977D1071AA4062B005645BF /* UIEvent+KIFAdditions.h in Headers */,
 				BD6A1CA11BCE8DD000EF07D2 /* KIFAccessibilityEnabler.h in Headers */,
 				EABD46A21857A0C700A5F081 /* NSError-KIFAdditions.h in Headers */,
@@ -1186,10 +1198,12 @@
 				9CC967D51AD4B5B900576D13 /* KIFUITestActor-IdentifierTests.m in Sources */,
 				9CC967CD1AD4B59A00576D13 /* KIFSystemTestActor.m in Sources */,
 				9CC967CE1AD4B59A00576D13 /* KIFUITestActor.m in Sources */,
+				125D35281CF4DE0700A7F87F /* KIFProxyDelegate.m in Sources */,
 				FAB89FB91CAAED6500C6DFC1 /* KIFUIObject.m in Sources */,
 				9CC967CF1AD4B59A00576D13 /* KIFUITestActor-ConditionalTests.m in Sources */,
 				9CC967BF1AD4B58C00576D13 /* CGGeometry-KIFAdditions.m in Sources */,
 				FAB89FB31CAAECB100C6DFC1 /* KIFUIViewTestActor.m in Sources */,
+				125D352A1CF4DE1200A7F87F /* KIFScrollViewDelegates.m in Sources */,
 				9CC967C01AD4B58C00576D13 /* NSFileManager-KIFAdditions.m in Sources */,
 				9CC967C11AD4B58C00576D13 /* UIAccessibilityElement-KIFAdditions.m in Sources */,
 				9CC967C21AD4B58C00576D13 /* UIApplication-KIFAdditions.m in Sources */,
@@ -1230,6 +1244,7 @@
 				D927B9E018F9E46400DAD036 /* UITableView-KIFAdditions.m in Sources */,
 				EABD46831857A0C700A5F081 /* KIFTypist.m in Sources */,
 				EABD46841857A0C700A5F081 /* KIFTestActor.m in Sources */,
+				125D35291CF4DE1100A7F87F /* KIFScrollViewDelegates.m in Sources */,
 				EABD46851857A0C700A5F081 /* KIFTestCase.m in Sources */,
 				EABD46861857A0C700A5F081 /* XCTestCase-KIFAdditions.m in Sources */,
 				EB1A44D61A0C3268004A3F61 /* KIFUITestActor-IdentifierTests.m in Sources */,
@@ -1308,7 +1323,6 @@
 				FA4915651A7827D000A78E57 /* PickerTests_ViewTestActor.m in Sources */,
 				84D293B11A2C891700C10944 /* SystemAlertTests.m in Sources */,
 				BFE470901C7F44F700580EF9 /* UIScreen+KIFAdditionsTests.m in Sources */,
-				12C1112C1CF4127900390595 /* KIFScrollViewDelegates.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
