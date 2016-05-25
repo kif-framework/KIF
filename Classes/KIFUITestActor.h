@@ -356,6 +356,13 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
 - (void)clearTextFromAndThenEnterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label;
 - (void)clearTextFromAndThenEnterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits expectedResult:(NSString *)expectedResult;
 
+/*!
+ @abstract Gets text from a given label/text field/text view
+ @param view The view to get the text from
+ @returns Text from the given label/text field/text view
+ */
+- (NSString *)textFromView:(UIView *)view;
+
 - (void)expectView:(UIView *)view toContainText:(NSString *)expectedResult;
 
 /*!

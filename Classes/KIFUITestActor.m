@@ -510,6 +510,20 @@
     [self enterTextIntoCurrentFirstResponder:text];
 }
 
+- (NSString *)textFromView:(UIView *)view {
+    if ([view isKindOfClass:[UILabel class]]) {
+        UILabel *label = (UILabel *)view;
+        return label.text ? : @"";
+    } else if ([view isKindOfClass:[UITextField class]]) {
+        UITextField *textField = (UITextField *)view;
+        return [textField.text isEqual: @""] ? textField.placeholder : textField.text;
+    } else if ([view isKindOfClass:[UITextView class]]) {
+        UITextView *textView = (UITextView *)view;
+        return textView.text;
+    }
+    return @"";
+}
+
 - (void)selectDatePickerValue:(NSArray *)datePickerColumnValues
 {
     [self selectPickerValue:datePickerColumnValues pickerType:KIFUIDatePicker];
