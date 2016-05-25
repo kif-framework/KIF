@@ -831,6 +831,19 @@
     
 }
 
+- (void)waitForDeleteStateForCellAtIndexPath:(NSIndexPath*)indexPath inTableView:(UITableView*)tableView {
+    UITableViewCell *cell = [self waitForCellAtIndexPath:indexPath inTableView:tableView];
+    [self waitForDeleteStateForCell:cell];
+}
+
+- (void)waitForDeleteStateForCell:(UITableViewCell*)cell {
+    [self runBlock:^KIFTestStepResult(NSError **error) {
+        KIFTestWaitCondition(cell.showingDeleteConfirmation, error,
+                             @"Expected cell to get in the delete confirmation state: %@", cell);
+        return KIFTestStepResultSuccess;
+    }];
+}
+
 - (void)tapItemAtIndexPath:(NSIndexPath *)indexPath inCollectionViewWithAccessibilityIdentifier:(NSString *)identifier
 {
     UICollectionView *collectionView;
