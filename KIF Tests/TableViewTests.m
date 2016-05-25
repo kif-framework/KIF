@@ -156,13 +156,17 @@
     [tester waitForAccessibilityElement:NULL view:&tableView withIdentifier:@"TableView Tests Table" tappable:NO];
     
     // First row
-    [tester swipeRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] inTableView:tableView inDirection:KIFSwipeDirectionLeft];
+    NSIndexPath *firstCellPath = [NSIndexPath indexPathForRow:0 inSection:0];
+    [tester swipeRowAtIndexPath:firstCellPath inTableView:tableView inDirection:KIFSwipeDirectionLeft];
+    [tester waitForDeleteStateForCellAtIndexPath:firstCellPath inTableView:tableView];
     [tester tapViewWithAccessibilityLabel:@"Delete"];
     
     __KIFAssertEqualObjects([tester waitForCellAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] inTableViewWithAccessibilityIdentifier:@"TableView Tests Table"].textLabel.text, @"Deleted", @"");
     
     // Last row
-    [tester swipeRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:2] inTableView:tableView inDirection:KIFSwipeDirectionLeft];
+    NSIndexPath *lastCellPath = [NSIndexPath indexPathForRow:1 inSection:2];
+    [tester swipeRowAtIndexPath:lastCellPath inTableView:tableView inDirection:KIFSwipeDirectionLeft];
+    [tester waitForDeleteStateForCellAtIndexPath:lastCellPath inTableView:tableView];
     [tester tapViewWithAccessibilityLabel:@"Delete"];
     
     __KIFAssertEqualObjects([tester waitForCellAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:2] inTableViewWithAccessibilityIdentifier:@"TableView Tests Table"].textLabel.text, @"Deleted", @"");
