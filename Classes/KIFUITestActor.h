@@ -598,6 +598,7 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  @abstract Scrolls a table view with the given identifier while waiting for the cell at the given indexPath to appear.
  @discussion This step will get the view with the specified accessibility identifier and then get the cell at the indexPath.
  
+ By default, scrolls to the middle of the cell. If you need to scroll to top/bottom, use the @c atPosition: variation.
  For cases where you may need to work from the end of a table view rather than the beginning, negative sections count back from the end of the table view (-1 is the last section) and negative rows count back from the end of the section (-1 is the last row for that section).
  
  @param indexPath Index path of the cell.
@@ -607,9 +608,23 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
 - (UITableViewCell *)waitForCellAtIndexPath:(NSIndexPath *)indexPath inTableViewWithAccessibilityIdentifier:(NSString *)identifier;
 
 /*!
+ @abstract Scrolls a table view with the given identifier while waiting for the cell at the given indexPath to appear.
+ @discussion This step will get the view with the specified accessibility identifier and then get the cell at the indexPath.
+ 
+ For cases where you may need to work from the end of a table view rather than the beginning, negative sections count back from the end of the table view (-1 is the last section) and negative rows count back from the end of the section (-1 is the last row for that section).
+ 
+ @param indexPath Index path of the cell.
+ @param identifier Accessibility identifier of the table view.
+ @param position Table View scroll position to scroll to. Useful for tall cells when the content needed is in a specific location.
+ @result Table view cell at index path
+ */
+- (UITableViewCell *)waitForCellAtIndexPath:(NSIndexPath *)indexPath inTableViewWithAccessibilityIdentifier:(NSString *)identifier atPosition:(UITableViewScrollPosition)position;
+
+/*!
  @abstract Scrolls a table view while waiting for the cell at the given indexPath to appear.
  @discussion This step will get the cell at the indexPath.
  
+ By default, scrolls to the middle of the cell. If you need to scroll to top/bottom, use the @c atPosition: variation.
  For cases where you may need to work from the end of a table view rather than the beginning, negative sections count back from the end of the table view (-1 is the last section) and negative rows count back from the end of the section (-1 is the last row for that section).
  
  @param indexPath Index path of the cell.
@@ -617,6 +632,19 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  @result Table view cell at index path
  */
 - (UITableViewCell *)waitForCellAtIndexPath:(NSIndexPath *)indexPath inTableView:(UITableView *)tableView;
+
+/*!
+ @abstract Scrolls a table view while waiting for the cell at the given indexPath to appear.
+ @discussion This step will get the cell at the indexPath.
+ 
+ For cases where you may need to work from the end of a table view rather than the beginning, negative sections count back from the end of the table view (-1 is the last section) and negative rows count back from the end of the section (-1 is the last row for that section).
+ 
+ @param indexPath Index path of the cell.
+ @param tableView UITableView containing the cell.
+ @param position Table View scroll position to scroll to. Useful for tall cells when the content needed is in a specific location.
+ @result Table view cell at index path
+ */
+- (UITableViewCell *)waitForCellAtIndexPath:(NSIndexPath *)indexPath inTableView:(UITableView *)tableView atPosition:(UITableViewScrollPosition)position;
 
 /*!
  @abstract Scrolls a collection view while waiting for the cell at the given indexPath to appear.
