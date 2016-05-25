@@ -161,7 +161,7 @@
     [tester waitForDeleteStateForCellAtIndexPath:firstCellPath inTableView:tableView];
     [tester tapViewWithAccessibilityLabel:@"Delete"];
     
-    __KIFAssertEqualObjects([tester waitForCellAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] inTableViewWithAccessibilityIdentifier:@"TableView Tests Table"].textLabel.text, @"Deleted", @"");
+    __KIFAssertEqualObjects([tester waitForCellAtIndexPath:firstCellPath inTableViewWithAccessibilityIdentifier:@"TableView Tests Table"].textLabel.text, @"Deleted", @"");
     
     // Last row
     NSIndexPath *lastCellPath = [NSIndexPath indexPathForRow:1 inSection:2];
@@ -169,8 +169,7 @@
     [tester waitForDeleteStateForCellAtIndexPath:lastCellPath inTableView:tableView];
     [tester tapViewWithAccessibilityLabel:@"Delete"];
     
-    __KIFAssertEqualObjects([tester waitForCellAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:2] inTableViewWithAccessibilityIdentifier:@"TableView Tests Table"].textLabel.text, @"Deleted", @"");
-    
+    __KIFAssertEqualObjects([tester waitForCellAtIndexPath:lastCellPath inTableViewWithAccessibilityIdentifier:@"TableView Tests Table"].textLabel.text, @"Deleted", @"");
 }
 
 @end
