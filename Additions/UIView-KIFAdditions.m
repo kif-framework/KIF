@@ -189,7 +189,14 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
                 continue;
             }
         }
-        
+
+        // Avoid crash in accessibilityElementCount
+        // Some of MKMapView subviews are private classes that do not respond to accessibilityElementCount
+        // See https://github.com/kif-framework/KIF/issues/802
+        if (![element respondsToSelector:@selector(accessibilityElementCount)]) {
+            continue;
+        }
+
         // If the view is an accessibility container, and we didn't find a matching subview,
         // then check the actual accessibility elements
         NSInteger accessibilityElementCount = element.accessibilityElementCount;
