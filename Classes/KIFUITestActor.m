@@ -234,16 +234,8 @@
     [self runBlock:^KIFTestStepResult(NSError **error) {
         
         KIFTestWaitCondition(view.isUserInteractionActuallyEnabled, error, @"View is not enabled for interaction: %@", view);
-        
-        // If the accessibilityFrame is not set, fallback to the view frame.
-        CGRect elementFrame;
-        if (CGRectEqualToRect(CGRectZero, element.accessibilityFrame)) {
-            elementFrame.origin = CGPointZero;
-            elementFrame.size = view.frame.size;
-        } else {
-            elementFrame = [view.windowOrIdentityWindow convertRect:element.accessibilityFrame toView:view];
-        }
-        CGPoint tappablePointInElement = [view tappablePointInRect:elementFrame];
+
+        CGPoint tappablePointInElement = [self tappablePointInElement:element andView:view];
         
         // This is mostly redundant of the test in _accessibilityElementWithLabel:
         KIFTestWaitCondition(!isnan(tappablePointInElement.x), error, @"View is not tappable: %@", view);
@@ -321,9 +313,8 @@
     [self runBlock:^KIFTestStepResult(NSError **error) {
         
         KIFTestWaitCondition(view.isUserInteractionActuallyEnabled, error, @"View is not enabled for interaction: %@", view);
-        
-        CGRect elementFrame = [view.windowOrIdentityWindow convertRect:element.accessibilityFrame toView:view];
-        CGPoint tappablePointInElement = [view tappablePointInRect:elementFrame];
+
+        CGPoint tappablePointInElement = [self tappablePointInElement:element andView:view];
         
         // This is mostly redundant of the test in _accessibilityElementWithLabel:
         KIFTestWaitCondition(!isnan(tappablePointInElement.x), error, @"View is not tappable: %@", view);
@@ -794,10 +785,8 @@
             }
             return KIFTestStepResultWait;
         }
-        
-        CGRect elementFrame = [view.windowOrIdentityWindow convertRect:element.accessibilityFrame toView:view];
-        CGPoint tappablePointInElement = [view tappablePointInRect:elementFrame];
-        
+
+        CGPoint tappablePointInElement = [self tappablePointInElement:element andView:view];
         [view tapAtPoint:tappablePointInElement];
         
         return KIFTestStepResultSuccess;
@@ -926,9 +915,10 @@
     const NSUInteger kNumberOfPointsInSwipePath = 20;
   
     // Within this method, all geometry is done in the coordinate system of the view to swipe.
-  
-    CGRect elementFrame = [viewToSwipe.windowOrIdentityWindow convertRect:element.accessibilityFrame toView:viewToSwipe];
+    CGRect elementFrame = [self elementFrameForElement:element andView:viewToSwipe];
+
     CGPoint swipeStart = CGPointCenteredInRect(elementFrame);
+
     KIFDisplacement swipeDisplacement = [self _displacementForSwipingInDirection:direction];
   
     [viewToSwipe dragFromPoint:swipeStart displacement:swipeDisplacement steps:kNumberOfPointsInSwipePath];
@@ -994,8 +984,7 @@
     const NSUInteger kNumberOfPointsInScrollPath = 5;
 
     // Within this method, all geometry is done in the coordinate system of the view to scroll.
-
-    CGRect elementFrame = [viewToScroll.windowOrIdentityWindow convertRect:element.accessibilityFrame toView:viewToScroll];
+    CGRect elementFrame = [self elementFrameForElement:element andView:viewToScroll];
 
     KIFDisplacement scrollDisplacement = CGPointMake(elementFrame.size.width * horizontalFraction, elementFrame.size.height * verticalFraction);
 
@@ -1219,16 +1208,7 @@
 
 		KIFTestWaitCondition(view.isUserInteractionActuallyEnabled, error, @"View is not enabled for interaction: %@", view);
 
-		// If the accessibilityFrame is not set, fallback to the view frame.
-		CGRect elementFrame;
-		if (CGRectEqualToRect(CGRectZero, element.accessibilityFrame)) {
-			elementFrame.origin = CGPointZero;
-			elementFrame.size = view.frame.size;
-		} else {
-			elementFrame = [view.windowOrIdentityWindow convertRect:element.accessibilityFrame toView:view];
-		}
-
-		CGPoint stepperPointToTap = [view tappablePointInRect:elementFrame];
+        CGPoint stepperPointToTap = [self tappablePointInElement:element andView:view];
 
 		switch (stepperDirection)
 		{
@@ -1250,6 +1230,28 @@
 	}];
 
 	[self waitForAnimationsToFinish];
+}
+
+- (CGRect) elementFrameForElement:(UIAccessibilityElement *)element andView:(UIView *)view
+{
+    CGRect elementFrame;
+
+    // If the accessibilityFrame is not set, fallback to the view frame.
+    if (CGRectEqualToRect(CGRectZero, element.accessibilityFrame)) {
+        elementFrame.origin = CGPointZero;
+        elementFrame.size = view.frame.size;
+    } else {
+        elementFrame = [view.windowOrIdentityWindow convertRect:element.accessibilityFrame toView:view];
+    }
+    return elementFrame;
+}
+
+- (CGPoint) tappablePointInElement:(UIAccessibilityElement *)element andView:(UIView *)view
+{
+    CGRect elementFrame = [self elementFrameForElement:element andView:view];
+    CGPoint tappablePoint = [view tappablePointInRect:elementFrame];
+
+    return tappablePoint;
 }
 
 - (KIFDisplacement)_displacementForSwipingInDirection:(KIFSwipeDirection)direction;
