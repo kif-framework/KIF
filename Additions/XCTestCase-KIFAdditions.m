@@ -9,6 +9,7 @@
 #import "XCTestCase-KIFAdditions.h"
 #import "LoadableCategory.h"
 #import "UIApplication-KIFAdditions.h"
+#import "UIView-Debugging.h"
 #import <objc/runtime.h>
 
 MAKE_CATEGORIES_LOADABLE(TestCase_KIFAdditions)
@@ -37,6 +38,7 @@ static inline void Swizzle(Class c, SEL orig, SEL new)
 
     if (stop) {
         [self writeScreenshotForException:exception];
+        [self printViewHierarchyIfOptedIn];
         static dispatch_once_t onceToken;
         dispatch_once(&onceToken, ^{
             Swizzle([XCTestCase class], @selector(_recordUnexpectedFailureWithDescription:exception:), @selector(KIF_recordUnexpectedFailureWithDescription:exception:));
@@ -63,6 +65,21 @@ static inline void Swizzle(Class c, SEL orig, SEL new)
 - (void)writeScreenshotForException:(NSException *)exception;
 {
     [[UIApplication sharedApplication] writeScreenshotForLine:[exception.userInfo[@"LineNumberKey"] unsignedIntegerValue] inFile:exception.userInfo[@"FilenameKey"] description:nil error:NULL];
+}
+
+- (void)printViewHierarchyIfOptedIn;
+{
+    static BOOL shouldPrint;
+    
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        NSString *shouldPrintValue = [NSProcessInfo.processInfo.environment objectForKey:@"KIF_PRINTVIEWTREEONFAILURE"];
+        shouldPrint = [[shouldPrintValue uppercaseString] isEqualToString:@"YES"];
+    });
+
+    if (shouldPrint) {
+        [UIView printViewHierarchy];
+    }
 }
 
 @end
