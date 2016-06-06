@@ -9,8 +9,19 @@
 //
 
 #import "CALayer-KIFAdditions.h"
+#import "CAAnimation+KIFAdditions.h"
+
 
 @implementation CALayer (KIFAdditions)
+
+- (float)KIF_absoluteSpeed
+{
+    __block float speed = 1.0f;
+    [self performBlockOnAncestorLayers:^(CALayer *layer) {
+        speed = speed * layer.speed;
+    }];
+    return speed;
+}
 
 - (BOOL)hasAnimations
 {
@@ -19,10 +30,20 @@
       // explicitly exclude _UIParallaxMotionEffect as it is used in alertviews, and we don't want every alertview to be paused)
       BOOL hasAnimation = layer.animationKeys.count != 0 && ![layer.animationKeys isEqualToArray:@[@"_UIParallaxMotionEffect"]];
       if (hasAnimation && !layer.hidden) {
-          result = YES;
-          if (stop != NULL) {
-              *stop = YES;
-          }
+          double currentTime = CACurrentMediaTime() * [layer KIF_absoluteSpeed];
+
+          [layer.animationKeys enumerateObjectsUsingBlock:^(NSString *animationKey, NSUInteger idx, BOOL *innerStop) {
+              CAAnimation *animation = [layer animationForKey:animationKey];
+              double beginTime = [animation beginTime];
+              double completionTime = [animation KIF_completionTime];
+
+              // Ignore infinitely repeating animations
+              if (currentTime >= beginTime && completionTime != HUGE_VALF && currentTime < completionTime) {
+                  result = YES;
+                  *innerStop = YES;
+                  *stop = YES;
+              }
+          }];
       }
     }];
     return result;
@@ -46,6 +67,15 @@
         if (*stop) {
             return;
         }
+    }
+}
+
+- (void)performBlockOnAncestorLayers:(void (^)(CALayer *))block;
+{
+    block(self);
+
+    if (self.superlayer != nil) {
+        [self.superlayer performBlockOnAncestorLayers:block];
     }
 }
 
