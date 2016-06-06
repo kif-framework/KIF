@@ -158,10 +158,12 @@
 }
 
 - (void)waitForAnimationsToFinishWithTimeout:(NSTimeInterval)timeout {
-    static const CGFloat kStabilizationWait = 0.5f;
-    
+    [self waitForAnimationsToFinishWithTimeout:timeout stabilizationTime:self.animationStabilizationTimeout];
+}
+
+- (void)waitForAnimationsToFinishWithTimeout:(NSTimeInterval)timeout stabilizationTime:(NSTimeInterval)stabilizationTime {
     NSTimeInterval maximumWaitingTimeInterval = timeout;
-    if (maximumWaitingTimeInterval <= kStabilizationWait) {
+    if (maximumWaitingTimeInterval <= stabilizationTime) {
         if(maximumWaitingTimeInterval >= 0) {
             [self waitForTimeInterval:maximumWaitingTimeInterval relativeToAnimationSpeed:YES];
         }
@@ -170,8 +172,8 @@
     }
     
     // Wait for the view to stabilize and give them a chance to start animations before we wait for them.
-    [self waitForTimeInterval:kStabilizationWait relativeToAnimationSpeed:YES];
-    maximumWaitingTimeInterval -= kStabilizationWait;
+    [self waitForTimeInterval:stabilizationTime relativeToAnimationSpeed:YES];
+    maximumWaitingTimeInterval -= stabilizationTime;
     
     NSTimeInterval startTime = [NSDate timeIntervalSinceReferenceDate];
     [self runBlock:^KIFTestStepResult(NSError **error) {
@@ -189,8 +191,18 @@
                 }
             }];
         }
+
+        if (runningAnimationFound) {
+            BOOL hasTimeRemainingToWait = ([NSDate timeIntervalSinceReferenceDate] - startTime) < maximumWaitingTimeInterval;
+            if (hasTimeRemainingToWait) {
+                return KIFTestStepResultWait;
+            } else {
+                // Animations appear to still exist, but we've hit our time limit
+                return KIFTestStepResultSuccess;
+            }
+        }
         
-        return runningAnimationFound && ([NSDate timeIntervalSinceReferenceDate] - startTime) < maximumWaitingTimeInterval ? KIFTestStepResultWait : KIFTestStepResultSuccess;
+        return KIFTestStepResultSuccess;
     } timeout:maximumWaitingTimeInterval + 1];
 }
 
