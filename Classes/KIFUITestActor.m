@@ -20,6 +20,8 @@
 #import "NSError-KIFAdditions.h"
 #import "KIFTypist.h"
 #import "UIAutomationHelper.h"
+#import "KIFProxyDelegate.h"
+#import "KIFScrollViewDelegates.h"
 
 #define kKIFMinorSwipeDisplacement 5
 
@@ -1027,25 +1029,24 @@
         return KIFTestStepResultSuccess;
     }];
 
-    __block UITableViewCell *cell = nil;
-    __block CGFloat lastYOffset = CGFLOAT_MAX;
-    [self runBlock:^KIFTestStepResult(NSError **error) {
-        [tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
-        cell = [tableView cellForRowAtIndexPath:indexPath];
-        KIFTestWaitCondition(!!cell, error, @"Table view cell at index path %@ not found", indexPath);
-        
-        if (lastYOffset != tableView.contentOffset.y) {
-            lastYOffset = tableView.contentOffset.y;
-            KIFTestWaitCondition(NO, error, @"Didn't finish scrolling to cell.");
-        }
-        
-        return KIFTestStepResultSuccess;
-    }];
+    // Set up a proxy table view delegate, so we know when scrolling has stopped
+    KIFTableViewDelegate *kifDelegate = [KIFTableViewDelegate new];
+    KIFProxyDelegate *delegate = [[KIFProxyDelegate alloc] initWithOriginalDelegate:tableView.delegate
+                                                                replacementDelegate:kifDelegate];
+    tableView.delegate = (id<UITableViewDelegate>)delegate;
 
-    [self waitForTimeInterval:0.1 relativeToAnimationSpeed:YES]; // Let things settle.
+    // Initiate scrolling
+    [tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
 
+    // Wait for scrolling to finish
+    if (![kifDelegate waitForScrollCompleteToIndexPath:indexPath inTableView:tableView]) {
+        [self failWithError:[NSError KIFErrorWithFormat:@"Timed out waiting for scroll"] stopTest:YES];
+    }
 
-    return cell;
+    // Restore the delegate to the original
+    tableView.delegate = delegate.original;
+
+    return [tableView cellForRowAtIndexPath:indexPath];
 }
 
 - (UICollectionViewCell *)waitForCellAtIndexPath:(NSIndexPath *)indexPath inCollectionViewWithAccessibilityIdentifier:(NSString *)identifier
@@ -1085,30 +1086,45 @@
         return KIFTestStepResultSuccess;
     }];
 
-    [collectionView scrollToItemAtIndexPath:indexPath
-                           atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally | UICollectionViewScrollPositionCenteredVertically
-                                   animated:YES];
+    // Set up a proxy table view delegate, so we know when scrolling has stopped
+    KIFCollectionViewDelegate *kifDelegate = [KIFCollectionViewDelegate new];
+    KIFProxyDelegate *delegate = [[KIFProxyDelegate alloc] initWithOriginalDelegate:collectionView.delegate
+                                                                replacementDelegate:kifDelegate];
+    collectionView.delegate = (id<UICollectionViewDelegate>)delegate;
 
-    // waitForAnimationsToFinish doesn't allow collection view to settle when animations are sped up
-    // So use waitForTimeInterval instead
-    const NSTimeInterval animationWaitTime = 0.5f;
-    [self waitForTimeInterval:animationWaitTime relativeToAnimationSpeed:YES];
+    // Initiate scrolling
+    CGRect frame = [collectionView.collectionViewLayout layoutAttributesForItemAtIndexPath:indexPath].frame;
+    [collectionView scrollRectToVisible:frame animated:YES];
+
+    // Wait for scrolling to finish
+    if (![kifDelegate waitForScrollCompleteToIndexPath:indexPath inCollectionView:collectionView]) {
+        [self failWithError:[NSError KIFErrorWithFormat:@"Timed out waiting for scroll"] stopTest:YES];
+    }
+
     UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
 
     //For big collection views with many cells the cell might not be ready yet. Relayout and try again.
     if(cell == nil) {
         [collectionView layoutIfNeeded];
-        [collectionView scrollToItemAtIndexPath:indexPath
-                               atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally | UICollectionViewScrollPositionCenteredVertically
-                                       animated:NO];
-        // waitForAnimationsToFinish doesn't allow collection view to settle when animations are sped up
-        [self waitForTimeInterval:animationWaitTime relativeToAnimationSpeed:YES];
+
+        // Initiate scrolling
+        CGRect frame = [collectionView.collectionViewLayout layoutAttributesForItemAtIndexPath:indexPath].frame;
+        [collectionView scrollRectToVisible:frame animated:NO];
+
+        // Wait for scrolling to finish
+        if (![kifDelegate waitForScrollCompleteToIndexPath:indexPath inCollectionView:collectionView]) {
+            [self failWithError:[NSError KIFErrorWithFormat:@"Timed out waiting for scroll"] stopTest:YES];
+        }
+
         cell = [collectionView cellForItemAtIndexPath:indexPath];
     }
     
     if (!cell) {
         [self failWithError:[NSError KIFErrorWithFormat:@"Collection view cell at index path %@ not found", indexPath] stopTest:YES];
     }
+
+    // Restore the delegate to the original
+    collectionView.delegate = delegate.original;
 
     return cell;
 }
