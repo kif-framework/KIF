@@ -195,7 +195,13 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
                 continue;
             }
         }
-        
+
+        // Avoid crash within accessibilityElementCount while traversing map subviews
+        // See https://github.com/kif-framework/KIF/issues/802
+        if ([element isKindOfClass:NSClassFromString(@"MKBasicMapView")]) {
+            continue;
+        }
+
         // If the view is an accessibility container, and we didn't find a matching subview,
         // then check the actual accessibility elements
         NSInteger accessibilityElementCount = element.accessibilityElementCount;
