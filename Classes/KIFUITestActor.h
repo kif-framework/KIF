@@ -741,6 +741,18 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
 */
 - (void)swipeRowAtIndexPath:(NSIndexPath *)indexPath inTableView:(UITableView *)tableView inDirection:(KIFSwipeDirection)direction;
 
+/*!
+ @abstract Waits for the given cell to transition to the delete state. Useful when swiping left on a cell for delete action.
+ @param cell Cell to wait for delete state on.
+ */
+- (void)waitForDeleteStateForCell:(UITableViewCell*)cell;
+
+/*!
+ @abstract Waits for the given cell to transition to the delete state. Useful when swiping left on a cell for delete action.
+ @param indexPath Index path of the row to wait for the delete state on.
+ @param tableView Table view to operate on.
+ */
+- (void)waitForDeleteStateForCellAtIndexPath:(NSIndexPath*)indexPath inTableView:(UITableView*)tableView;
 
 /*!
  @abstract Backgrounds app using UIAutomation command, simulating pressing the Home button
