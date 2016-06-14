@@ -100,6 +100,8 @@
 {
     [tester enterText:@"hi\bello" intoViewWithAccessibilityLabel:@"Other Text" traits:UIAccessibilityTraitNone expectedResult:@"hello"];
     [tester waitForViewWithAccessibilityLabel:@"Greeting" value:@"Deleted something." traits:UIAccessibilityTraitNone];
+    UIView *textView = [tester waitForViewWithAccessibilityLabel:@"Other Text"];
+    XCTAssertEqualObjects([tester textFromView:textView], @"hello");
 }
 
 @end
