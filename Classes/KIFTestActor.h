@@ -91,6 +91,7 @@ typedef void (^KIFTestCompletionBlock)(KIFTestStepResult result, NSError *error)
 @property (weak, nonatomic, readonly) id<KIFTestActorDelegate> delegate;
 @property (nonatomic) NSTimeInterval executionBlockTimeout;
 @property (nonatomic) NSTimeInterval animationWaitingTimeout;
+@property (nonatomic) NSTimeInterval animationStabilizationTimeout;
 
 - (instancetype)usingTimeout:(NSTimeInterval)executionBlockTimeout;
 
@@ -116,6 +117,19 @@ typedef void (^KIFTestCompletionBlock)(KIFTestStepResult result, NSError *error)
  @abstract Sets the default amount of time to wait for an animation to complete.
  */
 + (void)setDefaultAnimationWaitingTimeout:(NSTimeInterval)newDefaultAnimationWaitingTimeout;
+
+/*!
+ @method defaultAnimationStabilizationTimeout
+ @abstract The default amount of time to wait before starting to check for animations
+ @discussion To change the default value of the timeout property, call +setDefaultAnimationStabilizationTimeout: with a different value.
+ */
++ (NSTimeInterval)defaultAnimationStabilizationTimeout;
+
+/*!
+ @method setDefaultAnimationStabilizationTimeout:
+ @abstract Sets the amount of time to wait before starting to check for animations
+ */
++ (void)setDefaultAnimationStabilizationTimeout:(NSTimeInterval)newDefaultAnimationStabilizationTimeout;
 
 /*!
  @method defaultTimeout

@@ -202,6 +202,13 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
 - (void)waitForAnimationsToFinishWithTimeout:(NSTimeInterval)timeout;
 
 /*!
+ @abstract Tries to guess if there are any unfinished animations and waits for a certain amount of time to let them finish.
+ @param timeout The maximum duration the method waits to let the animations finish.
+ @param stabilizationTime The time we just sleep before attempting to detect animations
+ */
+- (void)waitForAnimationsToFinishWithTimeout:(NSTimeInterval)timeout stabilizationTime:(NSTimeInterval)stabilizationTime;
+
+/*!
  @abstract Taps a particular view in the view hierarchy.
  @discussion The view or accessibility element with the given label is searched for in the view hierarchy. If the element isn't found or isn't currently tappable, then the step will attempt to wait until it is. Once the view is present and tappable, a tap event is simulated in the center of the view or element.
  @param label The accessibility label of the element to tap.
