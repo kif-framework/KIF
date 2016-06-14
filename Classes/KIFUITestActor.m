@@ -1007,7 +1007,14 @@
 
     // Within this method, all geometry is done in the coordinate system of the view to scroll.
 
-    CGRect elementFrame = [viewToScroll.windowOrIdentityWindow convertRect:element.accessibilityFrame toView:viewToScroll];
+    // PSPDFKit: This broke in a recent KIF update,
+    // for some reason accessibilityFrame is empty.
+    CGRect frame = element.accessibilityFrame;
+    if (CGRectIsEmpty(frame) && [element respondsToSelector:@selector(frame)]) {
+        frame = ((UIView *)element).frame;
+    }
+
+    CGRect elementFrame = [viewToScroll.windowOrIdentityWindow convertRect:frame toView:viewToScroll];
 
     KIFDisplacement scrollDisplacement = CGPointMake(elementFrame.size.width * horizontalFraction, elementFrame.size.height * verticalFraction);
 
