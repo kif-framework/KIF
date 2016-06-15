@@ -284,6 +284,13 @@
 - (void)clearAndEnterText:(NSString *)text expectedResult:(NSString *)expectedResult;
 
 /*!
+ @abstract Sets text into a particular view matching the tester's search predicate.
+ @discussion If the element isn't currently tappable, then the step will attempt to wait until it is. Once the view is present and tappable, then text is set on the view. Does not result in first responder changes. Does not perform expected result validation.
+ @param text The text to set.
+ */
+- (void)setText:(NSString *)text;
+
+/*!
  @abstract Waits for the software keyboard to be visible.
  @discussion If input is also possible from a hardare keyboard @c waitForKeyInputReady may be more appropriate.
  */

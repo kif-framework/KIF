@@ -388,6 +388,14 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
 - (void)clearTextFromAndThenEnterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits expectedResult:(NSString *)expectedResult;
 
 /*!
+ @abstract Sets text into a particular view in the view hierarchy. No animation nor typing simulation.
+ @discussion The view or accessibility element with the given label is searched for in the view hierarchy. If the element isn't found or isn't currently tappable, then the step will attempt to wait until it is. Once the view is present and tappable, then text is set on the view. Does not result in first responder changes. Does not perform expected result validation.
+ @param text The text to set.
+ @param label The accessibility label of the element to set the text on.
+ */
+- (void)setText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label;
+
+/*!
  @abstract Gets text from a given label/text field/text view
  @param view The view to get the text from
  @returns Text from the given label/text field/text view
