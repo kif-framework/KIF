@@ -63,7 +63,6 @@
 - (void)enterText:(NSString *)text intoViewWithAccessibilityIdentifier:(NSString *)accessibilityIdentifier
 {
 	return [self enterText:text intoViewWithAccessibilityIdentifier:accessibilityIdentifier expectedResult:nil];
-	
 }
 
 - (void)enterText:(NSString *)text intoViewWithAccessibilityIdentifier:(NSString *)accessibilityIdentifier expectedResult:(NSString *)expectedResult
@@ -94,6 +93,17 @@
 {
 	[self clearTextFromViewWithAccessibilityIdentifier:accessibilityIdentifier];
 	[self enterText:text intoViewWithAccessibilityIdentifier:accessibilityIdentifier expectedResult:expectedResult];
+}
+
+- (void)setText:(NSString *)text intoViewWithAccessibilityIdentifier:(NSString *)accessibilityIdentifier
+{
+    UIView *view = nil;
+    UIAccessibilityElement *element = nil;
+
+    [self waitForAccessibilityElement:&element view:&view withIdentifier:accessibilityIdentifier tappable:YES];
+    if ([view respondsToSelector:@selector(setText:)]) {
+        [view performSelector:@selector(setText:) withObject:text];
+    }
 }
 
 - (void)setOn:(BOOL)switchIsOn forSwitchWithAccessibilityIdentifier:(NSString *)accessibilityIdentifier

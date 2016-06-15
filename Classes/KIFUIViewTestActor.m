@@ -257,6 +257,14 @@
     [self.actor enterTextIntoCurrentFirstResponder:text fallbackView:fallbackView];
 }
 
+- (void)setText:(NSString *)text;
+{
+    KIFUIObject *found = [self _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
+    if ([found.view respondsToSelector:@selector(setText:)]) {
+        [found.view performSelector:@selector(setText:) withObject:text];
+    }
+}
+
 - (void)expectToContainText:(NSString *)expectedResult;
 {
     KIFUIObject *found = [self _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];

@@ -70,6 +70,16 @@
 	[tester clearTextFromAndThenEnterText:@"Yo" intoViewWithAccessibilityIdentifier:@"idGreeting"];
 }
 
+- (void)testSettingTextIntoViewWithAccessibilityIdentifier
+{
+    UIView *greetingView = [tester waitForViewWithAccessibilityIdentifier:@"idGreeting"];
+    [tester longPressViewWithAccessibilityIdentifier:@"idGreeting" duration:2];
+    [tester setText:@"Yo" intoViewWithAccessibilityIdentifier:@"idGreeting"];
+    [tester expectView:greetingView toContainText:@"Yo"];
+    [tester setText:@"Hello" intoViewWithAccessibilityIdentifier:@"idGreeting"];
+    [tester expectView:greetingView toContainText:@"Hello"];
+}
+
 - (void)testTryFindingViewWithAccessibilityIdentifier
 {
     if (![tester tryFindingViewWithAccessibilityIdentifier:@"idGreeting"])

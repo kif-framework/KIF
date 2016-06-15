@@ -527,6 +527,17 @@
     [self enterTextIntoCurrentFirstResponder:text];
 }
 
+- (void)setText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label
+{
+    UIView *view = nil;
+    UIAccessibilityElement *element = nil;
+
+    [self waitForAccessibilityElement:&element view:&view withLabel:label value:nil traits:UIAccessibilityTraitNone tappable:YES];
+    if ([view respondsToSelector:@selector(setText:)]) {
+        [view performSelector:@selector(setText:) withObject:text];
+    }
+}
+
 - (NSString *)textFromView:(UIView *)view {
     if ([view isKindOfClass:[UILabel class]]) {
         UILabel *label = (UILabel *)view;

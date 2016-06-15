@@ -89,6 +89,16 @@
     [tester clearTextFromViewWithAccessibilityLabel:@"Greeting"];
 }
 
+- (void)testSettingTextIntoViewWithAccessibilityLabel
+{
+    UIView *greetingView = [tester waitForViewWithAccessibilityLabel:@"Greeting"];
+    [tester longPressViewWithAccessibilityLabel:@"Greeting" duration:2];
+    [tester setText:@"Yo" intoViewWithAccessibilityLabel:@"Greeting"];
+    [tester expectView:greetingView toContainText:@"Yo"];
+    [tester setText:@"Hello" intoViewWithAccessibilityLabel:@"Greeting"];
+    [tester expectView:greetingView toContainText:@"Hello"];
+}
+
 - (void)testThatClearingTextHitsTheDelegate
 {
     [tester enterText:@"hello" intoViewWithAccessibilityLabel:@"Other Text"];
