@@ -418,6 +418,17 @@
     return [self enterText:text intoViewWithAccessibilityLabel:label traits:UIAccessibilityTraitNone expectedResult:nil];
 }
 
+- (void)setText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label
+{
+    UIView *view = nil;
+    UIAccessibilityElement *element = nil;
+
+    [self waitForAccessibilityElement:&element view:&view withLabel:label value:nil traits:UIAccessibilityTraitNone tappable:YES];
+    if ([view respondsToSelector:@selector(setText:)]) {
+        [view performSelector:@selector(setText:) withObject:text];
+    }
+}
+
 - (void)enterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits expectedResult:(NSString *)expectedResult
 {
     UIView *view = nil;

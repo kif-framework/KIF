@@ -32,6 +32,14 @@
 - (void)enterText:(NSString *)text intoViewWithAccessibilityIdentifier:(NSString *)accessibilityIdentifier;
 
 /*!
+ @abstract Sets text into a particular view in the view hierarchy. No animation nor typing simulation.
+ @discussion The view or accessibility element with the given label is searched for in the view hierarchy. If the element isn't found or isn't currently tappable, then the step will attempt to wait until it is. Once the view is present and tappable, then text is set on the view. Does not result in first responder changes. Does not perform expected result validation.
+ @param text The text to set.
+ @param accessibilityIdentifier The accessibility identifier of the element to set the text on.
+ */
+- (void)setText:(NSString *)text intoViewWithAccessibilityIdentifier:(NSString *)accessibilityIdentifier;
+
+/*!
  @abstract Enters text into a particular view in the view hierarchy.
  @discussion The view or accessibility element with the given label is searched for in the view hierarchy. If the element isn't found or isn't currently tappable, then the step will attempt to wait until it is. Once the view is present and tappable, a tap event is simulated in the center of the view or element, then text is entered into the view by simulating taps on the appropriate keyboard keys.
  @param text The text to enter.

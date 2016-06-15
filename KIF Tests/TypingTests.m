@@ -57,6 +57,16 @@
     [tester waitForViewWithAccessibilityLabel:@"Greeting" value:@"Yo" traits:UIAccessibilityTraitNone];
 }
 
+- (void)testSettingTextIntoViewWithAccessibilityLabel
+{
+    UIView *greetingView = [tester waitForViewWithAccessibilityLabel:@"Greeting"];
+    [tester longPressViewWithAccessibilityLabel:@"Greeting" duration:2];
+    [tester setText:@"Yo" intoViewWithAccessibilityLabel:@"Greeting"];
+    [tester expectView:greetingView toContainText:@"Yo"];
+    [tester setText:@"Hello" intoViewWithAccessibilityLabel:@"Greeting"];
+    [tester expectView:greetingView toContainText:@"Hello"];
+}
+
 - (void)testEnteringTextIntoViewWithAccessibilityLabelExpectingResults
 {
     [tester enterText:@", world" intoViewWithAccessibilityLabel:@"Greeting" traits:UIAccessibilityTraitNone expectedResult:@"Hello, world"];
