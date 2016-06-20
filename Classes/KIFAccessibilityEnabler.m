@@ -10,9 +10,21 @@
 #import <XCTest/XCTest.h>
 #import <dlfcn.h>
 
+// Used for iOS 8
+@interface AccessibilitySettingsController
+- (void)setAXInspectorEnabled:(NSNumber*)enabled specifier:(id)specifier;
+- (NSNumber *)AXInspectorEnabled:(id)specifier;
+@end
+
+#ifndef kCFCoreFoundationVersionNumber_iOS_9_0
+#define kCFCoreFoundationVersionNumber_iOS_9_0 1223.1
+#endif
+
+
 @interface KIFAccessibilityEnabler ()
 
 @property (nonatomic, strong) id axSettingPrefController;
+@property (nonatomic, strong) NSNumber *initialAccessibilityInspectorSetting;
 
 @end
 
@@ -32,6 +44,7 @@
 
 - (void)setApplicationAccessibilityEnabled:(BOOL)enabled
 {
+    // This works as of iOS 9.
     CFPreferencesSetAppValue((CFStringRef)@"ApplicationAccessibilityEnabled",
                              kCFBooleanTrue, (CFStringRef)@"com.apple.Accessibility");
     CFPreferencesSynchronize((CFStringRef)@"com.apple.Accessibility",
@@ -44,12 +57,65 @@
 - (void)enableAccessibility
 {
     [self setApplicationAccessibilityEnabled:YES];
+
+    if (kCFCoreFoundationVersionNumber < kCFCoreFoundationVersionNumber_iOS_9_0) {
+        [self enableAccessibilityLegacyiOS8];
+    }
 }
 
 - (void)_resetAccessibilityInspector
 {
     [self setApplicationAccessibilityEnabled:NO];
+
+    if (kCFCoreFoundationVersionNumber < kCFCoreFoundationVersionNumber_iOS_9_0) {
+        [self _resetAccessibilityInspectorLegacyiOS8];
+    }
+
 }
+
+- (void)enableAccessibilityLegacyiOS8
+{
+    NSDictionary *environment = [[NSProcessInfo processInfo] environment];
+    NSString *simulatorRoot = [environment objectForKey:@"IPHONE_SIMULATOR_ROOT"];
+
+    NSString *appSupportLocation = @"/System/Library/PrivateFrameworks/AppSupport.framework/AppSupport";
+    if (simulatorRoot) {
+        appSupportLocation = [simulatorRoot stringByAppendingString:appSupportLocation];
+    }
+
+    void *appSupportLibrary = dlopen([appSupportLocation fileSystemRepresentation], RTLD_LAZY);
+
+    CFStringRef (*copySharedResourcesPreferencesDomainForDomain)(CFStringRef domain) = dlsym(appSupportLibrary, "CPCopySharedResourcesPreferencesDomainForDomain");
+
+    if (copySharedResourcesPreferencesDomainForDomain) {
+        CFStringRef accessibilityDomain = copySharedResourcesPreferencesDomainForDomain(CFSTR("com.apple.Accessibility"));
+
+        if (accessibilityDomain) {
+            CFPreferencesSetValue(CFSTR("ApplicationAccessibilityEnabled"), kCFBooleanTrue, accessibilityDomain, kCFPreferencesAnyUser, kCFPreferencesAnyHost);
+            CFRelease(accessibilityDomain);
+        }
+    }
+
+    NSString* accessibilitySettingsBundleLocation = @"/System/Library/PreferenceBundles/AccessibilitySettings.bundle/AccessibilitySettings";
+    if (simulatorRoot) {
+        accessibilitySettingsBundleLocation = [simulatorRoot stringByAppendingString:accessibilitySettingsBundleLocation];
+    }
+    const char *accessibilitySettingsBundlePath = [accessibilitySettingsBundleLocation fileSystemRepresentation];
+    void* accessibilitySettingsBundle = dlopen(accessibilitySettingsBundlePath, RTLD_LAZY);
+    if (accessibilitySettingsBundle) {
+        Class axSettingsPrefControllerClass = NSClassFromString(@"AccessibilitySettingsController");
+        self.axSettingPrefController = [[axSettingsPrefControllerClass alloc] init];
+
+        self.initialAccessibilityInspectorSetting = [self.axSettingPrefController AXInspectorEnabled:nil];
+        [self.axSettingPrefController setAXInspectorEnabled:@(YES) specifier:nil];
+    }
+}
+
+- (void)_resetAccessibilityInspectorLegacyiOS8
+{
+    [self.axSettingPrefController setAXInspectorEnabled:self.initialAccessibilityInspectorSetting specifier:nil];
+}
+
 
 @end
 
