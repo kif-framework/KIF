@@ -10,17 +10,9 @@
 #import <XCTest/XCTest.h>
 #import <dlfcn.h>
 
-
-@interface AccessibilitySettingsController
-- (void)setAXInspectorEnabled:(NSNumber*)enabled specifier:(id)specifier;
-- (NSNumber *)AXInspectorEnabled:(id)specifier;
-@end
-
-
 @interface KIFAccessibilityEnabler ()
 
 @property (nonatomic, strong) id axSettingPrefController;
-@property (nonatomic, strong) NSNumber *initialAccessibilityInspectorSetting;
 
 @end
 
@@ -38,47 +30,25 @@
     return _sharedAccessibilityEnabler;
 }
 
+- (void)setApplicationAccessibilityEnabled:(BOOL)enabled
+{
+    CFPreferencesSetAppValue((CFStringRef)@"ApplicationAccessibilityEnabled",
+                             kCFBooleanTrue, (CFStringRef)@"com.apple.Accessibility");
+    CFPreferencesSynchronize((CFStringRef)@"com.apple.Accessibility",
+                             kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
+    CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(),
+                                         (CFStringRef)@"com.apple.accessibility.cache.app.ax",
+                                         nil, nil, enabled);
+}
+
 - (void)enableAccessibility
 {
-    NSDictionary *environment = [[NSProcessInfo processInfo] environment];
-    NSString *simulatorRoot = [environment objectForKey:@"IPHONE_SIMULATOR_ROOT"];
-
-    NSString *appSupportLocation = @"/System/Library/PrivateFrameworks/AppSupport.framework/AppSupport";
-    if (simulatorRoot) {
-        appSupportLocation = [simulatorRoot stringByAppendingString:appSupportLocation];
-    }
-
-    void *appSupportLibrary = dlopen([appSupportLocation fileSystemRepresentation], RTLD_LAZY);
-
-    CFStringRef (*copySharedResourcesPreferencesDomainForDomain)(CFStringRef domain) = dlsym(appSupportLibrary, "CPCopySharedResourcesPreferencesDomainForDomain");
-
-    if (copySharedResourcesPreferencesDomainForDomain) {
-        CFStringRef accessibilityDomain = copySharedResourcesPreferencesDomainForDomain(CFSTR("com.apple.Accessibility"));
-
-        if (accessibilityDomain) {
-            CFPreferencesSetValue(CFSTR("ApplicationAccessibilityEnabled"), kCFBooleanTrue, accessibilityDomain, kCFPreferencesAnyUser, kCFPreferencesAnyHost);
-            CFRelease(accessibilityDomain);
-        }
-    }
-
-    NSString* accessibilitySettingsBundleLocation = @"/System/Library/PreferenceBundles/AccessibilitySettings.bundle/AccessibilitySettings";
-    if (simulatorRoot) {
-        accessibilitySettingsBundleLocation = [simulatorRoot stringByAppendingString:accessibilitySettingsBundleLocation];
-    }
-    const char *accessibilitySettingsBundlePath = [accessibilitySettingsBundleLocation fileSystemRepresentation];
-    void* accessibilitySettingsBundle = dlopen(accessibilitySettingsBundlePath, RTLD_LAZY);
-    if (accessibilitySettingsBundle) {
-        Class axSettingsPrefControllerClass = NSClassFromString(@"AccessibilitySettingsController");
-        self.axSettingPrefController = [[axSettingsPrefControllerClass alloc] init];
-
-        self.initialAccessibilityInspectorSetting = [self.axSettingPrefController AXInspectorEnabled:nil];
-        [self.axSettingPrefController setAXInspectorEnabled:@(YES) specifier:nil];
-    }
+    [self setApplicationAccessibilityEnabled:YES];
 }
 
 - (void)_resetAccessibilityInspector
 {
-    [self.axSettingPrefController setAXInspectorEnabled:self.initialAccessibilityInspectorSetting specifier:nil];
+    [self setApplicationAccessibilityEnabled:NO];
 }
 
 @end
