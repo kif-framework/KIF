@@ -46,12 +46,12 @@
 {
     // This works as of iOS 9.
     CFPreferencesSetAppValue((CFStringRef)@"ApplicationAccessibilityEnabled",
-                             enabled, (CFStringRef)@"com.apple.Accessibility");
+                             (__bridge CFPropertyListRef)(@(enabled)), (CFStringRef)@"com.apple.Accessibility");
     CFPreferencesSynchronize((CFStringRef)@"com.apple.Accessibility",
                              kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
     CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(),
                                          (CFStringRef)@"com.apple.accessibility.cache.app.ax",
-                                         nil, nil, kCFBooleanTrue);
+                                         nil, nil, YES);
 }
 
 - (void)enableAccessibility
@@ -124,5 +124,5 @@ void ResetAccessibilityInspector(void);
 // It appears that if you register as a test observer too late, then you don't get the testBundleDidFinish: method called, so instead we use this is a workaround. This is also works well for test envs that don't have XCTestObservation
 __attribute__((destructor))
 void ResetAccessibilityInspector() {
-  [[KIFAccessibilityEnabler sharedAccessibilityEnabler] _resetAccessibilityInspector];
+    [[KIFAccessibilityEnabler sharedAccessibilityEnabler] _resetAccessibilityInspector];
 }
