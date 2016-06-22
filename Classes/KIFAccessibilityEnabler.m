@@ -46,12 +46,12 @@
 {
     // This works as of iOS 9.
     CFPreferencesSetAppValue((CFStringRef)@"ApplicationAccessibilityEnabled",
-                             kCFBooleanTrue, (CFStringRef)@"com.apple.Accessibility");
+                             enabled, (CFStringRef)@"com.apple.Accessibility");
     CFPreferencesSynchronize((CFStringRef)@"com.apple.Accessibility",
                              kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
     CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(),
                                          (CFStringRef)@"com.apple.accessibility.cache.app.ax",
-                                         nil, nil, enabled);
+                                         nil, nil, kCFBooleanTrue);
 }
 
 - (void)enableAccessibility
