@@ -382,30 +382,34 @@
 
 - (void)enterTextIntoCurrentFirstResponder:(NSString *)text fallbackView:(UIView *)fallbackView
 {
-	[text enumerateSubstringsInRange:NSMakeRange(0, text.length)
-							 options:NSStringEnumerationByComposedCharacterSequences
-						  usingBlock: ^(NSString *characterString,NSRange substringRange,NSRange enclosingRange,BOOL * stop)
+    [text enumerateSubstringsInRange:NSMakeRange(0, text.length)
+                             options:NSStringEnumerationByComposedCharacterSequences
+                          usingBlock: ^(NSString *characterString,NSRange substringRange,NSRange enclosingRange,BOOL * stop)
+    {
+        if (![KIFTypist enterCharacter:characterString]) {
+            // Attempt to cheat if we couldn't find the character
+            UIView * fallback = fallbackView;
+            if (!fallback) {
+                UIResponder *firstResponder = [[[UIApplication sharedApplication] keyWindow] firstResponder];
 
-	 {
-		 if (![KIFTypist enterCharacter:characterString]) {
-			 // Attempt to cheat if we couldn't find the character
-			 UIView * fallback = fallbackView;
-			 if (!fallback) {
-				 UIResponder *firstResponder = [[[UIApplication sharedApplication] keyWindow] firstResponder];
+                if ([firstResponder isKindOfClass:[UIView class]]) {
+                    fallback = (UIView *)firstResponder;
+                }
+            }
 
-				 if ([firstResponder isKindOfClass:[UIView class]]) {
-					 fallback = (UIView *)firstResponder;
-				 }
-			 }
+            if ([fallback isKindOfClass:[UITextField class]] || [fallback isKindOfClass:[UITextView class]] || [fallback isKindOfClass:[UISearchBar class]]) {
+                NSLog(@"KIF: Unable to find keyboard key for %@. Inserting manually.", characterString);
+                [(UITextField *)fallback setText:[[(UITextField *)fallback text] stringByAppendingString:characterString]];
+            } else {
+                [self failWithError:[NSError KIFErrorWithFormat:@"Failed to find key for character \"%@\"", characterString] stopTest:YES];
+            }
+        }
+    }];
 
-			 if ([fallback isKindOfClass:[UITextField class]] || [fallback isKindOfClass:[UITextView class]] || [fallback isKindOfClass:[UISearchBar class]]) {
-				 NSLog(@"KIF: Unable to find keyboard key for %@. Inserting manually.", characterString);
-				 [(UITextField *)fallback setText:[[(UITextField *)fallback text] stringByAppendingString:characterString]];
-			 } else {
-				 [self failWithError:[NSError KIFErrorWithFormat:@"Failed to find key for character \"%@\"", characterString] stopTest:YES];
-			 }
-		 }
-	 }];
+    NSTimeInterval remainingWaitTime = 0.01 - [KIFTypist keystrokeDelay];
+    if (remainingWaitTime > 0) {
+        CFRunLoopRunInMode(UIApplicationCurrentRunMode, remainingWaitTime, false);
+    }
 }
 
 - (void)enterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label
