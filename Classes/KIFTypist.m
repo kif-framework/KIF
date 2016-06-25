@@ -89,8 +89,13 @@ static NSTimeInterval keystrokeDelay = 0.01f;
         [[UIKeyboardImpl sharedInstance] addInputString:characterString];
     }
     
-    KIFRunLoopRunInModeRelativeToAnimationSpeed(kCFRunLoopDefaultMode, keystrokeDelay, false);
+    CFRunLoopRunInMode(kCFRunLoopDefaultMode, keystrokeDelay, false);
     return YES;
+}
+
++ (NSTimeInterval)keystrokeDelay;
+{
+    return keystrokeDelay;
 }
 
 + (void)setKeystrokeDelay:(NSTimeInterval)delay
