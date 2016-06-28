@@ -1,11 +1,11 @@
 Pod::Spec.new do |s|
   s.name                    = "KIF"
-  s.version                 = "3.4.2"
+  s.version                 = "3.4.3-sq"
   s.summary                 = "Keep It Functional - iOS UI acceptance testing in an XCUnit harness."
-  s.homepage                = "https://github.com/kif-framework/KIF/"
+  s.homepage                = "https://stash.corp.squareup.com/projects/IOS/repos/kif/browse"
   s.license                 = 'Apache 2.0'
   s.authors                 = 'Michael Thole', 'Eric Firestone', 'Jim Puls', 'Brian Nickel'
-  s.source                  = { :git => "https://github.com/kif-framework/KIF.git", :tag => "v#{ s.version.to_s }" }
+  s.source                  = { :git => "ssh://git@git.corp.squareup.com/ios/kif.git", :tag => "v#{ s.version.to_s }" }
   s.platform                = :ios, '5.1'
   s.frameworks              = 'CoreGraphics', 'QuartzCore', 'IOKit', 'XCTest'
   s.default_subspec         = 'Core'
