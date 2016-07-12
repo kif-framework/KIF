@@ -64,10 +64,7 @@ NSComparisonResult selectorSort(NSInvocation *invocOne, NSInvocation *invocTwo, 
 
 + (void)setUp
 {
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        [[KIFAccessibilityEnabler sharedAccessibilityEnabler] enableAccessibility];
-    });
+    KIFEnableAccessibility();
     [self performSetupTearDownWithSelector:@selector(beforeAll)];
 }
 
