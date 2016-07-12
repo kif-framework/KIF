@@ -23,6 +23,8 @@
 
 @implementation KIFUIViewTestActor
 
+NSString *const inputFieldTestString = @"Testing";
+
 #pragma mark - Initialization
 
 - (instancetype)usingPredicate:(NSPredicate *)predicate;
