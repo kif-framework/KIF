@@ -8,9 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface KIFAccessibilityEnabler : NSObject
-
-+ (instancetype)sharedAccessibilityEnabler;
-- (void)enableAccessibility;
-
-@end
+/**
+ * Provides way to enable the Accessibility Inspector.
+ */
+FOUNDATION_EXTERN void KIFEnableAccessibility(void);
