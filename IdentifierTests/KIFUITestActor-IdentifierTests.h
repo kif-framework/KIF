@@ -96,14 +96,14 @@
 /*!
  @abstract Pulls down on the view that enables the pull to refresh.
  @discussion This will enact the pull to refresh by pulling down the distance of 1/2 the height of the view found by the accessibility identifier.
- @param identifierThe accessibility label of the view to perform the pull down on.
+ @param identifier The accessibility label of the view to perform the pull down on.
  */
 - (void)pullToRefreshViewWithAccessibilityIdentifier:(NSString *)identifier;
 
 /*!
  @abstract Pulls down on the view that enables the pull to refresh.
  @discussion This will enact the pull to refresh by pulling down the distance of 1/2 the height of the view found by the accessibility identifier.
- @param identifierThe accessibility label of the view to perform the pull down on.
+ @param identifier The accessibility label of the view to perform the pull down on.
  @param pullDownDuration The enum describing the approximate time for the pull down to travel the entire distance
  */
 - (void)pullToRefreshViewWithAccessibilityIdentifier:(NSString *)identifier pullDownDuration:(KIFPullToRefreshTiming) pullDownDuration;

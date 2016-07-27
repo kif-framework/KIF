@@ -65,7 +65,7 @@
  @param label The accessibility label of the element to wait for.
  @param value The accessibility value of the element to tap.
  @param traits The accessibility traits of the element to wait for. Elements that do not include at least these traits are ignored.
- @param fromRootView The root view to start looking for the accessibility element.
+ @param fromView The root view to start looking for the accessibility element.
  @param error A reference to an error object to be populated when no element is found.  Can be @c NULL.
  @return The found accessibility element.  If @c nil see the @c error for a detailed reason.
  */
@@ -75,7 +75,7 @@
  @abstract Finds an accessibility element and view from the specified root view where the element passes the predicate, optionally passing a tappability test.
  @param foundElement The found accessibility element or @c nil if the method returns @c NO.  Can be @c NULL.
  @param foundView The first matching view for @c foundElement as determined by the accessibility API or @c nil if the view is hidden or fails the tappability test. Can be @c NULL.
- @param fromRootView The root view to start looking for the accessibility element.
+ @param fromView The root view to start looking for the accessibility element.
  @param predicate The predicate to test the accessibility element on.
  @param error A reference to an error object to be populated when no matching element or view is found.  Can be @c NULL.
  @result @c YES if the element and view were found.  Otherwise @c NO.

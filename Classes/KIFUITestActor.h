@@ -169,7 +169,7 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  @param label The accessibility label of the element to wait for.
  @param value The accessibility value of the element to tap.
  @param traits The accessibility traits of the element to wait for. Elements that do not include at least these traits are ignored.
- @param fromRootView The root view to start looking for accessibility element.
+ @param fromView The root view to start looking for accessibility element.
  @param mustBeTappable If YES, only an element that can be tapped on will be returned.
  */
 - (void)waitForAccessibilityElement:(UIAccessibilityElement **)element view:(out UIView **)view withLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits fromRootView:(UIView *)fromView tappable:(BOOL)mustBeTappable;
@@ -190,7 +190,7 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  @param element To be populated with the matching accessibility element when found.  Can be NULL.
  @param view To be populated with the matching view when found.  Can be NULL.
  @param identifier The accessibility identifier of the element to wait for.
- @param fromRootView The root view to start looking for accessibility element.
+ @param fromView The root view to start looking for accessibility element.
  @param mustBeTappable If YES, only an element that can be tapped on will be returned.
  */
 - (void)waitForAccessibilityElement:(UIAccessibilityElement **)element view:(out UIView **)view withIdentifier:(NSString *)identifier fromRootView:(UIView *)fromView tappable:(BOOL)mustBeTappable;
