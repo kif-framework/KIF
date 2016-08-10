@@ -39,6 +39,9 @@
             </BuildableReference>
             <SkippedTests>
                <Test
+                  Identifier = "AccessibilityIdentifierPullToRefreshTests">
+               </Test>
+               <Test
                   Identifier = "PullToRefreshTests">
                </Test>
             </SkippedTests>
