@@ -71,7 +71,7 @@ void KIFEnableAccessibility(void)
         // If we get to this point, the legacy method has not worked
         void *handle = loadDylibForSimulator(@"/usr/lib/libAccessibility.dylib");
         if (!handle) {
-            [NSException raise:NSGenericException format:@"Could not enable accessibility" arguments:nil];
+            [NSException raise:NSGenericException format:@"Could not enable accessibility"];
         }
         
         int (*_AXSAutomationEnabled)(void) = dlsym(handle, "_AXSAutomationEnabled");
