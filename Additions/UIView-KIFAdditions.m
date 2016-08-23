@@ -211,7 +211,7 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
         }
     }
     
-    if (!matchingButOccludedElement) {
+    if (!matchingButOccludedElement && self.window) {
         if ([self isKindOfClass:[UITableView class]]) {
             UITableView *tableView = (UITableView *)self;
             
@@ -227,6 +227,10 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
             
             for (NSUInteger section = 0, numberOfSections = [tableView numberOfSections]; section < numberOfSections; section++) {
                 for (NSUInteger row = 0, numberOfRows = [tableView numberOfRowsInSection:section]; row < numberOfRows; row++) {
+                    if (!self.window) {
+                        break;
+                    }
+
                     // Skip visible rows because they are already handled
                     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:section];
                     if ([indexPathsForVisibleRows containsObject:indexPath]) {
@@ -264,6 +268,10 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
             
             for (NSUInteger section = 0, numberOfSections = [collectionView numberOfSections]; section < numberOfSections; section++) {
                 for (NSUInteger item = 0, numberOfItems = [collectionView numberOfItemsInSection:section]; item < numberOfItems; item++) {
+                    if (!self.window) {
+                        break;
+                    }
+
                     // Skip visible items because they are already handled
                     NSIndexPath *indexPath = [NSIndexPath indexPathForItem:item inSection:section];
                     if ([indexPathsForVisibleItems containsObject:indexPath]) {
