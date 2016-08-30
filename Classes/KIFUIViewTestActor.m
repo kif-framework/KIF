@@ -11,7 +11,7 @@
 #import "UIWindow-KIFAdditions.h"
 #import "NSPredicate+KIFAdditions.h"
 #import "UIAccessibilityElement-KIFAdditions.h"
-#import "NSString+KIFAdditions.h"
+#import "NSString-KIFAdditions.h"
 
 @interface KIFUIViewTestActor ()
 

@@ -6,7 +6,7 @@
 //
 //
 
-#import "NSString+KIFAdditions.h"
+#import "NSString-KIFAdditions.h"
 
 #pragma mark - NSString
 @implementation NSString (KIFAdditions)

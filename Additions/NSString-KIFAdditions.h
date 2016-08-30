@@ -1,5 +1,5 @@
 //
-//  NSString+KIFAdditions.h
+//  NSString-KIFAdditions.h
 //  KIF
 //
 //  Created by Alex Odawa on 1/28/16.

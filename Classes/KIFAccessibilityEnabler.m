@@ -24,6 +24,15 @@
 
 @end
 
+static void * loadDylibForSimulator(NSString *path)
+{
+    NSDictionary *environment = [[NSProcessInfo processInfo] environment];
+    NSString *simulatorRoot = [environment objectForKey:@"IPHONE_SIMULATOR_ROOT"];
+    if (simulatorRoot) {
+        path = [simulatorRoot stringByAppendingPathComponent:path];
+    }
+    return dlopen([path fileSystemRepresentation], RTLD_LOCAL);
+}
 
 @implementation KIFAccessibilityEnabler
 
@@ -42,6 +51,7 @@
 {
     NSDictionary *environment = [[NSProcessInfo processInfo] environment];
     NSString *simulatorRoot = [environment objectForKey:@"IPHONE_SIMULATOR_ROOT"];
+    BOOL *inspectorBypass = [[environment objectForKey:@"KIF_INSPECTOR_BYPASS"] boolValue];
 
     NSString *appSupportLocation = @"/System/Library/PrivateFrameworks/AppSupport.framework/AppSupport";
     if (simulatorRoot) {
@@ -61,19 +71,37 @@
         }
     }
 
-    NSString* accessibilitySettingsBundleLocation = @"/System/Library/PreferenceBundles/AccessibilitySettings.bundle/AccessibilitySettings";
-    if (simulatorRoot) {
-        accessibilitySettingsBundleLocation = [simulatorRoot stringByAppendingString:accessibilitySettingsBundleLocation];
+    if (!inspectorBypass) {
+        NSString* accessibilitySettingsBundleLocation = @"/System/Library/PreferenceBundles/AccessibilitySettings.bundle/AccessibilitySettings";
+        if (simulatorRoot) {
+            accessibilitySettingsBundleLocation = [simulatorRoot stringByAppendingString:accessibilitySettingsBundleLocation];
+        }
+        const char *accessibilitySettingsBundlePath = [accessibilitySettingsBundleLocation fileSystemRepresentation];
+        void* accessibilitySettingsBundle = dlopen(accessibilitySettingsBundlePath, RTLD_LAZY);
+        if (accessibilitySettingsBundle) {
+            Class axSettingsPrefControllerClass = NSClassFromString(@"AccessibilitySettingsController");
+            self.axSettingPrefController = [[axSettingsPrefControllerClass alloc] init];
+        
+            self.initialAccessibilityInspectorSetting = [self.axSettingPrefController AXInspectorEnabled:nil];
+            [self.axSettingPrefController setAXInspectorEnabled:@(YES) specifier:nil];
+            return;
+        }
     }
-    const char *accessibilitySettingsBundlePath = [accessibilitySettingsBundleLocation fileSystemRepresentation];
-    void* accessibilitySettingsBundle = dlopen(accessibilitySettingsBundlePath, RTLD_LAZY);
-    if (accessibilitySettingsBundle) {
-        Class axSettingsPrefControllerClass = NSClassFromString(@"AccessibilitySettingsController");
-        self.axSettingPrefController = [[axSettingsPrefControllerClass alloc] init];
 
-        self.initialAccessibilityInspectorSetting = [self.axSettingPrefController AXInspectorEnabled:nil];
-        [self.axSettingPrefController setAXInspectorEnabled:@(YES) specifier:nil];
+    // If we get to this point, the legacy method has not worked
+    void *handle = loadDylibForSimulator(@"/usr/lib/libAccessibility.dylib");
+    if (!handle) {
+        [NSException raise:NSGenericException format:@"Could not enable accessibility"];
     }
+
+    int (*_AXSAutomationEnabled)(void) = dlsym(handle, "_AXSAutomationEnabled");
+    void (*_AXSSetAutomationEnabled)(int) = dlsym(handle, "_AXSSetAutomationEnabled");
+
+    int initialValue = _AXSAutomationEnabled();
+    _AXSSetAutomationEnabled(YES);
+    atexit_b(^{
+        _AXSSetAutomationEnabled(initialValue);
+    });
 }
 
 - (void)_resetAccessibilityInspector

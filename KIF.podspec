@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name                    = "KIF"
-  s.version                 = "3.4.3-sq3"
+  s.version                 = "3.4.3-sq4"
   s.summary                 = "Keep It Functional - iOS UI acceptance testing in an XCUnit harness."
   s.homepage                = "https://stash.corp.squareup.com/projects/IOS/repos/kif/browse"
   s.license                 = 'Apache 2.0'
