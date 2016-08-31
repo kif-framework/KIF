@@ -51,7 +51,7 @@ static void * loadDylibForSimulator(NSString *path)
 {
     NSDictionary *environment = [[NSProcessInfo processInfo] environment];
     NSString *simulatorRoot = [environment objectForKey:@"IPHONE_SIMULATOR_ROOT"];
-    BOOL *inspectorBypass = [[environment objectForKey:@"KIF_INSPECTOR_BYPASS"] boolValue];
+    BOOL inspectorBypass = [[environment objectForKey:@"KIF_INSPECTOR_BYPASS"] boolValue];
 
     NSString *appSupportLocation = @"/System/Library/PrivateFrameworks/AppSupport.framework/AppSupport";
     if (simulatorRoot) {
