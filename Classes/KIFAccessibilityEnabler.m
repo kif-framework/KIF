@@ -82,9 +82,11 @@ static void * loadDylibForSimulator(NSString *path)
             Class axSettingsPrefControllerClass = NSClassFromString(@"AccessibilitySettingsController");
             self.axSettingPrefController = [[axSettingsPrefControllerClass alloc] init];
         
-            self.initialAccessibilityInspectorSetting = [self.axSettingPrefController AXInspectorEnabled:nil];
-            [self.axSettingPrefController setAXInspectorEnabled:@(YES) specifier:nil];
-            return;
+            if ([self.axSettingPrefController respondsToSelector:@selector(AXInspectorEnabled:)]) {
+                self.initialAccessibilityInspectorSetting = [self.axSettingPrefController AXInspectorEnabled:nil];
+                [self.axSettingPrefController setAXInspectorEnabled:@(YES) specifier:nil];
+                return;
+            }
         }
     }
 
@@ -106,7 +108,9 @@ static void * loadDylibForSimulator(NSString *path)
 
 - (void)_resetAccessibilityInspector
 {
-    [self.axSettingPrefController setAXInspectorEnabled:self.initialAccessibilityInspectorSetting specifier:nil];
+    if ([self.axSettingPrefController respondsToSelector:@selector(setAXInspectorEnabled:)]) {
+        [self.axSettingPrefController setAXInspectorEnabled:self.initialAccessibilityInspectorSetting specifier:nil];
+    }
 }
 
 @end
