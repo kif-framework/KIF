@@ -31,6 +31,7 @@ FOUNDATION_EXPORT const unsigned char KIFVersionString[];
 #import <KIF/KIFTestStepValidation.h>
 #import <KIF/KIFTypist.h>
 #import <KIF/LoadableCategory.h>
+#import <KIF/CAAnimation+KIFAdditions.h>
 #import <KIF/CALayer-KIFAdditions.h>
 #import <KIF/NSBundle-KIFAdditions.h>
 #import <KIF/NSError-KIFAdditions.h>

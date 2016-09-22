@@ -195,6 +195,10 @@
 		EB60ED03177F9032005A041A /* TestSuiteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EB60ECFF177F9032005A041A /* TestSuiteViewController.m */; };
 		EB60ED06177F9041005A041A /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EB60ED04177F9041005A041A /* MainStoryboard.storyboard */; };
 		EB9FB42717A5BACB00DDF160 /* GestureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EB9FB42617A5BACB00DDF160 /* GestureViewController.m */; };
+		F6C6853E1D937FB500B10EC6 /* CAAnimation+KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = F6C6853C1D937FB500B10EC6 /* CAAnimation+KIFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F6C6853F1D937FB500B10EC6 /* CAAnimation+KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F6C6853D1D937FB500B10EC6 /* CAAnimation+KIFAdditions.m */; };
+		F6C685401D937FC200B10EC6 /* CAAnimation+KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = F6C6853C1D937FB500B10EC6 /* CAAnimation+KIFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F6C685411D937FC900B10EC6 /* CAAnimation+KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F6C6853D1D937FB500B10EC6 /* CAAnimation+KIFAdditions.m */; };
 		FA1C7B751A7733BA00E7DD97 /* ExistTests_ViewTestActor.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1C7B741A7733BA00E7DD97 /* ExistTests_ViewTestActor.m */; };
 		FA49155A1A781E6800A78E57 /* MultiFingerTests_ViewTestActor.m in Sources */ = {isa = PBXBuildFile; fileRef = FA4915591A781E6800A78E57 /* MultiFingerTests_ViewTestActor.m */; };
 		FA49155C1A781F6600A78E57 /* LandscapeTests_ViewTestActor.m in Sources */ = {isa = PBXBuildFile; fileRef = FA49155B1A781F6600A78E57 /* LandscapeTests_ViewTestActor.m */; };
@@ -398,6 +402,8 @@
 		EBAE488017A460E50005EE19 /* NSError-KIFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSError-KIFAdditions.m"; sourceTree = "<group>"; };
 		EBAE488517A4E5C30005EE19 /* KIFTestStepValidation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = KIFTestStepValidation.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		EBAE488617A4E5C30005EE19 /* KIFTestStepValidation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KIFTestStepValidation.m; sourceTree = "<group>"; };
+		F6C6853C1D937FB500B10EC6 /* CAAnimation+KIFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CAAnimation+KIFAdditions.h"; sourceTree = "<group>"; };
+		F6C6853D1D937FB500B10EC6 /* CAAnimation+KIFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CAAnimation+KIFAdditions.m"; sourceTree = "<group>"; };
 		FA1C7B741A7733BA00E7DD97 /* ExistTests_ViewTestActor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExistTests_ViewTestActor.m; sourceTree = "<group>"; };
 		FA4915591A781E6800A78E57 /* MultiFingerTests_ViewTestActor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MultiFingerTests_ViewTestActor.m; sourceTree = "<group>"; };
 		FA49155B1A781F6600A78E57 /* LandscapeTests_ViewTestActor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LandscapeTests_ViewTestActor.m; sourceTree = "<group>"; };
@@ -615,6 +621,8 @@
 		AAB0729313971AB2008AF393 /* Additions */ = {
 			isa = PBXGroup;
 			children = (
+				F6C6853C1D937FB500B10EC6 /* CAAnimation+KIFAdditions.h */,
+				F6C6853D1D937FB500B10EC6 /* CAAnimation+KIFAdditions.m */,
 				39160B1013D1E6BB00311E38 /* LoadableCategory.h */,
 				85DB946C1C5A3E860025F83E /* CALayer-KIFAdditions.h */,
 				85DB946D1C5A3E860025F83E /* CALayer-KIFAdditions.m */,
@@ -874,6 +882,7 @@
 				9CC9677C1AD4B20700576D13 /* KIFTestActor.h in Headers */,
 				9CC9677F1AD4B20700576D13 /* KIFTypist.h in Headers */,
 				9CC967811AD4B20700576D13 /* KIFTestStepValidation.h in Headers */,
+				F6C685401D937FC200B10EC6 /* CAAnimation+KIFAdditions.h in Headers */,
 				9CC967751AD4B1FF00576D13 /* KIFUITestActor.h in Headers */,
 				9CC967771AD4B1FF00576D13 /* KIFUITestActor-ConditionalTests.h in Headers */,
 				FAB89FB61CAAED4A00C6DFC1 /* NSPredicate+KIFAdditions.h in Headers */,
@@ -898,6 +907,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F6C6853E1D937FB500B10EC6 /* CAAnimation+KIFAdditions.h in Headers */,
 				EB1A44D51A0C3268004A3F61 /* KIFUITestActor-IdentifierTests.h in Headers */,
 				EABD46911857A0C700A5F081 /* KIF.h in Headers */,
 				D927B9DF18F9E46400DAD036 /* UITableView-KIFAdditions.h in Headers */,
@@ -1169,6 +1179,7 @@
 				9CC967D51AD4B5B900576D13 /* KIFUITestActor-IdentifierTests.m in Sources */,
 				9CC967CD1AD4B59A00576D13 /* KIFSystemTestActor.m in Sources */,
 				9CC967CE1AD4B59A00576D13 /* KIFUITestActor.m in Sources */,
+				F6C685411D937FC900B10EC6 /* CAAnimation+KIFAdditions.m in Sources */,
 				FAB89FB91CAAED6500C6DFC1 /* KIFUIObject.m in Sources */,
 				9CC967CF1AD4B59A00576D13 /* KIFUITestActor-ConditionalTests.m in Sources */,
 				9CC967BF1AD4B58C00576D13 /* CGGeometry-KIFAdditions.m in Sources */,
@@ -1208,6 +1219,7 @@
 				EABD467E1857A0C700A5F081 /* UIScrollView-KIFAdditions.m in Sources */,
 				EABD467F1857A0C700A5F081 /* UITouch-KIFAdditions.m in Sources */,
 				EABD46801857A0C700A5F081 /* UIView-KIFAdditions.m in Sources */,
+				F6C6853F1D937FB500B10EC6 /* CAAnimation+KIFAdditions.m in Sources */,
 				EABD46811857A0C700A5F081 /* UIWindow-KIFAdditions.m in Sources */,
 				EABD46821857A0C700A5F081 /* NSFileManager-KIFAdditions.m in Sources */,
 				D927B9E018F9E46400DAD036 /* UITableView-KIFAdditions.m in Sources */,
