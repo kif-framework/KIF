@@ -142,7 +142,6 @@ static void FixReactivateApp(void)
         visible = [[alert valueForKeyPath:@"isVisible"] boolValue];
     }
     @catch (NSException *exception) { } 
-    @finally { }
 
     return ([alert isValid] && visible);
 }
