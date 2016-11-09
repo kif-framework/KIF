@@ -136,7 +136,16 @@ static void FixReactivateApp(void)
     // Translate the __NSCFBoolean into a vanilla BOOL.
     // See https://www.bignerdranch.com/blog/bools-sharp-corners/ for more details.
     
-    BOOL visible = [[alert valueForKeyPath:@"isVisible"] boolValue];
+    BOOL visible = NO;
+    
+    @try {
+        visible = [[alert valueForKeyPath:@"isVisible"] boolValue];
+    } @catch (NSException *exception) {
+        visible = NO;
+    } @finally {
+        
+    }
+
     return ([alert isValid] && visible);
 }
 
