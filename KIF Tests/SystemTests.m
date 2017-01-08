@@ -24,7 +24,7 @@
     NSTimeInterval startTime = [NSDate timeIntervalSinceReferenceDate];
     [tester waitForTimeInterval:1.2];
     NSTimeInterval elapsed = [NSDate timeIntervalSinceReferenceDate] - startTime;
-    KIFAssertTrue(elapsed > 1.2, @"Waiting should take the alotted time.");
+    KIFAssertTrue(elapsed > 1.2, @"Waiting should take the allotted time.");
     KIFAssertTrue(elapsed < 1.3, @"Waiting should not take too long.");
 }
 
