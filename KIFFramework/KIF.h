@@ -20,14 +20,19 @@ FOUNDATION_EXPORT const unsigned char KIFVersionString[];
 
 #import <KIF/KIFTestActor.h>
 #import <KIF/KIFTestCase.h>
+#import <KIF/KIFAccessibilityEnabler.h>
 #import <KIF/KIFSystemTestActor.h>
 #import <KIF/KIFUITestActor.h>
 #import <KIF/KIFUITestActor-ConditionalTests.h>
 #import <KIF/KIFUITestActor-IdentifierTests.h>
+#import <KIF/KIFUIViewTestActor.h>
+#import <KIF/KIFUIObject.h>
 #import <KIF/CGGeometry-KIFAdditions.h>
 #import <KIF/KIFTestStepValidation.h>
 #import <KIF/KIFTypist.h>
 #import <KIF/LoadableCategory.h>
+#import <KIF/CAAnimation+KIFAdditions.h>
+#import <KIF/CALayer-KIFAdditions.h>
 #import <KIF/NSBundle-KIFAdditions.h>
 #import <KIF/NSError-KIFAdditions.h>
 #import <KIF/NSException-KIFAdditions.h>

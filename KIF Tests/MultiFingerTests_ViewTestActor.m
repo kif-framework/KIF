@@ -41,6 +41,7 @@
     CGFloat offset = 50.0;
 
     UIScrollView *scrollView = (UIScrollView *)[viewTester usingLabel:@"Scroll View"].view;
+	[tester waitForAnimationsToFinish];
     UIPanGestureRecognizer *panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(twoFingerPanned)];
     panGestureRecognizer.minimumNumberOfTouches = 2;
     [scrollView addGestureRecognizer:panGestureRecognizer];
@@ -62,6 +63,7 @@
     CGFloat distance = 50.0;
 
     UIScrollView *scrollView = (UIScrollView *)[viewTester usingLabel:@"Scroll View"].view;
+	[tester waitForAnimationsToFinish];
     UIPinchGestureRecognizer *pinchRecognizer = [[UIPinchGestureRecognizer alloc] initWithTarget:self
                                                                                           action:@selector(zoomed:)];
 

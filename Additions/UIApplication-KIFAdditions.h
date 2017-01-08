@@ -9,6 +9,7 @@
 
 #import <UIKit/UIKit.h>
 
+
 #define UIApplicationCurrentRunMode ([[UIApplication sharedApplication] currentRunLoopMode])
 
 /*!
@@ -25,6 +26,11 @@ UIKIT_EXTERN NSString *const UIApplicationDidMockCanOpenURLNotification;
  @abstract The key for the opened URL in the @c UIApplicationDidMockOpenURLNotification notification.
  */
 UIKIT_EXTERN NSString *const UIApplicationOpenedURLKey;
+
+/*!
+ @abstract A wrapper for CFRunLoopRunInMode that scales the seconds parameter relative to the animation speed.
+ */
+CF_EXPORT SInt32 KIFRunLoopRunInModeRelativeToAnimationSpeed(CFStringRef mode, CFTimeInterval seconds, Boolean returnAfterSourceHandled);
 
 @interface UIApplication (KIFAdditions)
 
@@ -68,6 +74,11 @@ UIKIT_EXTERN NSString *const UIApplicationOpenedURLKey;
  @returns All windows in the application, including the key window even if it does not appear in @c -windows.
  */
 - (NSArray *)windowsWithKeyWindow;
+
+/*!
+ The current Core Animation speed of the keyWindow's CALayer.
+ */
+@property (nonatomic, assign) float animationSpeed;
 
 /*!
  @abstract Writes a screenshot to disk.

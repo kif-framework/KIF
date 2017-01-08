@@ -162,6 +162,19 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
 - (void)waitForAccessibilityElement:(UIAccessibilityElement **)element view:(out UIView **)view withLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits tappable:(BOOL)mustBeTappable;
 
 /*!
+ @abstract Waits for an accessibility element and its containing view from specified root view based on a variety of criteria.
+ @discussion This method provides a more verbose API for achieving what is available in the waitForView/waitForTappableView family of methods, exposing both the found element and its containing view.  The results can be used in other methods such as @c tapAccessibilityElement:inView:
+ @param element To be populated with the matching accessibility element when found.  Can be NULL.
+ @param view To be populated with the matching view when found.  Can be NULL.
+ @param label The accessibility label of the element to wait for.
+ @param value The accessibility value of the element to tap.
+ @param traits The accessibility traits of the element to wait for. Elements that do not include at least these traits are ignored.
+ @param fromView The root view to start looking for accessibility element.
+ @param mustBeTappable If YES, only an element that can be tapped on will be returned.
+ */
+- (void)waitForAccessibilityElement:(UIAccessibilityElement **)element view:(out UIView **)view withLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits fromRootView:(UIView *)fromView tappable:(BOOL)mustBeTappable;
+
+/*!
  @abstract Waits for an accessibility element and its containing view based the accessibility identifier.
  @discussion This method provides a more verbose API for achieving what is available in the waitForView/waitForTappableView family of methods, exposing both the found element and its containing view.  The results can be used in other methods such as @c tapAccessibilityElement:inView:
  @param element To be populated with the matching accessibility element when found.  Can be NULL.
@@ -170,6 +183,17 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  @param mustBeTappable If YES, only an element that can be tapped on will be returned.
  */
 - (void)waitForAccessibilityElement:(UIAccessibilityElement **)element view:(out UIView **)view withIdentifier:(NSString *)identifier tappable:(BOOL)mustBeTappable;
+
+/*!
+ @abstract Waits for an accessibility element and its containing view from specified root view based the accessibility identifier.
+ @discussion This method provides a more verbose API for achieving what is available in the waitForView/waitForTappableView family of methods, exposing both the found element and its containing view.  The results can be used in other methods such as @c tapAccessibilityElement:inView:
+ @param element To be populated with the matching accessibility element when found.  Can be NULL.
+ @param view To be populated with the matching view when found.  Can be NULL.
+ @param identifier The accessibility identifier of the element to wait for.
+ @param fromView The root view to start looking for accessibility element.
+ @param mustBeTappable If YES, only an element that can be tapped on will be returned.
+ */
+- (void)waitForAccessibilityElement:(UIAccessibilityElement **)element view:(out UIView **)view withIdentifier:(NSString *)identifier fromRootView:(UIView *)fromView tappable:(BOOL)mustBeTappable;
 
 /*!
  @abstract Waits for an accessibility element and its containing view based on a predicate.
@@ -200,6 +224,13 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  @param timeout The maximum duration the method waits to let the animations finish.
  */
 - (void)waitForAnimationsToFinishWithTimeout:(NSTimeInterval)timeout;
+
+/*!
+ @abstract Tries to guess if there are any unfinished animations and waits for a certain amount of time to let them finish.
+ @param timeout The maximum duration the method waits to let the animations finish.
+ @param stabilizationTime The time we just sleep before attempting to detect animations
+ */
+- (void)waitForAnimationsToFinishWithTimeout:(NSTimeInterval)timeout stabilizationTime:(NSTimeInterval)stabilizationTime;
 
 /*!
  @abstract Taps a particular view in the view hierarchy.
@@ -238,7 +269,7 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
 /*!
  @abstract Taps a stepper to either increment or decrement the stepper. Presumed that - (minus) to decrement is on the left.
  @discussion This will locate the left or right half of the stepper and perform a calculated click.
- @param label The accessibility identifier of the view to interact with.
+ @param accessibilityLabel The accessibility identifier of the view to interact with.
  @param stepperDirection The direction in which to change the value of the stepper (KIFStepperDirectionIncrement | KIFStepperDirectionDecrement)
  */
 -(void)tapStepperWithAccessibilityLabel:(NSString *)accessibilityLabel increment:(KIFStepperDirection)stepperDirection;
@@ -356,6 +387,21 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
 - (void)clearTextFromAndThenEnterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label;
 - (void)clearTextFromAndThenEnterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits expectedResult:(NSString *)expectedResult;
 
+/*!
+ @abstract Sets text into a particular view in the view hierarchy. No animation nor typing simulation.
+ @discussion The view or accessibility element with the given label is searched for in the view hierarchy. If the element isn't found or isn't currently tappable, then the step will attempt to wait until it is. Once the view is present and tappable, then text is set on the view. Does not result in first responder changes. Does not perform expected result validation.
+ @param text The text to set.
+ @param label The accessibility label of the element to set the text on.
+ */
+- (void)setText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label;
+
+/*!
+ @abstract Gets text from a given label/text field/text view
+ @param view The view to get the text from
+ @returns Text from the given label/text field/text view
+ */
+- (NSString *)textFromView:(UIView *)view;
+
 - (void)expectView:(UIView *)view toContainText:(NSString *)expectedResult;
 
 /*!
@@ -375,7 +421,7 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
 
 /*!
  @abstract Selects a value from a currently visible date picker view.
- @discussion With a date picker view already visible, this step will select the different rotating weel values in order of how the array parameter is passed in. After it is done it will hide the date picker. It works with all 4 UIDatePickerMode* modes. The input parameter of type NSArray has to match in what order the date picker is displaying the values/columns. So if the locale is changing the input parameter has to be adjusted. Example: Mode: UIDatePickerModeDate, Locale: en_US, Input param: NSArray *date = @[@"June", @"17", @"1965"];. Example: Mode: UIDatePickerModeDate, Locale: de_DE, Input param: NSArray *date = @[@"17.", @"Juni", @"1965".
+ @discussion With a date picker view already visible, this step will select the different rotating wheel values in order of how the array parameter is passed in. After it is done it will hide the date picker. It works with all 4 UIDatePickerMode* modes. The input parameter of type NSArray has to match in what order the date picker is displaying the values/columns. So if the locale is changing the input parameter has to be adjusted. Example: Mode: UIDatePickerModeDate, Locale: en_US, Input param: NSArray *date = @[@"June", @"17", @"1965"];. Example: Mode: UIDatePickerModeDate, Locale: de_DE, Input param: NSArray *date = @[@"17.", @"Juni", @"1965".
  @param datePickerColumnValues Each element in the NSArray represents a rotating wheel in the date picker control. Elements from 0 - n are listed in the order of the rotating wheels, left to right.
  */
 - (void)selectDatePickerValue:(NSArray *)datePickerColumnValues;
@@ -472,7 +518,6 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  
  For cases where you may need to work from the end of a collection view rather than the beginning, negative sections count back from the end of the collection view (-1 is the last section) and negative items count back from the end of the section (-1 is the last item for that section).
  
- @param label The accessibility identifier of the view to interact with.
  @param indexPath Index path of the item to tap.
  @param collectionView the UICollectionView containing the item.
  */
@@ -516,8 +561,7 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
 /*!
  @abstract Swipes a particular view in the view heirarchy.
  @discussion Unlike the -swipeViewWithAccessibilityLabel: family of methods, this method allows you to swipe an arbitrary element.  Combined with -waitForAccessibilityElement:view:withLabel:value:traits:tappable: or +[UIAccessibilityElement accessibilityElement:view:withLabel:value:traits:tappable:error:] this provides an opportunity for more complex logic.
-@param element The accessibility element of the view to swipe.
- @param element The accessibility element to tap.
+ @param element The accessibility element of the view to swipe.
  @param viewToSwipe The view containing the accessibility element.
  */
 - (void)swipeAccessibilityElement:(UIAccessibilityElement *)element inView:(UIView *)viewToSwipe inDirection:(KIFSwipeDirection)direction;
@@ -600,6 +644,7 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  @abstract Scrolls a table view with the given identifier while waiting for the cell at the given indexPath to appear.
  @discussion This step will get the view with the specified accessibility identifier and then get the cell at the indexPath.
  
+ By default, scrolls to the middle of the cell. If you need to scroll to top/bottom, use the @c atPosition: variation.
  For cases where you may need to work from the end of a table view rather than the beginning, negative sections count back from the end of the table view (-1 is the last section) and negative rows count back from the end of the section (-1 is the last row for that section).
  
  @param indexPath Index path of the cell.
@@ -609,9 +654,23 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
 - (UITableViewCell *)waitForCellAtIndexPath:(NSIndexPath *)indexPath inTableViewWithAccessibilityIdentifier:(NSString *)identifier;
 
 /*!
+ @abstract Scrolls a table view with the given identifier while waiting for the cell at the given indexPath to appear.
+ @discussion This step will get the view with the specified accessibility identifier and then get the cell at the indexPath.
+ 
+ For cases where you may need to work from the end of a table view rather than the beginning, negative sections count back from the end of the table view (-1 is the last section) and negative rows count back from the end of the section (-1 is the last row for that section).
+ 
+ @param indexPath Index path of the cell.
+ @param identifier Accessibility identifier of the table view.
+ @param position Table View scroll position to scroll to. Useful for tall cells when the content needed is in a specific location.
+ @result Table view cell at index path
+ */
+- (UITableViewCell *)waitForCellAtIndexPath:(NSIndexPath *)indexPath inTableViewWithAccessibilityIdentifier:(NSString *)identifier atPosition:(UITableViewScrollPosition)position;
+
+/*!
  @abstract Scrolls a table view while waiting for the cell at the given indexPath to appear.
  @discussion This step will get the cell at the indexPath.
  
+ By default, scrolls to the middle of the cell. If you need to scroll to top/bottom, use the @c atPosition: variation.
  For cases where you may need to work from the end of a table view rather than the beginning, negative sections count back from the end of the table view (-1 is the last section) and negative rows count back from the end of the section (-1 is the last row for that section).
  
  @param indexPath Index path of the cell.
@@ -619,6 +678,19 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  @result Table view cell at index path
  */
 - (UITableViewCell *)waitForCellAtIndexPath:(NSIndexPath *)indexPath inTableView:(UITableView *)tableView;
+
+/*!
+ @abstract Scrolls a table view while waiting for the cell at the given indexPath to appear.
+ @discussion This step will get the cell at the indexPath.
+ 
+ For cases where you may need to work from the end of a table view rather than the beginning, negative sections count back from the end of the table view (-1 is the last section) and negative rows count back from the end of the section (-1 is the last row for that section).
+ 
+ @param indexPath Index path of the cell.
+ @param tableView UITableView containing the cell.
+ @param position Table View scroll position to scroll to. Useful for tall cells when the content needed is in a specific location.
+ @result Table view cell at index path
+ */
+- (UITableViewCell *)waitForCellAtIndexPath:(NSIndexPath *)indexPath inTableView:(UITableView *)tableView atPosition:(UITableViewScrollPosition)position;
 
 /*!
  @abstract Scrolls a collection view while waiting for the cell at the given indexPath to appear.
@@ -677,6 +749,18 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
 */
 - (void)swipeRowAtIndexPath:(NSIndexPath *)indexPath inTableView:(UITableView *)tableView inDirection:(KIFSwipeDirection)direction;
 
+/*!
+ @abstract Waits for the given cell to transition to the delete state. Useful when swiping left on a cell for delete action.
+ @param cell Cell to wait for delete state on.
+ */
+- (void)waitForDeleteStateForCell:(UITableViewCell*)cell;
+
+/*!
+ @abstract Waits for the given cell to transition to the delete state. Useful when swiping left on a cell for delete action.
+ @param indexPath Index path of the row to wait for the delete state on.
+ @param tableView Table view to operate on.
+ */
+- (void)waitForDeleteStateForCellAtIndexPath:(NSIndexPath*)indexPath inTableView:(UITableView*)tableView;
 
 /*!
  @abstract Backgrounds app using UIAutomation command, simulating pressing the Home button

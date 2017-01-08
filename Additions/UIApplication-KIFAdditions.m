@@ -20,6 +20,12 @@ MAKE_CATEGORIES_LOADABLE(UIApplication_KIFAdditions)
 static BOOL _KIF_UIApplicationMockOpenURL = NO;
 static BOOL _KIF_UIApplicationMockOpenURL_returnValue = NO;
 
+SInt32 KIFRunLoopRunInModeRelativeToAnimationSpeed(CFStringRef mode, CFTimeInterval seconds, Boolean returnAfterSourceHandled)
+{
+    CFTimeInterval scaledSeconds = seconds / [UIApplication sharedApplication].animationSpeed;
+    return CFRunLoopRunInMode(mode, scaledSeconds, returnAfterSourceHandled);
+}
+
 @interface UIApplication (Undocumented)
 - (void)pushRunLoopMode:(id)arg1;
 - (void)pushRunLoopMode:(id)arg1 requester:(id)requester;
@@ -110,6 +116,19 @@ static const void *KIFRunLoopModesKey = &KIFRunLoopModesKey;
         [windows addObject:keyWindow];
     }
     return windows;
+}
+
+- (float)animationSpeed
+{
+    if (!self.keyWindow) {
+        return 1.0f;
+    }
+    return self.keyWindow.layer.speed;
+}
+
+- (void)setAnimationSpeed:(float)animationSpeed
+{
+    self.keyWindow.layer.speed = animationSpeed;
 }
 
 #pragma mark - Screenshotting

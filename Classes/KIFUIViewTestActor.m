@@ -7,6 +7,7 @@
 //
 
 #import "KIFUIViewTestActor.h"
+#import "KIFUIObject.h"
 #import "UIWindow-KIFAdditions.h"
 #import "NSPredicate+KIFAdditions.h"
 #import "UIAccessibilityElement-KIFAdditions.h"
@@ -21,6 +22,8 @@
 
 
 @implementation KIFUIViewTestActor
+
+NSString *const inputFieldTestString = @"Testing";
 
 #pragma mark - Initialization
 
@@ -81,7 +84,7 @@
 
 - (instancetype)usingTraits:(UIAccessibilityTraits)accessibilityTraits;
 {
-    NSPredicate *predicate =[NSPredicate predicateWithFormat:@"(accessibilityTraits & %@) == %@", @(accessibilityTraits), @(accessibilityTraits)];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(accessibilityTraits & %@) == %@", @(accessibilityTraits), @(accessibilityTraits)];
     predicate.kifPredicateDescription = [NSString stringWithFormat:@"Accessibility traits including \"%@\"", [UIAccessibilityElement stringFromAccessibilityTraits:accessibilityTraits]];
     
     return [self usingPredicate:predicate];
@@ -89,13 +92,16 @@
 
 - (instancetype)usingValue:(NSString *)accessibilityValue;
 {
-    return [self usingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
+    NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
         NSString *value = [evaluatedObject accessibilityValue];
         if ([value isKindOfClass:[NSAttributedString class]]) {
             value = [(NSAttributedString *)value string];
         }
         return [value isEqualToString:accessibilityValue];
-    }]];
+    }];
+    predicate.kifPredicateDescription = [NSString stringWithFormat:@"Accessibility Value equal to \"%@\"", accessibilityValue];
+    
+    return [self usingPredicate: predicate];
 }
 
 #pragma mark - System Actions
@@ -251,6 +257,14 @@
 - (void)enterTextIntoCurrentFirstResponder:(NSString *)text fallbackView:(UIView *)fallbackView;
 {
     [self.actor enterTextIntoCurrentFirstResponder:text fallbackView:fallbackView];
+}
+
+- (void)setText:(NSString *)text;
+{
+    KIFUIObject *found = [self _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
+    if ([found.view respondsToSelector:@selector(setText:)]) {
+        [found.view performSelector:@selector(setText:) withObject:text];
+    }
 }
 
 - (void)expectToContainText:(NSString *)expectedResult;

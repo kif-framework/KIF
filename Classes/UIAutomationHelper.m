@@ -115,10 +115,10 @@ static void FixReactivateApp(void)
             [[alert.buttons lastObject] tap];
             while ([self _alertIsValidAndVisible:alert]) {
                 // Wait for button press to complete.
-                CFRunLoopRunInMode(UIApplicationCurrentRunMode, 0.1, false);
+                KIFRunLoopRunInModeRelativeToAnimationSpeed(UIApplicationCurrentRunMode, 0.1, false);
             }
             // Wait for alert dismissial animation.
-            CFRunLoopRunInMode(UIApplicationCurrentRunMode, 0.4, false);
+            KIFRunLoopRunInModeRelativeToAnimationSpeed(UIApplicationCurrentRunMode, 0.4, false);
             return YES;
 	}
     return NO;
@@ -136,7 +136,13 @@ static void FixReactivateApp(void)
     // Translate the __NSCFBoolean into a vanilla BOOL.
     // See https://www.bignerdranch.com/blog/bools-sharp-corners/ for more details.
     
-    BOOL visible = [[alert valueForKeyPath:@"isVisible"] boolValue];
+    BOOL visible = NO;
+    
+    @try {
+        visible = [[alert valueForKeyPath:@"isVisible"] boolValue];
+    }
+    @catch (NSException *exception) { } 
+
     return ([alert isValid] && visible);
 }
 

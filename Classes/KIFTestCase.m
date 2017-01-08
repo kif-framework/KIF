@@ -11,6 +11,7 @@
 #import <UIKit/UIKit.h>
 #import "UIApplication-KIFAdditions.h"
 #import "KIFTestActor.h"
+#import "KIFAccessibilityEnabler.h"
 
 #define SIG(class, selector) [class instanceMethodSignatureForSelector:selector]
 
@@ -63,6 +64,7 @@ NSComparisonResult selectorSort(NSInvocation *invocOne, NSInvocation *invocTwo, 
 
 + (void)setUp
 {
+    KIFEnableAccessibility();
     [self performSetupTearDownWithSelector:@selector(beforeAll)];
 }
 
@@ -120,7 +122,7 @@ NSComparisonResult selectorSort(NSInvocation *invocOne, NSInvocation *invocTwo, 
         NSLog(@"Fatal failure encountered: %@", exception.description);
         NSLog(@"Stopping tests since stopTestsOnFirstBigFailure = YES");
         
-        KIFTestActor *waiter = [[KIFTestActor alloc] init];
+        KIFTestActor *waiter = KIFActorWithClass(KIFTestActor);
         [waiter waitForTimeInterval:[[NSDate distantFuture] timeIntervalSinceNow]];
         
         return;
