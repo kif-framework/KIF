@@ -103,14 +103,9 @@
     KIFAssertFalse([[UIApplication sharedApplication] openURL:fakeURL], @"Should no longer be mocking, reject bad URL.");
 }
 
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 100000
 - (void)testMockingOpenURLiOS10xAndUp
 {
-    // If the OS we're testing doesn't have the new version of openURL: (e.g. openURL:options:completionHandler:)
-    // then exit test early.
-    if (![NSProcessInfo instancesRespondToSelector:@selector(openURL:options:completionHandler:)]) {
-        return;
-    }
-
     __block BOOL canOpenURLReturnValue;
     [system waitForApplicationToOpenURL:@"test123://" whileExecutingBlock:^{
         NSURL *uninstalledAppURL = [NSURL URLWithString:@"test123://"];
@@ -143,5 +138,6 @@
     NSURL *fakeURL = [NSURL URLWithString:@"this-is-a-fake-url://"];
     KIFAssertFalse([[UIApplication sharedApplication] canOpenURL:fakeURL], @"Should no longer be mocking, reject bad URL.");
 }
+#endif
 
 @end
