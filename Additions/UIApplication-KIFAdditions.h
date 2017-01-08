@@ -13,7 +13,7 @@
 #define UIApplicationCurrentRunMode ([[UIApplication sharedApplication] currentRunLoopMode])
 
 /*!
- @abstract When mocking @c -openURL:, this notification is posted.
+ @abstract When mocking @c -openURL: or -openURL:options:completionHandler:, this notification is posted.
  */
 UIKIT_EXTERN NSString *const UIApplicationDidMockOpenURLNotification;
 
