@@ -269,6 +269,16 @@ static const void *KIFRunLoopModesKey = &KIFRunLoopModesKey;
     }
 }
 
+- (BOOL)KIF_openURL:(NSURL *)URL options:(NSDictionary<NSString *, id> *)options completionHandler:(void (^ __nullable)(BOOL success))completionHandler;
+{
+    if (_KIF_UIApplicationMockOpenURL) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationDidMockOpenURLNotification object:self userInfo:@{UIApplicationOpenedURLKey: URL}];
+        return _KIF_UIApplicationMockOpenURL_returnValue;
+    } else {
+        return [self KIF_openURL:URL options: options completionHandler: completionHandler];
+    }
+}
+
 - (BOOL)KIF_canOpenURL:(NSURL *)URL;
 {
     if (_KIF_UIApplicationMockOpenURL) {
@@ -307,6 +317,7 @@ static inline void Swizzle(Class c, SEL orig, SEL new)
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         Swizzle(self, @selector(openURL:), @selector(KIF_openURL:));
+        Swizzle(self, @selector(openURL:options:completionHandler:), @selector(KIF_openURL:options:completionHandler:));
         Swizzle(self, @selector(canOpenURL:), @selector(KIF_canOpenURL:));
     });
 
