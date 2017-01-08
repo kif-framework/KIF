@@ -18,7 +18,7 @@ rm -rf ${PWD}/build
 
 # Frameworks are only supported on iOS8 and later
 if [[ ! ${SIMULATOR} =~ .*OS=7.* ]]; then
-  env NSUnbufferedIO=YES xcodebuild build -derivedDataPath=${PWD}/build/KIFFramework -scheme KIFFramework -destination "platform=iOS Simulator,${SIMULATOR}" | xcpretty -c
+  env NSUnbufferedIO=YES xcodebuild test -derivedDataPath=${PWD}/build/KIFFramework -scheme KIFFrameworkConsumerTests -destination "platform=iOS Simulator,${SIMULATOR}" | xcpretty -c
 fi
 
 env NSUnbufferedIO=YES xcodebuild test -scheme KIF -derivedDataPath=${PWD}/build/KIF -destination "platform=iOS Simulator,${SIMULATOR}" | xcpretty -c

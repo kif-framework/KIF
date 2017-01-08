@@ -38,15 +38,27 @@ MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
     return (UIView *)element;
 }
 
-+ (BOOL)accessibilityElement:(out UIAccessibilityElement **)foundElement view:(out UIView **)foundView withLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits tappable:(BOOL)mustBeTappable error:(out NSError **)error;
++ (BOOL)accessibilityElement:(out UIAccessibilityElement **)foundElement view:(out UIView **)foundView withLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits tappable:(BOOL)mustBeTappable error:(out NSError **)error
 {
-    UIAccessibilityElement *element = [self accessibilityElementWithLabel:label value:value traits:traits error:error];
+    return [self accessibilityElement:foundElement view:foundView withLabel:label value:value traits:traits fromRootView:NULL tappable:mustBeTappable error:error];
+}
+
++ (BOOL)accessibilityElement:(out UIAccessibilityElement **)foundElement view:(out UIView **)foundView withLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits fromRootView:(UIView *)fromView tappable:(BOOL)mustBeTappable error:(out NSError **)error
+{
+    UIAccessibilityElement *element = [self accessibilityElementWithLabel:label value:value traits:traits fromRootView:fromView error:error];
     if (!element) {
         return NO;
     }
     
     UIView *view = [self viewContainingAccessibilityElement:element tappable:mustBeTappable error:error];
     if (!view) {
+        return NO;
+    }
+    
+    // viewContainingAccessibilityElement:.. can cause scrolling, which can cause cell reuse.
+    // If this happens, the element we kept a reference to might have been reconfigured, and a
+    // different element might be the one that matches.
+    if (![UIView accessibilityElement:element hasLabel:label accessibilityValue:value traits:traits]) {
         return NO;
     }
     
@@ -78,9 +90,42 @@ MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
     return YES;
 }
 
-+ (UIAccessibilityElement *)accessibilityElementWithLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits error:(out NSError **)error;
++ (BOOL)accessibilityElement:(out UIAccessibilityElement *__autoreleasing *)foundElement view:(out UIView *__autoreleasing *)foundView withElementMatchingPredicate:(NSPredicate *)predicate fromRootView:(UIView *)fromView tappable:(BOOL)mustBeTappable error:(out NSError *__autoreleasing *)error
 {
-    UIAccessibilityElement *element = [[UIApplication sharedApplication] accessibilityElementWithLabel:label accessibilityValue:value traits:traits];
+    UIAccessibilityElement *element = [fromView accessibilityElementMatchingBlock:^BOOL(UIAccessibilityElement *element) {
+        return [predicate evaluateWithObject:element];
+    }];
+    
+    if (!element) {
+        if (error) {
+            *error = [NSError KIFErrorWithFormat:@"Could not find view matching: %@", predicate];
+        }
+        return NO;
+    }
+    
+    UIView *view = [UIAccessibilityElement viewContainingAccessibilityElement:element tappable:mustBeTappable error:error];
+    if (!view) {
+        return NO;
+    }
+    
+    if (foundElement) { *foundElement = element; }
+    if (foundView) { *foundView = view; }
+    return YES;
+}
+
++ (UIAccessibilityElement *)accessibilityElementWithLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits error:(out NSError **)error
+{
+    return [self accessibilityElementWithLabel:label value:value traits:traits fromRootView:NULL error:error];
+}
+
++ (UIAccessibilityElement *)accessibilityElementWithLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits fromRootView:(UIView *)fromView error:(out NSError **)error;
+{
+    UIAccessibilityElement *element = NULL;
+    if (fromView == NULL) {
+        element = [[UIApplication sharedApplication] accessibilityElementWithLabel:label accessibilityValue:value traits:traits];
+    } else {
+        element = [fromView accessibilityElementWithLabel:label accessibilityValue:value traits:traits];
+    }
     if (element || !error) {
         return element;
     }
@@ -144,7 +189,7 @@ MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
             }
             
             // Give the scroll view a small amount of time to perform the scroll.
-            CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.3, false);
+            KIFRunLoopRunInModeRelativeToAnimationSpeed(kCFRunLoopDefaultMode, 0.3, false);
         }
         
         superview = superview.superview;
@@ -167,7 +212,7 @@ MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
     
     if (mustBeTappable && !view.isProbablyTappable) {
         if (error) {
-            *error = [NSError KIFErrorWithFormat:@"Accessibility element with label \"%@\" is not tappable. It may be blocked by other views.", element.accessibilityLabel];
+            *error = [NSError KIFErrorWithFormat:@"Accessibility element %@ for view %@ with label \"%@\" is not tappable. It may be blocked by other views.", element, view, element.accessibilityLabel];
         }
         return nil;
     }

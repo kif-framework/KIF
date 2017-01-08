@@ -46,6 +46,14 @@
 - (void)clearTextFromAndThenEnterText:(NSString *)text intoViewWithAccessibilityIdentifier:(NSString *)accessibilityIdentifier expectedResult:(NSString *)expectedResult;
 
 /*!
+ @abstract Sets text into a particular view in the view hierarchy. No animation nor typing simulation.
+ @discussion The view or accessibility element with the given label is searched for in the view hierarchy. If the element isn't found or isn't currently tappable, then the step will attempt to wait until it is. Once the view is present and tappable, then text is set on the view. Does not result in first responder changes. Does not perform expected result validation.
+ @param text The text to set.
+ @param accessibilityIdentifier The accessibility identifier of the element to set the text on.
+ */
+- (void)setText:(NSString *)text intoViewWithAccessibilityIdentifier:(NSString *)accessibilityIdentifier;
+
+/*!
  @abstract Toggles a UISwitch into a specified position.
  @discussion The UISwitch with the given label is searched for in the view hierarchy. If the element isn't found or isn't currently tappable, then the step will attempt to wait until it is. Once the view is present, the step will return if it's already in the desired position. If the switch is tappable but not in the desired position, a tap event is simulated in the center of the view or element, toggling the switch into the desired position.
  @param switchIsOn The desired position of the UISwitch.
@@ -88,14 +96,14 @@
 /*!
  @abstract Pulls down on the view that enables the pull to refresh.
  @discussion This will enact the pull to refresh by pulling down the distance of 1/2 the height of the view found by the accessibility identifier.
- @param identifierThe accessibility label of the view to perform the pull down on.
+ @param identifier The accessibility label of the view to perform the pull down on.
  */
 - (void)pullToRefreshViewWithAccessibilityIdentifier:(NSString *)identifier;
 
 /*!
  @abstract Pulls down on the view that enables the pull to refresh.
  @discussion This will enact the pull to refresh by pulling down the distance of 1/2 the height of the view found by the accessibility identifier.
- @param identifierThe accessibility label of the view to perform the pull down on.
+ @param identifier The accessibility label of the view to perform the pull down on.
  @param pullDownDuration The enum describing the approximate time for the pull down to travel the entire distance
  */
 - (void)pullToRefreshViewWithAccessibilityIdentifier:(NSString *)identifier pullDownDuration:(KIFPullToRefreshTiming) pullDownDuration;

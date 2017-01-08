@@ -89,6 +89,16 @@
     [tester clearTextFromViewWithAccessibilityLabel:@"Greeting"];
 }
 
+- (void)testSettingTextIntoViewWithAccessibilityLabel
+{
+    UIView *greetingView = [tester waitForViewWithAccessibilityLabel:@"Greeting"];
+    [tester longPressViewWithAccessibilityLabel:@"Greeting" duration:2];
+    [tester setText:@"Yo" intoViewWithAccessibilityLabel:@"Greeting"];
+    [tester expectView:greetingView toContainText:@"Yo"];
+    [tester setText:@"Hello" intoViewWithAccessibilityLabel:@"Greeting"];
+    [tester expectView:greetingView toContainText:@"Hello"];
+}
+
 - (void)testThatClearingTextHitsTheDelegate
 {
     [tester enterText:@"hello" intoViewWithAccessibilityLabel:@"Other Text"];
@@ -100,6 +110,8 @@
 {
     [tester enterText:@"hi\bello" intoViewWithAccessibilityLabel:@"Other Text" traits:UIAccessibilityTraitNone expectedResult:@"hello"];
     [tester waitForViewWithAccessibilityLabel:@"Greeting" value:@"Deleted something." traits:UIAccessibilityTraitNone];
+    UIView *textView = [tester waitForViewWithAccessibilityLabel:@"Other Text"];
+    XCTAssertEqualObjects([tester textFromView:textView], @"hello");
 }
 
 @end

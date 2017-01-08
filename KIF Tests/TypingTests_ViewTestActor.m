@@ -77,6 +77,12 @@
     [[viewTester usingLabel:@"Greeting"] enterText:@", world\n" expectedResult:@"Hello, world"];
 }
 
+- (void)testSettingTextIntoViewWithAccessibilityLabel
+{
+    [[viewTester usingLabel:@"Greeting"] setText:@"Yo"];
+    [[[viewTester usingLabel:@"Greeting"] usingValue:@"Yo"] waitForView];
+}
+
 - (void)testClearingALongTextField
 {
     [[viewTester usingLabel:@"Greeting"] clearAndEnterText:@"A man, a plan, a canal, Panama.  Able was I, ere I saw Elba."];

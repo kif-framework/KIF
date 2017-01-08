@@ -109,6 +109,7 @@
     [[viewTester usingLabel:@"Edit"] tap];
 
     __KIFAssertEqualObjects([[viewTester usingIdentifier:@"TableView Tests Table"] waitForCellInTableViewAtIndexPath:[NSIndexPath indexPathForRow:-3 inSection:1]].textLabel.text, @"Cell 35", @"");
+	[viewTester waitForCellInTableViewAtIndexPath:[NSIndexPath indexPathForRow:-1 inSection:1]];
     __KIFAssertEqualObjects([[viewTester usingIdentifier:@"TableView Tests Table"] waitForCellInTableViewAtIndexPath:[NSIndexPath indexPathForRow:-1 inSection:1]].textLabel.text, @"Cell 37", @"");
 
     [[viewTester usingIdentifier:@"TableView Tests Table"] moveRowInTableViewAtIndexPath:[NSIndexPath indexPathForRow:-1 inSection:1] toIndexPath:[NSIndexPath indexPathForRow:-3 inSection:1]];
@@ -148,7 +149,7 @@
 
 - (void)testEnteringTextIntoATextFieldInATableCell
 {
-    [[viewTester usingLabel:@"TextField"] enterText:@"Test-Driven Development"];
+    [[viewTester usingLabel:@"TextField"] enterText:inputFieldTestString];
 }
 
 @end

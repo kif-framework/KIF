@@ -37,6 +37,14 @@
                BlueprintName = "KIF Tests"
                ReferencedContainer = "container:KIF.xcodeproj">
             </BuildableReference>
+            <SkippedTests>
+               <Test
+                  Identifier = "AccessibilityIdentifierPullToRefreshTests">
+               </Test>
+               <Test
+                  Identifier = "PullToRefreshTests">
+               </Test>
+            </SkippedTests>
          </TestableReference>
       </Testables>
       <MacroExpansion>

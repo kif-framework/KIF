@@ -70,6 +70,16 @@
 	[tester clearTextFromAndThenEnterText:@"Yo" intoViewWithAccessibilityIdentifier:@"idGreeting"];
 }
 
+- (void)testSettingTextIntoViewWithAccessibilityIdentifier
+{
+    UIView *greetingView = [tester waitForViewWithAccessibilityIdentifier:@"idGreeting"];
+    [tester longPressViewWithAccessibilityIdentifier:@"idGreeting" duration:2];
+    [tester setText:@"Yo" intoViewWithAccessibilityIdentifier:@"idGreeting"];
+    [tester expectView:greetingView toContainText:@"Yo"];
+    [tester setText:@"Hello" intoViewWithAccessibilityIdentifier:@"idGreeting"];
+    [tester expectView:greetingView toContainText:@"Hello"];
+}
+
 - (void)testTryFindingViewWithAccessibilityIdentifier
 {
     if (![tester tryFindingViewWithAccessibilityIdentifier:@"idGreeting"])
@@ -93,7 +103,7 @@
 	[tester waitForTimeInterval:0.5f];
 	uiLabel = (UILabel *)[tester waitForViewWithAccessibilityIdentifier:@"tapViewController.stepperValue"];
 	NSInteger newValue = [[uiLabel text] integerValue];
-	if (! newValue == (originalValue + 1))
+	if (newValue != (originalValue + 1))
 	{
 		NSException *exception = [NSException exceptionWithName:@"Unexpected test failure"
 														 reason:[NSString stringWithFormat: @"newValue was expected to be +1 of originalValue. Original Value was %ld while newValue is %ld", (long)originalValue, (long)newValue] userInfo:nil];
@@ -111,7 +121,7 @@
 	[tester waitForTimeInterval:0.5f];
 	uiLabel = (UILabel *)[tester waitForViewWithAccessibilityIdentifier:@"tapViewController.stepperValue"];
 	NSInteger newValue = [[uiLabel text] integerValue];
-	if (! newValue == (originalValue -1))
+	if (newValue != (originalValue -1))
 	{
 		NSException *exception = [NSException exceptionWithName:@"Unexpected test failure"
 														 reason:[NSString stringWithFormat: @"newValue was expected to be -1 of originalValue. Original Value was %ld while newValue is %ld", (long)originalValue, (long)newValue] userInfo:nil];

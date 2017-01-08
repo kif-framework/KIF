@@ -17,6 +17,15 @@
 @property (nonatomic, strong, readonly) UIAccessibilityElement *element;
 @property (nonatomic, strong, readonly) NSPredicate *predicate;
 
+
+/*!
+ @abstract a static string to use when typing into text fields.
+ @discussion Do not change this string to something that would be auto-corrected
+ For example, "string-to-test" might be auto-corrected to some other string
+ and hence cause a test to fail.
+ */
+extern NSString *const inputFieldTestString;
+
 #pragma mark - Searching for Accessibility Elements
 /*!
  These methods are used to build the tester's search predicate. they are intended to be chained together allowing for complex searches.
@@ -284,6 +293,13 @@
 - (void)clearAndEnterText:(NSString *)text expectedResult:(NSString *)expectedResult;
 
 /*!
+ @abstract Sets text into a particular view matching the tester's search predicate.
+ @discussion If the element isn't currently tappable, then the step will attempt to wait until it is. Once the view is present and tappable, then text is set on the view. Does not result in first responder changes. Does not perform expected result validation.
+ @param text The text to set.
+ */
+- (void)setText:(NSString *)text;
+
+/*!
  @abstract Waits for the software keyboard to be visible.
  @discussion If input is also possible from a hardare keyboard @c waitForKeyInputReady may be more appropriate.
  */
@@ -351,7 +367,7 @@
 
 /*!
  @abstract Selects a value from a currently visible date picker view.
- @discussion With a date picker view already visible, this step will select the different rotating weel values in order of how the array parameter is passed in. After it is done it will hide the date picker. It works with all 4 UIDatePickerMode* modes. The input parameter of type NSArray has to match in what order the date picker is displaying the values/columns. So if the locale is changing the input parameter has to be adjusted. Example: Mode: UIDatePickerModeDate, Locale: en_US, Input param: NSArray *date = @[@"June", @"17", @"1965"];. Example: Mode: UIDatePickerModeDate, Locale: de_DE, Input param: NSArray *date = @[@"17.", @"Juni", @"1965".
+ @discussion With a date picker view already visible, this step will select the different rotating wheel values in order of how the array parameter is passed in. After it is done it will hide the date picker. It works with all 4 UIDatePickerMode* modes. The input parameter of type NSArray has to match in what order the date picker is displaying the values/columns. So if the locale is changing the input parameter has to be adjusted. Example: Mode: UIDatePickerModeDate, Locale: en_US, Input param: NSArray *date = @[@"June", @"17", @"1965"];. Example: Mode: UIDatePickerModeDate, Locale: de_DE, Input param: NSArray *date = @[@"17.", @"Juni", @"1965".
  @param datePickerColumnValues Each element in the NSArray represents a rotating wheel in the date picker control. Elements from 0 - n are listed in the order of the rotating wheels, left to right.
  */
 - (void)selectDatePickerValue:(NSArray *)datePickerColumnValues;

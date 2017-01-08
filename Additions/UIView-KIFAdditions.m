@@ -101,25 +101,31 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
 {
     return [self accessibilityElementMatchingBlock:^(UIAccessibilityElement *element) {
         
-        // TODO: This is a temporary fix for an SDK defect.
-        NSString *accessibilityValue = nil;
-        @try {
-            accessibilityValue = element.accessibilityValue;
-        }
-        @catch (NSException *exception) {
-            NSLog(@"KIF: Unable to access accessibilityValue for element %@ because of exception: %@", element, exception.reason);
-        }
+        return [UIView accessibilityElement:element hasLabel:label accessibilityValue:value traits:traits];
         
-        if ([accessibilityValue isKindOfClass:[NSAttributedString class]]) {
-            accessibilityValue = [(NSAttributedString *)accessibilityValue string];
-        }
-        
-        BOOL labelsMatch = StringsMatchExceptLineBreaks(label, element.accessibilityLabel);
-        BOOL traitsMatch = ((element.accessibilityTraits) & traits) == traits;
-        BOOL valuesMatch = !value || [value isEqual:accessibilityValue];
-
-        return (BOOL)(labelsMatch && traitsMatch && valuesMatch);
     }];
+}
+
++ (BOOL)accessibilityElement:(UIAccessibilityElement *)element hasLabel:(NSString *)label accessibilityValue:(NSString *)value traits:(UIAccessibilityTraits)traits
+{
+    // TODO: This is a temporary fix for an SDK defect.
+    NSString *accessibilityValue = nil;
+    @try {
+        accessibilityValue = element.accessibilityValue;
+    }
+    @catch (NSException *exception) {
+        NSLog(@"KIF: Unable to access accessibilityValue for element %@ because of exception: %@", element, exception.reason);
+    }
+    
+    if ([accessibilityValue isKindOfClass:[NSAttributedString class]]) {
+        accessibilityValue = [(NSAttributedString *)accessibilityValue string];
+    }
+    
+    BOOL labelsMatch = StringsMatchExceptLineBreaks(label, element.accessibilityLabel);
+    BOOL traitsMatch = ((element.accessibilityTraits) & traits) == traits;
+    BOOL valuesMatch = !value || [value isEqual:accessibilityValue];
+    
+    return (BOOL)(labelsMatch && traitsMatch && valuesMatch);
 }
 
 - (UIAccessibilityElement *)accessibilityElementMatchingBlock:(BOOL(^)(UIAccessibilityElement *))matchBlock;
@@ -189,7 +195,13 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
                 continue;
             }
         }
-        
+
+        // Avoid crash within accessibilityElementCount while traversing map subviews
+        // See https://github.com/kif-framework/KIF/issues/802
+        if ([element isKindOfClass:NSClassFromString(@"MKBasicMapView")]) {
+            continue;
+        }
+
         // If the view is an accessibility container, and we didn't find a matching subview,
         // then check the actual accessibility elements
         NSInteger accessibilityElementCount = element.accessibilityElementCount;
@@ -211,7 +223,7 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
         }
     }
     
-    if (!matchingButOccludedElement) {
+    if (!matchingButOccludedElement && self.window) {
         if ([self isKindOfClass:[UITableView class]]) {
             UITableView *tableView = (UITableView *)self;
             
@@ -227,6 +239,10 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
             
             for (NSUInteger section = 0, numberOfSections = [tableView numberOfSections]; section < numberOfSections; section++) {
                 for (NSUInteger row = 0, numberOfRows = [tableView numberOfRowsInSection:section]; row < numberOfRows; row++) {
+                    if (!self.window) {
+                        break;
+                    }
+
                     // Skip visible rows because they are already handled
                     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:section];
                     if ([indexPathsForVisibleRows containsObject:indexPath]) {
@@ -250,6 +266,7 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
                     
                     // Scroll to the cell and wait for the animation to complete
                     [tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionNone animated:YES];
+                    // Note: using KIFRunLoopRunInModeRelativeToAnimationSpeed here may cause tests to stall
                     CFRunLoopRunInMode(UIApplicationCurrentRunMode, 0.5, false);
                     
                     // Now try finding the element again
@@ -263,6 +280,10 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
             
             for (NSUInteger section = 0, numberOfSections = [collectionView numberOfSections]; section < numberOfSections; section++) {
                 for (NSUInteger item = 0, numberOfItems = [collectionView numberOfItemsInSection:section]; item < numberOfItems; item++) {
+                    if (!self.window) {
+                        break;
+                    }
+
                     // Skip visible items because they are already handled
                     NSIndexPath *indexPath = [NSIndexPath indexPathForItem:item inSection:section];
                     if ([indexPathsForVisibleItems containsObject:indexPath]) {
@@ -286,7 +307,9 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
                     }
                     
                     // Scroll to the cell and wait for the animation to complete
-                    [collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionNone animated:YES];
+                    CGRect frame = [collectionView.collectionViewLayout layoutAttributesForItemAtIndexPath:indexPath].frame;
+                    [collectionView scrollRectToVisible:frame animated:YES];
+                    // Note: using KIFRunLoopRunInModeRelativeToAnimationSpeed here may cause tests to stall
                     CFRunLoopRunInMode(UIApplicationCurrentRunMode, 0.5, false);
                     
                     // Now try finding the element again

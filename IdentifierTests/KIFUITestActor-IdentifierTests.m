@@ -63,7 +63,6 @@
 - (void)enterText:(NSString *)text intoViewWithAccessibilityIdentifier:(NSString *)accessibilityIdentifier
 {
 	return [self enterText:text intoViewWithAccessibilityIdentifier:accessibilityIdentifier expectedResult:nil];
-	
 }
 
 - (void)enterText:(NSString *)text intoViewWithAccessibilityIdentifier:(NSString *)accessibilityIdentifier expectedResult:(NSString *)expectedResult
@@ -72,10 +71,7 @@
 	UIAccessibilityElement *element = nil;
 	
 	[self waitForAccessibilityElement:&element view:&view withIdentifier:accessibilityIdentifier tappable:YES];
-	[self tapAccessibilityElement:element inView:view];
-	[self waitForTimeInterval:0.25];
-	[self enterTextIntoCurrentFirstResponder:text fallbackView:view];
-	[self expectView:view toContainText:expectedResult ?: text];
+    [self enterText:text intoElement:element inView:view expectedResult:expectedResult];
 }
 
 - (void)clearTextFromViewWithAccessibilityIdentifier:(NSString *)accessibilityIdentifier
@@ -97,6 +93,17 @@
 {
 	[self clearTextFromViewWithAccessibilityIdentifier:accessibilityIdentifier];
 	[self enterText:text intoViewWithAccessibilityIdentifier:accessibilityIdentifier expectedResult:expectedResult];
+}
+
+- (void)setText:(NSString *)text intoViewWithAccessibilityIdentifier:(NSString *)accessibilityIdentifier
+{
+    UIView *view = nil;
+    UIAccessibilityElement *element = nil;
+
+    [self waitForAccessibilityElement:&element view:&view withIdentifier:accessibilityIdentifier tappable:YES];
+    if ([view respondsToSelector:@selector(setText:)]) {
+        [view performSelector:@selector(setText:) withObject:text];
+    }
 }
 
 - (void)setOn:(BOOL)switchIsOn forSwitchWithAccessibilityIdentifier:(NSString *)accessibilityIdentifier
