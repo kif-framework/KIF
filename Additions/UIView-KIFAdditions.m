@@ -541,6 +541,20 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
     }
 
     NSMutableArray *touches = [NSMutableArray array];
+    
+    /// Convert paths to be in window coordinates before we start moving the window
+    NSMutableArray *newPaths = [[NSMutableArray alloc] init];
+    
+    for (NSArray * path in arrayOfPaths) {
+        NSMutableArray *newPath = [[NSMutableArray alloc] init];
+        for (NSValue *pointValue in path) {
+            CGPoint point = [pointValue CGPointValue];
+            [newPath addObject:[NSValue valueWithCGPoint:[self.window convertPoint:point fromView:self]]];
+        }
+        [newPaths addObject:newPath];
+    }
+    
+    arrayOfPaths = newPaths;
 
     for (NSUInteger pointIndex = 0; pointIndex < pointsInPath; pointIndex++) {
         // create initial touch event and send touch down event
@@ -566,7 +580,7 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
                 NSArray *path = arrayOfPaths[pathIndex];
                 CGPoint point = [path[pointIndex] CGPointValue];
                 touch = touches[pathIndex];
-                [touch setLocationInWindow:[self.window convertPoint:point fromView:self]];
+                [touch setLocationInWindow:point];
                 [touch setPhaseAndUpdateTimestamp:UITouchPhaseMoved];
             }
             UIEvent *event = [self eventWithTouches:[NSArray arrayWithArray:touches]];
