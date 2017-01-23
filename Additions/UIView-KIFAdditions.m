@@ -542,7 +542,8 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
 
     NSMutableArray *touches = [NSMutableArray array];
     
-    /// Convert paths to be in window coordinates before we start moving the window
+    // Convert paths to be in window coordinates before we start, because the view may
+    // move relative to the window.
     NSMutableArray *newPaths = [[NSMutableArray alloc] init];
     
     for (NSArray * path in arrayOfPaths) {
@@ -563,6 +564,8 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
             for (NSArray *path in arrayOfPaths)
             {
                 CGPoint point = [path[pointIndex] CGPointValue];
+                // The starting point needs to be relative to the view receiving the UITouch event.
+                point = [self convertPoint:point fromView:self.window];
                 UITouch *touch = [[UITouch alloc] initAtPoint:point inView:self];
                 [touch setPhaseAndUpdateTimestamp:UITouchPhaseBegan];
                 [touches addObject:touch];
