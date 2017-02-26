@@ -622,14 +622,30 @@
         }
         // Find the picker view
         UIPickerView *pickerView = nil;
+        NSInteger firstRowToSearchIndex = 0;
         switch (pickerType)
         {
             case KIFUIDatePicker:
+            {
                 pickerView = [[[[UIApplication sharedApplication] datePickerWindow] subviewsWithClassNameOrSuperClassNamePrefix:@"UIPickerView"] lastObject];
                 KIFTestCondition(pickerView, error, @"No picker view is present");
+                
+                // If minimum date limit exist, search the value from minimum and beyond.
+                UIDatePicker *datePicker = (UIDatePicker *)pickerView;
+                if (datePicker.datePickerMode == UIDatePickerModeDateAndTime
+                    && datePicker.minimumDate != nil) {
+                    
+                    [datePicker setDate:datePicker.minimumDate];
+                    firstRowToSearchIndex = [pickerView selectedRowInComponent:0];
+                }
+                
+                
                 break;
+            }
             case KIFUIPickerView:
+            {
                 pickerView = [[[[UIApplication sharedApplication] pickerViewWindow] subviewsWithClassNameOrSuperClassNamePrefix:@"UIPickerView"] lastObject];
+            }
         }
         
         NSInteger componentCount = [pickerView.dataSource numberOfComponentsInPickerView:pickerView];
@@ -637,7 +653,7 @@
         
         for (NSInteger componentIndex = 0; componentIndex < componentCount; componentIndex++) {
             NSInteger rowCount = [pickerView.dataSource pickerView:pickerView numberOfRowsInComponent:componentIndex];
-            for (NSInteger rowIndex = 0; rowIndex < rowCount; rowIndex++) {
+            for (NSInteger rowIndex = firstRowToSearchIndex; rowIndex < rowCount; rowIndex++) {
                 NSString *rowTitle = nil;
                 if ([pickerView.delegate respondsToSelector:@selector(pickerView:titleForRow:forComponent:)]) {
                     rowTitle = [pickerView.delegate pickerView:pickerView titleForRow:rowIndex forComponent:componentIndex];
