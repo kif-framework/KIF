@@ -3,10 +3,12 @@
 
 @property (weak, nonatomic, readonly) IBOutlet UITextField *dateSelectionTextField;
 @property (weak, nonatomic, readonly) IBOutlet UITextField *dateTimeSelectionTextField;
+@property (weak, nonatomic, readonly) IBOutlet UITextField *limitedDateTimeSelectionTextField;
 @property (weak, nonatomic, readonly) IBOutlet UITextField *timeSelectionTextField;
 @property (weak, nonatomic, readonly) IBOutlet UITextField *countdownSelectionTextField;
 @property (strong, nonatomic) UIDatePicker *datePicker;
 @property (strong, nonatomic) UIDatePicker *dateTimePicker;
+@property (strong, nonatomic) UIDatePicker *limitedDateTimePicker;
 @property (strong, nonatomic) UIDatePicker *timePicker;
 @property (strong, nonatomic) UIDatePicker *countdownPicker;
 @property (strong, nonatomic) IBOutlet UIPickerView *phoneticPickerView;
@@ -17,10 +19,12 @@
 
 @synthesize datePicker;
 @synthesize dateTimePicker;
+@synthesize limitedDateTimePicker;
 @synthesize countdownPicker;
 @synthesize timePicker;
 @synthesize dateSelectionTextField;
 @synthesize dateTimeSelectionTextField;
+@synthesize limitedDateTimeSelectionTextField;
 @synthesize timeSelectionTextField;
 @synthesize countdownSelectionTextField;
 @synthesize phoneticPickerView;
@@ -61,6 +65,19 @@
     dateTimeSelectionTextField.inputView = dateTimePicker;
     dateTimeSelectionTextField.accessibilityLabel = @"Date Time Selection";
 
+    limitedDateTimePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(30, 215, 260, 35)];
+    limitedDateTimePicker.datePickerMode = UIDatePickerModeDateAndTime;
+    limitedDateTimePicker.minimumDate = [NSDate dateWithTimeInterval:-31622400 /*Year+1day*/ sinceDate:[NSDate date]];
+    limitedDateTimePicker.maximumDate = [NSDate dateWithTimeInterval: 31622400 /*Year+1day*/ sinceDate:[NSDate date]];
+    [limitedDateTimePicker addTarget:self action:@selector(limitedDateTimePickerChanged:)
+             forControlEvents:UIControlEventValueChanged];
+    [limitedDateTimePicker setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_US"]];
+
+    limitedDateTimeSelectionTextField.placeholder = NSLocalizedString(@"Limited Date Time Selection", nil);
+    limitedDateTimeSelectionTextField.returnKeyType = UIReturnKeyDone;
+    limitedDateTimeSelectionTextField.inputView = limitedDateTimePicker;
+    limitedDateTimeSelectionTextField.accessibilityLabel = @"Limited Date Time Selection";
+    
     timePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(30, 215, 260, 35)];
     timePicker.datePickerMode = UIDatePickerModeTime;
     [timePicker addTarget:self action:@selector(timePickerChanged:)
@@ -105,6 +122,14 @@
     NSString *string = [NSString stringWithFormat:@"%@",
                         [dateFormatter stringFromDate:dateTimePicker.date]];
     self.dateTimeSelectionTextField.text = string;
+}
+
+- (void)limitedDateTimePickerChanged:(id)sender {
+    NSDateFormatter  *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"MMM d, hh:mm aa"];
+    NSString *string = [NSString stringWithFormat:@"%@",
+                        [dateFormatter stringFromDate:limitedDateTimePicker.date]];
+    self.limitedDateTimeSelectionTextField.text = string;
 }
 
 - (void)timePickerChanged:(id)sender {

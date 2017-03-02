@@ -48,10 +48,10 @@ typedef NS_ENUM(NSUInteger, KIFPickerType) {
  @constant KIFPickerSearchBackwardFromCurrentValue Search from current value backwards.
  */
 typedef NS_ENUM(NSUInteger, KIFPickerSearchOrder) {
-    KIFPickerSearchBackwardFromEnd = -2,
-    KIFPickerSearchBackwardFromCurrentValue = -1,
-    KIFPickerSearchForwardFromCurrentValue = 1,
-    KIFPickerSearchForwardFromStart = 2,
+    KIFPickerSearchForwardFromStart = 0,
+    KIFPickerSearchBackwardFromEnd = 1,
+    KIFPickerSearchForwardFromCurrentValue = 2,
+    KIFPickerSearchBackwardFromCurrentValue = 3
 };
 
 /*!

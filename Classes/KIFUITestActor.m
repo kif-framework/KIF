@@ -563,8 +563,6 @@
 
 - (void)selectDatePickerValue:(NSArray *)datePickerColumnValues withSearchOrder:(KIFPickerSearchOrder)searchOrder
 {
-    
-    [self selectDatePickerValue:array withSearchOrder:KIFPickerSearchBackwardFromEnd]
     [self selectPickerValue:datePickerColumnValues pickerType:KIFUIDatePicker withSearchOrder:searchOrder];
 }
 
@@ -652,8 +650,9 @@
 
             // Set search order
             NSInteger firstIndex;
-            NSInteger indexProgress = searchOrder > 0? /*Farward*/ 1 : /*Backwards*/ -1;
             NSInteger rowCount = [pickerView.dataSource pickerView:pickerView numberOfRowsInComponent:componentIndex];
+            NSInteger indexProgress = (searchOrder == KIFPickerSearchBackwardFromCurrentValue ||
+                                       searchOrder == KIFPickerSearchBackwardFromEnd) ? -1 : 1;
             switch (searchOrder) {
                 case KIFPickerSearchForwardFromCurrentValue:
                 case KIFPickerSearchBackwardFromCurrentValue:
@@ -667,7 +666,10 @@
                     break;
             }
             
-            for (NSInteger rowIndex = firstIndex; rowIndex < rowCount && rowIndex > 0; rowIndex += indexProgress) {
+            //Fix issue with AM:PM
+            if (rowCount == 2) { indexProgress = 1; firstIndex = 0; }
+
+            for (NSInteger rowIndex = firstIndex; rowIndex < rowCount && rowIndex >= 0; rowIndex += indexProgress) {
                 NSString *rowTitle = nil;
                 if ([pickerView.delegate respondsToSelector:@selector(pickerView:titleForRow:forComponent:)]) {
                     rowTitle = [pickerView.delegate pickerView:pickerView titleForRow:rowIndex forComponent:componentIndex];
