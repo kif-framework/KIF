@@ -635,12 +635,15 @@
         switch (pickerType)
         {
             case KIFUIDatePicker:
+            {
                 pickerView = [[[[UIApplication sharedApplication] datePickerWindow] subviewsWithClassNameOrSuperClassNamePrefix:@"UIPickerView"] lastObject];
-                KIFTestCondition(pickerView, error, @"No picker view is present");
+                KIFTestCondition(pickerView, error, @"No picker view is present");                
                 break;
-
+            }
             case KIFUIPickerView:
+            {
                 pickerView = [[[[UIApplication sharedApplication] pickerViewWindow] subviewsWithClassNameOrSuperClassNamePrefix:@"UIPickerView"] lastObject];
+            }
         }
         
         NSInteger componentCount = [pickerView.dataSource numberOfComponentsInPickerView:pickerView];
