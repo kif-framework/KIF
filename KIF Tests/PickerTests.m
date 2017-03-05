@@ -41,6 +41,32 @@
     [tester waitForViewWithAccessibilityLabel:@"Date Time Selection" value:@"Jun 17, 06:43 AM" traits:UIAccessibilityTraitNone];
 }
 
+- (void)testSelectingDateTimeBackwards
+{
+    [tester tapViewWithAccessibilityLabel:@"Date Time Selection"];
+    NSArray *dateTime = @[@"Jun 17", @"6", @"43", @"AM"];
+    [tester selectDatePickerValue:dateTime withSearchOrder:KIFPickerSearchBackwardFromEnd];
+    [tester waitForViewWithAccessibilityLabel:@"Date Time Selection" value:@"Jun 17, 06:43 AM" traits:UIAccessibilityTraitNone];
+}
+
+- (void)testSelectingDateTimeFromCurrentBackwards
+{
+    [tester tapViewWithAccessibilityLabel:@"Limited Date Time Selection"];
+    NSArray *dateTime = @[@"Jun 17", @"6", @"43", @"AM"];
+    // Since Limited Date Picker Time had a minimum date, default search order from start will fail.
+    [tester selectDatePickerValue:dateTime withSearchOrder:KIFPickerSearchBackwardFromCurrentValue];
+    [tester waitForViewWithAccessibilityLabel:@"Limited Date Time Selection" value:@"Jun 17, 06:43 AM" traits:UIAccessibilityTraitNone];
+}
+
+- (void)testSelectingDateTimeFromCurrentForwards
+{
+    [tester tapViewWithAccessibilityLabel:@"Limited Date Time Selection"];
+    NSArray *dateTime = @[@"Jun 17", @"6", @"43", @"AM"];
+    // Since Limited Date Picker Time had a maximum date, From End Backwards will fail too.
+    [tester selectDatePickerValue:dateTime withSearchOrder:KIFPickerSearchForwardFromCurrentValue];
+    [tester waitForViewWithAccessibilityLabel:@"Limited Date Time Selection" value:@"Jun 17, 06:43 AM" traits:UIAccessibilityTraitNone];
+}
+
 - (void)testSelectingTime
 {
     [tester tapViewWithAccessibilityLabel:@"Time Selection"];

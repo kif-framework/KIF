@@ -558,16 +558,26 @@
 
 - (void)selectDatePickerValue:(NSArray *)datePickerColumnValues
 {
-    [self selectPickerValue:datePickerColumnValues pickerType:KIFUIDatePicker];
+    [self selectPickerValue:datePickerColumnValues pickerType:KIFUIDatePicker withSearchOrder:KIFPickerSearchForwardFromStart];
+}
+
+- (void)selectDatePickerValue:(NSArray *)datePickerColumnValues withSearchOrder:(KIFPickerSearchOrder)searchOrder
+{
+    [self selectPickerValue:datePickerColumnValues pickerType:KIFUIDatePicker withSearchOrder:searchOrder];
 }
 
 - (void)selectPickerViewRowWithTitle:(NSString *)title
 {
     NSArray *dataToSelect = @[ title ];
-    [self selectPickerValue:dataToSelect pickerType:KIFUIPickerView];
+    [self selectPickerValue:dataToSelect pickerType:KIFUIPickerView withSearchOrder:KIFPickerSearchForwardFromStart];
 }
 
 - (void)selectPickerViewRowWithTitle:(NSString *)title inComponent:(NSInteger)component
+{
+    [self selectPickerViewRowWithTitle:title inComponent:component withSearchOrder:KIFPickerSearchForwardFromStart];
+}
+
+- (void)selectPickerViewRowWithTitle:(NSString *)title inComponent:(NSInteger)component withSearchOrder:(KIFPickerSearchOrder)searchOrder
 {
     NSMutableArray *dataToSelect = [[NSMutableArray alloc] init];
 
@@ -609,10 +619,10 @@
         }
     }
 
-    [self selectPickerValue:dataToSelect pickerType:pickerType];
+    [self selectPickerValue:dataToSelect pickerType:pickerType withSearchOrder:searchOrder];
 }
 
-- (void)selectPickerValue:(NSArray *)pickerColumnValues pickerType:(KIFPickerType)pickerType
+- (void)selectPickerValue:(NSArray *)pickerColumnValues pickerType:(KIFPickerType)pickerType withSearchOrder:(KIFPickerSearchOrder)searchOrder
 {
     [self runBlock:^KIFTestStepResult(NSError **error) {
         NSInteger columnCount = [pickerColumnValues count];
@@ -622,24 +632,12 @@
         }
         // Find the picker view
         UIPickerView *pickerView = nil;
-        NSInteger firstRowToSearchIndex = 0;
         switch (pickerType)
         {
             case KIFUIDatePicker:
             {
                 pickerView = [[[[UIApplication sharedApplication] datePickerWindow] subviewsWithClassNameOrSuperClassNamePrefix:@"UIPickerView"] lastObject];
-                KIFTestCondition(pickerView, error, @"No picker view is present");
-                
-                // If minimum date limit exist, search the value from minimum and beyond.
-                UIDatePicker *datePicker = (UIDatePicker *)pickerView;
-                if (datePicker.datePickerMode == UIDatePickerModeDateAndTime
-                    && datePicker.minimumDate != nil) {
-                    
-                    [datePicker setDate:datePicker.minimumDate];
-                    firstRowToSearchIndex = [pickerView selectedRowInComponent:0];
-                }
-                
-                
+                KIFTestCondition(pickerView, error, @"No picker view is present");                
                 break;
             }
             case KIFUIPickerView:
@@ -652,8 +650,29 @@
         KIFTestCondition(componentCount == columnCount, error, @"The UIDatePicker does not have the expected column count.");
         
         for (NSInteger componentIndex = 0; componentIndex < componentCount; componentIndex++) {
+
+            // Set search order
+            NSInteger firstIndex;
             NSInteger rowCount = [pickerView.dataSource pickerView:pickerView numberOfRowsInComponent:componentIndex];
-            for (NSInteger rowIndex = firstRowToSearchIndex; rowIndex < rowCount; rowIndex++) {
+            NSInteger indexProgress = (searchOrder == KIFPickerSearchBackwardFromCurrentValue ||
+                                       searchOrder == KIFPickerSearchBackwardFromEnd) ? -1 : 1;
+            switch (searchOrder) {
+                case KIFPickerSearchForwardFromCurrentValue:
+                case KIFPickerSearchBackwardFromCurrentValue:
+                    firstIndex = [pickerView selectedRowInComponent:componentIndex];
+                    break;
+                case KIFPickerSearchBackwardFromEnd:
+                    firstIndex = rowCount - 1;
+                    break;
+                default:
+                    firstIndex = 0;
+                    break;
+            }
+            
+            //Fix issue with AM:PM
+            if (rowCount == 2) { indexProgress = 1; firstIndex = 0; }
+
+            for (NSInteger rowIndex = firstIndex; rowIndex < rowCount && rowIndex >= 0; rowIndex += indexProgress) {
                 NSString *rowTitle = nil;
                 if ([pickerView.delegate respondsToSelector:@selector(pickerView:titleForRow:forComponent:)]) {
                     rowTitle = [pickerView.delegate pickerView:pickerView titleForRow:rowIndex forComponent:componentIndex];
