@@ -305,4 +305,4 @@ Any contributors to the master KIF repository must sign the [Individual Contribu
 
 When you have a change you'd like to see in the master repository, [send a pull request](https://github.com/kif-framework/KIF/pulls). Before we merge your request, we'll make sure you're in the list of people who have signed a CLA.
 
-Thanks, and happy testing!!
+Thanks, and happy testing!!!
