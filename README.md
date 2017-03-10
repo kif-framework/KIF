@@ -113,7 +113,9 @@ Installing Accessibility Identifier Tests
 
 Normally you identify a UI element via its accessibility label so that KIF simulates the interactions of a real user as closely as possible. In some cases, however, you may have to use accessibility identifiers, which are not exposed to users. If using CocoaPods, install the additional identifier-based KIF tests via the Identifier CocoaPods subspec:
 
-    pod 'KIF/IdentifierTests'
+```
+pod 'KIF/IdentifierTests'
+```
 
 If not using CocoaPods, the identifier-based KIF tests can be added by including "KIFUITestActor-IdentifierTests.h".
 
@@ -276,6 +278,8 @@ extension KIFTestActor {
     }
 }
 ```
+
+See Documentation/Examples/Testable Swift for sample code.
 
 
 Troubleshooting
