@@ -53,7 +53,7 @@ target 'Your Apps' do
 end
 
 target 'Acceptance Tests' do
-  pod 'KIF', '~> 3.0', :configurations => ['Debug']
+  pod 'KIF', :configurations => ['Debug']
 end
 ```
 
@@ -107,6 +107,15 @@ KIF takes advantage of Objective C's ability to add categories on an object, but
 ![Add category linker flags screen shot](https://github.com/kif-framework/KIF/raw/master/Documentation/Images/Add Category Linker Flags.png)
 
 Read **Final Test Target Configurations** below for the final details on getting your tests to run.
+
+Installing Accessibility Identifier Tests
+-----------------------------------------
+
+Normally you identify a UI element via its accessibility label so that KIF simulates the interactions of a real user as closely as possible. In some cases, however, you may have to use accessibility identifiers, which are not exposed to users. If using CocoaPods, install the additional identifier-based KIF tests via the Identifier CocoaPods subspec:
+
+    pod 'KIF/IdentifierTests'
+
+If not using CocoaPods, the identifier-based KIF tests can be added by including "KIFUITestActor-IdentifierTests.h".
 
 Final Test Target Configurations
 --------------------------------
