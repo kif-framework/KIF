@@ -74,6 +74,15 @@
     [tester tapViewWithAccessibilityLabel:@"First Cell"];
 }
 
+- (void)testTappingRowUnderToolbarByLabel
+{
+    // Tap row 31, which will scroll so that cell 32 is precisely positioned under the toolbar
+    [tester tapViewWithAccessibilityLabel:@"Cell 31"];
+
+    // Tap row 32, which should be scrolled up above the toolbar and then tapped
+    [tester tapViewWithAccessibilityLabel:@"Cell 32"];
+}
+
 - (void)testMoveRowDown
 {
     [tester tapViewWithAccessibilityLabel:@"Edit"];
