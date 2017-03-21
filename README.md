@@ -66,7 +66,7 @@ To install KIF, you'll need to link the libKIF static library directly into your
 
 We'll be using a simple project as an example, and you can find it in `Documentation/Examples/Testable Swift` in this repository.
 
-![Simple App](https://github.com/kif-framework/KIF/raw/master/Documentation/Images/Simple App.png)
+![Simple App](https://github.com/kif-framework/KIF/raw/master/Documentation/Images/Simple%20App.png)
 
 
 ### Add KIF to your project files
@@ -83,7 +83,7 @@ If you're not using Git, simply download the source and copy it into the `./Fram
 ### Add KIF to Your Workspace
 Let your project know about KIF by adding the KIF project into a workspace along with your main project. Find the `KIF.xcodeproj` file in Finder and drag it into the Project Navigator (⌘1).
 
-![Added KIF to the project](https://github.com/kif-framework/KIF/raw/master/Documentation/Images/Added KIF to Project.png)
+![Added KIF to the project](https://github.com/kif-framework/KIF/raw/master/Documentation/Images/Added%20KIF%20to%20Project.png)
 
 
 ### Create a Testing Target
@@ -98,13 +98,13 @@ Now that you have a target for your tests, add the tests to that target. With th
 
 KIF requires the IOKit.framework, but it is not located with the other system frameworks. To link to it, add "-framework IOKit" to the "Other Linker Flags" build setting.
 
-![Add libKIF library screen shot](https://github.com/kif-framework/KIF/raw/master/Documentation/Images/Add Library.png)
+![Add libKIF library screen shot](https://github.com/kif-framework/KIF/raw/master/Documentation/Images/Add%20Library.png)
 
-![Add libKIF library screen shot](https://github.com/kif-framework/KIF/raw/master/Documentation/Images/Add Library Sheet.png)
+![Add libKIF library screen shot](https://github.com/kif-framework/KIF/raw/master/Documentation/Images/Add%20Library%20Sheet.png)
 
 KIF takes advantage of Objective C's ability to add categories on an object, but this isn't enabled for static libraries by default. To enable this, add the `-ObjC` flag to the "Other Linker Flags" build setting on your test bundle target as shown below.
 
-![Add category linker flags screen shot](https://github.com/kif-framework/KIF/raw/master/Documentation/Images/Add Category Linker Flags.png)
+![Add category linker flags screen shot](https://github.com/kif-framework/KIF/raw/master/Documentation/Images/Add%20Category%20Linker%20Flags.png)
 
 Read **Final Test Target Configurations** below for the final details on getting your tests to run.
 
