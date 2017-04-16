@@ -172,7 +172,8 @@ MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
             break;
         }
         
-        if ([superview isKindOfClass:[UIScrollView class]]) {
+        // On iOS8+ UITableViews are wrapped in a scrollable UITableViewWrapperView, which if we adjust its offset will not update the internal scroll view and as a result not trigger needed delegate logic to account for the offset, excluding UITableViewWrapperView from here avoids this issue
+        if ([superview isKindOfClass:[UIScrollView class]] && superview.class != NSClassFromString(@"UITableViewWrapperView")) {
             UIScrollView *scrollView = (UIScrollView *)superview;
             
             if (((UIAccessibilityElement *)view == element) && ![view isKindOfClass:[UITableViewCell class]]) {
