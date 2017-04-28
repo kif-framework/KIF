@@ -697,8 +697,10 @@
                     break;
                 }
                 else if ([rowTitle isEqual:pickerColumnValues[componentIndex]]) {
-                    [pickerView selectRow:rowIndex inComponent:componentIndex animated:false];
-                    KIFRunLoopRunInModeRelativeToAnimationSpeed(kCFRunLoopDefaultMode, 1.0f, false);
+                    [pickerView selectRow:rowIndex inComponent:componentIndex animated:NO];
+                    KIFRunLoopRunInModeRelativeToAnimationSpeed(kCFRunLoopDefaultMode, 1.0f, NO);
+                    // Even though selectRow says it's not animated - it really is. We need to wait for them to finish before continuing.
+                    [tester waitForAnimationsToFinish];
                     
                     // Tap in the middle of the picker view to select the item
                     [pickerView tap];
