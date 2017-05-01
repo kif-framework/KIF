@@ -14,7 +14,7 @@ Pod::Spec.new do |s|
 
   s.subspec 'Core' do |core|
     core.source_files         = 'Classes', 'Additions'
-    core.public_header_files  = 'Classes/**/*.h', 'Additions/**/*-KIFAdditions.h', 'Additions/UIView-Debugging.h'
+    core.public_header_files  = 'Classes/**/*.h', 'Additions/**/*{-,+}KIFAdditions.h', 'Additions/UIView-Debugging.h'
     core.xcconfig             = { 'FRAMEWORK_SEARCH_PATHS' => '$(PLATFORM_DIR)/Developer/Library/Frameworks' }
     core.requires_arc         = true
   end
