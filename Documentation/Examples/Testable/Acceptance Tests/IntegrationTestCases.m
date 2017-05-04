@@ -15,25 +15,21 @@
 
 @implementation IntegrationTestCases
 
-- (void)testThatUserCanSuccessfullyLogIn
+- (void)testThatUsesViewTestActorCategory
 {
-    [tester reset];
-    [tester goToLoginPage];
-    [tester enterText:@"user@example.com" intoViewWithAccessibilityLabel:@"Login User Name"];
-    [tester enterText:@"thisismypassword" intoViewWithAccessibilityLabel:@"Login Password"];
-    [tester tapViewWithAccessibilityLabel:@"Log In"];
-    
-    // Verify that the login succeeded
-    [tester waitForTappableViewWithAccessibilityLabel:@"Welcome"];
+    [[viewTester redCell] tap];
+    [viewTester validateSelectedColor:@"Red"];
+    [[viewTester blueCell] tap];
+    [viewTester validateSelectedColor:@"Blue"];
 }
 
 - (void)testSelectingDifferentColors
 {
-    [tester tapViewWithAccessibilityLabel:@"Purple"];
-    [tester tapViewWithAccessibilityLabel:@"Blue"];
-    [tester tapViewWithAccessibilityLabel:@"Red"];
-    [tester waitForTimeInterval:5.0];
-    [tester waitForViewWithAccessibilityLabel:@"Selected: Red"];
+    [[viewTester usingLabel:@"Purple"] tap];
+    [[viewTester usingLabel:@"Blue"] tap];
+    [[viewTester usingLabel:@"Red"] tap];
+    [viewTester waitForTimeInterval:5.0];
+    [[viewTester usingLabel:@"Selected: Red"] waitForView];
 }
 
 @end

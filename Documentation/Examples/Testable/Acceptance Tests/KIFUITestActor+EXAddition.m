@@ -8,7 +8,7 @@
 
 #import "KIFUITestActor+EXAddition.h"
 
-@implementation KIFUITestActor (EXAddition)
+@implementation KIFUIViewTestActor (EXAddition)
 
 - (void)reset
 {
@@ -25,13 +25,19 @@
 
 #pragma mark - Step Collections
 
-- (void)goToLoginPage
+- (KIFUIViewTestActor *)redCell;
 {
-    // Dismiss the welcome message
-    [self tapViewWithAccessibilityLabel:@"That's awesome!"];
-    
-    // Tap the "I already have an account" button
-    [self tapViewWithAccessibilityLabel:@"I already have an account."];
+    return [self usingLabel:@"Red"];
+}
+
+- (KIFUIViewTestActor *)blueCell;
+{
+    return [self usingLabel:@"Blue"];
+}
+
+- (void)validateSelectedColor:(NSString *)color;
+{
+    [[self usingLabel:[NSString stringWithFormat:@"Selected: %@", color]] waitForView];
 }
 
 @end

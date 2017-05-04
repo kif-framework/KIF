@@ -16,9 +16,15 @@ open -b com.apple.iphonesimulator
 
 rm -rf ${PWD}/build
 
-# Frameworks are only supported on iOS8 and later
-if [[ ! ${SIMULATOR} =~ .*OS=7.* ]]; then
-  env NSUnbufferedIO=YES xcodebuild test -derivedDataPath=${PWD}/build/KIFFramework -scheme KIFFrameworkConsumerTests -destination "platform=iOS Simulator,${SIMULATOR}" | xcpretty -c
+XCODE_VERSION=`xcodebuild -version | head -n1 | sed -e "s/Xcode //"`
+
+env NSUnbufferedIO=YES xcodebuild test -project KIF.xcodeproj -derivedDataPath=${PWD}/build/KIFFramework -scheme KIFFrameworkConsumerTests -destination "platform=iOS Simulator,${SIMULATOR}" | xcpretty -c
+env NSUnbufferedIO=YES xcodebuild test -project KIF.xcodeproj -scheme KIF -derivedDataPath=${PWD}/build/KIF -destination "platform=iOS Simulator,${SIMULATOR}" | xcpretty -c
+
+# Due to unstable Swift language syntax, this only compiles on Xcode 8+
+if [[ $XCODE_VERSION =~ (8|9|1[0-9]+)\.[0-9.]+ ]]; then
+  env NSUnbufferedIO=YES xcodebuild test -project "Documentation/Examples/Testable Swift/Testable Swift.xcodeproj" -scheme "Testable Swift" -derivedDataPath=${PWD}/build/TestableSwift -destination "platform=iOS Simulator,${SIMULATOR}" | xcpretty -c
 fi
 
-env NSUnbufferedIO=YES xcodebuild test -scheme KIF -derivedDataPath=${PWD}/build/KIF -destination "platform=iOS Simulator,${SIMULATOR}" | xcpretty -c
+env NSUnbufferedIO=YES xcodebuild test -project "Documentation/Examples/Testable/Testable.xcodeproj" -scheme Testable -derivedDataPath=${PWD}/build/Testable -destination "platform=iOS Simulator,${SIMULATOR}" | xcpretty -c
+env NSUnbufferedIO=YES xcodebuild test -project "Documentation/Examples/Calculator/Calculator.xcodeproj" -scheme "Calculator" -derivedDataPath=${PWD}/build/Calculator -destination "platform=iOS Simulator,${SIMULATOR}" | xcpretty -c

@@ -2,7 +2,6 @@
 //  SimpleSwiftTest.swift
 //  Testable Swift
 //
-//  Created by Jim Puls on 10/29/14.
 //  Licensed to Square, Inc. under one or more contributor license agreements.
 //  See the LICENSE file distributed with this work for the terms under
 //  which Square, Inc. licenses this file to you.
@@ -12,8 +11,8 @@ import XCTest
 
 
 extension XCTestCase {
-    func tester(_ file : String = #file, _ line : Int = #line) -> KIFUITestActor {
-        return KIFUITestActor(inFile: file, atLine: line, delegate: self)
+    func viewTester(_ file : String = #file, _ line : Int = #line) -> KIFUIViewTestActor {
+        return KIFUIViewTestActor(inFile: file, atLine: line, delegate: self)
     }
 
     func system(_ file : String = #file, _ line : Int = #line) -> KIFSystemTestActor {
@@ -24,13 +23,13 @@ extension XCTestCase {
 class SimpleSwiftTest: KIFTestCase {
     
     func testGreenCellWithIdentifier() {
-        tester().tapView(withAccessibilityIdentifier: "Green Cell Identifier")
-        tester().waitForView(withAccessibilityIdentifier: "Selected: Green Color")
+        viewTester().usingIdentifier("Green Cell Identifier").tap()
+        viewTester().usingIdentifier("Selected: Green Color").waitForView()
     }
     
     func testBlueCellWithLabel() {
-        tester().tapView(withAccessibilityLabel: "Blue Cell Label")
-        tester().waitForView(withAccessibilityLabel: "Selected: Blue Color")
+        viewTester().usingLabel("Blue Cell Label").tap()
+        viewTester().usingLabel("Selected: Blue Color").waitForView()
 
     }
 }

@@ -8,9 +8,10 @@
 
 #import <KIF/KIF.h>
 
-@interface KIFUITestActor (EXAddition)
+@interface KIFUIViewTestActor (EXAddition)
 
-- (void)reset;
-- (void)goToLoginPage;
+- (KIFUIViewTestActor *)redCell;
+- (KIFUIViewTestActor *)blueCell;
+- (void)validateSelectedColor:(NSString *)color;
 
 @end
