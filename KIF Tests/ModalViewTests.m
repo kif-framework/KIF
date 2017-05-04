@@ -52,7 +52,12 @@
     
     [tester tapViewWithAccessibilityLabel:@"UIActivityViewController"];
     [tester waitForTappableViewWithAccessibilityLabel:@"Copy"];
-    [tester waitForTappableViewWithAccessibilityLabel:@"Mail"];
+
+    if ([UIDevice.currentDevice.systemVersion compare:@"10.0" options:NSNumericSearch] < 0) {
+        [tester waitForTappableViewWithAccessibilityLabel:@"Mail"];
+    } else {
+        [tester waitForTappableViewWithAccessibilityLabel:@"Add To iCloud Drive"];
+    }
 
     // On iOS7, the activity controller appears at the bottom
     // On iOS8 and beyond, it is shown in a popover control
