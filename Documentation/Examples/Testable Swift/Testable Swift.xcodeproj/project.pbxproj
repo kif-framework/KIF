@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5600E9461C3BBBC000235220 /* libKIF.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5600E93B1C3BBB8300235220 /* libKIF.a */; };
 		5600E94A1C3BBCC800235220 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5600E9491C3BBCC700235220 /* IOKit.framework */; };
+		62F81B141EBBD11A009B2400 /* KIF.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5600E9411C3BBB8300235220 /* KIF.framework */; };
 		A88CD9831A019AFF0064F706 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A88CD9821A019AFF0064F706 /* AppDelegate.swift */; };
 		A88CD9851A019AFF0064F706 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A88CD9841A019AFF0064F706 /* MasterViewController.swift */; };
 		A88CD98A1A019AFF0064F706 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A88CD9881A019AFF0064F706 /* Main.storyboard */; };
@@ -62,12 +62,12 @@
 			remoteGlobalIDString = 9CC9673B1AD4B1B600576D13;
 			remoteInfo = KIFFramework;
 		};
-		5600E9421C3BBB9700235220 /* PBXContainerItemProxy */ = {
+		62F81B0B1EBBD094009B2400 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 5600E9321C3BBB8300235220 /* KIF.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = EABD46791857A0C700A5F081;
-			remoteInfo = KIF;
+			remoteGlobalIDString = 9CC9673A1AD4B1B600576D13;
+			remoteInfo = KIFFramework;
 		};
 		A88CD9951A019AFF0064F706 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -109,7 +109,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5600E9461C3BBBC000235220 /* libKIF.a in Frameworks */,
+				62F81B141EBBD11A009B2400 /* KIF.framework in Frameworks */,
 				5600E94A1C3BBCC800235220 /* IOKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -223,8 +223,8 @@
 			buildRules = (
 			);
 			dependencies = (
+				62F81B0C1EBBD094009B2400 /* PBXTargetDependency */,
 				A88CD9961A019AFF0064F706 /* PBXTargetDependency */,
-				5600E9431C3BBB9700235220 /* PBXTargetDependency */,
 			);
 			name = "Testable SwiftTests";
 			productName = "Testable SwiftTests";
@@ -364,10 +364,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		5600E9431C3BBB9700235220 /* PBXTargetDependency */ = {
+		62F81B0C1EBBD094009B2400 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = KIF;
-			targetProxy = 5600E9421C3BBB9700235220 /* PBXContainerItemProxy */;
+			name = KIFFramework;
+			targetProxy = 62F81B0B1EBBD094009B2400 /* PBXContainerItemProxy */;
 		};
 		A88CD9961A019AFF0064F706 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

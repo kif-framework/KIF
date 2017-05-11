@@ -17,8 +17,8 @@
 @implementation SimpleObjCTest
 
 - (void)testRed {
-    [tester tapViewWithAccessibilityLabel:@"Red"];
-    [tester waitForViewWithAccessibilityLabel:@"Selected: Red"];
+    [[viewTester usingLabel:@"Red Cell Label"] tap];
+    [[viewTester usingLabel:@"Selected: Red Color"] waitForView];
 }
 
 @end
