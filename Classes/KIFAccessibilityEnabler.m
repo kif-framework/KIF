@@ -35,6 +35,23 @@ void KIFEnableAccessibility(void)
 {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
+        // First attempt approach shown to work for Xcode 8+ (without displaying the 'Accessibility Inspector').
+        void *handle = loadDylibForSimulator(@"/usr/lib/libAccessibility.dylib");
+        if (handle) {
+            int (*_AXSAutomationEnabled)(void) = dlsym(handle, "_AXSAutomationEnabled");
+            void (*_AXSSetAutomationEnabled)(int) = dlsym(handle, "_AXSSetAutomationEnabled");
+
+            int initialValue = _AXSAutomationEnabled();
+            _AXSSetAutomationEnabled(YES);
+            atexit_b(^{
+                _AXSSetAutomationEnabled(initialValue);
+            });
+
+            return;
+        }
+
+        // If we can't find 'libAccessibility.dylib' in the simulator, try doing it the old way (displays the 'Accessibility Inspector').
+
         // CPCopySharedResourcesPreferencesDomainForDomain from AppSupport
         void *appSupport = loadDylibForSimulator(@"/System/Library/PrivateFrameworks/AppSupport.framework/AppSupport");
         if (appSupport) {
@@ -68,19 +85,6 @@ void KIFEnableAccessibility(void)
             }
         }
         
-        // If we get to this point, the legacy method has not worked
-        void *handle = loadDylibForSimulator(@"/usr/lib/libAccessibility.dylib");
-        if (!handle) {
-            [NSException raise:NSGenericException format:@"Could not enable accessibility"];
-        }
-        
-        int (*_AXSAutomationEnabled)(void) = dlsym(handle, "_AXSAutomationEnabled");
-        void (*_AXSSetAutomationEnabled)(int) = dlsym(handle, "_AXSSetAutomationEnabled");
-        
-        int initialValue = _AXSAutomationEnabled();
-        _AXSSetAutomationEnabled(YES);
-        atexit_b(^{
-            _AXSSetAutomationEnabled(initialValue);
-        });
+        [NSException raise:NSGenericException format:@"Could not enable accessibility"];
     });
 }
