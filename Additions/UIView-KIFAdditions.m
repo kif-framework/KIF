@@ -253,6 +253,11 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
                         // Get the cell directly from the dataSource because UITableView will only vend visible cells
                         UITableViewCell *cell = [tableView.dataSource tableView:tableView cellForRowAtIndexPath:indexPath];
                         
+                        // Allow cells to be configured appropriately for display (may include setting accessibility)
+                        if ([tableView.delegate respondsToSelector:@selector(tableView:willDisplayCell:forRowAtIndexPath:)]) {
+                            [tableView.delegate tableView:tableView willDisplayCell:cell forRowAtIndexPath:indexPath];
+                        }
+
                         UIAccessibilityElement *element = [cell accessibilityElementMatchingBlock:matchBlock notHidden:NO];
                         
                         // Remove the cell from the table view so that it doesn't stick around
