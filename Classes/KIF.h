@@ -12,6 +12,7 @@
 #import "KIFSystemTestActor.h"
 #import "KIFUITestActor.h"
 #import "KIFUITestActor-ConditionalTests.h"
+#import "KIFUITestActor-IdentifierTests.h"
 
 #import "KIFUIViewTestActor.h"
 #import "KIFUIObject.h"

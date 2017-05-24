@@ -1,5 +1,5 @@
 //
-//  KIFUITestActor+IdentifierTests.m
+//  KIFUITestActor-IdentifierTests.m
 //  KIF
 //
 //  Created by Brian Nickel on 11/6/14.
