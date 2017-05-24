@@ -101,31 +101,25 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
 {
     return [self accessibilityElementMatchingBlock:^(UIAccessibilityElement *element) {
         
-        return [UIView accessibilityElement:element hasLabel:label accessibilityValue:value traits:traits];
+        // TODO: This is a temporary fix for an SDK defect.
+        NSString *accessibilityValue = nil;
+        @try {
+            accessibilityValue = element.accessibilityValue;
+        }
+        @catch (NSException *exception) {
+            NSLog(@"KIF: Unable to access accessibilityValue for element %@ because of exception: %@", element, exception.reason);
+        }
         
-    }];
-}
+        if ([accessibilityValue isKindOfClass:[NSAttributedString class]]) {
+            accessibilityValue = [(NSAttributedString *)accessibilityValue string];
+        }
+        
+        BOOL labelsMatch = StringsMatchExceptLineBreaks(label, element.accessibilityLabel);
+        BOOL traitsMatch = ((element.accessibilityTraits) & traits) == traits;
+        BOOL valuesMatch = !value || [value isEqual:accessibilityValue];
 
-+ (BOOL)accessibilityElement:(UIAccessibilityElement *)element hasLabel:(NSString *)label accessibilityValue:(NSString *)value traits:(UIAccessibilityTraits)traits
-{
-    // TODO: This is a temporary fix for an SDK defect.
-    NSString *accessibilityValue = nil;
-    @try {
-        accessibilityValue = element.accessibilityValue;
-    }
-    @catch (NSException *exception) {
-        NSLog(@"KIF: Unable to access accessibilityValue for element %@ because of exception: %@", element, exception.reason);
-    }
-    
-    if ([accessibilityValue isKindOfClass:[NSAttributedString class]]) {
-        accessibilityValue = [(NSAttributedString *)accessibilityValue string];
-    }
-    
-    BOOL labelsMatch = StringsMatchExceptLineBreaks(label, element.accessibilityLabel);
-    BOOL traitsMatch = ((element.accessibilityTraits) & traits) == traits;
-    BOOL valuesMatch = !value || [value isEqual:accessibilityValue];
-    
-    return (BOOL)(labelsMatch && traitsMatch && valuesMatch);
+        return (BOOL)(labelsMatch && traitsMatch && valuesMatch);
+    }];
 }
 
 - (UIAccessibilityElement *)accessibilityElementMatchingBlock:(BOOL(^)(UIAccessibilityElement *))matchBlock;
