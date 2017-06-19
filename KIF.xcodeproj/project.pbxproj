@@ -109,6 +109,8 @@
 		D927B9E018F9E46400DAD036 /* UITableView-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D927B9DE18F9E46400DAD036 /* UITableView-KIFAdditions.m */; };
 		D9EA274118F05A6000D87E57 /* ScrollViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D9EA274018F05A6000D87E57 /* ScrollViewTests.m */; };
 		D9EA274318F05A6700D87E57 /* ScrollViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9EA274218F05A6700D87E57 /* ScrollViewController.m */; };
+		DCAB06B81EFD7A170051C676 /* KIFUITestActor_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = DCAB06B71EFD79E20051C676 /* KIFUITestActor_Private.h */; };
+		DCAB06B91EFD7A180051C676 /* KIFUITestActor_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = DCAB06B71EFD79E20051C676 /* KIFUITestActor_Private.h */; };
 		E977D1071AA4062B005645BF /* UIEvent+KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = E977D1051AA4062B005645BF /* UIEvent+KIFAdditions.h */; };
 		E977D1081AA4062B005645BF /* UIEvent+KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = E977D1061AA4062B005645BF /* UIEvent+KIFAdditions.m */; };
 		E9F646F81AA3BABA00C37EA3 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9AD81F91AA180B900B369FD /* IOKit.framework */; };
@@ -335,6 +337,7 @@
 		D927B9DE18F9E46400DAD036 /* UITableView-KIFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableView-KIFAdditions.m"; sourceTree = "<group>"; };
 		D9EA274018F05A6000D87E57 /* ScrollViewTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScrollViewTests.m; sourceTree = "<group>"; };
 		D9EA274218F05A6700D87E57 /* ScrollViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScrollViewController.m; sourceTree = "<group>"; };
+		DCAB06B71EFD79E20051C676 /* KIFUITestActor_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KIFUITestActor_Private.h; sourceTree = "<group>"; };
 		E977D1051AA4062B005645BF /* UIEvent+KIFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIEvent+KIFAdditions.h"; sourceTree = "<group>"; };
 		E977D1061AA4062B005645BF /* UIEvent+KIFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIEvent+KIFAdditions.m"; sourceTree = "<group>"; };
 		E9AD81F91AA180B900B369FD /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/IOKit.framework; sourceTree = DEVELOPER_DIR; };
@@ -686,6 +689,7 @@
 		EB4C312F167BA39200E31109 /* Actors */ = {
 			isa = PBXGroup;
 			children = (
+				DCAB06B71EFD79E20051C676 /* KIFUITestActor_Private.h */,
 				EB4C3130167BA3AC00E31109 /* KIFSystemTestActor.h */,
 				EB4C3131167BA3AC00E31109 /* KIFSystemTestActor.m */,
 				EB4C3132167BA3AC00E31109 /* KIFUITestActor.h */,
@@ -890,6 +894,7 @@
 				9CC967631AD4B1F100576D13 /* UIView-KIFAdditions.h in Headers */,
 				9CC967651AD4B1F100576D13 /* UIWindow-KIFAdditions.h in Headers */,
 				FAC00C4C1C8E6D9900C38752 /* UIScreen+KIFAdditions.h in Headers */,
+				DCAB06B91EFD7A180051C676 /* KIFUITestActor_Private.h in Headers */,
 				9CC967671AD4B1F100576D13 /* UITableView-KIFAdditions.h in Headers */,
 				9CC967691AD4B1F100576D13 /* NSBundle-KIFAdditions.h in Headers */,
 				5C877DD11B0A8B8F006A3AC6 /* UIView-Debugging.h in Headers */,
@@ -940,6 +945,7 @@
 				E977D1071AA4062B005645BF /* UIEvent+KIFAdditions.h in Headers */,
 				BD6A1CA11BCE8DD000EF07D2 /* KIFAccessibilityEnabler.h in Headers */,
 				EABD46A21857A0C700A5F081 /* NSError-KIFAdditions.h in Headers */,
+				DCAB06B81EFD7A170051C676 /* KIFUITestActor_Private.h in Headers */,
 				EABD46A31857A0C700A5F081 /* KIFTestStepValidation.h in Headers */,
 				3ADD25CC71BF27D675768787 /* UIView-Debugging.h in Headers */,
 				EB2526481981BF7A00DBC747 /* KIFUITestActor-ConditionalTests.h in Headers */,

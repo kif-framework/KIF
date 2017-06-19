@@ -107,7 +107,7 @@
     [[viewTester dateSelector] tap];
     NSArray *date = @[ @"December", @"31", @"2030" ];
     [viewTester selectDatePickerValue:date];
-    [viewTester selectPickerViewRowWithTitle:@"17" inComponent:1];
+    [viewTester selectDatePickerViewRowWithTitle:@"17" inComponent:1];
     [[[viewTester dateSelector] usingValue:@"Dec 17, 2030"] waitForView];
 }
 

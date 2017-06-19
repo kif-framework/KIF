@@ -155,7 +155,7 @@
 
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
 {
-    return [@[@"Alpha", @"Bravo", @"Charlie"] objectAtIndex:row];
+    return [ @[@"Alpha", @"Bravo", @"Charlie"] objectAtIndex:row];
 }
 
 - (NSString *)pickerView:(UIPickerView *)pickerView accessibilityLabelForComponent:(NSInteger)component
