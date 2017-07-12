@@ -12,6 +12,7 @@
 #import "NSPredicate+KIFAdditions.h"
 #import "UIAccessibilityElement-KIFAdditions.h"
 #import "NSString+KIFAdditions.h"
+#import "KIFUITestActor_Private.h"
 
 @interface KIFUIViewTestActor ()
 
@@ -345,17 +346,30 @@ NSString *const inputFieldTestString = @"Testing";
 
 - (void)selectPickerViewRowWithTitle:(NSString *)title;
 {
-    [self.actor selectPickerViewRowWithTitle:title];
+    KIFUIObject *found = [[self _usingExpectedClass:[UIPickerView class]] _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
+    UIPickerView *picker = (UIPickerView *) found.view;
+    [self.actor selectPickerViewRowWithTitle:title inComponent:0 fromPicker:picker withSearchOrder:KIFPickerSearchForwardFromStart];
 }
 
 - (void)selectPickerViewRowWithTitle:(NSString *)title inComponent:(NSInteger)component;
 {
-    [self.actor selectPickerViewRowWithTitle:title inComponent:component];
+    KIFUIObject *found = [[self _usingExpectedClass:[UIPickerView class]] _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
+    UIPickerView *picker = (UIPickerView *) found.view;
+    [self.actor selectPickerViewRowWithTitle:title inComponent:component fromPicker:picker withSearchOrder:KIFPickerSearchForwardFromStart];
+}
+
+- (void)selectDatePickerViewRowWithTitle:(NSString *)title inComponent:(NSInteger)component;
+{
+    KIFUIObject *found = [[self _usingExpectedClass:[UIDatePicker class]] _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
+    UIPickerView *picker = [self _getDatePickerViewFromPicker:found.view];
+    [self.actor selectPickerViewRowWithTitle:title inComponent:component fromPicker:picker withSearchOrder:KIFPickerSearchForwardFromStart];
 }
 
 - (void)selectDatePickerValue:(NSArray *)datePickerColumnValues;
 {
-    [self.actor selectDatePickerValue:datePickerColumnValues];
+    KIFUIObject *found = [[self _usingExpectedClass:[UIDatePicker class]] _predicateSearchWithRequiresMatch:NO mustBeTappable:NO];
+    UIPickerView *picker = [self _getDatePickerViewFromPicker:found.view];
+    [self.actor selectDatePickerValue:datePickerColumnValues fromPicker:picker withSearchOrder:KIFPickerSearchForwardFromStart];
 }
 
 - (void)choosePhotoInAlbum:(NSString *)albumName atRow:(NSInteger)row column:(NSInteger)column;
@@ -423,6 +437,16 @@ NSString *const inputFieldTestString = @"Testing";
         NSPredicate *compoundPredicate = [NSCompoundPredicate andPredicateWithSubpredicates:@[ self.predicate, newPredicate ]];
         self.predicate = compoundPredicate;
     }
+}
+
+- (UIPickerView *)_getDatePickerViewFromPicker:(UIView *)picker;
+{
+    for (UIView *view in picker.subviews) {
+        if ([NSStringFromClass([view class]) hasPrefix:@"_UIDatePickerView"]) {
+            return (UIPickerView *) view;
+        }
+    }
+    return nil;
 }
 
 - (KIFUIObject *)_predicateSearchWithRequiresMatch:(BOOL)requiresMatch mustBeTappable:(BOOL)tappable;
