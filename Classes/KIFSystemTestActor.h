@@ -10,7 +10,11 @@
 #import "KIFTestActor.h"
 #import <UIKit/UIKit.h>
 
+#ifdef __cplusplus
+#define systemTester KIFActorWithClass(KIFSystemTestActor)
+#else
 #define system KIFActorWithClass(KIFSystemTestActor)
+#endif
 
 @interface KIFSystemTestActor : KIFTestActor
 
