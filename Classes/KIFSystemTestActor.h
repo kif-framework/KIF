@@ -32,7 +32,7 @@
  @param block The block of code to be executed.
  @return The detected NSNotification.
  */
-- (NSNotification *)waitForNotificationName:(NSString *)name object:(id)object whileExecutingBlock:(void(^)())block;
+- (NSNotification *)waitForNotificationName:(NSString *)name object:(id)object whileExecutingBlock:(void(^)(void))block;
 
 /*!
  @abstract Simulates a memory warning.
@@ -52,14 +52,14 @@
  @param block The block of code to be executed.
  @param returnValue The value to return from @c +[UIApplication openURL:].
  */
-- (void)waitForApplicationToOpenURL:(NSString *)URLString whileExecutingBlock:(void(^)())block returning:(BOOL)returnValue;
+- (void)waitForApplicationToOpenURL:(NSString *)URLString whileExecutingBlock:(void(^)(void))block returning:(BOOL)returnValue;
 
 /*!
  @abstract Waits for the application to request any URL while executing a block.
  @param block The block of code to be executed.
  @param returnValue The value to return from @c +[UIApplication openURL:].
  */
-- (void)waitForApplicationToOpenAnyURLWhileExecutingBlock:(void(^)())block returning:(BOOL)returnValue;
+- (void)waitForApplicationToOpenAnyURLWhileExecutingBlock:(void(^)(void))block returning:(BOOL)returnValue;
 
 /*!
  @abstract Waits for the application to request any URL with the given URL Scheme while executing a block.
@@ -67,7 +67,7 @@
  @param block The block of code to be executed.
  @param returnValue The value to return from @c +[UIApplication openURL:].
  */
-- (void)waitForApplicationToOpenURLWithScheme:(NSString *)URLScheme whileExecutingBlock:(void (^)())block returning:(BOOL)returnValue;
+- (void)waitForApplicationToOpenURLWithScheme:(NSString *)URLScheme whileExecutingBlock:(void (^)(void))block returning:(BOOL)returnValue;
 
 /*!
  @abstract Captured a screenshot of the current screen and writes it to disk with an optional description.
