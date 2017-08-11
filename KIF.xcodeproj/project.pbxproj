@@ -25,6 +25,8 @@
 		5C877DD11B0A8B8F006A3AC6 /* UIView-Debugging.h in Headers */ = {isa = PBXBuildFile; fileRef = 3ADD26484C6C438B71DC15C5 /* UIView-Debugging.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5C877DD21B0A8B93006A3AC6 /* UIView-Debugging.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ADD2160096BE41C780FBD95 /* UIView-Debugging.m */; };
 		5F6A1B381C191F9600F20F22 /* UIApplicationKIFAdditionsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F6A1B371C191F9600F20F22 /* UIApplicationKIFAdditionsTests.m */; };
+		62A360111F3DA5400017DDCA /* KIFTestActor_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 62A360101F3DA5400017DDCA /* KIFTestActor_Private.h */; };
+		62A360121F3DA5400017DDCA /* KIFTestActor_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 62A360101F3DA5400017DDCA /* KIFTestActor_Private.h */; };
 		62F81B261EBBDBB8009B2400 /* NSPredicate+KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = FAB4C4731A815CA900C52EDF /* NSPredicate+KIFAdditions.m */; };
 		84D293AD1A2C84F700C10944 /* SystemAlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D293AC1A2C84F700C10944 /* SystemAlertViewController.m */; };
 		84D293AF1A2C867300C10944 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84D293AE1A2C867300C10944 /* CoreLocation.framework */; };
@@ -285,6 +287,7 @@
 		5A62B0AB1BB2043B00A3F480 /* AccessibilityIdentifierPullToRefreshTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccessibilityIdentifierPullToRefreshTests.m; sourceTree = "<group>"; };
 		5A62B0AD1BB205CA00A3F480 /* PullToRefreshTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PullToRefreshTests.m; sourceTree = "<group>"; };
 		5F6A1B371C191F9600F20F22 /* UIApplicationKIFAdditionsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIApplicationKIFAdditionsTests.m; sourceTree = "<group>"; };
+		62A360101F3DA5400017DDCA /* KIFTestActor_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KIFTestActor_Private.h; sourceTree = "<group>"; };
 		84D293AC1A2C84F700C10944 /* SystemAlertViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SystemAlertViewController.m; sourceTree = "<group>"; };
 		84D293AE1A2C867300C10944 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		84D293B01A2C891700C10944 /* SystemAlertTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SystemAlertTests.m; sourceTree = "<group>"; };
@@ -602,6 +605,7 @@
 				EB4C3127167BA37B00E31109 /* KIFTestCase.h */,
 				EB4C3128167BA37B00E31109 /* KIFTestCase.m */,
 				EB4C3123167BA37B00E31109 /* KIFTestActor.h */,
+				62A360101F3DA5400017DDCA /* KIFTestActor_Private.h */,
 				EB4C3124167BA37B00E31109 /* KIFTestActor.m */,
 				AAB0728513971A98008AF393 /* KIF-Prefix.pch */,
 				C194255615D83DE9004FC314 /* KIFTypist.h */,
@@ -689,11 +693,11 @@
 		EB4C312F167BA39200E31109 /* Actors */ = {
 			isa = PBXGroup;
 			children = (
-				DCAB06B71EFD79E20051C676 /* KIFUITestActor_Private.h */,
 				EB4C3130167BA3AC00E31109 /* KIFSystemTestActor.h */,
 				EB4C3131167BA3AC00E31109 /* KIFSystemTestActor.m */,
 				EB4C3132167BA3AC00E31109 /* KIFUITestActor.h */,
 				EB4C3133167BA3AC00E31109 /* KIFUITestActor.m */,
+				DCAB06B71EFD79E20051C676 /* KIFUITestActor_Private.h */,
 				FAC3A53C1A703A8300802118 /* KIFUIViewTestActor.h */,
 				FAC3A53D1A703A8300802118 /* KIFUIViewTestActor.m */,
 				EB2526461981BF7A00DBC747 /* KIFUITestActor-ConditionalTests.h */,
@@ -877,6 +881,7 @@
 				0EAA1C171B4B372700FFB2FB /* IOHIDEvent+KIF.h in Headers */,
 				BD6A1CA21BCE8DD000EF07D2 /* KIFAccessibilityEnabler.h in Headers */,
 				9CC9675D1AD4B1F100576D13 /* UIApplication-KIFAdditions.h in Headers */,
+				62A360121F3DA5400017DDCA /* KIFTestActor_Private.h in Headers */,
 				9CC9675F1AD4B1F100576D13 /* UIScrollView-KIFAdditions.h in Headers */,
 				FAB89FB81CAAED5700C6DFC1 /* NSString+KIFAdditions.h in Headers */,
 				9CC967731AD4B1FF00576D13 /* KIFSystemTestActor.h in Headers */,
@@ -931,6 +936,7 @@
 				BFE4708C1C7F42FB00580EF9 /* UIScreen+KIFAdditions.h in Headers */,
 				EABD46991857A0C700A5F081 /* UIWindow-KIFAdditions.h in Headers */,
 				85DB946E1C5A3E860025F83E /* CALayer-KIFAdditions.h in Headers */,
+				62A360111F3DA5400017DDCA /* KIFTestActor_Private.h in Headers */,
 				0EAA1C131B4B371700FFB2FB /* IOHIDEvent+KIF.h in Headers */,
 				EABD469B1857A0C700A5F081 /* LoadableCategory.h in Headers */,
 				FA8BDCCD1A76B3A80042A989 /* KIFUIObject.h in Headers */,

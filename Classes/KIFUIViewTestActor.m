@@ -7,17 +7,21 @@
 //
 
 #import "KIFUIViewTestActor.h"
+
+#import "KIFTestActor_Private.h"
 #import "KIFUIObject.h"
-#import "UIWindow-KIFAdditions.h"
-#import "NSPredicate+KIFAdditions.h"
-#import "UIAccessibilityElement-KIFAdditions.h"
-#import "NSString+KIFAdditions.h"
 #import "KIFUITestActor_Private.h"
+#import "NSPredicate+KIFAdditions.h"
+#import "NSString+KIFAdditions.h"
+#import "UIAccessibilityElement-KIFAdditions.h"
+#import "UIWindow-KIFAdditions.h"
+
 
 @interface KIFUIViewTestActor ()
 
 @property (nonatomic, strong, readonly) KIFUITestActor *actor;
 @property (nonatomic, strong, readwrite) NSPredicate *predicate;
+@property (nonatomic, assign) BOOL validateEnteredText;
 
 @end
 
@@ -28,9 +32,26 @@ NSString *const inputFieldTestString = @"Testing";
 
 #pragma mark - Initialization
 
+- (instancetype)initWithFile:(NSString *)file line:(NSInteger)line delegate:(id<KIFTestActorDelegate>)delegate;
+{
+    self = [super initWithFile:file line:line delegate:delegate];
+    NSParameterAssert(self);
+    _validateEnteredText = YES;
+    return self;
+}
+
+#pragma mark - Behavior modifiers
+
+- (instancetype)validateEnteredText:(BOOL)validateEnteredText;
+{
+    self.validateEnteredText = validateEnteredText;
+    return self;
+}
+
+#pragma mark - Searching for Accessibility Elements
+
 - (instancetype)usingPredicate:(NSPredicate *)predicate;
 {
-
     [self _appendPredicate:predicate];
     return  self;
 }
@@ -406,7 +427,7 @@ NSString *const inputFieldTestString = @"Testing";
 
 - (KIFUITestActor *)actor;
 {
-    return [[KIFUITestActor actorInFile:self.file atLine:self.line delegate:self.delegate] usingTimeout:self.executionBlockTimeout];
+    return [[[KIFUITestActor actorInFile:self.file atLine:self.line delegate:self.delegate] usingTimeout:self.executionBlockTimeout] validateEnteredText:self.validateEnteredText];
 }
 
 #pragma mark - NSObject

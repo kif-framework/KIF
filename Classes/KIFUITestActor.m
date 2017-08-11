@@ -8,20 +8,30 @@
 //  which Square, Inc. licenses this file to you.
 
 #import "KIFUITestActor.h"
-#import "KIFSystemTestActor.h"
-#import "UIApplication-KIFAdditions.h"
-#import "UIWindow-KIFAdditions.h"
-#import "UIAccessibilityElement-KIFAdditions.h"
-#import "UIScreen+KIFAdditions.h"
-#import "UIView-KIFAdditions.h"
+
 #import "CALayer-KIFAdditions.h"
-#import "UITableView-KIFAdditions.h"
 #import "CGGeometry-KIFAdditions.h"
-#import "NSError-KIFAdditions.h"
+#import "KIFSystemTestActor.h"
+#import "KIFTestActor_Private.h"
 #import "KIFTypist.h"
+#import "NSError-KIFAdditions.h"
+#import "UIAccessibilityElement-KIFAdditions.h"
+#import "UIApplication-KIFAdditions.h"
 #import "UIAutomationHelper.h"
+#import "UIScreen+KIFAdditions.h"
+#import "UITableView-KIFAdditions.h"
+#import "UIView-KIFAdditions.h"
+#import "UIWindow-KIFAdditions.h"
 
 #define kKIFMinorSwipeDisplacement 5
+
+
+@interface KIFUITestActor ()
+
+@property (nonatomic, assign) BOOL validateEnteredText;
+
+@end
+
 
 @implementation KIFUITestActor
 
@@ -30,6 +40,20 @@
     if (self == [KIFUITestActor class]) {
         [KIFTypist registerForNotifications];
     }
+}
+
+- (instancetype)initWithFile:(NSString *)file line:(NSInteger)line delegate:(id<KIFTestActorDelegate>)delegate;
+{
+    self = [super initWithFile:file line:line delegate:delegate];
+    NSParameterAssert(self);
+    _validateEnteredText = YES;
+    return self;
+}
+
+- (instancetype)validateEnteredText:(BOOL)validateEnteredText;
+{
+    self.validateEnteredText = validateEnteredText;
+    return self;
 }
 
 - (UIView *)waitForViewWithAccessibilityLabel:(NSString *)label
@@ -441,7 +465,9 @@
     }
 
     [self enterTextIntoCurrentFirstResponder:text fallbackView:view];
-    [self expectView:view toContainText:expectedResult ?: text];
+    if (self.validateEnteredText) {
+        [self expectView:view toContainText:expectedResult ?: text];
+    }
 }
 
 - (void)expectView:(UIView *)view toContainText:(NSString *)expectedResult
