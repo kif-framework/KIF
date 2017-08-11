@@ -90,7 +90,6 @@ NSString *const inputFieldTestString = @"Testing";
     return [self usingPredicate:predicate];
 }
 
-
 - (instancetype)usingIdentifier:(NSString *)accessibilityIdentifier;
 {
     NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
@@ -123,7 +122,18 @@ NSString *const inputFieldTestString = @"Testing";
     }];
     predicate.kifPredicateDescription = [NSString stringWithFormat:@"Accessibility Value equal to \"%@\"", accessibilityValue];
     
-    return [self usingPredicate: predicate];
+    return [self usingPredicate:predicate];
+}
+
+- (instancetype)usingFirstResponder;
+{
+    NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
+        UIView *firstResponderView = (id)[[[UIApplication sharedApplication] keyWindow] firstResponder];
+        return [evaluatedObject isEqual:firstResponderView];
+    }];
+    predicate.kifPredicateDescription = [NSString stringWithFormat:@"Is First Responder"];
+    
+    return [self usingPredicate:predicate];
 }
 
 #pragma mark - System Actions
@@ -174,8 +184,12 @@ NSString *const inputFieldTestString = @"Testing";
     }];
 }
 
-- (void)waitToBecomeTappable;
+- (UIView *)waitForTappableView;
+{
+    return [self _predicateSearchWithRequiresMatch:YES mustBeTappable:YES].view;
+}
 
+- (void)waitToBecomeTappable;
 {
     [self _predicateSearchWithRequiresMatch:YES mustBeTappable:YES];
 }
@@ -189,6 +203,12 @@ NSString *const inputFieldTestString = @"Testing";
         return KIFTestStepResultSuccess;
     }];
 }
+
+- (void)waitForAnimationsToFinish;
+{
+    [self.actor waitForAnimationsToFinishWithTimeout:self.animationWaitingTimeout stabilizationTime:self.animationStabilizationTimeout];
+}
+
 #pragma mark Typist Waiting
 
 - (void)waitForSoftwareKeyboard;
@@ -283,10 +303,19 @@ NSString *const inputFieldTestString = @"Testing";
 
 - (void)setText:(NSString *)text;
 {
-    KIFUIObject *found = [self _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
-    if ([found.view respondsToSelector:@selector(setText:)]) {
+    [self runBlock:^KIFTestStepResult(NSError *__autoreleasing *error) {
+        KIFUIObject *found = [self _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
+        if (!found.view) {
+            return KIFTestStepResultWait;
+        }
+
+        if (![found.view respondsToSelector:@selector(setText:)]) {
+            return KIFTestStepResultFailure;
+        }
+
         [found.view performSelector:@selector(setText:) withObject:text];
-    }
+        return KIFTestStepResultSuccess;
+    }];
 }
 
 - (void)expectToContainText:(NSString *)expectedResult;
@@ -367,9 +396,7 @@ NSString *const inputFieldTestString = @"Testing";
 
 - (void)selectPickerViewRowWithTitle:(NSString *)title;
 {
-    KIFUIObject *found = [[self _usingExpectedClass:[UIPickerView class]] _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
-    UIPickerView *picker = (UIPickerView *) found.view;
-    [self.actor selectPickerViewRowWithTitle:title inComponent:0 fromPicker:picker withSearchOrder:KIFPickerSearchForwardFromStart];
+    [self selectPickerViewRowWithTitle:title inComponent:0];
 }
 
 - (void)selectPickerViewRowWithTitle:(NSString *)title inComponent:(NSInteger)component;
@@ -388,10 +415,17 @@ NSString *const inputFieldTestString = @"Testing";
 
 - (void)selectDatePickerValue:(NSArray *)datePickerColumnValues;
 {
+    [self selectDatePickerValue:datePickerColumnValues withSearchOrder:KIFPickerSearchForwardFromStart];
+}
+
+- (void)selectDatePickerValue:(NSArray *)datePickerColumnValues withSearchOrder:(KIFPickerSearchOrder)searchOrder;
+{
     KIFUIObject *found = [[self _usingExpectedClass:[UIDatePicker class]] _predicateSearchWithRequiresMatch:NO mustBeTappable:NO];
     UIPickerView *picker = [self _getDatePickerViewFromPicker:found.view];
-    [self.actor selectDatePickerValue:datePickerColumnValues fromPicker:picker withSearchOrder:KIFPickerSearchForwardFromStart];
+    [self.actor selectDatePickerValue:datePickerColumnValues fromPicker:picker withSearchOrder:searchOrder];
 }
+
+#pragma mark - Photo Picker
 
 - (void)choosePhotoInAlbum:(NSString *)albumName atRow:(NSInteger)row column:(NSInteger)column;
 {
@@ -427,7 +461,7 @@ NSString *const inputFieldTestString = @"Testing";
 
 - (KIFUITestActor *)actor;
 {
-    return [[[KIFUITestActor actorInFile:self.file atLine:self.line delegate:self.delegate] usingTimeout:self.executionBlockTimeout] validateEnteredText:self.validateEnteredText];
+    return [[[[[KIFUITestActor actorInFile:self.file atLine:self.line delegate:self.delegate] usingTimeout:self.executionBlockTimeout] usingAnimationWaitingTimeout:self.animationWaitingTimeout] usingAnimationStabilizationTimeout:self.animationStabilizationTimeout] validateEnteredText:self.validateEnteredText];
 }
 
 #pragma mark - NSObject

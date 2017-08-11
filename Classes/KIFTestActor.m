@@ -57,6 +57,18 @@
     return self;
 }
 
+- (instancetype)usingAnimationWaitingTimeout:(NSTimeInterval)animationWaitingTimeout;
+{
+    self.animationWaitingTimeout = animationWaitingTimeout;
+    return self;
+}
+
+- (instancetype)usingAnimationStabilizationTimeout:(NSTimeInterval)animationStabilizationTimeout;
+{
+    self.animationStabilizationTimeout = animationStabilizationTimeout;
+    return self;
+}
+
 - (BOOL)tryRunningBlock:(KIFTestExecutionBlock)executionBlock complete:(KIFTestCompletionBlock)completionBlock timeout:(NSTimeInterval)timeout error:(out NSError **)error
 {
     NSDate *startDate = [NSDate date];

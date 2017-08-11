@@ -27,17 +27,17 @@
 
 - (void)testWaitingForTappableViewWithAccessibilityLabel
 {
-    [[viewTester usingLabel:@"B"] waitToBecomeTappable];
+    [[viewTester usingLabel:@"B"] waitForTappableView];
 }
 
 - (void)testWaitingForViewWithTraits
 {
-    [[[viewTester usingLabel:@"B"] usingTraits:UIAccessibilityTraitButton] waitToBecomeTappable];
+    [[[viewTester usingLabel:@"B"] usingTraits:UIAccessibilityTraitButton] waitForTappableView];
 }
 
 - (void)testWaitingForViewWithValue
 {
-    [[[[viewTester usingLabel:@"B"] usingValue:@"BB"] usingTraits:UIAccessibilityTraitButton] waitToBecomeTappable];
+    [[[[viewTester usingLabel:@"B"] usingValue:@"BB"] usingTraits:UIAccessibilityTraitButton] waitForTappableView];
 }
 
 @end

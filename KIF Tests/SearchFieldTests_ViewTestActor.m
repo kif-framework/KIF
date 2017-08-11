@@ -30,7 +30,7 @@
 {
     [[viewTester usingTraits:UIAccessibilityTraitSearchField] tap];
     [[viewTester usingTraits:UIAccessibilityTraitSearchField] waitToBecomeFirstResponder];
-    [viewTester enterTextIntoCurrentFirstResponder:@"text"];
+    [[viewTester usingFirstResponder] enterText:@"text"];
     [[[viewTester usingValue:@"text"] usingTraits:UIAccessibilityTraitSearchField] waitForView];
 }
 

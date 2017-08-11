@@ -40,13 +40,13 @@
 {
     [[[viewTester usingLabel:@"Greeting"] usingValue:@"Hello"] longPressWithDuration:2];
     [[viewTester usingLabel:@"Select All"] tap];
-    [viewTester enterTextIntoCurrentFirstResponder:@"Yo"];
+    [[viewTester usingFirstResponder] enterText:@"Yo"];
     [[[viewTester usingLabel:@"Greeting"] usingValue:@"Yo"] waitForView];
 }
 
 - (void)testFailingToEnterTextIntoFirstResponder
 {
-    KIFExpectFailure([[viewTester usingTimeout:1] enterTextIntoCurrentFirstResponder:@"Yo"]);
+    KIFExpectFailure([[[viewTester usingTimeout:1] usingFirstResponder] enterText:@"Yo"]);
 }
 
 - (void)testEnteringTextIntoViewWithAccessibilityLabel

@@ -23,8 +23,8 @@
     [[viewTester usingLabel:@"UIAlertView"] tap];
     [[viewTester usingLabel:@"Alert View"] waitForView];
     [[viewTester usingLabel:@"Message"] waitForView];
-    [[viewTester usingLabel:@"Cancel"] waitToBecomeTappable];
-    [[viewTester usingLabel:@"Continue"] waitToBecomeTappable];
+    [[viewTester usingLabel:@"Cancel"] waitForTappableView];
+    [[viewTester usingLabel:@"Continue"] waitForTappableView];
     [[viewTester usingLabel:@"Continue"] tap];
     [[viewTester usingLabel:@"Message"] waitForAbsenceOfView];
 }
@@ -33,9 +33,9 @@
 {
     [[viewTester usingLabel:@"UIActionSheet"] tap];
     [[viewTester usingLabel:@"Action Sheet"] waitForView];
-    [[viewTester usingLabel:@"Destroy"] waitToBecomeTappable];
-    [[viewTester usingLabel:@"A"] waitToBecomeTappable];
-    [[viewTester usingLabel:@"B"] waitToBecomeTappable];
+    [[viewTester usingLabel:@"Destroy"] waitForTappableView];
+    [[viewTester usingLabel:@"A"] waitForTappableView];
+    [[viewTester usingLabel:@"B"] waitForTappableView];
 
     [self _dismissModal];
     
@@ -51,8 +51,8 @@
     }
 
     [[viewTester usingLabel:@"UIActivityViewController"] tap];
-    [[viewTester usingLabel:@"Copy"] waitToBecomeTappable];
-    [[viewTester usingLabel:@"Mail"] waitToBecomeTappable];
+    [[viewTester usingLabel:@"Copy"] waitForTappableView];
+    [[viewTester usingLabel:@"Mail"] waitForTappableView];
 
     // On iOS7, the activity controller appears at the bottom
     // On iOS8 and beyond, it is shown in a popover control
