@@ -98,9 +98,9 @@
 {
     // Needs to be offset from the edge to prevent the navigation controller's interactivePopGestureRecognizer from triggering
     [[viewTester usingIdentifier:@"Scroll View"] scrollByFractionOfSizeHorizontal:-0.80 vertical:-0.80];
-    [[viewTester usingLabel:@"Bottom Right"] waitToBecomeTappable];
+    [[viewTester usingLabel:@"Bottom Right"] waitForTappableView];
     [[viewTester usingIdentifier:@"Scroll View"] scrollByFractionOfSizeHorizontal:0.80 vertical:0.80];
-    [[viewTester usingLabel:@"Top Left"] waitToBecomeTappable];
+    [[viewTester usingLabel:@"Top Left"] waitForTappableView];
 }
 
 - (void)testMissingScrollableElement

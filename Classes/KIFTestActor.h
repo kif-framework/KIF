@@ -94,6 +94,8 @@ typedef void (^KIFTestCompletionBlock)(KIFTestStepResult result, NSError *error)
 @property (nonatomic) NSTimeInterval animationStabilizationTimeout;
 
 - (instancetype)usingTimeout:(NSTimeInterval)executionBlockTimeout;
+- (instancetype)usingAnimationWaitingTimeout:(NSTimeInterval)animationWaitingTimeout;
+- (instancetype)usingAnimationStabilizationTimeout:(NSTimeInterval)animationStabilizationTimeout;
 
 - (void)runBlock:(KIFTestExecutionBlock)executionBlock complete:(KIFTestCompletionBlock)completionBlock timeout:(NSTimeInterval)timeout;
 - (void)runBlock:(KIFTestExecutionBlock)executionBlock complete:(KIFTestCompletionBlock)completionBlock;

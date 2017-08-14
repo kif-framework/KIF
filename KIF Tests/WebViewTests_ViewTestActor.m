@@ -40,8 +40,9 @@
 
 - (void)testEnteringText
 {
-    [[viewTester usingLabel:@"Input Label"] tap];
-    [viewTester enterTextIntoCurrentFirstResponder:@"Keyboard text"];
+    // Needs to opt-out of text validation, because the matched UI element is actually the UIWebView.
+    // It responds to `text`, but is equal to whole view's text rather than just being scoped to the entered text.
+    [[[viewTester validateEnteredText:NO] usingLabel:@"Input Label"] enterText:@"Keyboard text"];
 }
 
 @end

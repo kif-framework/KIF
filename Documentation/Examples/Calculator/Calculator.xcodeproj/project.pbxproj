@@ -606,6 +606,7 @@
 				62F81B4E1EBBE925009B2400 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		EB4C30D3167B9E3A00E31109 /* Build configuration list for PBXProject "Calculator" */ = {
 			isa = XCConfigurationList;
