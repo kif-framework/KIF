@@ -102,4 +102,9 @@
     [[[viewTester usingLabel:@"Greeting"] usingValue:@"Deleted something."] waitForView];
 }
 
+- (void)testThatValidatingTheExpectedTextCanBeSupressed
+{
+    [[[viewTester validateEnteredText:NO] usingLabel:@"Other Text"] clearAndEnterText:@"hi\bello"];
+}
+
 @end

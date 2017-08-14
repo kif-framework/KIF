@@ -26,6 +26,17 @@
  */
 extern NSString *const inputFieldTestString;
 
+#pragma mark - Behavior modifiers
+
+/*!
+ @abstract Controls if typing methods will validate the entered text.
+ @discussion This method will only impact the functioning of the `enterText:...` method variants.
+ 
+ @param validateEnteredText Whether or not to validate the entered text. Defaults to YES.
+ @return The message reciever, these methods are intended to be chained together.
+ */
+- (instancetype)validateEnteredText:(BOOL)validateEnteredText;
+
 #pragma mark - Searching for Accessibility Elements
 /*!
  These methods are used to build the tester's search predicate. they are intended to be chained together allowing for complex searches.

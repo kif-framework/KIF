@@ -7,12 +7,14 @@
 //  See the LICENSE file distributed with this work for the terms under
 //  which Square, Inc. licenses this file to you.
 
-#import <XCTest/XCTest.h>
-#import "NSException-KIFAdditions.h"
-#import "KIFTestActor.h"
-#import "NSError-KIFAdditions.h"
 #import <dlfcn.h>
 #import <objc/runtime.h>
+#import <XCTest/XCTest.h>
+
+#import "KIFTestActor_Private.h"
+
+#import "NSError-KIFAdditions.h"
+#import "NSException-KIFAdditions.h"
 #import "UIApplication-KIFAdditions.h"
 #import "UIView-KIFAdditions.h"
 
