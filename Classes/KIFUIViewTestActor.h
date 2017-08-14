@@ -225,6 +225,18 @@ extern NSString *const inputFieldTestString;
 - (UITableViewCell *)waitForCellInTableViewAtIndexPath:(NSIndexPath *)indexPath;
 
 /*!
+ @abstract Scrolls a table view matching the tester's search predicate while waiting for the cell at the given indexPath to appear.
+ @discussion This step will get the cell at the indexPath.
+ 
+ For cases where you may need to work from the end of a table view rather than the beginning, negative sections count back from the end of the table view (-1 is the last section) and negative rows count back from the end of the section (-1 is the last row for that section).
+ 
+ @param indexPath Index path of the cell.
+ @param position Table View scroll position to scroll to. Useful for tall cells when the content needed is in a specific location.
+ @return The table view cell at the given index path.
+ */
+- (UITableViewCell *)waitForCellInTableViewAtIndexPath:(NSIndexPath *)indexPath atPosition:(UITableViewScrollPosition)position;
+
+/*!
  @abstract Moves the row at sourceIndexPath to destinationIndexPath in a table view matching the tester's search predicate.
  @discussion This step will move the row at sourceIndexPath to destinationIndexPath.
  

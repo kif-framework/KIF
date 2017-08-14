@@ -354,8 +354,15 @@ NSString *const inputFieldTestString = @"Testing";
 
 - (UITableViewCell *)waitForCellInTableViewAtIndexPath:(NSIndexPath *)indexPath;
 {
-    KIFUIObject *found = [[self _usingExpectedClass:[UITableView class]] _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
-    return [self.actor waitForCellAtIndexPath:indexPath inTableView:(UITableView *)found.view];
+    return [self waitForCellInTableViewAtIndexPath:indexPath atPosition:UITableViewScrollPositionMiddle];
+}
+
+- (UITableViewCell *)waitForCellInTableViewAtIndexPath:(NSIndexPath *)indexPath atPosition:(UITableViewScrollPosition)position;
+{
+    @autoreleasepool {
+        KIFUIObject *found = [[self _usingExpectedClass:[UITableView class]] _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
+        return [self.actor waitForCellAtIndexPath:indexPath inTableView:(UITableView *)found.view atPosition:position];
+    }
 }
 
 - (void)moveRowInTableViewAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath;
