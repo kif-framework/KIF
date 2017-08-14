@@ -14,8 +14,8 @@
 #import "NSPredicate+KIFAdditions.h"
 #import "NSString+KIFAdditions.h"
 #import "UIAccessibilityElement-KIFAdditions.h"
+#import "UIApplication-KIFAdditions.h"
 #import "UIWindow-KIFAdditions.h"
-
 
 @interface KIFUIViewTestActor ()
 
@@ -128,8 +128,13 @@ NSString *const inputFieldTestString = @"Testing";
 - (instancetype)usingFirstResponder;
 {
     NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
-        UIView *firstResponderView = (id)[[[UIApplication sharedApplication] keyWindow] firstResponder];
-        return [evaluatedObject isEqual:firstResponderView];
+        // The current first responder can be in any application window
+        for (UIWindow *window in [[UIApplication sharedApplication] windowsWithKeyWindow]) {
+            if ([evaluatedObject isEqual:window.firstResponder]) {
+                return YES;
+            }
+        }
+        return NO;
     }];
     predicate.kifPredicateDescription = [NSString stringWithFormat:@"Is First Responder"];
     
