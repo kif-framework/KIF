@@ -241,8 +241,10 @@ NSString *const inputFieldTestString = @"Testing";
 
 - (void)tap;
 {
-    KIFUIObject *found = [self _predicateSearchWithRequiresMatch:YES mustBeTappable:YES];
-    [self.actor tapAccessibilityElement:found.element inView:found.view];
+    @autoreleasepool {
+        KIFUIObject *found = [self _predicateSearchWithRequiresMatch:YES mustBeTappable:YES];
+        [self.actor tapAccessibilityElement:found.element inView:found.view];
+    }
 }
 
 - (void)longPress;
@@ -252,16 +254,20 @@ NSString *const inputFieldTestString = @"Testing";
 
 - (void)longPressWithDuration:(NSTimeInterval)duration;
 {
-    KIFUIObject *found = [self _predicateSearchWithRequiresMatch:YES mustBeTappable:YES];
-    [self.actor longPressAccessibilityElement:found.element inView:found.view duration:duration];
+    @autoreleasepool {
+        KIFUIObject *found = [self _predicateSearchWithRequiresMatch:YES mustBeTappable:YES];
+        [self.actor longPressAccessibilityElement:found.element inView:found.view duration:duration];
+    }
 }
 
 #pragma mark - Text Actions;
 
 - (void)clearText;
 {
-    KIFUIObject *found = [self _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
-    [self.actor clearTextFromElement:found.element inView:found.view];
+    @autoreleasepool {
+        KIFUIObject *found = [self _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
+        [self.actor clearTextFromElement:found.element inView:found.view];
+    }
 }
 
 - (void)clearTextFromFirstResponder;
@@ -276,8 +282,10 @@ NSString *const inputFieldTestString = @"Testing";
 
 - (void)enterText:(NSString *)text expectedResult:(NSString *)expectedResult;
 {
-    KIFUIObject *found = [self _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
-    [self.actor enterText:text intoElement:found.element inView:found.view expectedResult:expectedResult];
+    @autoreleasepool {
+        KIFUIObject *found = [self _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
+        [self.actor enterText:text intoElement:found.element inView:found.view expectedResult:expectedResult];
+    }
 }
 
 - (void)clearAndEnterText:(NSString *)text;
@@ -320,10 +328,11 @@ NSString *const inputFieldTestString = @"Testing";
 
 - (void)expectToContainText:(NSString *)expectedResult;
 {
-    KIFUIObject *found = [self _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
-    [self.actor expectView:found.view toContainText:expectedResult];
+    @autoreleasepool {
+        KIFUIObject *found = [self _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
+        [self.actor expectView:found.view toContainText:expectedResult];
+    }
 }
-
 
 #pragma mark - Touch Actions
 
@@ -334,22 +343,28 @@ NSString *const inputFieldTestString = @"Testing";
 
 - (void)swipeInDirection:(KIFSwipeDirection)direction;
 {
-    KIFUIObject *found = [self _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
-    [self.actor swipeAccessibilityElement:found.element inView:found.view inDirection:direction];
+    @autoreleasepool {
+        KIFUIObject *found = [self _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
+        [self.actor swipeAccessibilityElement:found.element inView:found.view inDirection:direction];
+    }
 }
 
 #pragma mark - Scroll/Table/CollectionView Actions
 
 - (void)scrollByFractionOfSizeHorizontal:(CGFloat)horizontalFraction vertical:(CGFloat)verticalFraction;
 {
-    KIFUIObject *found = [self _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
-    [self.actor scrollAccessibilityElement:found.element inView:found.view byFractionOfSizeHorizontal:horizontalFraction vertical:verticalFraction];
+    @autoreleasepool {
+        KIFUIObject *found = [self _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
+        [self.actor scrollAccessibilityElement:found.element inView:found.view byFractionOfSizeHorizontal:horizontalFraction vertical:verticalFraction];
+    }
 }
 
 - (void)tapRowInTableViewAtIndexPath:(NSIndexPath *)indexPath;
 {
-    KIFUIObject *found = [[self _usingExpectedClass:[UITableView class]] _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
-    [self.actor tapRowAtIndexPath:indexPath inTableView:(UITableView *)found.view];
+    @autoreleasepool {
+        KIFUIObject *found = [[self _usingExpectedClass:[UITableView class]] _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
+        [self.actor tapRowAtIndexPath:indexPath inTableView:(UITableView *)found.view];
+    }
 }
 
 - (UITableViewCell *)waitForCellInTableViewAtIndexPath:(NSIndexPath *)indexPath;
@@ -367,21 +382,27 @@ NSString *const inputFieldTestString = @"Testing";
 
 - (void)moveRowInTableViewAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath;
 {
-    KIFUIObject *found = [[self _usingExpectedClass:[UITableView class]] _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
-    [self.actor moveRowAtIndexPath:sourceIndexPath toIndexPath:destinationIndexPath inTableView:(UITableView *)found.view];
+    @autoreleasepool {
+        KIFUIObject *found = [[self _usingExpectedClass:[UITableView class]] _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
+        [self.actor moveRowAtIndexPath:sourceIndexPath toIndexPath:destinationIndexPath inTableView:(UITableView *)found.view];
+    }
 }
 
 
 - (void)tapCollectionViewItemAtIndexPath:(NSIndexPath *)indexPath;
 {
-    KIFUIObject *found = [[self _usingExpectedClass:[UICollectionView class]] _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
-    [self.actor tapItemAtIndexPath:indexPath inCollectionView:(UICollectionView *)found.view];
+    @autoreleasepool {
+        KIFUIObject *found = [[self _usingExpectedClass:[UICollectionView class]] _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
+        [self.actor tapItemAtIndexPath:indexPath inCollectionView:(UICollectionView *)found.view];
+    }
 }
 
 - (UICollectionViewCell *)waitForCellInCollectionViewAtIndexPath:(NSIndexPath *)indexPath;
 {
-    KIFUIObject *found = [[self _usingExpectedClass:[UICollectionView class]] _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
-    return [self.actor waitForCellAtIndexPath:indexPath inCollectionView:(UICollectionView *)found.view];
+    @autoreleasepool {
+        KIFUIObject *found = [[self _usingExpectedClass:[UICollectionView class]] _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
+        return [self.actor waitForCellAtIndexPath:indexPath inCollectionView:(UICollectionView *)found.view];
+    }
 }
 
 
@@ -389,14 +410,18 @@ NSString *const inputFieldTestString = @"Testing";
 
 - (void)setSliderValue:(float)value;
 {
-    KIFUIObject *found = [[self _usingExpectedClass:[UISlider class]] _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
-    [self.actor setValue:value forSlider:(UISlider *)found.view];
+    @autoreleasepool {
+        KIFUIObject *found = [[self _usingExpectedClass:[UISlider class]] _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
+        [self.actor setValue:value forSlider:(UISlider *)found.view];
+    }
 }
 
 - (void)setSwitchOn:(BOOL)switchIsOn;
 {
-    KIFUIObject *found = [[self _usingExpectedClass:[UISwitch class]] _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
-    [self.actor setSwitch:(UISwitch *)found.view element:found.element On:switchIsOn];
+    @autoreleasepool {
+        KIFUIObject *found = [[self _usingExpectedClass:[UISwitch class]] _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
+        [self.actor setSwitch:(UISwitch *)found.view element:found.element On:switchIsOn];
+    }
 }
 
 #pragma mark - Picker Actions
@@ -408,16 +433,20 @@ NSString *const inputFieldTestString = @"Testing";
 
 - (void)selectPickerViewRowWithTitle:(NSString *)title inComponent:(NSInteger)component;
 {
-    KIFUIObject *found = [[self _usingExpectedClass:[UIPickerView class]] _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
-    UIPickerView *picker = (UIPickerView *) found.view;
-    [self.actor selectPickerViewRowWithTitle:title inComponent:component fromPicker:picker withSearchOrder:KIFPickerSearchForwardFromStart];
+    @autoreleasepool {
+        KIFUIObject *found = [[self _usingExpectedClass:[UIPickerView class]] _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
+        UIPickerView *picker = (UIPickerView *) found.view;
+        [self.actor selectPickerViewRowWithTitle:title inComponent:component fromPicker:picker withSearchOrder:KIFPickerSearchForwardFromStart];
+    }
 }
 
 - (void)selectDatePickerViewRowWithTitle:(NSString *)title inComponent:(NSInteger)component;
 {
-    KIFUIObject *found = [[self _usingExpectedClass:[UIDatePicker class]] _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
-    UIPickerView *picker = [self _getDatePickerViewFromPicker:found.view];
-    [self.actor selectPickerViewRowWithTitle:title inComponent:component fromPicker:picker withSearchOrder:KIFPickerSearchForwardFromStart];
+    @autoreleasepool {
+        KIFUIObject *found = [[self _usingExpectedClass:[UIDatePicker class]] _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
+        UIPickerView *picker = [self _getDatePickerViewFromPicker:found.view];
+        [self.actor selectPickerViewRowWithTitle:title inComponent:component fromPicker:picker withSearchOrder:KIFPickerSearchForwardFromStart];
+    }
 }
 
 - (void)selectDatePickerValue:(NSArray *)datePickerColumnValues;
@@ -427,9 +456,11 @@ NSString *const inputFieldTestString = @"Testing";
 
 - (void)selectDatePickerValue:(NSArray *)datePickerColumnValues withSearchOrder:(KIFPickerSearchOrder)searchOrder;
 {
-    KIFUIObject *found = [[self _usingExpectedClass:[UIDatePicker class]] _predicateSearchWithRequiresMatch:NO mustBeTappable:NO];
-    UIPickerView *picker = [self _getDatePickerViewFromPicker:found.view];
-    [self.actor selectDatePickerValue:datePickerColumnValues fromPicker:picker withSearchOrder:searchOrder];
+    @autoreleasepool {
+        KIFUIObject *found = [[self _usingExpectedClass:[UIDatePicker class]] _predicateSearchWithRequiresMatch:NO mustBeTappable:NO];
+        UIPickerView *picker = [self _getDatePickerViewFromPicker:found.view];
+        [self.actor selectDatePickerValue:datePickerColumnValues fromPicker:picker withSearchOrder:searchOrder];
+    }
 }
 
 #pragma mark - Photo Picker
@@ -443,15 +474,18 @@ NSString *const inputFieldTestString = @"Testing";
 
 - (void)pullToRefresh;
 {
-    KIFUIObject *found = [self _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
-    [self.actor pullToRefreshAccessibilityElement:found.element inView:found.view pullDownDuration:0];
+    @autoreleasepool {
+        KIFUIObject *found = [self _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
+        [self.actor pullToRefreshAccessibilityElement:found.element inView:found.view pullDownDuration:0];
+    }
 }
 
 - (void)pullToRefreshWithDuration:(KIFPullToRefreshTiming)pullDownDuration;
 {
-    KIFUIObject *found = [self _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
-    [self.actor pullToRefreshAccessibilityElement:found.element inView:found.view pullDownDuration:pullDownDuration];
-
+    @autoreleasepool {
+        KIFUIObject *found = [self _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
+        [self.actor pullToRefreshAccessibilityElement:found.element inView:found.view pullDownDuration:pullDownDuration];
+    }
 }
 
 #pragma mark - Getters
