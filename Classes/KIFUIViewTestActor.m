@@ -287,6 +287,10 @@ NSString *const inputFieldTestString = @"Testing";
 
 - (void)enterText:(NSString *)text expectedResult:(NSString *)expectedResult;
 {
+    if (!self.validateEnteredText && expectedResult) {
+        [self failWithMessage:@"Can't supply an expectedResult string if `validateEnteredText` is NO."];
+    }
+
     @autoreleasepool {
         KIFUIObject *found = [self _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
         [self.actor enterText:text intoElement:found.element inView:found.view expectedResult:expectedResult];
