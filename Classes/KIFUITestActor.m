@@ -26,6 +26,15 @@
 #define kKIFMinorSwipeDisplacement 5
 
 
+#if DEPRECATE_KIF_TESTER
+KIFUITestActor *_KIF_tester()
+{
+    NSCAssert(NO, @"Attempting to use deprecated `KIFUITestActor`!");
+    return nil;
+}
+#endif
+
+
 @interface KIFUITestActor ()
 
 @property (nonatomic, assign) BOOL validateEnteredText;
