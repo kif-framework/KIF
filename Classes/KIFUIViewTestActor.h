@@ -298,7 +298,7 @@ extern NSString *const inputFieldTestString;
  @discussion Text is entered into the view by simulating taps on the appropriate keyboard keys if the keyboard is already displayed. Useful to enter text in UIWebViews or components with no accessibility labels.
  @param text The text to enter.
  */
-- (void)enterTextIntoCurrentFirstResponder:(NSString *)text DEPRECATED_MSG_ATTRIBUTE("Use 'usingFirstResponder' instead.");
+- (void)enterTextIntoCurrentFirstResponder:(NSString *)text DEPRECATED_MSG_ATTRIBUTE("Use 'usingFirstResponder' matcher with 'enterText:' instead.");
 /*!
  @abstract Enters text into a the current first responder. if KIF is unable to type with the keyboard (which could be dismissed or obscured) the tester will call setText on the fallback view directly.
  @discussion Text is entered into the view by simulating taps on the appropriate keyboard keys if the keyboard is already displayed. Useful to enter text in UIWebViews or components with no accessibility labels.
@@ -318,7 +318,7 @@ extern NSString *const inputFieldTestString;
  @discussion text is cleared from the first responder by simulating taps on the backspace key.
  */
 
-- (void)clearTextFromFirstResponder;
+- (void)clearTextFromFirstResponder DEPRECATED_MSG_ATTRIBUTE("Use 'usingFirstResponder' matcher with 'clearText' instead.");
 
 /*!
  @abstract Clears text from a particular view matching the tester's search predicate, then sets new text.
