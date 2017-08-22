@@ -57,7 +57,7 @@
     NSInteger red = [pickerView selectedRowInComponent:0];
     NSInteger green = [pickerView selectedRowInComponent:1];
     NSInteger blue = [pickerView selectedRowInComponent:2];
-    NSString *text = [NSString stringWithFormat:@"%li%li%li",red,green,blue];
+    NSString *text = [NSString stringWithFormat:@"%ld%ld%ld",(long)red,(long)green,(long)blue];
     [self.textField setText:text];
 }
 
@@ -77,7 +77,7 @@
     }
 
     UILabel *label = (UILabel *)view;
-    label.text = [NSString stringWithFormat:@"%li", (long)row];
+    label.text = [NSString stringWithFormat:@"%ld", (long)row];
     label.textAlignment = NSTextAlignmentCenter;
 
     switch (component) {
@@ -128,7 +128,7 @@
     paragraphStyle.alignment = NSTextAlignmentLeft;
 
     NSDictionary *attributes = @{NSForegroundColorAttributeName : textColor};
-    NSString *title = [NSString stringWithFormat:@"%li", (long)row];
+    NSString *title = [NSString stringWithFormat:@"%ld", (long)row];
 
     return [[NSAttributedString alloc] initWithString:title attributes:attributes];
 }
