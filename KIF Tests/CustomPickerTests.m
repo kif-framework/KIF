@@ -41,5 +41,14 @@
     [tester waitForViewWithAccessibilityLabel:@"Attributed Title Selection" value:@"121193" traits:UIAccessibilityTraitNone];
 }
 
+- (void)testSelectingTextTitleRowInComponent
+{
+    [tester tapViewWithAccessibilityLabel:@"Text Title Selection"];
+    [tester selectPickerViewRowWithTitle:@"12" inComponent:0];
+    [tester selectPickerViewRowWithTitle:@"11" inComponent:1];
+    [tester selectPickerViewRowWithTitle:@"93" inComponent:2];
+    [tester waitForViewWithAccessibilityLabel:@"Text Title Selection" value:@"121193" traits:UIAccessibilityTraitNone];
+}
+
 @end
 
