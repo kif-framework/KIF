@@ -41,4 +41,13 @@
     [[[viewTester usingLabel:@"Attributed Title Selection"] usingValue:@"121193"] waitForView];
 }
 
+- (void)testSelectingTextTitleRowInComponent
+{
+    [[viewTester usingLabel:@"Text Title Selection"] tap];
+    [viewTester selectPickerViewRowWithTitle:@"12" inComponent:0];
+    [viewTester selectPickerViewRowWithTitle:@"11" inComponent:1];
+    [viewTester selectPickerViewRowWithTitle:@"93" inComponent:2];
+    [[[viewTester usingLabel:@"Text Title Selection"] usingValue:@"121193"] waitForView];
+}
+
 @end

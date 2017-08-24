@@ -135,14 +135,30 @@
 
 @end
 
+#pragma mark TextTitlePickerDelegate
+@interface TextTitlePickerDelegate : PickerDelegate
+
+@end
+
+@implementation TextTitlePickerDelegate
+
+- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
+    return [NSString stringWithFormat:@"%ld", (long)row];
+}
+
+@end
+
 #pragma mark CustomPickerController
 @interface CustomPickerController : UIViewController
 @property (weak, nonatomic) IBOutlet UITextField *customLabelSelectionTextField;
 @property (weak, nonatomic) IBOutlet UITextField *attributedTitleSelectionTextField;
+@property (weak, nonatomic) IBOutlet UITextField *textTitleSelectionTextField;
 @property (strong, nonatomic) UIPickerView *customLabelPicker;
 @property (strong, nonatomic) UIPickerView *attributedTitlePicker;
+@property (strong, nonatomic) UIPickerView *textTitlePicker;
 @property (strong, nonatomic) PickerDelegate *customLabelPickerDelegate;
 @property (strong, nonatomic) PickerDelegate *attributedTitlePickerDelegate;
+@property (strong, nonatomic) PickerDelegate *textTitlePickerDelegate;
 
 @end
 
@@ -152,6 +168,8 @@
 @synthesize customLabelSelectionTextField;
 @synthesize attributedTitlePicker;
 @synthesize attributedTitleSelectionTextField;
+@synthesize textTitlePicker;
+@synthesize textTitleSelectionTextField;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -183,6 +201,15 @@
     attributedTitleSelectionTextField.placeholder = NSLocalizedString(@"Attributed Title Selection", nil);
     attributedTitleSelectionTextField.inputView = attributedTitlePicker;
     attributedTitleSelectionTextField.accessibilityLabel = @"Attributed Title Selection";
+
+    textTitlePicker = [[UIPickerView alloc] init];
+    self.textTitlePickerDelegate = [[TextTitlePickerDelegate alloc] initWithInputTextField:textTitleSelectionTextField];
+    textTitlePicker.delegate = self.textTitlePickerDelegate;
+    textTitlePicker.dataSource = self.textTitlePickerDelegate;
+
+    textTitleSelectionTextField.placeholder = NSLocalizedString(@"Text Title Selection", nil);
+    textTitleSelectionTextField.inputView = textTitlePicker;
+    textTitleSelectionTextField.accessibilityLabel = @"Text Title Selection";
 }
 
 @end
