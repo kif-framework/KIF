@@ -106,6 +106,9 @@
 		BFE4708C1C7F42FB00580EF9 /* UIScreen+KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = BFE4708A1C7F42FB00580EF9 /* UIScreen+KIFAdditions.h */; };
 		BFE4708D1C7F42FB00580EF9 /* UIScreen+KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = BFE4708B1C7F42FB00580EF9 /* UIScreen+KIFAdditions.m */; };
 		BFE470901C7F44F700580EF9 /* UIScreen+KIFAdditionsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = BFE4708F1C7F44F700580EF9 /* UIScreen+KIFAdditionsTests.m */; };
+		CD19A99F1F46482200BF0325 /* CustomPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD19A99E1F46482200BF0325 /* CustomPickerController.m */; };
+		CD4E91F01F479A8C005D530C /* CustomPickerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4E91EF1F479A8C005D530C /* CustomPickerTests.m */; };
+		CD4E91F21F479FF2005D530C /* CustomPickerTests_ViewTestActor.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4E91F11F479FF2005D530C /* CustomPickerTests_ViewTestActor.m */; };
 		D927B9DC18F9DF2D00DAD036 /* TableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D927B9DB18F9DF2D00DAD036 /* TableViewController.m */; };
 		D927B9DF18F9E46400DAD036 /* UITableView-KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = D927B9DD18F9E46400DAD036 /* UITableView-KIFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D927B9E018F9E46400DAD036 /* UITableView-KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D927B9DE18F9E46400DAD036 /* UITableView-KIFAdditions.m */; };
@@ -333,6 +336,9 @@
 		BFE4708F1C7F44F700580EF9 /* UIScreen+KIFAdditionsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIScreen+KIFAdditionsTests.m"; path = "Additions/UIScreen+KIFAdditionsTests.m"; sourceTree = "<group>"; };
 		C194255615D83DE9004FC314 /* KIFTypist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KIFTypist.h; sourceTree = "<group>"; };
 		C194255715D83DE9004FC314 /* KIFTypist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KIFTypist.m; sourceTree = "<group>"; };
+		CD19A99E1F46482200BF0325 /* CustomPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomPickerController.m; sourceTree = "<group>"; };
+		CD4E91EF1F479A8C005D530C /* CustomPickerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomPickerTests.m; sourceTree = "<group>"; };
+		CD4E91F11F479FF2005D530C /* CustomPickerTests_ViewTestActor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomPickerTests_ViewTestActor.m; sourceTree = "<group>"; };
 		CDFD8E84139728B4008D299F /* NSFileManager-KIFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFileManager-KIFAdditions.h"; sourceTree = "<group>"; };
 		CDFD8E85139728B4008D299F /* NSFileManager-KIFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager-KIFAdditions.m"; sourceTree = "<group>"; };
 		D927B9DB18F9DF2D00DAD036 /* TableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableViewController.m; sourceTree = "<group>"; };
@@ -722,6 +728,7 @@
 			children = (
 				3812FB601A1212A700335733 /* AnimationViewController.m */,
 				2CDEE1CA181DBED200DF6E63 /* PickerController.m */,
+				CD19A99E1F46482200BF0325 /* CustomPickerController.m */,
 				EB60ED04177F9041005A041A /* MainStoryboard.storyboard */,
 				EB60ECFC177F9031005A041A /* AppDelegate.m */,
 				EB60ECFD177F9031005A041A /* ShowHideViewController.m */,
@@ -761,6 +768,7 @@
 				FA8DA74D1A77117A00E0C644 /* KIFUIViewTestActor Tests */,
 				BFE4708E1C7F44C100580EF9 /* Additions */,
 				2CED883D181F5EE1005ABD20 /* PickerTests.m */,
+				CD4E91EF1F479A8C005D530C /* CustomPickerTests.m */,
 				EB60ED19177F90C2005A041A /* GestureTests.m */,
 				3812FB621A12188700335733 /* WaitForAnimationTests.m */,
 				EB60ED07177F90BA005A041A /* LongPressTests.m */,
@@ -808,6 +816,7 @@
 			isa = PBXGroup;
 			children = (
 				FA4915641A7827D000A78E57 /* PickerTests_ViewTestActor.m */,
+				CD4E91F11F479FF2005D530C /* CustomPickerTests_ViewTestActor.m */,
 				FA8BB6A71A778725003969FF /* GestureTests_ViewTestActor.m */,
 				FA8DA7501A7712E300E0C644 /* WaitForAnimationTests_ViewTestActor.m */,
 				FA8A3C541A77157F00206350 /* LongPressTests_ViewTestActor.m */,
@@ -1270,6 +1279,7 @@
 				EABD46B11857A0F300A5F081 /* SearchFieldTests.m in Sources */,
 				EABD46B21857A0F300A5F081 /* CascadingFailureTests.m in Sources */,
 				EABD46B31857A0F300A5F081 /* CompositionTests.m in Sources */,
+				CD4E91F01F479A8C005D530C /* CustomPickerTests.m in Sources */,
 				4A48107B19708CAB0003A32E /* ExistTests.m in Sources */,
 				EA4655881905B92500B2C60E /* PickerTests.m in Sources */,
 				3812FB631A12188700335733 /* WaitForAnimationTests.m in Sources */,
@@ -1287,6 +1297,7 @@
 				EABD46B71857A0F300A5F081 /* SystemTests.m in Sources */,
 				5A62B0AC1BB2043B00A3F480 /* AccessibilityIdentifierPullToRefreshTests.m in Sources */,
 				EABD46B81857A0F300A5F081 /* TappingTests.m in Sources */,
+				CD4E91F21F479FF2005D530C /* CustomPickerTests_ViewTestActor.m in Sources */,
 				EABD46B91857A0F300A5F081 /* TypingTests.m in Sources */,
 				FA4915691A78449C00A78E57 /* CollectionViewTests_ViewTestActor.m in Sources */,
 				FA8DA74F1A7711E900E0C644 /* WaitForTappableViewTests_ViewTestActor.m in Sources */,
@@ -1329,6 +1340,7 @@
 				EB60ED00177F9032005A041A /* AppDelegate.m in Sources */,
 				D927B9DC18F9DF2D00DAD036 /* TableViewController.m in Sources */,
 				EB60ED01177F9032005A041A /* ShowHideViewController.m in Sources */,
+				CD19A99F1F46482200BF0325 /* CustomPickerController.m in Sources */,
 				EB60ED02177F9032005A041A /* TapViewController.m in Sources */,
 				2CDEE1CB181DBED200DF6E63 /* PickerController.m in Sources */,
 				EB60ED03177F9032005A041A /* TestSuiteViewController.m in Sources */,

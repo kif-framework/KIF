@@ -664,12 +664,19 @@ KIFUITestActor *_KIF_tester()
             NSString *rowTitle = nil;
             if ([pickerView.delegate respondsToSelector:@selector(pickerView:titleForRow:forComponent:)]) {
                 rowTitle = [pickerView.delegate pickerView:pickerView titleForRow:currentIndex forComponent:i];
+            } else if ([pickerView.delegate respondsToSelector:@selector(pickerView:attributedTitleForRow:forComponent:)]) {
+                rowTitle = [[pickerView.delegate pickerView:pickerView attributedTitleForRow:currentIndex forComponent:i] string];
             } else if ([pickerView.delegate respondsToSelector:@selector(pickerView:viewForRow:forComponent:reusingView:)]) {
                 // This delegate inserts views directly, so try to figure out what the title is by looking for a label
                 UIView *rowView = [pickerView.delegate pickerView:pickerView viewForRow:currentIndex forComponent:i reusingView:nil];
-                NSArray *labels = [rowView subviewsWithClassNameOrSuperClassNamePrefix:@"UILabel"];
-                UILabel *label = (labels.count > 0 ? labels[0] : nil);
-                rowTitle = label.text;
+                if ([rowView isKindOfClass:[UILabel class]]) {
+                    UILabel *label = (UILabel *) rowView;
+                    rowTitle = label.text;
+                } else {
+                    NSArray *labels = [rowView subviewsWithClassNameOrSuperClassNamePrefix:@"UILabel"];
+                    UILabel *label = (labels.count > 0 ? labels[0] : nil);
+                    rowTitle = label.text;
+                }
             }
             if (rowTitle) {
                 [dataToSelect addObject: rowTitle];
