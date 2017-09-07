@@ -11,6 +11,8 @@ matrix:
 before_install:
   - xcrun simctl list
   - brew update || brew update
+  - rvm install 2.3.1
+  - gem install bundler
 install:
   - if [ -z "$(brew ls --versions coreutils)" ] ; then brew install coreutils ; fi
   - gem install xcpretty --no-rdoc --no-ri --no-document --quiet
