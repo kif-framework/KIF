@@ -17,17 +17,17 @@
 
 - (void)failA
 {
-    [system failB];
+    [kif_system failB];
 }
 
 - (void)failB
 {
-    [system failC];
+    [kif_system failC];
 }
 
 - (void)failC
 {
-    [system fail];
+    [kif_system fail];
 }
 
 @end
@@ -39,8 +39,8 @@
 
 - (void)testCascadingFailure
 {
-    KIFExpectFailure([system failA]);
-    KIFExpectFailureWithCount([system failA], 4);
+    KIFExpectFailure([kif_system failA]);
+    KIFExpectFailureWithCount([kif_system failA], 4);
 }
 
 @end

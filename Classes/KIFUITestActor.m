@@ -1320,7 +1320,7 @@ KIFUITestActor *_KIF_tester()
 }
 
 - (void)deactivateAppForDuration:(NSTimeInterval)duration {
-    [system deactivateAppForDuration:duration];
+    [kif_system deactivateAppForDuration:duration];
 }
 
 -(void) tapStepperWithAccessibilityLabel: (NSString *)accessibilityLabel increment: (KIFStepperDirection) stepperDirection
