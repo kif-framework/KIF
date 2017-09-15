@@ -616,6 +616,8 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  */
 - (void)swipeAccessibilityElement:(UIAccessibilityElement *)element inView:(UIView *)viewToSwipe inDirection:(KIFSwipeDirection)direction;
 
+// TODO: Comment for SwipeScreenAtPoint
+- (void)swipeScreenAtPoint:(CGPoint)screenPoint inDirection:(KIFSwipeDirection)direction;
 /*!
  @abstract Pulls down on the view that enables the pull to refresh.
  @discussion This will enact the pull to refresh by pulling down the distance of 1/2 the height of the view found by the accessibility label.
@@ -648,6 +650,7 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  @param horizontalFraction The horizontal displacement of the scroll action, as a fraction of the width of the view.
  @param verticalFraction The vertical displacement of the scroll action, as a fraction of the height of the view.
  */
+
 - (void)scrollViewWithAccessibilityLabel:(NSString *)label byFractionOfSizeHorizontal:(CGFloat)horizontalFraction vertical:(CGFloat)verticalFraction KIF_DEPRECATED("Use scrollViewWithAccessibilityIdentifier:byFractionOfSizeHorizontal:vertical:");
 
 /*!
