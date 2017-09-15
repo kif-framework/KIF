@@ -9,7 +9,8 @@
 /* Begin PBXBuildFile section */
 		62F81B511EBBE965009B2400 /* KIF.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62F81B3C1EBBE917009B2400 /* KIF.framework */; };
 		62F81B521EBBE976009B2400 /* BasicCalculatorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EB4C315F167BAE6100E31109 /* BasicCalculatorTests.m */; };
-		62F81B5D1EBBEB6B009B2400 /* KIFUITestActor+BasicCalculator.m in Sources */ = {isa = PBXBuildFile; fileRef = 62F81B5C1EBBEB6B009B2400 /* KIFUITestActor+BasicCalculator.m */; };
+		62F81B5D1EBBEB6B009B2400 /* BasicCalculatorRobot.m in Sources */ = {isa = PBXBuildFile; fileRef = 62F81B5C1EBBEB6B009B2400 /* BasicCalculatorRobot.m */; };
+		62F972EB1F708273003EFFDA /* TestRobot.m in Sources */ = {isa = PBXBuildFile; fileRef = 62F972EA1F708273003EFFDA /* TestRobot.m */; };
 		EB4C30DE167B9E3A00E31109 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB4C30DD167B9E3A00E31109 /* UIKit.framework */; };
 		EB4C30E0167B9E3A00E31109 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB4C30DF167B9E3A00E31109 /* Foundation.framework */; };
 		EB4C30E2167B9E3A00E31109 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB4C30E1167B9E3A00E31109 /* CoreGraphics.framework */; };
@@ -88,8 +89,10 @@
 
 /* Begin PBXFileReference section */
 		62F81B451EBBE925009B2400 /* Acceptance Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Acceptance Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		62F81B5B1EBBEB6B009B2400 /* KIFUITestActor+BasicCalculator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "KIFUITestActor+BasicCalculator.h"; sourceTree = "<group>"; };
-		62F81B5C1EBBEB6B009B2400 /* KIFUITestActor+BasicCalculator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "KIFUITestActor+BasicCalculator.m"; sourceTree = "<group>"; };
+		62F81B5B1EBBEB6B009B2400 /* BasicCalculatorRobot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BasicCalculatorRobot.h; sourceTree = "<group>"; };
+		62F81B5C1EBBEB6B009B2400 /* BasicCalculatorRobot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BasicCalculatorRobot.m; sourceTree = "<group>"; };
+		62F972E91F708273003EFFDA /* TestRobot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestRobot.h; sourceTree = "<group>"; };
+		62F972EA1F708273003EFFDA /* TestRobot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestRobot.m; sourceTree = "<group>"; };
 		A8892FF71684F0A400FC7C63 /* KIF.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = KIF.xcodeproj; path = ../../../KIF.xcodeproj; sourceTree = "<group>"; };
 		EB4C30D9167B9E3A00E31109 /* Calculator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Calculator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EB4C30DD167B9E3A00E31109 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -225,8 +228,10 @@
 			children = (
 				EB4C3144167BA79700E31109 /* Supporting Files */,
 				EB4C315F167BAE6100E31109 /* BasicCalculatorTests.m */,
-				62F81B5B1EBBEB6B009B2400 /* KIFUITestActor+BasicCalculator.h */,
-				62F81B5C1EBBEB6B009B2400 /* KIFUITestActor+BasicCalculator.m */,
+				62F81B5B1EBBEB6B009B2400 /* BasicCalculatorRobot.h */,
+				62F81B5C1EBBEB6B009B2400 /* BasicCalculatorRobot.m */,
+				62F972E91F708273003EFFDA /* TestRobot.h */,
+				62F972EA1F708273003EFFDA /* TestRobot.m */,
 			);
 			path = "Acceptance Tests";
 			sourceTree = "<group>";
@@ -393,8 +398,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				62F81B5D1EBBEB6B009B2400 /* KIFUITestActor+BasicCalculator.m in Sources */,
+				62F81B5D1EBBEB6B009B2400 /* BasicCalculatorRobot.m in Sources */,
 				62F81B521EBBE976009B2400 /* BasicCalculatorTests.m in Sources */,
+				62F972EB1F708273003EFFDA /* TestRobot.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -481,6 +487,10 @@
 				INFOPLIST_FILE = "Acceptance Tests/Acceptance Tests-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_CFLAGS = (
+					"-DDEPRECATE_KIF_SYSTEM=1",
+					"-DDEPRECATE_KIF_TESTER=1",
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.squareup.Acceptance-Tests";
 				PRODUCT_NAME = "$(TARGET_NAME)";

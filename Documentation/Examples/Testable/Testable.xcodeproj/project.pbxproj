@@ -471,6 +471,10 @@
 				INFOPLIST_FILE = "Acceptance Tests/Acceptance Tests-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_CFLAGS = (
+					"-DDEPRECATE_KIF_SYSTEM=1",
+					"-DDEPRECATE_KIF_TESTER=1",
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.squareup.Acceptance-Tests";
 				PRODUCT_NAME = "$(TARGET_NAME)";

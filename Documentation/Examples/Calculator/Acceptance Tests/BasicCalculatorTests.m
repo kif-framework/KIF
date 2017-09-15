@@ -9,7 +9,7 @@
 
 @import KIF;
 
-#import "KIFUITestActor+BasicCalculator.h"
+#import "BasicCalculatorRobot.h"
 
 
 @interface BasicCalculatorTests : KIFTestCase
@@ -26,41 +26,41 @@
     KIFTestActor.defaultAnimationStabilizationTimeout = 0.1;
     KIFTestActor.defaultAnimationWaitingTimeout = 2.0;
     
-    [tester tapViewWithAccessibilityLabel:@"Basic Calculator" traits:UIAccessibilityTraitButton];
+    [[[viewTester usingLabel:@"Basic Calculator"] usingTraits:UIAccessibilityTraitButton] tap];
 }
 
 - (void)afterAll
 {
-    [tester tapViewWithAccessibilityLabel:@"Home" traits:UIAccessibilityTraitButton];
+    [[[viewTester usingLabel:@"Home"] usingTraits:UIAccessibilityTraitButton] tap];
 }
 
 - (void)testAddition
 {
-    [tester enterValue1:@"100" value2:@"11.11111" operation:@"Add"];
-    [tester waitForResult:@"111.11111000"];
+    [basicCalculatorRobot(self) enterValue1:@"100" value2:@"11.11111" operation:@"Add"];
+    [basicCalculatorRobot(self) waitForResult:@"111.11111000"];
 }
 
 - (void)testSubtraction
 {
-    [tester enterValue1:@"200" value2:@"0.1" operation:@"Subtract"];
-    [tester waitForResult:@"199.90000000"];
+    [basicCalculatorRobot(self) enterValue1:@"200" value2:@"0.1" operation:@"Subtract"];
+    [basicCalculatorRobot(self) waitForResult:@"199.90000000"];
 }
 
 - (void)testMultiplication
 {
-    [tester enterValue1:@"11.000" value2:@"1.1" operation:@"Multiply"];
-    [tester waitForResult:@"12.10000000"];
+    [basicCalculatorRobot(self) enterValue1:@"11.000" value2:@"1.1" operation:@"Multiply"];
+    [basicCalculatorRobot(self) waitForResult:@"12.10000000"];
 }
 
 - (void)testDivision
 {
-    [tester enterValue1:@"5.000" value2:@"2" operation:@"Divide"];
-    [tester waitForResult:@"2.50000000"];
+    [basicCalculatorRobot(self) enterValue1:@"5.000" value2:@"2" operation:@"Divide"];
+    [basicCalculatorRobot(self) waitForResult:@"2.50000000"];
 }
 
 - (void)testToFail
 {
-    [tester fail];
+    [viewTester fail];
     NSLog(@"This line never executes.");
 }
 
