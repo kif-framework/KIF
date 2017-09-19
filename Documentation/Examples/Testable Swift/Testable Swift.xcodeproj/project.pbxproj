@@ -518,6 +518,10 @@
 				);
 				INFOPLIST_FILE = "Testable SwiftTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				OTHER_CFLAGS = (
+					"-DDEPRECATE_KIF_SYSTEM=1",
+					"-DDEPRECATE_KIF_TESTER=1",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",

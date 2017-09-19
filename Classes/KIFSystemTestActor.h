@@ -10,7 +10,23 @@
 #import "KIFTestActor.h"
 #import <UIKit/UIKit.h>
 
+
+#define systemTester KIFActorWithClass(KIFSystemTestActor)
+
+// The symbol `system` collides with the cstdlib for compiling C++. Leaving it available for compatibility reasons.
+// This will be removed with the next major KIF release, please start using `systemTester` instead.
+#ifndef __cplusplus
+
+#if DEPRECATE_KIF_SYSTEM
+// Add `-DDEPRECATE_KIF_SYSTEM=1` to OTHER_CFLAGS if you'd like to prevent usage of the `system` macro.
+@class KIFSystemTestActor;
+KIFSystemTestActor *_KIF_system() __attribute__((deprecated("Use of `system` has been deprecated; Use `systemTester` instead.")));
+#define system _KIF_system()
+#else
 #define system KIFActorWithClass(KIFSystemTestActor)
+#endif
+
+#endif
 
 @interface KIFSystemTestActor : KIFTestActor
 
