@@ -83,6 +83,20 @@
     [tester tapViewWithAccessibilityLabel:@"Cell 32"];
 }
 
+- (void)testWaitingRowByLabel
+{
+    UIView *v = [tester waitForViewWithAccessibilityLabel:@"First Cell"];
+    XCTAssertTrue([v isKindOfClass:[UITableViewCell class]] || [v isKindOfClass:NSClassFromString(@"UITableViewLabel")], @"actual: %@", [v class]);
+}
+
+- (void)testWaitingRowByLabelAfterTapping
+{
+    // for view lookup changes caused by tapping rows
+    [tester tapViewWithAccessibilityLabel:@"First Cell"];
+    UIView *v = [tester waitForViewWithAccessibilityLabel:@"First Cell"];
+    XCTAssertTrue([v isKindOfClass:[UITableViewCell class]] || [v isKindOfClass:NSClassFromString(@"UITableViewLabel")], @"actual: %@", [v class]);
+}
+
 - (void)testMoveRowDown
 {
     [tester tapViewWithAccessibilityLabel:@"Edit"];
