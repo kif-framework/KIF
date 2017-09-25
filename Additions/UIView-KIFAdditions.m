@@ -250,9 +250,19 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
                     }
                     
                     @autoreleasepool {
-                        // Get the cell directly from the dataSource because UITableView will only vend visible cells
-                        UITableViewCell *cell = [tableView.dataSource tableView:tableView cellForRowAtIndexPath:indexPath];
+                        UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
                         
+                        if (cell == nil) {
+                            @try {
+                                // try to deque the cell, if this fails return false,
+                                // otherwise continue normally
+                                cell = [tableView.dataSource tableView:tableView cellForRowAtIndexPath:indexPath];
+                            }
+                            @catch (NSException * e) {
+                                NSLog(@"Exception: %@", e);
+                                return false;
+                            }
+                        }
                         UIAccessibilityElement *element = [cell accessibilityElementMatchingBlock:matchBlock notHidden:NO];
                         
                         // Remove the cell from the table view so that it doesn't stick around
