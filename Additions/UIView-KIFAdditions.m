@@ -225,9 +225,29 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
     }
     
     if (!matchingButOccludedElement && self.window) {
+
+		CGPoint scrollContentOffset;
+		UIScrollView *scrollView = nil;
         if ([self isKindOfClass:[UITableView class]]) {
+			//special case for UIPickerView (which has a private class UIPickerTableView)
+			if ([self isKindOfClass:[UIScrollView class]]) {
+				NSArray *subviews = [self subviews];
+				for (UIView *view in subviews)
+				{
+					NSString * subViewName = [NSString stringWithFormat:@"%@", [view class]];
+					if ([subViewName containsString:@"UIPicker"] )
+					{
+						NSLog(@"Found Picker");
+						scrollView = (UIScrollView*)self;
+						scrollContentOffset = [scrollView contentOffset];
+						break;
+					}
+				}
+			}
+
             UITableView *tableView = (UITableView *)self;
-            
+            __block NSIndexPath *firstIndexPath = nil;
+
             // Because of a bug in [UITableView indexPathsForVisibleRows] http://openradar.appspot.com/radar?id=5191284490764288
             // We use [UITableView visibleCells] to determine the index path of the visible cells
             NSMutableArray *indexPathsForVisibleRows = [[NSMutableArray alloc] init];
@@ -236,8 +256,17 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
                 if (indexPath) {
                     [indexPathsForVisibleRows addObject:indexPath];
                 }
+                if (firstIndexPath == nil) {
+                    firstIndexPath = indexPath;
+                } else {
+                    if ([firstIndexPath compare:indexPath] == NSOrderedDescending) {
+                        firstIndexPath = indexPath;
+                    }
+                }
             }];
-            
+
+			BOOL animationEnabled = [KIFUITestActor testActorAnimationsEnabled];
+			CFTimeInterval delay = animationEnabled ? 0.5 : 0.05;
             for (NSUInteger section = 0, numberOfSections = [tableView numberOfSections]; section < numberOfSections; section++) {
                 for (NSUInteger row = 0, numberOfRows = [tableView numberOfRowsInSection:section]; row < numberOfRows; row++) {
                     if (!self.window) {
@@ -249,33 +278,34 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
                     if ([indexPathsForVisibleRows containsObject:indexPath]) {
                         continue;
                     }
-                    
+
                     @autoreleasepool {
-                        // Get the cell directly from the dataSource because UITableView will only vend visible cells
-                        UITableViewCell *cell = [tableView.dataSource tableView:tableView cellForRowAtIndexPath:indexPath];
-                        
+                        // Scroll to the cell and wait for the animation to complete. Using animations here may not be optimal.
+                        [tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionNone animated:animationEnabled];
+
+                        UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
                         UIAccessibilityElement *element = [cell accessibilityElementMatchingBlock:matchBlock notHidden:NO];
-                        
-                        // Remove the cell from the table view so that it doesn't stick around
-                        [cell removeFromSuperview];
-                        
+
                         // Skip this cell if it isn't the one we're looking for
                         if (!element) {
                             continue;
                         }
                     }
-                    
-                    // Scroll to the cell and wait for the animation to complete
-                    BOOL animationEnabled = [KIFUITestActor testActorAnimationsEnabled];
-                    [tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionNone animated:animationEnabled];
+
                     // Note: using KIFRunLoopRunInModeRelativeToAnimationSpeed here may cause tests to stall
-                    CFTimeInterval delay = animationEnabled ? 0.5 : 0.05;
                     CFRunLoopRunInMode(UIApplicationCurrentRunMode, delay, false);
-                    
-                    // Now try finding the element again
                     return [self accessibilityElementMatchingBlock:matchBlock];
                 }
             }
+            if (firstIndexPath) {
+                [tableView scrollToRowAtIndexPath:firstIndexPath atScrollPosition:UITableViewScrollPositionTop animated:NO];
+            }
+			//if we're in a picker (scrollView), let's make sure we set the position back to how it was last set.
+			if(scrollView)
+			{
+				[scrollView setContentOffset:scrollContentOffset];
+			}
+            CFRunLoopRunInMode(UIApplicationCurrentRunMode, delay, false);
         } else if ([self isKindOfClass:[UICollectionView class]]) {
             UICollectionView *collectionView = (UICollectionView *)self;
             
@@ -321,7 +351,7 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
             }
         }
     }
-        
+    
     return matchingButOccludedElement;
 }
 
