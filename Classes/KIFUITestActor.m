@@ -505,9 +505,11 @@ KIFUITestActor *_KIF_tester()
 
 - (void)clearTextFromFirstResponder
 {
-    UIView *firstResponder = (id)[[[UIApplication sharedApplication] keyWindow] firstResponder];
-    if ([firstResponder isKindOfClass:[UIView class]]) {
-        [self clearTextFromElement:(UIAccessibilityElement *)firstResponder inView:firstResponder];
+    @autoreleasepool {
+        UIView *firstResponder = (id)[[[UIApplication sharedApplication] keyWindow] firstResponder];
+        if ([firstResponder isKindOfClass:[UIView class]]) {
+            [self clearTextFromElement:(UIAccessibilityElement *)firstResponder inView:firstResponder];
+        }
     }
 }
 
