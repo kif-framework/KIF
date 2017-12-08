@@ -11,6 +11,7 @@ Pod::Spec.new do |s|
   s.default_subspec         = 'Core'
   s.requires_arc            = true
   s.prefix_header_contents  = '#import <CoreGraphics/CoreGraphics.h>'
+  s.pod_target_xcconfig     = { 'ENABLE_BITCODE' => 'NO' }
 
   s.subspec 'Core' do |core|
     core.source_files         = 'Classes', 'Additions'
