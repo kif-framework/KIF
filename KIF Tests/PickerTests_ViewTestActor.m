@@ -92,13 +92,34 @@
 
 - (void)testSelectingAPickerRow
 {
-    [viewTester selectPickerViewRowWithTitle:@"Charlie"];
+    [viewTester selectPickerViewRowWithTitle:@"Echo"];
 
     NSOperatingSystemVersion iOS8 = {8, 0, 0};
     if ([NSProcessInfo instancesRespondToSelector:@selector(isOperatingSystemAtLeastVersion:)] && [[NSProcessInfo new] isOperatingSystemAtLeastVersion:iOS8]) {
-        [[[viewTester usingLabel:@"Call Sign"] usingValue:@"Charlie"] waitForView];
+        [[[viewTester usingLabel:@"Call Sign"] usingValue:@"Echo"] waitForView];
     } else {
-        [[[viewTester usingLabel:@"Call Sign"] usingValue:@"Charlie. 3 of 3"] waitForView];
+        [[[viewTester usingLabel:@"Call Sign"] usingValue:@"Echo. 5 of 14"] waitForView];
+    }
+
+    [viewTester selectPickerViewRowWithTitle:@"Golf"];
+    if ([NSProcessInfo instancesRespondToSelector:@selector(isOperatingSystemAtLeastVersion:)] && [[NSProcessInfo new] isOperatingSystemAtLeastVersion:iOS8]) {
+        [[[viewTester usingLabel:@"Call Sign"] usingValue:@"Golf"] waitForView];
+    } else {
+        [[[viewTester usingLabel:@"Call Sign"] usingValue:@"Golf. 7 of 14"] waitForView];
+    }
+
+    [viewTester selectPickerViewRowWithTitle:@"Alpha"];
+    if ([NSProcessInfo instancesRespondToSelector:@selector(isOperatingSystemAtLeastVersion:)] && [[NSProcessInfo new] isOperatingSystemAtLeastVersion:iOS8]) {
+        [[[viewTester usingLabel:@"Call Sign"] usingValue:@"Alpha"] waitForView];
+    } else {
+        [[[viewTester usingLabel:@"Call Sign"] usingValue:@"Alpha. 1 of 14"] waitForView];
+    }
+
+    [viewTester selectPickerViewRowWithTitle:@"N8117U"];
+    if ([NSProcessInfo instancesRespondToSelector:@selector(isOperatingSystemAtLeastVersion:)] && [[NSProcessInfo new] isOperatingSystemAtLeastVersion:iOS8]) {
+        [[[viewTester usingLabel:@"Call Sign"] usingValue:@"N8117U"] waitForView];
+    } else {
+        [[[viewTester usingLabel:@"Call Sign"] usingValue:@"N8117U. 14 of 14"] waitForView];
     }
 }
 

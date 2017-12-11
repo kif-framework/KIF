@@ -226,24 +226,21 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
     
     if (!matchingButOccludedElement && self.window) {
 
-		CGPoint scrollContentOffset;
-		UIScrollView *scrollView = nil;
+        CGPoint scrollContentOffset = {-1.0, -1.0};
+        UIScrollView *scrollView = nil;
         if ([self isKindOfClass:[UITableView class]]) {
-			//special case for UIPickerView (which has a private class UIPickerTableView)
-			if ([self isKindOfClass:[UIScrollView class]]) {
-				NSArray *subviews = [self subviews];
-				for (UIView *view in subviews)
-				{
-					NSString * subViewName = [NSString stringWithFormat:@"%@", [view class]];
-					if ([subViewName containsString:@"UIPicker"] )
-					{
-						NSLog(@"Found Picker");
-						scrollView = (UIScrollView*)self;
-						scrollContentOffset = [scrollView contentOffset];
-						break;
-					}
-				}
-			}
+            //special case for UIPickerView (which has a private class UIPickerTableView)
+
+            for (UIView *view in [self subviews])
+            {
+                NSString * subViewName = [NSString stringWithFormat:@"%@", [view class]];
+                if ([subViewName containsString:@"UIPicker"] )
+                {
+                    scrollView = (UIScrollView*)self;
+                    scrollContentOffset = [scrollView contentOffset];
+                    break;
+                }
+            }
 
             UITableView *tableView = (UITableView *)self;
             __block NSIndexPath *firstIndexPath = nil;
@@ -301,10 +298,10 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
                 [tableView scrollToRowAtIndexPath:firstIndexPath atScrollPosition:UITableViewScrollPositionTop animated:NO];
             }
 			//if we're in a picker (scrollView), let's make sure we set the position back to how it was last set.
-			if(scrollView)
-			{
-				[scrollView setContentOffset:scrollContentOffset];
-			}
+            if(scrollView != nil && scrollContentOffset.x != -1.0)
+            {
+                [scrollView setContentOffset:scrollContentOffset];
+            }
             CFRunLoopRunInMode(UIApplicationCurrentRunMode, delay, false);
         } else if ([self isKindOfClass:[UICollectionView class]]) {
             UICollectionView *collectionView = (UICollectionView *)self;
