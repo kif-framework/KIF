@@ -219,7 +219,7 @@ Everything should now be configured. When you run the integration tests using th
 Use with other testing frameworks
 ---------------------------------
 
-`KIFTestCase` is not necessary for running KIF tests.  Tests can run directly in `XCTestCase` or any subclass.  The basic requirement is that when you call `tester` or `system`, `self` must be an instance of `XCTestCase`.
+`KIFTestCase` is not necessary for running KIF tests.  Tests can run directly in `XCTestCase` or any subclass.  The basic requirement is that when you call `tester` or `system`, `self` must be an instance of `XCTestCase` and you must call `KIFEnableAccessibility` in `setUp`.
 
 For example, the following [Specta](https://github.com/specta/specta) test works without any changes to KIF or Specta:
 
