@@ -229,7 +229,7 @@ KIFUITestActor *_KIF_tester()
             [window performBlockOnDescendentViews:^(UIView *view, BOOL *stop) {
                 BOOL isViewVisible = [view isVisibleInViewHierarchy];   // do not wait for animations of views that aren't visible
                 BOOL hasUnfinishedSystemAnimation = [NSStringFromClass(view.class) isEqualToString:@"_UIParallaxDimmingView"];  // indicates that the view-hierarchy is in an in-between-state of an animation
-                if (isViewVisible && ([view.layer animationKeys] count] > 0 || hasUnfinishedSystemAnimation)) {
+                if (isViewVisible && ([[view.layer animationKeys] count] > 0 || hasUnfinishedSystemAnimation)) {
                     runningAnimationFound = YES;
                     if (stop != NULL) {
                         *stop = YES;
