@@ -75,6 +75,7 @@ extern NSString *const inputFieldTestString;
 /*!
  @abstract Adds a check for accessibility traits to the tester's search predicate.
  @discussion The tester will evaluate accessibility elements looking for matching accessibility traits.
+ Note: You cannot assert the lack of accessibility traits by passing in UIAccessibilityTraitsNone.
  @param accessibilityTraits The accessibility traits of an element to match.
  @return The message reciever, these methods are intended to be chained together.
  */
@@ -83,7 +84,17 @@ extern NSString *const inputFieldTestString;
 /*!
  @abstract Adds a check to avoid views with accessibility traits to the tester's search predicate.
  @discussion The tester will evaluate accessibility elements for the purposes of excluding accessibility traits.
- @param accessibilityTraits The accessibility traits of an element to avoid matching.
+ If more than one trait is supplied in the bitmask, none of them may be present in order for this to be true.
+ Note: You cannot assert the presence of accessibility traits by passing in UIAccessibilityTraitsNone.
+
+ Example:
+ Given a view with the accessibility traits .Button | .Selected, and we request the absence of .KeyboardCommand, this will match.
+ Given a view with the accessibility traits .Button | .Selected, and we request the absence of .KeyboardCommand | .PlaysSound, this will match.
+
+ Given a view with the accessibility traits .Button | .Selected, and we request the absence of .Selected, this will not match.
+ Given a view with the accessibility traits .Button | .Selected, and we request the absence of .Button | .Selected, this will not match.
+ Given a view with the accessibility traits .Button | .Selected, and we request the absence of .KeyboardCommand | .Button, this will not match.
+
  @return The message reciever, these methods are intended to be chained together.
  */
 - (instancetype)usingAbsenceOfTraits:(UIAccessibilityTraits)accessibilityTraits;
