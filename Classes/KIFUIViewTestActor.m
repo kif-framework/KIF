@@ -111,6 +111,14 @@ NSString *const inputFieldTestString = @"Testing";
     return [self usingPredicate:predicate];
 }
 
+- (instancetype)usingAbsenceOfTraits:(UIAccessibilityTraits)accessibilityTraits;
+{
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(accessibilityTraits & %@) != %@", @(accessibilityTraits), @(accessibilityTraits)];
+    predicate.kifPredicateDescription = [NSString stringWithFormat:@"Accessibility traits excluding \"%@\"", [UIAccessibilityElement stringFromAccessibilityTraits:accessibilityTraits]];
+
+    return [self usingPredicate:predicate];
+}
+
 - (instancetype)usingValue:(NSString *)accessibilityValue;
 {
     NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {

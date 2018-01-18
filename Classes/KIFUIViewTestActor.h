@@ -81,6 +81,14 @@ extern NSString *const inputFieldTestString;
 - (instancetype)usingTraits:(UIAccessibilityTraits)accessibilityTraits;
 
 /*!
+ @abstract Adds a check to avoid views with accessibility traits to the tester's search pedicate.
+ @discussion The tester will evaluate accessibility elements for the purposes of excluding accessibility traits.
+ @param accessibilityTraits The accessibility traits of an element to avoid matching.
+ @return The message reciever, these methods are intended to be chained together.
+ */
+- (instancetype)usingAbsenceOfTraits:(UIAccessibilityTraits)accessibilityTraits;
+
+/*!
  @abstract Adds a check for an accessibility value to the tester's search pedicate.
  @discussion The tester will evaluate accessibility elements looking for a matching accessibility value.
  @param accessibilityValue The accessibility value of an element to match.
