@@ -57,7 +57,7 @@ extern NSString *const inputFieldTestString;
 */
 
 /*!
- @abstract Adds a check for an accessibility label to the tester's search pedicate.
+ @abstract Adds a check for an accessibility label to the tester's search predicate.
  @discussion The tester will evaluate accessibility elements looking for a matching accessibility label.
  @param accessibilityLabel The accessibility label of an element to match.
  @return The message reciever, these methods are intended to be chained together.
@@ -65,7 +65,7 @@ extern NSString *const inputFieldTestString;
 - (instancetype)usingLabel:(NSString *)accessibilityLabel;
 
 /*!
- @abstract Adds a check for an accessibility identifier to the tester's search pedicate.
+ @abstract Adds a check for an accessibility identifier to the tester's search predicate.
  @discussion The tester will evaluate accessibility elements looking for a matching accessibility identifier.
  @param accessibilityIdentifier The accessibility identifier of an element to match.
  @return The message reciever, these methods are intended to be chained together.
@@ -73,7 +73,7 @@ extern NSString *const inputFieldTestString;
 - (instancetype)usingIdentifier:(NSString *)accessibilityIdentifier;
 
 /*!
- @abstract Adds a check for accessibility traits to the tester's search pedicate.
+ @abstract Adds a check for accessibility traits to the tester's search predicate.
  @discussion The tester will evaluate accessibility elements looking for matching accessibility traits.
  @param accessibilityTraits The accessibility traits of an element to match.
  @return The message reciever, these methods are intended to be chained together.
@@ -81,7 +81,7 @@ extern NSString *const inputFieldTestString;
 - (instancetype)usingTraits:(UIAccessibilityTraits)accessibilityTraits;
 
 /*!
- @abstract Adds a check to avoid views with accessibility traits to the tester's search pedicate.
+ @abstract Adds a check to avoid views with accessibility traits to the tester's search predicate.
  @discussion The tester will evaluate accessibility elements for the purposes of excluding accessibility traits.
  @param accessibilityTraits The accessibility traits of an element to avoid matching.
  @return The message reciever, these methods are intended to be chained together.
@@ -89,7 +89,7 @@ extern NSString *const inputFieldTestString;
 - (instancetype)usingAbsenceOfTraits:(UIAccessibilityTraits)accessibilityTraits;
 
 /*!
- @abstract Adds a check for an accessibility value to the tester's search pedicate.
+ @abstract Adds a check for an accessibility value to the tester's search predicate.
  @discussion The tester will evaluate accessibility elements looking for a matching accessibility value.
  @param accessibilityValue The accessibility value of an element to match.
  @return The message reciever, these methods are intended to be chained together.
