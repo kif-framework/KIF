@@ -365,8 +365,6 @@ KIFUITestActor *_KIF_tester()
         KIFTestWaitCondition(!isnan(tappablePointInElement.x), error, @"View is not tappable: %@", view);
         [view longPressAtPoint:tappablePointInElement duration:duration];
         
-        KIFTestCondition(![view canBecomeFirstResponder] || [view isDescendantOfFirstResponder], error, @"Failed to make the view into the first responder: %@", view);
-        
         return KIFTestStepResultSuccess;
     }];
 
