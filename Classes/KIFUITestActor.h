@@ -582,7 +582,7 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
 
 /*!
  @abstract If present, dismisses a system alert with the button at the given index, if any exists, usually 'Allow'. Returns YES if a dialog was dismissed, NO otherwise.
- @discussion Use this to dissmiss a location services authorization dialog or a photos access dialog by tapping a specified button. No action is taken if no alert is present.
+ @discussion Use this to dissmiss a location services authorization dialog or a photos access dialog by tapping a button at the specified index. No action is taken if no alert is present.
 */
 - (BOOL)acknowledgeSystemAlertWithIndex:(NSUInteger)index;
 
