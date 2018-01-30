@@ -114,6 +114,8 @@ static void FixReactivateApp(void)
 
 - (BOOL)acknowledgeSystemAlert {
 	UIAAlert* alert = [[self target] frontMostApp].alert;
+    // Even though `acknowledgeSystemAlertWithIndex:` checks the index, we have to have
+    // an additional check here to ensure that when `alert.buttons.count` is 0, subtracting one doesn't cause a wrap-around (2^63 - 1).
     if (alert.buttons.count > 0) {
         return [self acknowledgeSystemAlertWithIndex:alert.buttons.count - 1];
     }
