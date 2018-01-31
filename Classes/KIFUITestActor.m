@@ -1009,6 +1009,11 @@ KIFUITestActor *_KIF_tester()
     return [UIAutomationHelper acknowledgeSystemAlert];
 }
 
+- (BOOL)acknowledgeSystemAlertWithIndex:(NSUInteger)index
+{
+    return [UIAutomationHelper acknowledgeSystemAlertWithIndex: index];
+}
+
 #endif
 
 - (void)tapItemAtIndexPath:(NSIndexPath *)indexPath inCollectionView:(UICollectionView *)collectionView

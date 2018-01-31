@@ -104,23 +104,39 @@ static void FixReactivateApp(void)
     return [[self sharedHelper] acknowledgeSystemAlert];
 }
 
++ (BOOL)acknowledgeSystemAlertWithIndex:(NSUInteger)index {
+    return [[self sharedHelper] acknowledgeSystemAlertWithIndex:index];
+}
+
 + (void)deactivateAppForDuration:(NSNumber *)duration {
     [[self sharedHelper] deactivateAppForDuration:duration];
 }
 
 - (BOOL)acknowledgeSystemAlert {
+	UIAAlert* alert = [[self target] frontMostApp].alert;
+    // Even though `acknowledgeSystemAlertWithIndex:` checks the index, we have to have
+    // an additional check here to ensure that when `alert.buttons.count` is 0, subtracting one doesn't cause a wrap-around (2^63 - 1).
+    if (alert.buttons.count > 0) {
+        return [self acknowledgeSystemAlertWithIndex:alert.buttons.count - 1];
+    }
+    return NO;
+}
+
+// Inspired by:  https://github.com/jamesjn/KIF/tree/acknowledge-location-alert
+- (BOOL)acknowledgeSystemAlertWithIndex:(NSUInteger)index {
     UIAApplication *application = [[self target] frontMostApp];
-	UIAAlert* alert = application.alert;
-	if (![alert isKindOfClass:[self nilElementClass]] && [self _alertIsValidAndVisible:alert]) {
-            [[alert.buttons lastObject] tap];
-            while ([self _alertIsValidAndVisible:alert]) {
-                // Wait for button press to complete.
-                KIFRunLoopRunInModeRelativeToAnimationSpeed(UIApplicationCurrentRunMode, 0.1, false);
-            }
-            // Wait for alert dismissial animation.
-            KIFRunLoopRunInModeRelativeToAnimationSpeed(UIApplicationCurrentRunMode, 0.4, false);
-            return YES;
-	}
+    UIAAlert *alert = application.alert;
+    BOOL isIndexInRange = index < alert.buttons.count;
+    if (![alert isKindOfClass:[self nilElementClass]] && [self _alertIsValidAndVisible:alert] && isIndexInRange) {
+        [alert.buttons[index] tap];
+        while ([self _alertIsValidAndVisible:alert]) {
+            // Wait for button press to complete.
+            KIFRunLoopRunInModeRelativeToAnimationSpeed(UIApplicationCurrentRunMode, 0.1, false);
+        }
+        // Wait for alert dismissial animation.
+        KIFRunLoopRunInModeRelativeToAnimationSpeed(UIApplicationCurrentRunMode, 0.4, false);
+        return YES;
+    }
     return NO;
 }
 
