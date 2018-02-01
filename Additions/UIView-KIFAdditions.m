@@ -920,6 +920,26 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
     return result;
 }
 
+- (BOOL)isVisibleInWindowFrame;
+{
+    __block CGRect visibleFrame = [self.superview convertRect:self.frame toView:nil];
+    [self performBlockOnAscendentViews:^(UIView *view, BOOL *stop) {
+        if (view.clipsToBounds) {
+            CGRect clippingFrame = [view.superview convertRect:view.frame toView:nil];
+            visibleFrame = CGRectIntersection(visibleFrame, clippingFrame);
+        }
+        if (CGSizeEqualToSize(visibleFrame.size, CGSizeZero)) {
+            // Our frame has been fully clipped
+            *stop = YES;
+        }
+        if (view.superview == view.window) {
+            // Walked all ancestors (skip the top level window that has no superview)
+            *stop = YES;
+        }
+    }];
+    return !CGSizeEqualToSize(visibleFrame.size, CGSizeZero);
+}
+
 - (void)performBlockOnDescendentViews:(void (^)(UIView *view, BOOL *stop))block
 {
     BOOL stop = NO;

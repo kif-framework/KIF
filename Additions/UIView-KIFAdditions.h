@@ -98,6 +98,11 @@ typedef CGPoint KIFDisplacement;
 - (BOOL)isVisibleInViewHierarchy;
 
 /*!
+ @abstract Evaluates if the view has some portion of its frame intersect with its ancestor views clip it from being visible on the screen.
+ */
+- (BOOL)isVisibleInWindowFrame;
+
+/*!
  @method performBlockOnDescendentViews:
  @abstract Calls a block on the view itself and on all its descendent views.
  @param block The block that will be called on the views. Stop the traversation of the views by assigning YES to the stop-parameter of the block.
