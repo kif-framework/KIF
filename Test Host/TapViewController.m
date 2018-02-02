@@ -28,6 +28,9 @@
     self.lineBreakLabel.accessibilityLabel = @"A\nB\nC\n\n";
 	self.stepper.isAccessibilityElement = YES;
 	self.stepper.accessibilityLabel = @"theStepper";
+    
+    // Prevent autocorrect from kicking in, breaks tests starting with iOS10
+    self.greetingTextField.autocorrectionType = UITextAutocorrectionTypeNo;
 }
 
 - (void)memoryWarningNotification:(NSNotification *)notification
