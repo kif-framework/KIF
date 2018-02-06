@@ -30,7 +30,20 @@
 
 - (void)testWaitingForViewWithTraits
 {
-    [[[viewTester usingLabel:@"Test Suite"] usingTraits:UIAccessibilityTraitStaticText] waitForView];
+    NSString *label = nil;
+    UIAccessibilityTraits traits = UIAccessibilityTraitNone;
+
+    NSOperatingSystemVersion iOS9 = {9, 0, 0};
+    if ([NSProcessInfo instancesRespondToSelector:@selector(isOperatingSystemAtLeastVersion:)] && ![[NSProcessInfo new] isOperatingSystemAtLeastVersion:iOS9]) {
+        // In iOS 8 and before, you couldn't identify the table view elements as buttons
+        label = @"Test Suite";
+        traits = UIAccessibilityTraitStaticText;
+    } else {
+        // In iOS 11, the static text trait of the navigation bar header goes away for some reason
+        label = @"UIAlertView";
+        traits = UIAccessibilityTraitButton;
+    }
+    [[[viewTester usingLabel:label] usingTraits:traits] waitForView];
 }
 
 - (void)testWaitingForViewWithValue
