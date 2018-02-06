@@ -30,6 +30,12 @@ static void * loadDylibForSimulator(NSString *path)
     return dlopen([path fileSystemRepresentation], RTLD_LOCAL);
 }
 
+static BOOL __KIFAccessibilityEnabled = NO;
+
+BOOL KIFAccessibilityEnabled(void)
+{
+    return __KIFAccessibilityEnabled;
+}
 
 void KIFEnableAccessibility(void)
 {
@@ -63,6 +69,7 @@ void KIFEnableAccessibility(void)
                         [axInstance setAXInspectorEnabled:initialValue specifier:nil];
                     });
                     [axInstance setAXInspectorEnabled:@YES specifier:nil];
+                    __KIFAccessibilityEnabled = YES;
                     return;
                 }
             }
@@ -79,6 +86,7 @@ void KIFEnableAccessibility(void)
         
         int initialValue = _AXSAutomationEnabled();
         _AXSSetAutomationEnabled(YES);
+        __KIFAccessibilityEnabled = YES;
         atexit_b(^{
             _AXSSetAutomationEnabled(initialValue);
         });
