@@ -12,6 +12,7 @@
 #import <XCTest/XCTest.h>
 
 #import "KIFTestActor_Private.h"
+#import "KIFTextInputTraitsOverrides.h"
 
 #import "NSError-KIFAdditions.h"
 #import "NSException-KIFAdditions.h"
