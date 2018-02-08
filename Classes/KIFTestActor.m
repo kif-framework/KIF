@@ -14,6 +14,7 @@
 #import "KIFTestActor_Private.h"
 
 #import "KIFAccessibilityEnabler.h"
+#import "KIFTextInputTraitsOverrides.h"
 #import "NSError-KIFAdditions.h"
 #import "NSException-KIFAdditions.h"
 #import "UIApplication-KIFAdditions.h"
@@ -129,6 +130,10 @@ static NSTimeInterval KIFTestStepDefaultAnimationStabilizationTimeout = 0.5;
 static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
 static NSTimeInterval KIFTestStepDelay = 0.1;
 
+static BOOL KIFAutocorrectEnabled = NO;
+static BOOL KIFSmartDashesEnabled = NO;
+static BOOL KIFSmartQuotesEnabled = NO;
+
 + (NSTimeInterval)defaultAnimationWaitingTimeout
 {
     return KIFTestStepDefaultAnimationWaitingTimeout;
@@ -167,6 +172,36 @@ static NSTimeInterval KIFTestStepDelay = 0.1;
 + (void)setStepDelay:(NSTimeInterval)newStepDelay;
 {
     KIFTestStepDelay = newStepDelay;
+}
+
++ (void)setEnableAutocorrect:(BOOL)enableAutocorrect;
+{
+    KIFAutocorrectEnabled = enableAutocorrect;
+}
+
++ (void)setEnableSmartDashes:(BOOL)enableSmartDashes;
+{
+    KIFSmartDashesEnabled = enableSmartDashes;
+}
+
++ (void)setEnableSmartQuotes:(BOOL)enableSmartQuotes;
+{
+    KIFSmartQuotesEnabled = enableSmartQuotes;
+}
+
++ (BOOL)autocorrectEnabled;
+{
+    return KIFAutocorrectEnabled;
+}
+
++ (BOOL)smartDashesEnabled;
+{
+    return KIFSmartDashesEnabled;
+}
+
++ (BOOL)smartQuotesEnabled;
+{
+    return KIFSmartQuotesEnabled;
 }
 
 #pragma mark Generic tests

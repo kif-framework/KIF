@@ -160,6 +160,42 @@ typedef void (^KIFTestCompletionBlock)(KIFTestStepResult result, NSError *error)
 + (void)setStepDelay:(NSTimeInterval)newStepDelay;
 
 /*!
+ @abstract Enable autocorrect in KIF tests
+ @discussion When @c NO, autocorrect is disabled for the duration of the app lifecycle. It is highly unlikely that tests should ever require autocorrect, but this will provide the opportunity to decide whether or not to enable it.
+ */
++ (void)setEnableAutocorrect:(BOOL)enableAutocorrect;
+
+/*!
+ @abstract Enable smart dashes in KIF tests
+ @discussion When @c NO, smart dashes are disabled for the duration of the app lifecycle. It is highly unlikely that tests should ever require smart dashes, but this will provide the opportunity to decide whether or not to enable them.
+ */
++ (void)setEnableSmartDashes:(BOOL)enableSmartDashes;
+
+/*!
+ @abstract Enable smart quotes in KIF tests
+ @discussion When @c NO, smart quotes are disabled for the duration of the app lifecycle. It is highly unlikely that tests should ever require smart quotes, but this will provide the opportunity to decide whether or not to enable them.
+ */
++ (void)setEnableSmartQuotes:(BOOL)enableSmartQuotes;
+
+/*!
+ @abstract Whether autocorrect is enabled in KIF tests.
+ @discussion To enable autocorrect, call +setAutocorrectDisabled: with @c YES.
+ */
++ (BOOL)autocorrectEnabled;
+
+/*!
+ @abstract Whether smart dashes are enabled in KIF tests.
+ @discussion To enable smart dashes, call +setSmartDashesDisabled: with @c YES.
+ */
++ (BOOL)smartDashesEnabled;
+
+/*!
+ @abstract Whether smart quotes are enabled in KIF tests.
+ @discussion To enable smart quotes, call +setSmartQuotesDisabled: with @c YES.
+ */
++ (BOOL)smartQuotesEnabled;
+
+/*!
  @abstract Fails the test.
  @discussion Mostly useful for test debugging or as a placeholder when building new tests.
  */

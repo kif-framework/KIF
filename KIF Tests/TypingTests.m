@@ -68,6 +68,21 @@
     [tester clearTextFromAndThenEnterText:@"Yo" intoViewWithAccessibilityLabel:@"Greeting"];
 }
 
+- (void)testClearingAndEnteringQuotesIntoViewWithAccessibilityLabel
+{
+    [tester clearTextFromAndThenEnterText:@"'\"'," intoViewWithAccessibilityLabel:@"Greeting"];
+}
+
+- (void)testClearingAndEnteringDashesIntoViewWithAccessibilityLabel
+{
+    [tester clearTextFromAndThenEnterText:@"--a" intoViewWithAccessibilityLabel:@"Greeting"];
+}
+
+- (void)testClearingAndEnteringTypoIntoViewWithAccessibilityLabel
+{
+    [tester clearTextFromAndThenEnterText:@" teh " intoViewWithAccessibilityLabel:@"Greeting"];
+}
+
 - (void)testEnteringReturnCharacterIntoViewWithAccessibilityLabel
 {
     [tester enterText:@"Hello\n" intoViewWithAccessibilityLabel:@"Other Text"];

@@ -64,6 +64,21 @@
     [[[viewTester usingLabel:@"Greeting"] usingValue:@"Hello, world"] waitForView];
 }
 
+- (void)testClearingAndEnteringQuotesIntoViewWithAccessibilityLabel
+{
+    [[viewTester usingLabel:@"Greeting"] clearAndEnterText:@"'\"'," expectedResult:@"'\"',"];
+}
+
+- (void)testClearingAndEnteringDashesIntoViewWithAccessibilityLabel
+{
+    [[viewTester usingLabel:@"Greeting"] clearAndEnterText:@"--a" expectedResult:@"--a"];
+}
+
+- (void)testClearingAndEnteringTypoIntoViewWithAccessibilityLabel
+{
+    [[viewTester usingLabel:@"Greeting"] clearAndEnterText:@" teh " expectedResult:@" teh "];
+}
+
 - (void)testClearingAndEnteringTextIntoViewWithAccessibilityLabel
 {
     [[viewTester usingLabel:@"Greeting"] clearAndEnterText:@"Yo"];
