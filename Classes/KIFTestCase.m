@@ -12,7 +12,6 @@
 #import "UIApplication-KIFAdditions.h"
 #import "KIFTestActor.h"
 #import "KIFAccessibilityEnabler.h"
-#import "KIFTextInputTraitsOverrides.h"
 
 #define SIG(class, selector) [class instanceMethodSignatureForSelector:selector]
 
@@ -66,11 +65,6 @@ NSComparisonResult selectorSort(NSInvocation *invocOne, NSInvocation *invocTwo, 
 + (void)setUp
 {
     KIFEnableAccessibility();
-
-    KIFSetAutocorrect([KIFTestActor autocorrectEnabled]);
-    KIFSetSmartDashes([KIFTestActor smartDashesEnabled]);
-    KIFSetSmartQuotes([KIFTestActor smartQuotesEnabled]);
-
     [self performSetupTearDownWithSelector:@selector(beforeAll)];
 }
 

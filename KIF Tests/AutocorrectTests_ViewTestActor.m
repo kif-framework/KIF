@@ -7,6 +7,8 @@
 
 #import <KIF/KIF.h>
 
+#import "KIFTextInputTraitsOverrides.h"
+
 @interface AutocorrectTests_ViewTestActor : KIFTestCase
 @end
 
@@ -15,18 +17,20 @@
 
 + (void)setUp
 {
-    [KIFTestActor setEnableAutocorrect:YES];
-    [KIFTestActor setEnableSmartQuotes:YES];
-    [KIFTestActor setEnableSmartDashes:YES];
     [super setUp];
+
+    KIFTextInputTraitsOverrides.allowDefaultAutocorrectBehavior = YES;
+    KIFTextInputTraitsOverrides.allowDefaultSmartDashesBehavior = YES;
+    KIFTextInputTraitsOverrides.allowDefaultSmartQuotesBehavior = YES;
 }
 
 + (void)tearDown
 {
-    [KIFTestActor setEnableAutocorrect:NO];
-    [KIFTestActor setEnableSmartQuotes:NO];
-    [KIFTestActor setEnableSmartDashes:NO];
     [super tearDown];
+
+    KIFTextInputTraitsOverrides.allowDefaultAutocorrectBehavior = NO;
+    KIFTextInputTraitsOverrides.allowDefaultSmartDashesBehavior = NO;
+    KIFTextInputTraitsOverrides.allowDefaultSmartQuotesBehavior = NO;
 }
 
 - (void)beforeEach

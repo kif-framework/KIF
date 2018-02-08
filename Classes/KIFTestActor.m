@@ -1,5 +1,5 @@
 //
-//  KIFTester.m
+//  KIFTestActor.m
 //  KIF
 //
 //  Created by Brian Nickel on 12/13/12.
@@ -130,10 +130,6 @@ static NSTimeInterval KIFTestStepDefaultAnimationStabilizationTimeout = 0.5;
 static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
 static NSTimeInterval KIFTestStepDelay = 0.1;
 
-static BOOL KIFAutocorrectEnabled = NO;
-static BOOL KIFSmartDashesEnabled = NO;
-static BOOL KIFSmartQuotesEnabled = NO;
-
 + (NSTimeInterval)defaultAnimationWaitingTimeout
 {
     return KIFTestStepDefaultAnimationWaitingTimeout;
@@ -172,36 +168,6 @@ static BOOL KIFSmartQuotesEnabled = NO;
 + (void)setStepDelay:(NSTimeInterval)newStepDelay;
 {
     KIFTestStepDelay = newStepDelay;
-}
-
-+ (void)setEnableAutocorrect:(BOOL)enableAutocorrect;
-{
-    KIFAutocorrectEnabled = enableAutocorrect;
-}
-
-+ (void)setEnableSmartDashes:(BOOL)enableSmartDashes;
-{
-    KIFSmartDashesEnabled = enableSmartDashes;
-}
-
-+ (void)setEnableSmartQuotes:(BOOL)enableSmartQuotes;
-{
-    KIFSmartQuotesEnabled = enableSmartQuotes;
-}
-
-+ (BOOL)autocorrectEnabled;
-{
-    return KIFAutocorrectEnabled;
-}
-
-+ (BOOL)smartDashesEnabled;
-{
-    return KIFSmartDashesEnabled;
-}
-
-+ (BOOL)smartQuotesEnabled;
-{
-    return KIFSmartQuotesEnabled;
 }
 
 #pragma mark Generic tests
