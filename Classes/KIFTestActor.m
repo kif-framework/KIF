@@ -1,5 +1,5 @@
 //
-//  KIFTester.m
+//  KIFTestActor.m
 //  KIF
 //
 //  Created by Brian Nickel on 12/13/12.
@@ -14,6 +14,7 @@
 #import "KIFTestActor_Private.h"
 
 #import "KIFAccessibilityEnabler.h"
+#import "KIFTextInputTraitsOverrides.h"
 #import "NSError-KIFAdditions.h"
 #import "NSException-KIFAdditions.h"
 #import "UIApplication-KIFAdditions.h"
