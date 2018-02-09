@@ -252,6 +252,10 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
                     @autoreleasepool {
                         // Get the cell directly from the dataSource because UITableView will only vend visible cells
                         UITableViewCell *cell = [tableView.dataSource tableView:tableView cellForRowAtIndexPath:indexPath];
+                        // Set up the cell as it would appear if it was presented on the screen. UIAutomation framework does the same
+                        if ([tableView.delegate respondsToSelector:@selector(tableView:willDisplayCell:forRowAtIndexPath:)]) {
+                            [tableView.delegate tableView:tableView willDisplayCell:cell forRowAtIndexPath:indexPath];
+                        }
                         
                         UIAccessibilityElement *element = [cell accessibilityElementMatchingBlock:matchBlock notHidden:NO];
                         
@@ -293,6 +297,10 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
                     @autoreleasepool {
                         // Get the cell directly from the dataSource because UICollectionView will only vend visible cells
                         UICollectionViewCell *cell = [collectionView.dataSource collectionView:collectionView cellForItemAtIndexPath:indexPath];
+                        // Set up the cell as it would appear if it was presented on the screen. UIAutomation framework does the same
+                        if ([collectionView.delegate respondsToSelector:@selector(collectionView:willDisplayCell:forItemAtIndexPath:)]) {
+                            [collectionView.delegate collectionView:collectionView willDisplayCell:cell forItemAtIndexPath:indexPath];
+                        }
                         
                         UIAccessibilityElement *element = [cell accessibilityElementMatchingBlock:matchBlock notHidden:NO];
                         
