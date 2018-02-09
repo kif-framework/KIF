@@ -42,16 +42,24 @@
     [tester tapViewWithAccessibilityLabel:@"Test Suite" traits:UIAccessibilityTraitButton];
 }
 
+// This test won't work on any version of Xcode before 8.
+#ifdef __IPHONE_7_0
+- (void)testAutocorrectEnabled
+{
+    [tester clearTextFromAndThenEnterText:@" 😓He😤ll👿o" intoViewWithAccessibilityLabel:@"Greeting" traits:UIAccessibilityTraitNone expectedResult:@" 😓He😤lol👿o"];
+}
+#endif
+
 // These tests won't work on any version of iOS before iOS 11.
 #ifdef __IPHONE_11_0
-- (void)testClearingAndEnteringQuotesIntoViewWithAccessibilityLabel
+- (void)testSmartQuotesEnabled
 {
     if (@available(iOS 11.0, *)) {
         [tester clearTextFromAndThenEnterText:@"'\"'," intoViewWithAccessibilityLabel:@"Greeting" traits:UIAccessibilityTraitNone expectedResult:@"’”’,"];
     }
 }
 
-- (void)testClearingAndEnteringDashesIntoViewWithAccessibilityLabel
+- (void)testSmartDashesEnabled
 {
     if (@available(iOS 11.0, *)) {
         [tester clearTextFromAndThenEnterText:@"--a" intoViewWithAccessibilityLabel:@"Greeting" traits:UIAccessibilityTraitNone expectedResult:@"—a"];
