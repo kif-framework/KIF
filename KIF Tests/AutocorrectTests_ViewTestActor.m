@@ -53,12 +53,16 @@
 #ifdef __IPHONE_11_0
 - (void)testClearingAndEnteringQuotesIntoViewWithAccessibilityLabel
 {
-    [[viewTester usingLabel:@"Greeting"] clearAndEnterText:@"'\"'," expectedResult:@"’”’,"];
+    if (@available(iOS 11.0, *)) {
+        [[viewTester usingLabel:@"Greeting"] clearAndEnterText:@"'\"'," expectedResult:@"’”’,"];
+    }
 }
 
 - (void)testClearingAndEnteringDashesIntoViewWithAccessibilityLabel
 {
-    [[viewTester usingLabel:@"Greeting"] clearAndEnterText:@"--a" expectedResult:@"—a"];
+    if (@available(iOS 11.0, *)) {
+        [[viewTester usingLabel:@"Greeting"] clearAndEnterText:@"--a" expectedResult:@"—a"];
+    }
 }
 #endif
 
