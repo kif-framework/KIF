@@ -153,11 +153,6 @@ KIFUITestActor *_KIF_tester()
     [self waitForAbsenceOfViewWithAccessibilityLabel:label value:nil traits:traits];
 }
 
-- (void)waitForAbsenceOfViewWithValue:(NSString *)value
-{
-    [self waitForAbsenceOfViewWithAccessibilityLabel:nil value:value traits:UIAccessibilityTraitNone];
-}
-
 - (void)waitForAbsenceOfViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits
 {
     [self runBlock:^KIFTestStepResult(NSError **error) {

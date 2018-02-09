@@ -32,6 +32,8 @@
 
 @implementation KIFTextInputTraitsOverrides
 
+typedef NSInteger (*send_type)(UITextField*, SEL);
+
 static BOOL KIFAutocorrectEnabled = NO;
 static BOOL KIFSmartDashesEnabled = NO;
 static BOOL KIFSmartQuotesEnabled = NO;
@@ -78,10 +80,10 @@ static BOOL KIFSmartQuotesEnabled = NO;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         struct objc_method_description autocorrectionTypeMethodDescription = protocol_getMethodDescription(@protocol(UITextInputTraits), @selector(autocorrectionType), NO, YES);
-        IMP autocorrectOriginalImp = class_getMethodImplementation([UITextField class], @selector(autocorrectionType));
+        send_type autocorrectOriginalImp = (send_type)[UITextField instanceMethodForSelector:@selector(autocorrectionType)];
         IMP autocorrectImp = imp_implementationWithBlock(^(UITextField *_self) {
             if(self.allowDefaultAutocorrectBehavior) {
-                return (NSInteger) autocorrectOriginalImp(_self, @selector(autocorrectionType));
+                return autocorrectOriginalImp(_self, @selector(autocorrectionType));
             } else {
                 return UITextAutocorrectionTypeNo;
             }
@@ -98,10 +100,10 @@ static BOOL KIFSmartQuotesEnabled = NO;
         static dispatch_once_t onceToken;
         dispatch_once(&onceToken, ^{
             struct objc_method_description smartDashesTypeMethodDescription = protocol_getMethodDescription(@protocol(UITextInputTraits), @selector(smartDashesType), NO, YES);
-            IMP smartDashesOriginalImp = class_getMethodImplementation([UITextField class], @selector(smartDashesType));
+            send_type smartDashesOriginalImp = (send_type)[UITextField instanceMethodForSelector:@selector(smartDashesType)];
             IMP smartDashesImp = imp_implementationWithBlock(^(UITextField *_self) {
                 if(self.allowDefaultSmartDashesBehavior) {
-                    return (NSInteger) smartDashesOriginalImp(_self, @selector(smartDashesType));
+                    return smartDashesOriginalImp(_self, @selector(smartQuotesType));
                 } else {
                     return UITextSmartDashesTypeNo;
                 }
@@ -120,10 +122,10 @@ static BOOL KIFSmartQuotesEnabled = NO;
             static dispatch_once_t onceToken;
             dispatch_once(&onceToken, ^{
                 struct objc_method_description smartQuotesTypeMethodDescription = protocol_getMethodDescription(@protocol(UITextInputTraits), @selector(smartQuotesType), NO, YES);
-                IMP smartQuotesOriginalImp = class_getMethodImplementation([UITextField class], @selector(smartQuotesType));
+                send_type smartQuotesOriginalImp = (send_type)[UITextField instanceMethodForSelector:@selector(smartDashesType)];
                 IMP smartQuotesImp = imp_implementationWithBlock(^(UITextField *_self) {
                     if(self.allowDefaultSmartQuotesBehavior) {
-                        return (NSInteger) smartQuotesOriginalImp(_self, @selector(smartQuotesType));
+                        return smartQuotesOriginalImp(_self, @selector(smartQuotesType));
                     } else {
                         return UITextSmartQuotesTypeNo;
                     }
