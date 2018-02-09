@@ -42,12 +42,6 @@
     [tester tapViewWithAccessibilityLabel:@"Test Suite" traits:UIAccessibilityTraitButton];
 }
 
-- (void)testClearingAndEnteringTypoIntoViewWithAccessibilityLabel
-{
-    [[tester validateEnteredText:NO] clearTextFromAndThenEnterText:@" jkasd " intoViewWithAccessibilityLabel:@"Greeting"];
-    [tester waitForAbsenceOfViewWithValue:@" jkasd "];
-}
-
 // These tests won't work on any version of iOS before iOS 11.
 #ifdef __IPHONE_11_0
 - (void)testClearingAndEnteringQuotesIntoViewWithAccessibilityLabel
