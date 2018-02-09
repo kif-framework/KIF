@@ -80,7 +80,7 @@
 
 - (void)testClearingAndEnteringTypoIntoViewWithAccessibilityLabel
 {
-    [tester clearTextFromAndThenEnterText:@" teh " intoViewWithAccessibilityLabel:@"Greeting"];
+    [tester clearTextFromAndThenEnterText:@" jkasd " intoViewWithAccessibilityLabel:@"Greeting"];
 }
 
 - (void)testEnteringReturnCharacterIntoViewWithAccessibilityLabel

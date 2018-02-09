@@ -45,10 +45,12 @@
 
 - (void)testClearingAndEnteringTypoIntoViewWithAccessibilityLabel
 {
-    [[[viewTester validateEnteredText:NO] usingLabel:@"Greeting"] clearAndEnterText:@" teh "];
-    [[viewTester usingValue:@" teh "] waitForAbsenceOfView];
+    [[[viewTester validateEnteredText:NO] usingLabel:@"Greeting"] clearAndEnterText:@" jkasd "];
+    [[viewTester usingValue:@" jkasd "] waitForAbsenceOfView];
 }
 
+// These tests won't work on any version of iOS before iOS 11.
+#ifdef __IPHONE_11_0
 - (void)testClearingAndEnteringQuotesIntoViewWithAccessibilityLabel
 {
     [[viewTester usingLabel:@"Greeting"] clearAndEnterText:@"'\"'," expectedResult:@"’”’,"];
@@ -58,7 +60,7 @@
 {
     [[viewTester usingLabel:@"Greeting"] clearAndEnterText:@"--a" expectedResult:@"—a"];
 }
-
+#endif
 
 @end
 

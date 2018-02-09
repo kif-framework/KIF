@@ -76,7 +76,7 @@
 
 - (void)testClearingAndEnteringTypoIntoViewWithAccessibilityLabel
 {
-    [[viewTester usingLabel:@"Greeting"] clearAndEnterText:@" teh " expectedResult:@" teh "];
+    [[viewTester usingLabel:@"Greeting"] clearAndEnterText:@" jkasd " expectedResult:@" jkasd "];
 }
 
 - (void)testClearingAndEnteringTextIntoViewWithAccessibilityLabel
