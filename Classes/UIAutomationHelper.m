@@ -147,6 +147,8 @@ static void FixReactivateApp(void)
         [[self target] deactivateAppForDuration:duration];
     }
     @catch(NSException *e) {
+        #pragma clang diagnostic push
+        #pragma clang diagnostic ignored "-Wunused-variable"
         NSOperatingSystemVersion iOS11 = {11, 0, 0};
         NSAssert([NSProcessInfo instancesRespondToSelector:@selector(isOperatingSystemAtLeastVersion:)] && [[NSProcessInfo new] isOperatingSystemAtLeastVersion:iOS11], @"The issue of resuming from SpringBoard is only known to occur on iOS 11+.");
         NSAssert([[[[self target] frontMostApp] name] isEqual:@"SpringBoard"], @"If reactivation is failing, the app is likely still open to SpringBoard.");
@@ -160,6 +162,7 @@ static void FixReactivateApp(void)
         // Ensure our test app has returned to being the front most app
         NSString *testAppName = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDisplayName"];
         NSAssert([[[[self target] frontMostApp] name] isEqual:testAppName], @"After tapping, the main app should be relaunched.");
+        #pragma clang diagnostic pop
     }
 }
 
