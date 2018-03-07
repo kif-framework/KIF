@@ -14,6 +14,7 @@
 #import "UITouch-KIFAdditions.h"
 #import <objc/runtime.h>
 #import "UIEvent+KIFAdditions.h"
+#import "KIFUITestActor.h"
 
 double KIFDegreesToRadians(double deg) {
     return (deg) / 180.0 * M_PI;
@@ -265,9 +266,11 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
                     }
                     
                     // Scroll to the cell and wait for the animation to complete
-                    [tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionNone animated:YES];
+                    BOOL animationEnabled = [KIFUITestActor testActorAnimationsEnabled];
+                    [tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionNone animated:animationEnabled];
                     // Note: using KIFRunLoopRunInModeRelativeToAnimationSpeed here may cause tests to stall
-                    CFRunLoopRunInMode(UIApplicationCurrentRunMode, 0.5, false);
+                    CFTimeInterval delay = animationEnabled ? 0.5 : 0.05;
+                    CFRunLoopRunInMode(UIApplicationCurrentRunMode, delay, false);
                     
                     // Now try finding the element again
                     return [self accessibilityElementMatchingBlock:matchBlock];
