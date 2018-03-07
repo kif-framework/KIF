@@ -1,5 +1,5 @@
 //
-//  KIFTester.m
+//  KIFTestActor.m
 //  KIF
 //
 //  Created by Brian Nickel on 12/13/12.
