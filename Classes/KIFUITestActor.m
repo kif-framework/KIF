@@ -7,6 +7,8 @@
 //  See the LICENSE file distributed with this work for the terms under
 //  which Square, Inc. licenses this file to you.
 
+#import <objc/runtime.h>
+
 #import "KIFUITestActor.h"
 
 #import "CALayer-KIFAdditions.h"
@@ -251,6 +253,27 @@ KIFUITestActor *_KIF_tester()
         
         return KIFTestStepResultSuccess;
     } timeout:maximumWaitingTimeInterval + 1];
+
+    /*
+     *  On very rare occasions, a race condition can occur where a touch event enqueued on the main queue runloop will
+     *  execute before the UI element it's intended to tap has appeared onscreen. KIF can then potentially send UI tap
+     *  events to a view while it's still in the process of animating.
+     *  By enqueuing a task on the main thread and spinning a runloop until its execution before the end of
+     *  waitForAnimationsToFinishWithTimeout, we should be able to avoid this race condition.
+     */
+    __block BOOL waitForRunloopTaskToProcess = NO;
+    NSTimeInterval start = [NSDate timeIntervalSinceReferenceDate];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if([NSDate timeIntervalSinceReferenceDate] - start > stabilizationTime) {
+            NSLog(@"WARN: Waited longer than %f seconds for animations to complete.", stabilizationTime);
+        }
+        waitForRunloopTaskToProcess = YES;
+    });
+
+    [self runBlock:^KIFTestStepResult(NSError *__autoreleasing *error) {
+        KIFTestWaitCondition(waitForRunloopTaskToProcess, error, @"Animations still running!");
+        return KIFTestStepResultSuccess;
+    } timeout:timeout];
 }
 
 - (void)tapViewWithAccessibilityLabel:(NSString *)label
