@@ -41,6 +41,7 @@ KIFUITestActor *_KIF_tester()
 
 @end
 
+static BOOL KIFUITestActorAnimationsEnabled = YES;
 
 @implementation KIFUITestActor
 
@@ -839,7 +840,7 @@ KIFUITestActor *_KIF_tester()
     }
 
     NSLog(@"Faking turning switch %@", switchIsOn ? @"ON" : @"OFF");
-    [switchView setOn:switchIsOn animated:YES];
+    [switchView setOn:switchIsOn animated:[[self class] testActorAnimationsEnabled]];
     [switchView sendActionsForControlEvents:UIControlEventValueChanged];
     [self waitForTimeInterval:0.5 relativeToAnimationSpeed:YES];
 
@@ -1209,7 +1210,7 @@ KIFUITestActor *_KIF_tester()
     __block UITableViewCell *cell = nil;
     __block CGFloat lastYOffset = CGFLOAT_MAX;
     [self runBlock:^KIFTestStepResult(NSError **error) {
-        [tableView scrollToRowAtIndexPath:indexPath atScrollPosition:position animated:YES];
+        [tableView scrollToRowAtIndexPath:indexPath atScrollPosition:position animated:[[self class] testActorAnimationsEnabled]];
         cell = [tableView cellForRowAtIndexPath:indexPath];
         KIFTestWaitCondition(!!cell, error, @"Table view cell at index path %@ not found", indexPath);
         
@@ -1266,7 +1267,7 @@ KIFUITestActor *_KIF_tester()
 
     [collectionView scrollToItemAtIndexPath:indexPath
                            atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally | UICollectionViewScrollPositionCenteredVertically
-                                   animated:YES];
+                                   animated:[[self class] testActorAnimationsEnabled]];
 
     // waitForAnimationsToFinish doesn't allow collection view to settle when animations are sped up
     // So use waitForTimeInterval instead
@@ -1408,6 +1409,16 @@ KIFUITestActor *_KIF_tester()
         case KIFSwipeDirectionDown:
             return CGPointMake(kKIFMinorSwipeDisplacement, UIScreen.mainScreen.majorSwipeDisplacement);
     }
+}
+
++ (BOOL)testActorAnimationsEnabled;
+{
+    return KIFUITestActorAnimationsEnabled;
+}
+
++ (void)setTestActorAnimationsEnabled:(BOOL)animationsEnabled;
+{
+    KIFUITestActorAnimationsEnabled = animationsEnabled;
 }
 
 @end

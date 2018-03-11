@@ -824,4 +824,17 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  */
 - (void)deactivateAppForDuration:(NSTimeInterval)duration KIF_DEPRECATED("Use [system deactivateAppForDuration:] instead.");
 
+/*!
+ @method testActorAnimationsEnabled
+ @abstract Flag to disable/enable animations done by the UITestActor, by default this value is YES. This doesn't affect animations performed by the app being tested.
+ @discussion To change the default value of this flag, call +setTestActorAnimationsEnabled: with a different value.
+ */
++ (BOOL)testActorAnimationsEnabled;
+
+/*!
+ @method setTestActorAnimationsEnabled:
+ @abstract Sets the flag value to enable or disable animations done by the UITestActor.
+ */
++ (void)setTestActorAnimationsEnabled:(BOOL)animationsEnabled;
+
 @end

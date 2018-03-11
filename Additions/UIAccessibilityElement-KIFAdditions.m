@@ -15,6 +15,7 @@
 #import "UIView-KIFAdditions.h"
 #import "LoadableCategory.h"
 #import "KIFTestActor.h"
+#import "KIFUITestActor.h"
 
 MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
 
@@ -182,14 +183,15 @@ MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
             
             if ([superview isKindOfClass:[UIScrollView class]]) {
                 UIScrollView *scrollView = (UIScrollView *)superview;
+                BOOL animationEnabled = [KIFUITestActor testActorAnimationsEnabled];
                 
                 if (((UIAccessibilityElement *)view == element) && ![view isKindOfClass:[UITableViewCell class]]) {
-                    [scrollView scrollViewToVisible:view animated:YES];
+                    [scrollView scrollViewToVisible:view animated:animationEnabled];
                 } else if ([view isKindOfClass:[UITableViewCell class]] && [scrollView.superview isKindOfClass:[UITableView class]]) {
                     UITableViewCell *cell = (UITableViewCell *)view;
                     UITableView *tableView = (UITableView *)scrollView.superview;
                     NSIndexPath *indexPath = [tableView indexPathForCell:cell];
-                    [tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionNone animated:YES];
+                    [tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionNone animated:animationEnabled];
                 } else {
                     CGRect elementFrame = [view.window convertRect:element.accessibilityFrame toView:scrollView];
                     CGRect visibleRect = CGRectMake(scrollView.contentOffset.x, scrollView.contentOffset.y, CGRectGetWidth(scrollView.bounds), CGRectGetHeight(scrollView.bounds));
@@ -197,12 +199,13 @@ MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
                     // Only call scrollRectToVisible if the element isn't already visible
                     // iOS 8 will sometimes incorrectly scroll table views so the element scrolls out of view
                     if (!CGRectContainsRect(visibleRect, elementFrame)) {
-                        [scrollView scrollRectToVisible:elementFrame animated:YES];
+                        [scrollView scrollRectToVisible:elementFrame animated:animationEnabled];
                     }
                 }
                 
                 // Give the scroll view a small amount of time to perform the scroll.
-                KIFRunLoopRunInModeRelativeToAnimationSpeed(kCFRunLoopDefaultMode, 0.3, false);
+                CFTimeInterval delay = animationEnabled ? 0.3 : 0.05;
+                KIFRunLoopRunInModeRelativeToAnimationSpeed(kCFRunLoopDefaultMode, delay, false);
             }
             
             superview = superview.superview;
