@@ -7,8 +7,6 @@
 //  See the LICENSE file distributed with this work for the terms under
 //  which Square, Inc. licenses this file to you.
 
-#import <objc/runtime.h>
-
 #import "KIFUITestActor.h"
 
 #import "CALayer-KIFAdditions.h"
@@ -263,23 +261,27 @@ KIFUITestActor *_KIF_tester()
      */
     __block BOOL waitForRunloopTaskToProcess = NO;
 
-    NSTimeInterval remainingTime = MAX(timeout - ([NSDate timeIntervalSinceReferenceDate] - startTime), stabilizationTime);
+    NSTimeInterval startOfMainDispatchQueueStabilization = [NSDate timeIntervalSinceReferenceDate];
+    NSTimeInterval remainingTime = MAX(timeout - (startOfMainDispatchQueueStabilization - startTime), (maximumWaitingTimeInterval - stabilizationTime));
 
     dispatch_async(dispatch_get_main_queue(), ^{
         waitForRunloopTaskToProcess = YES;
     });
 
     [self runBlock:^KIFTestStepResult(NSError *__autoreleasing *error) {
-        if([NSDate timeIntervalSinceReferenceDate] - startTime > stabilizationTime) {
-            NSLog(@"WARN: Main thread was blocked for more than %fs after animations completed!", stabilizationTime);
-        }
+        NSTimeInterval elapsedTime = [NSDate timeIntervalSinceReferenceDate] - startOfMainDispatchQueueStabilization;
         if(!waitForRunloopTaskToProcess) {
-            if(([NSDate timeIntervalSinceReferenceDate] - startTime) < remainingTime) {
+            if(elapsedTime < remainingTime) {
                 return KIFTestStepResultWait;
             } else {
                 // The main thread is still blocked, but we've hit our time limit
+                NSLog(@"WARN: Main thread still blocked while waiting %fs after animations completed!", remainingTime);
                 return KIFTestStepResultSuccess;
             }
+        }
+
+        if(elapsedTime > stabilizationTime) {
+            NSLog(@"WARN: Main thread was blocked for more than %fs after animations completed!", stabilizationTime);
         }
 
         return KIFTestStepResultSuccess;
