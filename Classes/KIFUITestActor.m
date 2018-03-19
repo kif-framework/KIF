@@ -209,6 +209,10 @@ KIFUITestActor *_KIF_tester()
 }
 
 - (void)waitForAnimationsToFinishWithTimeout:(NSTimeInterval)timeout stabilizationTime:(NSTimeInterval)stabilizationTime {
+    [self waitForAnimationsToFinishWithTimeout:timeout stabilizationTime:stabilizationTime mainThreadDispatchStabilizationTime:self.mainThreadDispatchStabilizationTimeout];
+}
+
+- (void)waitForAnimationsToFinishWithTimeout:(NSTimeInterval)timeout stabilizationTime:(NSTimeInterval)stabilizationTime mainThreadDispatchStabilizationTime:(NSTimeInterval)mainThreadDispatchStabilizationTime {
     NSTimeInterval maximumWaitingTimeInterval = timeout;
     if (maximumWaitingTimeInterval <= stabilizationTime) {
         if(maximumWaitingTimeInterval >= 0) {
@@ -262,8 +266,6 @@ KIFUITestActor *_KIF_tester()
     __block BOOL waitForRunloopTaskToProcess = NO;
 
     NSTimeInterval startOfMainDispatchQueueStabilization = [NSDate timeIntervalSinceReferenceDate];
-    NSTimeInterval remainingTime = MAX(timeout - (startOfMainDispatchQueueStabilization - startTime), (maximumWaitingTimeInterval - stabilizationTime));
-
     dispatch_async(dispatch_get_main_queue(), ^{
         waitForRunloopTaskToProcess = YES;
     });
@@ -271,21 +273,21 @@ KIFUITestActor *_KIF_tester()
     [self runBlock:^KIFTestStepResult(NSError *__autoreleasing *error) {
         NSTimeInterval elapsedTime = [NSDate timeIntervalSinceReferenceDate] - startOfMainDispatchQueueStabilization;
         if(!waitForRunloopTaskToProcess) {
-            if(elapsedTime < remainingTime) {
+            if(elapsedTime < mainThreadDispatchStabilizationTime) {
                 return KIFTestStepResultWait;
             } else {
                 // The main thread is still blocked, but we've hit our time limit
-                NSLog(@"WARN: Main thread still blocked while waiting %fs after animations completed!", remainingTime);
+                NSLog(@"WARN: Main thread still blocked while waiting %fs after animations completed!", mainThreadDispatchStabilizationTime);
                 return KIFTestStepResultSuccess;
             }
         }
 
-        if(elapsedTime > stabilizationTime) {
+        if(elapsedTime > mainThreadDispatchStabilizationTime) {
             NSLog(@"WARN: Main thread was blocked for more than %fs after animations completed!", stabilizationTime);
         }
 
         return KIFTestStepResultSuccess;
-    } timeout:remainingTime + 1];
+    } timeout:mainThreadDispatchStabilizationTime + 1];
 }
 
 - (void)tapViewWithAccessibilityLabel:(NSString *)label
