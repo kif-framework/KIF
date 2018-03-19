@@ -262,18 +262,28 @@ KIFUITestActor *_KIF_tester()
      *  waitForAnimationsToFinishWithTimeout, we should be able to avoid this race condition.
      */
     __block BOOL waitForRunloopTaskToProcess = NO;
-    NSTimeInterval start = [NSDate timeIntervalSinceReferenceDate];
+
+    NSTimeInterval remainingTime = MAX(timeout - ([NSDate timeIntervalSinceReferenceDate] - startTime), stabilizationTime);
+
     dispatch_async(dispatch_get_main_queue(), ^{
-        if([NSDate timeIntervalSinceReferenceDate] - start > stabilizationTime) {
-            NSLog(@"WARN: Waited longer than %f seconds for animations to complete.", stabilizationTime);
-        }
         waitForRunloopTaskToProcess = YES;
     });
 
     [self runBlock:^KIFTestStepResult(NSError *__autoreleasing *error) {
-        KIFTestWaitCondition(waitForRunloopTaskToProcess, error, @"Animations still running!");
+        if([NSDate timeIntervalSinceReferenceDate] - startTime > stabilizationTime) {
+            NSLog(@"WARN: Main thread was blocked for more than %fs after animations completed!", stabilizationTime);
+        }
+        if(!waitForRunloopTaskToProcess) {
+            if(([NSDate timeIntervalSinceReferenceDate] - startTime) < remainingTime) {
+                return KIFTestStepResultWait;
+            } else {
+                // The main thread is still blocked, but we've hit our time limit
+                return KIFTestStepResultSuccess;
+            }
+        }
+
         return KIFTestStepResultSuccess;
-    } timeout:timeout];
+    } timeout:remainingTime + 1];
 }
 
 - (void)tapViewWithAccessibilityLabel:(NSString *)label
