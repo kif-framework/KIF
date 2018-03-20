@@ -42,6 +42,7 @@
         _executionBlockTimeout = [[self class] defaultTimeout];
         _animationWaitingTimeout = [[self class] defaultAnimationWaitingTimeout];
         _animationStabilizationTimeout = [[self class] defaultAnimationStabilizationTimeout];
+        _mainThreadDispatchStabilizationTimeout = [[self class] defaultMainThreadDispatchStabilizationTimeout];
     }
     return self;
 }
@@ -123,6 +124,7 @@
 
 static NSTimeInterval KIFTestStepDefaultAnimationWaitingTimeout = 0.5;
 static NSTimeInterval KIFTestStepDefaultAnimationStabilizationTimeout = 0.5;
+static NSTimeInterval KIFTestStepDefaultMainThreadDispatchStabilizationTimeout = 0.5;
 static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
 static NSTimeInterval KIFTestStepDelay = 0.1;
 
@@ -145,6 +147,17 @@ static NSTimeInterval KIFTestStepDelay = 0.1;
 {
     KIFTestStepDefaultAnimationStabilizationTimeout = newDefaultAnimationStabilizationTimeout;
 }
+
++ (NSTimeInterval)defaultMainThreadDispatchStabilizationTimeout
+{
+    return KIFTestStepDefaultMainThreadDispatchStabilizationTimeout;
+}
+
++ (void)setDefaultMainThreadDispatchStabilizationTimeout:(NSTimeInterval)newDefaultMainThreadDispatchStabilizationTimeout;
+{
+    KIFTestStepDefaultMainThreadDispatchStabilizationTimeout = newDefaultMainThreadDispatchStabilizationTimeout;
+}
+
 
 + (NSTimeInterval)defaultTimeout;
 {
