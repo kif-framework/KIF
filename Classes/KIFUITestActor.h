@@ -752,7 +752,8 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  @abstract Scrolls a collection view while waiting for the cell at the given indexPath to appear.
  @discussion This step will get the cell at the indexPath.
  
- For cases where you may need to work from the end of a table view rather than the beginning, negative sections count back from the end of the table view (-1 is the last section) and negative rows count back from the end of the section (-1 is the last row for that section).
+ By default, scrolls to the vertical and horizontal middle of the cell. If you need to scroll to custom positions, use the @c atPosition: variation.
+ For cases where you may need to work from the end of a collection view rather than the beginning, negative sections count back from the end of the collection view (-1 is the last section) and negative rows count back from the end of the section (-1 is the last row for that section).
  
  @param indexPath Index path of the cell.
  @param collectionView UICollectionView containing the cell.
@@ -760,11 +761,24 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  */
 - (UICollectionViewCell *)waitForCellAtIndexPath:(NSIndexPath *)indexPath inCollectionView:(UICollectionView *)collectionView;
 
+/*!
+ @abstract Scrolls a collection view while waiting for the cell at the given indexPath to appear.
+ @discussion This step will get the cell at the indexPath.
+ 
+ For cases where you may need to work from the end of a collection view rather than the beginning, negative sections count back from the end of the collection view (-1 is the last section) and negative rows count back from the end of the section (-1 is the last row for that section).
+ 
+ @param indexPath Index path of the cell.
+ @param collectionView UICollectionView containing the cell.
+ @param position Collection View scroll position to scroll to. Useful for custom-sized cells when the content needed is in a specific location.
+ @result Collection view cell at index path
+ */
+- (UICollectionViewCell *)waitForCellAtIndexPath:(NSIndexPath *)indexPath inCollectionView:(UICollectionView *)collectionView atPosition:(UICollectionViewScrollPosition)position;
 
 /*!
- @abstract Scrolls a given collection view while waiting for the item at the given indexPath to appear.
+ @abstract Scrolls a collection view with the given identifier while waiting for the item at the given indexPath to appear.
  @discussion This step will get the view with the specified accessibility identifier and then get the cell at indexPath.
  
+ By default, scrolls to the vertical and horizontal middle of the cell. If you need to scroll to custom positions, use the @c atPosition: variation.
  For cases where you may need to work from the end of a collection view rather than the beginning, negative sections count back from the end of the collection view (-1 is the last section) and negative items count back from the end of the section (-1 is the last item for that section).
  
  @param indexPath Index path of the item to tap.
@@ -772,6 +786,19 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  @result Collection view cell at index path
  */
 - (UICollectionViewCell *)waitForCellAtIndexPath:(NSIndexPath *)indexPath inCollectionViewWithAccessibilityIdentifier:(NSString *)identifier;
+
+/*!
+ @abstract Scrolls a collection view with the given identifier while waiting for the item at the given indexPath to appear.
+ @discussion This step will get the view with the specified accessibility identifier and then get the cell at indexPath.
+ 
+ For cases where you may need to work from the end of a collection view rather than the beginning, negative sections count back from the end of the collection view (-1 is the last section) and negative rows count back from the end of the section (-1 is the last row for that section).
+ 
+ @param indexPath Index path of the cell.
+ @param identifier Accessibility identifier of the table view.
+ @param position Collection View scroll position to scroll to. Useful for custom-sized cells when the content needed is in a specific location.
+ @result Table view cell at index path
+ */
+- (UICollectionViewCell *)waitForCellAtIndexPath:(NSIndexPath *)indexPath inCollectionViewWithAccessibilityIdentifier:(NSString *)identifier atPosition:(UICollectionViewScrollPosition)position;
 
 /*!
  @abstract Moves the row at sourceIndexPath to destinationIndexPath in a table view with the given identifier.
