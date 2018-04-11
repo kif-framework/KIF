@@ -171,23 +171,23 @@ MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
         }
         return nil;
     }
-    
-    if (!view.isVisibleInWindowFrame) {
-        // Scroll the view (and superviews) to be visible if necessary
-        UIView *superview = (UIScrollView *)view;
-        while (superview) {
-            // Fix for iOS7 table view cells containing scroll views
-            if ([superview.superview isKindOfClass:[UITableViewCell class]]) {
-                break;
-            }
+
+    // Scroll the view (and superviews) to be visible if necessary
+    UIView *superview = view;
+    while (superview) {
+        // Fix for iOS7 table view cells containing scroll views
+        if ([superview.superview isKindOfClass:[UITableViewCell class]]) {
+            break;
+        }
+
+        if ([superview isKindOfClass:[UIScrollView class]]) {
+            UIScrollView *scrollView = (UIScrollView *)superview;
+            BOOL animationEnabled = [KIFUITestActor testActorAnimationsEnabled];
             
-            if ([superview isKindOfClass:[UIScrollView class]]) {
-                UIScrollView *scrollView = (UIScrollView *)superview;
-                BOOL animationEnabled = [KIFUITestActor testActorAnimationsEnabled];
-                
-                if (((UIAccessibilityElement *)view == element) && ![view isKindOfClass:[UITableViewCell class]]) {
-                    [scrollView scrollViewToVisible:view animated:animationEnabled];
-                } else if ([view isKindOfClass:[UITableViewCell class]] && [scrollView.superview isKindOfClass:[UITableView class]]) {
+            if (((UIAccessibilityElement *)view == element) && ![view isKindOfClass:[UITableViewCell class]]) {
+                [scrollView scrollViewToVisible:view animated:animationEnabled];
+            } else {
+                if ([view isKindOfClass:[UITableViewCell class]] && [scrollView.superview isKindOfClass:[UITableView class]]) {
                     UITableViewCell *cell = (UITableViewCell *)view;
                     UITableView *tableView = (UITableView *)scrollView.superview;
                     NSIndexPath *indexPath = [tableView indexPathForCell:cell];
@@ -195,23 +195,35 @@ MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
                 } else {
                     CGRect elementFrame = [view.window convertRect:element.accessibilityFrame toView:scrollView];
                     CGRect visibleRect = CGRectMake(scrollView.contentOffset.x, scrollView.contentOffset.y, CGRectGetWidth(scrollView.bounds), CGRectGetHeight(scrollView.bounds));
-                    
+
+                    UIEdgeInsets contentInset;
+#ifdef __IPHONE_11_0
+                        if (@available(iOS 11.0, *)) {
+                            contentInset = scrollView.adjustedContentInset;
+                        } else {
+                            contentInset = scrollView.contentInset;
+                        }
+#else
+                        contentInset = scrollView.contentInset;
+#endif
+                    visibleRect = UIEdgeInsetsInsetRect(visibleRect, contentInset);
+
                     // Only call scrollRectToVisible if the element isn't already visible
                     // iOS 8 will sometimes incorrectly scroll table views so the element scrolls out of view
                     if (!CGRectContainsRect(visibleRect, elementFrame)) {
                         [scrollView scrollRectToVisible:elementFrame animated:animationEnabled];
                     }
                 }
-                
+
                 // Give the scroll view a small amount of time to perform the scroll.
                 CFTimeInterval delay = animationEnabled ? 0.3 : 0.05;
                 KIFRunLoopRunInModeRelativeToAnimationSpeed(kCFRunLoopDefaultMode, delay, false);
             }
-            
-            superview = superview.superview;
         }
+        
+        superview = superview.superview;
     }
-    
+
     if ([[UIApplication sharedApplication] isIgnoringInteractionEvents]) {
         if (error) {
             *error = [NSError KIFErrorWithFormat:@"Application is ignoring interaction events"];

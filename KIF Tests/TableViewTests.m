@@ -7,6 +7,7 @@
 //
 
 #import <KIF/KIF.h>
+#import <KIF/KIFUITestActor-IdentifierTests.h>
 #import "KIFTestStepValidation.h"
 #import "UIApplication-KIFAdditions.h"
 
@@ -110,6 +111,9 @@
 
 - (void)testTappingRowUnderToolbarByLabel
 {
+    // Ensure the toolbar is visible
+    [tester waitForViewWithAccessibilityIdentifier:@"Toolbar"];
+
     // Tap row 31, which will scroll so that cell 32 is precisely positioned under the toolbar
     [tester tapViewWithAccessibilityLabel:@"Cell 31"];
 
@@ -134,6 +138,9 @@
 - (void)testTappingRowUnderToolbarByLabelWithoutAnimation
 {
     [[tester class] setTestActorAnimationsEnabled:NO];
+
+    // Ensure the toolbar is visible
+    [tester waitForViewWithAccessibilityIdentifier:@"Toolbar"];
     
     // Tap row 31, which will scroll so that cell 32 is precisely positioned under the toolbar
     [tester tapViewWithAccessibilityLabel:@"Cell 31"];

@@ -34,6 +34,23 @@ MAKE_CATEGORIES_LOADABLE(UIScrollView_KIFAdditions)
     } else if (CGRectGetMinY(viewFrame) < self.contentOffset.y) {
         contentOffset.y = MAX(CGRectGetMaxY(viewFrame) - CGRectGetHeight(self.bounds), CGRectGetMinY(viewFrame));
     }
+
+    UIEdgeInsets contentInset;
+#ifdef __IPHONE_11_0
+        if (@available(iOS 11.0, *)) {
+            contentInset = self.adjustedContentInset;
+        } else {
+            contentInset = self.contentInset;
+        }
+#else
+    contentInset = self.contentInset;
+#endif
+    CGFloat minX = -self.contentInset.left;
+    CGFloat maxX = minX + MAX(0, self.contentSize.width + contentInset.right - CGRectGetWidth(self.bounds));
+    CGFloat minY = -self.contentInset.top;
+    CGFloat maxY = minY + MAX(0, self.contentSize.height + contentInset.bottom - CGRectGetHeight(self.bounds));
+    contentOffset.x = MAX(minX, MIN(contentOffset.x, maxX));
+    contentOffset.y = MAX(minY, MIN(contentOffset.y, maxY));
     
     if (!CGPointEqualToPoint(contentOffset, self.contentOffset)) {
         [self setContentOffset:contentOffset animated:animated];
