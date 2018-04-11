@@ -197,11 +197,15 @@ MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
                     CGRect visibleRect = CGRectMake(scrollView.contentOffset.x, scrollView.contentOffset.y, CGRectGetWidth(scrollView.bounds), CGRectGetHeight(scrollView.bounds));
 
                     UIEdgeInsets contentInset;
-                    if (@available(iOS 11.0, *)) {
-                        contentInset = scrollView.adjustedContentInset;
-                    } else {
+#ifdef __IPHONE_11_0
+                        if (@available(iOS 11.0, *)) {
+                            contentInset = scrollView.adjustedContentInset;
+                        } else {
+                            contentInset = scrollView.contentInset;
+                        }
+#else
                         contentInset = scrollView.contentInset;
-                    }
+#endif
                     visibleRect = UIEdgeInsetsInsetRect(visibleRect, contentInset);
 
                     // Only call scrollRectToVisible if the element isn't already visible
