@@ -20,6 +20,7 @@
 	UITableView *tableView;
 	[tester waitForAccessibilityElement:NULL view:&tableView withIdentifier:@"Test Suite TableView" tappable:NO];
 
+    [tester tapViewWithAccessibilityLabel:@"Reset Refresh Control"];
 	[tester pullToRefreshViewWithAccessibilityIdentifier:@"Test Suite TableView"];
 	[tester waitForViewWithAccessibilityLabel:@"Bingo!"];
 	[tester waitForAbsenceOfViewWithAccessibilityLabel:@"Bingo!"];
@@ -30,6 +31,7 @@
 	UITableView *tableView;
 	[tester waitForAccessibilityElement:NULL view:&tableView withIdentifier:@"Test Suite TableView" tappable:NO];
 
+    [tester tapViewWithAccessibilityLabel:@"Reset Refresh Control"];
 	[tester pullToRefreshViewWithAccessibilityIdentifier:@"Test Suite TableView" pullDownDuration:KIFPullToRefreshInAboutThreeSeconds];
 	[tester waitForViewWithAccessibilityLabel:@"Bingo!"];
 	[tester waitForAbsenceOfViewWithAccessibilityLabel:@"Bingo!"];

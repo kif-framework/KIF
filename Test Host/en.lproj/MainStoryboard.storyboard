@@ -338,6 +338,13 @@
                             <outlet property="delegate" destination="12" id="15"/>
                         </connections>
                     </tableView>
+                    <toolbarItems>
+                        <barButtonItem title="Reset Refresh Control" id="dok-05-KRE">
+                            <connections>
+                                <action selector="resetRefreshControl" destination="12" id="uuQ-Q4-eER"/>
+                            </connections>
+                        </barButtonItem>
+                    </toolbarItems>
                     <navigationItem key="navigationItem" title="Test Suite" id="36">
                         <barButtonItem key="rightBarButtonItem" id="1dx-4R-qUX">
                             <switch key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="YCM-aH-b0t">
@@ -347,6 +354,7 @@
                             </switch>
                         </barButtonItem>
                     </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="17" sceneMemberID="firstResponder"/>
             </objects>
