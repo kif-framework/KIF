@@ -11,28 +11,29 @@
 @interface KIFTextInputTraitsOverrides()
 
 /*!
- @abstract Swizzles the @c autocorrectionType property of @c UITextField
+ @abstract Swizzles the @c autocorrectionType property of @c UITextField and @c UITextView
  @discussion Sets the property to have default behavior when @c allowDefaultAutocorrectBehavior is set to @c YES, and always return @c UITextAutocorrectionTypeNo when it's set to no.
  */
-+ (void)KIFSwizzleTextFieldAutocorrect;
++ (void)KIFSwizzleTextInputFieldsAutocorrect;
 
 /*!
- @abstract Swizzles the @c smartDashesType property of @c UITextField
+ @abstract Swizzles the @c smartDashesType property of @c UITextField and @c UITextView
  @discussion Sets the property to have default behavior when @c allowDefaultSmartDashesBehavior is set to @c YES, and always return @c UITextSmartDashesTypeNo when it's set to no.
  */
-+ (void)KIFSwizzleTextFieldSmartDashes;
++ (void)KIFSwizzleTextInputFieldsSmartDashes;
 
 /*!
- @abstract Swizzles the @c smartQuotesType property of @c UITextField
+ @abstract Swizzles the @c smartQuotesType property of @c UITextField and @c UITextView
  @discussion Sets the property to have default behavior when @c allowDefaultSmartQuotesBehavior is set to @c YES, and always return @c UITextSmartQuotesTypeNo when it's set to no.
  */
-+ (void)KIFSwizzleTextFieldSmartQuotes;
++ (void)KIFSwizzleTextInputFieldsSmartQuotes;
 
 @end
 
 @implementation KIFTextInputTraitsOverrides
 
-typedef NSInteger (*send_type)(UITextField*, SEL);
+typedef NSInteger (*send_type_uitextfield)(UITextField*, SEL);
+typedef NSInteger (*send_type_uitextview)(UITextView*, SEL);
 
 static BOOL KIFAutocorrectEnabled = NO;
 static BOOL KIFSmartDashesEnabled = NO;
@@ -40,9 +41,9 @@ static BOOL KIFSmartQuotesEnabled = NO;
 
 + (void)load
 {
-    [self KIFSwizzleTextFieldAutocorrect];
-    [self KIFSwizzleTextFieldSmartDashes];
-    [self KIFSwizzleTextFieldSmartQuotes];
+    [self KIFSwizzleTextInputFieldsAutocorrect];
+    [self KIFSwizzleTextInputFieldsSmartDashes];
+    [self KIFSwizzleTextInputFieldsSmartQuotes];
 }
 
 + (BOOL)allowDefaultAutocorrectBehavior
@@ -75,24 +76,36 @@ static BOOL KIFSmartQuotesEnabled = NO;
     KIFSmartQuotesEnabled = allowDefaultBehavior;
 }
 
-+ (void)KIFSwizzleTextFieldAutocorrect
++ (void)KIFSwizzleTextInputFieldsAutocorrect
 {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         struct objc_method_description autocorrectionTypeMethodDescription = protocol_getMethodDescription(@protocol(UITextInputTraits), @selector(autocorrectionType), NO, YES);
-        send_type autocorrectOriginalImp = (send_type)[UITextField instanceMethodForSelector:@selector(autocorrectionType)];
-        IMP autocorrectImp = imp_implementationWithBlock(^(UITextField *_self) {
+        send_type_uitextfield autocorrectOriginalImp_textField = (send_type_uitextfield)[UITextField instanceMethodForSelector:@selector(autocorrectionType)];
+        send_type_uitextview autocorrectOriginalImp_textView = (send_type_uitextview)[UITextView instanceMethodForSelector:@selector(autocorrectionType)];
+
+        IMP autocorrectImp_textView = imp_implementationWithBlock(^(UITextView *_self) {
             if(self.allowDefaultAutocorrectBehavior) {
-                return autocorrectOriginalImp(_self, @selector(autocorrectionType));
+                return autocorrectOriginalImp_textView(_self, @selector(autocorrectionType));
             } else {
                 return UITextAutocorrectionTypeNo;
             }
         });
-        class_replaceMethod([UITextField class], @selector(autocorrectionType), autocorrectImp, autocorrectionTypeMethodDescription.types);
+
+        IMP autocorrectImp_textField = imp_implementationWithBlock(^(UITextField *_self) {
+            if(self.allowDefaultAutocorrectBehavior) {
+                return autocorrectOriginalImp_textField(_self, @selector(autocorrectionType));
+            } else {
+                return UITextAutocorrectionTypeNo;
+            }
+        });
+
+        class_replaceMethod([UITextField class], @selector(autocorrectionType), autocorrectImp_textField, autocorrectionTypeMethodDescription.types);
+        class_replaceMethod([UITextView class], @selector(autocorrectionType), autocorrectImp_textView, autocorrectionTypeMethodDescription.types);
     });
 }
 
-+ (void)KIFSwizzleTextFieldSmartDashes
++ (void)KIFSwizzleTextInputFieldsSmartDashes
 {
     // This #ifdef is necessary for versions of Xcode before Xcode 9.
 #ifdef __IPHONE_11_0
@@ -100,21 +113,32 @@ static BOOL KIFSmartQuotesEnabled = NO;
         static dispatch_once_t onceToken;
         dispatch_once(&onceToken, ^{
             struct objc_method_description smartDashesTypeMethodDescription = protocol_getMethodDescription(@protocol(UITextInputTraits), @selector(smartDashesType), NO, YES);
-            send_type smartDashesOriginalImp = (send_type)[UITextField instanceMethodForSelector:@selector(smartDashesType)];
-            IMP smartDashesImp = imp_implementationWithBlock(^(UITextField *_self) {
+            send_type_uitextfield smartDashesOriginalImp_textField = (send_type_uitextfield)[UITextField instanceMethodForSelector:@selector(smartDashesType)];
+            send_type_uitextview smartDashesOriginalImp_textView = (send_type_uitextview)[UITextView instanceMethodForSelector:@selector(smartDashesType)];
+
+            IMP smartDashesImp_textField = imp_implementationWithBlock(^(UITextField *_self) {
                 if(self.allowDefaultSmartDashesBehavior) {
-                    return smartDashesOriginalImp(_self, @selector(smartQuotesType));
+                    return smartDashesOriginalImp_textField(_self, @selector(smartQuotesType));
                 } else {
                     return UITextSmartDashesTypeNo;
                 }
             });
-            class_replaceMethod([UITextField class], @selector(smartDashesType), smartDashesImp, smartDashesTypeMethodDescription.types);
+            IMP smartDashesImp_textView = imp_implementationWithBlock(^(UITextView *_self) {
+                if(self.allowDefaultSmartDashesBehavior) {
+                    return smartDashesOriginalImp_textView(_self, @selector(smartQuotesType));
+                } else {
+                    return UITextSmartDashesTypeNo;
+                }
+            });
+
+            class_replaceMethod([UITextField class], @selector(smartDashesType), smartDashesImp_textField, smartDashesTypeMethodDescription.types);
+            class_replaceMethod([UITextView class], @selector(smartDashesType), smartDashesImp_textView, smartDashesTypeMethodDescription.types);
         });
     }
 #endif
 }
 
-+ (void)KIFSwizzleTextFieldSmartQuotes
++ (void)KIFSwizzleTextInputFieldsSmartQuotes
 {
         // This #ifdef is necessary for versions of Xcode before Xcode 9.
 #ifdef __IPHONE_11_0
@@ -122,15 +146,26 @@ static BOOL KIFSmartQuotesEnabled = NO;
             static dispatch_once_t onceToken;
             dispatch_once(&onceToken, ^{
                 struct objc_method_description smartQuotesTypeMethodDescription = protocol_getMethodDescription(@protocol(UITextInputTraits), @selector(smartQuotesType), NO, YES);
-                send_type smartQuotesOriginalImp = (send_type)[UITextField instanceMethodForSelector:@selector(smartDashesType)];
-                IMP smartQuotesImp = imp_implementationWithBlock(^(UITextField *_self) {
+                send_type_uitextfield smartQuotesOriginalImp_textField = (send_type_uitextfield)[UITextField instanceMethodForSelector:@selector(smartDashesType)];
+                send_type_uitextview smartQuotesOriginalImp_textView = (send_type_uitextview)[UITextView instanceMethodForSelector:@selector(smartDashesType)];
+
+                IMP smartQuotesImp_textField = imp_implementationWithBlock(^(UITextField *_self) {
                     if(self.allowDefaultSmartQuotesBehavior) {
-                        return smartQuotesOriginalImp(_self, @selector(smartQuotesType));
+                        return smartQuotesOriginalImp_textField(_self, @selector(smartQuotesType));
                     } else {
                         return UITextSmartQuotesTypeNo;
                     }
                 });
-                class_replaceMethod([UITextField class], @selector(smartQuotesType), smartQuotesImp, smartQuotesTypeMethodDescription.types);
+                IMP smartQuotesImp_textView = imp_implementationWithBlock(^(UITextView *_self) {
+                    if(self.allowDefaultSmartQuotesBehavior) {
+                        return smartQuotesOriginalImp_textView(_self, @selector(smartQuotesType));
+                    } else {
+                        return UITextSmartQuotesTypeNo;
+                    }
+                });
+
+                class_replaceMethod([UITextField class], @selector(smartQuotesType), smartQuotesImp_textField, smartQuotesTypeMethodDescription.types);
+                class_replaceMethod([UITextView class], @selector(smartQuotesType), smartQuotesImp_textView, smartQuotesTypeMethodDescription.types);
             });
         }
 #endif
