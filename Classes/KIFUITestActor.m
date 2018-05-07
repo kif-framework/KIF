@@ -210,48 +210,87 @@ static BOOL KIFUITestActorAnimationsEnabled = YES;
 }
 
 - (void)waitForAnimationsToFinishWithTimeout:(NSTimeInterval)timeout stabilizationTime:(NSTimeInterval)stabilizationTime {
+    [self waitForAnimationsToFinishWithTimeout:timeout stabilizationTime:stabilizationTime mainThreadDispatchStabilizationTime:self.mainThreadDispatchStabilizationTimeout];
+}
+
+- (void)waitForAnimationsToFinishWithTimeout:(NSTimeInterval)timeout stabilizationTime:(NSTimeInterval)stabilizationTime mainThreadDispatchStabilizationTime:(NSTimeInterval)mainThreadDispatchStabilizationTime {
     NSTimeInterval maximumWaitingTimeInterval = timeout;
     if (maximumWaitingTimeInterval <= stabilizationTime) {
         if(maximumWaitingTimeInterval >= 0) {
             [self waitForTimeInterval:maximumWaitingTimeInterval relativeToAnimationSpeed:YES];
         }
-        
-        return;
-    }
+    } else {
     
-    // Wait for the view to stabilize and give them a chance to start animations before we wait for them.
-    [self waitForTimeInterval:stabilizationTime relativeToAnimationSpeed:YES];
-    maximumWaitingTimeInterval -= stabilizationTime;
-    
-    NSTimeInterval startTime = [NSDate timeIntervalSinceReferenceDate];
-    [self runBlock:^KIFTestStepResult(NSError **error) {
-        __block BOOL runningAnimationFound = false;
-        for (UIWindow *window in [UIApplication sharedApplication].windowsWithKeyWindow) {
-            [window performBlockOnDescendentViews:^(UIView *view, BOOL *stop) {
-                BOOL isViewVisible = [view isVisibleInViewHierarchy];   // do not wait for animations of views that aren't visible
-                BOOL hasUnfinishedSystemAnimation = [NSStringFromClass(view.class) isEqualToString:@"_UIParallaxDimmingView"];  // indicates that the view-hierarchy is in an in-between-state of an animation
-                if (isViewVisible && ([view.layer hasAnimations] || hasUnfinishedSystemAnimation)) {
-                    runningAnimationFound = YES;
-                    if (stop != NULL) {
-                        *stop = YES;
-                    }
-                    return;
-                }
-            }];
-        }
+        // Wait for the view to stabilize and give them a chance to start animations before we wait for them.
+        [self waitForTimeInterval:stabilizationTime relativeToAnimationSpeed:YES];
+        maximumWaitingTimeInterval -= stabilizationTime;
 
-        if (runningAnimationFound) {
-            BOOL hasTimeRemainingToWait = ([NSDate timeIntervalSinceReferenceDate] - startTime) < maximumWaitingTimeInterval;
-            if (hasTimeRemainingToWait) {
-                return KIFTestStepResultWait;
-            } else {
-                // Animations appear to still exist, but we've hit our time limit
-                return KIFTestStepResultSuccess;
+        NSTimeInterval startTime = [NSDate timeIntervalSinceReferenceDate];
+        [self runBlock:^KIFTestStepResult(NSError **error) {
+            __block BOOL runningAnimationFound = false;
+            for (UIWindow *window in [UIApplication sharedApplication].windowsWithKeyWindow) {
+                [window performBlockOnDescendentViews:^(UIView *view, BOOL *stop) {
+                    BOOL isViewVisible = [view isVisibleInViewHierarchy];   // do not wait for animations of views that aren't visible
+                    BOOL hasUnfinishedSystemAnimation = [NSStringFromClass(view.class) isEqualToString:@"_UIParallaxDimmingView"];  // indicates that the view-hierarchy is in an in-between-state of an animation
+                    if (isViewVisible && ([view.layer hasAnimations] || hasUnfinishedSystemAnimation)) {
+                        runningAnimationFound = YES;
+                        if (stop != NULL) {
+                            *stop = YES;
+                        }
+                        return;
+                    }
+                }];
             }
-        }
-        
-        return KIFTestStepResultSuccess;
-    } timeout:maximumWaitingTimeInterval + 1];
+
+            if (runningAnimationFound) {
+                BOOL hasTimeRemainingToWait = ([NSDate timeIntervalSinceReferenceDate] - startTime) < maximumWaitingTimeInterval;
+                if (hasTimeRemainingToWait) {
+                    return KIFTestStepResultWait;
+                } else {
+                    // Animations appear to still exist, but we've hit our time limit
+                    return KIFTestStepResultSuccess;
+                }
+            }
+
+            return KIFTestStepResultSuccess;
+        } timeout:maximumWaitingTimeInterval + 1];
+    }
+
+    /*
+     *  On very rare occasions, a race condition can occur where a touch event enqueued on the main queue runloop will
+     *  execute before the UI element it's intended to tap has appeared onscreen. KIF can then potentially send UI tap
+     *  events to a view while it's still in the process of animating.
+     *  By enqueuing a task on the main thread and spinning a runloop until its execution before the end of
+     *  waitForAnimationsToFinishWithTimeout, we should be able to avoid this race condition.
+     */
+
+    if(mainThreadDispatchStabilizationTime > 0) {
+        __block BOOL waitForRunloopTaskToProcess = NO;
+
+        NSTimeInterval startOfMainDispatchQueueStabilization = [NSDate timeIntervalSinceReferenceDate];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            waitForRunloopTaskToProcess = YES;
+        });
+
+        [self runBlock:^KIFTestStepResult(NSError *__autoreleasing *error) {
+            NSTimeInterval elapsedTime = [NSDate timeIntervalSinceReferenceDate] - startOfMainDispatchQueueStabilization;
+            if(!waitForRunloopTaskToProcess) {
+                if(elapsedTime < mainThreadDispatchStabilizationTime) {
+                    return KIFTestStepResultWait;
+                } else {
+                    // The main thread is still blocked, but we've hit our time limit
+                    NSLog(@"WARN: Main thread still blocked while waiting %fs after animations completed!", mainThreadDispatchStabilizationTime);
+                    return KIFTestStepResultSuccess;
+                }
+            }
+
+            if(elapsedTime > mainThreadDispatchStabilizationTime) {
+                NSLog(@"WARN: Main thread was blocked for more than %fs after animations completed!", stabilizationTime);
+            }
+
+            return KIFTestStepResultSuccess;
+        } timeout:mainThreadDispatchStabilizationTime + 1];
+    }
 }
 
 - (void)tapViewWithAccessibilityLabel:(NSString *)label
