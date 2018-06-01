@@ -225,12 +225,10 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
     }
     
     if (!matchingButOccludedElement && self.window) {
-
         CGPoint scrollContentOffset = {-1.0, -1.0};
         UIScrollView *scrollView = nil;
         if ([self isKindOfClass:[UITableView class]]) {
             //special case for UIPickerView (which has a private class UIPickerTableView)
-
             for (UIView *view in [self subviews])
             {
                 NSString * subViewName = [NSString stringWithFormat:@"%@", [view class]];
@@ -253,17 +251,13 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
                 if (indexPath) {
                     [indexPathsForVisibleRows addObject:indexPath];
                 }
-                if (firstIndexPath == nil) {
+                if (!firstIndexPath || ([firstIndexPath compare:indexPath] == NSOrderedDescending)) {
                     firstIndexPath = indexPath;
-                } else {
-                    if ([firstIndexPath compare:indexPath] == NSOrderedDescending) {
-                        firstIndexPath = indexPath;
-                    }
                 }
             }];
 
-			BOOL animationEnabled = [KIFUITestActor testActorAnimationsEnabled];
-			CFTimeInterval delay = animationEnabled ? 0.5 : 0.05;
+            BOOL animationEnabled = [KIFUITestActor testActorAnimationsEnabled];
+            CFTimeInterval delay = animationEnabled ? 0.5 : 0.05;
             for (NSUInteger section = 0, numberOfSections = [tableView numberOfSections]; section < numberOfSections; section++) {
                 for (NSUInteger row = 0, numberOfRows = [tableView numberOfRowsInSection:section]; row < numberOfRows; row++) {
                     if (!self.window) {
