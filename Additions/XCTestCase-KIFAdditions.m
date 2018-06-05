@@ -65,12 +65,17 @@ static inline void Swizzle(Class c, SEL orig, SEL new)
 - (void)writeScreenshotForException:(NSException *)exception;
 {
     [[UIApplication sharedApplication] writeScreenshotForLine:[exception.userInfo[@"LineNumberKey"] unsignedIntegerValue] inFile:exception.userInfo[@"FilenameKey"] description:nil error:NULL];
-        
+    
+    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+
     [XCTContext runActivityNamed:(@"screenshot") block:^(id<XCTActivity>  _Nonnull activity) {
         XCUIScreenshot *screenShot = [[XCUIScreen mainScreen] screenshot];
         XCTAttachment *attachment = [XCTAttachment attachmentWithScreenshot:screenShot];
         [activity addAttachment:(attachment)];
+        dispatch_semaphore_signal(semaphore);
     }];
+    
+    dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
 }
 
 - (void)printViewHierarchyIfOptedIn;
