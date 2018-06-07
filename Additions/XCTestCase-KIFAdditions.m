@@ -68,12 +68,18 @@ static inline void Swizzle(Class c, SEL orig, SEL new)
     
     dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
 
+#ifdef __IPHONE_11_0
+    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+
     [XCTContext runActivityNamed:(@"screenshot") block:^(id<XCTActivity>  _Nonnull activity) {
         XCUIScreenshot *screenShot = [[XCUIScreen mainScreen] screenshot];
         XCTAttachment *attachment = [XCTAttachment attachmentWithScreenshot:screenShot];
         [activity addAttachment:(attachment)];
         dispatch_semaphore_signal(semaphore);
     }];
+    
+    dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+#endif
     
     dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
 }
