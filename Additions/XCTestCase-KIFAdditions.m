@@ -67,6 +67,7 @@ static inline void Swizzle(Class c, SEL orig, SEL new)
     [[UIApplication sharedApplication] writeScreenshotForLine:[exception.userInfo[@"LineNumberKey"] unsignedIntegerValue] inFile:exception.userInfo[@"FilenameKey"] description:nil error:NULL];
     
 #ifdef __IPHONE_11_0
+    //semaphore will make sure the screenshot will be captured. otherwise it will crash on getting screenshot!  
     dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
 
     [XCTContext runActivityNamed:(@"screenshot") block:^(id<XCTActivity>  _Nonnull activity) {
