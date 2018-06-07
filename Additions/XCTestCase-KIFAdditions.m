@@ -66,8 +66,6 @@ static inline void Swizzle(Class c, SEL orig, SEL new)
 {
     [[UIApplication sharedApplication] writeScreenshotForLine:[exception.userInfo[@"LineNumberKey"] unsignedIntegerValue] inFile:exception.userInfo[@"FilenameKey"] description:nil error:NULL];
     
-    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
-
 #ifdef __IPHONE_11_0
     dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
 
@@ -81,7 +79,6 @@ static inline void Swizzle(Class c, SEL orig, SEL new)
     dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
 #endif
     
-    dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
 }
 
 - (void)printViewHierarchyIfOptedIn;
