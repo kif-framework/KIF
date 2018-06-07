@@ -264,11 +264,19 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
                         break;
                     }
 
-                    // Skip visible rows because they are already handled
+                    // Skip visible rows because they are already handled.
                     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:section];
                     if ([indexPathsForVisibleRows containsObject:indexPath]) {
-                        continue;
+                        @autoreleasepool {
+                            //scroll to the last row of each section before continuing. Attemps to ensure we can get to sections that are off screen. KIF tests (e.g. testButtonAbsentAfterRemoveFromSuperview) fails without this line. Also without this... we can't expose the next section (in code downstream)
+                            [tableView scrollToRowAtIndexPath:[indexPathsForVisibleRows lastObject] atScrollPosition:UITableViewScrollPositionNone animated:animationEnabled];
+                            continue;
+                        }
                     }
+
+                    //expose the next section
+                    CGRect sectionRect = [tableView rectForSection:section];
+                    [tableView scrollRectToVisible:sectionRect animated:NO];
 
                     @autoreleasepool {
                         // Scroll to the cell and wait for the animation to complete. Using animations here may not be optimal.
