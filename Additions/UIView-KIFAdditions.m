@@ -228,10 +228,11 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
         CGPoint scrollContentOffset = {-1.0, -1.0};
         UIScrollView *scrollView = nil;
         if ([self isKindOfClass:[UITableView class]]) {
+            NSString * subViewName = nil;
             //special case for UIPickerView (which has a private class UIPickerTableView)
             for (UIView *view in [self subviews])
             {
-                NSString * subViewName = [NSString stringWithFormat:@"%@", [view class]];
+                subViewName = [NSString stringWithFormat:@"%@", [view class]];
                 if ([subViewName containsString:@"UIPicker"] )
                 {
                     scrollView = (UIScrollView*)self;
@@ -274,9 +275,12 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
                         }
                     }
 
-                    //expose the next section
-                    CGRect sectionRect = [tableView rectForSection:section];
-                    [tableView scrollRectToVisible:sectionRect animated:NO];
+                    //expose the next section (unless it's a UIPicker View).
+                    if (subViewName && ![subViewName containsString:@"UIPicker"] )
+                    {
+                        CGRect sectionRect = [tableView rectForSection:section];
+                        [tableView scrollRectToVisible:sectionRect animated:NO];
+                    }
 
                     @autoreleasepool {
                         // Scroll to the cell and wait for the animation to complete. Using animations here may not be optimal.
