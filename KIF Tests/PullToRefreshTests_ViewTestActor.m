@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "KIFTestCase.h"
 #import "KIFUIViewTestActor.h"
 
 @interface PullToRefreshTests_ViewTestActor : KIFTestCase

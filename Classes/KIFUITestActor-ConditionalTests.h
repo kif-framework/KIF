@@ -6,7 +6,8 @@
 //
 //
 
-#import "KIF.h"
+#import "KIFUITestActor.h"
+#import "KIFEnumDefines.h"
 
 @interface KIFUITestActor (ConditionalTests)
 
@@ -63,6 +64,5 @@
 
 - (BOOL)tryFindingAccessibilityElement:(out UIAccessibilityElement **)element view:(out UIView **)view withIdentifier:(NSString *)identifier tappable:(BOOL)mustBeTappable error:(out NSError **)error;
 
-- (BOOL)tryFindingAccessibilityElement:(out UIAccessibilityElement **)element view:(out UIView **)view withElementMatchingPredicate:(NSPredicate *)predicate tappable:(BOOL)mustBeTappable error:(out NSError **)error;
 
 @end

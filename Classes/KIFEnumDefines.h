@@ -6,6 +6,8 @@
 //
 
 
+#define kKIFMinorSwipeDisplacement 5
+
 /*!
  @enum KIFSwipeDirection
  @abstract Directions in which to swipe.
