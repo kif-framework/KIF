@@ -6,7 +6,7 @@ matrix:
     - osx_image: xcode9.2
       env: 'SIMULATOR="name=iPhone 7 Plus,OS=10.3.1"'
     - osx_image: xcode9.2
-	  env: 'SIMULATOR="name=iPad (5th generation),OS=10.3.2"'
+      env: 'SIMULATOR="name=iPad (5th generation),OS=10.3.2"'
     - osx_image: xcode8.3
       env: 'SIMULATOR="name=iPhone 5,OS=9.3"'
 
