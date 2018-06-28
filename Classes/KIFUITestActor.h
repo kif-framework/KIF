@@ -7,7 +7,8 @@
 //  See the LICENSE file distributed with this work for the terms under
 //  which Square, Inc. licenses this file to you.
 
-#import "KIFTestActor.h"
+#import <KIF/KIFUIViewTestActor.h>
+
 #import <UIKit/UIKit.h>
 #import "UIView-KIFAdditions.h"
 
@@ -22,84 +23,9 @@ KIFUITestActor *_KIF_tester() __attribute__((deprecated("Use of `tester` has bee
 #endif
 
 
-/*!
- @enum KIFSwipeDirection
- @abstract Directions in which to swipe.
- @constant KIFSwipeDirectionRight Swipe to the right.
- @constant KIFSwipeDirectionLeft Swipe to the left.
- @constant KIFSwipeDirectionUp Swipe up.
- @constant KIFSwipeDirectionDown Swipe down.
- */
-typedef NS_ENUM(NSUInteger, KIFSwipeDirection) {
-    KIFSwipeDirectionRight,
-    KIFSwipeDirectionLeft,
-    KIFSwipeDirectionUp,
-    KIFSwipeDirectionDown
-};
+@interface KIFUITestActor : KIFUIViewTestActor
 
-/*!
- @enum KIFPickerType
- @abstract Picker type to select values from.
- @constant KIFUIPickerView UIPickerView type
- @constant KIFUIDatePicker UIDatePicker type
- */
-typedef NS_ENUM(NSUInteger, KIFPickerType) {
-    KIFUIPickerView,
-    KIFUIDatePicker
-};
 
-/*!
- @enum KIFPickerSearchOrder
- @abstract Order in which to search picker values.
- @constant KIFPickerSearchForwardFromStart Search from first value forward.
- @constant KIFPickerSearchBackwardFromEnd Search from last value backwards.
- @constant KIFPickerSearchForwardFromCurrentValue Search from current value forward.
- @constant KIFPickerSearchBackwardFromCurrentValue Search from current value backwards.
- */
-typedef NS_ENUM(NSUInteger, KIFPickerSearchOrder) {
-    KIFPickerSearchForwardFromStart = 0,
-    KIFPickerSearchBackwardFromEnd = 1,
-    KIFPickerSearchForwardFromCurrentValue = 2,
-    KIFPickerSearchBackwardFromCurrentValue = 3
-};
-
-/*!
- @enum KIFStepperDirection
- @abstract Direction in which to increment or decrement the stepper.
- @constant KIFStepperDirectionIncrement Increment the stepper
- @constant KIFUIDatePicker Decrement the stepper
- */
-typedef NS_ENUM(NSUInteger, KIFStepperDirection) {
-	KIFStepperDirectionIncrement,
-	KIFStepperDirectionDecrement
-};
-
-/*!
- @enum KIFPullToRefreshTiming
- @discussion The approximate time in which the pull to refresh travels downward.
- @abstract Timing in which to perform the pull down before release.
- @constant KIFPullToRefreshInAboutAHalfSecond about half a second
- @constant KIFPullToRefreshInAboutOneSecond about one second
- @constant KIFPullToRefreshInAboutTwoSeconds about two seconds
- @constant KIFPullToRefreshInAboutThreeSeconds about three seconds.
- */
-typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
-	KIFPullToRefreshInAboutAHalfSecond = 20, //faster
-	KIFPullToRefreshInAboutOneSecond = 100,
-	KIFPullToRefreshInAboutTwoSeconds = 150,
-	KIFPullToRefreshInAboutThreeSeconds = 200, //slower
-};
-
-@interface KIFUITestActor : KIFTestActor
-
-/*!
- @abstract Controls if typing methods will validate the entered text.
- @discussion This method will only impact the functioning of the `enterText:...` method variants.
- 
- @param validateEnteredText Whether or not to validate the entered text. Defaults to YES.
- @return The message reciever, these methods are intended to be chained together.
- */
-- (instancetype)validateEnteredText:(BOOL)validateEnteredText;
 
 /*!
  @abstract Waits until a view or accessibility element is present.
@@ -191,7 +117,8 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  @param traits The accessibility traits of the element to wait for. Elements that do not include at least these traits are ignored.
  @param mustBeTappable If YES, only an element that can be tapped on will be returned.
  */
-- (void)waitForAccessibilityElement:(UIAccessibilityElement **)element view:(out UIView **)view withLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits tappable:(BOOL)mustBeTappable;
+
+//- (void)waitForAccessibilityElement:(UIAccessibilityElement **)element view:(out UIView **)view withLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits tappable:(BOOL)mustBeTappable;
 
 /*!
  @abstract Waits for an accessibility element and its containing view from specified root view based on a variety of criteria.
@@ -204,7 +131,7 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  @param fromView The root view to start looking for accessibility element.
  @param mustBeTappable If YES, only an element that can be tapped on will be returned.
  */
-- (void)waitForAccessibilityElement:(UIAccessibilityElement **)element view:(out UIView **)view withLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits fromRootView:(UIView *)fromView tappable:(BOOL)mustBeTappable;
+//- (void)waitForAccessibilityElement:(UIAccessibilityElement **)element view:(out UIView **)view withLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits fromRootView:(UIView *)fromView tappable:(BOOL)mustBeTappable;
 
 /*!
  @abstract Waits for an accessibility element and its containing view based the accessibility identifier.
@@ -227,6 +154,10 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  */
 - (void)waitForAccessibilityElement:(UIAccessibilityElement **)element view:(out UIView **)view withIdentifier:(NSString *)identifier fromRootView:(UIView *)fromView tappable:(BOOL)mustBeTappable;
 
+
+
+- (void)waitForAccessibilityElement:(UIAccessibilityElement *__autoreleasing *)element view:(out UIView *__autoreleasing *)view withLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits tappable:(BOOL)mustBeTappable;
+
 /*!
  @abstract Waits for an accessibility element and its containing view based on a predicate.
  @discussion This method provides a more verbose API for achieving what is available in the waitForView/waitForTappableView family of methods, exposing both the found element and its containing view.  The results can be used in other methods such as @c tapAccessibilityElement:inView:
@@ -237,7 +168,7 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  @param predicate The predicate to match.
  @param mustBeTappable If YES, only an element that can be tapped on will be returned.
  */
-- (void)waitForAccessibilityElement:(UIAccessibilityElement **)element view:(out UIView **)view withElementMatchingPredicate:(NSPredicate *)predicate tappable:(BOOL)mustBeTappable;
+//- (void)waitForAccessibilityElement:(UIAccessibilityElement **)element view:(out UIView **)view withElementMatchingPredicate:(NSPredicate *)predicate tappable:(BOOL)mustBeTappable;
 
 /*!
  @abstract Waits until an accessibility element is no longer present.
@@ -246,23 +177,6 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  */
 - (void)waitForAbsenceOfViewWithElementMatchingPredicate:(NSPredicate *)predicate;
 
-/*!
- @abstract Tries to guess if there are any unfinished animations and waits for a certain amount of time to let them finish.
- */
-- (void)waitForAnimationsToFinish;
-
-/*!
- @abstract Tries to guess if there are any unfinished animations and waits for a certain amount of time to let them finish.
- @param timeout The maximum duration the method waits to let the animations finish.
- */
-- (void)waitForAnimationsToFinishWithTimeout:(NSTimeInterval)timeout;
-
-/*!
- @abstract Tries to guess if there are any unfinished animations and waits for a certain amount of time to let them finish.
- @param timeout The maximum duration the method waits to let the animations finish.
- @param stabilizationTime The time we just sleep before attempting to detect animations
- */
-- (void)waitForAnimationsToFinishWithTimeout:(NSTimeInterval)timeout stabilizationTime:(NSTimeInterval)stabilizationTime;
 
 /*!
  @abstract Taps a particular view in the view hierarchy.
@@ -312,7 +226,7 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  @param element The accessibility element to tap.
  @param view The view containing the accessibility element.
  */
-- (void)tapStepperWithAccessibilityElement:(UIAccessibilityElement *)element increment:(KIFStepperDirection)stepperDirection inView:(UIView *)view;
+//- (void)tapStepperWithAccessibilityElement:(UIAccessibilityElement *)element increment:(KIFStepperDirection)stepperDirection inView:(UIView *)view;
 
 /*!
  @abstract Taps the screen at a particular point.
@@ -320,7 +234,7 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
 
  @param screenPoint The point in screen coordinates to tap. Screen points originate from the top left of the screen.
  */
-- (void)tapScreenAtPoint:(CGPoint)screenPoint;
+//- (void)tapScreenAtPoint:(CGPoint)screenPoint;
 
 /*!
  @abstract Performs a long press on a particular view in the view hierarchy.
@@ -341,7 +255,7 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  */
 - (void)longPressViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value duration:(NSTimeInterval)duration;
 
-- (void)longPressAccessibilityElement:(UIAccessibilityElement *)element inView:(UIView *)view duration:(NSTimeInterval)duration;
+//- (void)longPressAccessibilityElement:(UIAccessibilityElement *)element inView:(UIView *)view duration:(NSTimeInterval)duration;
 
 /*!
  @abstract Performs a long press on a particular view in the view hierarchy.
@@ -357,30 +271,12 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
 
 
 /*!
- @abstract Waits for the software keyboard to be visible.
- @discussion If input is also possible from a hardare keyboard @c waitForKeyInputReady may be more appropriate.
- */
-- (void)waitForSoftwareKeyboard;
-- (void)waitForKeyboard KIF_DEPRECATED("Use waitForSoftwareKeyboard or waitForKeyInputReady.");
-
-/*!
- @abstract If present, waits for the software keyboard to dismiss.
- */
-- (void)waitForAbsenceOfSoftwareKeyboard;
-- (void)waitForAbsenceOfKeyboard KIF_DEPRECATED("Use waitForAbscenseOfSoftwareKeyboard.");
-
-/*!
- @abstract Waits for the keyboard to be ready for input.  This tests whether or not a hardware or software keyboard is available and if the keyboard has a responder to send events to.
- */
-- (void)waitForKeyInputReady;
-
-/*!
  @abstract Enters text into a the current first responder.
  @discussion Text is entered into the view by simulating taps on the appropriate keyboard keys if the keyboard is already displayed. Useful to enter text in UIWebViews or components with no accessibility labels.
  @param text The text to enter.
  */
-- (void)enterTextIntoCurrentFirstResponder:(NSString *)text;
-- (void)enterTextIntoCurrentFirstResponder:(NSString *)text fallbackView:(UIView *)fallbackView;
+//- (void)enterTextIntoCurrentFirstResponder:(NSString *)text;
+//- (void)enterTextIntoCurrentFirstResponder:(NSString *)text fallbackView:(UIView *)fallbackView;
 
 /*!
  @abstract Enters text into a particular view in the view hierarchy.
@@ -390,7 +286,7 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  @param element the element to type into.
  @param view the view to type into.
  */
-- (void)enterText:(NSString *)text intoElement:(UIAccessibilityElement *)element inView:(UIView *)view expectedResult:(NSString *)expectedResult;
+//- (void)enterText:(NSString *)text intoElement:(UIAccessibilityElement *)element inView:(UIView *)view expectedResult:(NSString *)expectedResult;
 
 /*!
  @abstract Enters text into a particular view in the view hierarchy.
@@ -410,12 +306,12 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  */
 - (void)enterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits expectedResult:(NSString *)expectedResult;
 
-- (void)clearTextFromFirstResponder;
+//- (void)clearTextFromFirstResponder;
 - (void)clearTextFromViewWithAccessibilityLabel:(NSString *)label;
-- (void)clearTextFromViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits;
-- (void)clearTextFromElement:(UIAccessibilityElement *)element inView:(UIView *)view;
+//- (void)clearTextFromViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits;
+//- (void)clearTextFromElement:(UIAccessibilityElement *)element inView:(UIView *)view;
 
-- (void)clearTextFromAndThenEnterTextIntoCurrentFirstResponder:(NSString *)text;
+//- (void)clearTextFromAndThenEnterTextIntoCurrentFirstResponder:(NSString *)text;
 - (void)clearTextFromAndThenEnterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label;
 - (void)clearTextFromAndThenEnterText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits expectedResult:(NSString *)expectedResult;
 
@@ -427,12 +323,7 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  */
 - (void)setText:(NSString *)text intoViewWithAccessibilityLabel:(NSString *)label;
 
-/*!
- @abstract Gets text from a given label/text field/text view
- @param view The view to get the text from
- @returns Text from the given label/text field/text view
- */
-- (NSString *)textFromView:(UIView *)view;
+
 
 - (void)expectView:(UIView *)view toContainText:(NSString *)expectedResult;
 
@@ -441,7 +332,7 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  @discussion With a picker view already visible, this step will find an item with the given title, select that item, and tap the Done button.
  @param title The title of the row to select.
  */
-- (void)selectPickerViewRowWithTitle:(NSString *)title;
+//- (void)selectPickerViewRowWithTitle:(NSString *)title;
 
 /*!
  @abstract Selects an item from a currently visible picker view in specified component.
@@ -449,7 +340,7 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  @param title The title of the row to select.
  @param component The component tester inteds to select the title in.
  */
-- (void)selectPickerViewRowWithTitle:(NSString *)title inComponent:(NSInteger)component;
+//- (void)selectPickerViewRowWithTitle:(NSString *)title inComponent:(NSInteger)component;
 
 /*!
  @abstract Selects an item from a currently visible picker view in specified component and in the specified order to search the value it selects.
@@ -458,14 +349,14 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  @param component The component tester inteds to select the title in.
  @param searchOrder The order in which the values are being searched for selection in each compotent.
  */
-- (void)selectPickerViewRowWithTitle:(NSString *)title inComponent:(NSInteger)component withSearchOrder:(KIFPickerSearchOrder)searchOrder;
+//- (void)selectPickerViewRowWithTitle:(NSString *)title inComponent:(NSInteger)component withSearchOrder:(KIFPickerSearchOrder)searchOrder;
 
 /*!
  @abstract Selects a value from a currently visible date picker view.
  @discussion With a date picker view already visible, this step will select the different rotating wheel values in order of how the array parameter is passed in. After it is done it will hide the date picker. It works with all 4 UIDatePickerMode* modes. The input parameter of type NSArray has to match in what order the date picker is displaying the values/columns. So if the locale is changing the input parameter has to be adjusted. Example: Mode: UIDatePickerModeDate, Locale: en_US, Input param: NSArray *date = @[@"June", @"17", @"1965"];. Example: Mode: UIDatePickerModeDate, Locale: de_DE, Input param: NSArray *date = @[@"17.", @"Juni", @"1965".
  @param datePickerColumnValues Each element in the NSArray represents a rotating wheel in the date picker control. Elements from 0 - n are listed in the order of the rotating wheels, left to right.
  */
-- (void)selectDatePickerValue:(NSArray *)datePickerColumnValues;
+//- (void)selectDatePickerValue:(NSArray *)datePickerColumnValues;
 
 /*!
  @abstract Selects a value from a currently visible date picker view, according to the search order specified.
@@ -473,7 +364,7 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  @param datePickerColumnValues Each element in the NSArray represents a rotating wheel in the date picker control. Elements from 0 - n are listed in the order of the rotating wheels, left to right.
  @param searchOrder The order in which the values are being searched for selection in each compotent.
  */
-- (void)selectDatePickerValue:(NSArray *)datePickerColumnValues withSearchOrder:(KIFPickerSearchOrder)searchOrder;
+//- (void)selectDatePickerValue:(NSArray *)datePickerColumnValues withSearchOrder:(KIFPickerSearchOrder)searchOrder;
 
 /*!
  @abstract Toggles a UISwitch into a specified position.
@@ -491,7 +382,7 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  @param element The accessibility element for the switch.
 
  */
-- (void)setSwitch:(UISwitch *)switchView element:(UIAccessibilityElement *)element On:(BOOL)switchIsOn;
+//- (void)setSwitch:(UISwitch *)switchView element:(UIAccessibilityElement *)element On:(BOOL)switchIsOn;
 
 /*!
  @abstract Slides a UISlider to a specified value.
@@ -500,13 +391,13 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  @param label The accessibility label of the element to drag.
  */
 - (void)setValue:(float)value forSliderWithAccessibilityLabel:(NSString *)label;
-- (void)setValue:(float)value forSlider:(UISlider *)slider;
+//- (void)setValue:(float)value forSlider:(UISlider *)slider;
 
 /*!
  @abstract Dismisses a popover on screen.
  @discussion With a popover up, tap at the top-left corner of the screen.
  */
-- (void)dismissPopover;
+//- (void)dismissPopover;
 
 /*!
  @abstract Select a certain photo from the built in photo picker.
@@ -515,7 +406,7 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  @param row The row number in the album for the desired photo. (1-indexed)
  @param column The column number in the album for the desired photo.
  */
-- (void)choosePhotoInAlbum:(NSString *)albumName atRow:(NSInteger)row column:(NSInteger)column;
+//- (void)choosePhotoInAlbum:(NSString *)albumName atRow:(NSInteger)row column:(NSInteger)column;
 
 /*!
  @abstract Taps the row at indexPath in a table view with the given label.
@@ -548,7 +439,7 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  @param indexPath Index path of the row to tap.
  @param tableView UITableView containing row to tap.
  */
-- (void)tapRowAtIndexPath:(NSIndexPath *)indexPath inTableView:(UITableView *)tableView;
+//- (void)tapRowAtIndexPath:(NSIndexPath *)indexPath inTableView:(UITableView *)tableView;
 
 /*!
  @abstract Taps the item at indexPath in a collection view with the given identifier.
@@ -570,20 +461,20 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  @param indexPath Index path of the item to tap.
  @param collectionView the UICollectionView containing the item.
  */
-- (void)tapItemAtIndexPath:(NSIndexPath *)indexPath inCollectionView:(UICollectionView *)collectionView;
+//- (void)tapItemAtIndexPath:(NSIndexPath *)indexPath inCollectionView:(UICollectionView *)collectionView;
 
 #if TARGET_IPHONE_SIMULATOR
 /*!
  @abstract If present, dismisses a system alert with the last button, usually 'Allow'. Returns YES if a dialog was dismissed, NO otherwise.
  @discussion Use this to dissmiss a location services authorization dialog or a photos access dialog by tapping the 'Allow' button. No action is taken if no alert is present.
  */
-- (BOOL)acknowledgeSystemAlert;
+//- (BOOL)acknowledgeSystemAlert;
 
 /*!
  @abstract If present, dismisses a system alert with the button at the given index, if any exists, usually 'Allow'. Returns YES if a dialog was dismissed, NO otherwise.
  @discussion Use this to dissmiss a location services authorization dialog or a photos access dialog by tapping a button at the specified index. No action is taken if no alert is present.
 */
-- (BOOL)acknowledgeSystemAlertWithIndex:(NSUInteger)index;
+//- (BOOL)acknowledgeSystemAlertWithIndex:(NSUInteger)index;
 
 #endif
 
@@ -620,7 +511,7 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  @param element The accessibility element of the view to swipe.
  @param viewToSwipe The view containing the accessibility element.
  */
-- (void)swipeAccessibilityElement:(UIAccessibilityElement *)element inView:(UIView *)viewToSwipe inDirection:(KIFSwipeDirection)direction;
+//- (void)swipeAccessibilityElement:(UIAccessibilityElement *)element inView:(UIView *)viewToSwipe inDirection:(KIFSwipeDirection)direction;
 
 /*!
  @abstract Pulls down on the view that enables the pull to refresh.
@@ -645,7 +536,7 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  @param viewToSwipe The view containing the accessibility element.
  @param pullDownDuration The enum describing the approximate time for the pull down to travel the entire distance
  */
-- (void)pullToRefreshAccessibilityElement:(UIAccessibilityElement *)element inView:(UIView *)viewToSwipe pullDownDuration:(KIFPullToRefreshTiming) pullDownDuration;
+//- (void)pullToRefreshAccessibilityElement:(UIAccessibilityElement *)element inView:(UIView *)viewToSwipe pullDownDuration:(KIFPullToRefreshTiming) pullDownDuration;
 
 /*!
  @abstract Scrolls a particular view in the view hierarchy by an amount indicated as a fraction of its size.
@@ -673,7 +564,7 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  @param horizontalFraction The horizontal displacement of the scroll action, as a fraction of the width of the view.
  @param verticalFraction The vertical displacement of the scroll action, as a fraction of the height of the view.
  */
-- (void)scrollAccessibilityElement:(UIAccessibilityElement *)element inView:(UIView *)viewToScroll byFractionOfSizeHorizontal:(CGFloat)horizontalFraction vertical:(CGFloat)verticalFraction;
+//- (void)scrollAccessibilityElement:(UIAccessibilityElement *)element inView:(UIView *)viewToScroll byFractionOfSizeHorizontal:(CGFloat)horizontalFraction vertical:(CGFloat)verticalFraction;
 
 /*!
  @abstract Waits until a view or accessibility element is the first responder.
@@ -694,7 +585,7 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  */
 - (void)waitForFirstResponderWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits;
 
-- (void)tapStatusBar;
+//- (void)tapStatusBar;
 
 /*!
  @abstract Scrolls a table view with the given identifier while waiting for the cell at the given indexPath to appear.
@@ -733,7 +624,7 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  @param tableView UITableView containing the cell.
  @result Table view cell at index path
  */
-- (UITableViewCell *)waitForCellAtIndexPath:(NSIndexPath *)indexPath inTableView:(UITableView *)tableView;
+//- (UITableViewCell *)waitForCellAtIndexPath:(NSIndexPath *)indexPath inTableView:(UITableView *)tableView;
 
 /*!
  @abstract Scrolls a table view while waiting for the cell at the given indexPath to appear.
@@ -746,7 +637,7 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  @param position Table View scroll position to scroll to. Useful for tall cells when the content needed is in a specific location.
  @result Table view cell at index path
  */
-- (UITableViewCell *)waitForCellAtIndexPath:(NSIndexPath *)indexPath inTableView:(UITableView *)tableView atPosition:(UITableViewScrollPosition)position;
+//- (UITableViewCell *)waitForCellAtIndexPath:(NSIndexPath *)indexPath inTableView:(UITableView *)tableView atPosition:(UITableViewScrollPosition)position;
 
 /*!
  @abstract Scrolls a collection view while waiting for the cell at the given indexPath to appear.
@@ -758,7 +649,7 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  @param collectionView UICollectionView containing the cell.
  @result Collection view cell at index path
  */
-- (UICollectionViewCell *)waitForCellAtIndexPath:(NSIndexPath *)indexPath inCollectionView:(UICollectionView *)collectionView;
+//- (UICollectionViewCell *)waitForCellAtIndexPath:(NSIndexPath *)indexPath inCollectionView:(UICollectionView *)collectionView;
 
 
 /*!
@@ -795,7 +686,7 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  @param destinationIndexPath Desired final index path of the row after moving.
  @param tableView UITableView containing the cell.
  */
-- (void)moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath inTableView:(UITableView *)tableView;
+//- (void)moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath inTableView:(UITableView *)tableView;
 
 /*!
  @abstract Swipes the row at indexPath in the given direction.
@@ -809,7 +700,7 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  @abstract Waits for the given cell to transition to the delete state. Useful when swiping left on a cell for delete action.
  @param cell Cell to wait for delete state on.
  */
-- (void)waitForDeleteStateForCell:(UITableViewCell*)cell;
+//- (void)waitForDeleteStateForCell:(UITableViewCell*)cell;
 
 /*!
  @abstract Waits for the given cell to transition to the delete state. Useful when swiping left on a cell for delete action.
@@ -822,19 +713,19 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  @abstract Backgrounds app using UIAutomation command, simulating pressing the Home button
  @param duration Amount of time for a background event before the app becomes active again
  */
-- (void)deactivateAppForDuration:(NSTimeInterval)duration KIF_DEPRECATED("Use [system deactivateAppForDuration:] instead.");
+//- (void)deactivateAppForDuration:(NSTimeInterval)duration KIF_DEPRECATED("Use [system deactivateAppForDuration:] instead.");
 
 /*!
  @method testActorAnimationsEnabled
  @abstract Flag to disable/enable animations done by the UITestActor, by default this value is YES. This doesn't affect animations performed by the app being tested.
  @discussion To change the default value of this flag, call +setTestActorAnimationsEnabled: with a different value.
  */
-+ (BOOL)testActorAnimationsEnabled;
+//+ (BOOL)testActorAnimationsEnabled;
 
 /*!
  @method setTestActorAnimationsEnabled:
  @abstract Sets the flag value to enable or disable animations done by the UITestActor.
  */
-+ (void)setTestActorAnimationsEnabled:(BOOL)animationsEnabled;
+//+ (void)setTestActorAnimationsEnabled:(BOOL)animationsEnabled;
 
 @end

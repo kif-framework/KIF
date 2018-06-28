@@ -13,6 +13,8 @@
 #import "KIFUITestActor.h"
 #import "KIFUITestActor-ConditionalTests.h"
 
+#import "KIFEnumDefines.h"
+
 #import "KIFUIViewTestActor.h"
 #import "KIFUIObject.h"
 

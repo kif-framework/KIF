@@ -6,7 +6,9 @@
 //
 //
 
-#import <KIF/KIF.h>
+#import "KIFTestActor.h"
+#import "KIFEnumDefines.h"
+
 
 #define viewTester KIFActorWithClass(KIFUIViewTestActor)
 
@@ -16,6 +18,14 @@
 @property (nonatomic, strong, readonly) UIView *view;
 @property (nonatomic, strong, readonly) UIAccessibilityElement *element;
 @property (nonatomic, strong, readonly) NSPredicate *predicate;
+
+
+#pragma mark Animation Enabled
+
++ (BOOL)testActorAnimationsEnabled;
+
++ (void)setTestActorAnimationsEnabled:(BOOL)animationsEnabled;
+
 
 
 /*!
@@ -129,18 +139,30 @@ extern NSString *const inputFieldTestString;
  Note that these methods do not define the accessibility element to search for. Calling many of these methods without first specifying a search predicate via the usingXXX methods will result in test failure.
  */
 
-#pragma mark Tapping, Pressing & Swiping
+#pragma mark Tapping Actions
 
 /*!
  @abstract Tap a view matching the tester's search predicate.
  @discussion The tester will evaluate the accessibility hierarchy against it's search predicate and perform a tap on the first match.
  */
 - (void)tap;
+
+/*!
+ @abstract Taps the screen at a particular point.
+ @discussion Taps the screen at a specific point. In general you should use the factory steps that tap a view based on its accessibility label, but there are situations where it's not possible to access a view using accessibility mechanisms. This step is more lenient than the steps that use the accessibility label, and does not wait for any particular view to appear, or validate that the tapped view is enabled or has interaction enabled. Because this step doesn't validate that a view is present before tapping it, it's good practice to precede this step where possible with a -waitForViewWithAccessibilityLabel: with the label for another view that should appear on the same screen.
+ 
+ @param screenPoint The point in screen coordinates to tap. Screen points originate from the top left of the screen.
+ */
+- (void)tapScreenAtPoint:(CGPoint)screenPoint;
+
+#pragma mark Long Press Actions
+
 /*!
  @abstract Long Press a view matching the tester's search predicate.
  @discussion The tester will fist evaluate the accessibility hierarchy against it's search predicate and perform a long press on the first match.
  */
 - (void)longPress;
+ 
 /*!
  @abstract Long Press a view matching the tester's search predicate.
  @discussion The tester will first evaluate the accessibility hierarchy against it's search predicate and perform a long press on the first match.
@@ -148,13 +170,7 @@ extern NSString *const inputFieldTestString;
  */
 - (void)longPressWithDuration:(NSTimeInterval)duration;
 
-/*!
- @abstract Taps the screen at a particular point.
- @discussion Taps the screen at a specific point. In general you should use the factory steps that tap a view based on its accessibility label, but there are situations where it's not possible to access a view using accessibility mechanisms. This step is more lenient than the steps that use the accessibility label, and does not wait for any particular view to appear, or validate that the tapped view is enabled or has interaction enabled. Because this step doesn't validate that a view is present before tapping it, it's good practice to precede this step where possible with a -waitForViewWithAccessibilityLabel: with the label for another view that should appear on the same screen.
-
- @param screenPoint The point in screen coordinates to tap. Screen points originate from the top left of the screen.
- */
-- (void)tapScreenAtPoint:(CGPoint)screenPoint;
+#pragma mark Touch Actions
 
 /*!
  @abstract Swipe a view matching the tester's search predicate.
@@ -163,7 +179,7 @@ extern NSString *const inputFieldTestString;
  */
 - (void)swipeInDirection:(KIFSwipeDirection)direction;
 
-#pragma mark Waiting & Finding
+#pragma mark Waiting
 
 /*!
  @abstract Waits until a view or accessibility element matching the tester's search predicate is present.
@@ -201,6 +217,49 @@ extern NSString *const inputFieldTestString;
  */
 - (void)waitToBecomeFirstResponder;
 
+#pragma mark Wait for Animations
+
+/*!
+ @abstract Tries to guess if there are any unfinished animations and waits for a certain amount of time to let them finish.
+ */
+- (void)waitForAnimationsToFinish;
+
+/*!
+ @abstract Tries to guess if there are any unfinished animations and waits for a certain amount of time to let them finish.
+ @param timeout The maximum duration the method waits to let the animations finish.
+ */
+- (void)waitForAnimationsToFinishWithTimeout:(NSTimeInterval)timeout;
+
+/*!
+ @abstract Tries to guess if there are any unfinished animations and waits for a certain amount of time to let them finish.
+ @param timeout The maximum duration the method waits to let the animations finish.
+ @param stabilizationTime The time we just sleep before attempting to detect animations
+ */
+- (void)waitForAnimationsToFinishWithTimeout:(NSTimeInterval)timeout stabilizationTime:(NSTimeInterval)stabilizationTime;
+
+#pragma mark Typist Waiting
+
+/*!
+ @abstract Waits for the software keyboard to be visible.
+ @discussion If input is also possible from a hardare keyboard @c waitForKeyInputReady may be more appropriate.
+ */
+- (void)waitForSoftwareKeyboard;
+- (void)waitForKeyboard KIF_DEPRECATED("Use waitForSoftwareKeyboard or waitForKeyInputReady.");
+
+/*!
+ @abstract If present, waits for the software keyboard to dismiss.
+ */
+- (void)waitForAbsenceOfSoftwareKeyboard;
+- (void)waitForAbsenceOfKeyboard KIF_DEPRECATED("Use waitForAbscenseOfSoftwareKeyboard.");
+
+/*!
+ @abstract Waits for the keyboard to be ready for input.  This tests whether or not a hardware or software keyboard is available and if the keyboard has a responder to send events to.
+ */
+- (void)waitForKeyInputReady;
+
+
+#pragma mark Conditionals
+
 /*!
  @abstract Confirms whether a view or accessibility element matching the tester's search predicate is present at the given moment.
  @discussion The view or accessibility element is searched for in the view hierarchy. If the element isn't found, then the step will not wait and instead immediately return NO. Note that the view does not necessarily have to be visible on the screen, and may be behind another view or offscreen. Views with their hidden property set to YES are ignored.
@@ -215,12 +274,18 @@ extern NSString *const inputFieldTestString;
  */
 - (BOOL)tryFindingTappableView;
 
-/*!
- @abstract Tries to guess if there are any unfinished animations and waits for a certain amount of time to let them finish.
- */
-- (void)waitForAnimationsToFinish;
 
-#pragma mark Scroll Views, Table Views and Collection Views
+#pragma mark ScrollView Actions
+
+/*!
+ @abstract Scrolls a particular Scroll View in the view hierarchy by an amount indicated as a fraction of its size.
+ @discussion The view will scroll by the indicated fraction of its size, with the scroll centered on the center of the view.
+ @param horizontalFraction The horizontal displacement of the scroll action, as a fraction of the width of the view.
+ @param verticalFraction The vertical displacement of the scroll action, as a fraction of the height of the view.
+ */
+- (void)scrollByFractionOfSizeHorizontal:(CGFloat)horizontalFraction vertical:(CGFloat)verticalFraction;
+
+#pragma mark TableView Actions
 
 /*!
  @abstract Taps the row at indexPath in a table view matching the tester's search predicate.
@@ -266,6 +331,8 @@ extern NSString *const inputFieldTestString;
  */
 - (void)moveRowInTableViewAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath;
 
+#pragma mark CollectionView Actions
+
 /*!
  @abstract Taps the item at indexPath in a collection view matching the tester's search predicate.
  @discussion This step will get the  collection view specified and tap the item at indexPath.
@@ -287,15 +354,14 @@ extern NSString *const inputFieldTestString;
  */
 - (UICollectionViewCell *)waitForCellInCollectionViewAtIndexPath:(NSIndexPath *)indexPath;
 
-/*!
- @abstract Scrolls a particular Scroll View in the view hierarchy by an amount indicated as a fraction of its size.
- @discussion The view will scroll by the indicated fraction of its size, with the scroll centered on the center of the view.
- @param horizontalFraction The horizontal displacement of the scroll action, as a fraction of the width of the view.
- @param verticalFraction The vertical displacement of the scroll action, as a fraction of the height of the view.
- */
-- (void)scrollByFractionOfSizeHorizontal:(CGFloat)horizontalFraction vertical:(CGFloat)verticalFraction;
 
 #pragma mark Text Input
+
+/*!
+ @abstract Clears text from a particular view matching the tester's search predicate.
+ @discussion If the element isn't currently tappable, then the step will attempt to wait until it is. Once the view is present and tappable, a tap event is simulated in the center of the view or element, then text is cleared from the view by simulating taps on the backspace key.
+ */
+- (void)clearText;
 
 /*!
  @abstract Enters text into a particular view matching the tester's search predicate.
@@ -313,33 +379,6 @@ extern NSString *const inputFieldTestString;
 - (void)enterText:(NSString *)text expectedResult:(NSString *)expectedResult;
 
 /*!
- @abstract Enters text into a the current first responder.
- @discussion Text is entered into the view by simulating taps on the appropriate keyboard keys if the keyboard is already displayed. Useful to enter text in UIWebViews or components with no accessibility labels.
- @param text The text to enter.
- */
-- (void)enterTextIntoCurrentFirstResponder:(NSString *)text DEPRECATED_MSG_ATTRIBUTE("Use 'usingFirstResponder' matcher with 'enterText:' instead.");
-/*!
- @abstract Enters text into a the current first responder. if KIF is unable to type with the keyboard (which could be dismissed or obscured) the tester will call setText on the fallback view directly.
- @discussion Text is entered into the view by simulating taps on the appropriate keyboard keys if the keyboard is already displayed. Useful to enter text in UIWebViews or components with no accessibility labels.
- @param text The text to enter.
- @param fallbackView The UIView to enter if keyboard input fails.
- */
-- (void)enterTextIntoCurrentFirstResponder:(NSString *)text fallbackView:(UIView *)fallbackView DEPRECATED_MSG_ATTRIBUTE("Please log a KIF Github issue if you have a use case for this.");
-
-/*!
- @abstract Clears text from a particular view matching the tester's search predicate.
- @discussion If the element isn't currently tappable, then the step will attempt to wait until it is. Once the view is present and tappable, a tap event is simulated in the center of the view or element, then text is cleared from the view by simulating taps on the backspace key.
- */
-- (void)clearText;
-
-/*!
- @abstract Clears text from the current first responder.
- @discussion text is cleared from the first responder by simulating taps on the backspace key.
- */
-
-- (void)clearTextFromFirstResponder DEPRECATED_MSG_ATTRIBUTE("Use 'usingFirstResponder' matcher with 'clearText' instead.");
-
-/*!
  @abstract Clears text from a particular view matching the tester's search predicate, then sets new text.
  @discussion If the element isn't currently tappable, then the step will attempt to wait until it is. Once the view is present and tappable, a tap event is simulated in the center of the view or element, then text is cleared from the view by simulating taps on the backspace key, the new text is then entered by simulating taps on the appropriate keyboard keys.
  @param text The text to enter after clearing the view.
@@ -350,7 +389,7 @@ extern NSString *const inputFieldTestString;
  @discussion If the element isn't currently tappable, then the step will attempt to wait until it is. Once the view is present and tappable, a tap event is simulated in the center of the view or element, then text is cleared from the view by simulating taps on the backspace key, the new text is then entered by simulating taps on the appropriate keyboard keys, finally the text of the view is compared against the expected result.
  @param text The text to enter after clearing the view.
  @param expectedResult What the text value should be after entry completes, including any formatting done by the field. If this is nil, the "text" parameter will be used.
-
+ 
  */
 - (void)clearAndEnterText:(NSString *)text expectedResult:(NSString *)expectedResult;
 
@@ -369,22 +408,36 @@ extern NSString *const inputFieldTestString;
 - (void)expectToContainText:(NSString *)expectedResult;
 
 /*!
- @abstract Waits for the software keyboard to be visible.
- @discussion If input is also possible from a hardare keyboard @c waitForKeyInputReady may be more appropriate.
+ @abstract Gets text from a given label/text field/text view
+ @param view The view to get the text from
+ @returns Text from the given label/text field/text view
  */
-- (void)waitForSoftwareKeyboard;
+- (NSString *)textFromView:(UIView *)view;
 
 /*!
- @abstract If present, waits for the software keyboard to dismiss.
+ @abstract Enters text into a the current first responder.
+ @discussion Text is entered into the view by simulating taps on the appropriate keyboard keys if the keyboard is already displayed. Useful to enter text in UIWebViews or components with no accessibility labels.
+ @param text The text to enter.
  */
-- (void)waitForAbsenceOfSoftwareKeyboard;
+- (void)enterTextIntoCurrentFirstResponder:(NSString *)text; //DEPRECATED_MSG_ATTRIBUTE("Use 'usingFirstResponder' matcher with 'enterText:' instead.");
+/*!
+ @abstract Enters text into a the current first responder. if KIF is unable to type with the keyboard (which could be dismissed or obscured) the tester will call setText on the fallback view directly.
+ @discussion Text is entered into the view by simulating taps on the appropriate keyboard keys if the keyboard is already displayed. Useful to enter text in UIWebViews or components with no accessibility labels.
+ @param text The text to enter.
+ @param fallbackView The UIView to enter if keyboard input fails.
+ */
+- (void)enterTextIntoCurrentFirstResponder:(NSString *)text fallbackView:(UIView *)fallbackView; //DEPRECATED_MSG_ATTRIBUTE("Please log a KIF Github issue if you have a use case for this.");
 
 /*!
- @abstract Waits for the keyboard to be ready for input.  This tests whether or not a hardware or software keyboard is available and if the keyboard has a responder to send events to.
+ @abstract Clears text from the current first responder.
+ @discussion text is cleared from the first responder by simulating taps on the backspace key.
  */
-- (void)waitForKeyInputReady;
 
-#pragma mark Specific Controls
+- (void)clearTextFromFirstResponder; //DEPRECATED_MSG_ATTRIBUTE("Use 'usingFirstResponder' matcher with 'clearText' instead.");
+
+
+
+#pragma mark Specific UIControl Actions
 
 /*!
  @abstract Slides a UISlider to a specified value.
@@ -400,25 +453,22 @@ extern NSString *const inputFieldTestString;
  */
 - (void)setSwitchOn:(BOOL)switchIsOn;
 
+
+/*!
+ @abstract Taps the increment|decrement button of a UIStepper view in the view heirarchy.
+ @discussion This will locate the left or right half of the stepper and perform a calculated click.
+ @param stepperDirection The direction in which to change the value of the stepper (KIFStepperDirectionIncrement | KIFStepperDirectionDecrement)
+ */
+
+- (void)tapStepperToIncrement:(KIFStepperDirection)stepperDirection;
+
 /*!
  @abstract Pulls down on the view matching the tester's search predicate to trigger a pull to refresh.
  @discussion This will enact the pull to refresh by pulling down the distance of 1/2 the height of the view found by the tester's search predicate.
  */
-- (void)pullToRefresh;
 
-/*!
- @abstract Pulls down on the view matching the tester's search predicate then hold for a given duration, then release to trigger a pull to refresh.
- @discussion This will enact the pull to refresh by pulling down the distance of 1/2 the height of the view found by the tester's search predicate. The view will be held down for the given duration and then released.
- @param pullDownDuration The enum describing the approximate time for the pull down to travel the entire distance
- */
-- (void)pullToRefreshWithDuration:(KIFPullToRefreshTiming)pullDownDuration;
 
-/*!
- @abstract Dismisses a popover on screen.
- @discussion With a popover up, tap at the top-left corner of the screen.
- */
-- (void)dismissPopover;
-
+#pragma mark Picker Actions
 /*!
  @abstract Selects an item from a currently visible picker view.
  @discussion With a picker view already visible, this step will find an item with the given title, select that item, and tap the Done button.
@@ -434,6 +484,7 @@ extern NSString *const inputFieldTestString;
  */
 - (void)selectPickerViewRowWithTitle:(NSString *)title inComponent:(NSInteger)component;
 
+#pragma mark DatePicker Actions
 /*!
  @abstract Selects an item from a currently visible date picker view in specified component. This can only be used on UIDatePicker objects and not UIPickerView objects.
  @discussion With a date picker view already visible, this step will find an item with the given title in given component, select that item, and tap the Done button.
@@ -457,6 +508,7 @@ extern NSString *const inputFieldTestString;
  */
 - (void)selectDatePickerValue:(NSArray *)datePickerColumnValues withSearchOrder:(KIFPickerSearchOrder)searchOrder;
 
+#pragma mark Photo Picker Actions
 /*!
  @abstract Select a certain photo from the built in photo picker.
  @discussion This set of steps expects that the photo picker has been initiated and that the sheet is up. From there it will tap the "Choose Photo" button and select the desired photo.
@@ -466,6 +518,24 @@ extern NSString *const inputFieldTestString;
  */
 - (void)choosePhotoInAlbum:(NSString *)albumName atRow:(NSInteger)row column:(NSInteger)column;
 
+#pragma mark Pull To Refresh Actions
+
+- (void)pullToRefresh;
+
+/*!
+ @abstract Pulls down on the view matching the tester's search predicate then hold for a given duration, then release to trigger a pull to refresh.
+ @discussion This will enact the pull to refresh by pulling down the distance of 1/2 the height of the view found by the tester's search predicate. The view will be held down for the given duration and then released.
+ @param pullDownDuration The enum describing the approximate time for the pull down to travel the entire distance
+ */
+- (void)pullToRefreshWithDuration:(KIFPullToRefreshTiming)pullDownDuration;
+
+#pragma Mark System Actions
+
+/*!
+ @abstract Dismisses a popover on screen.
+ @discussion With a popover up, tap at the top-left corner of the screen.
+ */
+- (void)dismissPopover;
 /*!
  @abstract Taps the status bar at the top of the screen. This will fail if a status bar is not found.
  */
