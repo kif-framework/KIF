@@ -653,7 +653,7 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
     }
 
     // Dispatching the event doesn't actually update the first responder, so fake it
-    if ([touches[0] view] == self && [self canBecomeFirstResponder]) {
+    if ([touches.firstObject view] == self && [self canBecomeFirstResponder]) {
         [self becomeFirstResponder];
     }
 
