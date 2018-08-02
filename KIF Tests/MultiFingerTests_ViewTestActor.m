@@ -14,6 +14,7 @@
 @interface MultiFingerTests_ViewTestActor : KIFTestCase
 @property (nonatomic, readwrite) BOOL twoFingerPanSuccess;
 @property (nonatomic, readwrite) BOOL zoomSuccess;
+@property (nonatomic, readwrite) double latestRotation;
 @end
 
 @implementation MultiFingerTests_ViewTestActor
@@ -27,6 +28,7 @@
 
     self.twoFingerPanSuccess = NO;
     self.zoomSuccess = NO;
+    self.latestRotation = 0;
 }
 
 - (void)afterEach
@@ -34,15 +36,18 @@
     [[[viewTester usingLabel:@"Test Suite"] usingTraits:UIAccessibilityTraitButton] tap];
     self.twoFingerPanSuccess = NO;
     self.zoomSuccess = NO;
+    self.latestRotation = 0;
 }
+
+#pragma mark - Tests
 
 - (void)testTwoFingerPan
 {
     CGFloat offset = 50.0;
 
     UIScrollView *scrollView = (UIScrollView *)[viewTester usingLabel:@"Scroll View"].view;
-	[tester waitForAnimationsToFinish];
-    UIPanGestureRecognizer *panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(twoFingerPanned)];
+	[viewTester waitForAnimationsToFinish];
+    UIPanGestureRecognizer *panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(_twoFingerPanned:)];
     panGestureRecognizer.minimumNumberOfTouches = 2;
     [scrollView addGestureRecognizer:panGestureRecognizer];
 
@@ -53,19 +58,14 @@
     __KIFAssertEqual(self.twoFingerPanSuccess, YES);
 }
 
-- (void)twoFingerPanned
-{
-    self.twoFingerPanSuccess = YES;
-}
-
 - (void)testZoom
 {
     CGFloat distance = 50.0;
 
-    UIScrollView *scrollView = (UIScrollView *)[viewTester usingLabel:@"Scroll View"].view;
-	[tester waitForAnimationsToFinish];
+    UIScrollView *scrollView = (UIScrollView *)[[viewTester usingLabel:@"Scroll View"] waitForView];
+	[viewTester waitForAnimationsToFinish];
     UIPinchGestureRecognizer *pinchRecognizer = [[UIPinchGestureRecognizer alloc] initWithTarget:self
-                                                                                          action:@selector(zoomed:)];
+                                                                                          action:@selector(_zoomed:)];
 
     [scrollView addGestureRecognizer:pinchRecognizer];
 
@@ -75,12 +75,62 @@
     __KIFAssertEqual(self.zoomSuccess, YES);
 }
 
-- (void)zoomed:(UIPinchGestureRecognizer *)pinchRecognizer
+- (void)testRotate
+{
+    UIScrollView *scrollView = (UIScrollView *)[[viewTester usingLabel:@"Scroll View"] waitForView];
+    [viewTester waitForAnimationsToFinish];
+    UIRotationGestureRecognizer *rotateRecognizer =
+    [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(_rotated:)];
+
+    [scrollView addGestureRecognizer:rotateRecognizer];
+
+    [self _assertThatLatestRotationIsWithinThreshold:1];
+    [self _assertThatLatestRotationIsWithinThreshold:45];
+    [self _assertThatLatestRotationIsWithinThreshold:90];
+    [self _assertThatLatestRotationIsWithinThreshold:180];
+    [self _assertThatLatestRotationIsWithinThreshold:270];
+    [self _assertThatLatestRotationIsWithinThreshold:360];
+
+    [scrollView removeGestureRecognizer:rotateRecognizer];
+}
+
+#pragma mark - Internal Helpers
+
+- (void)_assertThatLatestRotationIsWithinThreshold:(double)targetRotationInDegrees
+{
+    UIScrollView *scrollView = (UIScrollView *)[[viewTester usingLabel:@"Scroll View"] waitForView];
+    CGPoint startPoint = CGPointMake(CGRectGetMidX(scrollView.bounds), CGRectGetMidY(scrollView.bounds));
+    [scrollView twoFingerRotateAtPoint:startPoint angle:targetRotationInDegrees];
+
+    // check we have rotated to within some small threshold of the target rotation amount
+    // 0.2 radians is ~12 degrees
+    BOOL withinThreshold = (self.latestRotation - KIFDegreesToRadians(targetRotationInDegrees)) < 0.2;
+    __KIFAssertEqual(withinThreshold, YES);
+}
+
+#pragma mark - Gesture Recognizers
+
+- (void)_twoFingerPanned:(UIGestureRecognizer *)gr
+{
+    if (gr.state == UIGestureRecognizerStateEnded) {
+        self.twoFingerPanSuccess = YES;
+    }
+}
+
+- (void)_zoomed:(UIPinchGestureRecognizer *)pinchRecognizer
 {
     if (pinchRecognizer.state == UIGestureRecognizerStateChanged) {
         if (pinchRecognizer.scale > 1) {
             self.zoomSuccess = YES;
         }
+    }
+}
+
+- (void)_rotated:(UIRotationGestureRecognizer *)recognizer
+{
+    if (recognizer.state == UIGestureRecognizerStateEnded)
+    {
+        self.latestRotation = recognizer.rotation;
     }
 }
 

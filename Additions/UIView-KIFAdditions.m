@@ -556,7 +556,7 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
 - (void)dragFromPoint:(CGPoint)startPoint displacement:(KIFDisplacement)displacement steps:(NSUInteger)stepCount;
 {
     CGPoint endPoint = CGPointMake(startPoint.x + displacement.x, startPoint.y + displacement.y);
-    NSArray *path = [self pointsFromStartPoint:startPoint toPoint:endPoint steps:stepCount];
+    NSArray<NSValue *> *path = [self pointsFromStartPoint:startPoint toPoint:endPoint steps:stepCount];
     [self dragPointsAlongPaths:@[path]];
 }
 
@@ -571,14 +571,14 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
     [self dragPointsAlongPaths:@[[array copy]]];
 }
 
-- (void)dragPointsAlongPaths:(NSArray *)arrayOfPaths {
-    // must have at least one path, and each path must have the same number of points
-    if (arrayOfPaths.count == 0)
+- (void)dragPointsAlongPaths:(NSArray<NSArray<NSValue *> *> *)arrayOfPaths {
+    // There must be at least one path with at least one point
+    if (arrayOfPaths.count == 0 || arrayOfPaths.firstObject.count == 0)
     {
         return;
     }
 
-    // all paths must have similar number of points
+    // all paths must have the same number of points
     NSUInteger pointsInPath = [arrayOfPaths[0] count];
     for (NSArray *path in arrayOfPaths)
     {
@@ -588,14 +588,14 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
         }
     }
 
-    NSMutableArray *touches = [NSMutableArray array];
+    NSMutableArray<UITouch *> *touches = [NSMutableArray array];
     
     // Convert paths to be in window coordinates before we start, because the view may
     // move relative to the window.
-    NSMutableArray *newPaths = [[NSMutableArray alloc] init];
+    NSMutableArray<NSArray<NSValue *> *> *newPaths = [[NSMutableArray alloc] init];
     
     for (NSArray * path in arrayOfPaths) {
-        NSMutableArray *newPath = [[NSMutableArray alloc] init];
+        NSMutableArray<NSValue *> *newPath = [[NSMutableArray alloc] init];
         for (NSValue *pointValue in path) {
             CGPoint point = [pointValue CGPointValue];
             [newPath addObject:[NSValue valueWithCGPoint:[self.window convertPoint:point fromView:self]]];
@@ -609,7 +609,7 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
         // create initial touch event and send touch down event
         if (pointIndex == 0)
         {
-            for (NSArray *path in arrayOfPaths)
+            for (NSArray<NSValue *> *path in arrayOfPaths)
             {
                 CGPoint point = [path[pointIndex] CGPointValue];
                 // The starting point needs to be relative to the view receiving the UITouch event.
@@ -628,7 +628,7 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
             UITouch *touch;
             for (NSUInteger pathIndex = 0; pathIndex < arrayOfPaths.count; pathIndex++)
             {
-                NSArray *path = arrayOfPaths[pathIndex];
+                NSArray<NSValue *> *path = arrayOfPaths[pathIndex];
                 CGPoint point = [path[pointIndex] CGPointValue];
                 touch = touches[pathIndex];
                 [touch setLocationInWindow:point];
@@ -673,8 +673,8 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
                                        startPoint.y + kTwoFingerConstantWidth);
     CGPoint finger2End = CGPointMake(toPoint.x + kTwoFingerConstantWidth,
                                      toPoint.y + kTwoFingerConstantWidth);
-    NSArray *finger1Path = [self pointsFromStartPoint:finger1Start toPoint:finger1End steps:stepCount];
-    NSArray *finger2Path = [self pointsFromStartPoint:finger2Start toPoint:finger2End steps:stepCount];
+    NSArray<NSValue *> *finger1Path = [self pointsFromStartPoint:finger1Start toPoint:finger1End steps:stepCount];
+    NSArray<NSValue *> *finger2Path = [self pointsFromStartPoint:finger2Start toPoint:finger2End steps:stepCount];
     NSArray *paths = @[finger1Path, finger2Path];
 
     [self dragPointsAlongPaths:paths];
@@ -687,8 +687,8 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
     //estimate the second finger to be on the right
     CGPoint finger2Start = CGPointMake(centerPoint.x + kTwoFingerConstantWidth + distance, centerPoint.y);
     CGPoint finger2End = CGPointMake(centerPoint.x + kTwoFingerConstantWidth, centerPoint.y);
-    NSArray *finger1Path = [self pointsFromStartPoint:finger1Start toPoint:finger1End steps:stepCount];
-    NSArray *finger2Path = [self pointsFromStartPoint:finger2Start toPoint:finger2End steps:stepCount];
+    NSArray<NSValue *> *finger1Path = [self pointsFromStartPoint:finger1Start toPoint:finger1End steps:stepCount];
+    NSArray<NSValue *> *finger2Path = [self pointsFromStartPoint:finger2Start toPoint:finger2End steps:stepCount];
     NSArray *paths = @[finger1Path, finger2Path];
 
     [self dragPointsAlongPaths:paths];
@@ -701,20 +701,23 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
     //estimate the second finger to be on the right
     CGPoint finger2Start = CGPointMake(centerPoint.x + kTwoFingerConstantWidth, centerPoint.y);
     CGPoint finger2End = CGPointMake(centerPoint.x + kTwoFingerConstantWidth + distance, centerPoint.y);
-    NSArray *finger1Path = [self pointsFromStartPoint:finger1Start toPoint:finger1End steps:stepCount];
-    NSArray *finger2Path = [self pointsFromStartPoint:finger2Start toPoint:finger2End steps:stepCount];
+    NSArray<NSValue *> *finger1Path = [self pointsFromStartPoint:finger1Start toPoint:finger1End steps:stepCount];
+    NSArray<NSValue *> *finger2Path = [self pointsFromStartPoint:finger2Start toPoint:finger2End steps:stepCount];
     NSArray *paths = @[finger1Path, finger2Path];
 
     [self dragPointsAlongPaths:paths];
 }
 
 - (void)twoFingerRotateAtPoint:(CGPoint)centerPoint angle:(CGFloat)angleInDegrees {
-    NSInteger stepCount = ABS(angleInDegrees)/2; // very rough approximation. 90deg = ~45 steps, 360 deg = ~180 steps
+    // Very rough approximation. 90deg = ~45 steps, 360 deg = ~180 steps
+    // Enforce a minimum of 2 steps.
+    NSInteger stepCount = MAX(ABS(angleInDegrees)/2, 2);
+
     CGFloat radius = kTwoFingerConstantWidth*2;
     double angleInRadians = KIFDegreesToRadians(angleInDegrees);
 
-    NSMutableArray *finger1Path = [NSMutableArray array];
-    NSMutableArray *finger2Path = [NSMutableArray array];
+    NSMutableArray<NSValue *> *finger1Path = [NSMutableArray array];
+    NSMutableArray<NSValue *> *finger2Path = [NSMutableArray array];
     for (NSUInteger i = 0; i < stepCount; i++) {
         double currentAngle = 0;
         if (i == stepCount - 1) {
@@ -737,10 +740,10 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
     [self dragPointsAlongPaths:@[[finger1Path copy], [finger2Path copy]]];
 }
 
-- (NSArray *)pointsFromStartPoint:(CGPoint)startPoint toPoint:(CGPoint)toPoint steps:(NSUInteger)stepCount {
+- (NSArray<NSValue *> *)pointsFromStartPoint:(CGPoint)startPoint toPoint:(CGPoint)toPoint steps:(NSUInteger)stepCount {
 
     CGPoint displacement = CGPointMake(toPoint.x - startPoint.x, toPoint.y - startPoint.y);
-    NSMutableArray *points = [NSMutableArray array];
+    NSMutableArray<NSValue *> *points = [NSMutableArray array];
 
     for (NSUInteger i = 0; i < stepCount; i++) {
         CGFloat progress = ((CGFloat)i)/(stepCount - 1);
@@ -748,7 +751,7 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
                                     startPoint.y + (progress * displacement.y));
         [points addObject:[NSValue valueWithCGPoint:point]];
     }
-    return [NSArray arrayWithArray:points];
+    return [points copy];
 }
 
 - (BOOL)isProbablyTappable
