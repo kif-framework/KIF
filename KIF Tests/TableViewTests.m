@@ -7,6 +7,7 @@
 //
 
 #import <KIF/KIF.h>
+#import <KIF/KIFUITestActor-IdentifierTests.h>
 #import "KIFTestStepValidation.h"
 #import "UIApplication-KIFAdditions.h"
 
@@ -17,12 +18,14 @@
 
 - (void)beforeEach
 {
+    XCTAssertTrue([[tester class] testActorAnimationsEnabled]);
     [tester tapViewWithAccessibilityLabel:@"TableViews"];
 }
 
 - (void)afterEach
 {
     [tester tapViewWithAccessibilityLabel:@"Test Suite" traits:UIAccessibilityTraitButton];
+    [[tester class] setTestActorAnimationsEnabled:YES];
 }
 
 - (void)testTappingRows
@@ -33,8 +36,26 @@
     [tester waitForViewWithAccessibilityLabel:@"First Cell" traits:UIAccessibilityTraitSelected];
 }
 
+- (void)testTappingRowsWithoutAnimation
+{
+    [[tester class] setTestActorAnimationsEnabled:NO];
+    
+    [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:2] inTableViewWithAccessibilityIdentifier:@"TableView Tests Table"];
+    [tester waitForViewWithAccessibilityLabel:@"Last Cell" traits:UIAccessibilityTraitSelected];
+    [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] inTableViewWithAccessibilityIdentifier:@"TableView Tests Table"];
+    [tester waitForViewWithAccessibilityLabel:@"First Cell" traits:UIAccessibilityTraitSelected];
+}
+
 - (void)testTappingLastRowAndSection
 {
+    [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:-1 inSection:-1] inTableViewWithAccessibilityIdentifier:@"TableView Tests Table"];
+    [tester waitForViewWithAccessibilityLabel:@"Last Cell" traits:UIAccessibilityTraitSelected];
+}
+
+- (void)testTappingLastRowAndSectionWithoutAnimation
+{
+    [[tester class] setTestActorAnimationsEnabled:NO];
+
     [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:-1 inSection:-1] inTableViewWithAccessibilityIdentifier:@"TableView Tests Table"];
     [tester waitForViewWithAccessibilityLabel:@"Last Cell" traits:UIAccessibilityTraitSelected];
 }
@@ -62,6 +83,20 @@
     }];
 }
 
+- (void)testScrollingToTopWithoutAnimation
+{
+    [[tester class] setTestActorAnimationsEnabled:NO];
+    [tester tapRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:2] inTableViewWithAccessibilityIdentifier:@"TableView Tests Table"];
+    [tester tapStatusBar];
+    
+    UITableView *tableView;
+    [tester waitForAccessibilityElement:NULL view:&tableView withIdentifier:@"TableView Tests Table" tappable:NO];
+    [tester runBlock:^KIFTestStepResult(NSError *__autoreleasing *error) {
+        KIFTestWaitCondition(tableView.contentOffset.y == - tableView.contentInset.top, error, @"Waited for scroll view to scroll to top, but it ended at %@", NSStringFromCGPoint(tableView.contentOffset));
+        return KIFTestStepResultSuccess;
+    }];
+}
+
 - (void)testTappingRowsByLabel
 {
     // Tap the first row, which is already visible
@@ -76,9 +111,40 @@
 
 - (void)testTappingRowUnderToolbarByLabel
 {
+    // Ensure the toolbar is visible
+    [tester waitForViewWithAccessibilityIdentifier:@"Toolbar"];
+
     // Tap row 31, which will scroll so that cell 32 is precisely positioned under the toolbar
     [tester tapViewWithAccessibilityLabel:@"Cell 31"];
 
+    // Tap row 32, which should be scrolled up above the toolbar and then tapped
+    [tester tapViewWithAccessibilityLabel:@"Cell 32"];
+}
+
+- (void)testTappingRowsByLabelWithoutAnimation
+{
+    [[tester class] setTestActorAnimationsEnabled:NO];
+    
+    // Tap the first row, which is already visible
+    [tester tapViewWithAccessibilityLabel:@"First Cell"];
+    
+    // Tap the last row, which will need to be scrolled up
+    [tester tapViewWithAccessibilityLabel:@"Last Cell"];
+    
+    // Tap the first row, which will need to be scrolled down
+    [tester tapViewWithAccessibilityLabel:@"First Cell"];
+}
+
+- (void)testTappingRowUnderToolbarByLabelWithoutAnimation
+{
+    [[tester class] setTestActorAnimationsEnabled:NO];
+
+    // Ensure the toolbar is visible
+    [tester waitForViewWithAccessibilityIdentifier:@"Toolbar"];
+    
+    // Tap row 31, which will scroll so that cell 32 is precisely positioned under the toolbar
+    [tester tapViewWithAccessibilityLabel:@"Cell 31"];
+    
     // Tap row 32, which should be scrolled up above the toolbar and then tapped
     [tester tapViewWithAccessibilityLabel:@"Cell 32"];
 }
@@ -112,8 +178,40 @@
     [tester tapViewWithAccessibilityLabel:@"Done"];
 }
 
+- (void)testMoveRowDownWithoutAnimation
+{
+    [[tester class] setTestActorAnimationsEnabled:NO];
+    [tester tapViewWithAccessibilityLabel:@"Edit"];
+    
+    __KIFAssertEqualObjects([tester waitForCellAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:1] inTableViewWithAccessibilityIdentifier:@"TableView Tests Table"].textLabel.text, @"Cell 0", @"");
+    __KIFAssertEqualObjects([tester waitForCellAtIndexPath:[NSIndexPath indexPathForRow:4 inSection:1] inTableViewWithAccessibilityIdentifier:@"TableView Tests Table"].textLabel.text, @"Cell 4", @"");
+    
+    [tester moveRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:1] toIndexPath:[NSIndexPath indexPathForRow:4 inSection:1] inTableViewWithAccessibilityIdentifier:@"TableView Tests Table"];
+    
+    __KIFAssertEqualObjects([tester waitForCellAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:1] inTableViewWithAccessibilityIdentifier:@"TableView Tests Table"].textLabel.text, @"Cell 1", @"");
+    __KIFAssertEqualObjects([tester waitForCellAtIndexPath:[NSIndexPath indexPathForRow:4 inSection:1] inTableViewWithAccessibilityIdentifier:@"TableView Tests Table"].textLabel.text, @"Cell 0", @"");
+    
+    [tester tapViewWithAccessibilityLabel:@"Done"];
+}
+
 - (void)testMoveRowUp
 {
+    [tester tapViewWithAccessibilityLabel:@"Edit"];
+    
+    __KIFAssertEqualObjects([tester waitForCellAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:1] inTableViewWithAccessibilityIdentifier:@"TableView Tests Table"].textLabel.text, @"Cell 0", @"");
+    __KIFAssertEqualObjects([tester waitForCellAtIndexPath:[NSIndexPath indexPathForRow:4 inSection:1] inTableViewWithAccessibilityIdentifier:@"TableView Tests Table"].textLabel.text, @"Cell 4", @"");
+    
+    [tester moveRowAtIndexPath:[NSIndexPath indexPathForRow:4 inSection:1] toIndexPath:[NSIndexPath indexPathForRow:0 inSection:1] inTableViewWithAccessibilityIdentifier:@"TableView Tests Table"];
+    
+    __KIFAssertEqualObjects([tester waitForCellAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:1] inTableViewWithAccessibilityIdentifier:@"TableView Tests Table"].textLabel.text, @"Cell 4", @"");
+    __KIFAssertEqualObjects([tester waitForCellAtIndexPath:[NSIndexPath indexPathForRow:4 inSection:1] inTableViewWithAccessibilityIdentifier:@"TableView Tests Table"].textLabel.text, @"Cell 3", @"");
+    
+    [tester tapViewWithAccessibilityLabel:@"Done"];
+}
+
+- (void)testMoveRowUpWithoutAnimation
+{
+    [[tester class] setTestActorAnimationsEnabled:NO];
     [tester tapViewWithAccessibilityLabel:@"Edit"];
     
     __KIFAssertEqualObjects([tester waitForCellAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:1] inTableViewWithAccessibilityIdentifier:@"TableView Tests Table"].textLabel.text, @"Cell 0", @"");
@@ -142,8 +240,31 @@
     [tester tapViewWithAccessibilityLabel:@"Done"];
 }
 
+- (void)testMoveRowUpUsingNegativeRowIndexesWithoutAnimation
+{
+    [[tester class] setTestActorAnimationsEnabled:NO];
+    [tester tapViewWithAccessibilityLabel:@"Edit"];
+    
+    __KIFAssertEqualObjects([tester waitForCellAtIndexPath:[NSIndexPath indexPathForRow:-3 inSection:1] inTableViewWithAccessibilityIdentifier:@"TableView Tests Table"].textLabel.text, @"Cell 35", @"");
+    __KIFAssertEqualObjects([tester waitForCellAtIndexPath:[NSIndexPath indexPathForRow:-1 inSection:1] inTableViewWithAccessibilityIdentifier:@"TableView Tests Table"].textLabel.text, @"Cell 37", @"");
+    
+    [tester moveRowAtIndexPath:[NSIndexPath indexPathForRow:-1 inSection:1] toIndexPath:[NSIndexPath indexPathForRow:-3 inSection:1] inTableViewWithAccessibilityIdentifier:@"TableView Tests Table"];
+    
+    __KIFAssertEqualObjects([tester waitForCellAtIndexPath:[NSIndexPath indexPathForRow:-3 inSection:1] inTableViewWithAccessibilityIdentifier:@"TableView Tests Table"].textLabel.text, @"Cell 37", @"");
+    __KIFAssertEqualObjects([tester waitForCellAtIndexPath:[NSIndexPath indexPathForRow:-1 inSection:1] inTableViewWithAccessibilityIdentifier:@"TableView Tests Table"].textLabel.text, @"Cell 36", @"");
+    
+    [tester tapViewWithAccessibilityLabel:@"Done"];
+}
+
 - (void)testTogglingSwitch
 {
+    [tester setOn:NO forSwitchWithAccessibilityLabel:@"Table View Switch"];
+    [tester setOn:YES forSwitchWithAccessibilityLabel:@"Table View Switch"];
+}
+
+- (void)testTogglingSwitchWithoutAnimation
+{
+    [[tester class] setTestActorAnimationsEnabled:NO];
     [tester setOn:NO forSwitchWithAccessibilityLabel:@"Table View Switch"];
     [tester setOn:YES forSwitchWithAccessibilityLabel:@"Table View Switch"];
 }

@@ -36,7 +36,7 @@
 
 - (void)afterEach
 {
-    [[[viewTester usingLabel:@"Test Suite"] usingTraits:UIAccessibilityTraitButton] tap];
+    [[[[viewTester usingLabel:@"Test Suite"] usingTraits:UIAccessibilityTraitButton] usingAbsenceOfTraits:UIAccessibilityTraitKeyboardKey] tap];
 }
 
 - (void)testTappingViewWithAccessibilityLabel

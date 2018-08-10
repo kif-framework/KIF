@@ -20,8 +20,8 @@ All of the tests for KIF are written in Objective-C. This allows for maximum int
 #### Easy Configuration
 KIF integrates directly into your Xcode project, so there's no need to run an additional web server or install any additional packages.
 
-#### Wide OS coverage
-KIF's test suite has been run against iOS 8.1 and above, though lower versions will likely work.
+#### Wide OS and Xcode coverage
+KIF's test suite is being run against iOS 8+ and Xcode 7+. Lower versions will likely still work, but your mileage may vary. We do our best to retain backwards compatibility as much as possible.
 
 #### Test Like a User
 KIF attempts to imitate actual user input. Automation is done using tap events wherever possible.
@@ -214,12 +214,12 @@ Most of the tester actions in the test are already defined by the KIF framework,
 @end
 ```
 
-Everything should now be configured. When you run the integration tests using the test button, ⌘U, or the Xcode 5 Test Navigator (⌘5).
+Everything should now be configured. When you run the integration tests using the test button, ⌘U, or the Xcode Test Navigator (⌘5).
 
 Use with other testing frameworks
 ---------------------------------
 
-`KIFTestCase` is not necessary for running KIF tests.  Tests can run directly in `XCTestCase` or any subclass.  The basic requirement is that when you call `tester` or `system`, `self` must be an instance of `XCTestCase`.
+`KIFTestCase` is not necessary for running KIF tests.  Tests can run directly in `XCTestCase` or any subclass.  The basic requirement is that when you call `tester` or `system`, `self` must be an instance of `XCTestCase` and you must call `KIFEnableAccessibility` in `setUp`.
 
 For example, the following [Specta](https://github.com/specta/specta) test works without any changes to KIF or Specta:
 
@@ -307,7 +307,7 @@ or if you get another "unrecognized selector" error inside the KIF code, make su
 Continuous Integration
 ----------------------
 
-A continuous integration (CI) process is highly recommended and is extremely useful in ensuring that your application stays functional. The easiest way to do this will be with Xcode 5, either using Bots, or Jenkins or another tool that uses xcodebuild.  For tools using xcodebuild, review the manpage for instructions on using test destinations.
+A continuous integration (CI) process is highly recommended and is extremely useful in ensuring that your application stays functional. The easiest way to do this will be with Xcode, either using Bots, or Jenkins or another tool that uses xcodebuild.  For tools using xcodebuild, review the manpage for instructions on using test destinations.
 
 Contributing
 ------------

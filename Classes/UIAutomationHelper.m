@@ -11,13 +11,15 @@
 #import <objc/runtime.h>
 #import "UIApplication-KIFAdditions.h"
 
-@interface UIAElement : NSObject <NSCopying>
-- (void)tap;
-- (NSNumber *)pid;
-@end
-
 @interface UIAXElement : NSObject
 - (BOOL)isValid;
+@end
+
+@interface UIAElement : NSObject <NSCopying>
+- (void)tap;
+- (void)tapWithOptions:(NSDictionary *)options;
+- (NSNumber *)pid;
+- (UIAXElement *)uiaxElement;
 @end
 
 @interface UIAElementArray : NSArray
@@ -104,28 +106,64 @@ static void FixReactivateApp(void)
     return [[self sharedHelper] acknowledgeSystemAlert];
 }
 
++ (BOOL)acknowledgeSystemAlertWithIndex:(NSUInteger)index {
+    return [[self sharedHelper] acknowledgeSystemAlertWithIndex:index];
+}
+
 + (void)deactivateAppForDuration:(NSNumber *)duration {
     [[self sharedHelper] deactivateAppForDuration:duration];
 }
 
 - (BOOL)acknowledgeSystemAlert {
+	UIAAlert* alert = [[self target] frontMostApp].alert;
+    // Even though `acknowledgeSystemAlertWithIndex:` checks the index, we have to have
+    // an additional check here to ensure that when `alert.buttons.count` is 0, subtracting one doesn't cause a wrap-around (2^63 - 1).
+    if (alert.buttons.count > 0) {
+        return [self acknowledgeSystemAlertWithIndex:alert.buttons.count - 1];
+    }
+    return NO;
+}
+
+// Inspired by:  https://github.com/jamesjn/KIF/tree/acknowledge-location-alert
+- (BOOL)acknowledgeSystemAlertWithIndex:(NSUInteger)index {
     UIAApplication *application = [[self target] frontMostApp];
-	UIAAlert* alert = application.alert;
-	if (![alert isKindOfClass:[self nilElementClass]] && [self _alertIsValidAndVisible:alert]) {
-            [[alert.buttons lastObject] tap];
-            while ([self _alertIsValidAndVisible:alert]) {
-                // Wait for button press to complete.
-                KIFRunLoopRunInModeRelativeToAnimationSpeed(UIApplicationCurrentRunMode, 0.1, false);
-            }
-            // Wait for alert dismissial animation.
-            KIFRunLoopRunInModeRelativeToAnimationSpeed(UIApplicationCurrentRunMode, 0.4, false);
-            return YES;
-	}
+    UIAAlert *alert = application.alert;
+    BOOL isIndexInRange = index < alert.buttons.count;
+    if (![alert isKindOfClass:[self nilElementClass]] && [self _alertIsValidAndVisible:alert] && isIndexInRange) {
+        [alert.buttons[index] tap];
+        while ([self _alertIsValidAndVisible:alert]) {
+            // Wait for button press to complete.
+            KIFRunLoopRunInModeRelativeToAnimationSpeed(UIApplicationCurrentRunMode, 0.1, false);
+        }
+        // Wait for alert dismissial animation.
+        KIFRunLoopRunInModeRelativeToAnimationSpeed(UIApplicationCurrentRunMode, 0.4, false);
+        return YES;
+    }
     return NO;
 }
 
 - (void)deactivateAppForDuration:(NSNumber *)duration {
-    [[self target] deactivateAppForDuration:duration];
+    @try {
+        [[self target] deactivateAppForDuration:duration];
+    }
+    @catch(NSException *e) {
+        #pragma clang diagnostic push
+        #pragma clang diagnostic ignored "-Wunused-variable"
+        NSOperatingSystemVersion iOS11 = {11, 0, 0};
+        NSAssert([NSProcessInfo instancesRespondToSelector:@selector(isOperatingSystemAtLeastVersion:)] && [[NSProcessInfo new] isOperatingSystemAtLeastVersion:iOS11], @"The issue of resuming from SpringBoard is only known to occur on iOS 11+.");
+        NSAssert([[[[self target] frontMostApp] name] isEqual:@"SpringBoard"], @"If reactivation is failing, the app is likely still open to SpringBoard.");
+        
+        // Tap slightly above the middle of the screen, otherwise it doesn't resume on an iPad Pro
+        [[[self target] frontMostApp] tapWithOptions:@{@"tapOffset": @{@"x": @(.5), @"y": @(.36)}}];
+
+        // Wait for app to foreground
+        CFRunLoopRunInMode(UIApplicationCurrentRunMode, 0.1, false);
+        
+        // Ensure our test app has returned to being the front most app
+        NSString *testAppName = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDisplayName"];
+        NSAssert([[[[self target] frontMostApp] name] isEqual:testAppName], @"After tapping, the main app should be relaunched.");
+        #pragma clang diagnostic pop
+    }
 }
 
 #pragma mark - Private

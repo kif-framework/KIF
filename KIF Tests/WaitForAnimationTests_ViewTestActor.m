@@ -22,7 +22,7 @@
 
 - (void)afterEach
 {
-    [[viewTester usingLabel:@"Back"] tap];
+    [[viewTester usingLabel:@"TapView"] tap];
     [[[viewTester usingLabel:@"Test Suite"] usingTraits:UIAccessibilityTraitButton] tap];
 }
 

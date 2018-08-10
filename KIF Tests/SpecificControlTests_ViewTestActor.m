@@ -45,6 +45,12 @@
 
 - (void)testPickingAPhoto
 {
+    NSOperatingSystemVersion iOS11 = {11, 0, 0};
+    if ([NSProcessInfo instancesRespondToSelector:@selector(isOperatingSystemAtLeastVersion:)] && [[NSProcessInfo new] isOperatingSystemAtLeastVersion:iOS11]) {
+        NSLog(@"This test can't be run on iOS 11, as the photo picker UI is hosted in an `AXRemoteElement`");
+        return;
+    }
+
     // 'acknowledgeSystemAlert' can't be used on iOS7
     // The console shows a message "AX Lookup problem! 22 com.apple.iphone.axserver:-1"
     if ([UIDevice.currentDevice.systemVersion compare:@"8.0" options:NSNumericSearch] < 0) {

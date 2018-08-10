@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name                    = "KIF"
-  s.version                 = "3.6.0"
+  s.version                 = "3.7.4"
   s.summary                 = "Keep It Functional - iOS UI acceptance testing in an XCUnit harness."
   s.homepage                = "https://github.com/kif-framework/KIF/"
   s.license                 = 'Apache 2.0'
@@ -11,6 +11,7 @@ Pod::Spec.new do |s|
   s.default_subspec         = 'Core'
   s.requires_arc            = true
   s.prefix_header_contents  = '#import <CoreGraphics/CoreGraphics.h>'
+  s.pod_target_xcconfig     = { 'ENABLE_BITCODE' => 'NO' }
 
   s.subspec 'Core' do |core|
     core.source_files         = 'Classes', 'Additions'

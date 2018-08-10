@@ -46,13 +46,25 @@
 
 - (void)testInteractionWithAnActivityViewController
 {
+    NSOperatingSystemVersion iOS11 = {11, 0, 0};
+    if ([NSProcessInfo instancesRespondToSelector:@selector(isOperatingSystemAtLeastVersion:)]
+        && [[NSProcessInfo new] isOperatingSystemAtLeastVersion:iOS11]) {
+        NSLog(@"This test can't be run on iOS 11, as the activity sheet is hosted in an `AXRemoteElement`");
+        return;
+    }
+    
     if (!NSClassFromString(@"UIActivityViewController")) {
         return;
     }
     
     [tester tapViewWithAccessibilityLabel:@"UIActivityViewController"];
     [tester waitForTappableViewWithAccessibilityLabel:@"Copy"];
-    [tester waitForTappableViewWithAccessibilityLabel:@"Mail"];
+
+    if ([UIDevice.currentDevice.systemVersion compare:@"10.0" options:NSNumericSearch] < 0) {
+        [tester waitForTappableViewWithAccessibilityLabel:@"Mail"];
+    } else {
+        [tester waitForTappableViewWithAccessibilityLabel:@"Add To iCloud Drive"];
+    }
 
     // On iOS7, the activity controller appears at the bottom
     // On iOS8 and beyond, it is shown in a popover control

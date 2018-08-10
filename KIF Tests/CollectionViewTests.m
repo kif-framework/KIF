@@ -16,16 +16,28 @@
 
 - (void)beforeEach
 {
+    XCTAssertTrue([[tester class] testActorAnimationsEnabled]);
     [tester tapViewWithAccessibilityLabel:@"CollectionViews"];
 }
 
 - (void)afterEach
 {
     [tester tapViewWithAccessibilityLabel:@"Test Suite" traits:UIAccessibilityTraitButton];
+    [[tester class] setTestActorAnimationsEnabled:YES];
 }
 
 - (void)testTappingItems
 {
+    [tester tapItemAtIndexPath:[NSIndexPath indexPathForItem:199 inSection:0] inCollectionViewWithAccessibilityIdentifier:@"CollectionView Tests CollectionView"];
+    [tester waitForViewWithAccessibilityLabel:@"Last Cell" traits:UIAccessibilityTraitSelected];
+    [tester tapItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0] inCollectionViewWithAccessibilityIdentifier:@"CollectionView Tests CollectionView"];
+    [tester waitForViewWithAccessibilityLabel:@"First Cell" traits:UIAccessibilityTraitSelected];
+}
+
+- (void)testTappingItemsWithoutAnimation
+{
+    [[tester class] setTestActorAnimationsEnabled:NO];
+
     [tester tapItemAtIndexPath:[NSIndexPath indexPathForItem:199 inSection:0] inCollectionViewWithAccessibilityIdentifier:@"CollectionView Tests CollectionView"];
     [tester waitForViewWithAccessibilityLabel:@"Last Cell" traits:UIAccessibilityTraitSelected];
     [tester tapItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0] inCollectionViewWithAccessibilityIdentifier:@"CollectionView Tests CollectionView"];
@@ -37,6 +49,15 @@
     [tester tapItemAtIndexPath:[NSIndexPath indexPathForItem:-1 inSection:-1] inCollectionViewWithAccessibilityIdentifier:@"CollectionView Tests CollectionView"];
     [tester waitForViewWithAccessibilityLabel:@"Last Cell" traits:UIAccessibilityTraitSelected];
 }
+
+- (void)testTappingLastItemAndSectionWithoutAnimation
+{
+    [[tester class] setTestActorAnimationsEnabled:NO];
+
+    [tester tapItemAtIndexPath:[NSIndexPath indexPathForItem:-1 inSection:-1] inCollectionViewWithAccessibilityIdentifier:@"CollectionView Tests CollectionView"];
+    [tester waitForViewWithAccessibilityLabel:@"Last Cell" traits:UIAccessibilityTraitSelected];
+}
+
 
 - (void)testOutOfBounds
 {

@@ -14,6 +14,14 @@
 
 @implementation ExistTests_ViewTestActor
 
+- (void)beforeAll;
+{
+    [super beforeAll];
+
+    // If a previous test was still in the process of navigating back to the main view, let that complete before starting this test
+    [tester waitForAnimationsToFinish];
+}
+
 - (void)testExistsViewWithAccessibilityLabel
 {
     if ([[viewTester usingLabel:@"Tapping"] tryFindingTappableView] && ![[[viewTester usingLabel:@"Test Suite"] usingTraits:UIAccessibilityTraitButton] tryFindingTappableView]) {

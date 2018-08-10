@@ -92,7 +92,6 @@
 {
 	self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"Bingo!", @"") attributes:nil];
 	[self.refreshControl performSelector: @selector(endRefreshing) withObject: nil afterDelay: 4.0f];
-	[self performSelector: @selector(endedRefreshing) withObject: nil afterDelay: 4.5f]; //just a little hacky
 }
 
 #pragma mark - UIActionSheetDelegate
@@ -102,7 +101,7 @@
     [[[UIAlertView alloc] initWithTitle:@"Alert View" message:@"Message" delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:@"Continue", nil] show];
 }
 
-- (void) endedRefreshing
+- (IBAction)resetRefreshControl
 {
 	self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"Refreshing...", @"") attributes:nil];
 }

@@ -85,14 +85,39 @@
 
 - (void)testSelectingAPickerRow
 {
-    [tester selectPickerViewRowWithTitle:@"Charlie"];
+    [tester selectPickerViewRowWithTitle:@"Echo"];
     
     NSOperatingSystemVersion iOS8 = {8, 0, 0};
     if ([NSProcessInfo instancesRespondToSelector:@selector(isOperatingSystemAtLeastVersion:)] && [[NSProcessInfo new] isOperatingSystemAtLeastVersion:iOS8]) {
-        [tester waitForViewWithAccessibilityLabel:@"Call Sign" value:@"Charlie" traits:UIAccessibilityTraitNone];
+        [tester waitForViewWithAccessibilityLabel:@"Call Sign" value:@"Echo" traits:UIAccessibilityTraitNone];
     } else {
-        [tester waitForViewWithAccessibilityLabel:@"Call Sign" value:@"Charlie. 3 of 3" traits:UIAccessibilityTraitNone];
+        [tester waitForViewWithAccessibilityLabel:@"Call Sign" value:@"Echo. 5 of 14" traits:UIAccessibilityTraitNone];
     }
+
+    [tester selectPickerViewRowWithTitle:@"Golf"];
+
+    if ([NSProcessInfo instancesRespondToSelector:@selector(isOperatingSystemAtLeastVersion:)] && [[NSProcessInfo new] isOperatingSystemAtLeastVersion:iOS8]) {
+        [tester waitForViewWithAccessibilityLabel:@"Call Sign" value:@"Golf" traits:UIAccessibilityTraitNone];
+    } else {
+        [tester waitForViewWithAccessibilityLabel:@"Call Sign" value:@"Golf. 7 of 14" traits:UIAccessibilityTraitNone];
+    }
+
+    [tester selectPickerViewRowWithTitle:@"Alpha"];
+
+    if ([NSProcessInfo instancesRespondToSelector:@selector(isOperatingSystemAtLeastVersion:)] && [[NSProcessInfo new] isOperatingSystemAtLeastVersion:iOS8]) {
+        [tester waitForViewWithAccessibilityLabel:@"Call Sign" value:@"Alpha" traits:UIAccessibilityTraitNone];
+    } else {
+        [tester waitForViewWithAccessibilityLabel:@"Call Sign" value:@"Alpha. 1 of 14" traits:UIAccessibilityTraitNone];
+    }
+
+    [tester selectPickerViewRowWithTitle:@"N8117U"];
+
+    if ([NSProcessInfo instancesRespondToSelector:@selector(isOperatingSystemAtLeastVersion:)] && [[NSProcessInfo new] isOperatingSystemAtLeastVersion:iOS8]) {
+        [tester waitForViewWithAccessibilityLabel:@"Call Sign" value:@"N8117U" traits:UIAccessibilityTraitNone];
+    } else {
+        [tester waitForViewWithAccessibilityLabel:@"Call Sign" value:@"N8117U. 14 of 14" traits:UIAccessibilityTraitNone];
+    }
+
 }
 
 - (void)testSelectingRowInComponent

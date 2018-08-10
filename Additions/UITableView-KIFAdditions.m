@@ -40,7 +40,18 @@
         indexPath = [NSIndexPath indexPathForRow:[self numberOfRowsInSection:indexPath.section] + indexPath.row inSection:indexPath.section];
     }
     
-    CGPoint destinationPoint = CGPointMake(sourcePoint.x, CGPointCenteredInRect([self rectForRowAtIndexPath:indexPath]).y);
+    CGRect destinationCellRect = [self rectForRowAtIndexPath:indexPath];
+    CGFloat destinationDragY = CGPointCenteredInRect(destinationCellRect).y;
+
+    // In iOS11, the behavior for dragging table rows has been changed to be dependent on the direction that they are being dragged
+    NSOperatingSystemVersion iOS11 = {11, 0, 0};
+    if ([NSProcessInfo instancesRespondToSelector:@selector(isOperatingSystemAtLeastVersion:)] && [[NSProcessInfo new] isOperatingSystemAtLeastVersion:iOS11]) {
+        if (destinationDragY - sourcePoint.y > 0) {
+            // Dragging Down
+            destinationDragY += destinationCellRect.size.height;
+        }
+    }
+    CGPoint destinationPoint = CGPointMake(sourcePoint.x, destinationDragY);
     
     // Create the touch (there should only be one touch object for the whole drag)
     UITouch *touch = [[UITouch alloc] initAtPoint:sourcePoint inView:self];

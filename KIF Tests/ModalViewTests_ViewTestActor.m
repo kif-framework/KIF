@@ -46,18 +46,30 @@
 
 - (void)testInteractionWithAnActivityViewController
 {
+    NSOperatingSystemVersion iOS11 = {11, 0, 0};
+    if ([NSProcessInfo instancesRespondToSelector:@selector(isOperatingSystemAtLeastVersion:)]
+        && [[NSProcessInfo new] isOperatingSystemAtLeastVersion:iOS11]) {
+        NSLog(@"This test can't be run on iOS 11, as the activity sheet is hosted in an `AXRemoteElement`");
+        return;
+    }
+    
     if (!NSClassFromString(@"UIActivityViewController")) {
         return;
     }
 
     [[viewTester usingLabel:@"UIActivityViewController"] tap];
     [[viewTester usingLabel:@"Copy"] waitForTappableView];
-    [[viewTester usingLabel:@"Mail"] waitForTappableView];
+
+    if ([UIDevice.currentDevice.systemVersion compare:@"10.0" options:NSNumericSearch] < 0) {
+        [[viewTester usingLabel:@"Mail"] waitForTappableView];
+    } else {
+        [[viewTester usingLabel:@"Add To iCloud Drive"] waitForTappableView];
+    }
 
     // On iOS7, the activity controller appears at the bottom
     // On iOS8 and beyond, it is shown in a popover control
     if ([UIDevice.currentDevice.systemVersion compare:@"8.0" options:NSNumericSearch] < 0) {
-        [tester tapViewWithAccessibilityLabel:@"Cancel"];
+        [[viewTester usingLabel:@"Cancel"] tap];
     } else {
         [self _dismissModal];
     }
@@ -68,9 +80,9 @@
 - (void)_dismissModal;
 {
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        [tester dismissPopover];
+        [viewTester dismissPopover];
     } else {
-        [tester tapViewWithAccessibilityLabel:@"Cancel"];
+        [[viewTester usingLabel:@"Cancel"] tap];
     }
 }
 

@@ -120,7 +120,6 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  */
 - (UIView *)waitForViewWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits;
 
-
 /*!
  @abstract Waits until a view or accessibility element is present.
  @discussion The view or accessibility element with the given label is found in the view hierarchy. If the element isn't found, then the step will attempt to wait until it is. Note that the view does not necessarily have to be visible on the screen, and may be behind another view or offscreen. Views with their hidden property set to YES are ignored.
@@ -579,6 +578,13 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  @discussion Use this to dissmiss a location services authorization dialog or a photos access dialog by tapping the 'Allow' button. No action is taken if no alert is present.
  */
 - (BOOL)acknowledgeSystemAlert;
+
+/*!
+ @abstract If present, dismisses a system alert with the button at the given index, if any exists, usually 'Allow'. Returns YES if a dialog was dismissed, NO otherwise.
+ @discussion Use this to dissmiss a location services authorization dialog or a photos access dialog by tapping a button at the specified index. No action is taken if no alert is present.
+*/
+- (BOOL)acknowledgeSystemAlertWithIndex:(NSUInteger)index;
+
 #endif
 
 /*!
@@ -817,5 +823,18 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  @param duration Amount of time for a background event before the app becomes active again
  */
 - (void)deactivateAppForDuration:(NSTimeInterval)duration KIF_DEPRECATED("Use [system deactivateAppForDuration:] instead.");
+
+/*!
+ @method testActorAnimationsEnabled
+ @abstract Flag to disable/enable animations done by the UITestActor, by default this value is YES. This doesn't affect animations performed by the app being tested.
+ @discussion To change the default value of this flag, call +setTestActorAnimationsEnabled: with a different value.
+ */
++ (BOOL)testActorAnimationsEnabled;
+
+/*!
+ @method setTestActorAnimationsEnabled:
+ @abstract Sets the flag value to enable or disable animations done by the UITestActor.
+ */
++ (void)setTestActorAnimationsEnabled:(BOOL)animationsEnabled;
 
 @end
