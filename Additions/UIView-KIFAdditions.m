@@ -258,6 +258,7 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
             }];
 
             BOOL animationEnabled = [KIFUITestActor testActorAnimationsEnabled];
+            NSUInteger lastSearchSection = 0;
             CFTimeInterval delay = animationEnabled ? 0.5 : 0.05;
             for (NSUInteger section = 0, numberOfSections = [tableView numberOfSections]; section < numberOfSections; section++) {
                 for (NSUInteger row = 0, numberOfRows = [tableView numberOfRowsInSection:section]; row < numberOfRows; row++) {
@@ -276,10 +277,11 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
                     }
 
                     //expose the next section (unless it's a UIPicker View).
-                    if (subViewName && ![subViewName containsString:@"UIPicker"] )
+                    if (subViewName && ![subViewName containsString:@"UIPicker"] && lastSearchSection < section)
                     {
                         CGRect sectionRect = [tableView rectForSection:section];
                         [tableView scrollRectToVisible:sectionRect animated:NO];
+                        lastSearchSection = section;
                     }
 
                     @autoreleasepool {
