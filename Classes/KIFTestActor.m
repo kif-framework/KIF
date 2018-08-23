@@ -36,8 +36,6 @@
 
 - (instancetype)initWithFile:(NSString *)file line:(NSInteger)line delegate:(id<KIFTestActorDelegate>)delegate
 {
-    NSAssert(KIFAccessibilityEnabled(), @"The method `KIFEnableAccessibility()` hasn't been called yet. Either call it explicitly before any of your tests run, or subclass KIFTestCase to get this behavior automatically.");
-
     self = [super init];
     if (self) {
         _file = file;
@@ -76,6 +74,13 @@
 
 - (BOOL)tryRunningBlock:(KIFTestExecutionBlock)executionBlock complete:(KIFTestCompletionBlock)completionBlock timeout:(NSTimeInterval)timeout error:(out NSError **)error
 {
+    // Ensure that regardless of whether tests subclass KIFTestCase or not,
+    // accessibility will have been enabled.
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        KIFEnableAccessibility();
+    });
+
     NSDate *startDate = [NSDate date];
     KIFTestStepResult result;
     NSError *internalError;

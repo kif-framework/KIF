@@ -64,7 +64,6 @@ NSComparisonResult selectorSort(NSInvocation *invocOne, NSInvocation *invocTwo, 
 
 + (void)setUp
 {
-    KIFEnableAccessibility();
     [self performSetupTearDownWithSelector:@selector(beforeAll)];
 }
 
