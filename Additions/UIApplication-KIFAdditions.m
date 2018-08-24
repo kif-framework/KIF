@@ -115,11 +115,9 @@ static const void *KIFRunLoopModesKey = &KIFRunLoopModesKey;
 {
     NSMutableArray *windows = self.windows.mutableCopy;
     UIWindow *keyWindow = self.keyWindow;
-//    keep searching key window first
-    if ([windows containsObject:keyWindow]) {
-        [windows removeObject:keyWindow];
+    if (![windows containsObject:keyWindow]) {
+        [windows addObject:keyWindow];
     }
-    [windows addObject:keyWindow];
     return windows;
 }
 
