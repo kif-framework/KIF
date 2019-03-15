@@ -335,14 +335,14 @@ KIFUITestActor *_KIF_tester()
         return KIFTestStepResultSuccess;
     }];
 
+    [self waitForAnimationsToFinish];
+
     // Controls might not synchronously become first-responders. Sometimes custom controls
     // may need to spin the runloop before reporting as the first responder.
     [self runBlock:^KIFTestStepResult(NSError *__autoreleasing *error) {
-        KIFTestWaitCondition(![view canBecomeFirstResponder] || [view isDescendantOfFirstResponder], error, @"Failed to make the view into the first responder: %@", view);
+        KIFTestWaitCondition(![view canBecomeFirstResponder] || ![view isProbablyTappable] || [view isDescendantOfFirstResponder], error, @"Failed to make the view into the first responder: %@", view);
         return KIFTestStepResultSuccess;
     } timeout:0.5];
-
-    [self waitForAnimationsToFinish];
 }
 
 - (void)tapScreenAtPoint:(CGPoint)screenPoint
