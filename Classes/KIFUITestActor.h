@@ -291,7 +291,7 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
 - (void)tapViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits;
 
 /*!
- @abstract Taps a particular view in the view heirarchy.
+ @abstract Taps a particular view in the view hierarchy.
  @discussion Unlike the -tapViewWithAccessibilityLabel: family of methods, this method allows you to tap an arbitrary element.  Combined with -waitForAccessibilityElement:view:withLabel:value:traits:tappable: or +[UIAccessibilityElement accessibilityElement:view:withLabel:value:traits:tappable:error:] this provides an opportunity for more complex logic.
  @param element The accessibility element to tap.
  @param view The view containing the accessibility element.
@@ -307,7 +307,7 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
 -(void)tapStepperWithAccessibilityLabel:(NSString *)accessibilityLabel increment:(KIFStepperDirection)stepperDirection;
 
 /*!
- @abstract Taps the increment|decrement button of a UIStepper view in the view heirarchy.
+ @abstract Taps the increment|decrement button of a UIStepper view in the view hierarchy.
  @discussion Unlike the -tapViewWithAccessibilityLabel: family of methods, this method allows you to tap an arbitrary element.  Combined with -waitForAccessibilityElement:view:withLabel:value:traits:tappable: or +[UIAccessibilityElement accessibilityElement:view:withLabel:value:traits:tappable:error:] this provides an opportunity for more complex logic.
  @param element The accessibility element to tap.
  @param view The view containing the accessibility element.
@@ -615,7 +615,7 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
 - (void)swipeViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits inDirection:(KIFSwipeDirection)direction;
 
 /*!
- @abstract Swipes a particular view in the view heirarchy.
+ @abstract Swipes a particular view in the view hierarchy.
  @discussion Unlike the -swipeViewWithAccessibilityLabel: family of methods, this method allows you to swipe an arbitrary element.  Combined with -waitForAccessibilityElement:view:withLabel:value:traits:tappable: or +[UIAccessibilityElement accessibilityElement:view:withLabel:value:traits:tappable:error:] this provides an opportunity for more complex logic.
  @param element The accessibility element of the view to swipe.
  @param viewToSwipe The view containing the accessibility element.
