@@ -27,7 +27,7 @@ if [ -z "${SIMULATOR}" ]; then
 fi
 
 # Workaround https://github.com/travis-ci/travis-ci/issues/3040
-open -b com.apple.iphonesimulator
+open -b com.apple.iphonesimulator || open -a `xcode-select -p`/Applications/Simulator.app
 
 rm -rf ${PWD}/build
 
