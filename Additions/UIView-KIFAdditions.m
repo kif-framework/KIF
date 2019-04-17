@@ -242,7 +242,7 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
             }
 
             UITableView *tableView = (UITableView *)self;
-            __block NSIndexPath *firstIndexPath = nil;
+            CGRect initialPosition = CGRectMake(tableView.contentOffset.x, tableView.contentOffset.y, tableView.frame.size.width, tableView.frame.size.height);
 
             // Because of a bug in [UITableView indexPathsForVisibleRows] http://openradar.appspot.com/radar?id=5191284490764288
             // We use [UITableView visibleCells] to determine the index path of the visible cells
@@ -252,13 +252,9 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
                 if (indexPath) {
                     [indexPathsForVisibleRows addObject:indexPath];
                 }
-                if (!firstIndexPath || ([firstIndexPath compare:indexPath] == NSOrderedDescending)) {
-                    firstIndexPath = indexPath;
-                }
             }];
 
-            BOOL animationEnabled = [KIFUITestActor testActorAnimationsEnabled];
-            CFTimeInterval delay = animationEnabled ? 0.5 : 0.05;
+            CFTimeInterval delay = 0.05;
             for (NSUInteger section = 0, numberOfSections = [tableView numberOfSections]; section < numberOfSections; section++) {
                 for (NSUInteger row = 0, numberOfRows = [tableView numberOfRowsInSection:section]; row < numberOfRows; row++) {
                     if (!self.window) {
@@ -270,21 +266,15 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
                     if ([indexPathsForVisibleRows containsObject:indexPath]) {
                         @autoreleasepool {
                             //scroll to the last row of each section before continuing. Attemps to ensure we can get to sections that are off screen. KIF tests (e.g. testButtonAbsentAfterRemoveFromSuperview) fails without this line. Also without this... we can't expose the next section (in code downstream)
-                            [tableView scrollToRowAtIndexPath:[indexPathsForVisibleRows lastObject] atScrollPosition:UITableViewScrollPositionNone animated:animationEnabled];
+                            [tableView scrollToRowAtIndexPath:[indexPathsForVisibleRows lastObject] atScrollPosition:UITableViewScrollPositionNone animated:NO];
                             continue;
                         }
                     }
 
-                    //expose the next section (unless it's a UIPicker View).
-                    if (subViewName && ![subViewName containsString:@"UIPicker"] )
-                    {
-                        CGRect sectionRect = [tableView rectForSection:section];
-                        [tableView scrollRectToVisible:sectionRect animated:NO];
-                    }
-
                     @autoreleasepool {
                         // Scroll to the cell and wait for the animation to complete. Using animations here may not be optimal.
-                        [tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionNone animated:animationEnabled];
+                        CGRect sectionRect = [tableView rectForRowAtIndexPath:indexPath];
+                        [tableView scrollRectToVisible:sectionRect animated:NO];
 
                         UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
                         UIAccessibilityElement *element = [cell accessibilityElementMatchingBlock:matchBlock notHidden:NO];
@@ -300,13 +290,13 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
                     return [self accessibilityElementMatchingBlock:matchBlock];
                 }
             }
-            if (firstIndexPath) {
-                [tableView scrollToRowAtIndexPath:firstIndexPath atScrollPosition:UITableViewScrollPositionTop animated:NO];
-            }
+
 			//if we're in a picker (scrollView), let's make sure we set the position back to how it was last set.
             if(scrollView != nil && scrollContentOffset.x != -1.0)
             {
                 [scrollView setContentOffset:scrollContentOffset];
+            } else {
+                [tableView scrollRectToVisible:initialPosition animated:NO];
             }
             CFRunLoopRunInMode(UIApplicationCurrentRunMode, delay, false);
         } else if ([self isKindOfClass:[UICollectionView class]]) {
