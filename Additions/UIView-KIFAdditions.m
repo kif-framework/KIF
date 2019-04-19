@@ -319,6 +319,11 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
                     @autoreleasepool {
                         // Get the cell directly from the dataSource because UICollectionView will only vend visible cells
                         UICollectionViewCell *cell = [collectionView.dataSource collectionView:collectionView cellForItemAtIndexPath:indexPath];
+
+                        // The cell contents might change just prior to being displayed, so we simulate the cell appearing onscreen
+                        if ([collectionView.delegate respondsToSelector:@selector(collectionView:willDisplayCell:forItemAtIndexPath:)]) {
+                            [collectionView.delegate collectionView:collectionView willDisplayCell:cell forItemAtIndexPath:indexPath];
+                        }
                         
                         UIAccessibilityElement *element = [cell accessibilityElementMatchingBlock:matchBlock notHidden:NO];
                         
