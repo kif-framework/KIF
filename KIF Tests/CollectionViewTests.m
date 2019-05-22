@@ -59,6 +59,27 @@
 }
 
 
+- (void)testTappingLastAndFirstRowAtPositionWithAccessiblityIdentifier
+{
+    UICollectionViewCell *lastCell = [tester waitForCellAtIndexPath:[NSIndexPath indexPathForRow:-1 inSection:-1] inCollectionViewWithAccessibilityIdentifier:@"CollectionView Tests CollectionView" atPosition:UICollectionViewScrollPositionBottom];
+    CGPoint lastPosition = [lastCell.superview convertPoint:lastCell.frame.origin toView:nil];
+    XCTAssertEqual(lastCell.frame.origin.x, lastPosition.x);
+    UICollectionViewCell *firstCell = [tester waitForCellAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] inCollectionViewWithAccessibilityIdentifier:@"CollectionView Tests CollectionView" atPosition:UICollectionViewScrollPositionTop];
+    CGPoint firstPosition = [firstCell.superview convertPoint:firstCell.frame.origin toView:nil];
+    XCTAssertEqual(0, firstPosition.x);
+}
+
+- (void)testTappingLastAndFirstRowAtPositionWithView
+{
+    UICollectionView *collectionView = (UICollectionView *)[[viewTester usingIdentifier:@"CollectionView Tests CollectionView"] waitForView];
+    UICollectionViewCell *lastCell = [tester waitForCellAtIndexPath:[NSIndexPath indexPathForRow:-1 inSection:-1] inCollectionView:collectionView atPosition:UICollectionViewScrollPositionBottom];
+    CGPoint lastPosition = [lastCell.superview convertPoint:lastCell.frame.origin toView:nil];
+    XCTAssertEqual(lastCell.frame.origin.x, lastPosition.x);
+    UICollectionViewCell *firstCell = [tester waitForCellAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] inCollectionView:collectionView atPosition:UICollectionViewScrollPositionTop];
+    CGPoint firstPosition = [firstCell.superview convertPoint:firstCell.frame.origin toView:nil];
+    XCTAssertEqual(0, firstPosition.x);
+}
+
 - (void)testOutOfBounds
 {
     KIFExpectFailure([[tester usingTimeout:1] tapItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:99] inCollectionViewWithAccessibilityIdentifier:@"CollectionView Tests CollectionView"]);

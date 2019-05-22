@@ -1274,12 +1274,24 @@ static BOOL KIFUITestActorAnimationsEnabled = YES;
 
 - (UICollectionViewCell *)waitForCellAtIndexPath:(NSIndexPath *)indexPath inCollectionViewWithAccessibilityIdentifier:(NSString *)identifier
 {
+    return [self waitForCellAtIndexPath:indexPath inCollectionViewWithAccessibilityIdentifier:identifier atPosition:UICollectionViewScrollPositionCenteredHorizontally |
+            UICollectionViewScrollPositionCenteredVertically];
+}
+
+- (UICollectionViewCell *)waitForCellAtIndexPath:(NSIndexPath *)indexPath inCollectionViewWithAccessibilityIdentifier:(NSString *)identifier atPosition:(UICollectionViewScrollPosition)position;
+{
     UICollectionView *collectionView;
     [self waitForAccessibilityElement:NULL view:&collectionView withIdentifier:identifier tappable:NO];
-    return [self waitForCellAtIndexPath:indexPath inCollectionView:collectionView];
+    return [self waitForCellAtIndexPath:indexPath inCollectionView:collectionView atPosition:position];
 }
 
 - (UICollectionViewCell *)waitForCellAtIndexPath:(NSIndexPath *)indexPath inCollectionView:(UICollectionView *)collectionView
+{
+    return [self waitForCellAtIndexPath:indexPath inCollectionView:collectionView atPosition:UICollectionViewScrollPositionCenteredHorizontally |
+            UICollectionViewScrollPositionCenteredVertically];
+}
+
+- (UICollectionViewCell *)waitForCellAtIndexPath:(NSIndexPath *)indexPath inCollectionView:(UICollectionView *)collectionView atPosition:(UICollectionViewScrollPosition)position
 {
     if (![collectionView isKindOfClass:[UICollectionView class]]) {
         [self failWithError:[NSError KIFErrorWithFormat:@"View is not a collection view"] stopTest:YES];
@@ -1310,7 +1322,7 @@ static BOOL KIFUITestActorAnimationsEnabled = YES;
     }];
 
     [collectionView scrollToItemAtIndexPath:indexPath
-                           atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally | UICollectionViewScrollPositionCenteredVertically
+                           atScrollPosition:position
                                    animated:[[self class] testActorAnimationsEnabled]];
 
     // waitForAnimationsToFinish doesn't allow collection view to settle when animations are sped up
