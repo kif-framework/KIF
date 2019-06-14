@@ -59,25 +59,29 @@
 }
 
 
-- (void)testTappingLastAndFirstRowAtPositionWithAccessiblityIdentifier
+- (void)testScrollingLastAndFirstRowAtPositionWithAccessiblityIdentifier
 {
     UICollectionViewCell *lastCell = [tester waitForCellAtIndexPath:[NSIndexPath indexPathForRow:-1 inSection:-1] inCollectionViewWithAccessibilityIdentifier:@"CollectionView Tests CollectionView" atPosition:UICollectionViewScrollPositionBottom];
-    CGPoint lastPosition = [lastCell.superview convertPoint:lastCell.frame.origin toView:nil];
-    XCTAssertEqual(lastCell.frame.origin.x, lastPosition.x);
+    CGRect lastCellConverted = [lastCell.superview convertRect:lastCell.frame toView:nil];
+    CGRect superviewConverted = [lastCell convertRect:lastCell.superview.frame toView:nil];
+    XCTAssertEqual(lastCellConverted.origin.y, superviewConverted.origin.y);
     UICollectionViewCell *firstCell = [tester waitForCellAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] inCollectionViewWithAccessibilityIdentifier:@"CollectionView Tests CollectionView" atPosition:UICollectionViewScrollPositionTop];
-    CGPoint firstPosition = [firstCell.superview convertPoint:firstCell.frame.origin toView:nil];
-    XCTAssertEqual(0, firstPosition.x);
+    CGRect firstCellConverted = [firstCell.superview convertRect:firstCell.frame toView:nil];
+    superviewConverted = [firstCell convertRect:firstCell.superview.frame toView:nil];
+    XCTAssertEqual(firstCellConverted.origin.y, superviewConverted.origin.y);
 }
 
-- (void)testTappingLastAndFirstRowAtPositionWithView
+- (void)testScrollingLastAndFirstRowAtPositionWithView
 {
     UICollectionView *collectionView = (UICollectionView *)[[viewTester usingIdentifier:@"CollectionView Tests CollectionView"] waitForView];
     UICollectionViewCell *lastCell = [tester waitForCellAtIndexPath:[NSIndexPath indexPathForRow:-1 inSection:-1] inCollectionView:collectionView atPosition:UICollectionViewScrollPositionBottom];
-    CGPoint lastPosition = [lastCell.superview convertPoint:lastCell.frame.origin toView:nil];
-    XCTAssertEqual(lastCell.frame.origin.x, lastPosition.x);
+    CGRect lastCellConverted = [lastCell.superview convertRect:lastCell.frame toView:nil];
+    CGRect superviewConverted = [lastCell convertRect:lastCell.superview.frame toView:nil];
+    XCTAssertEqual(lastCellConverted.origin.y, superviewConverted.origin.y);
     UICollectionViewCell *firstCell = [tester waitForCellAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] inCollectionView:collectionView atPosition:UICollectionViewScrollPositionTop];
-    CGPoint firstPosition = [firstCell.superview convertPoint:firstCell.frame.origin toView:nil];
-    XCTAssertEqual(0, firstPosition.x);
+    CGRect firstCellConverted = [firstCell.superview convertRect:firstCell.frame toView:nil];
+    superviewConverted = [firstCell convertRect:firstCell.superview.frame toView:nil];
+    XCTAssertEqual(firstCellConverted.origin.y, superviewConverted.origin.y);
 }
 
 - (void)testOutOfBounds
