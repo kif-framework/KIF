@@ -58,7 +58,7 @@
 
 - (void)simulateDeviceRotationToOrientation:(UIDeviceOrientation)orientation
 {
-    [[UIDevice currentDevice] setValue:[NSNumber numberWithInt:orientation] forKey:@"orientation"];
+    [[UIDevice currentDevice] setValue:@(orientation) forKey:@"orientation"];
 }
 
 

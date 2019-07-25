@@ -19,6 +19,7 @@
     [super viewDidLoad];
 
     self.scrollView.accessibilityLabel = @"Scroll View";
+    self.scrollView.contentInset = UIEdgeInsetsMake(2000, 2000, 0, 0);
     self.scrollView.contentSize = CGSizeMake(2000, 2000);
     self.scrollView.delegate = self;
     

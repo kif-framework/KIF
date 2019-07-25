@@ -316,8 +316,9 @@ static BOOL KIFUITestActorAnimationsEnabled = YES;
 
 - (void)tapAccessibilityElement:(UIAccessibilityElement *)element inView:(UIView *)view
 {
+    BOOL wasAccessibilityElementOnscreen = ((id)element != view) && !CGRectEqualToRect([element accessibilityFrame], CGRectZero);
+
     [self runBlock:^KIFTestStepResult(NSError **error) {
-        
         KIFTestWaitCondition(view.isUserInteractionActuallyEnabled, error, @"View is not enabled for interaction: %@", view);
 
         CGPoint tappablePointInElement = [self tappablePointInElement:element andView:view];
@@ -336,14 +337,18 @@ static BOOL KIFUITestActorAnimationsEnabled = YES;
         return KIFTestStepResultSuccess;
     }];
 
+    [self waitForAnimationsToFinish];
+
     // Controls might not synchronously become first-responders. Sometimes custom controls
     // may need to spin the runloop before reporting as the first responder.
     [self runBlock:^KIFTestStepResult(NSError *__autoreleasing *error) {
-        KIFTestWaitCondition(![view canBecomeFirstResponder] || [view isDescendantOfFirstResponder], error, @"Failed to make the view into the first responder: %@", view);
+        // When we're interacting with an accessibility element, it might go offscreen before we're able to do this check
+        BOOL isAccessibilityElementOffscreen = ((id)element != view) && CGRectEqualToRect([element accessibilityFrame], CGRectZero);
+        BOOL accessibilityElementDisappeared = wasAccessibilityElementOnscreen && isAccessibilityElementOffscreen;
+
+        KIFTestWaitCondition(![view canBecomeFirstResponder] || ![view isProbablyTappable] || [view isDescendantOfFirstResponder] || accessibilityElementDisappeared, error, @"Failed to make the view into the first responder: %@", view);
         return KIFTestStepResultSuccess;
     } timeout:0.5];
-
-    [self waitForAnimationsToFinish];
 }
 
 - (void)tapScreenAtPoint:(CGPoint)screenPoint
@@ -1269,12 +1274,24 @@ static BOOL KIFUITestActorAnimationsEnabled = YES;
 
 - (UICollectionViewCell *)waitForCellAtIndexPath:(NSIndexPath *)indexPath inCollectionViewWithAccessibilityIdentifier:(NSString *)identifier
 {
+    return [self waitForCellAtIndexPath:indexPath inCollectionViewWithAccessibilityIdentifier:identifier atPosition:UICollectionViewScrollPositionCenteredHorizontally |
+            UICollectionViewScrollPositionCenteredVertically];
+}
+
+- (UICollectionViewCell *)waitForCellAtIndexPath:(NSIndexPath *)indexPath inCollectionViewWithAccessibilityIdentifier:(NSString *)identifier atPosition:(UICollectionViewScrollPosition)position;
+{
     UICollectionView *collectionView;
     [self waitForAccessibilityElement:NULL view:&collectionView withIdentifier:identifier tappable:NO];
-    return [self waitForCellAtIndexPath:indexPath inCollectionView:collectionView];
+    return [self waitForCellAtIndexPath:indexPath inCollectionView:collectionView atPosition:position];
 }
 
 - (UICollectionViewCell *)waitForCellAtIndexPath:(NSIndexPath *)indexPath inCollectionView:(UICollectionView *)collectionView
+{
+    return [self waitForCellAtIndexPath:indexPath inCollectionView:collectionView atPosition:UICollectionViewScrollPositionCenteredHorizontally |
+            UICollectionViewScrollPositionCenteredVertically];
+}
+
+- (UICollectionViewCell *)waitForCellAtIndexPath:(NSIndexPath *)indexPath inCollectionView:(UICollectionView *)collectionView atPosition:(UICollectionViewScrollPosition)position
 {
     if (![collectionView isKindOfClass:[UICollectionView class]]) {
         [self failWithError:[NSError KIFErrorWithFormat:@"View is not a collection view"] stopTest:YES];
@@ -1305,7 +1322,7 @@ static BOOL KIFUITestActorAnimationsEnabled = YES;
     }];
 
     [collectionView scrollToItemAtIndexPath:indexPath
-                           atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally | UICollectionViewScrollPositionCenteredVertically
+                           atScrollPosition:position
                                    animated:[[self class] testActorAnimationsEnabled]];
 
     // waitForAnimationsToFinish doesn't allow collection view to settle when animations are sped up

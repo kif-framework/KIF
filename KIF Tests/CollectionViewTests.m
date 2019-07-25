@@ -59,6 +59,31 @@
 }
 
 
+- (void)testScrollingLastAndFirstRowAtPositionWithAccessiblityIdentifier
+{
+    UICollectionViewCell *lastCell = [tester waitForCellAtIndexPath:[NSIndexPath indexPathForRow:-1 inSection:-1] inCollectionViewWithAccessibilityIdentifier:@"CollectionView Tests CollectionView" atPosition:UICollectionViewScrollPositionBottom];
+    CGRect lastCellConverted = [lastCell.superview convertRect:lastCell.frame toView:nil];
+    CGRect superviewConverted = [lastCell convertRect:lastCell.superview.frame toView:nil];
+    XCTAssertEqual(lastCellConverted.origin.y, superviewConverted.origin.y);
+    UICollectionViewCell *firstCell = [tester waitForCellAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] inCollectionViewWithAccessibilityIdentifier:@"CollectionView Tests CollectionView" atPosition:UICollectionViewScrollPositionTop];
+    CGRect firstCellConverted = [firstCell.superview convertRect:firstCell.frame toView:nil];
+    superviewConverted = [firstCell convertRect:firstCell.superview.frame toView:nil];
+    XCTAssertEqual(firstCellConverted.origin.y, superviewConverted.origin.y);
+}
+
+- (void)testScrollingLastAndFirstRowAtPositionWithView
+{
+    UICollectionView *collectionView = (UICollectionView *)[[viewTester usingIdentifier:@"CollectionView Tests CollectionView"] waitForView];
+    UICollectionViewCell *lastCell = [tester waitForCellAtIndexPath:[NSIndexPath indexPathForRow:-1 inSection:-1] inCollectionView:collectionView atPosition:UICollectionViewScrollPositionBottom];
+    CGRect lastCellConverted = [lastCell.superview convertRect:lastCell.frame toView:nil];
+    CGRect superviewConverted = [lastCell convertRect:lastCell.superview.frame toView:nil];
+    XCTAssertEqual(lastCellConverted.origin.y, superviewConverted.origin.y);
+    UICollectionViewCell *firstCell = [tester waitForCellAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] inCollectionView:collectionView atPosition:UICollectionViewScrollPositionTop];
+    CGRect firstCellConverted = [firstCell.superview convertRect:firstCell.frame toView:nil];
+    superviewConverted = [firstCell convertRect:firstCell.superview.frame toView:nil];
+    XCTAssertEqual(firstCellConverted.origin.y, superviewConverted.origin.y);
+}
+
 - (void)testOutOfBounds
 {
     KIFExpectFailure([[tester usingTimeout:1] tapItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:99] inCollectionViewWithAccessibilityIdentifier:@"CollectionView Tests CollectionView"]);

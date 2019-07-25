@@ -70,7 +70,7 @@ static inline void Swizzle(Class c, SEL orig, SEL new)
     // For now, this will be disabled and can be fixed later by anyone
     // that relies on this functionality.
 #if defined(__IPHONE_11_0) && !defined(__IPHONE_12_0)
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 11.0) {
+    if (@available(iOS 11.0, *)) {
         //semaphore will make sure the screenshot will be captured. otherwise it will crash on getting screenshot!
         dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
         
