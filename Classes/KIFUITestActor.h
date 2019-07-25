@@ -291,7 +291,7 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
 - (void)tapViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits;
 
 /*!
- @abstract Taps a particular view in the view heirarchy.
+ @abstract Taps a particular view in the view hierarchy.
  @discussion Unlike the -tapViewWithAccessibilityLabel: family of methods, this method allows you to tap an arbitrary element.  Combined with -waitForAccessibilityElement:view:withLabel:value:traits:tappable: or +[UIAccessibilityElement accessibilityElement:view:withLabel:value:traits:tappable:error:] this provides an opportunity for more complex logic.
  @param element The accessibility element to tap.
  @param view The view containing the accessibility element.
@@ -307,7 +307,7 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
 -(void)tapStepperWithAccessibilityLabel:(NSString *)accessibilityLabel increment:(KIFStepperDirection)stepperDirection;
 
 /*!
- @abstract Taps the increment|decrement button of a UIStepper view in the view heirarchy.
+ @abstract Taps the increment|decrement button of a UIStepper view in the view hierarchy.
  @discussion Unlike the -tapViewWithAccessibilityLabel: family of methods, this method allows you to tap an arbitrary element.  Combined with -waitForAccessibilityElement:view:withLabel:value:traits:tappable: or +[UIAccessibilityElement accessibilityElement:view:withLabel:value:traits:tappable:error:] this provides an opportunity for more complex logic.
  @param element The accessibility element to tap.
  @param view The view containing the accessibility element.
@@ -615,7 +615,7 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
 - (void)swipeViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits inDirection:(KIFSwipeDirection)direction;
 
 /*!
- @abstract Swipes a particular view in the view heirarchy.
+ @abstract Swipes a particular view in the view hierarchy.
  @discussion Unlike the -swipeViewWithAccessibilityLabel: family of methods, this method allows you to swipe an arbitrary element.  Combined with -waitForAccessibilityElement:view:withLabel:value:traits:tappable: or +[UIAccessibilityElement accessibilityElement:view:withLabel:value:traits:tappable:error:] this provides an opportunity for more complex logic.
  @param element The accessibility element of the view to swipe.
  @param viewToSwipe The view containing the accessibility element.
@@ -752,19 +752,33 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  @abstract Scrolls a collection view while waiting for the cell at the given indexPath to appear.
  @discussion This step will get the cell at the indexPath.
  
- For cases where you may need to work from the end of a table view rather than the beginning, negative sections count back from the end of the table view (-1 is the last section) and negative rows count back from the end of the section (-1 is the last row for that section).
- 
+ By default, scrolls to the vertical and horizontal middle of the cell. If you need to scroll to custom positions, use the @c atPosition: variation.
+ For cases where you may need to work from the end of a collection view rather than the beginning, negative sections count back from the end of the collection view (-1 is the last section) and negative rows count back from the end of the section (-1 is the last row for that section).
+
  @param indexPath Index path of the cell.
  @param collectionView UICollectionView containing the cell.
  @result Collection view cell at index path
  */
 - (UICollectionViewCell *)waitForCellAtIndexPath:(NSIndexPath *)indexPath inCollectionView:(UICollectionView *)collectionView;
 
+/*!
+ @abstract Scrolls a collection view while waiting for the cell at the given indexPath to appear.
+ @discussion This step will get the cell at the indexPath.
+
+ For cases where you may need to work from the end of a collection view rather than the beginning, negative sections count back from the end of the collection view (-1 is the last section) and negative rows count back from the end of the section (-1 is the last row for that section).
+
+ @param indexPath Index path of the cell.
+ @param collectionView UICollectionView containing the cell.
+ @param position Collection View scroll position to scroll to. Useful for custom-sized cells when the content needed is in a specific location.
+ @result Collection view cell at index path
+ */
+- (UICollectionViewCell *)waitForCellAtIndexPath:(NSIndexPath *)indexPath inCollectionView:(UICollectionView *)collectionView atPosition:(UICollectionViewScrollPosition)position;
 
 /*!
- @abstract Scrolls a given collection view while waiting for the item at the given indexPath to appear.
+ @abstract Scrolls a collection view with the given identifier while waiting for the item at the given indexPath to appear.
  @discussion This step will get the view with the specified accessibility identifier and then get the cell at indexPath.
  
+ By default, scrolls to the vertical and horizontal middle of the cell. If you need to scroll to custom positions, use the @c atPosition: variation.
  For cases where you may need to work from the end of a collection view rather than the beginning, negative sections count back from the end of the collection view (-1 is the last section) and negative items count back from the end of the section (-1 is the last item for that section).
  
  @param indexPath Index path of the item to tap.
@@ -772,6 +786,19 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  @result Collection view cell at index path
  */
 - (UICollectionViewCell *)waitForCellAtIndexPath:(NSIndexPath *)indexPath inCollectionViewWithAccessibilityIdentifier:(NSString *)identifier;
+
+/*!
+ @abstract Scrolls a collection view with the given identifier while waiting for the item at the given indexPath to appear.
+ @discussion This step will get the view with the specified accessibility identifier and then get the cell at indexPath.
+
+ For cases where you may need to work from the end of a collection view rather than the beginning, negative sections count back from the end of the collection view (-1 is the last section) and negative rows count back from the end of the section (-1 is the last row for that section).
+
+ @param indexPath Index path of the cell.
+ @param identifier Accessibility identifier of the table view.
+ @param position Collection View scroll position to scroll to. Useful for custom-sized cells when the content needed is in a specific location.
+ @result Table view cell at index path
+ */
+- (UICollectionViewCell *)waitForCellAtIndexPath:(NSIndexPath *)indexPath inCollectionViewWithAccessibilityIdentifier:(NSString *)identifier atPosition:(UICollectionViewScrollPosition)position;
 
 /*!
  @abstract Moves the row at sourceIndexPath to destinationIndexPath in a table view with the given identifier.

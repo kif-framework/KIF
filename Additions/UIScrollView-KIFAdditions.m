@@ -46,9 +46,9 @@ MAKE_CATEGORIES_LOADABLE(UIScrollView_KIFAdditions)
     contentInset = self.contentInset;
 #endif
     CGFloat minX = -self.contentInset.left;
-    CGFloat maxX = minX + MAX(0, self.contentSize.width + contentInset.right - CGRectGetWidth(self.bounds));
+    CGFloat maxX = minX + MAX(0, self.contentSize.width + contentInset.left + contentInset.right - CGRectGetWidth(self.bounds));
     CGFloat minY = -self.contentInset.top;
-    CGFloat maxY = minY + MAX(0, self.contentSize.height + contentInset.bottom - CGRectGetHeight(self.bounds));
+    CGFloat maxY = minY + MAX(0, self.contentSize.height + contentInset.top + contentInset.bottom - CGRectGetHeight(self.bounds));
     contentOffset.x = MAX(minX, MIN(contentOffset.x, maxX));
     contentOffset.y = MAX(minY, MIN(contentOffset.y, maxY));
     

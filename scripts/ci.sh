@@ -44,8 +44,6 @@ env NSUnbufferedIO=YES xcodebuild test -project "Documentation/Examples/Testable
 env NSUnbufferedIO=YES xcodebuild build -project "Documentation/Examples/Calculator/Calculator.xcodeproj" -scheme "Calculator" -derivedDataPath=${PWD}/build/Calculator -destination "platform=iOS Simulator,${SIMULATOR}" | xcpretty -c
 
 if is_xcode_version_8_plus; then
-  # Ensure that we can build a release for carthage (no longer supports Xcode 7)
-  brew outdated carthage || brew upgrade carthage
   carthage build --no-skip-current
   carthage archive KIF
 fi

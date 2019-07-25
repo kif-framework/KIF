@@ -175,11 +175,6 @@ MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
     // Scroll the view (and superviews) to be visible if necessary
     UIView *superview = view;
     while (superview) {
-        // Fix for iOS7 table view cells containing scroll views
-        if ([superview.superview isKindOfClass:[UITableViewCell class]]) {
-            break;
-        }
-
         if ([superview isKindOfClass:[UIScrollView class]]) {
             UIScrollView *scrollView = (UIScrollView *)superview;
             BOOL animationEnabled = [KIFUITestActor testActorAnimationsEnabled];
