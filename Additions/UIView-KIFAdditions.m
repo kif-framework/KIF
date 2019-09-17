@@ -15,6 +15,7 @@
 #import <objc/runtime.h>
 #import "UIEvent+KIFAdditions.h"
 #import "KIFUITestActor.h"
+#import <WebKit/WebKit.h>
 
 double KIFDegreesToRadians(double deg) {
     return (deg) / 180.0 * M_PI;
@@ -458,7 +459,7 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
     
     if ([NSStringFromClass([self class]) isEqual:@"UIWebBrowserView"]) {
         webBrowserView = self;
-    } else if ([self isKindOfClass:[UIWebView class]]) {
+    } else if ([self isKindOfClass:[WKWebView class]]) {
         id webViewInternal = [self valueForKey:@"_internal"];
         webBrowserView = [webViewInternal valueForKey:@"browserView"];
     }
@@ -751,7 +752,7 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
 
 - (BOOL)isProbablyTappable
 {
-    // There are some issues with the tappability check in UIWebViews, so if the view is a UIWebView we will just skip the check.
+    // There are some issues with the tappability check in WKWebViews, so if the view is a WKWebView we will just skip the check.
     return [NSStringFromClass([self class]) isEqualToString:@"UIWebBrowserView"] || self.isTappable;
 }
 

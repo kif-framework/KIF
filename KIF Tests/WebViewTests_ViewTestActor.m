@@ -40,7 +40,7 @@
 
 - (void)testEnteringText
 {
-    // Needs to opt-out of text validation, because the matched UI element is actually the UIWebView.
+    // Needs to opt-out of text validation, because the matched UI element is actually the WKWebView.
     // It responds to `text`, but is equal to whole view's text rather than just being scoped to the entered text.
     [[[viewTester validateEnteredText:NO] usingLabel:@"Input Label"] enterText:@"Keyboard text"];
 }

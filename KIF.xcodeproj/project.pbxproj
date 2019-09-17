@@ -104,6 +104,10 @@
 		B66B1BDE202254A000D0E4B2 /* KIFTextInputTraitsOverrides.m in Sources */ = {isa = PBXBuildFile; fileRef = B66B1BDC202254A000D0E4B2 /* KIFTextInputTraitsOverrides.m */; };
 		B66B1BF4202BC94F00D0E4B2 /* AutocorrectTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B66B1BF3202BC94F00D0E4B2 /* AutocorrectTests.m */; };
 		B66B1BF6202BCF2000D0E4B2 /* AutocorrectTests_ViewTestActor.m in Sources */ = {isa = PBXBuildFile; fileRef = B66B1BF5202BCF2000D0E4B2 /* AutocorrectTests_ViewTestActor.m */; };
+		BCA1542A23312E7300CDC69F /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCA1542923312E7300CDC69F /* WebKit.framework */; };
+		BCA1542B23312E8100CDC69F /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCA1542923312E7300CDC69F /* WebKit.framework */; };
+		BCA1542C23312E8F00CDC69F /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCA1542923312E7300CDC69F /* WebKit.framework */; };
+		BCA1542D23312E9A00CDC69F /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCA1542923312E7300CDC69F /* WebKit.framework */; };
 		BD6A1CA11BCE8DD000EF07D2 /* KIFAccessibilityEnabler.h in Headers */ = {isa = PBXBuildFile; fileRef = BD6A1C9F1BCE8DD000EF07D2 /* KIFAccessibilityEnabler.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BD6A1CA21BCE8DD000EF07D2 /* KIFAccessibilityEnabler.h in Headers */ = {isa = PBXBuildFile; fileRef = BD6A1C9F1BCE8DD000EF07D2 /* KIFAccessibilityEnabler.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BD6A1CA31BCE8DD000EF07D2 /* KIFAccessibilityEnabler.m in Sources */ = {isa = PBXBuildFile; fileRef = BD6A1CA01BCE8DD000EF07D2 /* KIFAccessibilityEnabler.m */; };
@@ -337,6 +341,7 @@
 		B66B1BDC202254A000D0E4B2 /* KIFTextInputTraitsOverrides.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KIFTextInputTraitsOverrides.m; sourceTree = "<group>"; };
 		B66B1BF3202BC94F00D0E4B2 /* AutocorrectTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AutocorrectTests.m; sourceTree = "<group>"; };
 		B66B1BF5202BCF2000D0E4B2 /* AutocorrectTests_ViewTestActor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AutocorrectTests_ViewTestActor.m; sourceTree = "<group>"; };
+		BCA1542923312E7300CDC69F /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		BD6A1C9F1BCE8DD000EF07D2 /* KIFAccessibilityEnabler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KIFAccessibilityEnabler.h; sourceTree = "<group>"; };
 		BD6A1CA01BCE8DD000EF07D2 /* KIFAccessibilityEnabler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KIFAccessibilityEnabler.m; sourceTree = "<group>"; };
 		BFE4708A1C7F42FB00580EF9 /* UIScreen+KIFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScreen+KIFAdditions.h"; sourceTree = "<group>"; };
@@ -474,6 +479,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BCA1542D23312E9A00CDC69F /* WebKit.framework in Frameworks */,
 				85DB94751C5A5FEA0025F83E /* QuartzCore.framework in Frameworks */,
 				9CC881A91AD4CE39002CD34C /* UIKit.framework in Frameworks */,
 				9CC881AC1AD4CE4B002CD34C /* Foundation.framework in Frameworks */,
@@ -487,6 +493,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BCA1542A23312E7300CDC69F /* WebKit.framework in Frameworks */,
 				85DB94721C5A5D430025F83E /* QuartzCore.framework in Frameworks */,
 				EABD46D21857A24E00A5F081 /* XCTest.framework in Frameworks */,
 				EABD468E1857A0C700A5F081 /* Foundation.framework in Frameworks */,
@@ -499,6 +506,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BCA1542C23312E8F00CDC69F /* WebKit.framework in Frameworks */,
 				85DB94741C5A5FE10025F83E /* QuartzCore.framework in Frameworks */,
 				EABD46D61858C8ED00A5F081 /* libKIF.a in Frameworks */,
 				EABD46CF1857A15400A5F081 /* XCTest.framework in Frameworks */,
@@ -513,6 +521,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BCA1542B23312E8100CDC69F /* WebKit.framework in Frameworks */,
 				85DB94731C5A5FD50025F83E /* QuartzCore.framework in Frameworks */,
 				EB60ECC2177F8C83005A041A /* UIKit.framework in Frameworks */,
 				EB60ECC3177F8C83005A041A /* Foundation.framework in Frameworks */,
@@ -588,6 +597,7 @@
 		AAB0726A139719AC008AF393 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				BCA1542923312E7300CDC69F /* WebKit.framework */,
 				85DB94711C5A5D430025F83E /* QuartzCore.framework */,
 				9CC881A21AD4CAAC002CD34C /* CoreFoundation.framework */,
 				E9AD81F91AA180B900B369FD /* IOKit.framework */,
@@ -1117,6 +1127,9 @@
 					9CC9673A1AD4B1B600576D13 = {
 						CreatedOnToolsVersion = 6.2;
 					};
+					EB60ECC0177F8C83005A041A = {
+						DevelopmentTeam = Q7737AAR99;
+					};
 					FAB89FFB1CAC546900C6DFC1 = {
 						CreatedOnToolsVersion = 7.1.1;
 					};
@@ -1131,6 +1144,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -1857,6 +1871,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_TEAM = Q7737AAR99;
 				ENABLE_BITCODE = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1890,6 +1905,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
+				DEVELOPMENT_TEAM = Q7737AAR99;
 				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Test Host/Test Host-Prefix.pch";
@@ -1975,6 +1991,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_TEAM = Q7737AAR99;
 				ENABLE_BITCODE = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;

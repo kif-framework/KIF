@@ -376,7 +376,7 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
 
 /*!
  @abstract Enters text into a the current first responder.
- @discussion Text is entered into the view by simulating taps on the appropriate keyboard keys if the keyboard is already displayed. Useful to enter text in UIWebViews or components with no accessibility labels.
+ @discussion Text is entered into the view by simulating taps on the appropriate keyboard keys if the keyboard is already displayed. Useful to enter text in WKWebViews or components with no accessibility labels.
  @param text The text to enter.
  */
 - (void)enterTextIntoCurrentFirstResponder:(NSString *)text;
