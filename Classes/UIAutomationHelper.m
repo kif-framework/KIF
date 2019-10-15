@@ -20,6 +20,7 @@
 - (void)tapWithOptions:(NSDictionary *)options;
 - (NSNumber *)pid;
 - (UIAXElement *)uiaxElement;
+- (NSArray<UIAElement *> *)elements;
 @end
 
 @interface UIAElementArray : NSArray
@@ -34,6 +35,7 @@
 
 @interface UIAApplication : UIAElement
 - (UIAAlert *)alert;
+- (NSArray<UIAElement *> *)windows;
 - (NSString *)name;
 - (id)appItemScrollView;
 @end
@@ -114,8 +116,26 @@ static void FixReactivateApp(void)
     [[self sharedHelper] deactivateAppForDuration:duration];
 }
 
+- (UIAAlert *)currentSystemAlert
+{
+    UIAApplication *application = [[self target] frontMostApp];
+    UIAAlert *alert = application.alert;
+
+#ifdef __IPHONE_13_1
+    if ([alert isKindOfClass:[self nilElementClass]]) {
+        // application.alert returns UIAElementNil on iOS 13.1
+        // Instead find the alert by looking for the alert's window and getting the UIAAlert off of it
+        alert = (UIAAlert *)[[[[[application windows] filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(UIAElement *_Nullable evaluatedObject, NSDictionary<NSString *, id> *_Nullable bindings) {
+            return [[evaluatedObject valueForKey:@"type"] isEqualToString:@"SBAlertItemWindow"];
+        }]] firstObject] elements] firstObject];
+    }
+#endif
+
+    return alert;
+}
+
 - (BOOL)acknowledgeSystemAlert {
-	UIAAlert* alert = [[self target] frontMostApp].alert;
+	UIAAlert *alert = [self currentSystemAlert];
     // Even though `acknowledgeSystemAlertWithIndex:` checks the index, we have to have
     // an additional check here to ensure that when `alert.buttons.count` is 0, subtracting one doesn't cause a wrap-around (2^63 - 1).
     if (alert.buttons.count > 0) {
@@ -126,8 +146,8 @@ static void FixReactivateApp(void)
 
 // Inspired by:  https://github.com/jamesjn/KIF/tree/acknowledge-location-alert
 - (BOOL)acknowledgeSystemAlertWithIndex:(NSUInteger)index {
-    UIAApplication *application = [[self target] frontMostApp];
-    UIAAlert *alert = application.alert;
+    UIAAlert *alert = [self currentSystemAlert];
+
     BOOL isIndexInRange = index < alert.buttons.count;
     if (![alert isKindOfClass:[self nilElementClass]] && [self _alertIsValidAndVisible:alert] && isIndexInRange) {
         [alert.buttons[index] tap];
