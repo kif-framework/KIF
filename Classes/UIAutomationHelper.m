@@ -120,14 +120,18 @@ static void FixReactivateApp(void)
 {
     UIAApplication *application = [[self target] frontMostApp];
     UIAAlert *alert = application.alert;
+    UIAElement *foundElement;
 
 #ifdef __IPHONE_13_1
     if ([alert isKindOfClass:[self nilElementClass]]) {
         // application.alert returns UIAElementNil on iOS 13.1
         // Instead find the alert by looking for the alert's window and getting the UIAAlert off of it
-        alert = (UIAAlert *)[[[[[application windows] filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(UIAElement *_Nullable evaluatedObject, NSDictionary<NSString *, id> *_Nullable bindings) {
+        foundElement = (UIAElement *)[[[application windows] filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(UIAElement *_Nullable evaluatedObject, NSDictionary<NSString *, id> *_Nullable bindings) {
             return [[evaluatedObject valueForKey:@"type"] isEqualToString:@"SBAlertItemWindow"];
-        }]] firstObject] elements] firstObject];
+        }]] firstObject];
+        alert = (UIAAlert *) [[foundElement.elements filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(UIAElement *_Nullable evaluatedObject, NSDictionary<NSString *, id> *_Nullable bindings) {
+        return [[evaluatedObject valueForKey:@"type"] isEqualToString:@"_UIAlertControllerView"];
+        }]] firstObject];
     }
 #endif
 
