@@ -1251,10 +1251,13 @@ static BOOL KIFUITestActorAnimationsEnabled = YES;
         return KIFTestStepResultSuccess;
     }];
 
+    [tableView scrollToRowAtIndexPath:indexPath
+                     atScrollPosition:position
+                             animated:[[self class] testActorAnimationsEnabled]];
+
     __block UITableViewCell *cell = nil;
     __block CGFloat lastYOffset = CGFLOAT_MAX;
     [self runBlock:^KIFTestStepResult(NSError **error) {
-        [tableView scrollToRowAtIndexPath:indexPath atScrollPosition:position animated:[[self class] testActorAnimationsEnabled]];
         cell = [tableView cellForRowAtIndexPath:indexPath];
         KIFTestWaitCondition(!!cell, error, @"Table view cell at index path %@ not found", indexPath);
         
