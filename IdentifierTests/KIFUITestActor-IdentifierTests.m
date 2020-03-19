@@ -10,6 +10,7 @@
 #import "KIFUITestActor-IdentifierTests.h"
 #import "UIAccessibilityElement-KIFAdditions.h"
 #import "NSError-KIFAdditions.h"
+#import "UIApplication-KIFAdditions.h"
 #import "UIWindow-KIFAdditions.h"
 
 @implementation KIFUITestActor (IdentifierTests)
@@ -158,25 +159,31 @@
 - (void)waitForFirstResponderWithAccessibilityIdentifier:(NSString *)accessibilityIdentifier
 {
 	[self runBlock:^KIFTestStepResult(NSError **error) {
-		UIResponder *firstResponder = [[[UIApplication sharedApplication] keyWindow] firstResponder];
-		if ([firstResponder isKindOfClass:NSClassFromString(@"UISearchBarTextField")]) {
-			do {
-				firstResponder = [(UIView *)firstResponder superview];
-			} while (firstResponder && ![firstResponder isKindOfClass:[UISearchBar class]]);
-		}
-		UIResponder<UIAccessibilityIdentification>* firstResponderIdentification = nil;
-		if ([firstResponder conformsToProtocol:@protocol(UIAccessibilityIdentification)])
-		{
-			firstResponderIdentification = (UIResponder<UIAccessibilityIdentification>*)firstResponder;
-		}
-		else
-		{
-			[self failWithError:[NSError KIFErrorWithFormat:@"First responder does not conform to UIAccessibilityIdentification %@",  NSStringFromClass([firstResponder class])] stopTest:YES];
-			
-		}
-		KIFTestWaitCondition([[firstResponderIdentification accessibilityIdentifier] isEqualToString:accessibilityIdentifier],
-							 error, @"Expected accessibility identifier for first responder to be '%@', got '%@'",
-							 accessibilityIdentifier, [firstResponderIdentification accessibilityIdentifier]);
+        BOOL didMatch = NO;
+        NSArray *firstResponders = [[UIApplication sharedApplication] firstResponders];
+
+        for (UIResponder *firstResponder in firstResponders) {
+            UIResponder *foundResponder = firstResponder;
+            if ([foundResponder isKindOfClass:NSClassFromString(@"UISearchBarTextField")]) {
+                do {
+                    foundResponder = [(UIView *)foundResponder superview];
+                } while (foundResponder && ![foundResponder isKindOfClass:[UISearchBar class]]);
+            }
+
+            NSString *foundIdentifier = nil;
+            if ([foundResponder conformsToProtocol:@protocol(UIAccessibilityIdentification)]) {
+                foundIdentifier = [(UIResponder<UIAccessibilityIdentification> *)foundResponder accessibilityIdentifier];
+            }
+
+            if ([foundIdentifier isEqualToString:accessibilityIdentifier]) {
+                didMatch = YES;
+                break;
+            }
+        }
+
+		KIFTestWaitCondition(didMatch,
+							 error, @"Expected to find a first responder with accessibility identifier '%@', got: %@",
+							 accessibilityIdentifier, firstResponders);
 		
 		return KIFTestStepResultSuccess;
 	}];

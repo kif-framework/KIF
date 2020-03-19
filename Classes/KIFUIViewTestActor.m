@@ -210,9 +210,17 @@ NSString *const inputFieldTestString = @"Testing";
 - (void)waitToBecomeFirstResponder;
 {
     [self runBlock:^KIFTestStepResult(NSError **error) {
-        UIResponder *firstResponder = [[[UIApplication sharedApplication] keyWindow] firstResponder];
+        BOOL didMatch = NO;
+        NSArray *firstResponders = [[UIApplication sharedApplication] firstResponders];
 
-        KIFTestWaitCondition([self.predicate evaluateWithObject:firstResponder], error, @"Expected first responder to match '%@', got '%@'", self.predicate, firstResponder);
+        for (UIResponder *firstResponder in firstResponders) {
+            if ([self.predicate evaluateWithObject:firstResponder]) {
+                didMatch = YES;
+                break;
+            }
+        }
+
+        KIFTestWaitCondition(didMatch, error, @"Expected to find a first responder matching '%@', got: %@", self.predicate.kifPredicateDescription, firstResponders);
         return KIFTestStepResultSuccess;
     }];
 }

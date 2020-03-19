@@ -470,22 +470,36 @@ static BOOL KIFUITestActorAnimationsEnabled = YES;
                           usingBlock: ^(NSString *characterString,NSRange substringRange,NSRange enclosingRange,BOOL * stop)
     {
         if (![KIFTypist enterCharacter:characterString]) {
-            // Attempt to cheat if we couldn't find the character
-            UIView * fallback = fallbackView;
-            if (!fallback) {
-                UIResponder *firstResponder = [[[UIApplication sharedApplication] keyWindow] firstResponder];
+            NSLog(@"KIF: Unable to find keyboard key for %@. Will attempt to insert manually.", characterString);
 
-                if ([firstResponder isKindOfClass:[UIView class]]) {
-                    fallback = (UIView *)firstResponder;
+            // Attempt to cheat if we couldn't find the character
+            NSMutableArray *fallbackViews = [NSMutableArray array];
+
+            if (fallbackView) {
+                [fallbackViews addObject:fallbackView];
+            } else {
+                [fallbackViews addObjectsFromArray:[[UIApplication sharedApplication] firstResponders]];
+            }
+
+            for (id fallback in [fallbackViews copy]) {
+                if (![fallback isKindOfClass:[UITextField class]] &&
+                    ![fallback isKindOfClass:[UITextView class]] &&
+                    ![fallback isKindOfClass:[UISearchBar class]]) {
+                    [fallbackViews removeObject:fallback];
                 }
             }
 
-            if ([fallback isKindOfClass:[UITextField class]] || [fallback isKindOfClass:[UITextView class]] || [fallback isKindOfClass:[UISearchBar class]]) {
-                NSLog(@"KIF: Unable to find keyboard key for %@. Inserting manually.", characterString);
-                [(UITextField *)fallback setText:[[(UITextField *)fallback text] stringByAppendingString:characterString]];
-            } else {
-                [self failWithError:[NSError KIFErrorWithFormat:@"Failed to find key for character \"%@\"", characterString] stopTest:YES];
+            UITextField *fallbackTextView = fallbackViews.firstObject;
+            if (fallbackTextView) {
+                if (fallbackViews.count > 1) {
+                    NSLog(@"KIF: Found multiple possible fallback views for entering text: %@. Will use: %@", fallbackViews, fallbackTextView);
+                }
+
+                [fallbackTextView setText:[[fallbackTextView text] stringByAppendingString:characterString]];
+                return;
             }
+
+            [self failWithError:[NSError KIFErrorWithFormat:@"Failed to find key for character \"%@\"", characterString] stopTest:YES];
         }
     }];
 
@@ -551,9 +565,17 @@ static BOOL KIFUITestActorAnimationsEnabled = YES;
 - (void)clearTextFromFirstResponder
 {
     @autoreleasepool {
-        UIView *firstResponder = (id)[[[UIApplication sharedApplication] keyWindow] firstResponder];
-        if ([firstResponder isKindOfClass:[UIView class]]) {
-            [self clearTextFromElement:(UIAccessibilityElement *)firstResponder inView:firstResponder];
+        NSArray *firstResponders = [[UIApplication sharedApplication] firstResponders];
+
+        for (UIResponder *firstResponder in firstResponders) {
+            if ([firstResponder isKindOfClass:[UIView class]]) {
+                if (firstResponders.count > 1) {
+                    NSLog(@"KIF: Found multiple first responders while attempting to clear text: %@. Will use: %@.", firstResponders, firstResponder);
+                }
+
+                [self clearTextFromElement:(UIAccessibilityElement *)firstResponder inView:(UIView *)firstResponder];
+                break;
+            }
         }
     }
 }
@@ -1182,13 +1204,24 @@ static BOOL KIFUITestActorAnimationsEnabled = YES;
 - (void)waitForFirstResponderWithAccessibilityLabel:(NSString *)label
 {
     [self runBlock:^KIFTestStepResult(NSError **error) {
-        UIResponder *firstResponder = [[[UIApplication sharedApplication] keyWindow] firstResponder];
-        if ([firstResponder isKindOfClass:NSClassFromString(@"UISearchBarTextField")]) {
-            do {
-                firstResponder = [(UIView *)firstResponder superview];
-            } while (firstResponder && ![firstResponder isKindOfClass:[UISearchBar class]]);
+        BOOL didMatch = NO;
+        NSArray *firstResponders = [[UIApplication sharedApplication] firstResponders];
+
+        for (UIResponder *firstResponder in firstResponders) {
+            UIResponder *foundResponder = firstResponder;
+            if ([foundResponder isKindOfClass:NSClassFromString(@"UISearchBarTextField")]) {
+                do {
+                    foundResponder = [(UIView *)foundResponder superview];
+                } while (foundResponder && ![foundResponder isKindOfClass:[UISearchBar class]]);
+            }
+
+            if (foundResponder.accessibilityLabel == label || [foundResponder.accessibilityLabel isEqualToString:label]) {
+                didMatch = YES;
+                break;
+            }
         }
-        KIFTestWaitCondition([[firstResponder accessibilityLabel] isEqualToString:label], error, @"Expected accessibility label for first responder to be '%@', got '%@'", label, [firstResponder accessibilityLabel]);
+
+        KIFTestWaitCondition(didMatch, error, @"Expected to find a first responder with the accessibility label '%@', got: %@", label, firstResponders);
         
         return KIFTestStepResultSuccess;
     }];
@@ -1197,13 +1230,26 @@ static BOOL KIFUITestActorAnimationsEnabled = YES;
 - (void)waitForFirstResponderWithAccessibilityLabel:(NSString *)label traits:(UIAccessibilityTraits)traits
 {
     [self runBlock:^KIFTestStepResult(NSError **error) {
-        UIResponder *firstResponder = [[[UIApplication sharedApplication] keyWindow] firstResponder];
-        
-        NSString *foundLabel = firstResponder.accessibilityLabel;
+        BOOL didMatchLabel = NO;
+        BOOL didMatchTraits = NO;
+        NSArray *firstResponders = [[UIApplication sharedApplication] firstResponders];
+
+        for (UIResponder *firstResponder in firstResponders) {
+            if (firstResponder.accessibilityLabel == label || [firstResponder.accessibilityLabel isEqualToString:label]) {
+                didMatchLabel = YES;
+            }
+            if (firstResponder.accessibilityTraits & traits) {
+                didMatchTraits = YES;
+            }
+
+            if (didMatchLabel && didMatchTraits) {
+                break;
+            }
+        }
         
         // foundLabel == label checks for the case where both are nil.
-        KIFTestWaitCondition(foundLabel == label || [foundLabel isEqualToString:label], error, @"Expected accessibility label for first responder to be '%@', got '%@'", label, foundLabel);
-        KIFTestWaitCondition(firstResponder.accessibilityTraits & traits, error, @"Found first responder with accessibility label, but not traits. First responder: %@", firstResponder);
+        KIFTestWaitCondition(didMatchLabel, error, @"Expected to find a first responder with the accessibility label '%@', got: %@", label, firstResponders);
+        KIFTestWaitCondition(didMatchTraits, error, @"Expected to find a first responder with accessibility traits, got: %@", firstResponders);
         
         return KIFTestStepResultSuccess;
     }];
