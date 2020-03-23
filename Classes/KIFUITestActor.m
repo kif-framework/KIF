@@ -220,7 +220,7 @@ static BOOL KIFUITestActorAnimationsEnabled = YES;
             [self waitForTimeInterval:maximumWaitingTimeInterval relativeToAnimationSpeed:YES];
         }
     } else {
-    
+
         // Wait for the view to stabilize and give them a chance to start animations before we wait for them.
         [self waitForTimeInterval:stabilizationTime relativeToAnimationSpeed:YES];
         maximumWaitingTimeInterval -= stabilizationTime;
@@ -468,7 +468,7 @@ static BOOL KIFUITestActorAnimationsEnabled = YES;
     [text enumerateSubstringsInRange:NSMakeRange(0, text.length)
                              options:NSStringEnumerationByComposedCharacterSequences
                           usingBlock: ^(NSString *characterString,NSRange substringRange,NSRange enclosingRange,BOOL * stop)
-    {
+     {
         if (![KIFTypist enterCharacter:characterString]) {
             NSLog(@"KIF: Unable to find keyboard key for %@. Will attempt to insert manually.", characterString);
 
@@ -480,7 +480,7 @@ static BOOL KIFUITestActorAnimationsEnabled = YES;
             } else {
                 [fallbackViews addObjectsFromArray:[[UIApplication sharedApplication] firstResponders]];
             }
-
+            
             for (id fallback in [fallbackViews copy]) {
                 if (![fallback isKindOfClass:[UITextField class]] &&
                     ![fallback isKindOfClass:[UITextView class]] &&
@@ -998,7 +998,7 @@ static BOOL KIFUITestActorAnimationsEnabled = YES;
 
     // Tap the desired photo in the grid
     // TODO: This currently only works for the first page of photos. It should scroll appropriately at some point.
-     UIAccessibilityElement *headerElt = [[UIApplication sharedApplication] accessibilityElementMatchingBlock:^(UIAccessibilityElement *element) {
+    UIAccessibilityElement *headerElt = [[UIApplication sharedApplication] accessibilityElementMatchingBlock:^(UIAccessibilityElement *element) {
         return [NSStringFromClass(element.class) isEqual:@"UINavigationItemButtonView"];
     }];
     UIView* headerView = [UIAccessibilityElement viewContainingAccessibilityElement:headerElt];
@@ -1117,56 +1117,56 @@ static BOOL KIFUITestActorAnimationsEnabled = YES;
 - (void)swipeAccessibilityElement:(UIAccessibilityElement *)element inView:(UIView *)viewToSwipe inDirection:(KIFSwipeDirection)direction
 {
     // The original version of this came from http://groups.google.com/group/kif-framework/browse_thread/thread/df3f47eff9f5ac8c
-  
+
     const NSUInteger kNumberOfPointsInSwipePath = 20;
-  
+
     // Within this method, all geometry is done in the coordinate system of the view to swipe.
     CGRect elementFrame = [self elementFrameForElement:element andView:viewToSwipe];
 
     CGPoint swipeStart = CGPointCenteredInRect(elementFrame);
 
     KIFDisplacement swipeDisplacement = [self _displacementForSwipingInDirection:direction];
-  
+
     [viewToSwipe dragFromPoint:swipeStart displacement:swipeDisplacement steps:kNumberOfPointsInSwipePath];
 }
 
 - (void)pullToRefreshViewWithAccessibilityLabel:(NSString *)label
 {
-	[self pullToRefreshViewWithAccessibilityLabel:label value:nil pullDownDuration:0 traits:UIAccessibilityTraitNone];
+    [self pullToRefreshViewWithAccessibilityLabel:label value:nil pullDownDuration:0 traits:UIAccessibilityTraitNone];
 }
 
 - (void)pullToRefreshViewWithAccessibilityLabel:(NSString *)label pullDownDuration:(KIFPullToRefreshTiming) pullDownDuration
 {
-	[self pullToRefreshViewWithAccessibilityLabel:label value:nil pullDownDuration:pullDownDuration traits:UIAccessibilityTraitNone];
+    [self pullToRefreshViewWithAccessibilityLabel:label value:nil pullDownDuration:pullDownDuration traits:UIAccessibilityTraitNone];
 }
 
 - (void)pullToRefreshViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value
 {
-	[self pullToRefreshViewWithAccessibilityLabel:label value:value pullDownDuration:0 traits:UIAccessibilityTraitNone];
+    [self pullToRefreshViewWithAccessibilityLabel:label value:value pullDownDuration:0 traits:UIAccessibilityTraitNone];
 }
 
 - (void)pullToRefreshViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value pullDownDuration:(KIFPullToRefreshTiming) pullDownDuration traits:(UIAccessibilityTraits)traits
 {
-	UIView *viewToSwipe = nil;
-	UIAccessibilityElement *element = nil;
+    UIView *viewToSwipe = nil;
+    UIAccessibilityElement *element = nil;
 
-	[self waitForAccessibilityElement:&element view:&viewToSwipe withLabel:label value:value traits:traits tappable:YES];
+    [self waitForAccessibilityElement:&element view:&viewToSwipe withLabel:label value:value traits:traits tappable:YES];
 
-	[self pullToRefreshAccessibilityElement:element inView:viewToSwipe pullDownDuration:pullDownDuration];
+    [self pullToRefreshAccessibilityElement:element inView:viewToSwipe pullDownDuration:pullDownDuration];
 }
 
 - (void)pullToRefreshAccessibilityElement:(UIAccessibilityElement *)element inView:(UIView *)viewToSwipe pullDownDuration:(KIFPullToRefreshTiming) pullDownDuration
 {
-	//Based on swipeAccessibilityElement
+    //Based on swipeAccessibilityElement
 
-	const NSUInteger kNumberOfPointsInSwipePath = pullDownDuration ? pullDownDuration : KIFPullToRefreshInAboutAHalfSecond;
+    const NSUInteger kNumberOfPointsInSwipePath = pullDownDuration ? pullDownDuration : KIFPullToRefreshInAboutAHalfSecond;
 
     // Can handle only the touchable space.
     CGRect elementFrame = [viewToSwipe convertRect:viewToSwipe.bounds toView:[UIApplication sharedApplication].keyWindow.rootViewController.view];
     CGPoint swipeStart = CGPointCenteredInRect(elementFrame);
-	CGPoint swipeDisplacement = CGPointMake(CGRectGetMidX(elementFrame), CGRectGetMaxY(elementFrame));
+    CGPoint swipeDisplacement = CGPointMake(CGRectGetMidX(elementFrame), CGRectGetMaxY(elementFrame));
 
-	[viewToSwipe dragFromPoint:swipeStart displacement:swipeDisplacement steps:kNumberOfPointsInSwipePath];
+    [viewToSwipe dragFromPoint:swipeStart displacement:swipeDisplacement steps:kNumberOfPointsInSwipePath];
 }
 
 - (void)scrollViewWithAccessibilityLabel:(NSString *)label byFractionOfSizeHorizontal:(CGFloat)horizontalFraction vertical:(CGFloat)verticalFraction
@@ -1438,43 +1438,43 @@ static BOOL KIFUITestActorAnimationsEnabled = YES;
 
 -(void) tapStepperWithAccessibilityLabel: (NSString *)accessibilityLabel increment: (KIFStepperDirection) stepperDirection
 {
-	@autoreleasepool {
-		UIView *view = nil;
-		UIAccessibilityElement *element = nil;
-		[self waitForAccessibilityElement:&element view:&view withLabel:accessibilityLabel value:nil traits:UIAccessibilityTraitNone tappable:YES];
-		[self tapStepperWithAccessibilityElement:element increment:stepperDirection inView:view];
-	}
+    @autoreleasepool {
+        UIView *view = nil;
+        UIAccessibilityElement *element = nil;
+        [self waitForAccessibilityElement:&element view:&view withLabel:accessibilityLabel value:nil traits:UIAccessibilityTraitNone tappable:YES];
+        [self tapStepperWithAccessibilityElement:element increment:stepperDirection inView:view];
+    }
 }
 
 //inspired by http://www.raywenderlich.com/61419/ios-ui-testing-with-kif
 - (void)tapStepperWithAccessibilityElement:(UIAccessibilityElement *)element increment: (KIFStepperDirection) stepperDirection inView:(UIView *)view
 {
-	[self runBlock:^KIFTestStepResult(NSError **error) {
+    [self runBlock:^KIFTestStepResult(NSError **error) {
 
-		KIFTestWaitCondition(view.isUserInteractionActuallyEnabled, error, @"View is not enabled for interaction: %@", view);
+        KIFTestWaitCondition(view.isUserInteractionActuallyEnabled, error, @"View is not enabled for interaction: %@", view);
 
         CGPoint stepperPointToTap = [self tappablePointInElement:element andView:view];
 
-		switch (stepperDirection)
-		{
-			case KIFStepperDirectionIncrement:
-				stepperPointToTap.x += CGRectGetWidth(view.frame) / 4;
-				break;
-			case KIFStepperDirectionDecrement:
-				stepperPointToTap.x -= CGRectGetWidth(view.frame) / 4;
-				break;
-		}
+        switch (stepperDirection)
+        {
+            case KIFStepperDirectionIncrement:
+                stepperPointToTap.x += CGRectGetWidth(view.frame) / 4;
+                break;
+            case KIFStepperDirectionDecrement:
+                stepperPointToTap.x -= CGRectGetWidth(view.frame) / 4;
+                break;
+        }
 
-		// This is mostly redundant of the test in _accessibilityElementWithLabel:
-		KIFTestWaitCondition(!isnan(stepperPointToTap.x), error, @"View is not tappable: %@", view);
-		[view tapAtPoint:stepperPointToTap];
+        // This is mostly redundant of the test in _accessibilityElementWithLabel:
+        KIFTestWaitCondition(!isnan(stepperPointToTap.x), error, @"View is not tappable: %@", view);
+        [view tapAtPoint:stepperPointToTap];
 
-		KIFTestCondition(![view canBecomeFirstResponder] || [view isDescendantOfFirstResponder], error, @"Failed to make the view into the first responder: %@", view);
+        KIFTestCondition(![view canBecomeFirstResponder] || [view isDescendantOfFirstResponder], error, @"Failed to make the view into the first responder: %@", view);
 
-		return KIFTestStepResultSuccess;
-	}];
+        return KIFTestStepResultSuccess;
+    }];
 
-	[self waitForAnimationsToFinish];
+    [self waitForAnimationsToFinish];
 }
 
 - (CGRect) elementFrameForElement:(UIAccessibilityElement *)element andView:(UIView *)view
