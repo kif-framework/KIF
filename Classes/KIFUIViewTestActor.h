@@ -195,8 +195,8 @@ extern NSString *const inputFieldTestString;
 
 /*!
  @abstract Waits until a view or accessibility element matching the tester's search predicate is the first responder.
- @discussion The first responder is found by searching the view hierarchy of the application's
- main window and its accessibility label is compared to the given value. If they match, the
+ @discussion The first responder is found by searching the view hierarchy of all the application's
+ windows and its accessibility label is compared to the given value. If they match, the
  step returns success else it will attempt to wait until they do.
  */
 - (void)waitToBecomeFirstResponder;

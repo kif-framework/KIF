@@ -75,6 +75,11 @@ CF_EXPORT SInt32 KIFRunLoopRunInModeRelativeToAnimationSpeed(CFStringRef mode, C
  */
 - (NSArray *)windowsWithKeyWindow;
 
+/// @discussion The first responders are ordered in the reverse order of @c -windowsWithKeyWindow
+/// to return in order of nearest visually.
+/// @returns All first responders in the application.
+- (NSArray<UIResponder *> *)firstResponders;
+
 /*!
  The current Core Animation speed of the keyWindow's CALayer.
  */

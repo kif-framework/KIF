@@ -8,6 +8,7 @@
 //  which Square, Inc. licenses this file to you.
 
 #import "UIApplication-KIFAdditions.h"
+#import "UIWindow-KIFAdditions.h"
 #import "LoadableCategory.h"
 #import "UIView-KIFAdditions.h"
 #import "NSError-KIFAdditions.h"
@@ -97,6 +98,20 @@ static const void *KIFRunLoopModesKey = &KIFRunLoopModesKey;
 - (UIWindow *)dimmingViewWindow;
 {
     return [self getWindowForSubviewClass:@"UIDimmingView"];
+}
+
+- (NSArray<UIResponder *> *)firstResponders;
+{
+    NSMutableArray *responders = [NSMutableArray array];
+
+    for (UIWindow *window in [[self windowsWithKeyWindow] reverseObjectEnumerator]) {
+        UIResponder *responder = window.firstResponder;
+        if (responder) {
+            [responders addObject:responder];
+        }
+    }
+
+    return [responders copy];
 }
 
 - (UIWindow *)getWindowForSubviewClass:(NSString*)className;
