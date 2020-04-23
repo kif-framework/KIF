@@ -6,9 +6,7 @@
 //
 //
 
-
 #import <KIF/KIF.h>
-#import <KIF/UIApplication-KIFAdditions.h>
 
 @interface SearchFieldTests_ViewTestActor : KIFTestCase
 @end

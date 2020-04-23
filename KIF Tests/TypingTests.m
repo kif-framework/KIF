@@ -7,7 +7,6 @@
 //
 
 #import <KIF/KIF.h>
-#import "KIFTestStepValidation.h"
 
 @interface TypingTests : KIFTestCase
 @end
