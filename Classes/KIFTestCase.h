@@ -13,6 +13,7 @@
  */
 #import <XCTest/XCTest.h>
 #import "XCTestCase-KIFAdditions.h"
+
 @interface KIFTestCase : XCTestCase
 
 /*!

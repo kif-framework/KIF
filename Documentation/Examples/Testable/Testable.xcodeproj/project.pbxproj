@@ -21,6 +21,8 @@
 		AAB073C0139861C0008AF393 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = AAB073BE139861C0008AF393 /* MainWindow.xib */; };
 		AAB073C3139861C0008AF393 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB073C2139861C0008AF393 /* RootViewController.m */; };
 		AAB073C6139861C0008AF393 /* RootViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AAB073C4139861C0008AF393 /* RootViewController.xib */; };
+		BCA154362331FF8C00CDC69F /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCA1542F2331FF8C00CDC69F /* WebKit.framework */; };
+		BCA154372331FFF700CDC69F /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCA1542F2331FF8C00CDC69F /* WebKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -101,6 +103,7 @@
 		AAB073C1139861C0008AF393 /* RootViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
 		AAB073C2139861C0008AF393 /* RootViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
 		AAB073C5139861C0008AF393 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/RootViewController.xib; sourceTree = "<group>"; };
+		BCA1542F2331FF8C00CDC69F /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		EB47EFB21781DF6D006BBFAC /* IntegrationTestCases.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IntegrationTestCases.m; sourceTree = "<group>"; };
 		EB47EFB31781DF6D006BBFAC /* KIFUITestActor+EXAddition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "KIFUITestActor+EXAddition.h"; sourceTree = "<group>"; };
 		EB47EFB41781DF6D006BBFAC /* KIFUITestActor+EXAddition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "KIFUITestActor+EXAddition.m"; sourceTree = "<group>"; };
@@ -114,6 +117,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BCA154372331FFF700CDC69F /* WebKit.framework in Frameworks */,
 				62F81B2F1EBBDCB6009B2400 /* libKIF.a in Frameworks */,
 				62F81B311EBBE348009B2400 /* IOKit.framework in Frameworks */,
 			);
@@ -123,6 +127,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BCA154362331FF8C00CDC69F /* WebKit.framework in Frameworks */,
 				AAB073AD139861C0008AF393 /* UIKit.framework in Frameworks */,
 				AAB073AF139861C0008AF393 /* Foundation.framework in Frameworks */,
 				AAB073B1139861C0008AF393 /* CoreGraphics.framework in Frameworks */,
@@ -168,6 +173,7 @@
 		AAB073AB139861C0008AF393 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				BCA1542F2331FF8C00CDC69F /* WebKit.framework */,
 				EB9DB7431781DDBA0087B6FD /* libKIF.a */,
 				62F81B301EBBE348009B2400 /* IOKit.framework */,
 				AAB073AC139861C0008AF393 /* UIKit.framework */,
@@ -282,6 +288,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = AAB0739D139861C0008AF393;
@@ -562,6 +569,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_TEAM = "";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Testable/Testable-Prefix.pch";
@@ -576,6 +584,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				COPY_PHASE_STRIP = YES;
+				DEVELOPMENT_TEAM = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Testable/Testable-Prefix.pch";
 				INFOPLIST_FILE = "Testable/Testable-Info.plist";

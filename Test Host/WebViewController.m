@@ -5,9 +5,10 @@
 //  Created by Joe Masilotti on 11/19/14.
 //
 //
+#import <WebKit/WebKit.h>
 
 @interface WebViewController : UIViewController
-@property (weak, nonatomic) IBOutlet UIWebView *webView;
+@property (weak, nonatomic) IBOutlet WKWebView *webView;
 @end
 
 @implementation WebViewController
