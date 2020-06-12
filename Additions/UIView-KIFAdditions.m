@@ -456,10 +456,16 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
     // This may not be necessary anymore. We didn't properly support controls that used gesture recognizers
     // when this was added, but we now do. It needs to be tested before we can get rid of it.
     id /*UIWebBrowserView*/ webBrowserView = nil;
+
+    BOOL isWebView = [self isKindOfClass:[WKWebView class]];
+
+#if  __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_12_0
+    isWebView = isWebView || [self isKindOfClass:[UIWebView class]];
+#endif
     
     if ([NSStringFromClass([self class]) isEqual:@"UIWebBrowserView"]) {
         webBrowserView = self;
-    } else if ([self isKindOfClass:[WKWebView class]]) {
+    } else if (isWebView) {
         id webViewInternal = [self valueForKey:@"_internal"];
         webBrowserView = [webViewInternal valueForKey:@"browserView"];
     }
