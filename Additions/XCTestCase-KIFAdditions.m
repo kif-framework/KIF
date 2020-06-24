@@ -34,7 +34,22 @@ static inline void Swizzle(Class c, SEL orig, SEL new)
 {
     self.continueAfterFailure = YES;
 
+#ifdef __IPHONE_14_0
+    NSString *filePath = exception.userInfo[@"FilenameKey"];
+    NSInteger lineNumber = [exception.userInfo[@"LineNumberKey"] unsignedIntegerValue];
+    XCTSourceCodeLocation *location = [[XCTSourceCodeLocation alloc] initWithFilePath:filePath
+                                                                           lineNumber:lineNumber];
+    XCTSourceCodeContext *context = [[XCTSourceCodeContext alloc] initWithLocation:location];
+    XCTIssue *issue = [[XCTIssue alloc] initWithType:XCTIssueTypeAssertionFailure
+                                  compactDescription:exception.description
+                                 detailedDescription:nil
+                                   sourceCodeContext:context
+                                     associatedError:nil
+                                         attachments:@[]];
+    [self recordIssue:issue];
+#else
     [self recordFailureWithDescription:exception.description inFile:exception.userInfo[@"FilenameKey"] atLine:[exception.userInfo[@"LineNumberKey"] unsignedIntegerValue] expected:NO];
+#endif
 
     if (stop) {
         [self writeScreenshotForException:exception];
@@ -122,7 +137,23 @@ static inline void Swizzle(Class c, SEL orig, SEL new)
     if (![[arg3 name] isEqualToString:@"KIFFailureException"]) {
         [self KIF_recordUnexpectedFailureForTestRun:arg1 description:arg2 exception:arg3];
     } else {
+#ifdef __IPHONE_14_0
+        NSString *description = [NSString stringWithFormat:@"Test suite stopped on fatal error: %@", arg3.description];
+        NSString *filePath = arg3.userInfo[@"FilenameKey"];
+        NSInteger lineNumber = [arg3.userInfo[@"LineNumberKey"] unsignedIntegerValue];
+        XCTSourceCodeLocation *location = [[XCTSourceCodeLocation alloc] initWithFilePath:filePath
+                                                                               lineNumber:lineNumber];
+        XCTSourceCodeContext *context = [[XCTSourceCodeContext alloc] initWithLocation:location];
+        XCTIssue *issue = [[XCTIssue alloc] initWithType:XCTIssueTypeAssertionFailure
+                                      compactDescription:description
+                                     detailedDescription:nil
+                                       sourceCodeContext:context
+                                         associatedError:nil
+                                             attachments:@[]];
+        [arg1 recordIssue:issue];
+#else
         [arg1 recordFailureWithDescription:[NSString stringWithFormat:@"Test suite stopped on fatal error: %@", arg3.description] inFile:arg3.userInfo[@"FilenameKey"] atLine:[arg3.userInfo[@"LineNumberKey"] unsignedIntegerValue] expected:NO];
+#endif
     }
 }
 
