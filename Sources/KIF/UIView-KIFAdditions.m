@@ -14,7 +14,7 @@
 #import "KIF/UITouch-KIFAdditions.h"
 #import <objc/runtime.h>
 #import "UIEvent+KIFAdditions.h"
-#import "KIFUITestActor.h"
+#import "KIF/KIFUITestActor.h"
 #import <WebKit/WebKit.h>
 
 double KIFDegreesToRadians(double deg) {
