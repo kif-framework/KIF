@@ -34,6 +34,7 @@ typedef struct {
 - (void)setGestureView:(UIView *)view;
 - (void)_setLocationInWindow:(CGPoint)location resetPrevious:(BOOL)resetPrevious;
 - (void)_setIsFirstTouchForView:(BOOL)firstTouchForView;
+- (void)_setIsTapToClick:(BOOL)tapToClick;
 
 - (void)_setHidEvent:(IOHIDEventRef)event;
 
@@ -65,8 +66,21 @@ typedef struct {
     
     [self setView:hitTestView];
     [self setPhase:UITouchPhaseBegan];
-    [self _setIsFirstTouchForView:YES];
-    [self setIsTap:YES];
+    
+    if ([self respondsToSelector:@selector(_setIsFirstTouchForView:)]) {
+        [self setIsTap:YES];
+        [self _setIsFirstTouchForView:YES];
+    } else {
+        [self _setIsTapToClick:YES];
+
+        // We modify the touchFlags ivar struct directly.
+        // First entry is _firstTouchForView
+        Ivar flagsIvar = class_getInstanceVariable(object_getClass(self), "_touchFlags");
+        ptrdiff_t touchFlagsOffset = ivar_getOffset(flagsIvar);
+        char *flags = (__bridge void *)self + touchFlagsOffset;
+        *flags = *flags | (char)0x01;
+    }
+    
     [self setTimestamp:[[NSProcessInfo processInfo] systemUptime]];
     
     if ([self respondsToSelector:@selector(setGestureView:)]) {
