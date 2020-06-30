@@ -2,6 +2,8 @@ language: objective-c
 matrix:
   include:
     - osx_image: xcode11.6
+      env: 'SIMULATOR="name=iPad Pro (12.9-inch) (3rd generation),OS=12.4"'
+    - osx_image: xcode11.6
       env: 'SIMULATOR="name=iPad Pro (12.9-inch) (2nd generation),OS=11.2"'
     - osx_image: xcode11.6
       env: 'SIMULATOR="name=iPhone 7 Plus,OS=10.3.1"'
