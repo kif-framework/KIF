@@ -177,7 +177,7 @@ static void FixReactivateApp(void)
         NSAssert([[[[self target] frontMostApp] name] isEqual:@"SpringBoard"], @"If reactivation is failing, the app is likely still open to SpringBoard.");
         
         // Tap slightly above the middle of the screen, otherwise it doesn't resume on an iPad Pro
-        [[[self target] frontMostApp] tapWithOptions:@{@"tapOffset": @{@"x": @(.5), @"y": @(.36)}}];
+        [[[self target] frontMostApp] tapWithOptions:@{@"tapOffset": @{@"x": @(.7), @"y": @(.36)}}];
 
         // Wait for app to foreground
         CFRunLoopRunInMode(UIApplicationCurrentRunMode, 0.1, false);
