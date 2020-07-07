@@ -929,7 +929,7 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
 
 - (BOOL)isNavigationItemView;
 {
-    return [self isKindOfClass:NSClassFromString(@"UINavigationItemView")] || [self isKindOfClass:NSClassFromString(@"_UINavigationBarBackIndicatorView")];
+    return [self isKindOfClass:NSClassFromString(@"UINavigationItemView")] || [self isKindOfClass:NSClassFromString(@"_UINavigationBarBackIndicatorView")] || [self isKindOfClass:NSClassFromString(@"_UIModernBarButton")];
 }
 
 - (UIWindow *)windowOrIdentityWindow
