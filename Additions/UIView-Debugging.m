@@ -46,9 +46,19 @@
     if([self isKindOfClass:[UIControl class]]) {
         [self printControlState];
     }
+    
+    if([self isKindOfClass:[UIDatePicker class]]) {
+        [self printDatePickerState];
+    }
+    
     printf("\n");
-
+    
     [self printAccessibilityElementsWithIndentation:indent];
+    
+    // We do not want to print the view heirarchy under this class as it is too large and not helpful.
+    if([self isKindOfClass:[NSClassFromString(@"_UIDatePickerView") class]]) {
+        return;
+    }
 
     for (UIView *subview in self.subviews) {
         [subview printViewHierarchyWithIndentation:indent+1];
@@ -89,6 +99,36 @@
     ctrl.enabled ? printf(" (enabled)") : printf(" (not enabled)");
     ctrl.selected ? printf(" (selected)") : printf(" (not selected)");
     ctrl.highlighted ? printf(" (highlighted)") : printf(" (not highlighted)");
+}
+
+- (void)printDatePickerState {
+    UIDatePicker *datePicker = (UIDatePicker *)self;
+    printf(" (date range:");
+    datePicker.minimumDate ? printf(" %s", datePicker.minimumDate.description.UTF8String) : printf(" no minimum");
+    printf(" -");
+    datePicker.maximumDate ? printf(" %s", datePicker.minimumDate.description.UTF8String) : printf(" no maximum");
+    printf(")");
+    printf(" (mode:");
+    
+    switch (datePicker.datePickerMode) {
+        case UIDatePickerModeTime:
+            printf(" UIDatePickerModeTime");
+            break;
+            
+        case UIDatePickerModeDate:
+            printf(" UIDatePickerModeDate");
+            break;
+            
+        case UIDatePickerModeDateAndTime:
+            printf(" UIDatePickerModeDateAndTime");
+            break;
+            
+        case UIDatePickerModeCountDownTimer:
+            printf(" UIDatePickerModeCountDownTimer");
+            break;
+    }
+    printf(")");
+    printf(" (minute interval: %li)", datePicker.minuteInterval);
 }
 
 - (void)printAccessibilityElementsWithIndentation:(int)indent {
