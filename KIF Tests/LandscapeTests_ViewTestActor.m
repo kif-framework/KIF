@@ -17,6 +17,7 @@
 {
     [system simulateDeviceRotationToOrientation:UIDeviceOrientationLandscapeLeft];
     [[viewTester usingIdentifier:@"Test Suite TableView"] scrollByFractionOfSizeHorizontal:0 vertical:-0.2];
+    [viewTester waitForAnimationsToFinish];
 }
 
 - (void)afterAll

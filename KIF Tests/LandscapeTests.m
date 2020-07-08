@@ -17,6 +17,7 @@
 {
     [system simulateDeviceRotationToOrientation:UIDeviceOrientationLandscapeLeft];
     [tester scrollViewWithAccessibilityIdentifier:@"Test Suite TableView" byFractionOfSizeHorizontal:0 vertical:-0.2];
+    [tester waitForAnimationsToFinish];
 }
 
 - (void)afterAll
@@ -32,7 +33,6 @@
 
 - (void)testThatAlertViewsCanBeTappedInLandscape
 {
-    [tester waitForViewWithAccessibilityLabel:@"UIAlertView"];
     [tester tapViewWithAccessibilityLabel:@"UIAlertView"];
     [tester tapViewWithAccessibilityLabel:@"Continue"];
     [tester waitForAbsenceOfViewWithAccessibilityLabel:@"Message"];

@@ -26,18 +26,21 @@
 
 - (void)testLongPressingViewWithAccessibilityLabel
 {
+    [[viewTester usingLabel:@"Greeting"] tap];
     [[viewTester usingLabel:@"Greeting"] longPressWithDuration:2];
     [[viewTester usingLabel:@"Select All"] tap];
 }
 
 - (void)testLongPressingViewViewWithTraits
 {
+    [[viewTester usingLabel:@"Greeting"] tap];
     [[[viewTester usingLabel:@"Greeting"] usingValue:@"Hello"] longPressWithDuration:2];
     [[viewTester usingLabel:@"Select All"] tap];
 }
 
 - (void)testLongPressingViewViewWithValue
 {
+    [[viewTester usingLabel:@"Greeting"] tap];
     [[[[viewTester usingLabel:@"Greeting"] usingValue:@"Hello"] usingTraits:UIAccessibilityTraitUpdatesFrequently] longPressWithDuration:2];
     [[viewTester usingLabel:@"Select All"] tap];
 }
