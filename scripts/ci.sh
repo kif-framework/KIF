@@ -26,9 +26,6 @@ if [ -z "${SIMULATOR}" ]; then
   exit 1
 fi
 
-# Workaround https://github.com/travis-ci/travis-ci/issues/3040
-open -b com.apple.iphonesimulator
-
 rm -rf ${PWD}/build
 
 env NSUnbufferedIO=YES xcodebuild test -project KIF.xcodeproj -derivedDataPath=${PWD}/build/KIFFramework -scheme KIFFrameworkConsumerTests -destination "platform=iOS Simulator,${SIMULATOR}" | xcpretty -c
