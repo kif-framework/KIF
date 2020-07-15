@@ -15,7 +15,7 @@
 #if DEPRECATE_KIF_TESTER
 // Add `-DDEPRECATE_KIF_TESTER=1` to OTHER_CFLAGS if you'd like to prevent usage of `tester`.
 @class KIFUITestActor;
-KIFUITestActor *_KIF_tester() __attribute__((deprecated("Use of `tester` has been deprecated; Use `viewTester` instead.")));
+KIFUITestActor *_KIF_tester(void) __attribute__((deprecated("Use of `tester` has been deprecated; Use `viewTester` instead.")));
 #define tester _KIF_tester()
 #else
 #define tester KIFActorWithClass(KIFUITestActor)

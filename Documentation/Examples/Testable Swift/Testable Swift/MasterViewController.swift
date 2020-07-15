@@ -68,7 +68,7 @@ class MasterViewController: UITableViewController {
             return
         }
         
-        print("Tapped Cell \(cell.textLabel?.text) with AccessibilityLabel \(cell.accessibilityLabel) and AccessibilityIdentifier \(cell.accessibilityIdentifier)")
+        print("Tapped Cell \(String(describing: cell.textLabel?.text)) with AccessibilityLabel \(String(describing: cell.accessibilityLabel)) and AccessibilityIdentifier \(String(describing: cell.accessibilityIdentifier))")
 
         if let text = cell.textLabel?.text {
             navigationItem.title = "Selected: " + text
@@ -80,6 +80,6 @@ class MasterViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
+        return UITableView.automaticDimension
     }
 }
