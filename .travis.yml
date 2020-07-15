@@ -18,6 +18,6 @@ before_install:
   - gem install bundler
 install:
   - if [ -z "$(brew ls --versions coreutils)" ] ; then brew install coreutils ; fi
-  - gem install xcpretty --no-rdoc --no-ri --no-document --quiet
+  - gem install xcpretty --no-document --quiet
 script:
   - ./scripts/ci.sh "${SIMULATOR}"
