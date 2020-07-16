@@ -481,10 +481,10 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
     
     UIEvent *event = [self eventWithTouch:touch];
 
-    [[UIApplication sharedApplication] sendEvent:event];
+    [[UIApplication sharedApplication] kif_sendEvent:event];
     
     [touch setPhaseAndUpdateTimestamp:UITouchPhaseEnded];
-    [[UIApplication sharedApplication] sendEvent:event];
+    [[UIApplication sharedApplication] kif_sendEvent:event];
 
     // Dispatching the event doesn't actually update the first responder, so fake it
     if ([touch.view isDescendantOfView:self] && [self canBecomeFirstResponder]) {
@@ -502,12 +502,12 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
     [touch2 setPhaseAndUpdateTimestamp:UITouchPhaseBegan];
 
     UIEvent *event = [self eventWithTouches:@[touch1, touch2]];
-    [[UIApplication sharedApplication] sendEvent:event];
+    [[UIApplication sharedApplication] kif_sendEvent:event];
 
     [touch1 setPhaseAndUpdateTimestamp:UITouchPhaseEnded];
     [touch2 setPhaseAndUpdateTimestamp:UITouchPhaseEnded];
 
-    [[UIApplication sharedApplication] sendEvent:event];
+    [[UIApplication sharedApplication] kif_sendEvent:event];
 }
 
 #define DRAG_TOUCH_DELAY 0.01
@@ -518,7 +518,7 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
     [touch setPhaseAndUpdateTimestamp:UITouchPhaseBegan];
     
     UIEvent *eventDown = [self eventWithTouch:touch];
-    [[UIApplication sharedApplication] sendEvent:eventDown];
+    [[UIApplication sharedApplication] kif_sendEvent:eventDown];
     
     CFRunLoopRunInMode(kCFRunLoopDefaultMode, DRAG_TOUCH_DELAY, false);
     
@@ -527,14 +527,14 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
         [touch setPhaseAndUpdateTimestamp:UITouchPhaseStationary];
         
         UIEvent *eventStillDown = [self eventWithTouch:touch];
-        [[UIApplication sharedApplication] sendEvent:eventStillDown];
+        [[UIApplication sharedApplication] kif_sendEvent:eventStillDown];
         
         CFRunLoopRunInMode(kCFRunLoopDefaultMode, DRAG_TOUCH_DELAY, false);
     }
     
     [touch setPhaseAndUpdateTimestamp:UITouchPhaseEnded];
     UIEvent *eventUp = [self eventWithTouch:touch];
-    [[UIApplication sharedApplication] sendEvent:eventUp];
+    [[UIApplication sharedApplication] kif_sendEvent:eventUp];
     
     // Dispatching the event doesn't actually update the first responder, so fake it
     if ([touch.view isDescendantOfView:self] && [self canBecomeFirstResponder]) {
@@ -621,7 +621,7 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
                 [touches addObject:touch];
             }
             UIEvent *eventDown = [self eventWithTouches:[NSArray arrayWithArray:touches]];
-            [[UIApplication sharedApplication] sendEvent:eventDown];
+            [[UIApplication sharedApplication] kif_sendEvent:eventDown];
             
             CFRunLoopRunInMode(UIApplicationCurrentRunMode, DRAG_TOUCH_DELAY, false);
         }
@@ -637,7 +637,7 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
                 [touch setPhaseAndUpdateTimestamp:UITouchPhaseMoved];
             }
             UIEvent *event = [self eventWithTouches:[NSArray arrayWithArray:touches]];
-            [[UIApplication sharedApplication] sendEvent:event];
+            [[UIApplication sharedApplication] kif_sendEvent:event];
 
             CFRunLoopRunInMode(UIApplicationCurrentRunMode, DRAG_TOUCH_DELAY, false);
 
@@ -646,7 +646,7 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
                 for (UITouch * touch in touches) {
                     [touch setPhaseAndUpdateTimestamp:UITouchPhaseEnded];
                     UIEvent *eventUp = [self eventWithTouch:touch];
-                    [[UIApplication sharedApplication] sendEvent:eventUp];
+                    [[UIApplication sharedApplication] kif_sendEvent:eventUp];
                     
                 }
 

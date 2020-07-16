@@ -58,7 +58,7 @@
     [touch setPhaseAndUpdateTimestamp:UITouchPhaseBegan];
     
     UIEvent *eventDown = [self eventWithTouch:touch];
-    [[UIApplication sharedApplication] sendEvent:eventDown];
+    [[UIApplication sharedApplication] kif_sendEvent:eventDown];
     
     // Hold long enough to enter reordering mode
     CFRunLoopRunInMode(UIApplicationCurrentRunMode, 0.2, false);
@@ -75,7 +75,7 @@
         [touch setPhaseAndUpdateTimestamp:UITouchPhaseMoved];
         
         UIEvent *eventDrag = [self eventWithTouch:touch];
-        [[UIApplication sharedApplication] sendEvent:eventDrag];
+        [[UIApplication sharedApplication] kif_sendEvent:eventDrag];
         
         CFRunLoopRunInMode(UIApplicationCurrentRunMode, 0.01, false);
     }
@@ -86,7 +86,7 @@
     [touch setPhaseAndUpdateTimestamp:UITouchPhaseEnded];
     
     UIEvent *eventUp = [self eventWithTouch:touch];
-    [[UIApplication sharedApplication] sendEvent:eventUp];
+    [[UIApplication sharedApplication] kif_sendEvent:eventUp];
     
     // Dispatching the event doesn't actually update the first responder, so fake it
     if (touch.view == self && [self canBecomeFirstResponder]) {
