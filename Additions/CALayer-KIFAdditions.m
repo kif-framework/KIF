@@ -62,7 +62,7 @@
         return;
     }
 
-    for (CALayer *layer in self.sublayers) {
+    for (CALayer *layer in self.sublayers.copy) {
         [layer performBlockOnDescendentLayers:block stop:stop];
         if (*stop) {
             return;
