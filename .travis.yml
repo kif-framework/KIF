@@ -9,11 +9,24 @@ matrix:
       env: 'SIMULATOR="name=iPad (5th generation),OS=10.3.1"'
 
 before_install:
+  - rm -rf ~/Library/Logs/DiagnosticReports/
   - xcrun simctl list
-  - brew update || brew update
+  - brew update
   - gem install bundler
+  - gem install fastlane
 install:
   - if [ -z "$(brew ls --versions coreutils)" ] ; then brew install coreutils ; fi
   - gem install xcpretty --no-document --quiet
 script:
   - ./scripts/ci.sh "${SIMULATOR}"
+after_failure:
+  - xcrun xcresulttool get --path **/*.xcresult --format json > output/result.json
+  - log show "output/system_logs-iPhone 5s_iOS_10.3.1.logarchive/logdata.LiveData.tracev3"
+  - ls output/**/*
+  - ls **/*
+  - sleep 60 && ls ~/Library/Logs/**/*
+  - cat output/result.json
+  - cat **/*.log
+  - sleep 60 && ls ~/Library/Logs/DiagnosticReports/**/*
+  - cat ~/Library/Logs/DiagnosticReports/**/*.crash
+  - cat **/*.crash

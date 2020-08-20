@@ -29,7 +29,7 @@ fi
 rm -rf ${PWD}/build
 
 env NSUnbufferedIO=YES xcodebuild test -project KIF.xcodeproj -derivedDataPath=${PWD}/build/KIFFramework -scheme KIFFrameworkConsumerTests -destination "platform=iOS Simulator,${SIMULATOR}" | xcpretty -c
-env NSUnbufferedIO=YES xcodebuild test -project KIF.xcodeproj -scheme KIF -derivedDataPath=${PWD}/build/KIF -destination "platform=iOS Simulator,${SIMULATOR}" | xcpretty -c
+fastlane scan --scheme 'KIF' --device "${SIMULATOR}" --derived_data_path ${PWD}/build/KIFFramework --output-directory ${PWD}/output --include_simulator_logs --result_bundle --output_types junit
 
 # Due to unstable Swift language syntax, this only compiles on Xcode 8+
 if is_xcode_version_8_plus; then
