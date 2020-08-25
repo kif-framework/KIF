@@ -16,19 +16,18 @@
 - (void)beforeAll
 {
     [system simulateDeviceRotationToOrientation:UIDeviceOrientationLandscapeLeft];
-    [tester scrollViewWithAccessibilityIdentifier:@"Test Suite TableView" byFractionOfSizeHorizontal:0 vertical:-0.2];
-    [tester waitForAnimationsToFinish];
+    [tester waitForTimeInterval:0.5];
+    
+    // only scroll if we are on iphone
+    if(UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPhone) {
+        [tester scrollViewWithAccessibilityIdentifier:@"Test Suite TableView" byFractionOfSizeHorizontal:0 vertical:-0.2];
+    }
 }
 
 - (void)afterAll
 {
     [system simulateDeviceRotationToOrientation:UIDeviceOrientationPortrait];
     [tester waitForTimeInterval:0.5];
-}
-
-- (void)beforeEach
-{
-    [tester waitForTimeInterval:0.25];
 }
 
 - (void)testThatAlertViewsCanBeTappedInLandscape

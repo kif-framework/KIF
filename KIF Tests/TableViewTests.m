@@ -95,7 +95,6 @@
     // The way we tap the status bar doesn't work in iOS 12+
     // Issue #1172
     // Disable this test on 12+ until that issue is resolved.
-
     if (@available(iOS 12.0, *)) {
         return;
     }
