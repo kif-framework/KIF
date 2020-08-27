@@ -1199,6 +1199,8 @@ static BOOL KIFUITestActorAnimationsEnabled = YES;
     scrollStart.y -= scrollDisplacement.y / 2;
 
     [viewToScroll dragFromPoint:scrollStart displacement:scrollDisplacement steps:kNumberOfPointsInScrollPath];
+
+    [self waitForAnimationsToFinish];
 }
 
 - (void)waitForFirstResponderWithAccessibilityLabel:(NSString *)label
