@@ -20,8 +20,14 @@
 	//set up an accessibility label on the table.
 	self.tableView.isAccessibilityElement = YES;
 	self.tableView.accessibilityLabel = @"Table View";
+    
+    // memory warning was causing cells to disappear on static table views, reloading lets them come back
+    [[NSNotificationCenter defaultCenter] addObserver:self.tableView selector:@selector(reloadData) name:UIApplicationDidReceiveMemoryWarningNotification object:[UIApplication sharedApplication]];
+}
 
-	//set up the pull to refresh with handler.
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void) setupRefreshControl
@@ -40,7 +46,7 @@
 	[super viewDidAppear:animated];
 
 	dispatch_async(dispatch_get_main_queue(), ^{
-		[self setupRefreshControl];
+        [self setupRefreshControl];
 	});
 }
 
@@ -93,7 +99,7 @@
 	self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"Bingo!", @"") attributes:nil];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(4.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self.refreshControl endRefreshing];
-        [self.tableView setContentOffset:CGPointZero];
+        [self.tableView setContentOffset:CGPointZero animated:YES];
     });
 }
 
