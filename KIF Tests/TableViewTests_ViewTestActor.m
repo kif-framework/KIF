@@ -52,6 +52,13 @@
 
 - (void)testScrollingToTop
 {
+    // The way we tap the status bar doesn't work in iOS 12+
+    // Issue #1172
+    // Disable this test on 12+ until that issue is resolved.
+    if (@available(iOS 12.0, *)) {
+        return;
+    }
+
     [[viewTester usingIdentifier:@"TableView Tests Table"] tapRowInTableViewAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:2]];
     [viewTester tapStatusBar];
 
