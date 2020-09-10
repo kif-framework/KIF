@@ -7,7 +7,7 @@ Pod::Spec.new do |s|
   s.authors                 = 'Michael Thole', 'Eric Firestone', 'Jim Puls', 'Brian Nickel'
   s.source                  = { :git => "https://github.com/kif-framework/KIF.git", :tag => "v#{ s.version.to_s }" }
   s.platform                = :ios, '8.0'
-  s.frameworks              = 'CoreGraphics', 'QuartzCore', 'IOKit', 'XCTest'
+  s.frameworks              = 'CoreGraphics', 'QuartzCore', 'IOKit', 'WebKit', 'XCTest'
   s.default_subspec         = 'Core'
   s.requires_arc            = true
   s.prefix_header_contents  = '#import <CoreGraphics/CoreGraphics.h>'
