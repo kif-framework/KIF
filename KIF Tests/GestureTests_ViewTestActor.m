@@ -97,9 +97,9 @@
 - (void)testScrolling
 {
     // Needs to be offset from the edge to prevent the navigation controller's interactivePopGestureRecognizer from triggering
-    [[viewTester usingIdentifier:@"Scroll View"] scrollByFractionOfSizeHorizontal:-0.80 vertical:-0.80];
+    [[viewTester usingIdentifier:@"Scroll View"] scrollByFractionOfSizeHorizontal:-0.30 vertical:-0.30];
     [[viewTester usingLabel:@"Bottom Right"] waitForTappableView];
-    [[viewTester usingIdentifier:@"Scroll View"] scrollByFractionOfSizeHorizontal:0.80 vertical:0.80];
+    [[viewTester usingIdentifier:@"Scroll View"] scrollByFractionOfSizeHorizontal:0.30 vertical:0.30];
     [[viewTester usingLabel:@"Top Left"] waitForTappableView];
 }
 

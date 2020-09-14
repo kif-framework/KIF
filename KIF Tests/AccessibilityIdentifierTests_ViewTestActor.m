@@ -47,12 +47,14 @@
 
 - (void)testLongPressingViewWithAccessibilityIdentifier
 {
+    [[viewTester usingIdentifier:@"idGreeting"] tap];
     [[viewTester usingIdentifier:@"idGreeting"] longPressWithDuration:2];
     [[viewTester usingLabel:@"Select All"] tap];
 }
 
 - (void)testEnteringTextIntoViewWithAccessibilityIdentifier
 {
+    [[viewTester usingIdentifier:@"idGreeting"] tap];
     [[viewTester usingIdentifier:@"idGreeting"] longPressWithDuration:2];
     [[viewTester usingLabel:@"Select All"] tap];
     [[viewTester usingLabel:@"Cut"] tap];

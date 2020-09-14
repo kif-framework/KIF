@@ -16,7 +16,7 @@
 - (void)beforeAll
 {
     [system simulateDeviceRotationToOrientation:UIDeviceOrientationLandscapeLeft];
-    [[viewTester usingIdentifier:@"Test Suite TableView"] scrollByFractionOfSizeHorizontal:0 vertical:-0.2];
+    [viewTester waitForAnimationsToFinish];
 }
 
 - (void)afterAll
@@ -32,7 +32,7 @@
 
 - (void)testThatAlertViewsCanBeTappedInLandscape
 {
-    [[viewTester usingLabel:@"UIAlertView"] tap];
+    [viewTester tapRowInTableViewAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:1]];
     [[viewTester usingLabel:@"Continue"] tap];
     [[viewTester usingLabel:@"Message"] waitForAbsenceOfView];
 }

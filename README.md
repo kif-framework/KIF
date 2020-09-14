@@ -11,7 +11,7 @@ KIF builds and performs the tests using a standard `XCTest` testing target.  Tes
 
 **KIF uses undocumented Apple APIs.** This is true of most iOS testing frameworks, and is safe for testing purposes, but it's important that KIF does not make it into production code, as it will get your app submission denied by Apple. Follow the instructions below to ensure that KIF is configured correctly for your project.
 
-**Actively supports Xcode 11.6 and iOS 10-13 if you need support for an earlier version please use [v3.7.9](https://github.com/kif-framework/KIF/releases/tag/v3.7.9) or an [earlier release](https://github.com/kif-framework/KIF/releases).** 
+**Actively supports Xcode 11.6 and iOS 11-13 if you need support for an earlier version please use [v3.7.9](https://github.com/kif-framework/KIF/releases/tag/v3.7.9) or an [earlier release](https://github.com/kif-framework/KIF/releases).** 
 
 Features
 --------

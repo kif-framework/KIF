@@ -44,6 +44,7 @@
 	
     [tester acknowledgeSystemAlert];
     [tester acknowledgeSystemAlert];
+    [tester acknowledgeSystemAlert];
     XCTAssertFalse([tester acknowledgeSystemAlert]);
 }
 

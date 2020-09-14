@@ -709,7 +709,7 @@ static BOOL KIFUITestActorAnimationsEnabled = YES;
 
         // Grab one picker and assume it is datePicker and then test our hypothesis later!
         pickerView = [datePickerViews lastObject];
-        if ([pickerView respondsToSelector:@selector(setDate:animated:)]) {
+        if ([pickerView respondsToSelector:@selector(setDate:animated:)] || [pickerView isKindOfClass:NSClassFromString(@"_UIDatePickerView")]) {
             pickerType = KIFUIDatePicker;
         } else {
             pickerView = [pickerViews lastObject];

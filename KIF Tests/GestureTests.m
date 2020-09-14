@@ -91,9 +91,9 @@
     UILabel* velocityLabel = (UILabel*)velocityResultView;
     
     UIView* panLabel = [tester waitForTappableViewWithAccessibilityLabel:kPanMeAccessibilityString];
-    CGPoint centerInView = CGPointMake(panLabel.frame.size.width / 2.0, panLabel.frame.size.height / 2.0);
+    CGPoint offCenterInView = CGPointMake((panLabel.frame.size.width * 0.6), panLabel.frame.size.height / 2.0);
     
-    [panLabel dragFromPoint:centerInView toPoint:CGPointMake(centerInView.x + 30, centerInView.y)];
+    [panLabel dragFromPoint:offCenterInView toPoint:CGPointMake(offCenterInView.x + 30, offCenterInView.y)];
     XCTAssertFalse([noVelocityPredicate evaluateWithObject:velocityLabel.text], @"No valocity value found!");
     XCTAssertTrue([resultTestPredicate evaluateWithObject:velocityLabel.text], @"The result doesn`t match the %@ regex pattern", regexPattern);
 }
@@ -196,9 +196,9 @@
 - (void)testScrolling
 {
     // Needs to be offset from the edge to prevent the navigation controller's interactivePopGestureRecognizer from triggering
-    [tester scrollViewWithAccessibilityIdentifier:@"Scroll View" byFractionOfSizeHorizontal:-0.80 vertical:-0.80];
+    [tester scrollViewWithAccessibilityIdentifier:@"Scroll View" byFractionOfSizeHorizontal:-0.30 vertical:-0.30];
     [tester waitForTappableViewWithAccessibilityLabel:@"Bottom Right"];
-    [tester scrollViewWithAccessibilityIdentifier:@"Scroll View" byFractionOfSizeHorizontal:0.80 vertical:0.80];
+    [tester scrollViewWithAccessibilityIdentifier:@"Scroll View" byFractionOfSizeHorizontal:0.30 vertical:0.30];
     [tester waitForTappableViewWithAccessibilityLabel:@"Top Left"];
 }
 

@@ -31,6 +31,7 @@
 
 - (void)afterEach {
     [tester tapViewWithAccessibilityLabel:@"Test Suite" traits:UIAccessibilityTraitButton];
+    [tester waitForViewWithAccessibilityLabel:@"Test Suite" traits:UIAccessibilityTraitHeader];
 }
 
 - (void)testBackgroundApp {

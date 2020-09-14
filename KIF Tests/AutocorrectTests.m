@@ -47,8 +47,8 @@
 - (void)testSmartQuotesEnabled
 {
     if (@available(iOS 11.0, *)) {
-        [tester clearTextFromAndThenEnterText:@"'\"'," intoViewWithAccessibilityLabel:@"Greeting" traits:UIAccessibilityTraitNone expectedResult:@"’”’,"];
-    }
+        [[viewTester usingLabel:@"Greeting"] clearAndEnterText:@"'\"'," expectedResult:@"’”’,"];
+    }  
 }
 
 - (void)testSmartDashesEnabled
