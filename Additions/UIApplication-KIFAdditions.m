@@ -12,6 +12,7 @@
 #import "LoadableCategory.h"
 #import "UIView-KIFAdditions.h"
 #import "NSError-KIFAdditions.h"
+#import "KIFEventVisualizer.h"
 #import <QuartzCore/QuartzCore.h>
 #import <objc/runtime.h>
 #import <objc/message.h>
@@ -350,6 +351,14 @@ static inline void Swizzle(Class c, SEL orig, SEL new)
 + (void)stopMockingOpenURL;
 {
     _KIF_UIApplicationMockOpenURL = NO;
+}
+
+#pragma mark - Send Event
+
+- (void)kif_sendEvent:(UIEvent *)event
+{
+    [[KIFEventVisualizer sharedVisualizer] visualizeEvent:event];
+    [self sendEvent:event];
 }
 
 @end

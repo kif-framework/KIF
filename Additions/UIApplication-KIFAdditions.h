@@ -118,6 +118,12 @@ CF_EXPORT SInt32 KIFRunLoopRunInModeRelativeToAnimationSpeed(CFStringRef mode, C
  */
 + (void)stopMockingOpenURL;
 
+/*
+ Sends event to visualizer and application.
+ */
+- (void)kif_sendEvent:(UIEvent *)event;
+
+
 @end
 
 @interface UIApplication (Private)
