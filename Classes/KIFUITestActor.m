@@ -960,8 +960,12 @@ static BOOL KIFUITestActorAnimationsEnabled = YES;
     if (!window) {
         [self failWithError:[NSError KIFErrorWithFormat:@"Failed to find any dimming views in the application"] stopTest:YES];
     }
-    UIView *dimmingView = [[window subviewsWithClassNamePrefix:@"UIDimmingView"] lastObject];
-    [dimmingView tapAtPoint:CGPointMake(50.0f, 50.0f)];
+    UIView *touchView = [[window subviewsWithClassNamePrefix:@"UIDimmingView"] lastObject];
+    
+    if (!touchView) {
+        touchView = [[window subviewsWithClassNamePrefix:@"_UITouchFallbackView"] lastObject];
+    }
+    [touchView tapAtPoint:CGPointMake(50.0f, 50.0f)];
     KIFRunLoopRunInModeRelativeToAnimationSpeed(kCFRunLoopDefaultMode, tapDelay, false);
 }
 
