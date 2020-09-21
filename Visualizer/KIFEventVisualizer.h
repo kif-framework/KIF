@@ -2,8 +2,10 @@
 
 @interface KIFEventVisualizer : NSObject
 
++ (BOOL)isVisualizerCreated;
 + (nonnull instancetype)sharedVisualizer;
 
+@property (strong, nonatomic, readonly, nonnull) UIWindow *window;
 - (void)visualizeEvent:(nonnull UIEvent *)event;
 
 // Unavailable.
