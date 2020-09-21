@@ -1164,8 +1164,9 @@ static BOOL KIFUITestActorAnimationsEnabled = YES;
     // Can handle only the touchable space.
     CGRect elementFrame = [viewToSwipe convertRect:viewToSwipe.bounds toView:[UIApplication sharedApplication].keyWindow.rootViewController.view];
     CGPoint swipeStart = CGPointCenteredInRect(elementFrame);
-    CGPoint swipeDisplacement = CGPointMake(CGRectGetMidX(elementFrame), CGRectGetMaxY(elementFrame));
-
+    // make the displacement go just slightly under where the view ends.
+    CGPoint swipeDisplacement = CGPointMake(0, CGRectGetMaxY(viewToSwipe.bounds) - swipeStart.y - (CGRectGetMaxY(viewToSwipe.bounds) * 0.05));
+    
     [viewToSwipe dragFromPoint:swipeStart displacement:swipeDisplacement steps:kNumberOfPointsInSwipePath];
 }
 
