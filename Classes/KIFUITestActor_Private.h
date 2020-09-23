@@ -27,6 +27,6 @@
  @param picker The picker (if exists) found on predicate search
  @param searchOrder The order in which the values are being searched for selection in each compotent.
  */
-- (void)selectDatePickerValue:(NSArray *)datePickerColumnValues fromPicker:(UIPickerView *)picker withSearchOrder:(KIFPickerSearchOrder)searchOrder;
+- (void)selectDatePickerValue:(NSArray *)datePickerColumnValues fromPicker:(UIDatePicker *)picker withSearchOrder:(KIFPickerSearchOrder)searchOrder;
 
 @end

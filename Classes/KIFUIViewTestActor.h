@@ -435,19 +435,36 @@ extern NSString *const inputFieldTestString;
 - (void)selectPickerViewRowWithTitle:(NSString *)title inComponent:(NSInteger)component;
 
 /*!
+ @abstract Selects a value from an input date picker view.
+ @discussion With a date picker view already visible in the input bar, this step will select the date within the date picker.
+ @param date The date to be selected in the date picker.
+ */
+- (void)selectDatePickerDate:(NSDate *)date;
+
+/*!
+ @abstract Selects a value from an input date picker view with the picker type UIDatePickerModeCountDownTimer.
+ @discussion With a date picker view already visible in the input bar, this step will select the countdown timer values within the date picker.
+ @param hours The hours in the coundown picker.
+ @param minutes The minutes in the coundown picker.
+ */
+- (void)selectCountdownTimerDatePickerHours:(NSUInteger)hours minutes:(NSUInteger)minutes;
+
+/*!
  @abstract Selects an item from a currently visible date picker view in specified component. This can only be used on UIDatePicker objects and not UIPickerView objects.
  @discussion With a date picker view already visible, this step will find an item with the given title in given component, select that item, and tap the Done button.
  @param title The title of the row to select.
  @param component The component tester inteds to select the title in.
  */
-- (void)selectDatePickerViewRowWithTitle:(NSString *)title inComponent:(NSInteger)component;
+- (void)selectDatePickerViewRowWithTitle:(NSString *)title inComponent:(NSInteger)component NS_DEPRECATED_IOS(10_0, 13_4,"Use -[viewTester selectDatePickerWithDate:] or -[viewTester selectCountdownDatePickerWithHours:] instead.");
+;
 
 /*!
  @abstract Selects a value from a currently visible date picker view.
  @discussion With a date picker view already visible, this step will select the different rotating wheel values in order of how the array parameter is passed in. After it is done it will hide the date picker. It works with all 4 UIDatePickerMode* modes. The input parameter of type NSArray has to match in what order the date picker is displaying the values/columns. So if the locale is changing the input parameter has to be adjusted. Example: Mode: UIDatePickerModeDate, Locale: en_US, Input param: NSArray *date = @[@"June", @"17", @"1965"];. Example: Mode: UIDatePickerModeDate, Locale: de_DE, Input param: NSArray *date = @[@"17.", @"Juni", @"1965".
  @param datePickerColumnValues Each element in the NSArray represents a rotating wheel in the date picker control. Elements from 0 - n are listed in the order of the rotating wheels, left to right.
  */
-- (void)selectDatePickerValue:(NSArray *)datePickerColumnValues;
+- (void)selectDatePickerValue:(NSArray *)datePickerColumnValues NS_DEPRECATED_IOS(10_0, 13_4,"Use -[viewTester selectDatePickerWithDate:] or -[viewTester selectCountdownDatePickerWithHours:] instead.");
+;
 
 /*!
  @abstract Selects a value from a currently visible date picker view, according to the search order specified.
@@ -455,7 +472,8 @@ extern NSString *const inputFieldTestString;
  @param datePickerColumnValues Each element in the NSArray represents a rotating wheel in the date picker control. Elements from 0 - n are listed in the order of the rotating wheels, left to right.
  @param searchOrder The order in which the values are being searched for selection in each compotent.
  */
-- (void)selectDatePickerValue:(NSArray *)datePickerColumnValues withSearchOrder:(KIFPickerSearchOrder)searchOrder;
+- (void)selectDatePickerValue:(NSArray *)datePickerColumnValues withSearchOrder:(KIFPickerSearchOrder)searchOrder NS_DEPRECATED_IOS(10_0, 13_4,"Use -[viewTester selectDatePickerWithDate:] or -[viewTester selectCountdownDatePickerWithHours:] instead.");
+;
 
 /*!
  @abstract Select a certain photo from the built in photo picker.
