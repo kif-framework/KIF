@@ -14,7 +14,7 @@ Pod::Spec.new do |s|
   s.pod_target_xcconfig     = { 'ENABLE_BITCODE' => 'NO' }
 
   s.subspec 'Core' do |core|
-    core.source_files         = 'Classes', 'Additions'
+    core.source_files         = 'Classes', 'Additions', 'Visualizer'
     core.public_header_files  = 'Classes/**/*.h', 'Additions/**/*{-,+}KIFAdditions.h', 'Additions/UIView-Debugging.h'
     core.xcconfig             = { 'FRAMEWORK_SEARCH_PATHS' => '$(PLATFORM_DIR)/Developer/Library/Frameworks' }
     core.requires_arc         = true
