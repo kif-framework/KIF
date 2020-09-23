@@ -6,6 +6,7 @@
 //
 
 #import "UIView-Debugging.h"
+#import "KIFEventVisualizer.h"
 
 @implementation UIView (Debugging)
 
@@ -16,6 +17,11 @@
     } else {
         //more than one window, also print some information about each window
         for (UIWindow* window in windows) {
+            // ignore the event visualizer window
+            // We don't want to create the visualizer by calling `sharedVisualizer` so check to see if it's there first.
+            if([KIFEventVisualizer isVisualizerCreated] && [KIFEventVisualizer sharedVisualizer].window == window) {
+                continue;
+            }
             printf("Window level %f", window.windowLevel);
             if(window.isKeyWindow) printf(" (key window)");
             printf("\n");
