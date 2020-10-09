@@ -8,7 +8,6 @@
     NSAssert(self.datePickerMode != UIDatePickerModeCountDownTimer, @"Date picker was not in expected date picking mode mode. Instead got countdown timer.");
     self.date = date;
     [self _emitValueChanged];
-
 }
 
 - (void)selectCountdownHours:(NSUInteger)hours minutes:(NSUInteger)minutes

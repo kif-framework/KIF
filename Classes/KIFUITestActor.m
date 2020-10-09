@@ -44,12 +44,6 @@ KIFUITestActor *_KIF_tester()
 
 static BOOL KIFUITestActorAnimationsEnabled = YES;
 
-@interface UIDatePicker()
-
-- (void)_emitValueChanged;
-
-@end
-
 @implementation KIFUITestActor
 
 + (void)initialize
