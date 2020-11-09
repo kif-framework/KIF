@@ -17,6 +17,11 @@ static BOOL __isKIFVisualizerCreated = NO;
     return 100000099;
 }
 
+- (BOOL)becomeFirstResponder
+{
+    return NO;
+}
+
 @end
 
 @interface KIFEventVisualizer()
