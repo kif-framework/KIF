@@ -6,6 +6,7 @@
 //
 //
 #import <WebKit/WebKit.h>
+#import <UIKit/UIKit.h>
 
 @interface WebViewController : UIViewController
 @property (weak, nonatomic) IBOutlet WKWebView *webView;

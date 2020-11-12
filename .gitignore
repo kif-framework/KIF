@@ -8,6 +8,7 @@
 *.perspectivev3
 xcuserdata
 project.xcworkspace
+.swiftpm
 
 #Ignore textmate build errors
 *.tm_build_errors
