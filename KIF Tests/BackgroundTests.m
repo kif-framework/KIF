@@ -8,11 +8,11 @@
 
 #import <KIF/KIF.h>
 
-@interface BackgroundTests : KIFTestCase
+@interface ZBackgroundTests : KIFTestCase
 
 @end
 
-@implementation BackgroundTests
+@implementation ZBackgroundTests
 
 + (XCTestSuite *)defaultTestSuite
 {
