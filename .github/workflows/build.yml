@@ -12,7 +12,7 @@ jobs:
       matrix:
         run-config:
           - { xcode_version: '10.3', simulator: 'name=iPad (5th generation),OS=12.4' }
-          - { xcode_version: '10.3', simulator: 'name=iPhone X,OS=12.4' }
+          - { xcode_version: '10.3', simulator: 'name=iPhone 8,OS=12.4' }
 
     steps:
     - name: Checkout Project
