@@ -1,4 +1,4 @@
-// swift-tools-version:5.2
+// swift-tools-version:5.0
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -25,6 +25,7 @@ let package = Package(
             name: "KIFTests",
             dependencies: ["KIF"],
             path: "./KIF Tests",
-            cSettings: [.headerSearchPath("../Sources/KIF/")]), // allow to look a "private" headers
+            cSettings: [.headerSearchPath("../Sources/KIF/")] // allow to look a "private" headers
+        ),
     ]
 )

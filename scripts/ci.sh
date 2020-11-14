@@ -44,3 +44,6 @@ if is_xcode_version_8_plus; then
   carthage build --no-skip-current
   carthage archive KIF
 fi
+
+swift build -Xcc "-isysroot" -Xcc "$(xcrun --sdk iphonesimulator --show-sdk-path)" -Xcc "-target" -Xcc "x86_64-apple-ios$(xcrun --sdk iphonesimulator --show-sdk-version)-simulator"
+
