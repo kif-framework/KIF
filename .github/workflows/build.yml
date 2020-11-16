@@ -13,6 +13,10 @@ jobs:
         run-config:
           - { xcode_version: '10.3', simulator: 'name=iPad (5th generation),OS=12.4' }
           - { xcode_version: '10.3', simulator: 'name=iPhone 8,OS=12.4' }
+          - { xcode_version: '11.7', simulator: 'name=iPad (7th generation),OS=13.7' }
+          - { xcode_version: '11.7', simulator: 'name=iPhone 11,OS=13.7' }
+          - { xcode_version: '12.2', simulator: 'name=iPad (8th generation),OS=14.2' }
+          - { xcode_version: '12.2', simulator: 'name=iPhone 12,OS=14.2' }
 
     steps:
     - name: Checkout Project
