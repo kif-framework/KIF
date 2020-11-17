@@ -9,11 +9,11 @@
 
 #import <KIF/KIF.h>
 
-@interface SystemAlertTests_ViewTestActor : KIFTestCase
+@interface ZSystemAlertTests_ViewTestActor : KIFTestCase
 @end
 
 
-@implementation SystemAlertTests_ViewTestActor
+@implementation ZSystemAlertTests_ViewTestActor
 
 + (XCTestSuite *)defaultTestSuite
 {

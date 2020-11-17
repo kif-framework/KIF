@@ -8,11 +8,11 @@
 
 #import <KIF/KIF.h>
 
-@interface SystemAlertTests : KIFTestCase
+@interface ZSystemAlertTests : KIFTestCase
 
 @end
 
-@implementation SystemAlertTests
+@implementation ZSystemAlertTests
 
 + (XCTestSuite *)defaultTestSuite
 {
