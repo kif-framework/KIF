@@ -10,6 +10,7 @@
 #import <dlfcn.h>
 #import <objc/runtime.h>
 #import "KIF/UIApplication-KIFAdditions.h"
+#import "KIFAccessibilityEnabler_private.h"
 
 @interface UIAXElement : NSObject
 - (BOOL)isValid;
@@ -213,7 +214,12 @@ static void FixReactivateApp(void)
 }
 
 - (void)linkAutomationFramework {
-    dlopen([@"/Developer/Library/PrivateFrameworks/UIAutomation.framework/UIAutomation" fileSystemRepresentation], RTLD_LOCAL);
+    NSString *path = @"/Developer/Library/PrivateFrameworks/UIAutomation.framework/UIAutomation";
+    if (dlopen([path fileSystemRepresentation], RTLD_LOCAL) == NULL) {
+        if (loadDylibForSimulator(path) == NULL ) {
+            [NSException raise:NSGenericException format:@"Could not dlopen UIAutomation %s", dlerror()];
+        }
+    }
     FixReactivateApp();
 
     // Keep trying until the accessibility server starts up (it takes a little while on iOS 7)

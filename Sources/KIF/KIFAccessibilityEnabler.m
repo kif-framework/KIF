@@ -9,7 +9,7 @@
 #import "KIF/KIFAccessibilityEnabler.h"
 #import <XCTest/XCTest.h>
 #import <dlfcn.h>
-
+#import "KIFAccessibilityEnabler_private.h"
 
 @protocol KIFSelectorsToMakeCompilerHappy <NSObject>
 
@@ -20,7 +20,7 @@
 @end
 
 
-static void * loadDylibForSimulator(NSString *path)
+void * loadDylibForSimulator(NSString *path)
 {
     NSDictionary *environment = [[NSProcessInfo processInfo] environment];
     NSString *simulatorRoot = [environment objectForKey:@"IPHONE_SIMULATOR_ROOT"];
