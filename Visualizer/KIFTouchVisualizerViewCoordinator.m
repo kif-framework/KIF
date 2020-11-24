@@ -5,18 +5,16 @@ static const CGFloat KIFTouchAnimationDuration = 0.75;
 
 @interface KIFTouchVisualizerViewCoordinator ()
 
-@property (weak, nonatomic, readonly) UIView *view;
 @property (strong, nonatomic, readonly) NSMutableDictionary<NSNumber *, KIFTouchVisualizerView *> *touchToView;
 
 @end
 
 @implementation KIFTouchVisualizerViewCoordinator
 
-- (instancetype)initWithView:(UIWindow *)view
+- (instancetype)init
 {
     self = [super init];
-    
-    _view = view;
+
     _touchToView = [NSMutableDictionary dictionary];
     
     return self;
@@ -24,16 +22,16 @@ static const CGFloat KIFTouchAnimationDuration = 0.75;
 
 - (void)touchStarted:(nonnull UITouch *)touch
 {
-    KIFTouchVisualizerView *touchView = [[KIFTouchVisualizerView alloc] initWithCenter:[touch locationInView:self.view]];
-    [self.view addSubview:touchView];
+    KIFTouchVisualizerView *touchView = [[KIFTouchVisualizerView alloc] initWithCenter:[touch locationInView:self._topWindow]];
+    [self._topWindow addSubview:touchView];
     self.touchToView[@(touch.hash)] = touchView;
 }
 
 - (void)touchMoved:(nonnull UITouch *)touch
 {
     KIFTouchVisualizerView *oldView = self.touchToView[@(touch.hash)];
-    self.touchToView[@(touch.hash)] = [[KIFTouchVisualizerView alloc] initWithCenter:[touch locationInView:self.view]];
-    [self.view addSubview:self.touchToView[@(touch.hash)]];
+    self.touchToView[@(touch.hash)] = [[KIFTouchVisualizerView alloc] initWithCenter:[touch locationInView:self._topWindow]];
+    [self._topWindow addSubview:self.touchToView[@(touch.hash)]];
     [UIView animateWithDuration:KIFTouchAnimationDuration delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
         oldView.transform = CGAffineTransformScale(oldView.transform, 0.001, 0.001);
     } completion:^(BOOL finished) {
@@ -54,6 +52,20 @@ static const CGFloat KIFTouchAnimationDuration = 0.75;
             self.touchToView[@(touch.hash)] = nil;
         }
     }];
+}
+
+- (UIWindow *)_topWindow
+{
+    UIWindow *topWindow = UIApplication.sharedApplication.keyWindow;
+    
+    for (UIWindow *window in UIApplication.sharedApplication.windows) {
+        topWindow = window;
+        if (!window.isHidden && window.windowLevel > topWindow.windowLevel) {
+            topWindow = window;
+        }
+    }
+    
+    return topWindow;
 }
 
 @end
