@@ -22,6 +22,7 @@
 #import "UITableView-KIFAdditions.h"
 #import "UIView-KIFAdditions.h"
 #import "UIWindow-KIFAdditions.h"
+#import "UIDatePicker+KIFAdditions.h"
 
 #define kKIFMinorSwipeDisplacement 5
 
@@ -676,18 +677,126 @@ static BOOL KIFUITestActorAnimationsEnabled = YES;
     [self selectPickerViewRowWithTitle:title inComponent:component fromPicker:nil withSearchOrder:searchOrder];
 }
 
-- (void)selectDatePickerValue:(NSArray *)datePickerColumnValues
+// date formatter to be used so we don't keep re-allocating a new one.
++ (NSDateFormatter *)__kifDateFormatter
 {
-    [self selectPickerValue:datePickerColumnValues fromPicker:nil pickerType:KIFUIDatePicker withSearchOrder:KIFPickerSearchForwardFromStart];
-}
-- (void)selectDatePickerValue:(NSArray *)datePickerColumnValues withSearchOrder:(KIFPickerSearchOrder)searchOrder
-{
-    [self selectPickerValue:datePickerColumnValues fromPicker:nil pickerType:KIFUIDatePicker withSearchOrder:searchOrder];
+    static dispatch_once_t onceToken;
+    static NSDateFormatter *__kifDateFormatter = nil;
+    dispatch_once(&onceToken, ^{
+        __kifDateFormatter = [[NSDateFormatter alloc] init];
+    });
+    
+    return __kifDateFormatter;
 }
 
-- (void)selectDatePickerValue:(NSArray *)datePickerColumnValues fromPicker:(UIPickerView *)picker withSearchOrder:(KIFPickerSearchOrder)searchOrder
+// uses the date pickers locale to find the ordering of day month and year.
++ (NSArray<NSString *>*)dateOrderForDatePicker:(UIDatePicker *)datePicker
 {
-    [self selectPickerValue:datePickerColumnValues fromPicker:picker pickerType:KIFUIDatePicker withSearchOrder:searchOrder];
+    NSString *dateFormatString = [NSDateFormatter dateFormatFromTemplate:@"yMMMMd" options:0 locale:datePicker.locale];
+    __block BOOL hasAddedYear = NO;
+    __block BOOL hasAddedMonth = NO;
+    __block BOOL hasAddedDay = NO;
+    NSMutableArray *dateOrder = [NSMutableArray array];
+    [dateFormatString enumerateSubstringsInRange:NSMakeRange(0, dateFormatString.length)
+                                         options:NSStringEnumerationByComposedCharacterSequences
+                                      usingBlock:^(NSString * _Nullable substring, NSRange substringRange, NSRange enclosingRange, BOOL * _Nonnull stop) {
+        if([substring containsString:@"y"] && !hasAddedYear) {
+            hasAddedYear = YES;
+            [dateOrder addObject:@"y"];
+        }
+        
+        if([substring containsString:@"d"] && !hasAddedDay) {
+            hasAddedDay = YES;
+            [dateOrder addObject:@"d"];
+        }
+        
+        if([substring containsString:@"M"] && !hasAddedMonth) {
+            hasAddedMonth = YES;
+            [dateOrder addObject:@"M"];
+        }
+    }];
+    
+    return [dateOrder copy];
+}
+
+- (void)selectDatePickerValue:(NSArray *)datePickerColumnValues
+{
+    [self selectDatePickerValue:datePickerColumnValues withSearchOrder:KIFPickerSearchForwardFromStart];
+}
+
+- (void)selectDatePickerValue:(NSArray *)datePickerColumnValues withSearchOrder:(KIFPickerSearchOrder)searchOrder
+{
+    UIDatePicker *datePicker = [[[[UIApplication sharedApplication] datePickerWindow] subviewsWithClassNamePrefix:@"UIDatePicker"] firstObject];
+    [self selectDatePickerValue:datePickerColumnValues fromPicker:datePicker withSearchOrder:KIFPickerSearchForwardFromStart];
+}
+
+- (void)selectDatePickerValue:(NSArray *)datePickerColumnValues fromPicker:(UIDatePicker *)datePicker withSearchOrder:(KIFPickerSearchOrder)searchOrder
+{
+    NSDateComponents *dateComponents = [[NSDateComponents alloc] init];
+    NSArray *dateOrder = [self.class dateOrderForDatePicker:datePicker];
+    
+    // Backwards compatibility while migrating away from this deprecated API.
+    if(datePicker.datePickerMode == UIDatePickerModeDate) {
+        // using the date order from the current locale grab use the index that corresponds to the date unit (month, day, or year)
+        // to grab the correct value from the provided array.
+        for (int i = 0; i < datePickerColumnValues.count; i++) {
+            if([dateOrder[i] isEqualToString:@"y"]) {
+                dateComponents.year = [datePickerColumnValues[i] integerValue];
+            } else if ([dateOrder[i] isEqualToString:@"M"]) {
+                dateComponents.month = [self.class.__kifDateFormatter.monthSymbols containsObject:datePickerColumnValues[i]] ? [self.class.__kifDateFormatter.monthSymbols indexOfObject:datePickerColumnValues[i]] + 1 : NSNotFound ;
+            } else if ([dateOrder[i] isEqualToString:@"d"]) {
+                dateComponents.day = [datePickerColumnValues[i] integerValue];
+            }
+        }
+    } else if (datePicker.datePickerMode == UIDatePickerModeTime) {
+        dateComponents.minute = [datePickerColumnValues[1] integerValue];
+        
+        BOOL isPM = NO;
+        if(datePickerColumnValues.count > 2 && [datePickerColumnValues.lastObject isEqualToString:self.class.__kifDateFormatter.PMSymbol]) {
+            isPM = YES;
+        }
+        
+        dateComponents.hour = isPM ? [datePickerColumnValues[0] integerValue] + 12 : [datePickerColumnValues[0] integerValue];
+    } else if (datePicker.datePickerMode == UIDatePickerModeDateAndTime) {
+        NSAssert(datePickerColumnValues.count == 3 || datePickerColumnValues.count == 4, @"Invalid datePickerColumnValue count. Expected 3 or 4 got %@", @(datePickerColumnValues.count));
+        NSString *dayOfWeekMonthDay = datePickerColumnValues[0];
+        // in a date time picker the first value is either "Today" or something like "Tue Aug 12" so seperate by a space to
+        // grab the correct values from it.
+        NSArray<NSString *>*dayOfWeekMonthDayComponents = [dayOfWeekMonthDay componentsSeparatedByString:@" "];
+        NSDateComponents *currentDateComponents = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:datePicker.date];
+        // if the string components of the first value is 1 we assume it's saying "Today" and use the current dates components
+        if(dayOfWeekMonthDayComponents.count == 1) {
+            NSDateComponents *todayDateComponents = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:[NSDate date]];
+            dateComponents = todayDateComponents;
+        } else {
+            for (NSString *component in dayOfWeekMonthDayComponents) {
+                // check if the month and day of the component is found in the column and set the components respectively.
+                if ([self.class.__kifDateFormatter.monthSymbols containsObject:component]) {
+                    dateComponents.month = [self.class.__kifDateFormatter.monthSymbols indexOfObject:component] + 1;
+                } else if ([self.class.__kifDateFormatter.shortMonthSymbols containsObject:component]) {
+                    dateComponents.month = [self.class.__kifDateFormatter.shortMonthSymbols indexOfObject:component] + 1;
+                } else if ([component integerValue] != 0) { // days can't be zero and if a string is not a number it will default to zero.
+                    dateComponents.day = [component integerValue];
+                }
+            }
+        }
+    
+        BOOL isPM = NO;
+        if(datePickerColumnValues.count == 4 && [datePickerColumnValues.lastObject isEqualToString:self.class.__kifDateFormatter.PMSymbol]) {
+            isPM = YES;
+        }
+        
+        dateComponents.hour = isPM ? [datePickerColumnValues[1] integerValue] + 12 : [datePickerColumnValues[1] integerValue];
+        dateComponents.minute = [datePickerColumnValues[2] integerValue];
+        dateComponents.year = currentDateComponents.year;
+    }
+    
+    if (datePicker.datePickerMode != UIDatePickerModeCountDownTimer) {
+        [datePicker selectDate:[[NSCalendar currentCalendar] dateFromComponents:dateComponents]];
+    } else {
+        NSAssert(datePickerColumnValues.count == 2, @"Invalid datePickerColumnValue count. Expect 2 got %@", @(datePickerColumnValues.count));
+        [datePicker selectCountdownHours:[datePickerColumnValues[0] integerValue] minutes:[datePickerColumnValues[1] integerValue]];
+    }
 }
 
 - (void)selectPickerViewRowWithTitle:(NSString *)title inComponent:(NSInteger)component fromPicker:(UIPickerView *)picker

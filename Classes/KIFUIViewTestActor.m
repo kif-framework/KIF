@@ -16,6 +16,7 @@
 #import "UIAccessibilityElement-KIFAdditions.h"
 #import "UIApplication-KIFAdditions.h"
 #import "UIWindow-KIFAdditions.h"
+#import "UIDatePicker+KIFAdditions.h"
 
 @interface KIFUIViewTestActor ()
 
@@ -465,6 +466,27 @@ NSString *const inputFieldTestString = @"Testing";
     }
 }
 
+#pragma mark - Date Picker Actions
+
+- (void)selectDatePickerDate:(NSDate *)date
+{
+    @autoreleasepool {
+        KIFUIObject *found = [[self _usingExpectedClass:[UIDatePicker class]] _predicateSearchWithRequiresMatch:NO mustBeTappable:NO];
+        [(UIDatePicker *)found.view selectDate:date];
+    }
+}
+
+- (void)selectCountdownTimerDatePickerHours:(NSUInteger)hours minutes:(NSUInteger)minutes
+{
+    @autoreleasepool {
+        KIFUIObject *found = [[self _usingExpectedClass:[UIDatePicker class]] _predicateSearchWithRequiresMatch:NO mustBeTappable:NO];
+        [(UIDatePicker *)found.view selectCountdownHours:hours minutes:minutes];
+    }
+}
+
+
+#pragma mark - Deprecated Date Picker Actions
+
 - (void)selectDatePickerViewRowWithTitle:(NSString *)title inComponent:(NSInteger)component;
 {
     @autoreleasepool {
@@ -483,8 +505,7 @@ NSString *const inputFieldTestString = @"Testing";
 {
     @autoreleasepool {
         KIFUIObject *found = [[self _usingExpectedClass:[UIDatePicker class]] _predicateSearchWithRequiresMatch:NO mustBeTappable:NO];
-        UIPickerView *picker = [self _getDatePickerViewFromPicker:found.view];
-        [self.actor selectDatePickerValue:datePickerColumnValues fromPicker:picker withSearchOrder:searchOrder];
+        [self.actor selectDatePickerValue:datePickerColumnValues fromPicker:(UIDatePicker *)found.view withSearchOrder:searchOrder];
     }
 }
 

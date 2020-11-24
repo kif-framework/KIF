@@ -15,6 +15,11 @@
 		22191DFC24BF7944004CAA18 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 22191DFB24BF7944004CAA18 /* Default-568h@2x.png */; };
 		228FD17224C0B52900170CD3 /* KIFEventVisualizer.h in Headers */ = {isa = PBXBuildFile; fileRef = 228FD17024C0B52900170CD3 /* KIFEventVisualizer.h */; };
 		228FD17324C0B52900170CD3 /* KIFEventVisualizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 228FD17124C0B52900170CD3 /* KIFEventVisualizer.m */; };
+		22ACD374251CC03700827E95 /* UIDatePicker+KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 22ACD372251CC03700827E95 /* UIDatePicker+KIFAdditions.h */; };
+		22ACD375251CC03700827E95 /* UIDatePicker+KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 22ACD372251CC03700827E95 /* UIDatePicker+KIFAdditions.h */; };
+		22ACD376251CC03700827E95 /* UIDatePicker+KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 22ACD373251CC03700827E95 /* UIDatePicker+KIFAdditions.m */; };
+		22ACD377251CC03700827E95 /* UIDatePicker+KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 22ACD373251CC03700827E95 /* UIDatePicker+KIFAdditions.m */; };
+		22AE71C92530841B00BD767E /* UIDatePicker+KIFPrivateAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = 22AE71C82530841B00BD767E /* UIDatePicker+KIFPrivateAPI.h */; };
 		22B82C96251104C500AE8B73 /* KIFTouchVisualizerViewCoordinator.h in Headers */ = {isa = PBXBuildFile; fileRef = 22B82C94251104C500AE8B73 /* KIFTouchVisualizerViewCoordinator.h */; };
 		22B82C97251104C500AE8B73 /* KIFTouchVisualizerViewCoordinator.m in Sources */ = {isa = PBXBuildFile; fileRef = 22B82C95251104C500AE8B73 /* KIFTouchVisualizerViewCoordinator.m */; };
 		22B82C9A2511052500AE8B73 /* KIFTouchVisualizerView.h in Headers */ = {isa = PBXBuildFile; fileRef = 22B82C982511052500AE8B73 /* KIFTouchVisualizerView.h */; };
@@ -302,8 +307,12 @@
 		0EAA1C121B4B371700FFB2FB /* IOHIDEvent+KIF.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "IOHIDEvent+KIF.m"; sourceTree = "<group>"; };
 		22191DFA24BF793F004CAA18 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
 		22191DFB24BF7944004CAA18 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		221FF9A2252231030058F471 /* TestPlan.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = TestPlan.xctestplan; sourceTree = "<group>"; };
 		228FD17024C0B52900170CD3 /* KIFEventVisualizer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KIFEventVisualizer.h; sourceTree = "<group>"; };
 		228FD17124C0B52900170CD3 /* KIFEventVisualizer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KIFEventVisualizer.m; sourceTree = "<group>"; };
+		22ACD372251CC03700827E95 /* UIDatePicker+KIFAdditions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIDatePicker+KIFAdditions.h"; sourceTree = "<group>"; };
+		22ACD373251CC03700827E95 /* UIDatePicker+KIFAdditions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIDatePicker+KIFAdditions.m"; sourceTree = "<group>"; };
+		22AE71C82530841B00BD767E /* UIDatePicker+KIFPrivateAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDatePicker+KIFPrivateAPI.h"; sourceTree = "<group>"; };
 		22B82C94251104C500AE8B73 /* KIFTouchVisualizerViewCoordinator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KIFTouchVisualizerViewCoordinator.h; sourceTree = "<group>"; };
 		22B82C95251104C500AE8B73 /* KIFTouchVisualizerViewCoordinator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KIFTouchVisualizerViewCoordinator.m; sourceTree = "<group>"; };
 		22B82C982511052500AE8B73 /* KIFTouchVisualizerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KIFTouchVisualizerView.h; sourceTree = "<group>"; };
@@ -569,6 +578,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		22AE71C72530841B00BD767E /* ApplePrivateAPIs */ = {
+			isa = PBXGroup;
+			children = (
+				22AE71C82530841B00BD767E /* UIDatePicker+KIFPrivateAPI.h */,
+			);
+			path = ApplePrivateAPIs;
+			sourceTree = "<group>";
+		};
 		22B82C8F2511038200AE8B73 /* Visualizer */ = {
 			isa = PBXGroup;
 			children = (
@@ -729,6 +746,8 @@
 				E977D1061AA4062B005645BF /* UIEvent+KIFAdditions.m */,
 				3ADD2160096BE41C780FBD95 /* UIView-Debugging.m */,
 				3ADD26484C6C438B71DC15C5 /* UIView-Debugging.h */,
+				22ACD372251CC03700827E95 /* UIDatePicker+KIFAdditions.h */,
+				22ACD373251CC03700827E95 /* UIDatePicker+KIFAdditions.m */,
 			);
 			path = Additions;
 			sourceTree = "<group>";
@@ -769,6 +788,7 @@
 		EB60ECBC177F8C51005A041A /* KIF */ = {
 			isa = PBXGroup;
 			children = (
+				22AE71C72530841B00BD767E /* ApplePrivateAPIs */,
 				22B82C8F2511038200AE8B73 /* Visualizer */,
 				AAB0729313971AB2008AF393 /* Additions */,
 				AAB0728413971A98008AF393 /* Classes */,
@@ -785,6 +805,7 @@
 				2CDEE1CA181DBED200DF6E63 /* PickerController.m */,
 				CD19A99E1F46482200BF0325 /* CustomPickerController.m */,
 				EB60ED04177F9041005A041A /* MainStoryboard.storyboard */,
+				221FF9A2252231030058F471 /* TestPlan.xctestplan */,
 				EB60ECFC177F9031005A041A /* AppDelegate.m */,
 				EB60ECFD177F9031005A041A /* ShowHideViewController.m */,
 				EB9FB42617A5BACB00DDF160 /* GestureViewController.m */,
@@ -953,6 +974,7 @@
 				9CC967731AD4B1FF00576D13 /* KIFSystemTestActor.h in Headers */,
 				9CC9677A1AD4B20700576D13 /* KIFTestCase.h in Headers */,
 				5C877DD01B057E13006A3AC6 /* KIFUITestActor-IdentifierTests.h in Headers */,
+				22ACD375251CC03700827E95 /* UIDatePicker+KIFAdditions.h in Headers */,
 				FAB89FB41CAAECBF00C6DFC1 /* KIFUIViewTestActor.h in Headers */,
 				9CC9677C1AD4B20700576D13 /* KIFTestActor.h in Headers */,
 				9CC9677F1AD4B20700576D13 /* KIFTypist.h in Headers */,
@@ -992,6 +1014,7 @@
 				D927B9DF18F9E46400DAD036 /* UITableView-KIFAdditions.h in Headers */,
 				EABD46921857A0C700A5F081 /* CGGeometry-KIFAdditions.h in Headers */,
 				EABD46931857A0C700A5F081 /* UIAccessibilityElement-KIFAdditions.h in Headers */,
+				22AE71C92530841B00BD767E /* UIDatePicker+KIFPrivateAPI.h in Headers */,
 				9CC967BE1AD4B55E00576D13 /* KIF-XCTestPrefix.pch in Headers */,
 				22B82C9A2511052500AE8B73 /* KIFTouchVisualizerView.h in Headers */,
 				EABD46941857A0C700A5F081 /* UIApplication-KIFAdditions.h in Headers */,
@@ -1019,6 +1042,7 @@
 				228FD17224C0B52900170CD3 /* KIFEventVisualizer.h in Headers */,
 				EAC8096A1864F19C000E819F /* NSException-KIFAdditions.h in Headers */,
 				EABD46961857A0C700A5F081 /* XCTestCase-KIFAdditions.h in Headers */,
+				22ACD374251CC03700827E95 /* UIDatePicker+KIFAdditions.h in Headers */,
 				B66B1BDD202254A000D0E4B2 /* KIFTextInputTraitsOverrides.h in Headers */,
 				E977D1071AA4062B005645BF /* UIEvent+KIFAdditions.h in Headers */,
 				BD6A1CA11BCE8DD000EF07D2 /* KIFAccessibilityEnabler.h in Headers */,
@@ -1281,6 +1305,7 @@
 				9CC967C51AD4B58C00576D13 /* UIView-KIFAdditions.m in Sources */,
 				FA7176941CAEE5960041FEEE /* UIScreen+KIFAdditions.m in Sources */,
 				9CC967C61AD4B58C00576D13 /* UIWindow-KIFAdditions.m in Sources */,
+				22ACD377251CC03700827E95 /* UIDatePicker+KIFAdditions.m in Sources */,
 				85DB94701C5A5B590025F83E /* CALayer-KIFAdditions.m in Sources */,
 				9CC967C71AD4B58C00576D13 /* UITableView-KIFAdditions.m in Sources */,
 				9CC967C81AD4B58C00576D13 /* NSBundle-KIFAdditions.m in Sources */,
@@ -1325,6 +1350,7 @@
 				85DB946F1C5A3E860025F83E /* CALayer-KIFAdditions.m in Sources */,
 				EABD46871857A0C700A5F081 /* KIFSystemTestActor.m in Sources */,
 				22B82C9B2511052500AE8B73 /* KIFTouchVisualizerView.m in Sources */,
+				22ACD376251CC03700827E95 /* UIDatePicker+KIFAdditions.m in Sources */,
 				EAC8096B1864F19C000E819F /* NSException-KIFAdditions.m in Sources */,
 				EABD46881857A0C700A5F081 /* KIFUITestActor.m in Sources */,
 				EABD46891857A0C700A5F081 /* NSBundle-KIFAdditions.m in Sources */,

@@ -1,31 +1,35 @@
 
 @interface PickerController : UIViewController<UIPickerViewDataSource, UIPickerViewDelegate, UIPickerViewAccessibilityDelegate>
 
-@property (weak, nonatomic, readonly) IBOutlet UITextField *dateSelectionTextField;
-@property (weak, nonatomic, readonly) IBOutlet UITextField *dateTimeSelectionTextField;
-@property (weak, nonatomic, readonly) IBOutlet UITextField *limitedDateTimeSelectionTextField;
-@property (weak, nonatomic, readonly) IBOutlet UITextField *timeSelectionTextField;
+@property (weak, nonatomic, readonly) IBOutlet UITextField *wheelDateSelectionTextField;
+@property (weak, nonatomic, readonly) IBOutlet UITextField *wheelDateTimeSelectionTextField;
+@property (weak, nonatomic, readonly) IBOutlet UITextField *wheelLimitedDateTimeSelectionTextField;
+@property (weak, nonatomic, readonly) IBOutlet UITextField *wheelTimeSelectionTextField;
 @property (weak, nonatomic, readonly) IBOutlet UITextField *countdownSelectionTextField;
-@property (strong, nonatomic) UIDatePicker *datePicker;
-@property (strong, nonatomic) UIDatePicker *dateTimePicker;
-@property (strong, nonatomic) UIDatePicker *limitedDateTimePicker;
-@property (strong, nonatomic) UIDatePicker *timePicker;
+@property (weak, nonatomic) IBOutlet UITextField *datePickerCalendarTextField;
+@property (weak, nonatomic) IBOutlet UITextField *dateTimePickerCalendarTextField;
+@property (strong, nonatomic) UIDatePicker *wheelDatePicker;
+@property (strong, nonatomic) UIDatePicker *wheelDateTimePicker;
+@property (strong, nonatomic) UIDatePicker *wheelLimitedDateTimePicker;
+@property (strong, nonatomic) UIDatePicker *wheelTimePicker;
 @property (strong, nonatomic) UIDatePicker *countdownPicker;
+@property (strong, nonatomic) UIDatePicker *dateCalendarPicker;
+@property (strong, nonatomic) UIDatePicker *dateTimeCalendarPicker;
 @property (strong, nonatomic) IBOutlet UIPickerView *phoneticPickerView;
 
 @end
 
 @implementation PickerController
 
-@synthesize datePicker;
-@synthesize dateTimePicker;
-@synthesize limitedDateTimePicker;
+@synthesize wheelDatePicker;
+@synthesize wheelDateTimePicker;
+@synthesize wheelLimitedDateTimePicker;
 @synthesize countdownPicker;
-@synthesize timePicker;
-@synthesize dateSelectionTextField;
-@synthesize dateTimeSelectionTextField;
-@synthesize limitedDateTimeSelectionTextField;
-@synthesize timeSelectionTextField;
+@synthesize wheelTimePicker;
+@synthesize wheelDateSelectionTextField;
+@synthesize wheelDateTimeSelectionTextField;
+@synthesize wheelLimitedDateTimeSelectionTextField;
+@synthesize wheelTimeSelectionTextField;
 @synthesize countdownSelectionTextField;
 @synthesize phoneticPickerView;
 
@@ -42,52 +46,73 @@
 {
     [super viewDidLoad];
 
-    datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(30, 215, 260, 35)];
-    datePicker.datePickerMode = UIDatePickerModeDate;
-    datePicker.hidden = NO;
-    [datePicker addTarget:self action:@selector(datePickerChanged:)
-              forControlEvents:UIControlEventValueChanged];
-    [datePicker setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_US"]];
-
-    dateSelectionTextField.placeholder = NSLocalizedString(@"Date Selection", nil);
-    dateSelectionTextField.returnKeyType = UIReturnKeyDone;
-    dateSelectionTextField.inputView = datePicker;
-    dateSelectionTextField.accessibilityLabel = @"Date Selection";
-
-    dateTimePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(30, 215, 260, 35)];
-    dateTimePicker.datePickerMode = UIDatePickerModeDateAndTime;
-    [dateTimePicker addTarget:self action:@selector(dateTimePickerChanged:)
-         forControlEvents:UIControlEventValueChanged];
-    [dateTimePicker setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_US"]];
-
-    dateTimeSelectionTextField.placeholder = NSLocalizedString(@"Date Time Selection", nil);
-    dateTimeSelectionTextField.returnKeyType = UIReturnKeyDone;
-    dateTimeSelectionTextField.inputView = dateTimePicker;
-    dateTimeSelectionTextField.accessibilityLabel = @"Date Time Selection";
-
-    limitedDateTimePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(30, 215, 260, 35)];
-    limitedDateTimePicker.datePickerMode = UIDatePickerModeDateAndTime;
-    limitedDateTimePicker.minimumDate = [NSDate dateWithTimeInterval:-31622400 /*Year+1day*/ sinceDate:[NSDate date]];
-    limitedDateTimePicker.maximumDate = [NSDate dateWithTimeInterval: 31622400 /*Year+1day*/ sinceDate:[NSDate date]];
-    [limitedDateTimePicker addTarget:self action:@selector(limitedDateTimePickerChanged:)
-             forControlEvents:UIControlEventValueChanged];
-    [limitedDateTimePicker setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_US"]];
-
-    limitedDateTimeSelectionTextField.placeholder = NSLocalizedString(@"Limited Date Time Selection", nil);
-    limitedDateTimeSelectionTextField.returnKeyType = UIReturnKeyDone;
-    limitedDateTimeSelectionTextField.inputView = limitedDateTimePicker;
-    limitedDateTimeSelectionTextField.accessibilityLabel = @"Limited Date Time Selection";
+    wheelDatePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(30, 215, 260, 35)];
+    wheelDatePicker.datePickerMode = UIDatePickerModeDate;
     
-    timePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(30, 215, 260, 35)];
-    timePicker.datePickerMode = UIDatePickerModeTime;
-    [timePicker addTarget:self action:@selector(timePickerChanged:)
-             forControlEvents:UIControlEventValueChanged];
-    [timePicker setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_US"]];
+#if __IPHONE_13_4
+    if(@available(iOS 13.4, *)) {
+        wheelDatePicker.preferredDatePickerStyle = UIDatePickerStyleWheels;
+    }
+#endif
+    wheelDatePicker.hidden = NO;
+    [wheelDatePicker addTarget:self action:@selector(datePickerChanged:)
+              forControlEvents:UIControlEventValueChanged];
+    [wheelDatePicker setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_US"]];
 
-    timeSelectionTextField.placeholder = NSLocalizedString(@"Time Selection", nil);
-    timeSelectionTextField.returnKeyType = UIReturnKeyDone;
-    timeSelectionTextField.inputView = timePicker;
-    timeSelectionTextField.accessibilityLabel = @"Time Selection";
+    wheelDateSelectionTextField.placeholder = NSLocalizedString(@"Date Selection", nil);
+    wheelDateSelectionTextField.returnKeyType = UIReturnKeyDone;
+    wheelDateSelectionTextField.inputView = wheelDatePicker;
+    wheelDateSelectionTextField.accessibilityLabel = @"Date Selection";
+
+    wheelDateTimePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(30, 215, 260, 35)];
+#if __IPHONE_13_4
+    if(@available(iOS 13.4, *)) {
+        wheelDateTimePicker.preferredDatePickerStyle = UIDatePickerStyleWheels;
+    }
+#endif
+    wheelDateTimePicker.datePickerMode = UIDatePickerModeDateAndTime;
+    [wheelDateTimePicker addTarget:self action:@selector(dateTimePickerChanged:)
+         forControlEvents:UIControlEventValueChanged];
+    [wheelDateTimePicker setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_US"]];
+
+    wheelDateTimeSelectionTextField.placeholder = NSLocalizedString(@"Date Time Selection", nil);
+    wheelDateTimeSelectionTextField.returnKeyType = UIReturnKeyDone;
+    wheelDateTimeSelectionTextField.inputView = wheelDateTimePicker;
+    wheelDateTimeSelectionTextField.accessibilityLabel = @"Date Time Selection";
+
+    wheelLimitedDateTimePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(30, 215, 260, 35)];
+#if __IPHONE_13_4
+    if(@available(iOS 13.4, *)) {
+        wheelLimitedDateTimePicker.preferredDatePickerStyle = UIDatePickerStyleWheels;
+    }
+#endif
+    wheelLimitedDateTimePicker.datePickerMode = UIDatePickerModeDateAndTime;
+    wheelLimitedDateTimePicker.minimumDate = [NSDate dateWithTimeInterval:-31622400 /*Year+1day*/ sinceDate:[NSDate date]];
+    wheelLimitedDateTimePicker.maximumDate = [NSDate dateWithTimeInterval: 31622400 /*Year+1day*/ sinceDate:[NSDate date]];
+    [wheelLimitedDateTimePicker addTarget:self action:@selector(limitedDateTimePickerChanged:)
+             forControlEvents:UIControlEventValueChanged];
+    [wheelLimitedDateTimePicker setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_US"]];
+
+    wheelLimitedDateTimeSelectionTextField.placeholder = NSLocalizedString(@"Limited Date Time Selection", nil);
+    wheelLimitedDateTimeSelectionTextField.returnKeyType = UIReturnKeyDone;
+    wheelLimitedDateTimeSelectionTextField.inputView = wheelLimitedDateTimePicker;
+    wheelLimitedDateTimeSelectionTextField.accessibilityLabel = @"Limited Date Time Selection";
+    
+    wheelTimePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(30, 215, 260, 35)];
+#if __IPHONE_13_4
+    if(@available(iOS 13.4, *)) {
+        wheelTimePicker.preferredDatePickerStyle = UIDatePickerStyleWheels;
+    }
+#endif
+    wheelTimePicker.datePickerMode = UIDatePickerModeTime;
+    [wheelTimePicker addTarget:self action:@selector(timePickerChanged:)
+             forControlEvents:UIControlEventValueChanged];
+    [wheelTimePicker setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_US"]];
+
+    wheelTimeSelectionTextField.placeholder = NSLocalizedString(@"Time Selection", nil);
+    wheelTimeSelectionTextField.returnKeyType = UIReturnKeyDone;
+    wheelTimeSelectionTextField.inputView = wheelTimePicker;
+    wheelTimeSelectionTextField.accessibilityLabel = @"Time Selection";
 
     countdownPicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(30, 215, 260, 35)];
     countdownPicker.datePickerMode = UIDatePickerModeCountDownTimer;
@@ -99,49 +124,111 @@
     countdownSelectionTextField.returnKeyType = UIReturnKeyDone;
     countdownSelectionTextField.inputView = countdownPicker;
     countdownSelectionTextField.accessibilityLabel = @"Countdown Selection";
-
+    
+    self.dateCalendarPicker = [[UIDatePicker alloc] init];
+    self.dateCalendarPicker.datePickerMode = UIDatePickerModeDate;
+    [self.dateCalendarPicker addTarget:self action:@selector(dateCalendarPickerChanged:) forControlEvents:UIControlEventValueChanged];
+    [self.dateCalendarPicker setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_US"]];
+    
+#if __IPHONE_13_4
+    if(@available(iOS 13.4, *)) {
+        self.dateCalendarPicker.preferredDatePickerStyle = UIDatePickerStyleCompact;
+    }
+#endif
+    
+    self.datePickerCalendarTextField.placeholder = NSLocalizedString(@"Date Calendar Selection", nil);
+    self.datePickerCalendarTextField.returnKeyType = UIReturnKeyDone;
+    self.datePickerCalendarTextField.inputView = self.dateCalendarPicker;
+    self.datePickerCalendarTextField.accessibilityLabel = @"Date Calendar Selection";
+    
+    self.dateTimeCalendarPicker = [[UIDatePicker alloc] init];
+    self.dateTimeCalendarPicker.datePickerMode = UIDatePickerModeDateAndTime;
+    [self.dateTimeCalendarPicker addTarget:self action:@selector(dateTimeCalendarPickerChanged:) forControlEvents:UIControlEventValueChanged];
+    [self.dateTimeCalendarPicker setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_US"]];
+    
+#if __IPHONE_13_4
+    if(@available(iOS 13.4, *)) {
+        self.dateTimeCalendarPicker.preferredDatePickerStyle = UIDatePickerStyleCompact;
+    }
+#endif
+    
+    self.dateTimePickerCalendarTextField.placeholder = NSLocalizedString(@"Date Time Calendar Selection", nil);
+    self.dateTimePickerCalendarTextField.returnKeyType = UIReturnKeyDone;
+    self.dateTimePickerCalendarTextField.inputView = self.dateTimeCalendarPicker;
+    self.dateTimePickerCalendarTextField.accessibilityLabel = @"Date Time Calendar Selection";
 }
 
-- (void)didReceiveMemoryWarning
+- (NSDateFormatter *)dateFormatter
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    static NSDateFormatter *dateFormatter;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        dateFormatter = [[NSDateFormatter alloc] init];
+        dateFormatter.dateStyle = NSDateFormatterMediumStyle;
+    });
+    
+    return dateFormatter;
 }
 
-- (void)datePickerChanged:(id)sender {
-    NSDateFormatter  *dateFormatter = [[NSDateFormatter alloc] init];
-    dateFormatter.dateStyle = NSDateFormatterMediumStyle;
-    NSString *string = [NSString stringWithFormat:@"%@",
-                        [dateFormatter stringFromDate:datePicker.date]];
-    self.dateSelectionTextField.text = string;
+- (void)datePickerChanged:(UIDatePicker *)picker {
+    self.wheelDateSelectionTextField.text = [self.dateFormatter stringFromDate:picker.date];
 }
 
-- (void)dateTimePickerChanged:(id)sender {
-    NSDateFormatter  *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"MMM d, hh:mm aa"];
-    NSString *string = [NSString stringWithFormat:@"%@",
-                        [dateFormatter stringFromDate:dateTimePicker.date]];
-    self.dateTimeSelectionTextField.text = string;
+- (NSDateFormatter *)dateTimeFormatter
+{
+    static NSDateFormatter *dateTimeFormatter;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        dateTimeFormatter = [[NSDateFormatter alloc] init];
+        [dateTimeFormatter setDateFormat:@"MMM d, hh:mm aa"];
+    });
+    
+    return dateTimeFormatter;
 }
 
-- (void)limitedDateTimePickerChanged:(id)sender {
-    NSDateFormatter  *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"MMM d, hh:mm aa"];
-    NSString *string = [NSString stringWithFormat:@"%@",
-                        [dateFormatter stringFromDate:limitedDateTimePicker.date]];
-    self.limitedDateTimeSelectionTextField.text = string;
+- (void)dateTimePickerChanged:(UIDatePicker *)picker
+{
+    self.wheelDateTimeSelectionTextField.text = [self.dateTimeFormatter stringFromDate:picker.date];
 }
 
-- (void)timePickerChanged:(id)sender {
-    NSDateFormatter  *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"h:mm a"];
-    NSString *string = [dateFormatter stringFromDate:self.timePicker.date];
-    self.timeSelectionTextField.text = string;
+- (void)limitedDateTimePickerChanged:(UIDatePicker *)picker
+{
+    self.wheelLimitedDateTimeSelectionTextField.text = [self.dateTimeFormatter stringFromDate:picker.date];
 }
 
-- (void)countdownPickerChanged:(id)sender {
-    self.countdownSelectionTextField.text = [NSString stringWithFormat:@"%f", self.countdownPicker.countDownDuration];
+
+- (NSDateFormatter *)timeFormatter
+{
+    static NSDateFormatter *timeFormatter;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        timeFormatter = [[NSDateFormatter alloc] init];
+        [timeFormatter setDateFormat:@"h:mm a"];
+    });
+    
+    return timeFormatter;
 }
+
+- (void)timePickerChanged:(UIDatePicker *)picker
+{
+    self.wheelTimeSelectionTextField.text = [self.timeFormatter stringFromDate:picker.date];
+}
+
+- (void)countdownPickerChanged:(UIDatePicker *)picker
+{
+    self.countdownSelectionTextField.text = [NSString stringWithFormat:@"%f", picker.countDownDuration];
+}
+
+- (void)dateCalendarPickerChanged:(UIDatePicker *)picker
+{
+    self.datePickerCalendarTextField.text = [self.dateFormatter stringFromDate:picker.date];
+}
+
+- (void)dateTimeCalendarPickerChanged:(UIDatePicker *)picker
+{
+    self.dateTimePickerCalendarTextField.text = [self.dateFormatter stringFromDate:picker.date];
+}
+
 
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
 {
