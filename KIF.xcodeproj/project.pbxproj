@@ -171,8 +171,8 @@
 		BA6388B4256D936F0037233E /* UIDatePicker+KIFPrivateAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = BA6388B2256D936F0037233E /* UIDatePicker+KIFPrivateAPI.h */; };
 		BA6388C2256D93BE0037233E /* UIDatePicker+KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = BA6388C1256D93BE0037233E /* UIDatePicker+KIFAdditions.m */; };
 		BA6388C3256D93BE0037233E /* UIDatePicker+KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = BA6388C1256D93BE0037233E /* UIDatePicker+KIFAdditions.m */; };
-		BA6388D1256D940E0037233E /* UIDatePicker+KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = BA6388D0256D940E0037233E /* UIDatePicker+KIFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		BA6388D2256D940E0037233E /* UIDatePicker+KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = BA6388D0256D940E0037233E /* UIDatePicker+KIFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BA6388D1256D940E0037233E /* UIDatePicker+KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = BA6388D0256D940E0037233E /* UIDatePicker+KIFAdditions.h */; };
+		BA6388D2256D940E0037233E /* UIDatePicker+KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = BA6388D0256D940E0037233E /* UIDatePicker+KIFAdditions.h */; };
 		BCA1542A23312E7300CDC69F /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCA1542923312E7300CDC69F /* WebKit.framework */; };
 		BCA1542B23312E8100CDC69F /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCA1542923312E7300CDC69F /* WebKit.framework */; };
 		BCA1542C23312E8F00CDC69F /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCA1542923312E7300CDC69F /* WebKit.framework */; };
