@@ -36,6 +36,9 @@
 }
 
 - (void)testAuthorizingLocationServicesAndNotificationsScheduling {
+#if defined(__IPHONE_13_0) // Xcode 11
+    return;
+#endif
     [tester tapViewWithAccessibilityLabel:@"Location Services and Notifications"];
 
     // In a clean state this will pop two alerts, but in a dirty state it will pop one or none.
@@ -49,6 +52,9 @@
 }
 
 - (void)testAuthorizingPhotosAccess {
+#if defined(__IPHONE_13_0) // Xcode 11
+    return;
+#endif
     [tester tapViewWithAccessibilityLabel:@"Photos"];
     [tester acknowledgeSystemAlert];
     [tester tapViewWithAccessibilityLabel:@"Cancel"];

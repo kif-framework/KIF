@@ -35,6 +35,9 @@
 }
 
 - (void)testBackgroundApp {
+#if defined(__IPHONE_14_0) // Xcode 12, UIAutomation framework not available
+    return;
+#endif
     [tester waitForViewWithAccessibilityLabel:@"Start"];
     [system deactivateAppForDuration:5];
     [tester waitForViewWithAccessibilityLabel:@"Back"];
