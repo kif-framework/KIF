@@ -7,6 +7,7 @@
 
 #import "UIView-Debugging.h"
 #import "KIFEventVisualizer.h"
+#import "KIFTouchVisualizerView.h"
 
 @implementation UIView (Debugging)
 
@@ -17,11 +18,6 @@
     } else {
         //more than one window, also print some information about each window
         for (UIWindow* window in windows) {
-            // ignore the event visualizer window
-            // We don't want to create the visualizer by calling `sharedVisualizer` so check to see if it's there first.
-            if([KIFEventVisualizer isVisualizerCreated] && [KIFEventVisualizer sharedVisualizer].window == window) {
-                continue;
-            }
             printf("Window level %f", window.windowLevel);
             if(window.isKeyWindow) printf(" (key window)");
             printf("\n");
@@ -36,6 +32,12 @@
 }
 
 - (void)printViewHierarchyWithIndentation:(int)indent {
+    
+    // Don't print the touch visualizer view or it's subviews.
+    if([self isKindOfClass:[KIFTouchVisualizerView class]]) {
+        return;
+    }
+
     [self printIndentation:indent];
     [self printClassName];
 
@@ -65,7 +67,7 @@
     if([self isKindOfClass:[NSClassFromString(@"_UIDatePickerView") class]]) {
         return;
     }
-
+    
     for (UIView *subview in self.subviews) {
         [subview printViewHierarchyWithIndentation:indent+1];
     }

@@ -18,4 +18,9 @@ static CGFloat KIFVisualizerCircleViewDiameter = 40.0;
     return self;
 }
 
+- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event
+{
+    return nil;
+}
+
 @end

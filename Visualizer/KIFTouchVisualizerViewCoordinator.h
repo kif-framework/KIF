@@ -3,9 +3,7 @@
 
 @interface KIFTouchVisualizerViewCoordinator : NSObject
 
-// The view that the coordinator is managing with the touches.
-- (nonnull instancetype)initWithView:(nonnull UIView *)view NS_DESIGNATED_INITIALIZER;
-- (nonnull instancetype)init NS_UNAVAILABLE;
+- (nonnull instancetype)init;
 
 - (void)touchStarted:(nonnull UITouch *)touch;
 - (void)touchMoved:(nonnull UITouch *)touch;
