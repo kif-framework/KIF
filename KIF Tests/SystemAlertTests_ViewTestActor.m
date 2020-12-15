@@ -22,9 +22,9 @@
     if ([UIDevice.currentDevice.systemVersion compare:@"8.0" options:NSNumericSearch] < 0) {
         return nil;
     }
-#if defined(__IPHONE_13_0) // Xcode 11
-    return nil;
-#endif
+    if (@available(iOS 13.0, *)) { // Xcode 11
+        return nil;
+    }
 
     return [super defaultTestSuite];
 }

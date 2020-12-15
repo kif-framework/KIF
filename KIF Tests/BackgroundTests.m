@@ -8,11 +8,11 @@
 
 #import <KIF/KIF.h>
 
-@interface ZBackgroundTests : KIFTestCase
+@interface BackgroundTests : KIFTestCase
 
 @end
 
-@implementation ZBackgroundTests
+@implementation BackgroundTests
 
 + (XCTestSuite *)defaultTestSuite
 {
@@ -35,9 +35,9 @@
 }
 
 - (void)testBackgroundApp {
-#if defined(__IPHONE_14_0) // Xcode 12, UIAutomation framework not available
-    return;
-#endif
+    if (@available(iOS 14.0, *)) { // Xcode 12, UIAutomation framework not available
+        return;
+    }
     [tester waitForViewWithAccessibilityLabel:@"Start"];
     [system deactivateAppForDuration:5];
     [tester waitForViewWithAccessibilityLabel:@"Back"];

@@ -387,7 +387,6 @@
 		BA305A6A255DD1410037233E /* KIFTestActor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KIFTestActor.m; sourceTree = "<group>"; };
 		BA305A6B255DD1410037233E /* NSPredicate+KIFAdditions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSPredicate+KIFAdditions.m"; sourceTree = "<group>"; };
 		BA305A6C255DD1410037233E /* CALayer-KIFAdditions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CALayer-KIFAdditions.m"; sourceTree = "<group>"; };
-		BA567EA22563B9E50037233E /* KIFAccessibilityEnabler_private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KIFAccessibilityEnabler_private.h; sourceTree = "<group>"; };
 		BA6388B2256D936F0037233E /* UIDatePicker+KIFPrivateAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDatePicker+KIFPrivateAPI.h"; sourceTree = "<group>"; };
 		BA6388C1256D93BE0037233E /* UIDatePicker+KIFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIDatePicker+KIFAdditions.m"; sourceTree = "<group>"; };
 		BA6388D0256D940E0037233E /* UIDatePicker+KIFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDatePicker+KIFAdditions.h"; sourceTree = "<group>"; };
@@ -623,7 +622,6 @@
 				BA305A2C255DD1410037233E /* include */,
 				BA305A1E255DD1410037233E /* IOHIDEvent+KIF.h */,
 				BA305A59255DD1410037233E /* IOHIDEvent+KIF.m */,
-				BA567EA22563B9E50037233E /* KIFAccessibilityEnabler_private.h */,
 				BA305A67255DD1410037233E /* KIFAccessibilityEnabler.m */,
 				BA305A5D255DD1410037233E /* KIFTestActor_Private.h */,
 				BA305A6A255DD1410037233E /* KIFTestActor.m */,
