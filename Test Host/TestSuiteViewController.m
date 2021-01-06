@@ -96,8 +96,8 @@
 
 -(void)pullToRefreshHandler
 {
-	self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"Bingo!", @"") attributes:nil];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(4.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"Bingo!", @"") attributes:nil];
         [self.refreshControl endRefreshing];
         [self.tableView setContentOffset:CGPointZero animated:YES];
     });

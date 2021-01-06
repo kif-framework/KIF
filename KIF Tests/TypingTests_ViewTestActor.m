@@ -7,7 +7,6 @@
 //
 
 #import <KIF/KIF.h>
-#import "KIFTestStepValidation.h"
 
 @interface TypingTests_ViewTestActor : KIFTestCase
 @end
@@ -38,6 +37,7 @@
 
 - (void)testEnteringTextIntoFirstResponder
 {
+    [[viewTester usingLabel:@"Greeting"] tap];
     [[[viewTester usingLabel:@"Greeting"] usingValue:@"Hello"] longPressWithDuration:2];
     [[viewTester usingLabel:@"Select All"] tap];
     [[viewTester usingFirstResponder] enterText:@"Yo"];
@@ -51,6 +51,7 @@
 
 - (void)testEnteringTextIntoViewWithAccessibilityLabel
 {
+    [[viewTester usingLabel:@"Greeting"] tap];
     [[[viewTester usingLabel:@"Greeting"] usingValue:@"Hello"] longPressWithDuration:2];
     [[viewTester usingLabel:@"Select All"] tap];
     [[viewTester usingLabel:@"Cut"] tap];

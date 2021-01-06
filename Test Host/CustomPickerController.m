@@ -6,7 +6,7 @@
 //
 //
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 #pragma mark PickerDelegate
 @interface PickerDelegate : NSObject<UIPickerViewDataSource, UIPickerViewDelegate, UIPickerViewAccessibilityDelegate>

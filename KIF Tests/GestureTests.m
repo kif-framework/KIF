@@ -7,9 +7,8 @@
 //
 
 #import <KIF/KIF.h>
-#import <KIF/KIFTestStepValidation.h>
-#import <KIF/KIFUITestActor-IdentifierTests.h>
-#import <KIF/UIView-KIFAdditions.h>
+
+#import "UIView-KIFAdditions.h"
 
 #define kPanMeAccessibilityString               @"Pan Me"
 #define kVelocityValueLabelAccessibilityString  @"velocityValueLabel"
