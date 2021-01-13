@@ -6,6 +6,15 @@ on:
   pull_request:
 
 jobs:
+  validate_spec:
+    runs-on: macos-latest
+    steps:
+    - name: Checkout Project
+      uses: actions/checkout@v1
+
+    - name: Validate podspec
+      run: pod lib lint
+
   build:
     runs-on: macos-latest
     strategy:
