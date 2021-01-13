@@ -7,6 +7,7 @@
 //
 
 #import <KIF/KIF.h>
+#import "KIFTestStepValidation.h"
 
 @interface ScrollViewTests_ViewTestActor : KIFTestCase
 @end

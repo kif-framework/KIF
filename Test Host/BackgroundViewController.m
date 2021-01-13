@@ -6,8 +6,6 @@
 //
 //
 
-#import <UIKit/UIKit.h>
-
 @interface BackgroundViewController : UIViewController
 @property (nonatomic, weak) IBOutlet UILabel *label;
 @end

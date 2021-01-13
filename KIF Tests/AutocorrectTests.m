@@ -46,13 +46,8 @@
 #ifdef __IPHONE_11_0
 - (void)testSmartQuotesEnabled
 {
-    NSString *expectedResult = @"’”’,";
-    if (@available(iOS 13.0, *))
-    {
-        expectedResult = @"‘“‘,";
-    }
     if (@available(iOS 11.0, *)) {
-        [[viewTester usingLabel:@"Greeting"] clearAndEnterText:@"'\"'," expectedResult:expectedResult];
+        [[viewTester usingLabel:@"Greeting"] clearAndEnterText:@"'\"'," expectedResult:@"’”’,"];
     }  
 }
 

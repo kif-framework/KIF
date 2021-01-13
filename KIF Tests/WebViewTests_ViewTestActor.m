@@ -9,7 +9,6 @@
 #import <KIF/KIFTestCase.h>
 #import <KIF/KIFUITestActor-IdentifierTests.h>
 #import <KIF/KIFTestStepValidation.h>
-#import <KIF/KIFUIViewTestActor.h>
 
 @interface WebViewTests_ViewTestActor : KIFTestCase
 @end

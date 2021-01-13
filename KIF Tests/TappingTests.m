@@ -7,6 +7,7 @@
 //
 
 #import <KIF/KIF.h>
+#import <KIF/KIFUITestActor-IdentifierTests.h>
 
 @interface TappingTests : KIFTestCase
 @end

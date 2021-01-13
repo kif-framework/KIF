@@ -7,6 +7,7 @@
 //
 
 #import <KIF/KIF.h>
+#import "UIApplication-KIFAdditions.h"
 
 @interface UIApplication ()
 - (NSString *)imageNameForFile:(NSString *)filename lineNumber:(NSUInteger)lineNumber description:(NSString *)description;

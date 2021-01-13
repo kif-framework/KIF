@@ -8,7 +8,7 @@
 
 
 #import <KIF/KIF.h>
-
+#import <KIF/KIFTestStepValidation.h>
 @implementation KIFUIViewTestActor (gesturetests)
 
 - (KIFUIViewTestActor *)swipeMe

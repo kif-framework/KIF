@@ -8,12 +8,13 @@
 
 
 #import <KIF/KIF.h>
+#import "KIFUITestActor.h"
 
-@interface ZSystemAlertTests_ViewTestActor : KIFTestCase
+@interface SystemAlertTests_ViewTestActor : KIFTestCase
 @end
 
 
-@implementation ZSystemAlertTests_ViewTestActor
+@implementation SystemAlertTests_ViewTestActor
 
 + (XCTestSuite *)defaultTestSuite
 {
@@ -22,10 +23,7 @@
     if ([UIDevice.currentDevice.systemVersion compare:@"8.0" options:NSNumericSearch] < 0) {
         return nil;
     }
-    if (@available(iOS 13.0, *)) { // Xcode 11
-        return nil;
-    }
-
+    
     return [super defaultTestSuite];
 }
 

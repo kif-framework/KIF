@@ -622,6 +622,7 @@
 				DEVELOPMENT_TEAM = "";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Testable/Testable-Prefix.pch";
 				INFOPLIST_FILE = "Testable/Testable-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.squareup.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -637,6 +638,7 @@
 				COPY_PHASE_STRIP = YES;
 				DEVELOPMENT_TEAM = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Testable/Testable-Prefix.pch";
 				INFOPLIST_FILE = "Testable/Testable-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.squareup.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";

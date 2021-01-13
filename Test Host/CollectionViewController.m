@@ -6,8 +6,6 @@
 //  Copyright (c) 2013 Brian Nickel. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-
 @interface CollectionViewCell : UICollectionViewCell
 @property (strong, nonatomic) IBOutlet UILabel *label;
 @end
