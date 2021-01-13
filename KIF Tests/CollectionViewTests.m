@@ -7,6 +7,7 @@
 //
 
 #import <KIF/KIF.h>
+#import "KIFTestStepValidation.h"
 
 @interface CollectionViewTests : KIFTestCase
 @end

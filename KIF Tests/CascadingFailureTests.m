@@ -7,6 +7,7 @@
 //
 
 #import <KIF/KIF.h>
+#import "KIFTestStepValidation.h"
 
 @interface KIFSystemTestActor (CascadingFailureTests)
 - (void)failA;

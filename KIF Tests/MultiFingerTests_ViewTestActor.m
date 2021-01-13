@@ -8,8 +8,8 @@
 
 
 #import <KIF/KIF.h>
-
-#import "UIView-KIFAdditions.h"
+#import "KIFTestStepValidation.h"
+#import <KIF/UIApplication-KIFAdditions.h>
 
 @interface MultiFingerTests_ViewTestActor : KIFTestCase
 @property (nonatomic, readwrite) BOOL twoFingerPanSuccess;

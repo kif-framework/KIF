@@ -7,6 +7,9 @@
 //
 
 #import <KIF/KIF.h>
+#import <KIF/KIFUITestActor-IdentifierTests.h>
+#import "KIFTestStepValidation.h"
+#import "UIApplication-KIFAdditions.h"
 
 @interface TableViewTests : KIFTestCase
 @end
