@@ -24,6 +24,10 @@
         return nil;
     }
     
+    if (@available(iOS 13.0, *)) { // Xcode 11
+            return nil;
+    }
+    
     return [super defaultTestSuite];
 }
 
