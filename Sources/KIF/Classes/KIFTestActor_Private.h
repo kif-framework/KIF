@@ -1,4 +1,4 @@
-#import <KIF/KIFTestActor.h>
+#import "KIFTestActor.h"
 
 
 @interface KIFTestActor ()

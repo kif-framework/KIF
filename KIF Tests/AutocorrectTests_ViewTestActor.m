@@ -47,13 +47,6 @@
 #ifdef __IPHONE_11_0
 - (void)testSmartQuotesEnabled
 {
-    if (@available(iOS 11.0, *)) {
-        [[viewTester usingLabel:@"Greeting"] clearAndEnterText:@"'\"'," expectedResult:@"’”’,"];
-    }
-}
-
-- (void)testSmartDashesEnabled
-{
     NSString *expectedResult = @"’”’,";
     if (@available(iOS 13.0, *)) {
         expectedResult = @"‘“‘,";
@@ -61,6 +54,13 @@
     if (@available(iOS 11.0, *)) {
         [[viewTester usingLabel:@"Greeting"] clearAndEnterText:@"'\"'," expectedResult:expectedResult];
     }  
+}
+
+- (void)testSmartDashesEnabled
+{
+    if (@available(iOS 11.0, *)) {
+        [[viewTester usingLabel:@"Greeting"] clearAndEnterText:@"--a" expectedResult:@"—a"];
+    }
 }
 #endif
 

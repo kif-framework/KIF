@@ -7,6 +7,7 @@
 //
 
 #import <KIF/KIFTestCase.h>
+#import <KIF/KIFUIViewTestActor.h>
 #import <KIF/KIFUITestActor-IdentifierTests.h>
 #import <KIF/KIFTestStepValidation.h>
 
