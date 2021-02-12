@@ -45,3 +45,4 @@ FOUNDATION_EXPORT const unsigned char KIFVersionString[];
 #import <KIF/UIWindow-KIFAdditions.h>
 #import <KIF/XCTestCase-KIFAdditions.h>
 #import <KIF/UIView-Debugging.h>
+#import <KIF/KIFTextInputTraitsOverrides.h>
