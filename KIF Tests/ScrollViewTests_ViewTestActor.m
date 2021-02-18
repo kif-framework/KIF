@@ -8,6 +8,8 @@
 
 #import <KIF/KIF.h>
 #import "KIFTestStepValidation.h"
+#import "UIAccessibilityElement-KIFAdditions.h"
+#import "UIView-KIFAdditions.h"
 
 @interface ScrollViewTests_ViewTestActor : KIFTestCase
 @end
@@ -35,6 +37,15 @@
 - (void)testScrollingToTapOffscreenTextView
 {
     [[viewTester usingLabel:@"TextView"] tap];
+}
+
+- (void)testScrollingDownAndUp
+{
+    [[viewTester usingLabel:@"Long Scroll View"] scrollByFractionOfSizeHorizontal:0 vertical:-1];
+    [[viewTester usingLabel:@"Bottom Label"] waitForView];
+
+    [[viewTester usingLabel:@"Long Scroll View"] scrollByFractionOfSizeHorizontal:0 vertical:1];
+    [[viewTester usingLabel:@"Top Label"] waitForView];
 }
 
 @end

@@ -1311,6 +1311,25 @@ static BOOL KIFUITestActorAnimationsEnabled = YES;
     scrollStart.x -= scrollDisplacement.x / 2;
     scrollStart.y -= scrollDisplacement.y / 2;
 
+    // Scrolling does not work if we are at the end of the view
+    // So if our scroll start is equal to the heigh, inset 5
+    if (scrollStart.x == CGRectGetWidth(elementFrame)) {
+        if (scrollDisplacement.x < 0) {
+            scrollStart.x -= CGRectGetWidth(elementFrame) * 0.05;
+        } else {
+            scrollStart.x += CGRectGetWidth(elementFrame) * 0.05;
+        }
+
+    }
+
+    if (scrollStart.y == CGRectGetHeight(elementFrame)) {
+        if (scrollDisplacement.y < 0) {
+            scrollStart.y -= CGRectGetHeight(elementFrame) * 0.05;
+        } else {
+            scrollStart.y += CGRectGetHeight(elementFrame) * 0.05;
+        }
+    }
+
     [viewToScroll dragFromPoint:scrollStart displacement:scrollDisplacement steps:kNumberOfPointsInScrollPath];
 
     [self waitForAnimationsToFinish];

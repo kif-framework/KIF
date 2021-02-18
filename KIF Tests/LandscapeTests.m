@@ -21,6 +21,7 @@
     // only scroll if we are on iphone
     if(UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPhone) {
         [tester scrollViewWithAccessibilityIdentifier:@"Test Suite TableView" byFractionOfSizeHorizontal:0 vertical:-0.2];
+        [tester waitForTimeInterval:0.5];
     }
 }
 
