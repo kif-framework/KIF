@@ -38,6 +38,7 @@
 
 - (void)testEnteringTextIntoFirstResponder
 {
+    [tester tapViewWithAccessibilityLabel:@"Greeting"];
     [[[viewTester usingLabel:@"Greeting"] usingValue:@"Hello"] longPressWithDuration:2];
     [[viewTester usingLabel:@"Select All"] tap];
     [[viewTester usingFirstResponder] enterText:@"Yo"];
@@ -51,6 +52,7 @@
 
 - (void)testEnteringTextIntoViewWithAccessibilityLabel
 {
+    [tester tapViewWithAccessibilityLabel:@"Greeting"];
     [[[viewTester usingLabel:@"Greeting"] usingValue:@"Hello"] longPressWithDuration:2];
     [[viewTester usingLabel:@"Select All"] tap];
     [[viewTester usingLabel:@"Cut"] tap];

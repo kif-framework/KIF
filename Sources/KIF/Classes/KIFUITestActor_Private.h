@@ -6,7 +6,7 @@
 //
 //
 
-#import <KIF/KIFUITestActor.h>
+#import "KIFUITestActor.h"
 
 @interface KIFUITestActor()
 

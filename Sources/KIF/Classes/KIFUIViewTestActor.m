@@ -8,6 +8,7 @@
 
 #import "KIFUIViewTestActor.h"
 
+#import "KIFUITestActor-ConditionalTests.h"
 #import "KIFTestActor_Private.h"
 #import "KIFUIObject.h"
 #import "KIFUITestActor_Private.h"

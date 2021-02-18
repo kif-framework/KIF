@@ -6,7 +6,9 @@
 //
 //
 
-#import <KIF/KIF.h>
+#import <UIKit/UIKit.h>
+#import "KIFTestActor.h"
+#import "KIFUITestActor.h"
 
 #define viewTester KIFActorWithClass(KIFUIViewTestActor)
 
