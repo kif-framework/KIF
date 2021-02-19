@@ -13,15 +13,20 @@
 #import "CGGeometry-KIFAdditions.h"
 #import "UIAccessibilityElement-KIFAdditions.h"
 
+@interface UIKeyboardTaskQueue: NSObject
+- (void)waitUntilAllTasksAreFinished;
+@end
+
 @interface UIKeyboardImpl : NSObject
 + (UIKeyboardImpl *)sharedInstance;
 - (void)addInputString:(NSString *)string;
 - (void)deleteFromInput;
+@property(readonly, nonatomic) UIKeyboardTaskQueue *taskQueue;
 @property(getter=isInHardwareKeyboardMode) BOOL inHardwareKeyboardMode;
 @property(retain) UIResponder<UIKeyInput> * delegate;
 @end
 
-static NSTimeInterval keystrokeDelay = 0.01f;
+static NSTimeInterval keystrokeDelay = 0.001f;
 
 @interface KIFTypist()
 @property (nonatomic, assign) BOOL keyboardHidden;
@@ -89,6 +94,7 @@ static NSTimeInterval keystrokeDelay = 0.01f;
         [[UIKeyboardImpl sharedInstance] addInputString:characterString];
     }
     
+    [[[UIKeyboardImpl sharedInstance] taskQueue] waitUntilAllTasksAreFinished];
     CFRunLoopRunInMode(kCFRunLoopDefaultMode, keystrokeDelay, false);
     return YES;
 }
