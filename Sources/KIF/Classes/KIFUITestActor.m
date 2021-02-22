@@ -349,7 +349,7 @@ static BOOL KIFUITestActorAnimationsEnabled = YES;
 
         KIFTestWaitCondition(![view canBecomeFirstResponder] || ![view isProbablyTappable] || [view isDescendantOfFirstResponder] || accessibilityElementDisappeared, error, @"Failed to make the view into the first responder: %@", view);
         return KIFTestStepResultSuccess;
-    } timeout:0.5];
+    } timeout:[KIFTestActor firstResponderTimeout]];
 }
 
 - (void)tapScreenAtPoint:(CGPoint)screenPoint
