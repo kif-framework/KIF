@@ -174,6 +174,19 @@ typedef void (^KIFTestCompletionBlock)(KIFTestStepResult result, NSError *error)
 + (void)setStepDelay:(NSTimeInterval)newStepDelay;
 
 /*!
+ @method firstResponderTimeout
+ @abstract The maximum amount of time that we wait on views becoming first responders.
+ @discussion To change the default value of the first responder timeout property, call +firstResponderTimeout: with a different value.
+ */
++ (NSTimeInterval)firstResponderTimeout;
+
+/*!
+ @method setStepDelay:
+ @abstract Sets the amount of time that execution blocks use before trying again to met desired conditions.
+ */
++ (void)setFirstResponderTimeout:(NSTimeInterval)firstResponderTimeout;
+
+/*!
  @abstract Fails the test.
  @discussion Mostly useful for test debugging or as a placeholder when building new tests.
  */

@@ -136,6 +136,8 @@ static NSTimeInterval KIFTestStepDefaultAnimationStabilizationTimeout = 0.5;
 static NSTimeInterval KIFTestStepDefaultMainThreadDispatchStabilizationTimeout = 0.5;
 static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;
 static NSTimeInterval KIFTestStepDelay = 0.1;
+static NSTimeInterval KIFTestStepFirstResponderTimeout = 0.5;
+
 
 + (NSTimeInterval)defaultAnimationWaitingTimeout
 {
@@ -187,6 +189,17 @@ static NSTimeInterval KIFTestStepDelay = 0.1;
 {
     KIFTestStepDelay = newStepDelay;
 }
+
++ (NSTimeInterval)firstResponderTimeout;
+{
+    return KIFTestStepFirstResponderTimeout;
+}
+
++ (void)setFirstResponderTimeout:(NSTimeInterval)firstResponderTimeout;
+{
+    KIFTestStepFirstResponderTimeout = firstResponderTimeout;
+}
+
 
 #pragma mark Generic tests
 
