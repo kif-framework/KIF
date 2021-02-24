@@ -733,6 +733,7 @@ static BOOL KIFUITestActorAnimationsEnabled = YES;
 - (void)selectDatePickerValue:(NSArray *)datePickerColumnValues fromPicker:(UIDatePicker *)datePicker withSearchOrder:(KIFPickerSearchOrder)searchOrder
 {
     NSDateComponents *dateComponents = [[NSDateComponents alloc] init];
+    dateComponents.timeZone = datePicker.timeZone;
     NSArray *dateOrder = [self.class dateOrderForDatePicker:datePicker];
     
     // Backwards compatibility while migrating away from this deprecated API.
