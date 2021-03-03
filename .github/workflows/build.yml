@@ -15,6 +15,47 @@ jobs:
     - name: Validate podspec
       run: pod lib lint
 
+  swift_package_manager:
+    runs-on: macos-latest
+    strategy:
+      matrix:
+        run-config:
+          - { xcode_version: '12.2', simulator: 'name=iPhone SE (2nd generation),OS=14.2' }
+
+    steps:
+    - name: Checkout Project
+      uses: actions/checkout@v1
+
+    - name: Brew Update
+      run:  brew update
+
+    - name: Install Bundler
+      run: gem install bundler
+
+    - name: Install Core Utils
+      run: if [ -z "$(brew ls --versions coreutils)" ] ; then brew install coreutils ; fi
+
+    - name: Install XCPretty
+      run: gem install xcpretty --no-document --quiet
+
+    - name: Show Xcode versions
+      run: ls -al /Applications/Xcode*
+
+    - name: Select Xcode
+      run: sudo xcode-select -s /Applications/Xcode_${{ matrix.run-config['xcode_version'] }}.app
+
+    - name: Current Xcode Selected
+      run: xcode-select -p
+
+    - name: List Simulators
+      run:  xcrun simctl list
+
+    - name: Build in Swift
+      run: swift build -Xcc "-isysroot" -Xcc "$(xcrun --sdk iphonesimulator --show-sdk-path)" -Xcc "-target" -Xcc "x86_64-apple-ios$(xcrun --sdk iphonesimulator --show-sdk-version)-simulator"
+
+    - name: Run KIFSwiftPMConsumer Tests
+      run: env NSUnbufferedIO=YES xcodebuild test -project "KIFSwiftPMConsumer/KIFSwiftPMConsumer.xcodeproj" -scheme "KIFSwiftPMConsumerTests" -derivedDataPath=${PWD}/build/KIFSwiftPMConsumerTests -destination "platform=iOS Simulator,${{ matrix.run-config['simulator'] }}" | xcpretty -c
+
   build:
     runs-on: macos-latest
     strategy:

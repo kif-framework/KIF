@@ -9,7 +9,7 @@
 
 #import "KIFTestActor.h"
 #import <UIKit/UIKit.h>
-#import "UIView-KIFAdditions.h"
+#import "Additions/UIView-KIFAdditions.h"
 
 
 #if DEPRECATE_KIF_TESTER

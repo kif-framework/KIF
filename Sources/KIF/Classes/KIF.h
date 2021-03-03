@@ -16,4 +16,4 @@
 #import "KIFUIViewTestActor.h"
 #import "KIFUIObject.h"
 
-#import "XCTestCase-KIFAdditions.h"
+#import "Additions/XCTestCase-KIFAdditions.h"

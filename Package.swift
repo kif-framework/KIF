@@ -18,13 +18,15 @@ let package = Package(
         .target(
             name: "KIF",
             dependencies: [],
-            cSettings: [ 
-                .headerSearchPath("ApplePrivateAPIs/"), 
-                .headerSearchPath("Additions/"), 
+            publicHeadersPath: "./",
+            cSettings: [
+                .headerSearchPath("ApplePrivateAPIs/"),
+                .headerSearchPath("Additions/"),
                 .headerSearchPath("Classes/"),
                 .headerSearchPath("Visualizer/"),
                 .headerSearchPath("IdentifierTests/"),
-            ]
+            ],
+            linkerSettings: [ .linkedFramework("IOKit")]
         ),
         .testTarget(
             name: "KIFTests",

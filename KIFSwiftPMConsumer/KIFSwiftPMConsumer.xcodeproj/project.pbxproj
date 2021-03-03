@@ -1,0 +1,494 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 52;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		224EC3B025ED17230076DD44 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 224EC3AF25ED17230076DD44 /* AppDelegate.m */; };
+		224EC3B325ED17230076DD44 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 224EC3B225ED17230076DD44 /* SceneDelegate.m */; };
+		224EC3B625ED17230076DD44 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 224EC3B525ED17230076DD44 /* ViewController.m */; };
+		224EC3B925ED17230076DD44 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 224EC3B725ED17230076DD44 /* Main.storyboard */; };
+		224EC3BB25ED17240076DD44 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 224EC3BA25ED17230076DD44 /* Assets.xcassets */; };
+		224EC3BE25ED17240076DD44 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 224EC3BC25ED17240076DD44 /* LaunchScreen.storyboard */; };
+		224EC3C125ED17240076DD44 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 224EC3C025ED17240076DD44 /* main.m */; };
+		224EC3CB25ED17240076DD44 /* KIFSwiftPMConsumerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 224EC3CA25ED17240076DD44 /* KIFSwiftPMConsumerTests.m */; };
+		224EC3F125ED18500076DD44 /* KIF in Frameworks */ = {isa = PBXBuildFile; productRef = 224EC3F025ED18500076DD44 /* KIF */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		224EC3C725ED17240076DD44 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 224EC3A325ED17230076DD44 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 224EC3AA25ED17230076DD44;
+			remoteInfo = KIFSwiftPMConsumer;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		224EC3AB25ED17230076DD44 /* KIFSwiftPMConsumer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KIFSwiftPMConsumer.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		224EC3AE25ED17230076DD44 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		224EC3AF25ED17230076DD44 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		224EC3B125ED17230076DD44 /* SceneDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SceneDelegate.h; sourceTree = "<group>"; };
+		224EC3B225ED17230076DD44 /* SceneDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SceneDelegate.m; sourceTree = "<group>"; };
+		224EC3B425ED17230076DD44 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		224EC3B525ED17230076DD44 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		224EC3B825ED17230076DD44 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		224EC3BA25ED17230076DD44 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		224EC3BD25ED17240076DD44 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		224EC3BF25ED17240076DD44 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		224EC3C025ED17240076DD44 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		224EC3C625ED17240076DD44 /* KIFSwiftPMConsumerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KIFSwiftPMConsumerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		224EC3CA25ED17240076DD44 /* KIFSwiftPMConsumerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KIFSwiftPMConsumerTests.m; sourceTree = "<group>"; };
+		224EC3CC25ED17240076DD44 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		224EC3E925ED18130076DD44 /* KIF */ = {isa = PBXFileReference; lastKnownFileType = folder; name = KIF; path = ../..; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		224EC3A825ED17230076DD44 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		224EC3C325ED17240076DD44 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				224EC3F125ED18500076DD44 /* KIF in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		224EC3A225ED17230076DD44 = {
+			isa = PBXGroup;
+			children = (
+				224EC3AD25ED17230076DD44 /* KIFSwiftPMConsumer */,
+				224EC3C925ED17240076DD44 /* KIFSwiftPMConsumerTests */,
+				224EC3AC25ED17230076DD44 /* Products */,
+				224EC3EF25ED18500076DD44 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		224EC3AC25ED17230076DD44 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				224EC3AB25ED17230076DD44 /* KIFSwiftPMConsumer.app */,
+				224EC3C625ED17240076DD44 /* KIFSwiftPMConsumerTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		224EC3AD25ED17230076DD44 /* KIFSwiftPMConsumer */ = {
+			isa = PBXGroup;
+			children = (
+				224EC3AE25ED17230076DD44 /* AppDelegate.h */,
+				224EC3AF25ED17230076DD44 /* AppDelegate.m */,
+				224EC3B125ED17230076DD44 /* SceneDelegate.h */,
+				224EC3B225ED17230076DD44 /* SceneDelegate.m */,
+				224EC3B425ED17230076DD44 /* ViewController.h */,
+				224EC3B525ED17230076DD44 /* ViewController.m */,
+				224EC3B725ED17230076DD44 /* Main.storyboard */,
+				224EC3BA25ED17230076DD44 /* Assets.xcassets */,
+				224EC3BC25ED17240076DD44 /* LaunchScreen.storyboard */,
+				224EC3BF25ED17240076DD44 /* Info.plist */,
+				224EC3C025ED17240076DD44 /* main.m */,
+			);
+			path = KIFSwiftPMConsumer;
+			sourceTree = "<group>";
+		};
+		224EC3C925ED17240076DD44 /* KIFSwiftPMConsumerTests */ = {
+			isa = PBXGroup;
+			children = (
+				224EC3E925ED18130076DD44 /* KIF */,
+				224EC3CA25ED17240076DD44 /* KIFSwiftPMConsumerTests.m */,
+				224EC3CC25ED17240076DD44 /* Info.plist */,
+			);
+			path = KIFSwiftPMConsumerTests;
+			sourceTree = "<group>";
+		};
+		224EC3EF25ED18500076DD44 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		224EC3AA25ED17230076DD44 /* KIFSwiftPMConsumer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 224EC3DA25ED17240076DD44 /* Build configuration list for PBXNativeTarget "KIFSwiftPMConsumer" */;
+			buildPhases = (
+				224EC3A725ED17230076DD44 /* Sources */,
+				224EC3A825ED17230076DD44 /* Frameworks */,
+				224EC3A925ED17230076DD44 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = KIFSwiftPMConsumer;
+			productName = KIFSwiftPMConsumer;
+			productReference = 224EC3AB25ED17230076DD44 /* KIFSwiftPMConsumer.app */;
+			productType = "com.apple.product-type.application";
+		};
+		224EC3C525ED17240076DD44 /* KIFSwiftPMConsumerTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 224EC3DD25ED17240076DD44 /* Build configuration list for PBXNativeTarget "KIFSwiftPMConsumerTests" */;
+			buildPhases = (
+				224EC3C225ED17240076DD44 /* Sources */,
+				224EC3C325ED17240076DD44 /* Frameworks */,
+				224EC3C425ED17240076DD44 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				224EC3C825ED17240076DD44 /* PBXTargetDependency */,
+			);
+			name = KIFSwiftPMConsumerTests;
+			packageProductDependencies = (
+				224EC3F025ED18500076DD44 /* KIF */,
+			);
+			productName = KIFSwiftPMConsumerTests;
+			productReference = 224EC3C625ED17240076DD44 /* KIFSwiftPMConsumerTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		224EC3A325ED17230076DD44 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1240;
+				TargetAttributes = {
+					224EC3AA25ED17230076DD44 = {
+						CreatedOnToolsVersion = 12.4;
+					};
+					224EC3C525ED17240076DD44 = {
+						CreatedOnToolsVersion = 12.4;
+						TestTargetID = 224EC3AA25ED17230076DD44;
+					};
+				};
+			};
+			buildConfigurationList = 224EC3A625ED17230076DD44 /* Build configuration list for PBXProject "KIFSwiftPMConsumer" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 224EC3A225ED17230076DD44;
+			productRefGroup = 224EC3AC25ED17230076DD44 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				224EC3AA25ED17230076DD44 /* KIFSwiftPMConsumer */,
+				224EC3C525ED17240076DD44 /* KIFSwiftPMConsumerTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		224EC3A925ED17230076DD44 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				224EC3BE25ED17240076DD44 /* LaunchScreen.storyboard in Resources */,
+				224EC3BB25ED17240076DD44 /* Assets.xcassets in Resources */,
+				224EC3B925ED17230076DD44 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		224EC3C425ED17240076DD44 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		224EC3A725ED17230076DD44 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				224EC3B625ED17230076DD44 /* ViewController.m in Sources */,
+				224EC3B025ED17230076DD44 /* AppDelegate.m in Sources */,
+				224EC3C125ED17240076DD44 /* main.m in Sources */,
+				224EC3B325ED17230076DD44 /* SceneDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		224EC3C225ED17240076DD44 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				224EC3CB25ED17240076DD44 /* KIFSwiftPMConsumerTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		224EC3C825ED17240076DD44 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 224EC3AA25ED17230076DD44 /* KIFSwiftPMConsumer */;
+			targetProxy = 224EC3C725ED17240076DD44 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		224EC3B725ED17230076DD44 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				224EC3B825ED17230076DD44 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		224EC3BC25ED17240076DD44 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				224EC3BD25ED17240076DD44 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		224EC3D825ED17240076DD44 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		224EC3D925ED17240076DD44 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		224EC3DB25ED17240076DD44 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = KIFSwiftPMConsumer/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.kif-framework.KIFSwiftPMConsumer";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		224EC3DC25ED17240076DD44 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = KIFSwiftPMConsumer/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.kif-framework.KIFSwiftPMConsumer";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		224EC3DE25ED17240076DD44 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = KIFSwiftPMConsumerTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.kif-framework.KIFSwiftPMConsumerTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/KIFSwiftPMConsumer.app/KIFSwiftPMConsumer";
+			};
+			name = Debug;
+		};
+		224EC3DF25ED17240076DD44 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = KIFSwiftPMConsumerTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.kif-framework.KIFSwiftPMConsumerTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/KIFSwiftPMConsumer.app/KIFSwiftPMConsumer";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		224EC3A625ED17230076DD44 /* Build configuration list for PBXProject "KIFSwiftPMConsumer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				224EC3D825ED17240076DD44 /* Debug */,
+				224EC3D925ED17240076DD44 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		224EC3DA25ED17240076DD44 /* Build configuration list for PBXNativeTarget "KIFSwiftPMConsumer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				224EC3DB25ED17240076DD44 /* Debug */,
+				224EC3DC25ED17240076DD44 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		224EC3DD25ED17240076DD44 /* Build configuration list for PBXNativeTarget "KIFSwiftPMConsumerTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				224EC3DE25ED17240076DD44 /* Debug */,
+				224EC3DF25ED17240076DD44 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		224EC3F025ED18500076DD44 /* KIF */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = KIF;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 224EC3A325ED17230076DD44 /* Project object */;
+}
