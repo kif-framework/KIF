@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		B4310BE3260BA21400EE03AF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4310BE2260BA21400EE03AF /* AppDelegate.swift */; };
-		B4310BE5260BA21400EE03AF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4310BE4260BA21400EE03AF /* SceneDelegate.swift */; };
 		B4310BE7260BA21400EE03AF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4310BE6260BA21400EE03AF /* ViewController.swift */; };
 		B4310BEA260BA21400EE03AF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B4310BE8260BA21400EE03AF /* Main.storyboard */; };
 		B4310BEC260BA21500EE03AF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B4310BEB260BA21500EE03AF /* Assets.xcassets */; };
@@ -30,7 +29,6 @@
 /* Begin PBXFileReference section */
 		B4310BDF260BA21400EE03AF /* SPMIntegration.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SPMIntegration.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B4310BE2260BA21400EE03AF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		B4310BE4260BA21400EE03AF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		B4310BE6260BA21400EE03AF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		B4310BE9260BA21400EE03AF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		B4310BEB260BA21500EE03AF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -84,7 +82,6 @@
 			isa = PBXGroup;
 			children = (
 				B4310BE2260BA21400EE03AF /* AppDelegate.swift */,
-				B4310BE4260BA21400EE03AF /* SceneDelegate.swift */,
 				B4310BE6260BA21400EE03AF /* ViewController.swift */,
 				B4310BE8260BA21400EE03AF /* Main.storyboard */,
 				B4310BEB260BA21500EE03AF /* Assets.xcassets */,
@@ -216,7 +213,6 @@
 			files = (
 				B4310BE7260BA21400EE03AF /* ViewController.swift in Sources */,
 				B4310BE3260BA21400EE03AF /* AppDelegate.swift in Sources */,
-				B4310BE5260BA21400EE03AF /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -309,7 +305,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -364,7 +360,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -417,7 +413,6 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = SPMIntegrationTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -438,7 +433,6 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = SPMIntegrationTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
