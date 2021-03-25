@@ -80,6 +80,22 @@
     [tester waitForViewWithAccessibilityLabel:@"Date Time Selection" value:expectedDate traits:UIAccessibilityTraitNone];
 }
 
+- (void)testSelectingTodayAt12pm
+{
+    [tester tapViewWithAccessibilityLabel:@"Date Time Selection"];
+    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier: NSCalendarIdentifierGregorian];
+    NSDateComponents *components = [gregorian components: NSUIntegerMax fromDate: [NSDate date]];
+    [components setHour: 12];
+    NSDate *date = [gregorian dateFromComponents: components];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    dateFormatter.dateFormat = @"hh mm a";
+    NSArray *dateValues = [@[@"Today"] arrayByAddingObjectsFromArray:[[dateFormatter stringFromDate:date] componentsSeparatedByString:@" "]];
+    dateFormatter.dateFormat = @"MMM d, hh:mm a";
+    NSString *expectedDate = [dateFormatter stringFromDate:date];
+    [tester selectDatePickerValue:dateValues];
+    [tester waitForViewWithAccessibilityLabel:@"Date Time Selection" value:expectedDate traits:UIAccessibilityTraitNone];
+}
+
 - (void)testSelectingTime
 {
     [tester tapViewWithAccessibilityLabel:@"Time Selection"];
