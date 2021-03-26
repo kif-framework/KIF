@@ -408,7 +408,6 @@
 		9CC9673E1AD4B1B600576D13 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9CC9673F1AD4B1B600576D13 /* KIF.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KIF.h; sourceTree = "<group>"; };
 		AAB0726B139719AC008AF393 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		AAB0728113971A63008AF393 /* KIF-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "KIF-Prefix.pch"; path = "Classes/KIF-Prefix.pch"; sourceTree = SOURCE_ROOT; };
 		AAB072B413971AEA008AF393 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		AE62FCCF1A1D20E5002B10DA /* WebViewTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewTests.m; sourceTree = "<group>"; };
 		AE62FCD51A1D2447002B10DA /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
@@ -762,15 +761,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		AAB0726E139719AC008AF393 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				AAB0728113971A63008AF393 /* KIF-Prefix.pch */,
-			);
-			name = "Supporting Files";
-			path = KIF;
-			sourceTree = "<group>";
-		};
 		BFE4708E1C7F44C100580EF9 /* Additions */ = {
 			isa = PBXGroup;
 			children = (
@@ -787,7 +777,6 @@
 				2229D57325BEF47D0093296C /* Classes */,
 				2229D53D25BEF47D0093296C /* IdentifierTests */,
 				2229D54025BEF47D0093296C /* Visualizer */,
-				AAB0726E139719AC008AF393 /* Supporting Files */,
 			);
 			name = KIF;
 			sourceTree = "<group>";

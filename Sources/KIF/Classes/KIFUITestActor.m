@@ -781,12 +781,14 @@ static BOOL KIFUITestActorAnimationsEnabled = YES;
             }
         }
     
-        BOOL isPM = NO;
-        if(datePickerColumnValues.count == 4 && [datePickerColumnValues.lastObject isEqualToString:self.class.__kifDateFormatter.PMSymbol]) {
-            isPM = YES;
+        BOOL shouldOffsetPM = NO;
+        if(datePickerColumnValues.count == 4 &&
+           [datePickerColumnValues.lastObject isEqualToString:self.class.__kifDateFormatter.PMSymbol] &&
+           [datePickerColumnValues[1] integerValue] != 12) { // If the time is 12pm, 12 shouldn't be added to make it 24h format
+            shouldOffsetPM = YES;
         }
         
-        dateComponents.hour = isPM ? [datePickerColumnValues[1] integerValue] + 12 : [datePickerColumnValues[1] integerValue];
+        dateComponents.hour = shouldOffsetPM ? [datePickerColumnValues[1] integerValue] + 12 : [datePickerColumnValues[1] integerValue];
         dateComponents.minute = [datePickerColumnValues[2] integerValue];
         dateComponents.year = currentDateComponents.year;
     }
