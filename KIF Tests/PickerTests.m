@@ -49,6 +49,14 @@
     [tester waitForViewWithAccessibilityLabel:@"Date Time Selection" value:@"Jun 17, 06:43 AM" traits:UIAccessibilityTraitNone];
 }
 
+- (void)testSelectingDateTimeWithTimeZone
+{
+    [tester tapViewWithAccessibilityLabel:@"Time Zone Date Time Selection"];
+    NSArray *dateTime = @[@"Jun 17", @"6", @"43", @"AM"];
+    [tester selectDatePickerValue:dateTime];
+    [tester waitForViewWithAccessibilityLabel:@"Time Zone Date Time Selection" value:@"Jun 17, 06:43 AM +0000" traits:UIAccessibilityTraitNone];
+}
+
 - (void)testSelectingDateTimeFromCurrentBackwards
 {
     [tester tapViewWithAccessibilityLabel:@"Limited Date Time Selection"];

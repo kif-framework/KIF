@@ -3,6 +3,7 @@
 
 @property (weak, nonatomic, readonly) IBOutlet UITextField *wheelDateSelectionTextField;
 @property (weak, nonatomic, readonly) IBOutlet UITextField *wheelDateTimeSelectionTextField;
+@property (weak, nonatomic, readonly) IBOutlet UITextField *wheelTimeZoneDateTimeSelectionTextField;
 @property (weak, nonatomic, readonly) IBOutlet UITextField *wheelLimitedDateTimeSelectionTextField;
 @property (weak, nonatomic, readonly) IBOutlet UITextField *wheelTimeSelectionTextField;
 @property (weak, nonatomic, readonly) IBOutlet UITextField *countdownSelectionTextField;
@@ -10,6 +11,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *dateTimePickerCalendarTextField;
 @property (strong, nonatomic) UIDatePicker *wheelDatePicker;
 @property (strong, nonatomic) UIDatePicker *wheelDateTimePicker;
+@property (strong, nonatomic) UIDatePicker *wheelTimeZoneDateTimePicker;
 @property (strong, nonatomic) UIDatePicker *wheelLimitedDateTimePicker;
 @property (strong, nonatomic) UIDatePicker *wheelTimePicker;
 @property (strong, nonatomic) UIDatePicker *countdownPicker;
@@ -23,11 +25,13 @@
 
 @synthesize wheelDatePicker;
 @synthesize wheelDateTimePicker;
+@synthesize wheelTimeZoneDateTimePicker;
 @synthesize wheelLimitedDateTimePicker;
 @synthesize countdownPicker;
 @synthesize wheelTimePicker;
 @synthesize wheelDateSelectionTextField;
 @synthesize wheelDateTimeSelectionTextField;
+@synthesize wheelTimeZoneDateTimeSelectionTextField;
 @synthesize wheelLimitedDateTimeSelectionTextField;
 @synthesize wheelTimeSelectionTextField;
 @synthesize countdownSelectionTextField;
@@ -79,6 +83,23 @@
     wheelDateTimeSelectionTextField.returnKeyType = UIReturnKeyDone;
     wheelDateTimeSelectionTextField.inputView = wheelDateTimePicker;
     wheelDateTimeSelectionTextField.accessibilityLabel = @"Date Time Selection";
+    
+    wheelTimeZoneDateTimePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(30, 215, 260, 35)];
+    wheelTimeZoneDateTimePicker.timeZone = [NSTimeZone timeZoneForSecondsFromGMT:0];
+#if __IPHONE_13_4
+    if(@available(iOS 13.4, *)) {
+        wheelTimeZoneDateTimePicker.preferredDatePickerStyle = UIDatePickerStyleWheels;
+    }
+#endif
+    wheelTimeZoneDateTimePicker.datePickerMode = UIDatePickerModeDateAndTime;
+    [wheelTimeZoneDateTimePicker addTarget:self action:@selector(timeZoneDateTimePickerChanged:)
+                  forControlEvents:UIControlEventValueChanged];
+    [wheelTimeZoneDateTimePicker setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_US"]];
+    
+    wheelTimeZoneDateTimeSelectionTextField.placeholder = NSLocalizedString(@"Time Zone Date Time Selection", nil);
+    wheelTimeZoneDateTimeSelectionTextField.returnKeyType = UIReturnKeyDone;
+    wheelTimeZoneDateTimeSelectionTextField.inputView = wheelTimeZoneDateTimePicker;
+    wheelTimeZoneDateTimeSelectionTextField.accessibilityLabel = @"Time Zone Date Time Selection";
 
     wheelLimitedDateTimePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(30, 215, 260, 35)];
 #if __IPHONE_13_4
@@ -196,6 +217,23 @@
     self.wheelLimitedDateTimeSelectionTextField.text = [self.dateTimeFormatter stringFromDate:picker.date];
 }
 
+- (NSDateFormatter *)timeZoneDateTimeFormatter
+{
+    static NSDateFormatter *dateTimeFormatter;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        dateTimeFormatter = [[NSDateFormatter alloc] init];
+        dateTimeFormatter.timeZone = [NSTimeZone timeZoneForSecondsFromGMT:0];
+        [dateTimeFormatter setDateFormat:@"MMM d, hh:mm aa Z"];
+    });
+    
+    return dateTimeFormatter;
+}
+
+- (void)timeZoneDateTimePickerChanged:(UIDatePicker *)picker
+{
+    self.wheelTimeZoneDateTimeSelectionTextField.text = [self.timeZoneDateTimeFormatter stringFromDate:picker.date];
+}
 
 - (NSDateFormatter *)timeFormatter
 {
