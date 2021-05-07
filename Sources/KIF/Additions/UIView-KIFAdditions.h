@@ -121,4 +121,11 @@ typedef CGPoint KIFDisplacement;
  */
 @property (nonatomic, readonly) UIWindow *windowOrIdentityWindow;
 
+/*!
+ @method isNavigationItemView:
+ @abstract Determines if the view is a navigation item view.
+ @note Useful for when traversing a view hierarchy to retrieve navigation items.
+ */
+- (BOOL)isNavigationItemView;
+
 @end
