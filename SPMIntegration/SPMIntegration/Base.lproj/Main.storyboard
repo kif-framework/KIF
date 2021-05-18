@@ -11,13 +11,14 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="SPM_Integration" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="SPMIntegration" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c8U-Ku-caT">
                                 <rect key="frame" x="182" y="438" width="50" height="30"/>
+                                <accessibility key="accessibilityConfiguration" identifier="tapmeid"/>
                                 <state key="normal" title="Tap Me"/>
                                 <connections>
                                     <action selector="didTapButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="w6a-va-G17"/>
