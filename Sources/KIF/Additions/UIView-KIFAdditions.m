@@ -297,7 +297,7 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
             {
                 [scrollView setContentOffset:scrollContentOffset];
             } else {
-                [tableView scrollRectToVisible:initialPosition animated:NO];
+                [tableView setContentOffset:initialPosition.origin];
             }
             CFRunLoopRunInMode(UIApplicationCurrentRunMode, delay, false);
         } else if ([self isKindOfClass:[UICollectionView class]]) {
