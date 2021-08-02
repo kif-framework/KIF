@@ -68,7 +68,6 @@ typedef struct {
     [self setPhase:UITouchPhaseBegan];
     
     if ([self respondsToSelector:@selector(_setIsFirstTouchForView:)]) {
-        [self setIsTap:YES];
         [self _setIsFirstTouchForView:YES];
     } else {
         [self _setIsTapToClick:YES];
