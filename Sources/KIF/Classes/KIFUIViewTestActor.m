@@ -604,7 +604,7 @@ NSString *const inputFieldTestString = @"Testing";
         [self tryRunningBlock:^KIFTestStepResult(NSError **error) {
             KIFTestWaitCondition([self.actor tryFindingAccessibilityElement:&foundElement view:&foundView withElementMatchingPredicate:self.predicate tappable:tappable error:error], error, @"Waiting on view matching %@", self.predicate.kifPredicateDescription);
             return KIFTestStepResultSuccess;
-        } complete:nil timeout:1.0 error:&error];
+        } complete:nil timeout:self.executionBlockTimeout error:&error];
     }
 
     if (foundView && foundElement) {
