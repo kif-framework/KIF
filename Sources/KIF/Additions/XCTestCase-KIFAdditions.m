@@ -86,14 +86,30 @@ static inline void Swizzle(Class c, SEL orig, SEL new)
         dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
         
         [XCTContext runActivityNamed:(@"screenshot") block:^(id<XCTActivity>  _Nonnull activity) {
-            XCUIScreenshot *screenShot = [[XCUIScreen mainScreen] screenshot];
-            XCTAttachment *attachment = [XCTAttachment attachmentWithScreenshot:screenShot];
+            XCTAttachment *attachment = [XCTAttachment attachmentWithImage:[self _snapshotScreen]];
+            attachment.name = @"Screenshot";
             [activity addAttachment:(attachment)];
             dispatch_semaphore_signal(semaphore);
         }];
         
         dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
     }   
+}
+
+- (UIImage *)_snapshotScreen
+{
+    UIView *view = [[UIScreen mainScreen] snapshotViewAfterScreenUpdates:YES];
+    [view layoutIfNeeded];
+
+    CGRect bounds = view.bounds;
+    NSAssert1(CGRectGetWidth(bounds), @"Zero width for view %@", view);
+    NSAssert1(CGRectGetHeight(bounds), @"Zero height for view %@", view);
+
+    UIGraphicsImageRenderer *graphicsImageRenderer = [[UIGraphicsImageRenderer alloc] initWithSize:bounds.size];
+
+    return [graphicsImageRenderer imageWithActions:^(UIGraphicsImageRendererContext * _Nonnull rendererContext) {
+        [view drawViewHierarchyInRect:bounds afterScreenUpdates:YES];
+    }];
 }
 
 - (void)printViewHierarchyIfOptedIn;
