@@ -32,9 +32,15 @@ MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
     while (element && ![element isKindOfClass:[UIView class]]) {
         // Sometimes accessibilityContainer will return a view that's too far up the view hierarchy
         // UIAccessibilityElement instances will sometimes respond to view, so try to use that and then fall back to accessibilityContainer
-        id view = [element respondsToSelector:@selector(view)] ? [(id)element view]
-        : [element respondsToSelector:@selector(tableViewCell)] ? [(id)element tableViewCell]
-        : nil;
+        id view = nil;
+        
+        if([element respondsToSelector:@selector(view)]) {
+            view = [(id)element view];
+        } else if([element respondsToSelector:@selector(tableViewCell)]) {
+            view = [(id)element tableViewCell];
+        } else if([element isKindOfClass:NSClassFromString(@"UIAccessibilityElementMockView")]) {
+            view = [element valueForKey:@"view"];
+        }
         
         if (view) {
             element = view;

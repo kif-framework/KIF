@@ -56,3 +56,40 @@ jobs:
     - name: Build & Test
       run: ./scripts/ci.sh "${{ matrix.run-config['simulator'] }}"
 
+  build_xcode13:
+    runs-on: macos-11
+    strategy:
+      matrix:
+        run-config:
+          - { xcode_version: '13.0', simulator: 'name=iPad Pro (12.9-inch) (5th generation),OS=15.0' }
+
+    steps:
+    - name: Checkout Project
+      uses: actions/checkout@v1
+
+    - name: Brew Update
+      run:  brew update
+
+    - name: Install Bundler
+      run: gem install bundler
+
+    - name: Install Core Utils
+      run: if [ -z "$(brew ls --versions coreutils)" ] ; then brew install coreutils ; fi
+
+    - name: Install XCPretty
+      run: gem install xcpretty --no-document --quiet
+
+    - name: Show Xcode versions
+      run: ls -al /Applications/Xcode*
+
+    - name: Select Xcode
+      run: sudo xcode-select -s /Applications/Xcode_${{ matrix.run-config['xcode_version'] }}.app
+
+    - name: Current Xcode Selected
+      run: xcode-select -p
+
+    - name: List Simulators
+      run:  xcrun simctl list
+
+    - name: Build & Test
+      run: ./scripts/ci.sh "${{ matrix.run-config['simulator'] }}"
