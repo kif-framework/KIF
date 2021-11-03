@@ -765,27 +765,7 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
 // Is this view currently on screen?
 - (BOOL)isTappable;
 {
-    return ([self hasTapGestureRecognizer] ||
-            [self isTappableInRect:self.bounds]);
-}
-
-- (BOOL)hasTapGestureRecognizer
-{
-    __block BOOL hasTapGestureRecognizer = NO;
-    
-    [self.gestureRecognizers enumerateObjectsUsingBlock:^(id obj,
-                                                          NSUInteger idx,
-                                                          BOOL *stop) {
-        if ([obj isKindOfClass:[UITapGestureRecognizer class]]) {
-            hasTapGestureRecognizer = YES;
-            
-            if (stop != NULL) {
-                *stop = YES;
-            }
-        }
-    }];
-    
-    return hasTapGestureRecognizer;
+    return [self isTappableInRect:self.bounds];
 }
 
 - (BOOL)isTappableInRect:(CGRect)rect;
