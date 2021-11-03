@@ -219,6 +219,15 @@ MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
                 // Give the scroll view a small amount of time to perform the scroll.
                 CFTimeInterval delay = animationEnabled ? 0.3 : 0.05;
                 KIFRunLoopRunInModeRelativeToAnimationSpeed(kCFRunLoopDefaultMode, delay, false);
+
+                // Because of cell reuse the first found view could be different after we scroll.
+                // Find the same element's view to ensure that after we have scrolled we get the same view back.
+                UIView *checkedView = [UIAccessibilityElement viewContainingAccessibilityElement:element];
+                // intentionally doing a memory address check vs a isEqual check because
+                // we want to ensure that the memory address hasn't changed after scroll.
+                if(view != checkedView) {
+                    view = checkedView;
+                }
             }
         }
         
