@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface ScrollViewController : UIViewController<UIScrollViewDelegate>
+@property (weak, nonatomic) IBOutlet UIScrollView *longScrollview;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @end
 
@@ -22,6 +23,25 @@
     self.scrollView.contentInset = UIEdgeInsetsMake(2000, 2000, 0, 0);
     self.scrollView.contentSize = CGSizeMake(2000, 2000);
     self.scrollView.delegate = self;
+    
+    self.longScrollview.accessibilityLabel = @"Long Scroll View";
+    CGFloat longScrollViewHeight = CGRectGetHeight(self.longScrollview.bounds) * 2;
+    self.longScrollview.contentSize = CGSizeMake(CGRectGetWidth(self.longScrollview.bounds), longScrollViewHeight);
+    self.longScrollview.backgroundColor = UIColor.redColor;
+    
+    UILabel *topLabel = [[UILabel alloc] init];
+    topLabel.text = @"THIS IS THE TOP";
+    topLabel.accessibilityLabel = @"Top Label";
+    topLabel.textAlignment = UITextAlignmentCenter;
+    [self.longScrollview addSubview:topLabel];
+    topLabel.frame = CGRectMake(0, 0, CGRectGetWidth(self.longScrollview.bounds), 40);
+    
+    UILabel *bottomLabel = [[UILabel alloc] init];
+    bottomLabel.text = @"THIS IS THE BOTTOM";
+    bottomLabel.accessibilityLabel = @"Bottom Label";
+    bottomLabel.textAlignment = UITextAlignmentCenter;
+    [self.longScrollview addSubview:bottomLabel];
+    bottomLabel.frame = CGRectMake(0, longScrollViewHeight - 40, CGRectGetWidth(self.longScrollview.bounds), 40);
     
     UIButton *bottomButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [bottomButton setTitle:@"Down" forState:UIControlStateNormal];

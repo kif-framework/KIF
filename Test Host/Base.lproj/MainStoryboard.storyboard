@@ -1683,8 +1683,12 @@ Line Break
                         <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SLR-Kl-7v1">
+                                <rect key="frame" x="20" y="382" width="374" height="216"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                            </scrollView>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vCe-NZ-HE8">
-                                <rect key="frame" x="106" y="304" width="200" height="200"/>
+                                <rect key="frame" x="107" y="8" width="200" height="200"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             </scrollView>
                         </subviews>
@@ -1692,6 +1696,7 @@ Line Break
                     </view>
                     <navigationItem key="navigationItem" title="ScrollViews" id="SpZ-dM-ZUT"/>
                     <connections>
+                        <outlet property="longScrollview" destination="SLR-Kl-7v1" id="All-XX-BDv"/>
                         <outlet property="scrollView" destination="vCe-NZ-HE8" id="dda-Sp-2kA"/>
                     </connections>
                 </viewController>
