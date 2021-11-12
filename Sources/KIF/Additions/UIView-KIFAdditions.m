@@ -134,8 +134,12 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
 {
     return [self accessibilityElementMatchingBlock:matchBlock notHidden:YES];
 }
+- (UIAccessibilityElement *)accessibilityElementMatchingBlock:(BOOL(^)(UIAccessibilityElement *))matchBlock notHidden:(BOOL)notHidden
+{
+    return [self accessibilityElementMatchingBlock:matchBlock notHidden:notHidden shouldScroll:YES];
+}
 
-- (UIAccessibilityElement *)accessibilityElementMatchingBlock:(BOOL(^)(UIAccessibilityElement *))matchBlock notHidden:(BOOL)notHidden;
+- (UIAccessibilityElement *)accessibilityElementMatchingBlock:(BOOL(^)(UIAccessibilityElement *))matchBlock notHidden:(BOOL)notHidden shouldScroll:(BOOL)shouldScroll;
 {
     if (notHidden && self.hidden) {
         return nil;
@@ -225,7 +229,7 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
         }
     }
     
-    if (!matchingButOccludedElement && self.window) {
+    if (!matchingButOccludedElement && self.window && shouldScroll) {
         CGPoint scrollContentOffset = {-1.0, -1.0};
         UIScrollView *scrollView = nil;
         if ([self isKindOfClass:[UITableView class]]) {
@@ -311,18 +315,18 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
                 }
             }];
 
-            CFTimeInterval delay = 0.05;
-            for (NSUInteger section = 0, numberOfSections = [collectionView numberOfSections]; section < numberOfSections; section++) {
-                for (NSUInteger row = 0, numberOfItems = [collectionView numberOfItemsInSection:section]; row < numberOfItems; row++) {
+            CFTimeInterval delay = 0.1;
+            for (NSUInteger section = 0; section < [collectionView numberOfSections]; section++) {
+                for (NSUInteger item = 0; item < [collectionView numberOfItemsInSection:section]; item++) {
                     if (!self.window) {
                         break;
                     }
 
-                    // Skip visible rows because they are already handled.
-                    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:row inSection:section];
+                    // Skip visible items because they are already handled.
+                    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:item inSection:section];
                     if ([indexPathsForVisibleItems containsObject:indexPath]) {
                         @autoreleasepool {
-                            //scroll to the last row of each section before continuing. Attemps to ensure we can get to sections that are off screen. KIF tests (e.g. testButtonAbsentAfterRemoveFromSuperview) fails without this line. Also without this... we can't expose the next section (in code downstream)
+                            //scroll to the last item of each section before continuing. Attemps to ensure we can get to sections that are off screen. KIF tests (e.g. testButtonAbsentAfterRemoveFromSuperview) fails without this line. Also without this... we can't expose the next section (in code downstream)
                             [collectionView scrollToItemAtIndexPath:[indexPathsForVisibleItems lastObject] atScrollPosition:UICollectionViewScrollPositionNone animated:NO];
                             continue;
                         }
@@ -336,18 +340,13 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
                         // wait for it to scroll before checking for cell
                         CFRunLoopRunInMode(UIApplicationCurrentRunMode, delay, false);
 
-                        UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
-                        UIAccessibilityElement *element = [cell accessibilityElementMatchingBlock:matchBlock notHidden:NO];
+                        UIAccessibilityElement *element = [self accessibilityElementMatchingBlock:matchBlock notHidden:NO shouldScroll:NO];
 
                         // Skip this cell if it isn't the one we're looking for
-                        if (!element) {
-                            continue;
+                        if (element) {
+                            return element;
                         }
                     }
-
-                    // Note: using KIFRunLoopRunInModeRelativeToAnimationSpeed here may cause tests to stall
-                    CFRunLoopRunInMode(UIApplicationCurrentRunMode, delay, false);
-                    return [self accessibilityElementMatchingBlock:matchBlock];
                 }
             }
         }
