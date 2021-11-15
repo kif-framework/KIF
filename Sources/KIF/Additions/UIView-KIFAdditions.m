@@ -786,6 +786,12 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
     if ([hitView isKindOfClass:[UIControl class]] && [self isDescendantOfView:hitView]) {
         return YES;
     }
+
+    // Similar to the above with UIControl's a view with a tap gesture may be forwarding
+    // on their taps to a subview.
+    if ([hitView hasTapGestureRecognizer] && [self isDescendantOfView:hitView]) {
+        return YES;
+    }
     
     // Button views in the nav bar (a private class derived from UINavigationItemView), do not return
     // themselves in a -hitTest:. Instead they return the nav bar.
@@ -794,6 +800,25 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
     }
     
     return [hitView isDescendantOfView:self];
+}
+
+- (BOOL)hasTapGestureRecognizer
+{
+    __block BOOL hasTapGestureRecognizer = NO;
+
+    [self.gestureRecognizers enumerateObjectsUsingBlock:^(id obj,
+                                                          NSUInteger idx,
+                                                          BOOL *stop) {
+        if ([obj isKindOfClass:[UITapGestureRecognizer class]]) {
+            hasTapGestureRecognizer = YES;
+
+            if (stop != NULL) {
+                *stop = YES;
+            }
+        }
+    }];
+
+    return hasTapGestureRecognizer;
 }
 
 - (CGPoint)tappablePointInRect:(CGRect)rect;
