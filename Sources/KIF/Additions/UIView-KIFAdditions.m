@@ -765,7 +765,7 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
 // Is this view currently on screen?
 - (BOOL)isTappable;
 {
-    return [self isTappableInRect:self.bounds];
+    return [self hasTapGestureRecognizer] || [self isTappableInRect:self.bounds];
 }
 
 - (BOOL)isTappableInRect:(CGRect)rect;
@@ -785,7 +785,7 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
     if ([hitView isKindOfClass:[UIControl class]] && [self isDescendantOfView:hitView]) {
         return YES;
     }
-    
+
     // Button views in the nav bar (a private class derived from UINavigationItemView), do not return
     // themselves in a -hitTest:. Instead they return the nav bar.
     if ([hitView isKindOfClass:[UINavigationBar class]] && [self isNavigationItemView] && [self isDescendantOfView:hitView]) {
@@ -793,6 +793,25 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
     }
     
     return [hitView isDescendantOfView:self];
+}
+
+- (BOOL)hasTapGestureRecognizer
+{
+    __block BOOL hasTapGestureRecognizer = NO;
+
+    [self.gestureRecognizers enumerateObjectsUsingBlock:^(id obj,
+                                                          NSUInteger idx,
+                                                          BOOL *stop) {
+        if ([obj isKindOfClass:[UITapGestureRecognizer class]] && [obj isEnabled]) {
+            hasTapGestureRecognizer = YES;
+
+            if (stop != NULL) {
+                *stop = YES;
+            }
+        }
+    }];
+
+    return hasTapGestureRecognizer;
 }
 
 - (CGPoint)tappablePointInRect:(CGRect)rect;
