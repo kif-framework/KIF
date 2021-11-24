@@ -113,7 +113,12 @@ typedef struct {
 
 - (void)setPhaseAndUpdateTimestamp:(UITouchPhase)phase
 {
-    [self setTimestamp:[[NSProcessInfo processInfo] systemUptime]];
+    NSTimeInterval timestamp = [[NSProcessInfo processInfo] systemUptime];
+    [self setPhase:phase andUpdateTimestamp:timestamp];
+}
+
+- (void)setPhase:(UITouchPhase)phase andUpdateTimestamp:(NSTimeInterval) timestamp {
+    [self setTimestamp:timestamp];
     [self setPhase:phase];
 }
 

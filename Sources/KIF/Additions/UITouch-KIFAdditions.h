@@ -18,5 +18,6 @@
 - (void)setLocationInWindow:(CGPoint)location;
 - (void)setPhaseAndUpdateTimestamp:(UITouchPhase)phase;
 - (void)setIsFromEdge:(BOOL)isFromEdge;
+- (void)setPhase:(UITouchPhase)phase andUpdateTimestamp: (NSTimeInterval) timestamp;
 
 @end

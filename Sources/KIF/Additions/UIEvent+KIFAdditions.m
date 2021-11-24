@@ -85,6 +85,7 @@ typedef struct __GSEvent * GSEventRef;
 {
     IOHIDEventRef event = kif_IOHIDEventWithTouches(touches);
     [self _setHIDEvent:event];
+    [self _setTimestamp:(((UITouch*)touches[0]).timestamp)];
     CFRelease(event);
 }
 
