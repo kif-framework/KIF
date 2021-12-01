@@ -765,11 +765,11 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
 // Is this view currently on screen?
 - (BOOL)isTappable;
 {
-    return ([self hasTapGestureRecognizer] ||
+    return ([self hasTapGestureRecognizerAndIsControlEnabled] ||
             [self isTappableInRect:self.bounds]);
 }
 
-- (BOOL)hasTapGestureRecognizer
+- (BOOL)hasTapGestureRecognizerAndIsControlEnabled
 {
     __block BOOL hasTapGestureRecognizer = NO;
     
@@ -784,6 +784,14 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
             }
         }
     }];
+    
+    // In iOS 15 UIButton's still have tap gesture recognizers when disabled. 
+    // This prevents a control that is disabled, but still has the system gesture
+    // recognizers to say it's tappable.
+    if ([self isKindOfClass:[UIControl class]]) {
+        UIControl *control = (UIControl *)self;
+        return hasTapGestureRecognizer && control.isEnabled;
+    }
     
     return hasTapGestureRecognizer;
 }
