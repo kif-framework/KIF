@@ -323,6 +323,13 @@ static BOOL KIFUITestActorAnimationsEnabled = YES;
         KIFTestWaitCondition(view.isUserInteractionActuallyEnabled, error, @"View is not enabled for interaction: %@", view);
 
         CGPoint tappablePointInElement = [self tappablePointInElement:element andView:view];
+
+        // If the element isn't immediately tappable, try checking if it is contained within scroll views that can be scrolled to make it tappable.
+        if (isnan(tappablePointInElement.x)) {
+            [self _scrollViewToTappablePointIfNeeded:view];
+
+            tappablePointInElement = [self tappablePointInElement:element andView:view];
+        }
         
         // This is mostly redundant of the test in _accessibilityElementWithLabel:
         KIFTestWaitCondition(!isnan(tappablePointInElement.x), error, @"View is not tappable: %@", view);
@@ -406,6 +413,12 @@ static BOOL KIFUITestActorAnimationsEnabled = YES;
         KIFTestWaitCondition(view.isUserInteractionActuallyEnabled, error, @"View is not enabled for interaction: %@", view);
 
         CGPoint tappablePointInElement = [self tappablePointInElement:element andView:view];
+        // If the element isn't immediately tappable, try checking if it is contained within scroll views that can be scrolled to make it tappable.
+        if (isnan(tappablePointInElement.x)) {
+            [self _scrollViewToTappablePointIfNeeded:view];
+
+            tappablePointInElement = [self tappablePointInElement:element andView:view];
+        }
         
         // This is mostly redundant of the test in _accessibilityElementWithLabel:
         KIFTestWaitCondition(!isnan(tappablePointInElement.x), error, @"View is not tappable: %@", view);
@@ -1570,6 +1583,13 @@ static BOOL KIFUITestActorAnimationsEnabled = YES;
         KIFTestWaitCondition(view.isUserInteractionActuallyEnabled, error, @"View is not enabled for interaction: %@", view);
 
         CGPoint stepperPointToTap = [self tappablePointInElement:element andView:view];
+        
+        // If the element isn't immediately tappable, try checking if it is contained within scroll views that can be scrolled to make it tappable.
+        if (isnan(stepperPointToTap.x)) {
+            [self _scrollViewToTappablePointIfNeeded:view];
+
+            stepperPointToTap = [self tappablePointInElement:element andView:view];
+        }
 
         switch (stepperDirection)
         {
@@ -1580,6 +1600,7 @@ static BOOL KIFUITestActorAnimationsEnabled = YES;
                 stepperPointToTap.x -= CGRectGetWidth(view.frame) / 4;
                 break;
         }
+        
 
         // This is mostly redundant of the test in _accessibilityElementWithLabel:
         KIFTestWaitCondition(!isnan(stepperPointToTap.x), error, @"View is not tappable: %@", view);
@@ -1630,6 +1651,21 @@ static BOOL KIFUITestActorAnimationsEnabled = YES;
         case KIFSwipeDirectionDown:
             return CGPointMake(kKIFMinorSwipeDisplacement, UIScreen.mainScreen.majorSwipeDisplacement);
     }
+}
+
+- (void)_scrollViewToTappablePointIfNeeded:(UIView *)view
+{
+    UIView *container = view;
+
+    do {
+        if ([container isKindOfClass:UIScrollView.class]) {
+            UIScrollView *containerScrollView = (UIScrollView *)container;
+            CGRect rect = [view convertRect:view.frame toView:containerScrollView];
+            [containerScrollView scrollRectToVisible:rect animated:NO];
+        }
+
+        container = container.superview;
+    } while (container != nil);
 }
 
 + (BOOL)testActorAnimationsEnabled;
