@@ -303,50 +303,48 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
         } else if ([self isKindOfClass:[UICollectionView class]]) {
             UICollectionView *collectionView = (UICollectionView *)self;
             
-            NSMutableArray *indexPathsForVisibleItems = [[NSMutableArray alloc] init];
-            [[collectionView visibleCells] enumerateObjectsUsingBlock:^(UICollectionViewCell *cell, NSUInteger idx, BOOL *stop) {
-                NSIndexPath *indexPath = [collectionView indexPathForCell:cell];
-                if (indexPath) {
-                    [indexPathsForVisibleItems addObject:indexPath];
-                }
-            }];
-
-            CFTimeInterval delay = 0.05;
+            NSArray *indexPathsForVisibleItems = [collectionView indexPathsForVisibleItems];
+            
             for (NSUInteger section = 0, numberOfSections = [collectionView numberOfSections]; section < numberOfSections; section++) {
-                for (NSUInteger row = 0, numberOfItems = [collectionView numberOfItemsInSection:section]; row < numberOfItems; row++) {
+                for (NSUInteger item = 0, numberOfItems = [collectionView numberOfItemsInSection:section]; item < numberOfItems; item++) {
                     if (!self.window) {
                         break;
                     }
 
-                    // Skip visible rows because they are already handled.
-                    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:row inSection:section];
+                    // Skip visible items because they are already handled
+                    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:item inSection:section];
                     if ([indexPathsForVisibleItems containsObject:indexPath]) {
-                        @autoreleasepool {
-                            //scroll to the last row of each section before continuing. Attemps to ensure we can get to sections that are off screen. KIF tests (e.g. testButtonAbsentAfterRemoveFromSuperview) fails without this line. Also without this... we can't expose the next section (in code downstream)
-                            [collectionView scrollToItemAtIndexPath:[indexPathsForVisibleItems lastObject] atScrollPosition:UICollectionViewScrollPositionNone animated:NO];
-                            continue;
-                        }
+                        continue;
                     }
-
+                    
                     @autoreleasepool {
-                        // Scroll to the cell and wait for the animation to complete. Using animations here may not be optimal.
-                        CGRect sectionRect = [collectionView layoutAttributesForItemAtIndexPath:indexPath].frame;
-                        [collectionView scrollRectToVisible:sectionRect animated:NO];
+                        // Get the cell directly from the dataSource because UICollectionView will only vend visible cells
+                        UICollectionViewCell *cell = [collectionView.dataSource collectionView:collectionView cellForItemAtIndexPath:indexPath];
+
+                        // The cell contents might change just prior to being displayed, so we simulate the cell appearing onscreen
+                        if ([collectionView.delegate respondsToSelector:@selector(collectionView:willDisplayCell:forItemAtIndexPath:)]) {
+                            [collectionView.delegate collectionView:collectionView willDisplayCell:cell forItemAtIndexPath:indexPath];
+                        }
                         
-                        // wait for it to scroll before checking for cell
-                        CFRunLoopRunInMode(UIApplicationCurrentRunMode, delay, false);
-
-                        UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
                         UIAccessibilityElement *element = [cell accessibilityElementMatchingBlock:matchBlock notHidden:NO];
-
+                        
+                        // Remove the cell from the collection view so that it doesn't stick around
+                        [cell removeFromSuperview];
+                        
                         // Skip this cell if it isn't the one we're looking for
-                        if (!element) {
+                        // Sometimes we get cells with no size here which can cause an endless loop, so we ignore those
+                        if (!element || CGSizeEqualToSize(cell.frame.size, CGSizeZero)) {
                             continue;
                         }
                     }
-
+                    
+                    // Scroll to the cell and wait for the animation to complete
+                    CGRect frame = [collectionView.collectionViewLayout layoutAttributesForItemAtIndexPath:indexPath].frame;
+                    [collectionView scrollRectToVisible:frame animated:YES];
                     // Note: using KIFRunLoopRunInModeRelativeToAnimationSpeed here may cause tests to stall
-                    CFRunLoopRunInMode(UIApplicationCurrentRunMode, delay, false);
+                    CFRunLoopRunInMode(UIApplicationCurrentRunMode, 0.5, false);
+                    
+                    // Now try finding the element again
                     return [self accessibilityElementMatchingBlock:matchBlock];
                 }
             }
