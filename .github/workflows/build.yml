@@ -21,7 +21,7 @@ jobs:
       matrix:
         run-config:
           - { xcode_version: '11.7', simulator: 'name=iPhone SE (2nd generation),OS=13.7' }
-          - { xcode_version: '12.2', simulator: 'name=iPhone SE (2nd generation),OS=14.2' }
+          - { xcode_version: '12.5.1', simulator: 'name=iPhone SE (2nd generation),OS=14.2' }
           - { xcode_version: '13.0', simulator: 'name=iPad Pro (12.9-inch) (5th generation),OS=15.0' }
 
 
