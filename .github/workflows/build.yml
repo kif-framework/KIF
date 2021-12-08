@@ -16,14 +16,14 @@ jobs:
       run: pod lib lint
 
   build:
-    runs-on: macos-latest
+    runs-on: macos-11
     strategy:
       matrix:
         run-config:
-          - { xcode_version: '10.3', simulator: 'name=iPad (5th generation),OS=12.4' }
-          - { xcode_version: '10.3', simulator: 'name=iPhone 8,OS=12.4' }
           - { xcode_version: '11.7', simulator: 'name=iPhone SE (2nd generation),OS=13.7' }
           - { xcode_version: '12.2', simulator: 'name=iPhone SE (2nd generation),OS=14.2' }
+          - { xcode_version: '13.0', simulator: 'name=iPad Pro (12.9-inch) (5th generation),OS=15.0' }
+
 
     steps:
     - name: Checkout Project
@@ -56,12 +56,13 @@ jobs:
     - name: Build & Test
       run: ./scripts/ci.sh "${{ matrix.run-config['simulator'] }}"
 
-  build_xcode13:
-    runs-on: macos-11
+  build_xcode10:
+    runs-on: macos-10.15
     strategy:
       matrix:
         run-config:
-          - { xcode_version: '13.0', simulator: 'name=iPad Pro (12.9-inch) (5th generation),OS=15.0' }
+          - { xcode_version: '10.3', simulator: 'name=iPad (5th generation),OS=12.4' }
+          - { xcode_version: '10.3', simulator: 'name=iPhone 8,OS=12.4' }
 
     steps:
     - name: Checkout Project
