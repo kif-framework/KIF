@@ -39,6 +39,17 @@ extern NSString *const inputFieldTestString;
  */
 - (instancetype)validateEnteredText:(BOOL)validateEnteredText;
 
+
+/*!
+ @abstract Controls if search methods will match accessibility container views.
+ @discussion This method will force the actor to only match on elements with `isAccessibilityElement` equal to YES.
+ 
+ @param matchAccessibilityContainers Whether or not to match accessibility containers. Defaults to NO.
+ @return The message reciever, these methods are intended to be chained together.
+ */
+- (instancetype)matchAccessibilityContainers:(BOOL)matchAccessibilityContainers;
+
+
 #pragma mark - Searching for Accessibility Elements
 
 /*!

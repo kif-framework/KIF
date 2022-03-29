@@ -24,6 +24,7 @@
 @property (nonatomic, strong, readonly) KIFUITestActor *actor;
 @property (nonatomic, strong, readwrite) NSPredicate *predicate;
 @property (nonatomic, assign) BOOL validateEnteredText;
+@property (nonatomic, assign) BOOL matchAccessibilityContainers;
 
 @end
 
@@ -39,6 +40,7 @@ NSString *const inputFieldTestString = @"Testing";
     self = [super initWithFile:file line:line delegate:delegate];
     NSParameterAssert(self);
     _validateEnteredText = YES;
+    _matchAccessibilityContainers = NO;
     return self;
 }
 
@@ -47,6 +49,12 @@ NSString *const inputFieldTestString = @"Testing";
 - (instancetype)validateEnteredText:(BOOL)validateEnteredText;
 {
     self.validateEnteredText = validateEnteredText;
+    return self;
+}
+
+- (instancetype)matchAccessibilityContainers:(BOOL)matchAccessibilityContainers;
+{
+    self.matchAccessibilityContainers = matchAccessibilityContainers;
     return self;
 }
 
@@ -389,7 +397,7 @@ NSString *const inputFieldTestString = @"Testing";
 - (void)tapRowInTableViewAtIndexPath:(NSIndexPath *)indexPath;
 {
     @autoreleasepool {
-        KIFUIObject *found = [[self _usingExpectedClass:[UITableView class]] _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
+        KIFUIObject *found = [[[self matchAccessibilityContainers: YES] _usingExpectedClass:[UITableView class]] _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
         [self.actor tapRowAtIndexPath:indexPath inTableView:(UITableView *)found.view];
     }
 }
@@ -402,7 +410,7 @@ NSString *const inputFieldTestString = @"Testing";
 - (UITableViewCell *)waitForCellInTableViewAtIndexPath:(NSIndexPath *)indexPath atPosition:(UITableViewScrollPosition)position;
 {
     @autoreleasepool {
-        KIFUIObject *found = [[self _usingExpectedClass:[UITableView class]] _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
+        KIFUIObject *found = [[[self matchAccessibilityContainers: YES] _usingExpectedClass:[UITableView class]] _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
         return [self.actor waitForCellAtIndexPath:indexPath inTableView:(UITableView *)found.view atPosition:position];
     }
 }
@@ -410,7 +418,7 @@ NSString *const inputFieldTestString = @"Testing";
 - (void)moveRowInTableViewAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath;
 {
     @autoreleasepool {
-        KIFUIObject *found = [[self _usingExpectedClass:[UITableView class]] _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
+        KIFUIObject *found = [[[self matchAccessibilityContainers: YES] _usingExpectedClass:[UITableView class]] _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
         [self.actor moveRowAtIndexPath:sourceIndexPath toIndexPath:destinationIndexPath inTableView:(UITableView *)found.view];
     }
 }
@@ -419,7 +427,7 @@ NSString *const inputFieldTestString = @"Testing";
 - (void)tapCollectionViewItemAtIndexPath:(NSIndexPath *)indexPath;
 {
     @autoreleasepool {
-        KIFUIObject *found = [[self _usingExpectedClass:[UICollectionView class]] _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
+        KIFUIObject *found = [[[self matchAccessibilityContainers: YES] _usingExpectedClass:[UICollectionView class]] _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
         [self.actor tapItemAtIndexPath:indexPath inCollectionView:(UICollectionView *)found.view];
     }
 }
@@ -427,7 +435,7 @@ NSString *const inputFieldTestString = @"Testing";
 - (UICollectionViewCell *)waitForCellInCollectionViewAtIndexPath:(NSIndexPath *)indexPath;
 {
     @autoreleasepool {
-        KIFUIObject *found = [[self _usingExpectedClass:[UICollectionView class]] _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
+        KIFUIObject *found = [[[self matchAccessibilityContainers: YES] _usingExpectedClass:[UICollectionView class]] _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
         return [self.actor waitForCellAtIndexPath:indexPath inCollectionView:(UICollectionView *)found.view];
     }
 }
@@ -461,7 +469,7 @@ NSString *const inputFieldTestString = @"Testing";
 - (void)selectPickerViewRowWithTitle:(NSString *)title inComponent:(NSInteger)component;
 {
     @autoreleasepool {
-        KIFUIObject *found = [[self _usingExpectedClass:[UIPickerView class]] _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
+        KIFUIObject *found = [[[self matchAccessibilityContainers: YES] _usingExpectedClass:[UIPickerView class]] _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
         UIPickerView *picker = (UIPickerView *) found.view;
         [self.actor selectPickerViewRowWithTitle:title inComponent:component fromPicker:picker withSearchOrder:KIFPickerSearchForwardFromStart];
     }
@@ -472,7 +480,7 @@ NSString *const inputFieldTestString = @"Testing";
 - (void)selectDatePickerDate:(NSDate *)date
 {
     @autoreleasepool {
-        KIFUIObject *found = [[self _usingExpectedClass:[UIDatePicker class]] _predicateSearchWithRequiresMatch:NO mustBeTappable:NO];
+        KIFUIObject *found = [[[self matchAccessibilityContainers: YES] _usingExpectedClass:[UIDatePicker class]] _predicateSearchWithRequiresMatch:NO mustBeTappable:NO];
         [(UIDatePicker *)found.view selectDate:date];
     }
 }
@@ -480,7 +488,7 @@ NSString *const inputFieldTestString = @"Testing";
 - (void)selectCountdownTimerDatePickerHours:(NSUInteger)hours minutes:(NSUInteger)minutes
 {
     @autoreleasepool {
-        KIFUIObject *found = [[self _usingExpectedClass:[UIDatePicker class]] _predicateSearchWithRequiresMatch:NO mustBeTappable:NO];
+        KIFUIObject *found = [[[self matchAccessibilityContainers:YES] _usingExpectedClass:[UIDatePicker class]] _predicateSearchWithRequiresMatch:NO mustBeTappable:NO];
         [(UIDatePicker *)found.view selectCountdownHours:hours minutes:minutes];
     }
 }
@@ -491,7 +499,7 @@ NSString *const inputFieldTestString = @"Testing";
 - (void)selectDatePickerViewRowWithTitle:(NSString *)title inComponent:(NSInteger)component;
 {
     @autoreleasepool {
-        KIFUIObject *found = [[self _usingExpectedClass:[UIDatePicker class]] _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
+        KIFUIObject *found = [[[self matchAccessibilityContainers: YES] _usingExpectedClass:[UIDatePicker class]] _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
         UIPickerView *picker = [self _getDatePickerViewFromPicker:found.view];
         [self.actor selectPickerViewRowWithTitle:title inComponent:component fromPicker:picker withSearchOrder:KIFPickerSearchForwardFromStart];
     }
@@ -505,7 +513,7 @@ NSString *const inputFieldTestString = @"Testing";
 - (void)selectDatePickerValue:(NSArray *)datePickerColumnValues withSearchOrder:(KIFPickerSearchOrder)searchOrder;
 {
     @autoreleasepool {
-        KIFUIObject *found = [[self _usingExpectedClass:[UIDatePicker class]] _predicateSearchWithRequiresMatch:NO mustBeTappable:NO];
+        KIFUIObject *found = [[[self matchAccessibilityContainers: YES] _usingExpectedClass:[UIDatePicker class]] _predicateSearchWithRequiresMatch:NO mustBeTappable:NO];
         [self.actor selectDatePickerValue:datePickerColumnValues fromPicker:(UIDatePicker *)found.view withSearchOrder:searchOrder];
     }
 }
@@ -582,6 +590,15 @@ NSString *const inputFieldTestString = @"Testing";
     }
 }
 
+-(NSPredicate *)_acessibilityElementPredicate;
+{
+    NSPredicate *accessibilityElementPredicate = [NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
+        return [evaluatedObject isAccessibilityElement];
+    }];
+    accessibilityElementPredicate.kifPredicateDescription = @"isAccessibilityElement equal to YES";
+    return accessibilityElementPredicate;
+}
+
 - (UIPickerView *)_getDatePickerViewFromPicker:(UIView *)picker;
 {
     for (UIView *view in picker.subviews) {
@@ -596,6 +613,10 @@ NSString *const inputFieldTestString = @"Testing";
 {
     __block UIView *foundView = nil;
     __block UIAccessibilityElement *foundElement = nil;
+    
+    if(!self.matchAccessibilityContainers) {
+        [self _appendPredicate:self._acessibilityElementPredicate];
+    }
 
     if (requiresMatch) {
         [self.actor waitForAccessibilityElement:&foundElement view:&foundView withElementMatchingPredicate:self.predicate tappable:tappable];
