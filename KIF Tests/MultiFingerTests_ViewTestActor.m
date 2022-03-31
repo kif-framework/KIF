@@ -23,7 +23,7 @@
 {
     [[viewTester usingLabel:@"ScrollViews"] tap];
     // reset scroll view
-    UIScrollView *scrollView = (UIScrollView *)[viewTester usingLabel:@"Scroll View"].view;
+    UIScrollView *scrollView = (UIScrollView *)[[viewTester matchAccessibilityContainers:YES] usingLabel:@"Scroll View"].view;
     scrollView.contentOffset = CGPointZero;
 
     self.twoFingerPanSuccess = NO;
@@ -45,7 +45,7 @@
 {
     CGFloat offset = 50.0;
 
-    UIScrollView *scrollView = (UIScrollView *)[viewTester usingLabel:@"Scroll View"].view;
+    UIScrollView *scrollView = (UIScrollView *)[[viewTester matchAccessibilityContainers:YES] usingLabel:@"Scroll View"].view;
 	[viewTester waitForAnimationsToFinish];
     UIPanGestureRecognizer *panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(_twoFingerPanned:)];
     panGestureRecognizer.minimumNumberOfTouches = 2;
@@ -62,7 +62,7 @@
 {
     CGFloat distance = 50.0;
 
-    UIScrollView *scrollView = (UIScrollView *)[[viewTester usingLabel:@"Scroll View"] waitForView];
+    UIScrollView *scrollView = (UIScrollView *)[[[viewTester  matchAccessibilityContainers:YES] usingLabel:@"Scroll View"] waitForView];
 	[viewTester waitForAnimationsToFinish];
     UIPinchGestureRecognizer *pinchRecognizer = [[UIPinchGestureRecognizer alloc] initWithTarget:self
                                                                                           action:@selector(_zoomed:)];
@@ -77,7 +77,7 @@
 
 - (void)testRotate
 {
-    UIScrollView *scrollView = (UIScrollView *)[[viewTester usingLabel:@"Scroll View"] waitForView];
+    UIScrollView *scrollView = (UIScrollView *)[[[viewTester matchAccessibilityContainers:YES] usingLabel:@"Scroll View"] waitForView];
     [viewTester waitForAnimationsToFinish];
     UIRotationGestureRecognizer *rotateRecognizer =
     [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(_rotated:)];
@@ -98,7 +98,7 @@
 
 - (void)_assertThatLatestRotationIsWithinThreshold:(double)targetRotationInDegrees
 {
-    UIScrollView *scrollView = (UIScrollView *)[[viewTester usingLabel:@"Scroll View"] waitForView];
+    UIScrollView *scrollView = (UIScrollView *)[[[viewTester matchAccessibilityContainers:YES] usingLabel:@"Scroll View"] waitForView];
     CGPoint startPoint = CGPointMake(CGRectGetMidX(scrollView.bounds), CGRectGetMidY(scrollView.bounds));
     [scrollView twoFingerRotateAtPoint:startPoint angle:targetRotationInDegrees];
 

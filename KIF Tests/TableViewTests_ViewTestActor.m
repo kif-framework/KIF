@@ -84,7 +84,7 @@
 - (void)testTappingRowUnderToolbarByLabel
 {
     // Ensure the toolbar is visible
-    [[viewTester usingIdentifier:@"Toolbar"] waitForView];
+    [[[viewTester matchAccessibilityContainers:YES] usingIdentifier:@"Toolbar"] waitForView];
 
     // Tap row 31, which will scroll so that cell 32 is precisely positioned under the toolbar
     [[viewTester usingLabel:@"Cell 31"] tap];

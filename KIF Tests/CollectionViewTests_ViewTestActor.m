@@ -26,38 +26,38 @@
 
 - (void)testTappingItems
 {
-    [[viewTester usingIdentifier:@"CollectionView Tests CollectionView"] tapCollectionViewItemAtIndexPath:[NSIndexPath indexPathForItem:199 inSection:0]];
-    [[[viewTester usingLabel:@"Last Cell"] usingTraits:UIAccessibilityTraitSelected] waitForView];
-    [[viewTester usingIdentifier:@"CollectionView Tests CollectionView"] tapCollectionViewItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0]];
-    [[[viewTester usingLabel:@"First Cell"] usingTraits:UIAccessibilityTraitSelected] waitForView];
+    [[[viewTester matchAccessibilityContainers:YES] usingIdentifier:@"CollectionView Tests CollectionView"] tapCollectionViewItemAtIndexPath:[NSIndexPath indexPathForItem:199 inSection:0]];
+    [[[[viewTester matchAccessibilityContainers:YES] usingLabel:@"Last Cell"] usingTraits:UIAccessibilityTraitSelected] waitForView];
+    [[[viewTester matchAccessibilityContainers:YES] usingIdentifier:@"CollectionView Tests CollectionView"] tapCollectionViewItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0]];
+    [[[[viewTester matchAccessibilityContainers:YES] usingLabel:@"First Cell"] usingTraits:UIAccessibilityTraitSelected] waitForView];
 }
 
 - (void)testTappingLastItemAndSection
 {
-    [[viewTester usingIdentifier:@"CollectionView Tests CollectionView"] tapCollectionViewItemAtIndexPath:[NSIndexPath indexPathForItem:-1 inSection:-1]];
-    [[[viewTester usingLabel:@"Last Cell"] usingTraits:UIAccessibilityTraitSelected] waitForView];
+    [[[viewTester matchAccessibilityContainers:YES] usingIdentifier:@"CollectionView Tests CollectionView"] tapCollectionViewItemAtIndexPath:[NSIndexPath indexPathForItem:-1 inSection:-1]];
+    [[[[viewTester matchAccessibilityContainers:YES] usingLabel:@"Last Cell"] usingTraits:UIAccessibilityTraitSelected] waitForView];
 }
 
 - (void)testOutOfBounds
 {
-    KIFExpectFailure([[[viewTester usingTimeout:1] usingIdentifier:@"CollectionView Tests CollectionView"] tapCollectionViewItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:99]]);
+    KIFExpectFailure([[[[viewTester matchAccessibilityContainers:YES] usingTimeout:1] usingIdentifier:@"CollectionView Tests CollectionView"] tapCollectionViewItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:99]]);
 }
 
 - (void)testUnknownCollectionView
 {
-    KIFExpectFailure([[[viewTester usingTimeout:1] usingIdentifier:@"Unknown CollectionView"] tapCollectionViewItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0]]);
+    KIFExpectFailure([[[[viewTester matchAccessibilityContainers:YES] usingTimeout:1] usingIdentifier:@"Unknown CollectionView"] tapCollectionViewItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0]]);
 }
 
 - (void)testTappingItemsByLabel
 {
     // Tap the first item, which is already visible
-    [[viewTester usingLabel:@"First Cell"] tap];
+    [[[viewTester matchAccessibilityContainers:YES] usingLabel:@"First Cell"] tap];
 
     // Tap the last item, which will need to be scrolled up
-    [[viewTester usingLabel:@"Last Cell"] tap];
+    [[[viewTester matchAccessibilityContainers:YES] usingLabel:@"Last Cell"] tap];
 
     // Tap the first item, which will need to be scrolled down
-    [[viewTester usingLabel:@"First Cell"] tap];
+    [[[viewTester matchAccessibilityContainers:YES] usingLabel:@"First Cell"] tap];
 }
 
 @end

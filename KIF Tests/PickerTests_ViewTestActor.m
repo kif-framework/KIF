@@ -152,7 +152,7 @@
 {
     [[viewTester countdownSelector] tap];
     [viewTester selectCountdownTimerDatePickerHours:4 minutes:10];
-    [[[viewTester countdownSelector] usingValue:@"15000.000000"] waitForView];
+    [[[[viewTester matchAccessibilityContainers:YES] countdownSelector] usingValue:@"15000.000000"] waitForView];
 }
 
 #pragma mark - Picker

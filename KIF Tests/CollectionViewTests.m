@@ -73,7 +73,7 @@
 
 - (void)testScrollingLastAndFirstRowAtPositionWithView
 {
-    UICollectionView *collectionView = (UICollectionView *)[[viewTester usingIdentifier:@"CollectionView Tests CollectionView"] waitForView];
+    UICollectionView *collectionView = (UICollectionView *)[[[viewTester matchAccessibilityContainers:YES] usingIdentifier:@"CollectionView Tests CollectionView"] waitForView];
     UICollectionViewCell *lastCell = [tester waitForCellAtIndexPath:[NSIndexPath indexPathForRow:-1 inSection:-1] inCollectionView:collectionView atPosition:UICollectionViewScrollPositionBottom];
     CGRect lastCellConverted = [lastCell.superview convertRect:lastCell.frame toView:nil];
     CGRect superviewConverted = [lastCell convertRect:lastCell.superview.frame toView:nil];
