@@ -1499,15 +1499,23 @@ static BOOL KIFUITestActorAnimationsEnabled = YES;
         return KIFTestStepResultSuccess;
     }];
 
+    const NSTimeInterval animationWaitTime = 0.5f;
+    CGRect indexPathFrame = [collectionView.collectionViewLayout layoutAttributesForItemAtIndexPath:indexPath].frame;
+    if (![collectionView.indexPathsForVisibleItems containsObject:indexPath] || !CGRectIntersectsRect(collectionView.frame, indexPathFrame)) {
+        [collectionView scrollToItemAtIndexPath:indexPath
+                               atScrollPosition:position
+                                       animated:[[self class] testActorAnimationsEnabled]];
+        
+        // waitForAnimationsToFinish doesn't allow collection view to settle when animations are sped up
+        // So use waitForTimeInterval instead
+        [self waitForTimeInterval:animationWaitTime relativeToAnimationSpeed:YES];
+    }
+
+    UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
+
     [collectionView scrollToItemAtIndexPath:indexPath
                            atScrollPosition:position
                                    animated:[[self class] testActorAnimationsEnabled]];
-
-    // waitForAnimationsToFinish doesn't allow collection view to settle when animations are sped up
-    // So use waitForTimeInterval instead
-    const NSTimeInterval animationWaitTime = 0.5f;
-    [self waitForTimeInterval:animationWaitTime relativeToAnimationSpeed:YES];
-    UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
 
     //For big collection views with many cells the cell might not be ready yet. Relayout and try again.
     if(cell == nil) {
