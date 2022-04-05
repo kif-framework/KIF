@@ -597,10 +597,16 @@ NSString *const inputFieldTestString = @"Testing";
     __block UIView *foundView = nil;
     __block UIAccessibilityElement *foundElement = nil;
 
+    NSError *error;
+
     if (requiresMatch) {
+        [self tryRunningBlock:^KIFTestStepResult(NSError **error) {
+            [self.actor waitForAccessibilityElement:&foundElement view:&foundView withElementMatchingPredicate:self.predicate tappable:tappable];
+            KIFTestWaitCondition((foundView.window != nil), error, @"View was not on screen: %@", foundView);
+            return KIFTestStepResultSuccess;
+        } complete:nil timeout:self.executionBlockTimeout error:&error];
         [self.actor waitForAccessibilityElement:&foundElement view:&foundView withElementMatchingPredicate:self.predicate tappable:tappable];
     } else {
-        NSError *error;
         [self tryRunningBlock:^KIFTestStepResult(NSError **error) {
             KIFTestWaitCondition([self.actor tryFindingAccessibilityElement:&foundElement view:&foundView withElementMatchingPredicate:self.predicate tappable:tappable error:error], error, @"Waiting on view matching %@", self.predicate.kifPredicateDescription);
             return KIFTestStepResultSuccess;
