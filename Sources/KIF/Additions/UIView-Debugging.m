@@ -89,7 +89,9 @@
     NSString* identifier = self.accessibilityIdentifier;
     if(label != nil) {
         printf(", label: %s", label.UTF8String);
-    } else if(identifier != nil) {
+    } 
+    
+    if(identifier != nil) {
         printf(", identifier: %s", identifier.UTF8String);
     }
 }
