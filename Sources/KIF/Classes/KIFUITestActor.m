@@ -326,7 +326,7 @@ static BOOL KIFUITestActorAnimationsEnabled = YES;
 
         // If the element isn't immediately tappable, try checking if it is contained within scroll views that can be scrolled to make it tappable.
         if (isnan(tappablePointInElement.x)) {
-            [self _scrollViewToTappablePointIfNeeded:view];
+            [self _scrollViewToTappablePointIfNeeded:view element:element];
 
             tappablePointInElement = [self tappablePointInElement:element andView:view];
         }
@@ -415,7 +415,7 @@ static BOOL KIFUITestActorAnimationsEnabled = YES;
         CGPoint tappablePointInElement = [self tappablePointInElement:element andView:view];
         // If the element isn't immediately tappable, try checking if it is contained within scroll views that can be scrolled to make it tappable.
         if (isnan(tappablePointInElement.x)) {
-            [self _scrollViewToTappablePointIfNeeded:view];
+            [self _scrollViewToTappablePointIfNeeded:view element:element];
 
             tappablePointInElement = [self tappablePointInElement:element andView:view];
         }
@@ -1586,7 +1586,7 @@ static BOOL KIFUITestActorAnimationsEnabled = YES;
         
         // If the element isn't immediately tappable, try checking if it is contained within scroll views that can be scrolled to make it tappable.
         if (isnan(stepperPointToTap.x)) {
-            [self _scrollViewToTappablePointIfNeeded:view];
+            [self _scrollViewToTappablePointIfNeeded:view element:element];
 
             stepperPointToTap = [self tappablePointInElement:element andView:view];
         }
@@ -1653,14 +1653,15 @@ static BOOL KIFUITestActorAnimationsEnabled = YES;
     }
 }
 
-- (void)_scrollViewToTappablePointIfNeeded:(UIView *)view
+- (void)_scrollViewToTappablePointIfNeeded:(UIView *)view element:(UIAccessibilityElement *)element
 {
+    CGRect elementFrame = [self elementFrameForElement:element andView:view];
     UIView *container = view;
 
     do {
         if ([container isKindOfClass:UIScrollView.class]) {
             UIScrollView *containerScrollView = (UIScrollView *)container;
-            CGRect rect = [view convertRect:view.frame toView:containerScrollView];
+            CGRect rect = [view convertRect:elementFrame toView:containerScrollView];
             [containerScrollView scrollRectToVisible:rect animated:NO];
         }
 
