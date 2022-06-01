@@ -128,13 +128,17 @@ static BOOL KIFUITestActorAnimationsEnabled = YES;
         [self failWithError:[NSError KIFErrorWithFormat:@"Running test on platform that does not support accessibilityIdentifier"] stopTest:YES];
     }
 
-    [self waitForAccessibilityElement:element view:view withElementMatchingPredicate:[NSPredicate predicateWithFormat:@"accessibilityIdentifier = %@", identifier] tappable:mustBeTappable];
+    [self waitForAccessibilityElement:element view:view withElementMatchingPredicate:[NSPredicate predicateWithBlock:^BOOL(id  _Nullable evaluatedObject, NSDictionary<NSString *,id> * _Nullable bindings) {
+        return [[evaluatedObject accessibilityIdentifier] isEqualToString:identifier];
+    }] tappable:mustBeTappable];
 }
 
 - (void)waitForAccessibilityElement:(UIAccessibilityElement *__autoreleasing *)element view:(out UIView *__autoreleasing *)view withIdentifier:(NSString *)identifier fromRootView:(UIView *)fromView tappable:(BOOL)mustBeTappable
 {
     [self runBlock:^KIFTestStepResult(NSError **error) {
-        return [UIAccessibilityElement accessibilityElement:element view:view withElementMatchingPredicate:[NSPredicate predicateWithFormat:@"accessibilityIdentifier = %@", identifier] fromRootView:fromView tappable:mustBeTappable error:error] ? KIFTestStepResultSuccess : KIFTestStepResultWait;
+        return [UIAccessibilityElement accessibilityElement:element view:view withElementMatchingPredicate:[NSPredicate predicateWithBlock:^BOOL(id  _Nullable evaluatedObject, NSDictionary<NSString *,id> * _Nullable bindings) {
+            return [[evaluatedObject accessibilityIdentifier] isEqualToString:identifier];
+        }] fromRootView:fromView tappable:mustBeTappable error:error] ? KIFTestStepResultSuccess : KIFTestStepResultWait;
     }];
 }
 
