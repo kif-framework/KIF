@@ -37,7 +37,9 @@
 
 - (void)waitForAbsenceOfViewWithAccessibilityIdentifier:(NSString *)accessibilityIdentifier
 {
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"accessibilityIdentifier = %@", accessibilityIdentifier];
+    NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(id  _Nullable evaluatedObject, NSDictionary<NSString *,id> * _Nullable bindings) {
+        return [[evaluatedObject accessibilityIdentifier] isEqualToString:accessibilityIdentifier];
+    }];
     [self waitForAbsenceOfViewWithElementMatchingPredicate:predicate];
 }
 
@@ -189,9 +191,11 @@
     }];
 }
 
-- (BOOL) tryFindingViewWithAccessibilityIdentifier:(NSString *) accessibilityIdentifier
+- (BOOL) tryFindingViewWithAccessibilityIdentifier:(NSString *)accessibilityIdentifier
 {
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"accessibilityIdentifier = %@", accessibilityIdentifier];
+    NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(id  _Nullable evaluatedObject, NSDictionary<NSString *,id> * _Nullable bindings) {
+        return [[evaluatedObject accessibilityIdentifier] isEqualToString:accessibilityIdentifier];
+    }];
     return [UIAccessibilityElement accessibilityElement:nil view:nil withElementMatchingPredicate:predicate tappable:NO error:nil];
 }
 
