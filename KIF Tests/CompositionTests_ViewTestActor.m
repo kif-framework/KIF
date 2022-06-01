@@ -23,13 +23,17 @@
 {
     UIAccessibilityElement *element = [viewTester usingLabel:label].element;
     if ((element.accessibilityTraits & UIAccessibilityTraitSelected) == UIAccessibilityTraitNone) {
-        [[[viewTester usingLabel:label] usingPredicate:[NSPredicate predicateWithFormat:@"(accessibilityTraits & %i) == %i", UIAccessibilityTraitSelected, UIAccessibilityTraitNone]] tap];
+        [[[viewTester usingLabel:label] usingPredicate:[NSPredicate predicateWithBlock:^BOOL(id  _Nullable evaluatedObject, NSDictionary<NSString *,id> * _Nullable bindings) {
+            return ([evaluatedObject accessibilityTraits] & UIAccessibilityTraitSelected) == UIAccessibilityTraitNone;
+        }]] tap];
     }
 }
 
 - (void)tapViewWithAccessibilityHint:(NSString *)hint
 {
-    [[viewTester usingPredicate:[NSPredicate predicateWithFormat:@"accessibilityHint like %@", hint]] tap];
+    [[viewTester usingPredicate:[NSPredicate predicateWithBlock:^BOOL(id  _Nullable evaluatedObject, NSDictionary<NSString *,id> * _Nullable bindings) {
+        return [[evaluatedObject accessibilityHint] containsString:hint];
+    }]] tap];
 }
 
 @end
