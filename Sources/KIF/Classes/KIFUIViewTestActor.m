@@ -107,7 +107,9 @@ NSString *const inputFieldTestString = @"Testing";
 
 - (instancetype)usingTraits:(UIAccessibilityTraits)accessibilityTraits;
 {
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(accessibilityTraits & %@) == %@", @(accessibilityTraits), @(accessibilityTraits)];
+    NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(id  _Nullable evaluatedObject, NSDictionary<NSString *,id> * _Nullable bindings) {
+        return ([evaluatedObject accessibilityTraits] & accessibilityTraits) == accessibilityTraits;
+    }];
     predicate.kifPredicateDescription = [NSString stringWithFormat:@"Accessibility traits including \"%@\"", [UIAccessibilityElement stringFromAccessibilityTraits:accessibilityTraits]];
     
     return [self usingPredicate:predicate];
@@ -115,7 +117,9 @@ NSString *const inputFieldTestString = @"Testing";
 
 - (instancetype)usingAbsenceOfTraits:(UIAccessibilityTraits)accessibilityTraits;
 {
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(accessibilityTraits & %@) != %@", @(accessibilityTraits), @(accessibilityTraits)];
+    NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(id  _Nullable evaluatedObject, NSDictionary<NSString *,id> * _Nullable bindings) {
+        return ([evaluatedObject accessibilityTraits] & accessibilityTraits) != accessibilityTraits;
+    }];
     predicate.kifPredicateDescription = [NSString stringWithFormat:@"Accessibility traits excluding \"%@\"", [UIAccessibilityElement stringFromAccessibilityTraits:accessibilityTraits]];
 
     return [self usingPredicate:predicate];
