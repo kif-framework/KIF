@@ -128,7 +128,7 @@ You need your tests to run hosted in your application. **Xcode does this for you
 
 First add your application by selecting "Build Phases", expanding the "Target Dependencies" section, clicking on the "+" button, and in the new sheet that appears selecting your application target and clicking "Add".
 
-Next, configure your bundle loader. In "Build Settings", expand "Linking" and edit "Bundle Loader" to be "$(TEST_HOST)". Expand the "Testing" section and edit "Test Host" to be "$(BUILT_PRODUCTS_DIR)/MyApplication.app/MyApplication" where "MyApplication" is the name of your app. Also make sure that "Wrapper Extension" is set to "xctest".
+Next, configure your bundle loader. In "Build Settings", expand "Linking" and edit "Bundle Loader" to be `$(TEST_HOST)`. Expand the "Testing" section and edit "Test Host" to be `$(BUILT_PRODUCTS_DIR)/MyApplication.app/MyApplication` where `MyApplication` is the name of your app. Also make sure that "Wrapper Extension" is set to `xctest`.
 
 The last step is to configure your unit tests to run when you trigger a test (⌘U).  Click on your scheme name and select "Edit Scheme…".  Click on "Test" in the sidebar followed by the "+" in the bottom left corner.  Select your testing target and click "OK".
 
