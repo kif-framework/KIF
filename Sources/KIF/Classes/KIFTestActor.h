@@ -88,7 +88,10 @@ typedef void (^KIFTestCompletionBlock)(KIFTestStepResult result, NSError *error)
 
 @property (strong, nonatomic, readonly) NSString *file;
 @property (nonatomic, readonly) NSInteger line;
-@property (weak, nonatomic, readonly) id<KIFTestActorDelegate> delegate;
+// this will get cleaned up in testCaseDidFinish:
+// if we have this as weak chaining can cause the delegate to be dealloced and not be forwarded failures in certain sitations
+// i.e. viewTester().usingLabel("Foo").waitForAbsenceOfView()
+@property (strong, nonatomic, readonly) id<KIFTestActorDelegate> delegate;
 @property (nonatomic) NSTimeInterval executionBlockTimeout;
 @property (nonatomic) NSTimeInterval animationWaitingTimeout;
 @property (nonatomic) NSTimeInterval animationStabilizationTimeout;

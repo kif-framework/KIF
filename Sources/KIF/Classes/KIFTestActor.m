@@ -261,4 +261,11 @@ static NSTimeInterval KIFTestStepFirstResponderTimeout = 0.5;
     [self.delegate failWithExceptions:[exceptions arrayByAddingObject:newException] stopTest:stop];
 }
 
+- (void)testCaseDidFinish:(XCTestCase *)testCase
+{
+    // ensure the test delegate is cleaned up at the end of the test case.
+    // if we don't this will cause a retain cycle for future tests.
+    _delegate = nil;
+}
+
 @end
