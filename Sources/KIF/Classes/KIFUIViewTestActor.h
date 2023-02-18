@@ -579,7 +579,7 @@ extern NSString *const inputFieldTestString;
  */
 - (BOOL)acknowledgeSystemAlert CF_SWIFT_UNAVAILABLE_FROM_ASYNC("use async version");
 
-- (BOOL)acknowledgeSystemAlertWithCompletionHandler:(void (^)(NSError*))completionHandler;
+- (void)acknowledgeSystemAlertWithCompletionHandler:(void (^)(BOOL, NSError*))completionHandler;
 #endif
 
 

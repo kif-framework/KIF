@@ -166,10 +166,13 @@ NSString *const inputFieldTestString = @"Testing";
     return [self.actor acknowledgeSystemAlert];
 }
 
-- (BOOL)acknowledgeSystemAlertWithCompletionHandler:(void (^)(NSError*))completionHandler {
-    [self safeAsyncCall:^{
-        [self acknowledgeSystemAlert];
-    } completionHandler:completionHandler];
+- (void)acknowledgeSystemAlertWithCompletionHandler:(void (^)(BOOL, NSError*))completionHandler {
+    @try {
+        BOOL result = [self acknowledgeSystemAlert];
+        completionHandler(result, nil);
+    } @catch (NSException *exception) {
+        completionHandler(false, [NSError KIFErrorFromException: exception]);
+    }
 }
 
 #endif
