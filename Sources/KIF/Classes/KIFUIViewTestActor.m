@@ -6,8 +6,6 @@
 //
 //
 
-
-
 #import "KIFUIViewTestActor.h"
 
 #import "KIFUITestActor-ConditionalTests.h"
@@ -183,7 +181,7 @@ NSString *const inputFieldTestString = @"Testing";
 }
 
 - (void)tapStatusBarWithCompletionHandler:(void (^)(NSError*))completionHandler {
-     [self safeAsyncCall:^{
+    [self safeAsyncCall:^{
         [self tapStatusBar];
     } completionHandler:completionHandler];
 }
@@ -194,7 +192,7 @@ NSString *const inputFieldTestString = @"Testing";
 }
 
 - (void)dismissPopoverWithCompletionHandler:(void (^)(NSError*))completionHandler {
-     [self safeAsyncCall:^{
+    [self safeAsyncCall:^{
         [self dismissPopover];
     } completionHandler:completionHandler];
 }
@@ -236,8 +234,8 @@ NSString *const inputFieldTestString = @"Testing";
 }
 
 - (void)waitForAbsenceOfViewWithCompletionHandler:(void (^ __nullable)(NSError* error))completionHandler {
-     [self safeAsyncCall:^{
-            [self waitForAbsenceOfView];;
+    [self safeAsyncCall:^{
+        [self waitForAbsenceOfView];;
     } completionHandler:completionHandler];
 }
 
@@ -248,7 +246,7 @@ NSString *const inputFieldTestString = @"Testing";
 
 - (void)waitForTappableViewWithCompletionHandler:(void (^)(UIView*, NSError*))completionHandler {
     [self safeAsyncCallWithReturnValue:^{
-         return [self waitForTappableView];
+        return [self waitForTappableView];
     } completionHandler:completionHandler];
 }
 
@@ -276,8 +274,8 @@ NSString *const inputFieldTestString = @"Testing";
 }
 
 - (void)waitToBecomeFirstResponderWithCompletionHandler:(void (^)(NSError*))completionHandler {
-     [self safeAsyncCall:^{
-            [self waitToBecomeFirstResponder];
+    [self safeAsyncCall:^{
+        [self waitToBecomeFirstResponder];
     } completionHandler:completionHandler];
 }
 
@@ -287,8 +285,8 @@ NSString *const inputFieldTestString = @"Testing";
 }
 
 - (void)waitForAnimationsToFinishWithCompletionHandler:(void (^)(NSError*))completionHandler {
-     [self safeAsyncCall:^{
-            [self waitForAnimationsToFinish];
+    [self safeAsyncCall:^{
+        [self waitForAnimationsToFinish];
     } completionHandler:completionHandler];
 }
 
@@ -300,8 +298,8 @@ NSString *const inputFieldTestString = @"Testing";
 }
 
 - (void)waitForSoftwareKeyboardWithCompletionHandler:(void (^)(NSError*))completionHandler {
-     [self safeAsyncCall:^{
-            [self waitForSoftwareKeyboard];
+    [self safeAsyncCall:^{
+        [self waitForSoftwareKeyboard];
     } completionHandler:completionHandler];
 }
 
@@ -311,8 +309,8 @@ NSString *const inputFieldTestString = @"Testing";
 }
 
 - (void)waitForAbsenceOfSoftwareKeyboardWithCompletionHandler:(void (^)(NSError*))completionHandler {
-     [self safeAsyncCall:^{
-            [self waitForAbsenceOfSoftwareKeyboard];
+    [self safeAsyncCall:^{
+        [self waitForAbsenceOfSoftwareKeyboard];
     } completionHandler:completionHandler];
 }
 
@@ -322,8 +320,8 @@ NSString *const inputFieldTestString = @"Testing";
 }
 
 - (void)waitForKeyInputReadyWithCompletionHandler:(void (^)(NSError*))completionHandler {
-     [self safeAsyncCall:^{
-            [self waitForKeyInputReady];
+    [self safeAsyncCall:^{
+        [self waitForKeyInputReady];
     } completionHandler:completionHandler];
 }
 
@@ -370,8 +368,8 @@ NSString *const inputFieldTestString = @"Testing";
 
 
 -(void)tapWithCompletionHandler:(void (^)(NSError*))completionHandler {
-     [self safeAsyncCall:^{
-            [self tap];;
+    [self safeAsyncCall:^{
+        [self tap];;
     } completionHandler:completionHandler];
 }
 
@@ -381,8 +379,8 @@ NSString *const inputFieldTestString = @"Testing";
 }
 
 - (void)longPressWithCompletionHandler:(void (^)(NSError*))completionHandler {
-     [self safeAsyncCall:^{
-            [self longPress];
+    [self safeAsyncCall:^{
+        [self longPress];
     } completionHandler:completionHandler];
 }
 
@@ -395,8 +393,8 @@ NSString *const inputFieldTestString = @"Testing";
 }
 
 - (void)longPressWithDuration:(NSTimeInterval)duration completionHandler:(void (^)(NSError*))completionHandler {
-     [self safeAsyncCall:^{
-            [self longPressWithDuration:duration];
+    [self safeAsyncCall:^{
+        [self longPressWithDuration:duration];
     } completionHandler:completionHandler];
 }
 
@@ -411,8 +409,8 @@ NSString *const inputFieldTestString = @"Testing";
 }
 
 - (void)clearTextWithCompletionHandler:(void (^)(NSError*))completionHandler {
-     [self safeAsyncCall:^{
-            [self clearText];
+    [self safeAsyncCall:^{
+        [self clearText];
     } completionHandler:completionHandler];
 }
 
@@ -427,8 +425,8 @@ NSString *const inputFieldTestString = @"Testing";
 }
 
 - (void)enterText:(NSString *)text completionHandler:(void (^)(NSError*))completionHandler {
-     [self safeAsyncCall:^{
-            [self enterText:text];
+    [self safeAsyncCall:^{
+        [self enterText:text];
     } completionHandler:completionHandler];
 }
 
@@ -445,8 +443,8 @@ NSString *const inputFieldTestString = @"Testing";
 }
 
 - (void)enterText:(NSString *)text expectedResult:(NSString *)expectedResult completionHandler:(void (^)(NSError*))completionHandler {
-     [self safeAsyncCall:^{
-            [self enterText:text expectedResult:expectedResult];
+    [self safeAsyncCall:^{
+        [self enterText:text expectedResult:expectedResult];
     } completionHandler:completionHandler];
 }
 
@@ -456,8 +454,8 @@ NSString *const inputFieldTestString = @"Testing";
 }
 
 - (void)clearAndEnterText:(NSString *)text completionHandler:(void (^)(NSError*))completionHandler {
-     [self safeAsyncCall:^{
-            [self clearAndEnterText:text];
+    [self safeAsyncCall:^{
+        [self clearAndEnterText:text];
     } completionHandler:completionHandler];
 }
 
@@ -468,8 +466,8 @@ NSString *const inputFieldTestString = @"Testing";
 }
 
 - (void)clearAndEnterText:(NSString *)text expectedResult:(NSString *)expectedResult completionHandler:(void (^)(NSError*))completionHandler {
-     [self safeAsyncCall:^{
-            [self clearAndEnterText:text expectedResult:expectedResult];
+    [self safeAsyncCall:^{
+        [self clearAndEnterText:text expectedResult:expectedResult];
     } completionHandler:completionHandler];
 }
 
@@ -501,8 +499,8 @@ NSString *const inputFieldTestString = @"Testing";
 }
 
 - (void)setText:(NSString *)text completionHandler:(void (^)(NSError*))completionHandler {
-     [self safeAsyncCall:^{
-            [self setText:text];
+    [self safeAsyncCall:^{
+        [self setText:text];
     } completionHandler:completionHandler];
 }
 
@@ -515,8 +513,8 @@ NSString *const inputFieldTestString = @"Testing";
 }
 
 - (void)expectToContainText:(NSString *)expectedResult completionHandler:(void (^)(NSError*))completionHandler {
-     [self safeAsyncCall:^{
-            [self expectToContainText:expectedResult];
+    [self safeAsyncCall:^{
+        [self expectToContainText:expectedResult];
     } completionHandler:completionHandler];
 }
 
@@ -528,8 +526,8 @@ NSString *const inputFieldTestString = @"Testing";
 }
 
 - (void)tapScreenAtPoint:(CGPoint)screenPoint completionHandler:(void (^)(NSError*))completionHandler {
-     [self safeAsyncCall:^{
-            [self.actor tapScreenAtPoint:screenPoint];
+    [self safeAsyncCall:^{
+        [self.actor tapScreenAtPoint:screenPoint];
     } completionHandler:completionHandler];
 }
 
@@ -542,8 +540,8 @@ NSString *const inputFieldTestString = @"Testing";
 }
 
 - (void)swipeInDirection:(KIFSwipeDirection)direction completionHandler:(void (^)(NSError*))completionHandler {
-     [self safeAsyncCall:^{
-            [self swipeInDirection:direction];
+    [self safeAsyncCall:^{
+        [self swipeInDirection:direction];
     } completionHandler:completionHandler];
 }
 
@@ -558,8 +556,8 @@ NSString *const inputFieldTestString = @"Testing";
 }
 
 - (void)scrollByFractionOfSizeHorizontal:(CGFloat)horizontalFraction vertical:(CGFloat)verticalFraction  completionHandler:(void (^)(NSError*))completionHandler {
-     [self safeAsyncCall:^{
-            [self scrollByFractionOfSizeHorizontal:horizontalFraction vertical:verticalFraction];
+    [self safeAsyncCall:^{
+        [self scrollByFractionOfSizeHorizontal:horizontalFraction vertical:verticalFraction];
     } completionHandler:completionHandler];
 }
 
@@ -572,8 +570,8 @@ NSString *const inputFieldTestString = @"Testing";
 }
 
 - (void)tapRowInTableViewAtIndexPath:(NSIndexPath *)indexPath completionHandler:(void (^)(NSError*))completionHandler {
-     [self safeAsyncCall:^{
-            [self tapRowInTableViewAtIndexPath:indexPath];
+    [self safeAsyncCall:^{
+        [self tapRowInTableViewAtIndexPath:indexPath];
     } completionHandler:completionHandler];
 }
 
@@ -621,8 +619,8 @@ NSString *const inputFieldTestString = @"Testing";
 }
 
 - (void)moveRowInTableViewAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath completionHandler:(void (^)(NSError*))completionHandler {
-     [self safeAsyncCall:^{
-            [self moveRowInTableViewAtIndexPath:sourceIndexPath toIndexPath:destinationIndexPath];
+    [self safeAsyncCall:^{
+        [self moveRowInTableViewAtIndexPath:sourceIndexPath toIndexPath:destinationIndexPath];
     } completionHandler:completionHandler];
 }
 
@@ -636,8 +634,8 @@ NSString *const inputFieldTestString = @"Testing";
 }
 
 - (void)tapCollectionViewItemAtIndexPath:(NSIndexPath *)indexPath completionHandler:(void (^)(NSError*))completionHandler {
-     [self safeAsyncCall:^{
-            [self tapCollectionViewItemAtIndexPath:indexPath];
+    [self safeAsyncCall:^{
+        [self tapCollectionViewItemAtIndexPath:indexPath];
     } completionHandler:completionHandler];
 }
 
@@ -671,8 +669,8 @@ NSString *const inputFieldTestString = @"Testing";
 }
 
 - (void)setSliderValue:(float)value completionHandler:(void (^)(NSError*))completionHandler {
-     [self safeAsyncCall:^{
-            [self setSliderValue:value];
+    [self safeAsyncCall:^{
+        [self setSliderValue:value];
     } completionHandler:completionHandler];
 }
 
@@ -685,8 +683,8 @@ NSString *const inputFieldTestString = @"Testing";
 }
 
 - (void)setSwitchOn:(BOOL)switchIsOn completionHandler:(void (^)(NSError*))completionHandler {
-     [self safeAsyncCall:^{
-            [self setSwitchOn:switchIsOn];
+    [self safeAsyncCall:^{
+        [self setSwitchOn:switchIsOn];
     } completionHandler:completionHandler];
 }
 
@@ -698,8 +696,8 @@ NSString *const inputFieldTestString = @"Testing";
 }
 
 - (void)selectPickerViewRowWithTitle:(NSString *)title completionHandler:(void (^)(NSError*))completionHandler {
-     [self safeAsyncCall:^{
-            [self selectPickerViewRowWithTitle:title];
+    [self safeAsyncCall:^{
+        [self selectPickerViewRowWithTitle:title];
     } completionHandler:completionHandler];
 }
 
@@ -713,8 +711,8 @@ NSString *const inputFieldTestString = @"Testing";
 }
 
 - (void)selectPickerViewRowWithTitle:(NSString *)title inComponent:(NSInteger)component completionHandler:(void (^)(NSError*))completionHandler {
-     [self safeAsyncCall:^{
-            [self selectPickerViewRowWithTitle:title inComponent:component];
+    [self safeAsyncCall:^{
+        [self selectPickerViewRowWithTitle:title inComponent:component];
     } completionHandler:completionHandler];
 }
 
@@ -729,8 +727,8 @@ NSString *const inputFieldTestString = @"Testing";
 }
 
 - (void)selectDatePickerDate:(NSDate *)date completionHandler:(void (^)(NSError*))completionHandler {
-     [self safeAsyncCall:^{
-            [self selectDatePickerDate:date];
+    [self safeAsyncCall:^{
+        [self selectDatePickerDate:date];
     } completionHandler:completionHandler];
 }
 
@@ -743,8 +741,8 @@ NSString *const inputFieldTestString = @"Testing";
 }
 
 - (void)selectCountdownTimerDatePickerHours:(NSUInteger)hours minutes:(NSUInteger)minutes completionHandler:(void (^)(NSError*))completionHandler {
-     [self safeAsyncCall:^{
-            [self selectCountdownTimerDatePickerHours:hours minutes:minutes];
+    [self safeAsyncCall:^{
+        [self selectCountdownTimerDatePickerHours:hours minutes:minutes];
     } completionHandler:completionHandler];
 }
 
@@ -781,8 +779,8 @@ NSString *const inputFieldTestString = @"Testing";
 }
 
 - (void)choosePhotoInAlbum:(NSString *)albumName atRow:(NSInteger)row column:(NSInteger)column completionHandler:(void (^)(NSError*))completionHandler {
-     [self safeAsyncCall:^{
-            [self choosePhotoInAlbum:albumName atRow:row column:column];
+    [self safeAsyncCall:^{
+        [self choosePhotoInAlbum:albumName atRow:row column:column];
     } completionHandler:completionHandler];
 }
 
@@ -797,8 +795,8 @@ NSString *const inputFieldTestString = @"Testing";
 }
 
 - (void)pullToRefreshWithCompletionHandler:(void (^)(NSError*))completionHandler {
-     [self safeAsyncCall:^{
-            [self pullToRefresh];
+    [self safeAsyncCall:^{
+        [self pullToRefresh];
     } completionHandler:completionHandler];
 }
 
@@ -811,8 +809,8 @@ NSString *const inputFieldTestString = @"Testing";
 }
 
 - (void)pullToRefreshWithDuration:(KIFPullToRefreshTiming)pullDownDuration completionHandler:(void (^)(NSError*))completionHandler {
-     [self safeAsyncCall:^{
-            [self pullToRefreshWithDuration:pullDownDuration];
+    [self safeAsyncCall:^{
+        [self pullToRefreshWithDuration:pullDownDuration];
     } completionHandler:completionHandler];
 }
 
@@ -917,4 +915,5 @@ NSString *const inputFieldTestString = @"Testing";
 }
 
 @end
+
 
