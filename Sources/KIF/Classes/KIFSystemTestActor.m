@@ -58,7 +58,50 @@
 
 - (void)simulateDeviceRotationToOrientation:(UIDeviceOrientation)orientation
 {
-    [[UIDevice currentDevice] setValue:@(orientation) forKey:@"orientation"];
+    if (@available(iOS 16.0, *)) {
+        NSSet<UIScene *> *scenes = [[UIApplication sharedApplication] connectedScenes];
+        UIWindowScene* windowScene;
+        for (UIScene* scene in scenes) {
+            if([scene isKindOfClass:[UIWindowScene class]]) {
+                windowScene = (UIWindowScene*) scene;
+                break;
+            }
+        }
+        
+        if (windowScene) {
+            UIInterfaceOrientationMask orientationMask;
+            switch (orientation) {
+                case UIDeviceOrientationUnknown:
+                    orientationMask = UIInterfaceOrientationMaskAll;
+                    break;
+                case UIDeviceOrientationPortrait:
+                    orientationMask = UIInterfaceOrientationMaskPortrait;
+                    break;
+                case UIDeviceOrientationPortraitUpsideDown:
+                    orientationMask = UIInterfaceOrientationMaskPortraitUpsideDown;
+                    break;
+                case UIDeviceOrientationLandscapeLeft:
+                    orientationMask = UIInterfaceOrientationMaskLandscapeLeft;
+                    break;
+                case UIDeviceOrientationLandscapeRight:
+                    orientationMask = UIInterfaceOrientationMaskLandscapeRight;
+                    break;
+                case UIDeviceOrientationFaceUp:
+                    orientationMask = UIInterfaceOrientationMaskAll;
+                    break;
+                case UIDeviceOrientationFaceDown:
+                    orientationMask = UIInterfaceOrientationMaskAll;
+                    break;
+            }
+            
+            UIWindowSceneGeometryPreferencesIOS* preferences = [[UIWindowSceneGeometryPreferencesIOS alloc]initWithInterfaceOrientations:orientationMask];
+            [windowScene requestGeometryUpdateWithPreferences:preferences errorHandler:^(NSError * _Nonnull error) {
+                NSLog(@"error: %@", error);
+            }];
+        }
+    } else {
+        [[UIDevice currentDevice] setValue:@(orientation) forKey:@"orientation"];
+    }
 }
 
 
