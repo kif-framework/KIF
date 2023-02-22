@@ -166,10 +166,8 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
         UIAccessibilityElement *element = [view accessibilityElementMatchingBlock:matchBlock];
         
         if (!element) {
-            if([view isKindOfClass:NSClassFromString(@"_UIRemoteKeyboardPlaceholderView")]) {
-                UIView* fallbackView = [view valueForKey:@"_fallbackView"];
-                element = [fallbackView accessibilityElementMatchingBlock:matchBlock];
-            }
+            UIView* fallbackView = [self tryGetiOS16KeyboardFallbackViewFromParentView:view];
+            element = [fallbackView accessibilityElementMatchingBlock:matchBlock];
         }
         
         if (!element) {
@@ -383,11 +381,9 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
             [result addObject:view];
         }
         
-        if([NSStringFromClass([view class]) isEqualToString:@"_UIRemoteKeyboardPlaceholderView"]) {
-            UIView* fallbackView = [view valueForKey:@"_fallbackView"];
-            if ([NSStringFromClass([fallbackView class]) hasPrefix:prefix]) {
-                [result addObject:fallbackView];
-            }
+        UIView* fallbackView = [self tryGetiOS16KeyboardFallbackViewFromParentView:view];
+        if ([NSStringFromClass([fallbackView class]) hasPrefix:prefix]) {
+            [result addObject:fallbackView];
         }
     }
     
@@ -396,8 +392,8 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
         NSArray *matchingSubviews = [view subviewsWithClassNamePrefix:prefix];
         [result addObjectsFromArray:matchingSubviews];
         
-        if([NSStringFromClass([view class]) isEqualToString:@"_UIRemoteKeyboardPlaceholderView"]) {
-            UIView* fallbackView = [view valueForKey:@"_fallbackView"];
+        UIView* fallbackView = [self tryGetiOS16KeyboardFallbackViewFromParentView:view];
+        if (fallbackView) {
             NSArray *matchingSubviews = [fallbackView subviewsWithClassNamePrefix:prefix];
             [result addObjectsFromArray:matchingSubviews];
         }
@@ -431,8 +427,8 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
                 break;
             }
             
-            if([NSStringFromClass(klass) isEqualToString:@"_UIRemoteKeyboardPlaceholderView"]) {
-                UIView* fallbackView = [view valueForKey:@"_fallbackView"];
+            UIView* fallbackView = [self tryGetiOS16KeyboardFallbackViewFromParentView:view];
+            if (fallbackView) {
                 Class klass = [fallbackView class];
                 while (klass) {
                     if ([NSStringFromClass(klass) hasPrefix:prefix]) {
@@ -1057,5 +1053,13 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
     }
 }
 
+-(UIView*)tryGetiOS16KeyboardFallbackViewFromParentView:(UIView*) parentView {
+    if([parentView isKindOfClass:NSClassFromString(@"_UIRemoteKeyboardPlaceholderView")]) {
+        UIView* fallbackView = [parentView valueForKey:@"_fallbackView"];
+        return fallbackView;
+    }
+    
+    return nil;
+}
 
 @end
