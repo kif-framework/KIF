@@ -96,7 +96,7 @@
             
             UIWindowSceneGeometryPreferencesIOS* preferences = [[UIWindowSceneGeometryPreferencesIOS alloc]initWithInterfaceOrientations:orientationMask];
             [windowScene requestGeometryUpdateWithPreferences:preferences errorHandler:^(NSError * _Nonnull error) {
-                NSLog(@"error: %@", error);
+                [self failWithError:[NSError KIFErrorWithUnderlyingError:error format:@"Could not rotate the screen"] stopTest:YES];
             }];
         }
     } else {
