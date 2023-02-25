@@ -58,6 +58,7 @@
 
 - (void)simulateDeviceRotationToOrientation:(UIDeviceOrientation)orientation
 {
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 16000
     if (@available(iOS 16.0, *)) {
         NSSet<UIScene *> *scenes = [[UIApplication sharedApplication] connectedScenes];
         UIWindowScene* windowScene;
@@ -100,8 +101,11 @@
             }];
         }
     } else {
+#endif
         [[UIDevice currentDevice] setValue:@(orientation) forKey:@"orientation"];
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 16000
     }
+#endif
 }
 
 
