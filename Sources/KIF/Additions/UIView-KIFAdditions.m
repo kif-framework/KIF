@@ -164,6 +164,12 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
     // UITableViewCell is such an offender.
     for (UIView *view in [self.subviews reverseObjectEnumerator]) {
         UIAccessibilityElement *element = [view accessibilityElementMatchingBlock:matchBlock];
+        
+        if (!element) {
+            UIView* fallbackView = [self tryGetiOS16KeyboardFallbackViewFromParentView:view];
+            element = [fallbackView accessibilityElementMatchingBlock:matchBlock];
+        }
+        
         if (!element) {
             continue;
         }
@@ -374,12 +380,23 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
         if ([NSStringFromClass([view class]) hasPrefix:prefix]) {
             [result addObject:view];
         }
+        
+        UIView* fallbackView = [self tryGetiOS16KeyboardFallbackViewFromParentView:view];
+        if ([NSStringFromClass([fallbackView class]) hasPrefix:prefix]) {
+            [result addObject:fallbackView];
+        }
     }
     
     // Now traverse the subviews of the subviews, adding matches.
     for (UIView *view in self.subviews) {
         NSArray *matchingSubviews = [view subviewsWithClassNamePrefix:prefix];
         [result addObjectsFromArray:matchingSubviews];
+        
+        UIView* fallbackView = [self tryGetiOS16KeyboardFallbackViewFromParentView:view];
+        if (fallbackView) {
+            NSArray *matchingSubviews = [fallbackView subviewsWithClassNamePrefix:prefix];
+            [result addObjectsFromArray:matchingSubviews];
+        }
     }
 
     return result;
@@ -403,14 +420,30 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
     // First traverse the next level of subviews, adding matches
     for (UIView *view in self.subviews) {
         Class klass = [view class];
+
         while (klass) {
             if ([NSStringFromClass(klass) hasPrefix:prefix]) {
                 [result addObject:view];
                 break;
             }
             
+            UIView* fallbackView = [self tryGetiOS16KeyboardFallbackViewFromParentView:view];
+            if (fallbackView) {
+                Class klass = [fallbackView class];
+                while (klass) {
+                    if ([NSStringFromClass(klass) hasPrefix:prefix]) {
+                        [result addObject:fallbackView];
+                        break;
+                    }
+                    
+                    klass = [klass superclass];
+                }
+            }
+            
             klass = [klass superclass];
         }
+        
+        
     }
     
     // Now traverse the subviews of the subviews, adding matches
@@ -1020,5 +1053,13 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
     }
 }
 
+-(UIView*)tryGetiOS16KeyboardFallbackViewFromParentView:(UIView*) parentView {
+    if([parentView isKindOfClass:NSClassFromString(@"_UIRemoteKeyboardPlaceholderView")]) {
+        UIView* fallbackView = [parentView valueForKey:@"_fallbackView"];
+        return fallbackView;
+    }
+    
+    return nil;
+}
 
 @end

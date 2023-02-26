@@ -58,7 +58,54 @@
 
 - (void)simulateDeviceRotationToOrientation:(UIDeviceOrientation)orientation
 {
-    [[UIDevice currentDevice] setValue:@(orientation) forKey:@"orientation"];
+#ifdef __IPHONE_16_0
+    if (@available(iOS 16.0, *)) {
+        NSSet<UIScene *> *scenes = [[UIApplication sharedApplication] connectedScenes];
+        UIWindowScene* windowScene;
+        for (UIScene* scene in scenes) {
+            if([scene isKindOfClass:[UIWindowScene class]]) {
+                windowScene = (UIWindowScene*) scene;
+                break;
+            }
+        }
+        
+        if (windowScene) {
+            UIInterfaceOrientationMask orientationMask;
+            switch (orientation) {
+                case UIDeviceOrientationUnknown:
+                    orientationMask = UIInterfaceOrientationMaskAll;
+                    break;
+                case UIDeviceOrientationPortrait:
+                    orientationMask = UIInterfaceOrientationMaskPortrait;
+                    break;
+                case UIDeviceOrientationPortraitUpsideDown:
+                    orientationMask = UIInterfaceOrientationMaskPortraitUpsideDown;
+                    break;
+                case UIDeviceOrientationLandscapeLeft:
+                    orientationMask = UIInterfaceOrientationMaskLandscapeLeft;
+                    break;
+                case UIDeviceOrientationLandscapeRight:
+                    orientationMask = UIInterfaceOrientationMaskLandscapeRight;
+                    break;
+                case UIDeviceOrientationFaceUp:
+                    orientationMask = UIInterfaceOrientationMaskAll;
+                    break;
+                case UIDeviceOrientationFaceDown:
+                    orientationMask = UIInterfaceOrientationMaskAll;
+                    break;
+            }
+            
+            UIWindowSceneGeometryPreferencesIOS* preferences = [[UIWindowSceneGeometryPreferencesIOS alloc]initWithInterfaceOrientations:orientationMask];
+            [windowScene requestGeometryUpdateWithPreferences:preferences errorHandler:^(NSError * _Nonnull error) {
+                [self failWithError:[NSError KIFErrorWithUnderlyingError:error format:@"Could not rotate the screen"] stopTest:YES];
+            }];
+        }
+    } else {
+#endif
+        [[UIDevice currentDevice] setValue:@(orientation) forKey:@"orientation"];
+#ifdef __IPHONE_16_0
+    }
+#endif
 }
 
 

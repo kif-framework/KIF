@@ -15,16 +15,13 @@ jobs:
     - name: Validate podspec
       run: pod lib lint
 
-  build:
-    runs-on: macos-11
+  build_xcode14:
+    runs-on: macos-12
     strategy:
       matrix:
         run-config:
-          - { xcode_version: '11.7', simulator: 'name=iPhone SE (2nd generation),OS=13.7' }
-          - { xcode_version: '12.5.1', simulator: 'name=iPhone SE (2nd generation),OS=14.5' }
-          - { xcode_version: '13.0', simulator: 'name=iPad Pro (12.9-inch) (5th generation),OS=15.0' }
-
-
+          - { xcode_version: '14.1', simulator: 'name=iPad Pro (12.9-inch) (5th generation),OS=16.1' }
+          - { xcode_version: '14.1', simulator: 'name=iPhone SE (2nd generation),OS=16.1' }
     steps:
     - name: Checkout Project
       uses: actions/checkout@v1
@@ -56,14 +53,13 @@ jobs:
     - name: Build & Test
       run: ./scripts/ci.sh "${{ matrix.run-config['simulator'] }}"
 
-  build_xcode10:
-    runs-on: macos-10.15
+  build:
+    runs-on: macos-11
     strategy:
       matrix:
         run-config:
-          - { xcode_version: '10.3', simulator: 'name=iPad (5th generation),OS=12.4' }
-          - { xcode_version: '10.3', simulator: 'name=iPhone 8,OS=12.4' }
-
+          - { xcode_version: '13.0', simulator: 'name=iPhone SE (2nd generation),OS=15.0' }
+          - { xcode_version: '13.0', simulator: 'name=iPad Pro (12.9-inch) (5th generation),OS=15.0' }
     steps:
     - name: Checkout Project
       uses: actions/checkout@v1

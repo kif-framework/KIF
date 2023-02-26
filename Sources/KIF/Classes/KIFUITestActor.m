@@ -835,10 +835,15 @@ static BOOL KIFUITestActorAnimationsEnabled = YES;
         // Find all pickers in view. Either UIDatePickerView or UIPickerView
         NSArray *datePickerViews = [[[UIApplication sharedApplication] datePickerWindow] subviewsWithClassNameOrSuperClassNamePrefix:@"UIPickerView"];
         NSArray *pickerViews = [[[UIApplication sharedApplication] pickerViewWindow] subviewsWithClassNameOrSuperClassNamePrefix:@"UIPickerView"];
+        
+        NSArray *iOS16DatePickerViews = [[[UIApplication sharedApplication] datePickerWindow] subviewsWithClassNameOrSuperClassNamePrefix:@"UIDatePicker"];
 
         // Grab one picker and assume it is datePicker and then test our hypothesis later!
         pickerView = [datePickerViews lastObject];
         if ([pickerView respondsToSelector:@selector(setDate:animated:)] || [pickerView isKindOfClass:NSClassFromString(@"_UIDatePickerView")]) {
+            pickerType = KIFUIDatePicker;
+        }else if([[iOS16DatePickerViews lastObject] respondsToSelector:@selector(setDate:animated:)]) {
+            pickerView = [[iOS16DatePickerViews lastObject] valueForKey:@"_pickerView"];
             pickerType = KIFUIDatePicker;
         } else {
             pickerView = [pickerViews lastObject];
