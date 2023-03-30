@@ -140,7 +140,7 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
     if ([self isVisibleInWindowFrame]) {
         return YES;
     } else {
-        // This is a fix when a view is not hidden but outside of visible area
+        // This is a fix when a view is not hidden but outside of visible area and scrollable content size
         //
         // scroll view scrollable content
         // -------------
@@ -1101,6 +1101,8 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
 
 - (nullable UIView *)parentPlainScrollView
 {
+    // We don't want collection view and table view because we handle them separately.
+    // This function is only getting a plain scroll view
     UIView *currentSuperview = self.superview;
     while (currentSuperview != nil) {
         if ([currentSuperview isKindOfClass:[UIScrollView class]] &&
