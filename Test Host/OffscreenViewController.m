@@ -9,6 +9,7 @@
 @property (weak, nonatomic) IBOutlet UIView *alphaView;
 @property (weak, nonatomic) IBOutlet UIView *movingView;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (weak, nonatomic) IBOutlet UIView *hiddenView;
 
 @property (strong, nonatomic) UIView *scrollMovingView;
 @end
@@ -45,6 +46,7 @@
                                                  self.scrollMovingView.frame.size.width,
                                                  self.scrollMovingView.frame.size.height);
         self.alphaView.alpha = 0;
+        [self.hiddenView setHidden:YES];
     } completion:^(BOOL finished) {}];
 
 }

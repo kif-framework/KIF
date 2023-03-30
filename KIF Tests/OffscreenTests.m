@@ -24,6 +24,7 @@
     [tester tapViewWithAccessibilityLabel:@"Move and hide views"];
     [tester waitForAbsenceOfViewWithAccessibilityLabel:@"Out of screen view"];
     [tester waitForAbsenceOfViewWithAccessibilityLabel:@"Alpha view"];
+    [tester waitForAbsenceOfViewWithAccessibilityLabel:@"Hidden view"];
     [tester waitForAbsenceOfViewWithAccessibilityLabel:@"Scroll moving view"];
 }
 
