@@ -103,6 +103,12 @@ typedef CGPoint KIFDisplacement;
 - (BOOL)isVisibleInWindowFrame;
 
 /*!
+ @abstract Evaluates if the view is within visible or scrollable range.
+ @discussion A view can be offscreen completely so we consider this as NOT visible in window.
+ */
+- (BOOL)isPossibleVisibleInWindow;
+
+/*!
  @method performBlockOnDescendentViews:
  @abstract Calls a block on the view itself and on all its descendent views.
  @param block The block that will be called on the views. Stop the traversation of the views by assigning YES to the stop-parameter of the block.

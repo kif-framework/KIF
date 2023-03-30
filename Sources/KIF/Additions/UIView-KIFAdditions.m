@@ -135,10 +135,46 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
     return [self accessibilityElementMatchingBlock:matchBlock notHidden:YES];
 }
 
+- (BOOL)isPossibleVisibleInWindow
+{
+    if ([self isVisibleInWindowFrame]) {
+        return YES;
+    } else {
+        // This is a fix when a view is not hidden but outside of visible area
+        //
+        // scroll view scrollable content
+        // -------------
+        // |           |
+        // |scrollView |    View is not hidden and it's out of the scollable content
+        // |           |     -----
+        // |           |     |   | <- a subview of the scrollView
+        // |           |     |   |
+        // -------------     -----
+        //
+        // We want to detect that if the view is there but it's out of the scrollable content size
+        // If it's out of the scrollable content size, we consider as not visible
+        //
+        // We are only interested if the parent is a scrollView and NOT collectionView and NOT tableView
+        UIScrollView *scrollView = (UIScrollView *)[self parentPlainScrollView];
+        if (scrollView) {
+            CGSize scrollViewSize = scrollView.contentSize;
+            BOOL isXVisible = scrollViewSize.width >= self.frame.origin.x;
+            BOOL isYVisible = scrollViewSize.height >= self.frame.origin.y;
+            BOOL isSelfVisible = isXVisible && isYVisible;
+
+            return isSelfVisible;
+        }
+
+        return NO;
+    }
+}
+
 - (UIAccessibilityElement *)accessibilityElementMatchingBlock:(BOOL(^)(UIAccessibilityElement *))matchBlock notHidden:(BOOL)notHidden;
 {
-    if (notHidden && self.hidden) {
-        return nil;
+    if (notHidden) {
+        if (self.hidden || self.alpha == 0) {
+            return nil;
+        }
     }
     
     // In case multiple elements with the same label exist, prefer ones that are currently visible
@@ -356,7 +392,7 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
             }
         }
     }
-    
+
     return matchingButOccludedElement;
 }
 
@@ -1053,12 +1089,29 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
     }
 }
 
--(UIView*)tryGetiOS16KeyboardFallbackViewFromParentView:(UIView*) parentView {
+- (UIView *)tryGetiOS16KeyboardFallbackViewFromParentView:(UIView*) parentView
+{
     if([parentView isKindOfClass:NSClassFromString(@"_UIRemoteKeyboardPlaceholderView")]) {
         UIView* fallbackView = [parentView valueForKey:@"_fallbackView"];
         return fallbackView;
     }
     
+    return nil;
+}
+
+- (nullable UIView *)parentPlainScrollView
+{
+    UIView *currentSuperview = self.superview;
+    while (currentSuperview != nil) {
+        if ([currentSuperview isKindOfClass:[UIScrollView class]] &&
+            ![currentSuperview isKindOfClass:[UICollectionView class]] &&
+            ![currentSuperview isKindOfClass:[UITableView class]]) {
+            return currentSuperview;
+        }
+
+        currentSuperview = currentSuperview.superview;
+    }
+
     return nil;
 }
 

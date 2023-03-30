@@ -185,6 +185,8 @@
 		85DB94731C5A5FD50025F83E /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85DB94711C5A5D430025F83E /* QuartzCore.framework */; };
 		85DB94741C5A5FE10025F83E /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85DB94711C5A5D430025F83E /* QuartzCore.framework */; };
 		85DB94751C5A5FEA0025F83E /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85DB94711C5A5D430025F83E /* QuartzCore.framework */; };
+		8EAA1EE229D3AF7A008F6029 /* OffscreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EAA1EE129D3AF7A008F6029 /* OffscreenViewController.m */; };
+		8EAA1EE429D3B1F5008F6029 /* OffscreenTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EAA1EE329D3B1F5008F6029 /* OffscreenTests.m */; };
 		97E8A5CF1B0A62F700124E3B /* BackgroundViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97E8A5CE1B0A62F700124E3B /* BackgroundViewController.m */; };
 		97E8A5D11B0A63D100124E3B /* BackgroundTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 97E8A5D01B0A63D100124E3B /* BackgroundTests.m */; };
 		9CC881A91AD4CE39002CD34C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAB072B413971AEA008AF393 /* UIKit.framework */; };
@@ -401,6 +403,8 @@
 		84D293B01A2C891700C10944 /* SystemAlertTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SystemAlertTests.m; sourceTree = "<group>"; };
 		84D293B71A2C8DF700C10944 /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
 		85DB94711C5A5D430025F83E /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		8EAA1EE129D3AF7A008F6029 /* OffscreenViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OffscreenViewController.m; sourceTree = "<group>"; };
+		8EAA1EE329D3B1F5008F6029 /* OffscreenTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OffscreenTests.m; sourceTree = "<group>"; };
 		97E8A5CE1B0A62F700124E3B /* BackgroundViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BackgroundViewController.m; sourceTree = "<group>"; };
 		97E8A5D01B0A63D100124E3B /* BackgroundTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BackgroundTests.m; sourceTree = "<group>"; };
 		9CC881A21AD4CAAC002CD34C /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
@@ -801,6 +805,7 @@
 				84D293AC1A2C84F700C10944 /* SystemAlertViewController.m */,
 				97E8A5CE1B0A62F700124E3B /* BackgroundViewController.m */,
 				EB60ECC7177F8C83005A041A /* Supporting Files */,
+				8EAA1EE129D3AF7A008F6029 /* OffscreenViewController.m */,
 			);
 			path = "Test Host";
 			sourceTree = "<group>";
@@ -856,6 +861,7 @@
 				5F6A1B371C191F9600F20F22 /* UIApplicationKIFAdditionsTests.m */,
 				B66B1BF3202BC94F00D0E4B2 /* AutocorrectTests.m */,
 				EB60ECF0177F8DB3005A041A /* Supporting Files */,
+				8EAA1EE329D3B1F5008F6029 /* OffscreenTests.m */,
 			);
 			path = "KIF Tests";
 			sourceTree = "<group>";
@@ -1382,6 +1388,7 @@
 				FA4915691A78449C00A78E57 /* CollectionViewTests_ViewTestActor.m in Sources */,
 				FA8DA74F1A7711E900E0C644 /* WaitForTappableViewTests_ViewTestActor.m in Sources */,
 				EABD46BA1857A0F300A5F081 /* WaitForAbscenceTests.m in Sources */,
+				8EAA1EE429D3B1F5008F6029 /* OffscreenTests.m in Sources */,
 				EA47DA2818EDFD6F0034D2F5 /* CollectionViewTests.m in Sources */,
 				EABD46BB1857A0F300A5F081 /* WaitForTappableViewTests.m in Sources */,
 				EABD46BC1857A0F300A5F081 /* WaitForViewTests.m in Sources */,
@@ -1425,6 +1432,7 @@
 				2CDEE1CB181DBED200DF6E63 /* PickerController.m in Sources */,
 				EB60ED03177F9032005A041A /* TestSuiteViewController.m in Sources */,
 				D9EA274318F05A6700D87E57 /* ScrollViewController.m in Sources */,
+				8EAA1EE229D3AF7A008F6029 /* OffscreenViewController.m in Sources */,
 				3812FB611A1212A700335733 /* AnimationViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -177,7 +177,7 @@ static BOOL KIFUITestActorAnimationsEnabled = YES;
         KIFTestWaitCondition(view, error, @"Cannot find view containing accessibility element with the label \"%@\"", label);
 
         // Hidden views count as absent
-        KIFTestWaitCondition([view isHidden] || [view superview] == nil, error, @"Accessibility element %@ with label \"%@\" is visible and not hidden.", view, label);
+        KIFTestWaitCondition([view isHidden] || [view superview] == nil || ![view isPossibleVisibleInWindow], error, @"Accessibility element %@ with label \"%@\" is visible and not hidden.", view, label);
         
         return KIFTestStepResultSuccess;
     }];
@@ -200,7 +200,7 @@ static BOOL KIFUITestActorAnimationsEnabled = YES;
         KIFTestWaitCondition(view, error, @"Cannot find view containing accessibility element with the predicate \"%@\"", predicate);
 
         // Hidden views count as absent
-        KIFTestWaitCondition([view isHidden] || [view superview] == nil, error, @"Accessibility element with predicate \"%@\" is visible and not hidden.", predicate);
+        KIFTestWaitCondition([view isHidden] || [view superview] == nil || ![view isPossibleVisibleInWindow], error, @"Accessibility element with predicate \"%@\" is visible and not hidden.", predicate);
 
         return KIFTestStepResultSuccess;
     }];
