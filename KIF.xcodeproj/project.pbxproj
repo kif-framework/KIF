@@ -185,6 +185,7 @@
 		85DB94731C5A5FD50025F83E /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85DB94711C5A5D430025F83E /* QuartzCore.framework */; };
 		85DB94741C5A5FE10025F83E /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85DB94711C5A5D430025F83E /* QuartzCore.framework */; };
 		85DB94751C5A5FEA0025F83E /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85DB94711C5A5D430025F83E /* QuartzCore.framework */; };
+		8E654FC229D75E40007F7811 /* NSString+KIFAdditionsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E654FC129D75B73007F7811 /* NSString+KIFAdditionsTests.m */; };
 		8EAA1EE229D3AF7A008F6029 /* OffscreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EAA1EE129D3AF7A008F6029 /* OffscreenViewController.m */; };
 		8EAA1EE429D3B1F5008F6029 /* OffscreenTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EAA1EE329D3B1F5008F6029 /* OffscreenTests.m */; };
 		97E8A5CF1B0A62F700124E3B /* BackgroundViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97E8A5CE1B0A62F700124E3B /* BackgroundViewController.m */; };
@@ -403,6 +404,8 @@
 		84D293B01A2C891700C10944 /* SystemAlertTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SystemAlertTests.m; sourceTree = "<group>"; };
 		84D293B71A2C8DF700C10944 /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
 		85DB94711C5A5D430025F83E /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		8E654FC029D75B07007F7811 /* NSString+KIFAdditionsTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+KIFAdditionsTests.h"; sourceTree = "<group>"; };
+		8E654FC129D75B73007F7811 /* NSString+KIFAdditionsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+KIFAdditionsTests.m"; sourceTree = "<group>"; };
 		8EAA1EE129D3AF7A008F6029 /* OffscreenViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OffscreenViewController.m; sourceTree = "<group>"; };
 		8EAA1EE329D3B1F5008F6029 /* OffscreenTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OffscreenTests.m; sourceTree = "<group>"; };
 		97E8A5CE1B0A62F700124E3B /* BackgroundViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BackgroundViewController.m; sourceTree = "<group>"; };
@@ -769,6 +772,8 @@
 			isa = PBXGroup;
 			children = (
 				BFE4708F1C7F44F700580EF9 /* UIScreen+KIFAdditionsTests.m */,
+				8E654FC029D75B07007F7811 /* NSString+KIFAdditionsTests.h */,
+				8E654FC129D75B73007F7811 /* NSString+KIFAdditionsTests.m */,
 			);
 			name = Additions;
 			sourceTree = "<group>";
@@ -1382,6 +1387,7 @@
 				B66B1BF6202BCF2000D0E4B2 /* AutocorrectTests_ViewTestActor.m in Sources */,
 				EABD46B71857A0F300A5F081 /* SystemTests.m in Sources */,
 				5A62B0AC1BB2043B00A3F480 /* AccessibilityIdentifierPullToRefreshTests.m in Sources */,
+				8E654FC229D75E40007F7811 /* NSString+KIFAdditionsTests.m in Sources */,
 				EABD46B81857A0F300A5F081 /* TappingTests.m in Sources */,
 				CD4E91F21F479FF2005D530C /* CustomPickerTests_ViewTestActor.m in Sources */,
 				EABD46B91857A0F300A5F081 /* TypingTests.m in Sources */,

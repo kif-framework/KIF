@@ -7,6 +7,7 @@
 //
 
 #import <KIF/KIF.h>
+#import "NSString+KIFAdditionsTests.h"
 
 @interface LongPressTests : KIFTestCase
 @end
@@ -28,21 +29,21 @@
 {
     [tester tapViewWithAccessibilityLabel:@"Greeting"];
     [tester longPressViewWithAccessibilityLabel:@"Greeting" duration:2];
-    [tester tapViewWithAccessibilityLabel:@"Select All"];
+    [tester tapViewWithAccessibilityLabel:[NSString textFieldLongPressSelectText]];
 }
 
 - (void)testLongPressingViewViewWithTraits
 {
     [tester tapViewWithAccessibilityLabel:@"Greeting"];
     [tester longPressViewWithAccessibilityLabel:@"Greeting" value:@"Hello" duration:2];
-    [tester tapViewWithAccessibilityLabel:@"Select All"];
+    [tester tapViewWithAccessibilityLabel:[NSString textFieldLongPressSelectText]];
 }
 
 - (void)testLongPressingViewViewWithValue
 {
     [tester tapViewWithAccessibilityLabel:@"Greeting"];
     [tester longPressViewWithAccessibilityLabel:@"Greeting" value:@"Hello" traits:UIAccessibilityTraitUpdatesFrequently duration:2];
-    [tester tapViewWithAccessibilityLabel:@"Select All"];
+    [tester tapViewWithAccessibilityLabel:[NSString textFieldLongPressSelectText]];
 }
 
 @end
