@@ -18,6 +18,11 @@
     [tester tapViewWithAccessibilityLabel:@"Offscreen Views"];
 }
 
+- (void)afterEach
+{
+    [tester tapViewWithAccessibilityLabel:@"Test Suite" traits:UIAccessibilityTraitButton];
+}
+
 - (void)testViewOffscreen
 {
     [tester tapViewWithAccessibilityLabel:@"Scroll moving view"];
