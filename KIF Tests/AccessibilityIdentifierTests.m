@@ -47,41 +47,41 @@
 
 - (void)testLongPressingViewWithAccessibilityIdentifier
 {
-  [tester tapViewWithAccessibilityIdentifier:@"idGreeting"];
-	[tester longPressViewWithAccessibilityIdentifier:@"idGreeting" duration:2];
+    [tester tapViewWithAccessibilityIdentifier:@"idGreeting"];
+    [tester longPressViewWithAccessibilityIdentifier:@"idGreeting" duration:2];
     NSString *selectText;
     if (@available(iOS 16.0, *)) {
         selectText = @"Select";
     } else {
         selectText = @"Select All";
     }
-	[tester tapViewWithAccessibilityLabel:selectText];
+    [tester tapViewWithAccessibilityLabel:selectText];
 }
 
 - (void)testEnteringTextIntoViewWithAccessibilityIdentifier
 {
-  [tester tapViewWithAccessibilityIdentifier:@"idGreeting"];
-	[tester longPressViewWithAccessibilityIdentifier:@"idGreeting" duration:2];
+    [tester tapViewWithAccessibilityIdentifier:@"idGreeting"];
+    [tester longPressViewWithAccessibilityIdentifier:@"idGreeting" duration:2];
     NSString *selectText;
     if (@available(iOS 16.0, *)) {
         selectText = @"Select";
     } else {
         selectText = @"Select All";
     }
-	[tester tapViewWithAccessibilityLabel:selectText];
-	[tester tapViewWithAccessibilityLabel:@"Cut"];
-	[tester enterText:@"Yo" intoViewWithAccessibilityIdentifier:@"idGreeting"];
+    [tester tapViewWithAccessibilityLabel:selectText];
+    [tester tapViewWithAccessibilityLabel:@"Cut"];
+    [tester enterText:@"Yo" intoViewWithAccessibilityIdentifier:@"idGreeting"];
 }
 
 - (void)testEnteringTextIntoViewWithAccessibilityIdentifierExpectingResults
 {
-	[tester enterText:@", world" intoViewWithAccessibilityIdentifier:@"idGreeting" expectedResult:@"Hello, world"];
-	[tester waitForViewWithAccessibilityLabel:@"Greeting" value:@"Hello, world" traits:UIAccessibilityTraitNone];
+    [tester enterText:@", world" intoViewWithAccessibilityIdentifier:@"idGreeting" expectedResult:@"Hello, world"];
+    [tester waitForViewWithAccessibilityLabel:@"Greeting" value:@"Hello, world" traits:UIAccessibilityTraitNone];
 }
 
 - (void)testClearingAndEnteringTextIntoViewWithAccessibilityLabel
 {
-	[tester clearTextFromAndThenEnterText:@"Yo" intoViewWithAccessibilityIdentifier:@"idGreeting"];
+    [tester clearTextFromAndThenEnterText:@"Yo" intoViewWithAccessibilityIdentifier:@"idGreeting"];
 }
 
 - (void)testSettingTextIntoViewWithAccessibilityIdentifier
@@ -109,38 +109,38 @@
 
 - (void) testTappingStepperIncrement
 {
-	UILabel *uiLabel = (UILabel *)[tester waitForViewWithAccessibilityIdentifier:@"tapViewController.stepperValue"];
-	NSInteger originalValue = [[uiLabel text] integerValue];
+    UILabel *uiLabel = (UILabel *)[tester waitForViewWithAccessibilityIdentifier:@"tapViewController.stepperValue"];
+    NSInteger originalValue = [[uiLabel text] integerValue];
 
-	[tester tapStepperWithAccessibilityIdentifier:@"tapViewController.stepper" increment:(KIFStepperDirectionIncrement)];
+    [tester tapStepperWithAccessibilityIdentifier:@"tapViewController.stepper" increment:(KIFStepperDirectionIncrement)];
 
-	[tester waitForTimeInterval:0.5f];
-	uiLabel = (UILabel *)[tester waitForViewWithAccessibilityIdentifier:@"tapViewController.stepperValue"];
-	NSInteger newValue = [[uiLabel text] integerValue];
-	if (newValue != (originalValue + 1))
-	{
-		NSException *exception = [NSException exceptionWithName:@"Unexpected test failure"
-														 reason:[NSString stringWithFormat: @"newValue was expected to be +1 of originalValue. Original Value was %ld while newValue is %ld", (long)originalValue, (long)newValue] userInfo:nil];
-		[tester failWithException: exception stopTest: NO];
-	}
+    [tester waitForTimeInterval:0.5f];
+    uiLabel = (UILabel *)[tester waitForViewWithAccessibilityIdentifier:@"tapViewController.stepperValue"];
+    NSInteger newValue = [[uiLabel text] integerValue];
+    if (newValue != (originalValue + 1))
+    {
+        NSException *exception = [NSException exceptionWithName:@"Unexpected test failure"
+                                                         reason:[NSString stringWithFormat: @"newValue was expected to be +1 of originalValue. Original Value was %ld while newValue is %ld", (long)originalValue, (long)newValue] userInfo:nil];
+        [tester failWithException: exception stopTest: NO];
+    }
 }
 
 - (void) testTappingStepperDecrement
 {
-	UILabel *uiLabel = (UILabel *)[tester waitForViewWithAccessibilityIdentifier:@"tapViewController.stepperValue"];
-	NSInteger originalValue = [[uiLabel text] integerValue];
+    UILabel *uiLabel = (UILabel *)[tester waitForViewWithAccessibilityIdentifier:@"tapViewController.stepperValue"];
+    NSInteger originalValue = [[uiLabel text] integerValue];
 
-	[tester tapStepperWithAccessibilityIdentifier:@"tapViewController.stepper" increment:(KIFStepperDirectionDecrement)];
+    [tester tapStepperWithAccessibilityIdentifier:@"tapViewController.stepper" increment:(KIFStepperDirectionDecrement)];
 
-	[tester waitForTimeInterval:0.5f];
-	uiLabel = (UILabel *)[tester waitForViewWithAccessibilityIdentifier:@"tapViewController.stepperValue"];
-	NSInteger newValue = [[uiLabel text] integerValue];
-	if (newValue != (originalValue -1))
-	{
-		NSException *exception = [NSException exceptionWithName:@"Unexpected test failure"
-														 reason:[NSString stringWithFormat: @"newValue was expected to be -1 of originalValue. Original Value was %ld while newValue is %ld", (long)originalValue, (long)newValue] userInfo:nil];
-		[tester failWithException: exception stopTest: NO];
-	}
+    [tester waitForTimeInterval:0.5f];
+    uiLabel = (UILabel *)[tester waitForViewWithAccessibilityIdentifier:@"tapViewController.stepperValue"];
+    NSInteger newValue = [[uiLabel text] integerValue];
+    if (newValue != (originalValue -1))
+    {
+        NSException *exception = [NSException exceptionWithName:@"Unexpected test failure"
+                                                         reason:[NSString stringWithFormat: @"newValue was expected to be -1 of originalValue. Original Value was %ld while newValue is %ld", (long)originalValue, (long)newValue] userInfo:nil];
+        [tester failWithException: exception stopTest: NO];
+    }
 }
 
 - (void)afterEach

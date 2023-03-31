@@ -135,8 +135,12 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
     return [self accessibilityElementMatchingBlock:matchBlock notHidden:YES];
 }
 
-- (BOOL)isPossibleVisibleInWindow
+- (BOOL)isPossiblyVisibleInWindow
 {
+    if (self.alpha == 0) {
+        return NO;
+    }
+
     if ([self isVisibleInWindowFrame]) {
         return YES;
     } else {
@@ -174,10 +178,8 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
 
 - (UIAccessibilityElement *)accessibilityElementMatchingBlock:(BOOL(^)(UIAccessibilityElement *))matchBlock notHidden:(BOOL)notHidden;
 {
-    if (notHidden) {
-        if (self.hidden || self.alpha == 0) {
-            return nil;
-        }
+    if (notHidden && self.hidden) {
+        return nil;
     }
     
     // In case multiple elements with the same label exist, prefer ones that are currently visible
