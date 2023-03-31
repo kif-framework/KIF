@@ -159,7 +159,7 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
         // If it's out of the scrollable content size, we consider as not visible
         //
         // We are only interested if the parent is a scrollView and NOT collectionView and NOT tableView
-        UIScrollView *scrollView = (UIScrollView *)[self parentPlainScrollView];
+        UIScrollView *scrollView = (UIScrollView *)[self ancestorScrollView];
         // if scrollView is within a tappable point, that means we can check to see if `self` is viewable within content size
         //
         // TODO: We haven't handled if a scrollView is inside another scrollView
@@ -188,10 +188,12 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
     BOOL elementMatches = matchBlock((UIAccessibilityElement *)self);
 
     if (elementMatches) {
-        if (self.isTappable) {
-            return (UIAccessibilityElement *)self;
-        } else {
-            matchingButOccludedElement = (UIAccessibilityElement *)self;
+        if ([self isPossiblyVisibleInWindow]) {
+            if (self.isTappable) {
+                return (UIAccessibilityElement *)self;
+            } else {
+                matchingButOccludedElement = (UIAccessibilityElement *)self;
+            }
         }
     }
     
@@ -237,11 +239,13 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
             UIView *viewForElement = [UIAccessibilityElement viewContainingAccessibilityElement:element];
             CGRect accessibilityFrame = [viewForElement.window convertRect:element.accessibilityFrame toView:viewForElement];
 
-            if ([viewForElement isTappableInRect:accessibilityFrame]) {
-                return element;
-            } else {
-                matchingButOccludedElement = element;
-                continue;
+            if ([viewForElement isPossiblyVisibleInWindow]) {
+                if ([viewForElement isTappableInRect:accessibilityFrame]) {
+                    return element;
+                } else {
+                    matchingButOccludedElement = element;
+                    continue;
+                }
             }
         }
 
@@ -1104,7 +1108,7 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
     return nil;
 }
 
-- (nullable UIView *)parentPlainScrollView
+- (nullable UIView *)ancestorScrollView
 {
     // We don't want collection view and table view because we handle them separately.
     // This function is only getting a plain scroll view

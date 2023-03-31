@@ -185,6 +185,7 @@
 		85DB94731C5A5FD50025F83E /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85DB94711C5A5D430025F83E /* QuartzCore.framework */; };
 		85DB94741C5A5FE10025F83E /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85DB94711C5A5D430025F83E /* QuartzCore.framework */; };
 		85DB94751C5A5FEA0025F83E /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85DB94711C5A5D430025F83E /* QuartzCore.framework */; };
+		8E654FC429D79BD8007F7811 /* OffscreenTests_ViewTestActor.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E654FC329D79BD8007F7811 /* OffscreenTests_ViewTestActor.m */; };
 		8EAA1EE229D3AF7A008F6029 /* OffscreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EAA1EE129D3AF7A008F6029 /* OffscreenViewController.m */; };
 		8EAA1EE429D3B1F5008F6029 /* OffscreenTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EAA1EE329D3B1F5008F6029 /* OffscreenTests.m */; };
 		97E8A5CF1B0A62F700124E3B /* BackgroundViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97E8A5CE1B0A62F700124E3B /* BackgroundViewController.m */; };
@@ -403,6 +404,7 @@
 		84D293B01A2C891700C10944 /* SystemAlertTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SystemAlertTests.m; sourceTree = "<group>"; };
 		84D293B71A2C8DF700C10944 /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
 		85DB94711C5A5D430025F83E /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		8E654FC329D79BD8007F7811 /* OffscreenTests_ViewTestActor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OffscreenTests_ViewTestActor.m; sourceTree = "<group>"; };
 		8EAA1EE129D3AF7A008F6029 /* OffscreenViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OffscreenViewController.m; sourceTree = "<group>"; };
 		8EAA1EE329D3B1F5008F6029 /* OffscreenTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OffscreenTests.m; sourceTree = "<group>"; };
 		97E8A5CE1B0A62F700124E3B /* BackgroundViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BackgroundViewController.m; sourceTree = "<group>"; };
@@ -903,6 +905,7 @@
 				FA8A3C5E1A772E6800206350 /* AccessibilityIdentifierTests_ViewTestActor.m */,
 				FA8A3C5A1A77281900206350 /* WebViewTests_ViewTestActor.m */,
 				FA8A3C601A77320000206350 /* SystemAlertTests_ViewTestActor.m */,
+				8E654FC329D79BD8007F7811 /* OffscreenTests_ViewTestActor.m */,
 			);
 			name = "KIFUIViewTestActor Tests";
 			sourceTree = "<group>";
@@ -1359,6 +1362,7 @@
 				FA8A3C551A77157F00206350 /* LongPressTests_ViewTestActor.m in Sources */,
 				FA49155E1A78206E00A78E57 /* CompositionTests_ViewTestActor.m in Sources */,
 				FA8A3C5F1A772E6800206350 /* AccessibilityIdentifierTests_ViewTestActor.m in Sources */,
+				8E654FC429D79BD8007F7811 /* OffscreenTests_ViewTestActor.m in Sources */,
 				FA8A3C5D1A772CD100206350 /* WaitForAbscenceTests_ViewTestActor.m in Sources */,
 				FA8A3C5B1A77281900206350 /* WebViewTests_ViewTestActor.m in Sources */,
 				EABD46B11857A0F300A5F081 /* SearchFieldTests.m in Sources */,
