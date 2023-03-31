@@ -9,7 +9,6 @@
 #import <KIF/KIFTestCase.h>
 #import <KIF/KIFUITestActor-IdentifierTests.h>
 #import <KIF/KIFTestStepValidation.h>
-#import "NSString+KIFAdditionsTests.h"
 
 @interface AccessibilityIdentifierTests : KIFTestCase
 @end
@@ -50,14 +49,26 @@
 {
     [tester tapViewWithAccessibilityIdentifier:@"idGreeting"];
     [tester longPressViewWithAccessibilityIdentifier:@"idGreeting" duration:2];
-    [tester tapViewWithAccessibilityLabel:[NSString textFieldLongPressSelectText]];
+    NSString *selectText;
+    if (@available(iOS 16.0, *)) {
+        selectText = @"Select";
+    } else {
+        selectText = @"Select All";
+    }
+    [tester tapViewWithAccessibilityLabel:selectText];
 }
 
 - (void)testEnteringTextIntoViewWithAccessibilityIdentifier
 {
     [tester tapViewWithAccessibilityIdentifier:@"idGreeting"];
     [tester longPressViewWithAccessibilityIdentifier:@"idGreeting" duration:2];
-    [tester tapViewWithAccessibilityLabel:[NSString textFieldLongPressSelectText]];
+    NSString *selectText;
+    if (@available(iOS 16.0, *)) {
+        selectText = @"Select";
+    } else {
+        selectText = @"Select All";
+    }
+    [tester tapViewWithAccessibilityLabel:selectText];
     [tester tapViewWithAccessibilityLabel:@"Cut"];
     [tester enterText:@"Yo" intoViewWithAccessibilityIdentifier:@"idGreeting"];
 }

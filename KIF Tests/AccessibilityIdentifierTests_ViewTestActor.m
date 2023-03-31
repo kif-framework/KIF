@@ -8,7 +8,6 @@
 
 #import <KIF/KIF.h>
 #import <KIF/KIFTestStepValidation.h>
-#import "NSString+KIFAdditionsTests.h"
 
 @interface AccessibilityIdentifierTests_ViewTestActor : KIFTestCase
 @end
@@ -50,14 +49,14 @@
 {
     [[viewTester usingIdentifier:@"idGreeting"] tap];
     [[viewTester usingIdentifier:@"idGreeting"] longPressWithDuration:2];
-    [[viewTester usingLabel:[NSString textFieldLongPressSelectText]] tap];
+    [[viewTester usingLabel:@"Select All"] tap];
 }
 
 - (void)testEnteringTextIntoViewWithAccessibilityIdentifier
 {
     [[viewTester usingIdentifier:@"idGreeting"] tap];
     [[viewTester usingIdentifier:@"idGreeting"] longPressWithDuration:2];
-    [[viewTester usingLabel:[NSString textFieldLongPressSelectText]] tap];
+    [[viewTester usingLabel:@"Select All"] tap];
     [[viewTester usingLabel:@"Cut"] tap];
     [[viewTester usingIdentifier:@"idGreeting"] enterText:@"Yo"];
 }

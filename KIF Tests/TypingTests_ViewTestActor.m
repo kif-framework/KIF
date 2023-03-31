@@ -8,7 +8,6 @@
 
 #import <KIF/KIF.h>
 #import "KIFTestStepValidation.h"
-#import "NSString+KIFAdditionsTests.h"
 
 @interface TypingTests_ViewTestActor : KIFTestCase
 @end
@@ -41,7 +40,7 @@
 {
     [tester tapViewWithAccessibilityLabel:@"Greeting"];
     [[[viewTester usingLabel:@"Greeting"] usingValue:@"Hello"] longPressWithDuration:2];
-    [[viewTester usingLabel:[NSString textFieldLongPressSelectText]] tap];
+    [[viewTester usingLabel:@"Select All"] tap];
     [[viewTester usingFirstResponder] enterText:@"Yo"];
     [[[viewTester usingLabel:@"Greeting"] usingValue:@"Yo"] waitForView];
 }
@@ -55,7 +54,7 @@
 {
     [tester tapViewWithAccessibilityLabel:@"Greeting"];
     [[[viewTester usingLabel:@"Greeting"] usingValue:@"Hello"] longPressWithDuration:2];
-    [[viewTester usingLabel:[NSString textFieldLongPressSelectText]] tap];
+    [[viewTester usingLabel:@"Select All"] tap];
     [[viewTester usingLabel:@"Cut"] tap];
     [[viewTester usingLabel:@"Greeting"] enterText:@"Yo"];
     [[[viewTester usingLabel:@"Greeting"] usingValue:@"Yo"] waitForView];
