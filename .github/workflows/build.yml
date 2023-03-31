@@ -20,8 +20,8 @@ jobs:
     strategy:
       matrix:
         run-config:
-          - { xcode_version: '14.2', simulator: 'name=iPad Pro (12.9-inch) (5th generation),OS=16.2' }
-          - { xcode_version: '14.2', simulator: 'name=iPhone SE (3rd generation),OS=16.2' }
+          - { xcode_version: '14.1', simulator: 'name=iPad Pro (12.9-inch) (5th generation),OS=16.1' }
+          - { xcode_version: '14.1', simulator: 'name=iPhone SE (2nd generation),OS=16.1' }
     steps:
     - name: Checkout Project
       uses: actions/checkout@v1
