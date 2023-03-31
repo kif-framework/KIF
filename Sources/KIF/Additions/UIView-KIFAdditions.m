@@ -156,7 +156,10 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
         //
         // We are only interested if the parent is a scrollView and NOT collectionView and NOT tableView
         UIScrollView *scrollView = (UIScrollView *)[self parentPlainScrollView];
-        if (scrollView) {
+        // if scrollView is within a tappable point, that means we can check to see if `self` is viewable within content size
+        //
+        // TODO: We haven't handled if a scrollView is inside another scrollView
+        if (scrollView && scrollView.isTappable) {
             CGSize scrollViewSize = scrollView.contentSize;
             BOOL isXVisible = scrollViewSize.width >= self.frame.origin.x;
             BOOL isYVisible = scrollViewSize.height >= self.frame.origin.y;
