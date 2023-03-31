@@ -49,26 +49,14 @@
 {
     [tester tapViewWithAccessibilityIdentifier:@"idGreeting"];
     [tester longPressViewWithAccessibilityIdentifier:@"idGreeting" duration:2];
-    NSString *selectText;
-    if (@available(iOS 16.0, *)) {
-        selectText = @"Select";
-    } else {
-        selectText = @"Select All";
-    }
-    [tester tapViewWithAccessibilityLabel:selectText];
+    [tester tapViewWithAccessibilityLabel:@"Select All"];
 }
 
 - (void)testEnteringTextIntoViewWithAccessibilityIdentifier
 {
     [tester tapViewWithAccessibilityIdentifier:@"idGreeting"];
     [tester longPressViewWithAccessibilityIdentifier:@"idGreeting" duration:2];
-    NSString *selectText;
-    if (@available(iOS 16.0, *)) {
-        selectText = @"Select";
-    } else {
-        selectText = @"Select All";
-    }
-    [tester tapViewWithAccessibilityLabel:selectText];
+    [tester tapViewWithAccessibilityLabel:@"Select All"];
     [tester tapViewWithAccessibilityLabel:@"Cut"];
     [tester enterText:@"Yo" intoViewWithAccessibilityIdentifier:@"idGreeting"];
 }
