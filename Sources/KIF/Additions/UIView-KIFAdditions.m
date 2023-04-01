@@ -135,6 +135,47 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
     return [self accessibilityElementMatchingBlock:matchBlock notHidden:YES];
 }
 
+- (BOOL)isPossiblyVisibleInWindow
+{
+    if (self.alpha == 0) {
+        return NO;
+    }
+
+    if ([self isVisibleInWindowFrame]) {
+        return YES;
+    } else {
+        // This is a fix when a view is not hidden but outside of visible area and scrollable content size
+        //
+        // scroll view scrollable content
+        // -------------
+        // |           |
+        // |scrollView |    View is not hidden and it's out of the scollable content
+        // |           |     -----
+        // |           |     |   | <- a subview of the scrollView
+        // |           |     |   |
+        // -------------     -----
+        //
+        // We want to detect that if the view is there but it's out of the scrollable content size
+        // If it's out of the scrollable content size, we consider as not visible
+        //
+        // We are only interested if the parent is a scrollView and NOT collectionView and NOT tableView
+        UIScrollView *scrollView = (UIScrollView *)[self ancestorScrollView];
+        // if scrollView is within a tappable point, that means we can check to see if `self` is viewable within content size
+        //
+        // TODO: We haven't handled if a scrollView is inside another scrollView
+        if (scrollView && scrollView.isTappable) {
+            CGSize scrollViewSize = scrollView.contentSize;
+            BOOL isXVisible = scrollViewSize.width >= self.frame.origin.x;
+            BOOL isYVisible = scrollViewSize.height >= self.frame.origin.y;
+            BOOL isSelfVisible = isXVisible && isYVisible;
+
+            return isSelfVisible;
+        }
+
+        return NO;
+    }
+}
+
 - (UIAccessibilityElement *)accessibilityElementMatchingBlock:(BOOL(^)(UIAccessibilityElement *))matchBlock notHidden:(BOOL)notHidden;
 {
     if (notHidden && self.hidden) {
@@ -322,7 +363,7 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
                     if ([indexPathsForVisibleItems containsObject:indexPath]) {
                         continue;
                     }
-                    
+
                     @autoreleasepool {
                         // Get the cell directly from the dataSource because UICollectionView will only vend visible cells
                         UICollectionViewCell *cell = [collectionView.dataSource collectionView:collectionView cellForItemAtIndexPath:indexPath];
@@ -356,7 +397,7 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
             }
         }
     }
-    
+
     return matchingButOccludedElement;
 }
 
@@ -1053,12 +1094,31 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
     }
 }
 
--(UIView*)tryGetiOS16KeyboardFallbackViewFromParentView:(UIView*) parentView {
+- (UIView *)tryGetiOS16KeyboardFallbackViewFromParentView:(UIView*) parentView
+{
     if([parentView isKindOfClass:NSClassFromString(@"_UIRemoteKeyboardPlaceholderView")]) {
         UIView* fallbackView = [parentView valueForKey:@"_fallbackView"];
         return fallbackView;
     }
     
+    return nil;
+}
+
+- (nullable UIView *)ancestorScrollView
+{
+    // We don't want collection view and table view because we handle them separately.
+    // This function is only getting a plain scroll view
+    UIView *currentSuperview = self.superview;
+    while (currentSuperview != nil) {
+        if ([currentSuperview isKindOfClass:[UIScrollView class]] &&
+            ![currentSuperview isKindOfClass:[UICollectionView class]] &&
+            ![currentSuperview isKindOfClass:[UITableView class]]) {
+            return currentSuperview;
+        }
+
+        currentSuperview = currentSuperview.superview;
+    }
+
     return nil;
 }
 

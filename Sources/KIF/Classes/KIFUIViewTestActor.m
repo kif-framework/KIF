@@ -197,8 +197,8 @@ NSString *const inputFieldTestString = @"Testing";
         KIFTestWaitCondition(found.view, error, @"Cannot find view containing accessibility element \"%@\"", found.element);
         
         // Hidden views count as absent
-        KIFTestWaitCondition([found.view isHidden] || [found.view superview] == nil, error, @"Accessibility element \"%@\" is visible and not hidden.", found);
-        
+        KIFTestWaitCondition([found.view isHidden] || [found.view superview] == nil || ![found.view isPossiblyVisibleInWindow], error, @"Accessibility element \"%@\" is visible and not hidden.", found);
+
         return KIFTestStepResultSuccess;
     }];
 }
