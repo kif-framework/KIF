@@ -188,12 +188,10 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
     BOOL elementMatches = matchBlock((UIAccessibilityElement *)self);
 
     if (elementMatches) {
-        if ([self isPossiblyVisibleInWindow]) {
-            if (self.isTappable) {
-                return (UIAccessibilityElement *)self;
-            } else {
-                matchingButOccludedElement = (UIAccessibilityElement *)self;
-            }
+        if (self.isTappable) {
+            return (UIAccessibilityElement *)self;
+        } else {
+            matchingButOccludedElement = (UIAccessibilityElement *)self;
         }
     }
     
@@ -239,13 +237,11 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
             UIView *viewForElement = [UIAccessibilityElement viewContainingAccessibilityElement:element];
             CGRect accessibilityFrame = [viewForElement.window convertRect:element.accessibilityFrame toView:viewForElement];
 
-            if ([viewForElement isPossiblyVisibleInWindow]) {
-                if ([viewForElement isTappableInRect:accessibilityFrame]) {
-                    return element;
-                } else {
-                    matchingButOccludedElement = element;
-                    continue;
-                }
+            if ([viewForElement isTappableInRect:accessibilityFrame]) {
+                return element;
+            } else {
+                matchingButOccludedElement = element;
+                continue;
             }
         }
 
@@ -367,7 +363,7 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
                     if ([indexPathsForVisibleItems containsObject:indexPath]) {
                         continue;
                     }
-                    
+
                     @autoreleasepool {
                         // Get the cell directly from the dataSource because UICollectionView will only vend visible cells
                         UICollectionViewCell *cell = [collectionView.dataSource collectionView:collectionView cellForItemAtIndexPath:indexPath];
