@@ -31,7 +31,6 @@
 {
     [self swizzle_becomeKeyWindow];
     self.layer.speed = [UIApplication sharedApplication].animationSpeed;
-    NSLog(@"Here");
 }
 
 @end
