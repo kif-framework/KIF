@@ -7,6 +7,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UIWindow (Swizzles)
+@interface UIWindow (KIFSwizzle)
 
 @end

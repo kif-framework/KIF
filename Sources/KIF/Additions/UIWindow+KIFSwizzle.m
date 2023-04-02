@@ -5,11 +5,11 @@
 //  Created by Steve Sun on 2023-04-02.
 //
 
-#import "UIWindow+Swizzles.h"
+#import "UIWindow+KIFSwizzle.h"
 #import "UIApplication-KIFAdditions.h"
 #import <objc/runtime.h>
 
-@implementation UIWindow (Swizzles)
+@implementation UIWindow (KIFSwizzle)
 
 + (void)load
 {

@@ -186,10 +186,10 @@
 		85DB94741C5A5FE10025F83E /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85DB94711C5A5D430025F83E /* QuartzCore.framework */; };
 		85DB94751C5A5FEA0025F83E /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85DB94711C5A5D430025F83E /* QuartzCore.framework */; };
 		8E654FC429D79BD8007F7811 /* OffscreenTests_ViewTestActor.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E654FC329D79BD8007F7811 /* OffscreenTests_ViewTestActor.m */; };
-		8E654FCE29DA2FE7007F7811 /* UIWindow+Swizzles.h in Headers */ = {isa = PBXBuildFile; fileRef = 8E654FCC29DA2FE7007F7811 /* UIWindow+Swizzles.h */; };
-		8E654FCF29DA2FE7007F7811 /* UIWindow+Swizzles.h in Headers */ = {isa = PBXBuildFile; fileRef = 8E654FCC29DA2FE7007F7811 /* UIWindow+Swizzles.h */; };
-		8E654FD029DA2FE7007F7811 /* UIWindow+Swizzles.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E654FCD29DA2FE7007F7811 /* UIWindow+Swizzles.m */; };
-		8E654FD129DA2FE8007F7811 /* UIWindow+Swizzles.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E654FCD29DA2FE7007F7811 /* UIWindow+Swizzles.m */; };
+		8E654FCE29DA2FE7007F7811 /* UIWindow+KIFSwizzle.h in Headers */ = {isa = PBXBuildFile; fileRef = 8E654FCC29DA2FE7007F7811 /* UIWindow+KIFSwizzle.h */; };
+		8E654FCF29DA2FE7007F7811 /* UIWindow+KIFSwizzle.h in Headers */ = {isa = PBXBuildFile; fileRef = 8E654FCC29DA2FE7007F7811 /* UIWindow+KIFSwizzle.h */; };
+		8E654FD029DA2FE7007F7811 /* UIWindow+KIFSwizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E654FCD29DA2FE7007F7811 /* UIWindow+KIFSwizzle.m */; };
+		8E654FD129DA2FE8007F7811 /* UIWindow+KIFSwizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E654FCD29DA2FE7007F7811 /* UIWindow+KIFSwizzle.m */; };
 		8EAA1EE229D3AF7A008F6029 /* OffscreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EAA1EE129D3AF7A008F6029 /* OffscreenViewController.m */; };
 		8EAA1EE429D3B1F5008F6029 /* OffscreenTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EAA1EE329D3B1F5008F6029 /* OffscreenTests.m */; };
 		97E8A5CF1B0A62F700124E3B /* BackgroundViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97E8A5CE1B0A62F700124E3B /* BackgroundViewController.m */; };
@@ -409,8 +409,8 @@
 		84D293B71A2C8DF700C10944 /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
 		85DB94711C5A5D430025F83E /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		8E654FC329D79BD8007F7811 /* OffscreenTests_ViewTestActor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OffscreenTests_ViewTestActor.m; sourceTree = "<group>"; };
-		8E654FCC29DA2FE7007F7811 /* UIWindow+Swizzles.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIWindow+Swizzles.h"; sourceTree = "<group>"; };
-		8E654FCD29DA2FE7007F7811 /* UIWindow+Swizzles.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIWindow+Swizzles.m"; sourceTree = "<group>"; };
+		8E654FCC29DA2FE7007F7811 /* UIWindow+KIFSwizzle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIWindow+KIFSwizzle.h"; sourceTree = "<group>"; };
+		8E654FCD29DA2FE7007F7811 /* UIWindow+KIFSwizzle.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIWindow+KIFSwizzle.m"; sourceTree = "<group>"; };
 		8EAA1EE129D3AF7A008F6029 /* OffscreenViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OffscreenViewController.m; sourceTree = "<group>"; };
 		8EAA1EE329D3B1F5008F6029 /* OffscreenTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OffscreenTests.m; sourceTree = "<group>"; };
 		97E8A5CE1B0A62F700124E3B /* BackgroundViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BackgroundViewController.m; sourceTree = "<group>"; };
@@ -657,8 +657,8 @@
 				2229D54E25BEF47D0093296C /* UIWindow-KIFAdditions.m */,
 				2229D56E25BEF47D0093296C /* XCTestCase-KIFAdditions.h */,
 				2229D55C25BEF47D0093296C /* XCTestCase-KIFAdditions.m */,
-				8E654FCC29DA2FE7007F7811 /* UIWindow+Swizzles.h */,
-				8E654FCD29DA2FE7007F7811 /* UIWindow+Swizzles.m */,
+				8E654FCC29DA2FE7007F7811 /* UIWindow+KIFSwizzle.h */,
+				8E654FCD29DA2FE7007F7811 /* UIWindow+KIFSwizzle.m */,
 			);
 			name = Additions;
 			path = Sources/KIF/Additions;
@@ -980,7 +980,7 @@
 				22B1376C25D6E32700D88061 /* KIFTestCase.h in Headers */,
 				22B1373225D6E32700D88061 /* KIFUITestActor_Private.h in Headers */,
 				22B1375725D6E32700D88061 /* KIFUIObject.h in Headers */,
-				8E654FCF29DA2FE7007F7811 /* UIWindow+Swizzles.h in Headers */,
+				8E654FCF29DA2FE7007F7811 /* UIWindow+KIFSwizzle.h in Headers */,
 				22B1375525D6E32700D88061 /* KIFUIViewTestActor.h in Headers */,
 				22B1375B25D6E32700D88061 /* CAAnimation+KIFAdditions.h in Headers */,
 				22B1375225D6E32700D88061 /* NSPredicate+KIFAdditions.h in Headers */,
@@ -1038,7 +1038,7 @@
 				2229D5B625BEF47D0093296C /* NSString+KIFAdditions.h in Headers */,
 				2229D5BC25BEF47D0093296C /* CAAnimation+KIFAdditions.h in Headers */,
 				2229D59525BEF47D0093296C /* KIFUITestActor-IdentifierTests.h in Headers */,
-				8E654FCE29DA2FE7007F7811 /* UIWindow+Swizzles.h in Headers */,
+				8E654FCE29DA2FE7007F7811 /* UIWindow+KIFSwizzle.h in Headers */,
 				2229D59925BEF47D0093296C /* KIFTouchVisualizerView.h in Headers */,
 				2229D5C525BEF47D0093296C /* NSBundle-KIFAdditions.h in Headers */,
 				2229D59B25BEF47D0093296C /* KIFTouchVisualizerViewCoordinator.h in Headers */,
@@ -1286,7 +1286,7 @@
 				22B1375F25D6E32700D88061 /* KIFTextInputTraitsOverrides.m in Sources */,
 				22B1375925D6E32700D88061 /* NSError-KIFAdditions.m in Sources */,
 				22B1377025D6E32700D88061 /* CAAnimation+KIFAdditions.m in Sources */,
-				8E654FD129DA2FE8007F7811 /* UIWindow+Swizzles.m in Sources */,
+				8E654FD129DA2FE8007F7811 /* UIWindow+KIFSwizzle.m in Sources */,
 				22B1373325D6E32700D88061 /* NSPredicate+KIFAdditions.m in Sources */,
 				22B1376E25D6E32700D88061 /* IOHIDEvent+KIF.m in Sources */,
 				22B1375D25D6E32700D88061 /* UITableView-KIFAdditions.m in Sources */,
@@ -1332,7 +1332,7 @@
 				2229D59725BEF47D0093296C /* KIFTouchVisualizerViewCoordinator.m in Sources */,
 				2229D5B125BEF47D0093296C /* XCTestCase-KIFAdditions.m in Sources */,
 				2229D5A225BEF47D0093296C /* CGGeometry-KIFAdditions.m in Sources */,
-				8E654FD029DA2FE7007F7811 /* UIWindow+Swizzles.m in Sources */,
+				8E654FD029DA2FE7007F7811 /* UIWindow+KIFSwizzle.m in Sources */,
 				2229D5BE25BEF47D0093296C /* UITableView-KIFAdditions.m in Sources */,
 				2229D5AF25BEF47D0093296C /* NSBundle-KIFAdditions.m in Sources */,
 				2229D59C25BEF47D0093296C /* KIFTouchVisualizerView.m in Sources */,
