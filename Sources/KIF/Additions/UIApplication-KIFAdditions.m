@@ -147,7 +147,9 @@ static const void *KIFRunLoopModesKey = &KIFRunLoopModesKey;
 
 - (void)setAnimationSpeed:(float)animationSpeed
 {
-    self.keyWindow.layer.speed = animationSpeed;
+    for (UIWindow *window in self.windows) {
+        window.layer.speed = animationSpeed;
+    }
 }
 
 #pragma mark - Screenshotting
