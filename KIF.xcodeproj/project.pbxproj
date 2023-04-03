@@ -186,8 +186,8 @@
 		85DB94741C5A5FE10025F83E /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85DB94711C5A5D430025F83E /* QuartzCore.framework */; };
 		85DB94751C5A5FEA0025F83E /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85DB94711C5A5D430025F83E /* QuartzCore.framework */; };
 		8E654FC429D79BD8007F7811 /* OffscreenTests_ViewTestActor.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E654FC329D79BD8007F7811 /* OffscreenTests_ViewTestActor.m */; };
-		8E654FCE29DA2FE7007F7811 /* UIWindow+KIFSwizzle.h in Headers */ = {isa = PBXBuildFile; fileRef = 8E654FCC29DA2FE7007F7811 /* UIWindow+KIFSwizzle.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		8E654FCF29DA2FE7007F7811 /* UIWindow+KIFSwizzle.h in Headers */ = {isa = PBXBuildFile; fileRef = 8E654FCC29DA2FE7007F7811 /* UIWindow+KIFSwizzle.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8E654FCE29DA2FE7007F7811 /* UIWindow+KIFSwizzle.h in Headers */ = {isa = PBXBuildFile; fileRef = 8E654FCC29DA2FE7007F7811 /* UIWindow+KIFSwizzle.h */; };
+		8E654FCF29DA2FE7007F7811 /* UIWindow+KIFSwizzle.h in Headers */ = {isa = PBXBuildFile; fileRef = 8E654FCC29DA2FE7007F7811 /* UIWindow+KIFSwizzle.h */; };
 		8E654FD029DA2FE7007F7811 /* UIWindow+KIFSwizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E654FCD29DA2FE7007F7811 /* UIWindow+KIFSwizzle.m */; };
 		8E654FD129DA2FE8007F7811 /* UIWindow+KIFSwizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E654FCD29DA2FE7007F7811 /* UIWindow+KIFSwizzle.m */; };
 		8EAA1EE229D3AF7A008F6029 /* OffscreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EAA1EE129D3AF7A008F6029 /* OffscreenViewController.m */; };
