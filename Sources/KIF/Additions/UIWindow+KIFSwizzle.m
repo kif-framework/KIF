@@ -34,7 +34,7 @@
 - (instancetype)swizzle_init
 {
     UIWindow *window = [self swizzle_init];
-    window.layer.speed = 1000;
+    window.layer.speed = [UIApplication sharedApplication].animationSpeed;
 
     return window;
 }
