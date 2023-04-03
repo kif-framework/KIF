@@ -7,7 +7,7 @@
 
 #import "UIWindow+KIFSwizzle.h"
 #import "UIApplication-KIFAdditions.h"
-#import <objc/runtime.h>
+#import "NSObject+KIFSwizzle.h"
 
 @implementation UIWindow (KIFSwizzle)
 
@@ -15,16 +15,28 @@
 {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        Class class = [self class];
-
-        SEL originalSelector = @selector(becomeKeyWindow);
-        SEL swizzledSelector = @selector(swizzle_becomeKeyWindow);
-
-        Method originalMethod = class_getInstanceMethod(class, originalSelector);
-        Method swizzledMethod = class_getInstanceMethod(class, swizzledSelector);
-
-        method_exchangeImplementations(originalMethod, swizzledMethod);
+        [self swizzleSEL:@selector(init) withSEL:@selector(swizzle_init)];
+        [self swizzleSEL:@selector(becomeKeyWindow) withSEL:@selector(swizzle_becomeKeyWindow)];
+        if (@available(iOS 13.0, *)) {
+            [self swizzleSEL:@selector(initWithWindowScene:) withSEL:@selector(swizzle_initWithWindowScene:)];
+        }
     });
+}
+
+- (instancetype)swizzle_initWithWindowScene:(UIWindowScene *)scene API_AVAILABLE(ios(13))
+{
+    UIWindow *window = [self swizzle_initWithWindowScene:scene];
+    window.layer.speed = [UIApplication sharedApplication].animationSpeed;
+
+    return window;
+}
+
+- (instancetype)swizzle_init
+{
+    UIWindow *window = [self swizzle_init];
+    window.layer.speed = 1000;
+
+    return window;
 }
 
 - (void)swizzle_becomeKeyWindow
