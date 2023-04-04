@@ -12,6 +12,7 @@
 #import "KIFTestActor_Private.h"
 #import "KIFUIObject.h"
 #import "KIFUITestActor_Private.h"
+#import "NSError-KIFAdditions.h"
 #import "NSPredicate+KIFAdditions.h"
 #import "NSString+KIFAdditions.h"
 #import "UIAccessibilityElement-KIFAdditions.h"
@@ -162,6 +163,16 @@ NSString *const inputFieldTestString = @"Testing";
 {
     return [self.actor acknowledgeSystemAlert];
 }
+
+- (void)acknowledgeSystemAlertWithCompletionHandler:(void (^)(BOOL, NSError*))completionHandler {
+    @try {
+        BOOL result = [self acknowledgeSystemAlert];
+        completionHandler(result, nil);
+    } @catch (NSException *exception) {
+        completionHandler(false, [NSError KIFErrorFromException: exception]);
+    }
+}
+
 #endif
 
 - (void)tapStatusBar;
@@ -169,9 +180,21 @@ NSString *const inputFieldTestString = @"Testing";
     [self.actor tapStatusBar];
 }
 
+- (void)tapStatusBarWithCompletionHandler:(void (^)(NSError*))completionHandler {
+    [self safeAsyncCall:^{
+        [self tapStatusBar];
+    } completionHandler:completionHandler];
+}
+
 - (void)dismissPopover;
 {
     [self.actor dismissPopover];
+}
+
+- (void)dismissPopoverWithCompletionHandler:(void (^)(NSError*))completionHandler {
+    [self safeAsyncCall:^{
+        [self dismissPopover];
+    } completionHandler:completionHandler];
 }
 
 #pragma mark - Waiting
@@ -179,6 +202,13 @@ NSString *const inputFieldTestString = @"Testing";
 - (UIView *)waitForView;
 {
     return [self _predicateSearchWithRequiresMatch:YES mustBeTappable:NO].view;
+}
+
+- (void)waitForViewWithCompletionHandler:(void (^)(UIView*, NSError* error))completionHandler
+{
+    [self safeAsyncCallWithReturnValue:^{
+        return [self waitForView];
+    } completionHandler:completionHandler];
 }
 
 - (void)waitForAbsenceOfView;
@@ -203,9 +233,21 @@ NSString *const inputFieldTestString = @"Testing";
     }];
 }
 
+- (void)waitForAbsenceOfViewWithCompletionHandler:(void (^ __nullable)(NSError* error))completionHandler {
+    [self safeAsyncCall:^{
+        [self waitForAbsenceOfView];;
+    } completionHandler:completionHandler];
+}
+
 - (UIView *)waitForTappableView;
 {
     return [self _predicateSearchWithRequiresMatch:YES mustBeTappable:YES].view;
+}
+
+- (void)waitForTappableViewWithCompletionHandler:(void (^)(UIView*, NSError*))completionHandler {
+    [self safeAsyncCallWithReturnValue:^{
+        return [self waitForTappableView];
+    } completionHandler:completionHandler];
 }
 
 - (void)waitToBecomeTappable;
@@ -231,9 +273,21 @@ NSString *const inputFieldTestString = @"Testing";
     }];
 }
 
+- (void)waitToBecomeFirstResponderWithCompletionHandler:(void (^)(NSError*))completionHandler {
+    [self safeAsyncCall:^{
+        [self waitToBecomeFirstResponder];
+    } completionHandler:completionHandler];
+}
+
 - (void)waitForAnimationsToFinish;
 {
     [self.actor waitForAnimationsToFinishWithTimeout:self.animationWaitingTimeout stabilizationTime:self.animationStabilizationTimeout];
+}
+
+- (void)waitForAnimationsToFinishWithCompletionHandler:(void (^)(NSError*))completionHandler {
+    [self safeAsyncCall:^{
+        [self waitForAnimationsToFinish];
+    } completionHandler:completionHandler];
 }
 
 #pragma mark Typist Waiting
@@ -242,13 +296,33 @@ NSString *const inputFieldTestString = @"Testing";
 {
     [self.actor waitForSoftwareKeyboard];
 }
+
+- (void)waitForSoftwareKeyboardWithCompletionHandler:(void (^)(NSError*))completionHandler {
+    [self safeAsyncCall:^{
+        [self waitForSoftwareKeyboard];
+    } completionHandler:completionHandler];
+}
+
 - (void)waitForAbsenceOfSoftwareKeyboard;
 {
     [self.actor waitForAbsenceOfSoftwareKeyboard];
 }
+
+- (void)waitForAbsenceOfSoftwareKeyboardWithCompletionHandler:(void (^)(NSError*))completionHandler {
+    [self safeAsyncCall:^{
+        [self waitForAbsenceOfSoftwareKeyboard];
+    } completionHandler:completionHandler];
+}
+
 - (void)waitForKeyInputReady;
 {
     [self.actor waitForKeyInputReady];
+}
+
+- (void)waitForKeyInputReadyWithCompletionHandler:(void (^)(NSError*))completionHandler {
+    [self safeAsyncCall:^{
+        [self waitForKeyInputReady];
+    } completionHandler:completionHandler];
 }
 
 #pragma mark - Conditionals
@@ -258,11 +332,28 @@ NSString *const inputFieldTestString = @"Testing";
     return ([self _predicateSearchWithRequiresMatch:NO mustBeTappable:NO] != nil);
 }
 
+- (void)tryFindingViewWithCompletionHandler:(void (^)(BOOL, NSError*))completionHandler {
+    @try {
+        BOOL result = [self tryFindingView];
+        completionHandler(result, nil);
+    } @catch (NSException *exception) {
+        completionHandler(false, [NSError KIFErrorFromException: exception]);
+    }
+}
+
 - (BOOL)tryFindingTappableView;
 {
     return ([self _predicateSearchWithRequiresMatch:NO mustBeTappable:YES] != nil);
 }
 
+- (void)tryFindingTappableViewWithCompletionHandler:(void (^)(BOOL, NSError*))completionHandler {
+    @try {
+        BOOL result = [self tryFindingTappableView];
+        completionHandler(result, nil);
+    } @catch (NSException *exception) {
+        completionHandler(false, [NSError KIFErrorFromException: exception]);
+    }
+}
 
 #pragma mark - Tap Actions
 
@@ -274,9 +365,23 @@ NSString *const inputFieldTestString = @"Testing";
     }
 }
 
+
+
+-(void)tapWithCompletionHandler:(void (^)(NSError*))completionHandler {
+    [self safeAsyncCall:^{
+        [self tap];;
+    } completionHandler:completionHandler];
+}
+
 - (void)longPress;
 {
     [self longPressWithDuration:.5];
+}
+
+- (void)longPressWithCompletionHandler:(void (^)(NSError*))completionHandler {
+    [self safeAsyncCall:^{
+        [self longPress];
+    } completionHandler:completionHandler];
 }
 
 - (void)longPressWithDuration:(NSTimeInterval)duration;
@@ -285,6 +390,12 @@ NSString *const inputFieldTestString = @"Testing";
         KIFUIObject *found = [self _predicateSearchWithRequiresMatch:YES mustBeTappable:YES];
         [self.actor longPressAccessibilityElement:found.element inView:found.view duration:duration];
     }
+}
+
+- (void)longPressWithDuration:(NSTimeInterval)duration completionHandler:(void (^)(NSError*))completionHandler {
+    [self safeAsyncCall:^{
+        [self longPressWithDuration:duration];
+    } completionHandler:completionHandler];
 }
 
 #pragma mark - Text Actions;
@@ -297,6 +408,12 @@ NSString *const inputFieldTestString = @"Testing";
     }
 }
 
+- (void)clearTextWithCompletionHandler:(void (^)(NSError*))completionHandler {
+    [self safeAsyncCall:^{
+        [self clearText];
+    } completionHandler:completionHandler];
+}
+
 - (void)clearTextFromFirstResponder;
 {
     [self.actor clearTextFromFirstResponder];
@@ -305,6 +422,12 @@ NSString *const inputFieldTestString = @"Testing";
 - (void)enterText:(NSString *)text;
 {
     [self enterText:text expectedResult:nil];
+}
+
+- (void)enterText:(NSString *)text completionHandler:(void (^)(NSError*))completionHandler {
+    [self safeAsyncCall:^{
+        [self enterText:text];
+    } completionHandler:completionHandler];
 }
 
 - (void)enterText:(NSString *)text expectedResult:(NSString *)expectedResult;
@@ -319,15 +442,33 @@ NSString *const inputFieldTestString = @"Testing";
     }
 }
 
+- (void)enterText:(NSString *)text expectedResult:(NSString *)expectedResult completionHandler:(void (^)(NSError*))completionHandler {
+    [self safeAsyncCall:^{
+        [self enterText:text expectedResult:expectedResult];
+    } completionHandler:completionHandler];
+}
+
 - (void)clearAndEnterText:(NSString *)text;
 {
     [self clearAndEnterText:text expectedResult:nil];
+}
+
+- (void)clearAndEnterText:(NSString *)text completionHandler:(void (^)(NSError*))completionHandler {
+    [self safeAsyncCall:^{
+        [self clearAndEnterText:text];
+    } completionHandler:completionHandler];
 }
 
 - (void)clearAndEnterText:(NSString *)text expectedResult:(NSString *)expectedResult;
 {
     [self clearText];
     [self enterText:text expectedResult:expectedResult];
+}
+
+- (void)clearAndEnterText:(NSString *)text expectedResult:(NSString *)expectedResult completionHandler:(void (^)(NSError*))completionHandler {
+    [self safeAsyncCall:^{
+        [self clearAndEnterText:text expectedResult:expectedResult];
+    } completionHandler:completionHandler];
 }
 
 - (void)enterTextIntoCurrentFirstResponder:(NSString *)text;
@@ -357,12 +498,24 @@ NSString *const inputFieldTestString = @"Testing";
     }];
 }
 
+- (void)setText:(NSString *)text completionHandler:(void (^)(NSError*))completionHandler {
+    [self safeAsyncCall:^{
+        [self setText:text];
+    } completionHandler:completionHandler];
+}
+
 - (void)expectToContainText:(NSString *)expectedResult;
 {
     @autoreleasepool {
         KIFUIObject *found = [self _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
         [self.actor expectView:found.view toContainText:expectedResult];
     }
+}
+
+- (void)expectToContainText:(NSString *)expectedResult completionHandler:(void (^)(NSError*))completionHandler {
+    [self safeAsyncCall:^{
+        [self expectToContainText:expectedResult];
+    } completionHandler:completionHandler];
 }
 
 #pragma mark - Touch Actions
@@ -372,12 +525,24 @@ NSString *const inputFieldTestString = @"Testing";
     [self.actor tapScreenAtPoint:screenPoint];
 }
 
+- (void)tapScreenAtPoint:(CGPoint)screenPoint completionHandler:(void (^)(NSError*))completionHandler {
+    [self safeAsyncCall:^{
+        [self.actor tapScreenAtPoint:screenPoint];
+    } completionHandler:completionHandler];
+}
+
 - (void)swipeInDirection:(KIFSwipeDirection)direction;
 {
     @autoreleasepool {
         KIFUIObject *found = [self _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
         [self.actor swipeAccessibilityElement:found.element inView:found.view inDirection:direction];
     }
+}
+
+- (void)swipeInDirection:(KIFSwipeDirection)direction completionHandler:(void (^)(NSError*))completionHandler {
+    [self safeAsyncCall:^{
+        [self swipeInDirection:direction];
+    } completionHandler:completionHandler];
 }
 
 #pragma mark - Scroll/Table/CollectionView Actions
@@ -390,6 +555,12 @@ NSString *const inputFieldTestString = @"Testing";
     }
 }
 
+- (void)scrollByFractionOfSizeHorizontal:(CGFloat)horizontalFraction vertical:(CGFloat)verticalFraction  completionHandler:(void (^)(NSError*))completionHandler {
+    [self safeAsyncCall:^{
+        [self scrollByFractionOfSizeHorizontal:horizontalFraction vertical:verticalFraction];
+    } completionHandler:completionHandler];
+}
+
 - (void)tapRowInTableViewAtIndexPath:(NSIndexPath *)indexPath;
 {
     @autoreleasepool {
@@ -398,9 +569,26 @@ NSString *const inputFieldTestString = @"Testing";
     }
 }
 
+- (void)tapRowInTableViewAtIndexPath:(NSIndexPath *)indexPath completionHandler:(void (^)(NSError*))completionHandler {
+    [self safeAsyncCall:^{
+        [self tapRowInTableViewAtIndexPath:indexPath];
+    } completionHandler:completionHandler];
+}
+
 - (UITableViewCell *)waitForCellInTableViewAtIndexPath:(NSIndexPath *)indexPath;
 {
     return [self waitForCellInTableViewAtIndexPath:indexPath atPosition:UITableViewScrollPositionMiddle];
+}
+
+- (void)waitForCellInTableViewAtIndexPath:(NSIndexPath *)indexPath completionHandler:(void (^)(UITableViewCell*, NSError*))completionHandler {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        @try {
+            UITableViewCell* cell = [self waitForCellInTableViewAtIndexPath:indexPath];
+            completionHandler(cell, nil);
+        } @catch (NSException *exception) {
+            completionHandler(nil, [NSError KIFErrorFromException: exception]);
+        }
+    });
 }
 
 - (UITableViewCell *)waitForCellInTableViewAtIndexPath:(NSIndexPath *)indexPath atPosition:(UITableViewScrollPosition)position;
@@ -411,12 +599,29 @@ NSString *const inputFieldTestString = @"Testing";
     }
 }
 
+- (void)waitForCellInTableViewAtIndexPath:(NSIndexPath *)indexPath atPosition:(UITableViewScrollPosition)position completionHandler:(void (^)(UITableViewCell*, NSError*))completionHandler {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        @try {
+            UITableViewCell* cell = [self waitForCellInTableViewAtIndexPath:indexPath atPosition:position];
+            completionHandler(cell, nil);
+        } @catch (NSException *exception) {
+            completionHandler(nil, [NSError KIFErrorFromException: exception]);
+        }
+    });
+}
+
 - (void)moveRowInTableViewAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath;
 {
     @autoreleasepool {
         KIFUIObject *found = [[self _usingExpectedClass:[UITableView class]] _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
         [self.actor moveRowAtIndexPath:sourceIndexPath toIndexPath:destinationIndexPath inTableView:(UITableView *)found.view];
     }
+}
+
+- (void)moveRowInTableViewAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath completionHandler:(void (^)(NSError*))completionHandler {
+    [self safeAsyncCall:^{
+        [self moveRowInTableViewAtIndexPath:sourceIndexPath toIndexPath:destinationIndexPath];
+    } completionHandler:completionHandler];
 }
 
 
@@ -428,6 +633,12 @@ NSString *const inputFieldTestString = @"Testing";
     }
 }
 
+- (void)tapCollectionViewItemAtIndexPath:(NSIndexPath *)indexPath completionHandler:(void (^)(NSError*))completionHandler {
+    [self safeAsyncCall:^{
+        [self tapCollectionViewItemAtIndexPath:indexPath];
+    } completionHandler:completionHandler];
+}
+
 - (UICollectionViewCell *)waitForCellInCollectionViewAtIndexPath:(NSIndexPath *)indexPath;
 {
     @autoreleasepool {
@@ -436,6 +647,16 @@ NSString *const inputFieldTestString = @"Testing";
     }
 }
 
+- (void)waitForCellInCollectionViewAtIndexPath:(NSIndexPath *)indexPath completionHandler:(void (^)(UICollectionViewCell*, NSError*))completionHandler {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        @try {
+            UICollectionViewCell* view = [self waitForCellInCollectionViewAtIndexPath:indexPath];
+            completionHandler(view, nil);
+        } @catch (NSException *exception) {
+            completionHandler(nil, [NSError KIFErrorFromException: exception]);
+        }
+    });
+}
 
 #pragma mark - UIControl Actions
 
@@ -447,12 +668,24 @@ NSString *const inputFieldTestString = @"Testing";
     }
 }
 
+- (void)setSliderValue:(float)value completionHandler:(void (^)(NSError*))completionHandler {
+    [self safeAsyncCall:^{
+        [self setSliderValue:value];
+    } completionHandler:completionHandler];
+}
+
 - (void)setSwitchOn:(BOOL)switchIsOn;
 {
     @autoreleasepool {
         KIFUIObject *found = [[self _usingExpectedClass:[UISwitch class]] _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
         [self.actor setSwitch:(UISwitch *)found.view element:found.element On:switchIsOn];
     }
+}
+
+- (void)setSwitchOn:(BOOL)switchIsOn completionHandler:(void (^)(NSError*))completionHandler {
+    [self safeAsyncCall:^{
+        [self setSwitchOn:switchIsOn];
+    } completionHandler:completionHandler];
 }
 
 #pragma mark - Picker Actions
@@ -462,6 +695,12 @@ NSString *const inputFieldTestString = @"Testing";
     [self selectPickerViewRowWithTitle:title inComponent:0];
 }
 
+- (void)selectPickerViewRowWithTitle:(NSString *)title completionHandler:(void (^)(NSError*))completionHandler {
+    [self safeAsyncCall:^{
+        [self selectPickerViewRowWithTitle:title];
+    } completionHandler:completionHandler];
+}
+
 - (void)selectPickerViewRowWithTitle:(NSString *)title inComponent:(NSInteger)component;
 {
     @autoreleasepool {
@@ -469,6 +708,12 @@ NSString *const inputFieldTestString = @"Testing";
         UIPickerView *picker = (UIPickerView *) found.view;
         [self.actor selectPickerViewRowWithTitle:title inComponent:component fromPicker:picker withSearchOrder:KIFPickerSearchForwardFromStart];
     }
+}
+
+- (void)selectPickerViewRowWithTitle:(NSString *)title inComponent:(NSInteger)component completionHandler:(void (^)(NSError*))completionHandler {
+    [self safeAsyncCall:^{
+        [self selectPickerViewRowWithTitle:title inComponent:component];
+    } completionHandler:completionHandler];
 }
 
 #pragma mark - Date Picker Actions
@@ -481,12 +726,24 @@ NSString *const inputFieldTestString = @"Testing";
     }
 }
 
+- (void)selectDatePickerDate:(NSDate *)date completionHandler:(void (^)(NSError*))completionHandler {
+    [self safeAsyncCall:^{
+        [self selectDatePickerDate:date];
+    } completionHandler:completionHandler];
+}
+
 - (void)selectCountdownTimerDatePickerHours:(NSUInteger)hours minutes:(NSUInteger)minutes
 {
     @autoreleasepool {
         KIFUIObject *found = [[self _usingExpectedClass:[UIDatePicker class]] _predicateSearchWithRequiresMatch:NO mustBeTappable:NO];
         [(UIDatePicker *)found.view selectCountdownHours:hours minutes:minutes];
     }
+}
+
+- (void)selectCountdownTimerDatePickerHours:(NSUInteger)hours minutes:(NSUInteger)minutes completionHandler:(void (^)(NSError*))completionHandler {
+    [self safeAsyncCall:^{
+        [self selectCountdownTimerDatePickerHours:hours minutes:minutes];
+    } completionHandler:completionHandler];
 }
 
 
@@ -521,6 +778,12 @@ NSString *const inputFieldTestString = @"Testing";
     [self.actor choosePhotoInAlbum:albumName atRow:row column:column];
 }
 
+- (void)choosePhotoInAlbum:(NSString *)albumName atRow:(NSInteger)row column:(NSInteger)column completionHandler:(void (^)(NSError*))completionHandler {
+    [self safeAsyncCall:^{
+        [self choosePhotoInAlbum:albumName atRow:row column:column];
+    } completionHandler:completionHandler];
+}
+
 #pragma mark - Pull to Refresh
 
 - (void)pullToRefresh;
@@ -531,12 +794,24 @@ NSString *const inputFieldTestString = @"Testing";
     }
 }
 
+- (void)pullToRefreshWithCompletionHandler:(void (^)(NSError*))completionHandler {
+    [self safeAsyncCall:^{
+        [self pullToRefresh];
+    } completionHandler:completionHandler];
+}
+
 - (void)pullToRefreshWithDuration:(KIFPullToRefreshTiming)pullDownDuration;
 {
     @autoreleasepool {
         KIFUIObject *found = [self _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
         [self.actor pullToRefreshAccessibilityElement:found.element inView:found.view pullDownDuration:pullDownDuration];
     }
+}
+
+- (void)pullToRefreshWithDuration:(KIFPullToRefreshTiming)pullDownDuration completionHandler:(void (^)(NSError*))completionHandler {
+    [self safeAsyncCall:^{
+        [self pullToRefreshWithDuration:pullDownDuration];
+    } completionHandler:completionHandler];
 }
 
 #pragma mark - Getters
@@ -617,4 +892,28 @@ NSString *const inputFieldTestString = @"Testing";
     return nil;
 }
 
+-(void)safeAsyncCall:(void (^)(void))call completionHandler:(void (^)(NSError*))completionHandler {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        @try {
+            call();
+            completionHandler(nil);
+        } @catch (NSException *exception) {
+            completionHandler([NSError KIFErrorFromException: exception]);
+        }
+    });
+}
+
+-(void)safeAsyncCallWithReturnValue:(UIView* (^)(void))call completionHandler:(void (^)(UIView*, NSError*))completionHandler {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        @try {
+            UIView* view = call();
+            completionHandler(view, nil);
+        } @catch (NSException *exception) {
+            completionHandler(nil, [NSError KIFErrorFromException: exception]);
+        }
+    });
+}
+
 @end
+
+

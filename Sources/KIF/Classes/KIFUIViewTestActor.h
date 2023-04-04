@@ -137,18 +137,25 @@ extern NSString *const inputFieldTestString;
  @abstract Tap a view matching the tester's search predicate.
  @discussion The tester will evaluate the accessibility hierarchy against it's search predicate and perform a tap on the first match.
  */
-- (void)tap;
+- (void)tap CF_SWIFT_UNAVAILABLE_FROM_ASYNC("use async version");
+
+- (void)tapWithCompletionHandler:(void (^)(NSError*))completionHandler;
+
 /*!
  @abstract Long Press a view matching the tester's search predicate.
  @discussion The tester will fist evaluate the accessibility hierarchy against it's search predicate and perform a long press on the first match.
  */
-- (void)longPress;
+- (void)longPress CF_SWIFT_UNAVAILABLE_FROM_ASYNC("use async version");
+
+- (void)longPressWithCompletionHandler:(void (^)(NSError*))completionHandler;
 /*!
  @abstract Long Press a view matching the tester's search predicate.
  @discussion The tester will first evaluate the accessibility hierarchy against it's search predicate and perform a long press on the first match.
  @param duration The duration to hold the long press.
  */
-- (void)longPressWithDuration:(NSTimeInterval)duration;
+- (void)longPressWithDuration:(NSTimeInterval)duration CF_SWIFT_UNAVAILABLE_FROM_ASYNC("use async version");
+
+- (void)longPressWithDuration:(NSTimeInterval)duration completionHandler:(void (^)(NSError*))completionHandler;
 
 /*!
  @abstract Taps the screen at a particular point.
@@ -156,14 +163,18 @@ extern NSString *const inputFieldTestString;
 
  @param screenPoint The point in screen coordinates to tap. Screen points originate from the top left of the screen.
  */
-- (void)tapScreenAtPoint:(CGPoint)screenPoint;
+- (void)tapScreenAtPoint:(CGPoint)screenPoint CF_SWIFT_UNAVAILABLE_FROM_ASYNC("use async version");
+
+- (void)tapScreenAtPoint:(CGPoint)screenPoint completionHandler:(void (^)(NSError*))completionHandler;
 
 /*!
  @abstract Swipe a view matching the tester's search predicate.
  @discussion The tester will first evaluate the accessibility hierarchy against it's search predicate and perform a swipe in the given direction on the first match
  @param direction The direction to swipe in.
  */
-- (void)swipeInDirection:(KIFSwipeDirection)direction;
+- (void)swipeInDirection:(KIFSwipeDirection)direction CF_SWIFT_UNAVAILABLE_FROM_ASYNC("use async version");
+
+- (void)swipeInDirection:(KIFSwipeDirection)direction completionHandler:(void (^)(NSError*))completionHandler;
 
 #pragma mark Waiting & Finding
 
@@ -174,7 +185,9 @@ extern NSString *const inputFieldTestString;
  If the view you want to wait for is tappable, use the -waitToBecomeTappable method instead as it provides a more strict test. 
  @return The found view, if applicable.
  */
-- (UIView *)waitForView;
+- (UIView *)waitForView CF_SWIFT_UNAVAILABLE_FROM_ASYNC("use async version");
+
+- (void)waitForViewWithCompletionHandler:(void (^)(UIView*, NSError*))completionHandler;
 
 /*!
  @abstract Waits until a view or accessibility element matching the tester's search predicate is present and available for tapping.
@@ -182,18 +195,22 @@ extern NSString *const inputFieldTestString;
 
  @return The found view, if applicable.
  */
-- (UIView *)waitForTappableView;
+- (UIView *)waitForTappableView CF_SWIFT_UNAVAILABLE_FROM_ASYNC("use async version");
+
+- (void)waitForTappableViewWithCompletionHandler:(void (^)(UIView*, NSError*))completionHandler;
 
 /*!
  @abstract Waits until a view or accessibility element is no longer present.
  @discussion The view or accessibility element is searched for in the view hierarchy. If the element is found, then the step will attempt to wait until it isn't. Note that the view does not necessarily have to be visible on the screen, and may be behind another view or offscreen. Views with their hidden property set to YES are considered absent.
  */
-- (void)waitForAbsenceOfView;
+- (void)waitForAbsenceOfView CF_SWIFT_UNAVAILABLE_FROM_ASYNC("use async version");
+
+- (void)waitForAbsenceOfViewWithCompletionHandler:(void (^)(NSError*))completionHandler;
 
 /*!
  @abstract Waits until a view or accessibility element matching the tester's search predicate is present and available for tapping.
  @discussion The view or accessibility elemenr is searched for in the view hierarchy. If the element isn't found or isn't currently tappable, then the step will attempt to wait until it is. Whether or not a view is tappable is based on -[UIView hitTest:]. */
-- (void)waitToBecomeTappable DEPRECATED_MSG_ATTRIBUTE("Use 'waitForTappableView' instead.");
+- (void)waitToBecomeTappable DEPRECATED_MSG_ATTRIBUTE("Use 'waitForTappableView' instead.") CF_SWIFT_UNAVAILABLE_FROM_ASYNC("use async version");
 
 /*!
  @abstract Waits until a view or accessibility element matching the tester's search predicate is the first responder.
@@ -201,26 +218,34 @@ extern NSString *const inputFieldTestString;
  windows and its accessibility label is compared to the given value. If they match, the
  step returns success else it will attempt to wait until they do.
  */
-- (void)waitToBecomeFirstResponder;
+- (void)waitToBecomeFirstResponder CF_SWIFT_UNAVAILABLE_FROM_ASYNC("use async version");
+
+- (void)waitToBecomeFirstResponderWithCompletionHandler:(void (^)(NSError*))completionHandler;
 
 /*!
  @abstract Confirms whether a view or accessibility element matching the tester's search predicate is present at the given moment.
  @discussion The view or accessibility element is searched for in the view hierarchy. If the element isn't found, then the step will not wait and instead immediately return NO. Note that the view does not necessarily have to be visible on the screen, and may be behind another view or offscreen. Views with their hidden property set to YES are ignored.
  @return a BOOL reflecting whether or not the view was found.
  */
-- (BOOL)tryFindingView;
+- (BOOL)tryFindingView CF_SWIFT_UNAVAILABLE_FROM_ASYNC("use async version");
+
+- (void)tryFindingViewWithCompletionHandler:(void (^)(BOOL, NSError*))completionHandler;
 
 /*!
  @abstract Confirms whether a view or accessibility element matching the tester's search predicate is present and tappable at the given moment.
  @discussion The view or accessibility element is searched for in the view hierarchy. If the element isn't found, then the step will not wait and instead immediately return NO. Note that the view does not necessarily have to be visible on the screen, and may be behind another view or offscreen. Views with their hidden property set to YES are ignored. Whether or not a view is tappable is based on -[UIView hitTest:].
  @return a BOOL reflecting whether or not the view was found and tappable.
  */
-- (BOOL)tryFindingTappableView;
+- (BOOL)tryFindingTappableView CF_SWIFT_UNAVAILABLE_FROM_ASYNC("use async version");
+
+- (void)tryFindingTappableViewWithCompletionHandler:(void (^)(BOOL, NSError*))completionHandler;
 
 /*!
  @abstract Tries to guess if there are any unfinished animations and waits for a certain amount of time to let them finish.
  */
-- (void)waitForAnimationsToFinish;
+- (void)waitForAnimationsToFinish CF_SWIFT_UNAVAILABLE_FROM_ASYNC("use async version");
+
+- (void)waitForAnimationsToFinishWithCompletionHandler:(void (^)(NSError*))completionHandler;
 
 #pragma mark Scroll Views, Table Views and Collection Views
 
@@ -232,7 +257,9 @@ extern NSString *const inputFieldTestString;
  
  @param indexPath Index path of the row to tap.
  */
-- (void)tapRowInTableViewAtIndexPath:(NSIndexPath *)indexPath;
+- (void)tapRowInTableViewAtIndexPath:(NSIndexPath *)indexPath CF_SWIFT_UNAVAILABLE_FROM_ASYNC("use async version");
+
+- (void)tapRowInTableViewAtIndexPath:(NSIndexPath *)indexPath completionHandler:(void (^)(NSError*))completionHandler;
 
 /*!
  @abstract Scrolls a table view matching the tester's search predicate while waiting for the cell at the given indexPath to appear.
@@ -243,7 +270,9 @@ extern NSString *const inputFieldTestString;
  @param indexPath Index path of the cell.
  @return The table view cell at the given index path.
  */
-- (UITableViewCell *)waitForCellInTableViewAtIndexPath:(NSIndexPath *)indexPath;
+- (UITableViewCell *)waitForCellInTableViewAtIndexPath:(NSIndexPath *)indexPath CF_SWIFT_UNAVAILABLE_FROM_ASYNC("use async version");
+
+- (void)waitForCellInTableViewAtIndexPath:(NSIndexPath *)indexPath completionHandler:(void (^)(UITableViewCell*, NSError*))completionHandler;
 
 /*!
  @abstract Scrolls a table view matching the tester's search predicate while waiting for the cell at the given indexPath to appear.
@@ -255,7 +284,9 @@ extern NSString *const inputFieldTestString;
  @param position Table View scroll position to scroll to. Useful for tall cells when the content needed is in a specific location.
  @return The table view cell at the given index path.
  */
-- (UITableViewCell *)waitForCellInTableViewAtIndexPath:(NSIndexPath *)indexPath atPosition:(UITableViewScrollPosition)position;
+- (UITableViewCell *)waitForCellInTableViewAtIndexPath:(NSIndexPath *)indexPath atPosition:(UITableViewScrollPosition)position CF_SWIFT_UNAVAILABLE_FROM_ASYNC("use async version");
+
+- (void)waitForCellInTableViewAtIndexPath:(NSIndexPath *)indexPath atPosition:(UITableViewScrollPosition)position completionHandler:(void (^)(UITableViewCell*, NSError*))completionHandler;
 
 /*!
  @abstract Moves the row at sourceIndexPath to destinationIndexPath in a table view matching the tester's search predicate.
@@ -266,7 +297,9 @@ extern NSString *const inputFieldTestString;
  @param sourceIndexPath Index path of the row to move.
  @param destinationIndexPath Desired final index path of the row after moving.
  */
-- (void)moveRowInTableViewAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath;
+- (void)moveRowInTableViewAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath CF_SWIFT_UNAVAILABLE_FROM_ASYNC("use async version");
+
+- (void)moveRowInTableViewAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath completionHandler:(void (^)(NSError*))completionHandler;
 
 /*!
  @abstract Taps the item at indexPath in a collection view matching the tester's search predicate.
@@ -276,7 +309,9 @@ extern NSString *const inputFieldTestString;
  
  @param indexPath Index path of the item to tap.
  */
-- (void)tapCollectionViewItemAtIndexPath:(NSIndexPath *)indexPath;
+- (void)tapCollectionViewItemAtIndexPath:(NSIndexPath *)indexPath CF_SWIFT_UNAVAILABLE_FROM_ASYNC("use async version");
+
+- (void)tapCollectionViewItemAtIndexPath:(NSIndexPath *)indexPath completionHandler:(void (^)(NSError*))completionHandler;
 
 /*!
  @abstract Scrolls a collection view while waiting for the cell at the given indexPath to appear.
@@ -287,7 +322,9 @@ extern NSString *const inputFieldTestString;
  @param indexPath Index path of the cell.
  @return Collection view cell at index path
  */
-- (UICollectionViewCell *)waitForCellInCollectionViewAtIndexPath:(NSIndexPath *)indexPath;
+- (UICollectionViewCell *)waitForCellInCollectionViewAtIndexPath:(NSIndexPath *)indexPath CF_SWIFT_UNAVAILABLE_FROM_ASYNC("use async version");
+
+- (void)waitForCellInCollectionViewAtIndexPath:(NSIndexPath *)indexPath completionHandler:(void (^)(UICollectionViewCell *, NSError*))completionHandler;
 
 /*!
  @abstract Scrolls a particular Scroll View in the view hierarchy by an amount indicated as a fraction of its size.
@@ -295,7 +332,9 @@ extern NSString *const inputFieldTestString;
  @param horizontalFraction The horizontal displacement of the scroll action, as a fraction of the width of the view.
  @param verticalFraction The vertical displacement of the scroll action, as a fraction of the height of the view.
  */
-- (void)scrollByFractionOfSizeHorizontal:(CGFloat)horizontalFraction vertical:(CGFloat)verticalFraction;
+- (void)scrollByFractionOfSizeHorizontal:(CGFloat)horizontalFraction vertical:(CGFloat)verticalFraction CF_SWIFT_UNAVAILABLE_FROM_ASYNC("use async version");
+
+- (void)scrollByFractionOfSizeHorizontal:(CGFloat)horizontalFraction vertical:(CGFloat)verticalFraction  completionHandler:(void (^)(NSError*))completionHandler;
 
 #pragma mark Text Input
 
@@ -304,7 +343,9 @@ extern NSString *const inputFieldTestString;
  @discussion If the element isn't currently tappable, then the step will attempt to wait until it is. Once the view is present and tappable, a tap event is simulated in the center of the view or element, then text is entered into the view by simulating taps on the appropriate keyboard keys.
  @param text The text to enter.
  */
-- (void)enterText:(NSString *)text;
+- (void)enterText:(NSString *)text CF_SWIFT_UNAVAILABLE_FROM_ASYNC("use async version");
+
+- (void)enterText:(NSString *)text completionHandler:(void (^)(NSError*))completionHandler;
 
 /*!
  @abstract Enters text into a particular view matching the tester's search predicate, then asserts that the view contains the expected text.
@@ -312,41 +353,47 @@ extern NSString *const inputFieldTestString;
  @param text The text to enter.
  @param expectedResult What the text value should be after entry completes, including any formatting done by the field. If this is nil, the "text" parameter will be used.
  */
-- (void)enterText:(NSString *)text expectedResult:(NSString *)expectedResult;
+- (void)enterText:(NSString *)text expectedResult:(NSString *)expectedResult CF_SWIFT_UNAVAILABLE_FROM_ASYNC("use async version");
+
+- (void)enterText:(NSString *)text expectedResult:(NSString *)expectedResult completionHandler:(void (^)(NSError*))completionHandler;
 
 /*!
  @abstract Enters text into a the current first responder.
  @discussion Text is entered into the view by simulating taps on the appropriate keyboard keys if the keyboard is already displayed. Useful to enter text in WKWebViews or components with no accessibility labels.
  @param text The text to enter.
  */
-- (void)enterTextIntoCurrentFirstResponder:(NSString *)text DEPRECATED_MSG_ATTRIBUTE("Use 'usingFirstResponder' matcher with 'enterText:' instead.");
+- (void)enterTextIntoCurrentFirstResponder:(NSString *)text DEPRECATED_MSG_ATTRIBUTE("Use 'usingFirstResponder' matcher with 'enterText:' instead.") CF_SWIFT_UNAVAILABLE_FROM_ASYNC("use async version");
 /*!
  @abstract Enters text into a the current first responder. if KIF is unable to type with the keyboard (which could be dismissed or obscured) the tester will call setText on the fallback view directly.
  @discussion Text is entered into the view by simulating taps on the appropriate keyboard keys if the keyboard is already displayed. Useful to enter text in WKWebViews or components with no accessibility labels.
  @param text The text to enter.
  @param fallbackView The UIView to enter if keyboard input fails.
  */
-- (void)enterTextIntoCurrentFirstResponder:(NSString *)text fallbackView:(UIView *)fallbackView DEPRECATED_MSG_ATTRIBUTE("Please log a KIF Github issue if you have a use case for this.");
+- (void)enterTextIntoCurrentFirstResponder:(NSString *)text fallbackView:(UIView *)fallbackView DEPRECATED_MSG_ATTRIBUTE("Please log a KIF Github issue if you have a use case for this.") CF_SWIFT_UNAVAILABLE_FROM_ASYNC("use async version");
 
 /*!
  @abstract Clears text from a particular view matching the tester's search predicate.
  @discussion If the element isn't currently tappable, then the step will attempt to wait until it is. Once the view is present and tappable, a tap event is simulated in the center of the view or element, then text is cleared from the view by simulating taps on the backspace key.
  */
-- (void)clearText;
+- (void)clearText CF_SWIFT_UNAVAILABLE_FROM_ASYNC("use async version");
+
+- (void)clearTextWithCompletionHandler:(void (^)(NSError*))completionHandler;
 
 /*!
  @abstract Clears text from the current first responder.
  @discussion text is cleared from the first responder by simulating taps on the backspace key.
  */
 
-- (void)clearTextFromFirstResponder DEPRECATED_MSG_ATTRIBUTE("Use 'usingFirstResponder' matcher with 'clearText' instead.");
+- (void)clearTextFromFirstResponder DEPRECATED_MSG_ATTRIBUTE("Use 'usingFirstResponder' matcher with 'clearText' instead.") CF_SWIFT_UNAVAILABLE_FROM_ASYNC("use async version");
 
 /*!
  @abstract Clears text from a particular view matching the tester's search predicate, then sets new text.
  @discussion If the element isn't currently tappable, then the step will attempt to wait until it is. Once the view is present and tappable, a tap event is simulated in the center of the view or element, then text is cleared from the view by simulating taps on the backspace key, the new text is then entered by simulating taps on the appropriate keyboard keys.
  @param text The text to enter after clearing the view.
  */
-- (void)clearAndEnterText:(NSString *)text;
+- (void)clearAndEnterText:(NSString *)text CF_SWIFT_UNAVAILABLE_FROM_ASYNC("use async version");
+
+- (void)clearAndEnterText:(NSString *)text completionHandler:(void (^)(NSError*))completionHandler;
 /*!
  @abstract Clears text from a particular view matching the tester's search predicate, sets new text, then asserts that the view contains the expected text.
  @discussion If the element isn't currently tappable, then the step will attempt to wait until it is. Once the view is present and tappable, a tap event is simulated in the center of the view or element, then text is cleared from the view by simulating taps on the backspace key, the new text is then entered by simulating taps on the appropriate keyboard keys, finally the text of the view is compared against the expected result.
@@ -354,37 +401,49 @@ extern NSString *const inputFieldTestString;
  @param expectedResult What the text value should be after entry completes, including any formatting done by the field. If this is nil, the "text" parameter will be used.
 
  */
-- (void)clearAndEnterText:(NSString *)text expectedResult:(NSString *)expectedResult;
+- (void)clearAndEnterText:(NSString *)text expectedResult:(NSString *)expectedResult CF_SWIFT_UNAVAILABLE_FROM_ASYNC("use async version");
+
+- (void)clearAndEnterText:(NSString *)text expectedResult:(NSString *)expectedResult completionHandler:(void (^)(NSError*))completionHandler;
 
 /*!
  @abstract Sets text into a particular view matching the tester's search predicate.
  @discussion The text is set on the view directly with 'setText:'. Does not result in first responder changes. Does not perform expected result validation.
  @param text The text to set.
  */
-- (void)setText:(NSString *)text;
+- (void)setText:(NSString *)text CF_SWIFT_UNAVAILABLE_FROM_ASYNC("use async version");
+
+- (void)setText:(NSString *)text completionHandler:(void (^)(NSError*))completionHandler;
 
 /*!
  @abstract Validates the text in a field matches the supplied expected value.
  @discussion Waits until the view is present (up to the standard timeout), and then ensures that it has expected text.
  @param expectedResult The text to expect the view to contain.
  */
-- (void)expectToContainText:(NSString *)expectedResult;
+- (void)expectToContainText:(NSString *)expectedResult CF_SWIFT_UNAVAILABLE_FROM_ASYNC("use async version");
+
+- (void)expectToContainText:(NSString *)expectedResult completionHandler:(void (^)(NSError*))completionHandler;
 
 /*!
  @abstract Waits for the software keyboard to be visible.
  @discussion If input is also possible from a hardare keyboard @c waitForKeyInputReady may be more appropriate.
  */
-- (void)waitForSoftwareKeyboard;
+- (void)waitForSoftwareKeyboard CF_SWIFT_UNAVAILABLE_FROM_ASYNC("use async version");
+
+- (void)waitForSoftwareKeyboardWithCompletionHandler:(void (^)(NSError*))completionHandler;
 
 /*!
  @abstract If present, waits for the software keyboard to dismiss.
  */
-- (void)waitForAbsenceOfSoftwareKeyboard;
+- (void)waitForAbsenceOfSoftwareKeyboard CF_SWIFT_UNAVAILABLE_FROM_ASYNC("use async version");
+
+- (void)waitForAbsenceOfSoftwareKeyboardWithCompletionHandler:(void (^)(NSError*))completionHandler;
 
 /*!
  @abstract Waits for the keyboard to be ready for input.  This tests whether or not a hardware or software keyboard is available and if the keyboard has a responder to send events to.
  */
-- (void)waitForKeyInputReady;
+- (void)waitForKeyInputReady CF_SWIFT_UNAVAILABLE_FROM_ASYNC("use async version");
+
+- (void)waitForKeyInputReadyWithCompletionHandler:(void (^)(NSError*))completionHandler;
 
 #pragma mark Specific Controls
 
@@ -393,40 +452,52 @@ extern NSString *const inputFieldTestString;
  @discussion Searches for a UISlider matching the tester's search predicate. If the element isn't found or isn't currently tappable, then the step will attempt to wait until it is. Once the view is present, the step will attempt to drag the slider to the new value.  The step will fail if it finds a view matching the tester's search predicate that is not a UISlider or if value is outside of the possible values.  Because this step simulates drag events, the value reached may not be the exact value requested and the app may ignore the touch events if the movement is less than the drag gesture recognizer's minimum distance.
  @param value The desired value of the UISlider.
  */
-- (void)setSliderValue:(float)value;
+- (void)setSliderValue:(float)value CF_SWIFT_UNAVAILABLE_FROM_ASYNC("use async version");
+
+- (void)setSliderValue:(float)value completionHandler:(void (^)(NSError*))completionHandler;
 
 /*!
  @abstract Toggles a UISwitch matching the tester's search predicate into a specified position.
  @discussion If the Switch isn't currently tappable, then the step will attempt to wait until it is. Once the view is present, the step will return if it's already in the desired position. If the switch is tappable but not in the desired position, a tap event is simulated in the center of the view or element, toggling the switch into the desired position.
  @param switchIsOn The desired position of the UISwitch.
  */
-- (void)setSwitchOn:(BOOL)switchIsOn;
+- (void)setSwitchOn:(BOOL)switchIsOn CF_SWIFT_UNAVAILABLE_FROM_ASYNC("use async version");
+
+- (void)setSwitchOn:(BOOL)switchIsOn completionHandler:(void (^)(NSError*))completionHandler;
 
 /*!
  @abstract Pulls down on the view matching the tester's search predicate to trigger a pull to refresh.
  @discussion This will enact the pull to refresh by pulling down the distance of 1/2 the height of the view found by the tester's search predicate.
  */
-- (void)pullToRefresh;
+- (void)pullToRefresh CF_SWIFT_UNAVAILABLE_FROM_ASYNC("use async version");
+
+- (void)pullToRefreshWithCompletionHandler:(void (^)(NSError*))completionHandler;
 
 /*!
  @abstract Pulls down on the view matching the tester's search predicate then hold for a given duration, then release to trigger a pull to refresh.
  @discussion This will enact the pull to refresh by pulling down the distance of 1/2 the height of the view found by the tester's search predicate. The view will be held down for the given duration and then released.
  @param pullDownDuration The enum describing the approximate time for the pull down to travel the entire distance
  */
-- (void)pullToRefreshWithDuration:(KIFPullToRefreshTiming)pullDownDuration;
+- (void)pullToRefreshWithDuration:(KIFPullToRefreshTiming)pullDownDuration CF_SWIFT_UNAVAILABLE_FROM_ASYNC("use async version");
+
+- (void)pullToRefreshWithDuration:(KIFPullToRefreshTiming)pullDownDuration completionHandler:(void (^)(NSError*))completionHandler;
 
 /*!
  @abstract Dismisses a popover on screen.
  @discussion With a popover up, tap at the top-left corner of the screen.
  */
-- (void)dismissPopover;
+- (void)dismissPopover CF_SWIFT_UNAVAILABLE_FROM_ASYNC("use async version");
+
+- (void)dismissPopoverWithCompletionHandler:(void (^)(NSError*))completionHandler;
 
 /*!
  @abstract Selects an item from a currently visible picker view.
  @discussion With a picker view already visible, this step will find an item with the given title, select that item, and tap the Done button.
  @param title The title of the row to select.
  */
-- (void)selectPickerViewRowWithTitle:(NSString *)title;
+- (void)selectPickerViewRowWithTitle:(NSString *)title CF_SWIFT_UNAVAILABLE_FROM_ASYNC("use async version");
+
+- (void)selectPickerViewRowWithTitle:(NSString *)title completionHandler:(void (^)(NSError*))completionHandler;
 
 /*!
  @abstract Selects an item from a currently visible picker view in specified component.
@@ -434,14 +505,18 @@ extern NSString *const inputFieldTestString;
  @param title The title of the row to select.
  @param component The component tester inteds to select the title in.
  */
-- (void)selectPickerViewRowWithTitle:(NSString *)title inComponent:(NSInteger)component;
+- (void)selectPickerViewRowWithTitle:(NSString *)title inComponent:(NSInteger)component CF_SWIFT_UNAVAILABLE_FROM_ASYNC("use async version");
+
+- (void)selectPickerViewRowWithTitle:(NSString *)title inComponent:(NSInteger)component completionHandler:(void (^)(NSError*))completionHandler;
 
 /*!
  @abstract Selects a value from an input date picker view.
  @discussion With a date picker view already visible in the input bar, this step will select the date within the date picker.
  @param date The date to be selected in the date picker.
  */
-- (void)selectDatePickerDate:(NSDate *)date;
+- (void)selectDatePickerDate:(NSDate *)date CF_SWIFT_UNAVAILABLE_FROM_ASYNC("use async version");
+
+- (void)selectDatePickerDate:(NSDate *)date completionHandler:(void (^)(NSError*))completionHandler;
 
 /*!
  @abstract Selects a value from an input date picker view with the picker type UIDatePickerModeCountDownTimer.
@@ -449,7 +524,9 @@ extern NSString *const inputFieldTestString;
  @param hours The hours in the coundown picker.
  @param minutes The minutes in the coundown picker.
  */
-- (void)selectCountdownTimerDatePickerHours:(NSUInteger)hours minutes:(NSUInteger)minutes;
+- (void)selectCountdownTimerDatePickerHours:(NSUInteger)hours minutes:(NSUInteger)minutes CF_SWIFT_UNAVAILABLE_FROM_ASYNC("use async version");
+
+- (void)selectCountdownTimerDatePickerHours:(NSUInteger)hours minutes:(NSUInteger)minutes completionHandler:(void (^)(NSError*))completionHandler;
 
 /*!
  @abstract Selects an item from a currently visible date picker view in specified component. This can only be used on UIDatePicker objects and not UIPickerView objects.
@@ -457,7 +534,7 @@ extern NSString *const inputFieldTestString;
  @param title The title of the row to select.
  @param component The component tester inteds to select the title in.
  */
-- (void)selectDatePickerViewRowWithTitle:(NSString *)title inComponent:(NSInteger)component NS_DEPRECATED_IOS(10_0, 13_4,"Use -[viewTester selectDatePickerWithDate:] or -[viewTester selectCountdownDatePickerWithHours:] instead.");
+- (void)selectDatePickerViewRowWithTitle:(NSString *)title inComponent:(NSInteger)component NS_DEPRECATED_IOS(10_0, 13_4,"Use -[viewTester selectDatePickerWithDate:] or -[viewTester selectCountdownDatePickerWithHours:] instead.") CF_SWIFT_UNAVAILABLE_FROM_ASYNC("use async version");
 ;
 
 /*!
@@ -465,7 +542,7 @@ extern NSString *const inputFieldTestString;
  @discussion With a date picker view already visible, this step will select the different rotating wheel values in order of how the array parameter is passed in. After it is done it will hide the date picker. It works with all 4 UIDatePickerMode* modes. The input parameter of type NSArray has to match in what order the date picker is displaying the values/columns. So if the locale is changing the input parameter has to be adjusted. Example: Mode: UIDatePickerModeDate, Locale: en_US, Input param: NSArray *date = @[@"June", @"17", @"1965"];. Example: Mode: UIDatePickerModeDate, Locale: de_DE, Input param: NSArray *date = @[@"17.", @"Juni", @"1965".
  @param datePickerColumnValues Each element in the NSArray represents a rotating wheel in the date picker control. Elements from 0 - n are listed in the order of the rotating wheels, left to right.
  */
-- (void)selectDatePickerValue:(NSArray *)datePickerColumnValues NS_DEPRECATED_IOS(10_0, 13_4,"Use -[viewTester selectDatePickerWithDate:] or -[viewTester selectCountdownDatePickerWithHours:] instead.");
+- (void)selectDatePickerValue:(NSArray *)datePickerColumnValues NS_DEPRECATED_IOS(10_0, 13_4,"Use -[viewTester selectDatePickerWithDate:] or -[viewTester selectCountdownDatePickerWithHours:] instead.") CF_SWIFT_UNAVAILABLE_FROM_ASYNC("use async version");
 ;
 
 /*!
@@ -474,7 +551,7 @@ extern NSString *const inputFieldTestString;
  @param datePickerColumnValues Each element in the NSArray represents a rotating wheel in the date picker control. Elements from 0 - n are listed in the order of the rotating wheels, left to right.
  @param searchOrder The order in which the values are being searched for selection in each compotent.
  */
-- (void)selectDatePickerValue:(NSArray *)datePickerColumnValues withSearchOrder:(KIFPickerSearchOrder)searchOrder NS_DEPRECATED_IOS(10_0, 13_4,"Use -[viewTester selectDatePickerWithDate:] or -[viewTester selectCountdownDatePickerWithHours:] instead.");
+- (void)selectDatePickerValue:(NSArray *)datePickerColumnValues withSearchOrder:(KIFPickerSearchOrder)searchOrder NS_DEPRECATED_IOS(10_0, 13_4,"Use -[viewTester selectDatePickerWithDate:] or -[viewTester selectCountdownDatePickerWithHours:] instead.") CF_SWIFT_UNAVAILABLE_FROM_ASYNC("use async version");
 ;
 
 /*!
@@ -484,19 +561,25 @@ extern NSString *const inputFieldTestString;
  @param row The row number in the album for the desired photo. (1-indexed)
  @param column The column number in the album for the desired photo.
  */
-- (void)choosePhotoInAlbum:(NSString *)albumName atRow:(NSInteger)row column:(NSInteger)column;
+- (void)choosePhotoInAlbum:(NSString *)albumName atRow:(NSInteger)row column:(NSInteger)column CF_SWIFT_UNAVAILABLE_FROM_ASYNC("use async version");
+
+- (void)choosePhotoInAlbum:(NSString *)albumName atRow:(NSInteger)row column:(NSInteger)column completionHandler:(void (^)(NSError*))completionHandler;
 
 /*!
  @abstract Taps the status bar at the top of the screen. This will fail if a status bar is not found.
  */
-- (void)tapStatusBar;
+- (void)tapStatusBar CF_SWIFT_UNAVAILABLE_FROM_ASYNC("use async version");
+
+- (void)tapStatusBarWithCompletionHandler:(void (^)(NSError*))completionHandler;
 
 #if TARGET_IPHONE_SIMULATOR
 /*!
  @abstract If present, dismisses a system alert with the last button, usually 'Allow'. Returns YES if a dialog was dismissed, NO otherwise.
  @discussion Use this to dissmiss a location services authorization dialog or a photos access dialog by tapping the 'Allow' button. No action is taken if no alert is present.
  */
-- (BOOL)acknowledgeSystemAlert;
+- (BOOL)acknowledgeSystemAlert CF_SWIFT_UNAVAILABLE_FROM_ASYNC("use async version");
+
+- (void)acknowledgeSystemAlertWithCompletionHandler:(void (^)(BOOL, NSError*))completionHandler;
 #endif
 
 
