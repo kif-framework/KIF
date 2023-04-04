@@ -366,18 +366,7 @@ static BOOL KIFUITestActorAnimationsEnabled = YES;
 - (void)tapScreenAtPoint:(CGPoint)screenPoint
 {
     [self runBlock:^KIFTestStepResult(NSError **error) {
-        
-        // Try all the windows until we get one back that actually has something in it at the given point
-        UIView *view = nil;
-        for (UIWindow *window in [[[UIApplication sharedApplication] windowsWithKeyWindow] reverseObjectEnumerator]) {
-            CGPoint windowPoint = [window convertPoint:screenPoint fromView:nil];
-            view = [window hitTest:windowPoint withEvent:nil];
-            
-            // If we hit the window itself, then skip it.
-            if (view != window && view != nil) {
-                break;
-            }
-        }
+        UIView *view = [self viewAtPoint:screenPoint];
         
         KIFTestWaitCondition(view, error, @"No view was found at the point %@", NSStringFromCGPoint(screenPoint));
         
@@ -387,6 +376,49 @@ static BOOL KIFUITestActorAnimationsEnabled = YES;
         
         return KIFTestStepResultSuccess;
     }];
+}
+
+- (void)swipeFromEdge:(UIRectEdge)edge atY:(CGFloat)y
+{
+    CGPoint screenPoint;
+    KIFSwipeDirection direction;
+    if (edge == UIRectEdgeLeft) {
+        screenPoint = CGPointMake(0.3, y);
+        direction = KIFSwipeDirectionRight;
+    } else if (edge == UIRectEdgeRight) {
+        screenPoint = CGPointMake(UIScreen.mainScreen.bounds.size.width - 0.3, y);
+        direction = KIFSwipeDirectionLeft;
+    } else {
+        return;
+    }
+    [self runBlock:^KIFTestStepResult(NSError **error) {
+        UIView *view = [self viewAtPoint:screenPoint];
+        
+        KIFTestWaitCondition(view, error, @"No view was found at the point %@", NSStringFromCGPoint(screenPoint));
+        
+        // This is mostly redundant of the test in _accessibilityElementWithLabel:
+        CGPoint viewPoint = [view convertPoint:screenPoint fromView:nil];
+        KIFDisplacement swipeDisplacement = [self _displacementForSwipingInDirection:direction];
+        [view dragFromPoint:viewPoint displacement:swipeDisplacement steps:20 isFromEdge:YES];
+        
+        return KIFTestStepResultSuccess;
+    }];
+}
+
+- (UIView *)viewAtPoint:(CGPoint)screenPoint
+{
+    // Try all the windows until we get one back that actually has something in it at the given point
+    UIView *view = nil;
+    for (UIWindow *window in [[[UIApplication sharedApplication] windowsWithKeyWindow] reverseObjectEnumerator]) {
+        CGPoint windowPoint = [window convertPoint:screenPoint fromView:nil];
+        view = [window hitTest:windowPoint withEvent:nil];
+        
+        // If we hit the window itself, then skip it.
+        if (view != window && view != nil) {
+            break;
+        }
+    }
+    return view;
 }
 
 - (void)longPressViewWithAccessibilityLabel:(NSString *)label duration:(NSTimeInterval)duration;

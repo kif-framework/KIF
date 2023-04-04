@@ -26,6 +26,20 @@
     self.scrollView.contentSize = CGRectUnion(self.scrollView.bounds, self.bottomRightLabel.frame).size;
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    self.navigationController.interactivePopGestureRecognizer.enabled = NO;
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    
+    self.navigationController.interactivePopGestureRecognizer.enabled = YES;
+}
+
 - (IBAction)swipedUp:(id)sender
 {
     self.lastSwipeDescriptionLabel.text = @"Up";
@@ -49,6 +63,11 @@
 - (IBAction)hadlePanGestureRecognizer:(UIPanGestureRecognizer *)sender
 {
     self.lastVelocityVeluesLabel.text = [self formattedVelocityValues:[sender velocityInView:self.panAreaLabel]];
+}
+
+- (IBAction)handleScreenEdgePanGestureRecognizer:(UIScreenEdgePanGestureRecognizer *)sender
+{
+    self.lastSwipeDescriptionLabel.text = sender.edges == UIRectEdgeLeft ? @"LeftEdge" : @"RightEdge";
 }
 
 - (NSString*)formattedVelocityValues:(CGPoint)velocity

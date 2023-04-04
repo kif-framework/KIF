@@ -1289,6 +1289,8 @@
                                 </userDefinedRuntimeAttributes>
                                 <connections>
                                     <outletCollection property="gestureRecognizers" destination="F0s-aj-f1p" appends="YES" id="zOl-rL-278"/>
+                                    <outletCollection property="gestureRecognizers" destination="zOy-ea-cks" appends="YES" id="ZRb-UY-JXb"/>
+                                    <outletCollection property="gestureRecognizers" destination="sR1-l1-zcg" appends="YES" id="dzQ-3N-rJw"/>
                                 </connections>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Rr-zq-WBn">
@@ -1362,6 +1364,18 @@
                         <action selector="hadlePanGestureRecognizer:" destination="ubg-mt-ea6" id="cOQ-Xc-3Pe"/>
                     </connections>
                 </panGestureRecognizer>
+                <screenEdgePanGestureRecognizer minimumNumberOfTouches="1" id="zOy-ea-cks">
+                    <rectEdge key="edges" left="YES"/>
+                    <connections>
+                        <action selector="handleScreenEdgePanGestureRecognizer:" destination="ubg-mt-ea6" id="Bqj-n2-Xkz"/>
+                    </connections>
+                </screenEdgePanGestureRecognizer>
+                <screenEdgePanGestureRecognizer minimumNumberOfTouches="1" id="sR1-l1-zcg">
+                    <rectEdge key="edges" right="YES"/>
+                    <connections>
+                        <action selector="handleScreenEdgePanGestureRecognizer:" destination="ubg-mt-ea6" id="Nrb-nt-flP"/>
+                    </connections>
+                </screenEdgePanGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="665.21739130434787" y="504.91071428571428"/>
         </scene>

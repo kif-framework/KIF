@@ -193,6 +193,18 @@
     [tester waitForViewWithAccessibilityLabel:@"Down"];
 }
 
+- (void)testSwipeFromScreenEdgeLeft
+{
+    [tester swipeFromEdge:UIRectEdgeLeft atY:300];
+    [tester waitForViewWithAccessibilityLabel:@"LeftEdge"];
+}
+
+- (void)testSwipeFromScreenEdgeRight
+{
+    [tester swipeFromEdge:UIRectEdgeRight atY:300];
+    [tester waitForViewWithAccessibilityLabel:@"RightEdge"];
+}
+
 - (void)testScrolling
 {
     // Needs to be offset from the edge to prevent the navigation controller's interactivePopGestureRecognizer from triggering
