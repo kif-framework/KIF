@@ -631,14 +631,30 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
 
 - (void)dragFromPoint:(CGPoint)startPoint displacement:(KIFDisplacement)displacement steps:(NSUInteger)stepCount;
 {
-    [self dragFromPoint:startPoint displacement:displacement steps:stepCount isFromEdge:NO];
-}
-
-- (void)dragFromPoint:(CGPoint)startPoint displacement:(KIFDisplacement)displacement steps:(NSUInteger)stepCount isFromEdge:(BOOL)isFromEdge;
-{
     CGPoint endPoint = CGPointMake(startPoint.x + displacement.x, startPoint.y + displacement.y);
     NSArray<NSValue *> *path = [self pointsFromStartPoint:startPoint toPoint:endPoint steps:stepCount];
-    [self dragPointsAlongPaths:@[path] isFromEdge:isFromEdge];
+    [self dragPointsAlongPaths:@[path]];
+}
+
+- (void)dragFromEdge:(UIRectEdge)startEdge toEdge:(UIRectEdge)endEdge
+{
+    CGFloat width = self.bounds.size.width;
+    CGFloat height = self.bounds.size.height;
+    CGFloat edgeInset = 0.5;
+    NSDictionary *edgeToPoint = @{
+        @(UIRectEdgeTop): @(CGPointMake(width / 2, 0)),
+        @(UIRectEdgeLeft): @(CGPointMake(edgeInset, height / 2)),
+        @(UIRectEdgeBottom): @(CGPointMake(width / 2, height)),
+        @(UIRectEdgeRight): @(CGPointMake(width - edgeInset, height / 2)),
+    };
+    CGPoint startPoint = [edgeToPoint[@(startEdge)] CGPointValue];
+    CGPoint endPoint = [edgeToPoint[@(endEdge)] CGPointValue];
+    
+    CGPoint screenPoint = [self convertPoint:startPoint toView:self.window];
+    BOOL isFromScreenEdge = (screenPoint.x < 1 || screenPoint.x > self.window.bounds.size.width - 1);
+    
+    NSArray<NSValue *> *path = [self pointsFromStartPoint:startPoint toPoint:endPoint steps:20];
+    [self dragPointsAlongPaths:@[path] isFromEdge:isFromScreenEdge];
 }
 
 - (void)dragAlongPathWithPoints:(CGPoint *)points count:(NSInteger)count;

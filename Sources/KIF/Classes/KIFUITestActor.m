@@ -381,13 +381,10 @@ static BOOL KIFUITestActorAnimationsEnabled = YES;
 - (void)swipeFromEdge:(UIRectEdge)edge atY:(CGFloat)y
 {
     CGPoint screenPoint;
-    KIFSwipeDirection direction;
     if (edge == UIRectEdgeLeft) {
         screenPoint = CGPointMake(0.3, y);
-        direction = KIFSwipeDirectionRight;
     } else if (edge == UIRectEdgeRight) {
         screenPoint = CGPointMake(UIScreen.mainScreen.bounds.size.width - 0.3, y);
-        direction = KIFSwipeDirectionLeft;
     } else {
         return;
     }
@@ -396,10 +393,8 @@ static BOOL KIFUITestActorAnimationsEnabled = YES;
         
         KIFTestWaitCondition(view, error, @"No view was found at the point %@", NSStringFromCGPoint(screenPoint));
         
-        // This is mostly redundant of the test in _accessibilityElementWithLabel:
-        CGPoint viewPoint = [view convertPoint:screenPoint fromView:nil];
-        KIFDisplacement swipeDisplacement = [self _displacementForSwipingInDirection:direction];
-        [view dragFromPoint:viewPoint displacement:swipeDisplacement steps:20 isFromEdge:YES];
+        UIRectEdge endEdge = (UIRectEdgeLeft | UIRectEdgeRight) - edge;
+        [view dragFromEdge:edge toEdge:endEdge];
         
         return KIFTestStepResultSuccess;
     }];
