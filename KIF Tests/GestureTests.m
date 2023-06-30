@@ -193,15 +193,31 @@
     [tester waitForViewWithAccessibilityLabel:@"Down"];
 }
 
-- (void)testSwipeFromScreenEdgeLeft
+- (void)testSwipingFromScreenEdgeLeft
 {
-    [tester swipeFromEdge:UIRectEdgeLeft atY:300];
+    UIView *view = [tester waitForViewWithAccessibilityIdentifier:@"gestures.swipeMe"];
+    CGSize windowSize = view.window.bounds.size;
+    CGPoint point = CGPointMake(0.5, 200);
+    point = [view convertPoint:point fromView:view.window];
+    KIFDisplacement displacement = CGPointMake(windowSize.width * 0.5, 5);
+    [view dragFromPoint:point displacement:displacement steps:20];
+    [tester waitForAbsenceOfViewWithAccessibilityLabel:@"LeftEdge"];
+    
+    [tester swipeFromEdge:UIRectEdgeLeft atY:200];
     [tester waitForViewWithAccessibilityLabel:@"LeftEdge"];
 }
 
-- (void)testSwipeFromScreenEdgeRight
+- (void)testSwipingFromScreenEdgeRight
 {
-    [tester swipeFromEdge:UIRectEdgeRight atY:300];
+    UIView *view = [tester waitForViewWithAccessibilityIdentifier:@"gestures.swipeMe"];
+    CGSize windowSize = view.window.bounds.size;
+    CGPoint point = CGPointMake(windowSize.width - 0.5, 200);
+    point = [view convertPoint:point fromView:view.window];
+    KIFDisplacement displacement = CGPointMake(-windowSize.width * 0.5, 5);
+    [view dragFromPoint:point displacement:displacement steps:20];
+    [tester waitForAbsenceOfViewWithAccessibilityLabel:@"RightEdge"];
+    
+    [tester swipeFromEdge:UIRectEdgeRight atY:200];
     [tester waitForViewWithAccessibilityLabel:@"RightEdge"];
 }
 
