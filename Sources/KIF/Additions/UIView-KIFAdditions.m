@@ -642,9 +642,9 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
     CGFloat height = self.bounds.size.height;
     CGFloat edgeInset = 0.5;
     NSDictionary *edgeToPoint = @{
-        @(UIRectEdgeTop): @(CGPointMake(width / 2, 0)),
+        @(UIRectEdgeTop): @(CGPointMake(width / 2, edgeInset)),
         @(UIRectEdgeLeft): @(CGPointMake(edgeInset, height / 2)),
-        @(UIRectEdgeBottom): @(CGPointMake(width / 2, height)),
+        @(UIRectEdgeBottom): @(CGPointMake(width / 2, height - edgeInset)),
         @(UIRectEdgeRight): @(CGPointMake(width - edgeInset, height / 2)),
     };
     CGPoint startPoint = [edgeToPoint[@(startEdge)] CGPointValue];

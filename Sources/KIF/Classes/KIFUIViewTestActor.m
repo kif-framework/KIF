@@ -380,6 +380,11 @@ NSString *const inputFieldTestString = @"Testing";
     }
 }
 
+- (void)swipeFromEdge:(UIRectEdge)edge
+{
+    [self.actor swipeFromEdge:edge];
+}
+
 #pragma mark - Scroll/Table/CollectionView Actions
 
 - (void)scrollByFractionOfSizeHorizontal:(CGFloat)horizontalFraction vertical:(CGFloat)verticalFraction;

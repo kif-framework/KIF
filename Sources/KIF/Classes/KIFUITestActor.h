@@ -325,9 +325,8 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
 /*!
  @abstract Performs a swipe gesture starting from the specified edge of the screen.
  @param edge The edge from which the swipe gesture should start.
- @param y The y-coordinate of the starting point for the swipe gesture.
  */
-- (void)swipeFromEdge:(UIRectEdge)edge atY:(CGFloat)y;
+- (void)swipeFromEdge:(UIRectEdge)edge;
 
 /*!
  @abstract Performs a long press on a particular view in the view hierarchy.

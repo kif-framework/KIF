@@ -378,13 +378,14 @@ static BOOL KIFUITestActorAnimationsEnabled = YES;
     }];
 }
 
-- (void)swipeFromEdge:(UIRectEdge)edge atY:(CGFloat)y
+- (void)swipeFromEdge:(UIRectEdge)edge
 {
+    CGSize screenSize = UIScreen.mainScreen.bounds.size;
     CGPoint screenPoint;
     if (edge == UIRectEdgeLeft) {
-        screenPoint = CGPointMake(0.3, y);
+        screenPoint = CGPointMake(0.3, screenSize.height / 2);
     } else if (edge == UIRectEdgeRight) {
-        screenPoint = CGPointMake(UIScreen.mainScreen.bounds.size.width - 0.3, y);
+        screenPoint = CGPointMake(screenSize.width - 0.3, screenSize.height / 2);
     } else {
         return;
     }

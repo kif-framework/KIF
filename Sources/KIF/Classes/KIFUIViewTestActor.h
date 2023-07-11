@@ -165,6 +165,12 @@ extern NSString *const inputFieldTestString;
  */
 - (void)swipeInDirection:(KIFSwipeDirection)direction;
 
+/*!
+ @abstract Performs a swipe gesture starting from the specified edge of the screen.
+ @param edge The edge from which the swipe gesture should start.
+ */
+- (void)swipeFromEdge:(UIRectEdge)edge;
+
 #pragma mark Waiting & Finding
 
 /*!

@@ -203,7 +203,7 @@
     [view dragFromPoint:point displacement:displacement steps:20];
     [tester waitForAbsenceOfViewWithAccessibilityLabel:@"LeftEdge"];
     
-    [tester swipeFromEdge:UIRectEdgeLeft atY:200];
+    [tester swipeFromEdge:UIRectEdgeLeft];
     [tester waitForViewWithAccessibilityLabel:@"LeftEdge"];
 }
 
@@ -217,7 +217,7 @@
     [view dragFromPoint:point displacement:displacement steps:20];
     [tester waitForAbsenceOfViewWithAccessibilityLabel:@"RightEdge"];
     
-    [tester swipeFromEdge:UIRectEdgeRight atY:200];
+    [tester swipeFromEdge:UIRectEdgeRight];
     [tester waitForViewWithAccessibilityLabel:@"RightEdge"];
 }
 

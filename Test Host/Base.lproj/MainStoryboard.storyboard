@@ -1408,12 +1408,14 @@
                     <rectEdge key="edges" left="YES"/>
                     <connections>
                         <action selector="handleScreenEdgePanGestureRecognizer:" destination="ubg-mt-ea6" id="Bqj-n2-Xkz"/>
+                        <outlet property="delegate" destination="ubg-mt-ea6" id="xbb-vN-gi0"/>
                     </connections>
                 </screenEdgePanGestureRecognizer>
                 <screenEdgePanGestureRecognizer minimumNumberOfTouches="1" id="sR1-l1-zcg">
                     <rectEdge key="edges" right="YES"/>
                     <connections>
                         <action selector="handleScreenEdgePanGestureRecognizer:" destination="ubg-mt-ea6" id="Nrb-nt-flP"/>
+                        <outlet property="delegate" destination="ubg-mt-ea6" id="Wo0-Lv-bYx"/>
                     </connections>
                 </screenEdgePanGestureRecognizer>
             </objects>

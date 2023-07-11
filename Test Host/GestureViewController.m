@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface GestureViewController : UIViewController
+@interface GestureViewController : UIViewController <UIGestureRecognizerDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *lastSwipeDescriptionLabel;
 @property (weak, nonatomic) IBOutlet UILabel *lastVelocityVeluesLabel;
 @property (weak, nonatomic) IBOutlet UILabel *bottomRightLabel;
@@ -73,6 +73,16 @@
 - (NSString*)formattedVelocityValues:(CGPoint)velocity
 {
     return [NSString stringWithFormat:@"X:%.2f Y:%.2f", velocity.x, velocity.y];
+}
+
+#pragma mark - UIGestureRecognizerDelegate
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldBeRequiredToFailByGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
+{
+    if ([gestureRecognizer isKindOfClass:UIScreenEdgePanGestureRecognizer.class]) {
+        return YES;
+    }
+    return NO;
 }
 
 @end
