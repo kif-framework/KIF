@@ -16,6 +16,7 @@
 
 - (void)beforeEach
 {
+    UIPasteboard.generalPasteboard.string = nil;
     [tester tapViewWithAccessibilityLabel:@"Tapping"];
 }
 
