@@ -323,6 +323,12 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
 - (void)tapScreenAtPoint:(CGPoint)screenPoint;
 
 /*!
+ @abstract Performs a swipe gesture starting from the specified edge of the screen.
+ @param edge The edge from which the swipe gesture should start.
+ */
+- (void)swipeFromEdge:(UIRectEdge)edge;
+
+/*!
  @abstract Performs a long press on a particular view in the view hierarchy.
  @discussion The view or accessibility element with the given label is searched for in the view hierarchy. If the element isn't found or isn't currently tappable, then the step will attempt to wait until it is. Once the view is present and tappable, touch events are simulated in the center of the view or element.
  @param label The accessibility label of the element to tap.

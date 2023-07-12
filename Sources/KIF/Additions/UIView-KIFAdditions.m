@@ -636,6 +636,27 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
     [self dragPointsAlongPaths:@[path]];
 }
 
+- (void)dragFromEdge:(UIRectEdge)startEdge toEdge:(UIRectEdge)endEdge
+{
+    CGFloat width = self.bounds.size.width;
+    CGFloat height = self.bounds.size.height;
+    CGFloat edgeInset = 0.5;
+    NSDictionary *edgeToPoint = @{
+        @(UIRectEdgeTop): @(CGPointMake(width / 2, edgeInset)),
+        @(UIRectEdgeLeft): @(CGPointMake(edgeInset, height / 2)),
+        @(UIRectEdgeBottom): @(CGPointMake(width / 2, height - edgeInset)),
+        @(UIRectEdgeRight): @(CGPointMake(width - edgeInset, height / 2)),
+    };
+    CGPoint startPoint = [edgeToPoint[@(startEdge)] CGPointValue];
+    CGPoint endPoint = [edgeToPoint[@(endEdge)] CGPointValue];
+    
+    CGPoint screenPoint = [self convertPoint:startPoint toView:self.window];
+    BOOL isFromScreenEdge = (screenPoint.x < 1 || screenPoint.x > self.window.bounds.size.width - 1);
+    
+    NSArray<NSValue *> *path = [self pointsFromStartPoint:startPoint toPoint:endPoint steps:20];
+    [self dragPointsAlongPaths:@[path] isFromEdge:isFromScreenEdge];
+}
+
 - (void)dragAlongPathWithPoints:(CGPoint *)points count:(NSInteger)count;
 {
     // convert point array into NSArray with NSValue
@@ -648,6 +669,10 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
 }
 
 - (void)dragPointsAlongPaths:(NSArray<NSArray<NSValue *> *> *)arrayOfPaths {
+    [self dragPointsAlongPaths:arrayOfPaths isFromEdge:NO];
+}
+
+- (void)dragPointsAlongPaths:(NSArray<NSArray<NSValue *> *> *)arrayOfPaths isFromEdge:(BOOL)isFromEdge {
     // There must be at least one path with at least one point
     if (arrayOfPaths.count == 0 || arrayOfPaths.firstObject.count == 0)
     {
@@ -692,6 +717,7 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
                 point = [self convertPoint:point fromView:self.window];
                 UITouch *touch = [[UITouch alloc] initAtPoint:point inView:self];
                 [touch setPhaseAndUpdateTimestamp:UITouchPhaseBegan];
+                [touch setIsFromEdge:isFromEdge];
                 [touches addObject:touch];
             }
             UIEvent *eventDown = [self eventWithTouches:[NSArray arrayWithArray:touches]];

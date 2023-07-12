@@ -37,6 +37,7 @@ typedef struct {
 - (void)_setIsTapToClick:(BOOL)tapToClick;
 
 - (void)_setHidEvent:(IOHIDEventRef)event;
+- (void)_setEdgeType:(NSInteger)edgeType;
 
 @end
 
@@ -115,6 +116,12 @@ typedef struct {
 {
     [self setTimestamp:[[NSProcessInfo processInfo] systemUptime]];
     [self setPhase:phase];
+}
+
+- (void)setIsFromEdge:(BOOL)isFromEdge
+{
+    NSInteger edgeType = isFromEdge ? 4 : 0;
+    [self _setEdgeType:edgeType];
 }
 
 - (void)kif_setHidEvent {

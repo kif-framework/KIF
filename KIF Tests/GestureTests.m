@@ -193,6 +193,34 @@
     [tester waitForViewWithAccessibilityLabel:@"Down"];
 }
 
+- (void)testSwipingFromScreenEdgeLeft
+{
+    UIView *view = [tester waitForViewWithAccessibilityIdentifier:@"gestures.swipeMe"];
+    CGSize windowSize = view.window.bounds.size;
+    CGPoint point = CGPointMake(0.5, 200);
+    point = [view convertPoint:point fromView:view.window];
+    KIFDisplacement displacement = CGPointMake(windowSize.width * 0.5, 5);
+    [view dragFromPoint:point displacement:displacement steps:20];
+    [tester waitForAbsenceOfViewWithAccessibilityLabel:@"LeftEdge"];
+    
+    [tester swipeFromEdge:UIRectEdgeLeft];
+    [tester waitForViewWithAccessibilityLabel:@"LeftEdge"];
+}
+
+- (void)testSwipingFromScreenEdgeRight
+{
+    UIView *view = [tester waitForViewWithAccessibilityIdentifier:@"gestures.swipeMe"];
+    CGSize windowSize = view.window.bounds.size;
+    CGPoint point = CGPointMake(windowSize.width - 0.5, 200);
+    point = [view convertPoint:point fromView:view.window];
+    KIFDisplacement displacement = CGPointMake(-windowSize.width * 0.5, 5);
+    [view dragFromPoint:point displacement:displacement steps:20];
+    [tester waitForAbsenceOfViewWithAccessibilityLabel:@"RightEdge"];
+    
+    [tester swipeFromEdge:UIRectEdgeRight];
+    [tester waitForViewWithAccessibilityLabel:@"RightEdge"];
+}
+
 - (void)testScrolling
 {
     // Needs to be offset from the edge to prevent the navigation controller's interactivePopGestureRecognizer from triggering

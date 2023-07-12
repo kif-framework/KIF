@@ -108,4 +108,16 @@
     KIFExpectFailure([[[viewTester usingTimeout:0.25] usingIdentifier:@"Unknown"] scrollByFractionOfSizeHorizontal:0.5 vertical:0.5]);
 }
 
+- (void)testSwipingFromScreenEdgeLeft
+{
+    [viewTester swipeFromEdge:UIRectEdgeLeft];
+    [[viewTester usingLabel:@"LeftEdge"] waitForView];
+}
+
+- (void)testSwipingFromScreenEdgeRight
+{
+    [viewTester swipeFromEdge:UIRectEdgeRight];
+    [[viewTester usingLabel:@"RightEdge"] waitForView];
+}
+
 @end
