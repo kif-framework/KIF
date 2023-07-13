@@ -37,4 +37,9 @@
 	[tester waitForAbsenceOfViewWithAccessibilityLabel:@"Bingo!"];
 }
 
+- (void)afterEach
+{
+    [tester waitForAnimationsToFinish];
+}
+
 @end
