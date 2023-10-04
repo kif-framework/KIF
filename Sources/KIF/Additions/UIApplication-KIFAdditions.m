@@ -188,8 +188,10 @@ static const void *KIFRunLoopModesKey = &KIFRunLoopModesKey;
 			continue;
 		}
 
-        if (window == keyboardWindow) {
-            continue;
+        if (@available(iOS 17.0, *)) {
+            if (window == keyboardWindow) {
+                continue;
+            }
         }
 
         if ([window respondsToSelector:@selector(drawViewHierarchyInRect:afterScreenUpdates:)]) {
