@@ -25,6 +25,7 @@
  @abstract Calls a block on the layer itself and on all its descendent layers.
  @param block The block that will be called on the layers. Stop the traversation
  of the layers by assigning YES to the stop-parameter of the block.
+ We will not recurse into hidden layers.
  */
 - (void)performBlockOnDescendentLayers:(void (^)(CALayer *layer, BOOL *stop))block;
 

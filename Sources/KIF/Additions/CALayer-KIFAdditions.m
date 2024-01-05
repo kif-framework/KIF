@@ -38,8 +38,8 @@
               double beginTime = [animation beginTime];
               double completionTime = [animation KIF_completionTime];
 
-              // Ignore infinitely repeating animations
-              if (currentTime >= beginTime && completionTime != HUGE_VALF && currentTime < completionTime) {
+              // Ignore long running animations (> 1 minute duration)
+              if (currentTime >= beginTime && completionTime < currentTime + 60 && currentTime < completionTime) {
                   result = YES;
                   *innerStop = YES;
                   *stop = YES;
@@ -58,6 +58,10 @@
 
 - (void)performBlockOnDescendentLayers:(void (^)(CALayer *, BOOL *))block stop:(BOOL *)stop
 {
+    if (self.isHidden) {
+        return;
+    }
+
     block(self, stop);
     if (*stop) {
         return;
