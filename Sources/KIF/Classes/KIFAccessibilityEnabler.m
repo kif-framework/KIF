@@ -59,7 +59,13 @@ void KIFEnableAccessibility(void)
         void *settingsBundle = loadDylibForSimulator(settingsBundleLocation);
         if (settingsBundle) {
             Class axClass = NSClassFromString(@"AccessibilitySettingsController");
-            if (axClass) {
+            BOOL canEnableAXInspector = YES;
+#if TARGET_IPHONE_SIMULATOR
+            if (@available(iOS 16.4, *)) {
+                canEnableAXInspector = NO;
+            }
+#endif
+            if (canEnableAXInspector && axClass) {
                 id axInstance = [[axClass alloc] init];
                 if ([axInstance respondsToSelector:@selector(AXInspectorEnabled:)]) {
                     NSNumber *initialValue = [axInstance AXInspectorEnabled:nil];
