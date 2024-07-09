@@ -205,10 +205,10 @@
 		9CC881AD1AD4CE50002CD34C /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CC881A21AD4CAAC002CD34C /* CoreFoundation.framework */; };
 		9CC967401AD4B1B600576D13 /* KIF.h in Headers */ = {isa = PBXBuildFile; fileRef = 9CC9673F1AD4B1B600576D13 /* KIF.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		ACA242E42C3DA55400E6F1B6 /* CustomActionTests_ViewTestActor.m in Sources */ = {isa = PBXBuildFile; fileRef = ACA242E32C3DA55400E6F1B6 /* CustomActionTests_ViewTestActor.m */; };
-		ACA242E62C3DB46A00E6F1B6 /* UIAccessibilityCustomAction+KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = ACA242E52C3DB46A00E6F1B6 /* UIAccessibilityCustomAction+KIFAdditions.m */; };
 		ACA242E72C3DB47400E6F1B6 /* UIAccessibilityCustomAction+KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = ACA242E52C3DB46A00E6F1B6 /* UIAccessibilityCustomAction+KIFAdditions.m */; };
 		ACA242E92C3DB4EA00E6F1B6 /* UIAccessibilityCustomAction+KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = ACA242E82C3DB4B000E6F1B6 /* UIAccessibilityCustomAction+KIFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		ACA242EA2C3DB4EB00E6F1B6 /* UIAccessibilityCustomAction+KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = ACA242E82C3DB4B000E6F1B6 /* UIAccessibilityCustomAction+KIFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		ACA242EB2C3DC32500E6F1B6 /* UIAccessibilityCustomAction+KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = ACA242E52C3DB46A00E6F1B6 /* UIAccessibilityCustomAction+KIFAdditions.m */; };
 		AE62FCD01A1D20E5002B10DA /* WebViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AE62FCCF1A1D20E5002B10DA /* WebViewTests.m */; };
 		AE62FCD61A1D2447002B10DA /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE62FCD51A1D2447002B10DA /* WebViewController.m */; };
 		AE62FCD81A1D2667002B10DA /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = AE62FCD71A1D2667002B10DA /* index.html */; };
@@ -1338,6 +1338,7 @@
 				22B1373A25D6E32700D88061 /* KIFUIObject.m in Sources */,
 				22B1377425D6E32700D88061 /* KIFTestActor.m in Sources */,
 				22B1374C25D6E32700D88061 /* UIApplication-KIFAdditions.m in Sources */,
+				ACA242EB2C3DC32500E6F1B6 /* UIAccessibilityCustomAction+KIFAdditions.m in Sources */,
 				8EC2CB2229DB3D3B001BE493 /* NSObject+KIFSwizzle.m in Sources */,
 				22B1375C25D6E32700D88061 /* KIFUITestActor-ConditionalTests.m in Sources */,
 				22B1376525D6E32700D88061 /* KIFTypist.m in Sources */,
@@ -1421,7 +1422,6 @@
 				FA914DB61A7707550073BB19 /* TypingTests_ViewTestActor.m in Sources */,
 				FA8BB6A81A778725003969FF /* GestureTests_ViewTestActor.m in Sources */,
 				FA4915631A78261300A78E57 /* ModalViewTests_ViewTestActor.m in Sources */,
-				ACA242E62C3DB46A00E6F1B6 /* UIAccessibilityCustomAction+KIFAdditions.m in Sources */,
 				B66B1BF6202BCF2000D0E4B2 /* AutocorrectTests_ViewTestActor.m in Sources */,
 				EABD46B71857A0F300A5F081 /* SystemTests.m in Sources */,
 				5A62B0AC1BB2043B00A3F480 /* AccessibilityIdentifierPullToRefreshTests.m in Sources */,

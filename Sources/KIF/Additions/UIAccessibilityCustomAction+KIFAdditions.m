@@ -6,6 +6,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "UIAccessibilityCustomAction+KIFAdditions.h"
 
 @implementation UIAccessibilityCustomAction (KIFAdditions)
 
