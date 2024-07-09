@@ -206,8 +206,8 @@
 		9CC967401AD4B1B600576D13 /* KIF.h in Headers */ = {isa = PBXBuildFile; fileRef = 9CC9673F1AD4B1B600576D13 /* KIF.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		ACA242E42C3DA55400E6F1B6 /* CustomActionTests_ViewTestActor.m in Sources */ = {isa = PBXBuildFile; fileRef = ACA242E32C3DA55400E6F1B6 /* CustomActionTests_ViewTestActor.m */; };
 		ACA242E72C3DB47400E6F1B6 /* UIAccessibilityCustomAction+KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = ACA242E52C3DB46A00E6F1B6 /* UIAccessibilityCustomAction+KIFAdditions.m */; };
-		ACA242E92C3DB4EA00E6F1B6 /* UIAccessibilityCustomAction+KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = ACA242E82C3DB4B000E6F1B6 /* UIAccessibilityCustomAction+KIFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		ACA242EA2C3DB4EB00E6F1B6 /* UIAccessibilityCustomAction+KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = ACA242E82C3DB4B000E6F1B6 /* UIAccessibilityCustomAction+KIFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		ACA242E92C3DB4EA00E6F1B6 /* UIAccessibilityCustomAction+KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = ACA242E82C3DB4B000E6F1B6 /* UIAccessibilityCustomAction+KIFAdditions.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		ACA242EA2C3DB4EB00E6F1B6 /* UIAccessibilityCustomAction+KIFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = ACA242E82C3DB4B000E6F1B6 /* UIAccessibilityCustomAction+KIFAdditions.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		ACA242EB2C3DC32500E6F1B6 /* UIAccessibilityCustomAction+KIFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = ACA242E52C3DB46A00E6F1B6 /* UIAccessibilityCustomAction+KIFAdditions.m */; };
 		AE62FCD01A1D20E5002B10DA /* WebViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AE62FCCF1A1D20E5002B10DA /* WebViewTests.m */; };
 		AE62FCD61A1D2447002B10DA /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE62FCD51A1D2447002B10DA /* WebViewController.m */; };
