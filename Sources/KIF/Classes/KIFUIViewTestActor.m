@@ -161,7 +161,12 @@ NSString *const inputFieldTestString = @"Testing";
     NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
         NSArray *actions = [evaluatedObject accessibilityCustomActions];
         for (UIAccessibilityCustomAction *action in actions) {
-            if ([action.name isEqualToString: name]) {
+            NSString *actionName = [action name];
+            if ([actionName isKindOfClass:[NSAttributedString class]]) {
+                actionName = [(NSAttributedString *)actionName string];
+            }
+
+            if ([actionName isEqualToString: name]) {
                 return true;
             }
         }
@@ -409,7 +414,12 @@ NSString *const inputFieldTestString = @"Testing";
     
     [self runBlock:^KIFTestStepResult(NSError **error) {
         for (UIAccessibilityCustomAction *action in actions) {
-            if ([action.name isEqualToString: name]) {
+            NSString *actionName = [action name];
+            if ([actionName isKindOfClass:[NSAttributedString class]]) {
+                actionName = [(NSAttributedString *)actionName string];
+            }
+
+            if ([actionName isEqualToString: name]) {
                 if([action activate]) {
                     return KIFTestStepResultSuccess;
                 }
