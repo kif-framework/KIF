@@ -118,11 +118,19 @@ extern NSString *const inputFieldTestString;
 
 /*!
  @abstract Adds a given predicate to the tester's search predicate.
- @description The given predicate will be evaluated when searching for a matching view. You likely wont need this method very often, and should rely on the accessibility properties when possibile.
+ @discussion The given predicate will be evaluated when searching for a matching view. You likely wont need this method very often, and should rely on the accessibility properties when possibile.
  @param predicate The predicate to add to the tester's search predicate.
  @return The message reciever, these methods are intended to be chained together.
  */
 - (instancetype)usingPredicate:(NSPredicate *)predicate;
+
+/*!
+ @abstract Adds a check for an accessibility custom action with a provided name to the tester's search predicate.
+ @discussion The tester will evaluate accessibility elements looking for a matching accessibility custom action.
+ @param name The name of the custom action providd by element to match.
+ @return The message reciever, these methods are intended to be chained together.
+ */
+- (instancetype)usingCustomActionWithName:(NSString *)name;
 
 #pragma mark - Acting on Accessibility Elements
 
@@ -170,6 +178,12 @@ extern NSString *const inputFieldTestString;
  @param edge The edge from which the swipe gesture should start.
  */
 - (void)swipeFromEdge:(UIRectEdge)edge;
+
+/*!
+ @abstract Activates a custom accessibility action available on the view..
+ @param name The name of the custom action to activate.
+ */
+- (void)activateCustomActionWithName:(NSString *)name;
 
 #pragma mark Waiting & Finding
 

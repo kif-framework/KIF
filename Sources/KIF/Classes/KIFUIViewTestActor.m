@@ -15,6 +15,7 @@
 #import "NSPredicate+KIFAdditions.h"
 #import "NSString+KIFAdditions.h"
 #import "UIAccessibilityElement-KIFAdditions.h"
+#import "UIAccessibilityCustomAction+KIFAdditions.h"
 #import "UIApplication-KIFAdditions.h"
 #import "UIWindow-KIFAdditions.h"
 #import "UIDatePicker+KIFAdditions.h"
@@ -152,6 +153,21 @@ NSString *const inputFieldTestString = @"Testing";
     }];
     predicate.kifPredicateDescription = [NSString stringWithFormat:@"Is First Responder"];
     
+    return [self usingPredicate:predicate];
+}
+
+- (instancetype)usingCustomActionWithName:(NSString *)name
+{
+    NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
+        NSArray *actions = [evaluatedObject accessibilityCustomActions];
+        for (UIAccessibilityCustomAction *action in actions) {
+            if ([action.name isEqualToString: name]) {
+                return true;
+            }
+        }
+        return false;
+    }];
+    predicate.kifPredicateDescription = [NSString stringWithFormat:@"Custom Action with name equal to \"%@\"", name];
     return [self usingPredicate:predicate];
 }
 
@@ -383,6 +399,26 @@ NSString *const inputFieldTestString = @"Testing";
 - (void)swipeFromEdge:(UIRectEdge)edge
 {
     [self.actor swipeFromEdge:edge];
+}
+
+- (void)activateCustomActionWithName:(NSString *)name;
+{
+    KIFUIObject *found = [[self usingCustomActionWithName:name] _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
+    
+    NSArray *actions = [found.element accessibilityCustomActions];
+    
+    [self runBlock:^KIFTestStepResult(NSError **error) {
+        for (UIAccessibilityCustomAction *action in actions) {
+            if ([action.name isEqualToString: name]) {
+                if([action activate]) {
+                    return KIFTestStepResultSuccess;
+                }
+                return KIFTestStepResultFailure;
+            }
+        }
+        return KIFTestStepResultFailure;
+    }];
+
 }
 
 #pragma mark - Scroll/Table/CollectionView Actions
