@@ -13,8 +13,8 @@
 - (BOOL)activate;
 {
     if (@available(iOS 13.0, *)) {
-        if (self.actionHandler && self.actionHandler(self)) {
-            return YES;
+        if (self.actionHandler) {
+            return self.actionHandler(self);
         }
     }
     
