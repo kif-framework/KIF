@@ -132,7 +132,12 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
 
 - (UIAccessibilityElement *)accessibilityElementMatchingBlock:(BOOL(^)(UIAccessibilityElement *))matchBlock;
 {
-    return [self accessibilityElementMatchingBlock:matchBlock notHidden:YES];
+    return [self accessibilityElementMatchingBlock:matchBlock disableScroll:NO];
+}
+
+- (UIAccessibilityElement *)accessibilityElementMatchingBlock:(BOOL(^)(UIAccessibilityElement *))matchBlock disableScroll:(BOOL)scrollDisabled;
+{
+    return [self accessibilityElementMatchingBlock:matchBlock notHidden:YES disableScroll:scrollDisabled];
 }
 
 - (BOOL)isPossiblyVisibleInWindow
@@ -176,7 +181,7 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
     }
 }
 
-- (UIAccessibilityElement *)accessibilityElementMatchingBlock:(BOOL(^)(UIAccessibilityElement *))matchBlock notHidden:(BOOL)notHidden;
+- (UIAccessibilityElement *)accessibilityElementMatchingBlock:(BOOL(^)(UIAccessibilityElement *))matchBlock notHidden:(BOOL)notHidden disableScroll:(BOOL)scrollDisabled;
 {
     if (notHidden && self.hidden) {
         return nil;
@@ -204,11 +209,11 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
     // rather than the real subviews it contains. We want the real views if possible.
     // UITableViewCell is such an offender.
     for (UIView *view in [self.subviews reverseObjectEnumerator]) {
-        UIAccessibilityElement *element = [view accessibilityElementMatchingBlock:matchBlock];
-        
+        UIAccessibilityElement *element = [view accessibilityElementMatchingBlock:matchBlock disableScroll:scrollDisabled];
+
         if (!element) {
             UIView* fallbackView = [self tryGetiOS16KeyboardFallbackViewFromParentView:view];
-            element = [fallbackView accessibilityElementMatchingBlock:matchBlock];
+            element = [fallbackView accessibilityElementMatchingBlock:matchBlock disableScroll:scrollDisabled];
         }
         
         if (!element) {
@@ -272,7 +277,7 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
         }
     }
     
-    if (!matchingButOccludedElement && self.window) {
+    if (!scrollDisabled && !matchingButOccludedElement && self.window) {
         CGPoint scrollContentOffset = {-1.0, -1.0};
         UIScrollView *scrollView = nil;
         if ([self isKindOfClass:[UITableView class]]) {
@@ -325,7 +330,7 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
                         [tableView scrollRectToVisible:sectionRect animated:NO];
 
                         UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-                        UIAccessibilityElement *element = [cell accessibilityElementMatchingBlock:matchBlock notHidden:NO];
+                        UIAccessibilityElement *element = [cell accessibilityElementMatchingBlock:matchBlock notHidden:NO disableScroll:scrollDisabled];
 
                         // Skip this cell if it isn't the one we're looking for
                         if (!element) {
@@ -335,7 +340,7 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
 
                     // Note: using KIFRunLoopRunInModeRelativeToAnimationSpeed here may cause tests to stall
                     CFRunLoopRunInMode(UIApplicationCurrentRunMode, delay, false);
-                    return [self accessibilityElementMatchingBlock:matchBlock];
+                    return [self accessibilityElementMatchingBlock:matchBlock disableScroll:scrollDisabled];
                 }
             }
 
@@ -373,8 +378,8 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
                             [collectionView.delegate collectionView:collectionView willDisplayCell:cell forItemAtIndexPath:indexPath];
                         }
                         
-                        UIAccessibilityElement *element = [cell accessibilityElementMatchingBlock:matchBlock notHidden:NO];
-                        
+                        UIAccessibilityElement *element = [cell accessibilityElementMatchingBlock:matchBlock notHidden:NO disableScroll:scrollDisabled];
+
                         // Remove the cell from the collection view so that it doesn't stick around
                         [cell removeFromSuperview];
                         
@@ -392,7 +397,7 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
                     CFRunLoopRunInMode(UIApplicationCurrentRunMode, 0.5, false);
                     
                     // Now try finding the element again
-                    return [self accessibilityElementMatchingBlock:matchBlock];
+                    return [self accessibilityElementMatchingBlock:matchBlock disableScroll:scrollDisabled];
                 }
             }
         }

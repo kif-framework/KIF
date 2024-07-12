@@ -191,6 +191,15 @@
     }];
 }
 
+- (BOOL) tryFindingViewInFrameWithAccessibilityIdentifier:(NSString *)accessibilityIdentifier
+{
+    NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(id  _Nullable evaluatedObject, NSDictionary<NSString *,id> * _Nullable bindings) {
+        return [[evaluatedObject accessibilityIdentifier] isEqualToString:accessibilityIdentifier];
+    }];
+    // Simone - we don't want scrolling if we are in this method!!
+    return [UIAccessibilityElement accessibilityElement:nil view:nil withElementMatchingPredicate:predicate tappable:NO error:nil disableScroll:YES];
+}
+
 - (BOOL) tryFindingViewWithAccessibilityIdentifier:(NSString *)accessibilityIdentifier
 {
     NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(id  _Nullable evaluatedObject, NSDictionary<NSString *,id> * _Nullable bindings) {
