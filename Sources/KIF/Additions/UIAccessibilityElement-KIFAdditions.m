@@ -99,7 +99,7 @@ MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
 
     if (!element) {
         if (error) {
-            *error = [self errorForFailingPredicate:predicate];
+            *error = [self errorForFailingPredicate:predicate disableScroll:scrollDisabled];
         }
         return NO;
     }
@@ -276,9 +276,9 @@ MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
     return view;
 }
 
-+ (NSError *)errorForFailingPredicate:(NSPredicate*)failingPredicate;
++ (NSError *)errorForFailingPredicate:(NSPredicate*)failingPredicate disableScroll:(BOOL) scrollDisabled;
 {
-    NSPredicate *closestMatchingPredicate = [self findClosestMatchingPredicate:failingPredicate];
+    NSPredicate *closestMatchingPredicate = [self findClosestMatchingPredicate:failingPredicate disableScroll:scrollDisabled];
     if (closestMatchingPredicate) {
         return [NSError KIFErrorWithFormat:@"Found element with %@ but not %@", \
                 closestMatchingPredicate.kifPredicateDescription, \
@@ -287,7 +287,7 @@ MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
     return [NSError KIFErrorWithFormat:@"Could not find element with %@", failingPredicate.kifPredicateDescription];
 }
 
-+ (NSPredicate *)findClosestMatchingPredicate:(NSPredicate *)aPredicate;
++ (NSPredicate *)findClosestMatchingPredicate:(NSPredicate *)aPredicate disableScroll:(BOOL) scrollDisabled;
 {
     if (!aPredicate) {
         return nil;
@@ -295,7 +295,7 @@ MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
     
     UIAccessibilityElement *match = [[UIApplication sharedApplication] accessibilityElementMatchingBlock:^BOOL (UIAccessibilityElement *element) {
         return [aPredicate evaluateWithObject:element];
-    }];
+    } disableScroll:scrollDisabled];
     if (match) {
         return aPredicate;
     }
@@ -313,7 +313,7 @@ MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
             if (predicateMinusOneCondition) {
                 UIAccessibilityElement *match = [[UIApplication sharedApplication] accessibilityElementMatchingBlock:^BOOL (UIAccessibilityElement *element) {
                     return [predicateMinusOneCondition evaluateWithObject:element];
-                }];
+                } disableScroll:scrollDisabled];
                 if (match) {
                     return predicateMinusOneCondition;
                 }
