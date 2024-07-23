@@ -67,8 +67,13 @@
 
 - (BOOL)tryFindingAccessibilityElement:(out UIAccessibilityElement * __autoreleasing *)element view:(out UIView * __autoreleasing *)view withElementMatchingPredicate:(NSPredicate *)predicate tappable:(BOOL)mustBeTappable error:(out NSError **)error
 {
+    [self tryFindingAccessibilityElement:element view:view withElementMatchingPredicate:predicate tappable:mustBeTappable error:error disableScroll:NO];
+}
+
+- (BOOL)tryFindingAccessibilityElement:(out UIAccessibilityElement * __autoreleasing *)element view:(out UIView * __autoreleasing *)view withElementMatchingPredicate:(NSPredicate *)predicate tappable:(BOOL)mustBeTappable error:(out NSError **)error disableScroll:(BOOL)scrollDisabled
+{
     return [self tryRunningBlock:^KIFTestStepResult(NSError *__autoreleasing *error) {
-        return [UIAccessibilityElement accessibilityElement:element view:view withElementMatchingPredicate:predicate tappable:mustBeTappable error:error] ? KIFTestStepResultSuccess : KIFTestStepResultWait;
+        return [UIAccessibilityElement accessibilityElement:element view:view withElementMatchingPredicate:predicate tappable:mustBeTappable error:error disableScroll:scrollDisabled] ? KIFTestStepResultSuccess : KIFTestStepResultWait;
     } complete:nil timeout:1.0 error:error];
 }
 
