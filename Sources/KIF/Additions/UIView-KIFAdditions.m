@@ -209,6 +209,7 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
     // rather than the real subviews it contains. We want the real views if possible.
     // UITableViewCell is such an offender.
     for (UIView *view in [self.subviews reverseObjectEnumerator]) {
+
         UIAccessibilityElement *element = [view accessibilityElementMatchingBlock:matchBlock disableScroll:scrollDisabled];
 
         if (!element) {
@@ -225,7 +226,7 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
         
         if ([viewForElement isTappableInRect:accessibilityFrame]) {
             return element;
-        } else {
+        } else if (!scrollDisabled || [viewForElement isVisibleInWindowFrame]){
             matchingButOccludedElement = element;
         }
     }
@@ -244,7 +245,7 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
 
             if ([viewForElement isTappableInRect:accessibilityFrame]) {
                 return element;
-            } else {
+            } else if (!scrollDisabled || [viewForElement isVisibleInWindowFrame]){
                 matchingButOccludedElement = element;
                 continue;
             }
@@ -280,6 +281,8 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
     if (!scrollDisabled && !matchingButOccludedElement && self.window) {
         CGPoint scrollContentOffset = {-1.0, -1.0};
         UIScrollView *scrollView = nil;
+
+        // Table view - scroll to non visible cells
         if ([self isKindOfClass:[UITableView class]]) {
             NSString * subViewName = nil;
             //special case for UIPickerView (which has a private class UIPickerTableView)
@@ -330,7 +333,7 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
                         [tableView scrollRectToVisible:sectionRect animated:NO];
 
                         UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-                        UIAccessibilityElement *element = [cell accessibilityElementMatchingBlock:matchBlock notHidden:NO disableScroll:scrollDisabled];
+                        UIAccessibilityElement *element = [cell accessibilityElementMatchingBlock:matchBlock notHidden:NO disableScroll:NO];
 
                         // Skip this cell if it isn't the one we're looking for
                         if (!element) {
@@ -340,7 +343,7 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
 
                     // Note: using KIFRunLoopRunInModeRelativeToAnimationSpeed here may cause tests to stall
                     CFRunLoopRunInMode(UIApplicationCurrentRunMode, delay, false);
-                    return [self accessibilityElementMatchingBlock:matchBlock disableScroll:scrollDisabled];
+                    return [self accessibilityElementMatchingBlock:matchBlock disableScroll:NO];
                 }
             }
 
@@ -378,7 +381,7 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
                             [collectionView.delegate collectionView:collectionView willDisplayCell:cell forItemAtIndexPath:indexPath];
                         }
                         
-                        UIAccessibilityElement *element = [cell accessibilityElementMatchingBlock:matchBlock notHidden:NO disableScroll:scrollDisabled];
+                        UIAccessibilityElement *element = [cell accessibilityElementMatchingBlock:matchBlock notHidden:NO disableScroll:NO];
 
                         // Remove the cell from the collection view so that it doesn't stick around
                         [cell removeFromSuperview];
@@ -397,7 +400,7 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
                     CFRunLoopRunInMode(UIApplicationCurrentRunMode, 0.5, false);
                     
                     // Now try finding the element again
-                    return [self accessibilityElementMatchingBlock:matchBlock disableScroll:scrollDisabled];
+                    return [self accessibilityElementMatchingBlock:matchBlock disableScroll:NO];
                 }
             }
         }
