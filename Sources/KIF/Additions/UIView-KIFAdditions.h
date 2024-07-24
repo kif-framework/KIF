@@ -35,7 +35,7 @@ typedef CGPoint KIFDisplacement;
  @method accessibilityElementMatchingBlock:
  @abstract Finds the descendent accessibility element that matches the conditions defined by the match block.
  @param matchBlock A block which returns YES for matching elements.
- @param disableScroll Disable scroll performing the search only in the current visible frame.
+ @param scrollDisabled Disable scroll performing the search only in the current visible frame.
  @result The matching accessibility element.
  */
 - (UIAccessibilityElement *)accessibilityElementMatchingBlock:(BOOL(^)(UIAccessibilityElement *))matchBlock disableScroll:(BOOL)scrollDisabled;

@@ -177,6 +177,11 @@ MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
     return nil;
 }
 
++ (UIView *)viewContainingAccessibilityElement:(UIAccessibilityElement *)element tappable:(BOOL)mustBeTappable error:(NSError **)error;
+{
+    return [self viewContainingAccessibilityElement:element tappable:mustBeTappable error:error disableScroll:NO];
+}
+
 + (UIView *)viewContainingAccessibilityElement:(UIAccessibilityElement *)element tappable:(BOOL)mustBeTappable error:(NSError **)error disableScroll:(BOOL)scrollDisabled;
 {
     // Small safety mechanism.  If someone calls this method after a failing call to accessibilityElementWithLabel:..., we don't want to wipe out the error message.

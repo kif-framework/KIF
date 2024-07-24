@@ -248,7 +248,7 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  @param view To be populated with the matching view when found.  Can be NULL.
  @param predicate The predicate to match.
  @param mustBeTappable If YES, only an element that can be tapped on will be returned.
- @param disableScroll If YES, disable scroll performing the search only in the current visible frame.
+ @param scrollDisabled If YES, disable scroll performing the search only in the current visible frame.
  */
 - (void)waitForAccessibilityElement:(UIAccessibilityElement **)element view:(out UIView **)view withElementMatchingPredicate:(NSPredicate *)predicate tappable:(BOOL)mustBeTappable disableScroll:(BOOL)scrollDisabled;
 

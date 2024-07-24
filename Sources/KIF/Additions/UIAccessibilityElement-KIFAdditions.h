@@ -98,7 +98,7 @@
  @param foundView The first matching view for @c foundElement as determined by the accessibility API or @c nil if the view is hidden or fails the tappability test. Can be @c NULL.
  @param predicate The predicate to test the accessibility element on.
  @param error A reference to an error object to be populated when no matching element or view is found.  Can be @c NULL.
- @param disableScroll Disable scroll performing the search only in the current visible frame.
+ @param scrollDisabled Disable scroll performing the search only in the current visible frame.
  @result @c YES if the element and view were found.  Otherwise @c NO.
  */
 + (BOOL)accessibilityElement:(out UIAccessibilityElement **)foundElement view:(out UIView **)foundView withElementMatchingPredicate:(NSPredicate *)predicate tappable:(BOOL)mustBeTappable error:(out NSError **)error disableScroll:(BOOL)scrollDisabled;
@@ -121,7 +121,7 @@
  @param element The accessibility element.
  @param mustBeTappable If @c YES, a tappability test will be performed.
  @param error A reference to an error object to be populated when no element is found.  Can be @c NULL.
- @param disableScroll Disable scroll performing the search only in the current visible frame.
+ @param scrollDisabled Disable scroll performing the search only in the current visible frame.
  @return The first matching view as determined by the accessibility API or nil if the view is hidden or fails the tappability test.
  */
 + (UIView *)viewContainingAccessibilityElement:(UIAccessibilityElement *)element tappable:(BOOL)mustBeTappable error:(NSError **)error disableScroll:(BOOL)scrollDisabled;

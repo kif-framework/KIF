@@ -67,7 +67,7 @@
 
 - (BOOL)tryFindingAccessibilityElement:(out UIAccessibilityElement * __autoreleasing *)element view:(out UIView * __autoreleasing *)view withElementMatchingPredicate:(NSPredicate *)predicate tappable:(BOOL)mustBeTappable error:(out NSError **)error
 {
-    [self tryFindingAccessibilityElement:element view:view withElementMatchingPredicate:predicate tappable:mustBeTappable error:error disableScroll:NO];
+    return [self tryFindingAccessibilityElement:element view:view withElementMatchingPredicate:predicate tappable:mustBeTappable error:error disableScroll:NO];
 }
 
 - (BOOL)tryFindingAccessibilityElement:(out UIAccessibilityElement * __autoreleasing *)element view:(out UIView * __autoreleasing *)view withElementMatchingPredicate:(NSPredicate *)predicate tappable:(BOOL)mustBeTappable error:(out NSError **)error disableScroll:(BOOL)scrollDisabled

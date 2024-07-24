@@ -53,7 +53,7 @@ CF_EXPORT SInt32 KIFRunLoopRunInModeRelativeToAnimationSpeed(CFStringRef mode, C
  @abstract Finds an accessibility element where @c matchBlock returns @c YES, across all windows in the application starting at the fronmost window.
  @discussion This method should be used if @c accessibilityElementWithLabel:accessibilityValue:traits: does not meet your requirements.  For example, if you are searching for an element that begins with a pattern or if of a certain view type.
  @param matchBlock  A block to be performed on each element to see if it passes.
- @param disableScroll  Disable scroll performing the search only in the current visible frame.
+ @param scrollDisabled  Disable scroll performing the search only in the current visible frame.
  */
 - (UIAccessibilityElement *)accessibilityElementMatchingBlock:(BOOL(^)(UIAccessibilityElement *))matchBlock disableScroll:(BOOL)scrollDisabled;
 
