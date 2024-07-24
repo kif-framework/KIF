@@ -96,6 +96,27 @@
     }
 }
 
+- (void)testTryFindingOutOfFrameViewWithAccessibilityIdentifier
+{
+    if (![tester tryFindingViewWithAccessibilityIdentifier:@"outOfFrameView"])
+    {
+        [tester fail];
+    }
+}
+
+- (void)testTryFindingViewInFrameWithAccessibilityIdentifier
+{
+    if (![tester tryFindingViewInFrameWithAccessibilityIdentifier:@"idGreeting"])
+    {
+        [tester fail];
+    }
+
+    if ([tester tryFindingViewInFrameWithAccessibilityIdentifier:@"outOfFrameView"])
+    {
+        [tester fail];
+    }
+}
+
 - (void) testTappingStepperIncrement
 {
     UILabel *uiLabel = (UILabel *)[tester waitForViewWithAccessibilityIdentifier:@"tapViewController.stepperValue"];
