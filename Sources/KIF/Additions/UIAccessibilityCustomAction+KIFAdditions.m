@@ -10,7 +10,7 @@
 
 @implementation UIAccessibilityCustomAction (KIFAdditions)
 
-- (BOOL)activate;
+- (BOOL)KIF_activate;
 {
     if (@available(iOS 13.0, *)) {
         if (self.actionHandler) {
@@ -41,6 +41,15 @@
         return returnValue;
     }
     return NO;
+}
+
+- (NSString *)KIF_normalizedName;
+{
+    NSString *name = [self name];
+    if ([name isKindOfClass:[NSAttributedString class]]) {
+        name = [(NSAttributedString *)name string];
+    }
+    return name;
 }
 
 @end

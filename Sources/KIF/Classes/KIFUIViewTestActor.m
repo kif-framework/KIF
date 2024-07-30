@@ -162,13 +162,7 @@ NSString *const inputFieldTestString = @"Testing";
         if([evaluatedObject respondsToSelector:@selector(accessibilityCustomActions)]) {
             NSArray *actions = [evaluatedObject accessibilityCustomActions];
             for (UIAccessibilityCustomAction *action in actions) {
-                NSString *actionName = [action name];
-                if ([actionName isKindOfClass:[NSAttributedString class]]) {
-                    actionName = [(NSAttributedString *)actionName string];
-                }
-                if ([actionName isEqualToString: name]) {
-                    return true;
-                }
+                return [[action KIF_normalizedName] isEqualToString: name];
             }
         }
         return false;
@@ -415,13 +409,8 @@ NSString *const inputFieldTestString = @"Testing";
     
     [self runBlock:^KIFTestStepResult(NSError **error) {
         for (UIAccessibilityCustomAction *action in actions) {
-            NSString *actionName = [action name];
-            if ([actionName isKindOfClass:[NSAttributedString class]]) {
-                actionName = [(NSAttributedString *)actionName string];
-            }
-
-            if ([actionName isEqualToString: name]) {
-                if([action activate]) {
+            if ([[action KIF_normalizedName] isEqualToString: name]) {
+                if([action KIF_activate]) {
                     return KIFTestStepResultSuccess;
                 }
                 return KIFTestStepResultFailure;

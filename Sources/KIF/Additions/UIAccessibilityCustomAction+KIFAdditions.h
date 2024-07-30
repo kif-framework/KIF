@@ -9,7 +9,9 @@
 
 @interface UIAccessibilityCustomAction (KIFAdditions)
 
-- (BOOL)activate;
+- (BOOL)KIF_activate;
+
+- (NSString *)KIF_normalizedName;
 
 @end
 
