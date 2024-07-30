@@ -136,7 +136,7 @@
         case UIDatePickerModeCountDownTimer:
             printf(" UIDatePickerModeCountDownTimer");
             break;
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_17_4
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 170400 //__IPHONE_17_4
         case UIDatePickerModeYearAndMonth:
             printf(" UIDatePickerModeYearAndMonth");
             break;
