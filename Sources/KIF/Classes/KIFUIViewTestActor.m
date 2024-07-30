@@ -395,13 +395,17 @@ NSString *const inputFieldTestString = @"Testing";
     [self.actor swipeFromEdge:edge];
 }
 
-- (void)activateCustomActionWithName:(NSString *)name;
+- (void)activateCustomActionWithName:(NSString *)name;{
+    [self activateCustomActionWithName:name expectedResult:YES];
+}
+
+- (void)activateCustomActionWithName:(NSString *)name expectedResult:(BOOL)expectedResult;
 {
     @autoreleasepool {
         KIFUIObject *found = [self _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
         
         [self runBlock:^KIFTestStepResult(NSError **error) {
-            if([[found.element KIF_customActionWithName:name] KIF_activate]) {
+            if([[found.element KIF_customActionWithName:name] KIF_activate] == expectedResult) {
                 return KIFTestStepResultSuccess;
             }
             return KIFTestStepResultFailure;

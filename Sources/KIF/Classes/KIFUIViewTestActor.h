@@ -180,10 +180,18 @@ extern NSString *const inputFieldTestString;
 - (void)swipeFromEdge:(UIRectEdge)edge;
 
 /*!
- @abstract Activates a custom accessibility action available on the view..
+ @abstract Activates a custom accessibility action available on the element..
  @param name The name of the custom action to activate.
  */
 - (void)activateCustomActionWithName:(NSString *)name;
+
+/*!
+ @abstract Activates a custom accessibility action available on the element..
+ @param name The name of the custom action to activate.
+ @param expectedResult The expected boolean return from activation the custom action.
+ */
+- (void)activateCustomActionWithName:(NSString *)name expectedResult:(BOOL)expectedResult;
+
 
 #pragma mark Waiting & Finding
 
