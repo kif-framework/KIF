@@ -40,6 +40,13 @@
         [invocation getReturnValue:&returnValue];
         return returnValue;
     }
+    NSString *targetStr = [self.target description];
+    NSString *selectorStr = NSStringFromSelector(self.selector);
+    [[NSException exceptionWithName:@"KIFUIAccessibilityCustomActionActivationException"
+                             reason:@"UIAccessibilityCustomAction Target does not respond to provided Selector."
+                           userInfo:@{@"Target" : targetStr, @"Selector" : selectorStr}]
+     raise];
+
     return NO;
 }
 
