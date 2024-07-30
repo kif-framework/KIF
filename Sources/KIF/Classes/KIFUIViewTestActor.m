@@ -159,15 +159,16 @@ NSString *const inputFieldTestString = @"Testing";
 - (instancetype)usingCustomActionWithName:(NSString *)name
 {
     NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
-        NSArray *actions = [evaluatedObject accessibilityCustomActions];
-        for (UIAccessibilityCustomAction *action in actions) {
-            NSString *actionName = [action name];
-            if ([actionName isKindOfClass:[NSAttributedString class]]) {
-                actionName = [(NSAttributedString *)actionName string];
-            }
-
-            if ([actionName isEqualToString: name]) {
-                return true;
+        if([evaluatedObject respondsToSelector:@selector(accessibilityCustomActions)]) {
+            NSArray *actions = [evaluatedObject accessibilityCustomActions];
+            for (UIAccessibilityCustomAction *action in actions) {
+                NSString *actionName = [action name];
+                if ([actionName isKindOfClass:[NSAttributedString class]]) {
+                    actionName = [(NSAttributedString *)actionName string];
+                }
+                if ([actionName isEqualToString: name]) {
+                    return true;
+                }
             }
         }
         return false;
