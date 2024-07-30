@@ -136,6 +136,11 @@
         case UIDatePickerModeCountDownTimer:
             printf(" UIDatePickerModeCountDownTimer");
             break;
+#if __IPHONE_OS_VERSION_MIN_REQUIRED >= 17040
+        case UIDatePickerModeYearAndMonth:
+            printf(" UIDatePickerModeYearAndMonth");
+            break;
+#endif
     }
     printf(")");
     printf(" (minute interval: %s)", @(datePicker.minuteInterval).stringValue.UTF8String);
