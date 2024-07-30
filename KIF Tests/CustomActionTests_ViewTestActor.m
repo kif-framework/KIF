@@ -29,9 +29,11 @@
         [[viewTester usingLabel:@"theStepper"] activateCustomActionWithName:@"Action With block handler"];
     }
     
-    for (NSString *name in @[@"Action without argument", @"Action with argument" ]) {
+    for (NSString *name in @[@"Action without argument", @"Action with argument"]) {
         [[viewTester usingLabel:@"theStepper"] activateCustomActionWithName:name];
     }
+    
+    [[viewTester usingLabel:@"theStepper"] activateCustomActionWithName:@"Action that fails" expectedResult:NO];
 }
 
 @end

@@ -98,10 +98,11 @@
 
 - (NSArray *)customActions
 {
+    NSArray *actions = @[self.customActionWithoutArgument, self.customActionWithArgument, self.customActionThatFails];
     if (@available(iOS 13.0, *)) {
-        return @[self.customActionWithBlock, self.customActionWithoutArgument, self.customActionWithArgument];
+        return [actions arrayByAddingObject: self.customActionWithBlock];
     }
-    return @[self.customActionWithoutArgument, self.customActionWithArgument];
+    return actions;
 }
 
 - (UIAccessibilityCustomAction *)customActionWithBlock
@@ -126,6 +127,10 @@
     return [[UIAccessibilityCustomAction alloc] initWithName:@"Action with argument" target:self selector:@selector(customActionHandlerWithArgument:)];
 }
 
+- (UIAccessibilityCustomAction *)customActionThatFails
+{
+    return [[UIAccessibilityCustomAction alloc] initWithName:@"Action that fails" target:self selector:@selector(customActionThatFails)];
+}
 
 - (BOOL)customActionHandlerWithoutArgument
 {
@@ -135,6 +140,11 @@
 - (BOOL)customActionHandlerWithArgument:(UIAccessibilityCustomAction *)action
 {
     return YES;
+}
+
+- (BOOL)customActionHandlerThatFails
+{
+    return NO;
 }
 
 #pragma mark - <UIImagePickerControllerDelegate>
