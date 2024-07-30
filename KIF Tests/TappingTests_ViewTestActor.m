@@ -80,5 +80,18 @@
     [[viewTester usingLabel:@"A\nB\nC\n\n"] tap];
 }
 
+//TODO: simone scionti - this test will be modified to simulate the breaking circumstances
+- (void)testIsSearchBarTappableUsingPlaceholderLabel
+{
+    if ([[[viewTester usingCurrentFrame] usingLabel:@"out of frame"] tryFindingTappableView])
+    {
+        [tester fail];
+    }
+
+    if (![[[viewTester usingCurrentFrame] usingLabel:@"Search"] tryFindingTappableView])
+    {
+        [tester fail];
+    }
+}
 
 @end
