@@ -136,7 +136,7 @@
         case UIDatePickerModeCountDownTimer:
             printf(" UIDatePickerModeCountDownTimer");
             break;
-#if __clang_major__ >= 15 // Xcode 15 or better. This might still error on xcode versions between 15.0 and 15.3, but that much harder to check for as they all use the same version of clang.
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_17_4
         case UIDatePickerModeYearAndMonth:
             printf(" UIDatePickerModeYearAndMonth");
             break;
