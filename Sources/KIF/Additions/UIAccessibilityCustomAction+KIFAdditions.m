@@ -8,6 +8,14 @@
 #import <UIKit/UIKit.h>
 #import "UIAccessibilityCustomAction+KIFAdditions.h"
 
+
+
+@interface UIAccessibilityCustomAction (KIFPrivate)
+
+- (NSString *)KIF_normalizedName;
+
+@end
+
 @implementation UIAccessibilityCustomAction (KIFAdditions)
 
 - (BOOL)KIF_activate;
@@ -57,6 +65,21 @@
         name = [(NSAttributedString *)name string];
     }
     return name;
+}
+
+@end
+
+
+@implementation NSObject (KIFCustomActionAdditions)
+
+- (UIAccessibilityCustomAction *)KIF_customActionWithName:(NSString *)name;
+{
+    for (UIAccessibilityCustomAction *action in [self.accessibilityCustomActions copy]) {
+        if ([name isEqualToString: [action KIF_normalizedName]]) {
+            return action;
+        }
+    }
+    return nil;
 }
 
 @end

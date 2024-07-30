@@ -7,11 +7,15 @@
 
 #import <UIKit/UIKit.h>
 
+@interface NSObject (KIFCustomActionAdditions)
+
+- (UIAccessibilityCustomAction *)KIF_customActionWithName:(NSString *)name;
+
+@end
+
 @interface UIAccessibilityCustomAction (KIFAdditions)
 
 - (BOOL)KIF_activate;
-
-- (NSString *)KIF_normalizedName;
 
 @end
 

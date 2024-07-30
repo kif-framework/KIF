@@ -159,13 +159,7 @@ NSString *const inputFieldTestString = @"Testing";
 - (instancetype)usingCustomActionWithName:(NSString *)name
 {
     NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
-        if([evaluatedObject respondsToSelector:@selector(accessibilityCustomActions)]) {
-            NSArray *actions = [evaluatedObject accessibilityCustomActions];
-            for (UIAccessibilityCustomAction *action in actions) {
-                return [[action KIF_normalizedName] isEqualToString: name];
-            }
-        }
-        return false;
+        return ([evaluatedObject KIF_customActionWithName:name] != nil);
     }];
     predicate.kifPredicateDescription = [NSString stringWithFormat:@"Custom Action with name equal to \"%@\"", name];
     return [self usingPredicate:predicate];
@@ -403,21 +397,16 @@ NSString *const inputFieldTestString = @"Testing";
 
 - (void)activateCustomActionWithName:(NSString *)name;
 {
-    KIFUIObject *found = [[self usingCustomActionWithName:name] _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
-    
-    NSArray *actions = [found.element accessibilityCustomActions];
-    
-    [self runBlock:^KIFTestStepResult(NSError **error) {
-        for (UIAccessibilityCustomAction *action in actions) {
-            if ([[action KIF_normalizedName] isEqualToString: name]) {
-                if([action KIF_activate]) {
-                    return KIFTestStepResultSuccess;
-                }
-                return KIFTestStepResultFailure;
+    @autoreleasepool {
+        KIFUIObject *found = [self _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
+        
+        [self runBlock:^KIFTestStepResult(NSError **error) {
+            if([[found.element KIF_customActionWithName:name] KIF_activate]) {
+                return KIFTestStepResultSuccess;
             }
-        }
-        return KIFTestStepResultFailure;
-    }];
+            return KIFTestStepResultFailure;
+        }];
+    }
 
 }
 
