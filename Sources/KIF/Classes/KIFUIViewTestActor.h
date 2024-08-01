@@ -188,7 +188,7 @@ extern NSString *const inputFieldTestString;
 /*!
  @abstract Activates a custom accessibility action available on the element..
  @param name The name of the custom action to activate.
- @param expectedResult The expected boolean return from activation the custom action.
+ @param expectedResult The expected boolean return from activation of the custom action.
  */
 - (void)activateCustomActionWithName:(NSString *)name expectedResult:(BOOL)expectedResult;
 
