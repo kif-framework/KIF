@@ -1588,7 +1588,7 @@
                                     <outlet property="delegate" destination="21" id="nKd-AR-TdK"/>
                                 </connections>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Hello" borderStyle="roundedRect" placeholder="out of frame" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Qs0-rL-Yva" userLabel="Out of frame view">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Hello" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Qs0-rL-Yva" userLabel="Out of frame view">
                                 <rect key="frame" x="131" y="2000" width="152" height="29"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinY="YES" flexibleMaxY="YES"/>
                                 <accessibility key="accessibilityConfiguration" hint="" label="Greeting">
@@ -1752,14 +1752,6 @@ Line Break
                                 </accessibility>
                                 <state key="normal" title="Test Suite"/>
                             </button>
-                            <searchBar contentMode="redraw" fixedFrame="YES" placeholder="Search" translatesAutoresizingMaskIntoConstraints="NO" id="2Mb-bR-KrW">
-                                <rect key="frame" x="0.0" y="322" width="414" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <textInputTraits key="textInputTraits"/>
-                                <connections>
-                                    <outlet property="delegate" destination="21" id="zHR-uq-6kB"/>
-                                </connections>
-                            </searchBar>
                         </subviews>
                         <color key="backgroundColor" red="1" green="0.99997437000274658" blue="0.99999129772186279" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
