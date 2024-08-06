@@ -53,13 +53,13 @@ jobs:
     - name: Build & Test
       run: ./scripts/ci.sh "${{ matrix.run-config['simulator'] }}"
 
-  build:
-    runs-on: macos-11
+  build_xcode15:
+    runs-on: macos-13
     strategy:
       matrix:
         run-config:
-          - { xcode_version: '13.0', simulator: 'name=iPhone SE (2nd generation),OS=15.0' }
-          - { xcode_version: '13.0', simulator: 'name=iPad Pro (12.9-inch) (5th generation),OS=15.0' }
+          - { xcode_version: '15.2', simulator: 'name=iPad Pro (12.9-inch) (6th generation),OS=17.2' }
+          - { xcode_version: '15.2', simulator: 'name=iPhone SE (3rd generation),OS=17.2' }
     steps:
     - name: Checkout Project
       uses: actions/checkout@v1
