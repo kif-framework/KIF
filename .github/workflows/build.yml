@@ -16,12 +16,12 @@ jobs:
       run: pod lib lint
 
   build_xcode14:
-    runs-on: macos-12
+    runs-on: macos-13
     strategy:
       matrix:
         run-config:
-          - { xcode_version: '14.1', simulator: 'name=iPad Pro (12.9-inch) (5th generation),OS=16.1' }
-          - { xcode_version: '14.1', simulator: 'name=iPhone SE (2nd generation),OS=16.1' }
+          - { xcode_version: '14.3.1', simulator: 'name=iPad Air (5th generation),OS=16.4' }
+          - { xcode_version: '14.3.1', simulator: 'name=iPhone 14,OS=16.4' }
     steps:
     - name: Checkout Project
       uses: actions/checkout@v1
@@ -54,12 +54,12 @@ jobs:
       run: ./scripts/ci.sh "${{ matrix.run-config['simulator'] }}"
 
   build_xcode15:
-    runs-on: macos-13
+    runs-on: macos-14
     strategy:
       matrix:
         run-config:
-          - { xcode_version: '15.2', simulator: 'name=iPad Pro (12.9-inch) (6th generation),OS=17.2' }
-          - { xcode_version: '15.2', simulator: 'name=iPhone SE (3rd generation),OS=17.2' }
+          - { xcode_version: '15.4', simulator: 'name=iPad Pro 13-inch (M4),OS=17.5' }
+          - { xcode_version: '15.4', simulator: 'name=iPhone 15,OS=17.5' }
     steps:
     - name: Checkout Project
       uses: actions/checkout@v1
