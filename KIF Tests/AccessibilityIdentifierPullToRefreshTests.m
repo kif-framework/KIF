@@ -8,6 +8,8 @@
 
 #import <KIF/KIFTestCase.h>
 #import <KIF/KIFUITestActor-IdentifierTests.h>
+#import <KIF/KIFUIViewTestActor.h>
+
 #import <KIF/KIFTestStepValidation.h>
 
 @interface AccessibilityIdentifierPullToRefreshTests : KIFTestCase
@@ -15,31 +17,34 @@
 
 @implementation AccessibilityIdentifierPullToRefreshTests
 
--(void) testPullToRefreshByAccessibilityIdentifier
+- (void)beforeAll
 {
-	UITableView *tableView;
-	[tester waitForAccessibilityElement:NULL view:&tableView withIdentifier:@"Test Suite TableView" tappable:NO];
-
-    [tester tapViewWithAccessibilityLabel:@"Reset Refresh Control"];
-	[tester pullToRefreshViewWithAccessibilityIdentifier:@"Test Suite TableView"];
-	[tester waitForViewWithAccessibilityLabel:@"Bingo!"];
-	[tester waitForAbsenceOfViewWithAccessibilityLabel:@"Bingo!"];
+    // Ensure that we've scrolled the TestSuite VC back to the top
+    [tester waitForViewWithAccessibilityLabel:@"Tapping"];
 }
 
--(void) testPullToRefreshByAccessibilityIdentifierWithDuration
+- (void)testPullToRefreshByAccessibilityIdentifier
 {
-	UITableView *tableView;
-	[tester waitForAccessibilityElement:NULL view:&tableView withIdentifier:@"Test Suite TableView" tappable:NO];
+    [tester waitForViewWithAccessibilityIdentifier:@"Test Suite TableView"];
+    [tester pullToRefreshViewWithAccessibilityIdentifier:@"Test Suite TableView"];
 
-    [tester tapViewWithAccessibilityLabel:@"Reset Refresh Control"];
-	[tester pullToRefreshViewWithAccessibilityIdentifier:@"Test Suite TableView" pullDownDuration:KIFPullToRefreshInAboutThreeSeconds];
-	[tester waitForViewWithAccessibilityLabel:@"Bingo!"];
-	[tester waitForAbsenceOfViewWithAccessibilityLabel:@"Bingo!"];
+    // Implicit scrolling of the table view when searching the view hierarchy is causing "Bingo!" to disappear.
+    // Hacky to use viewTester here, but the alternative would be to expose
+    // `usingCurrentFrame` functionality on the legacy `tester` API.
+    [[[viewTester usingCurrentFrame] usingLabel:@"Bingo!"] waitForView];
+    [[[viewTester usingCurrentFrame] usingLabel:@"Bingo!"] waitForAbsenceOfView];
 }
 
-- (void)afterEach
+- (void)testPullToRefreshByAccessibilityIdentifierWithDuration
 {
-    [tester waitForAnimationsToFinish];
+    [tester waitForViewWithAccessibilityIdentifier:@"Test Suite TableView"];
+    [tester pullToRefreshViewWithAccessibilityIdentifier:@"Test Suite TableView" pullDownDuration:KIFPullToRefreshInAboutAHalfSecond];
+
+    // Implicit scrolling of the table view when searching the view hierarchy is causing "Bingo!" to disappear.
+    // Hacky to use viewTester here, but the alternative would be to expose
+    // `usingCurrentFrame` functionality on the legacy `tester` API.
+    [[[viewTester usingCurrentFrame] usingLabel:@"Bingo!"] waitForView];
+    [[[viewTester usingCurrentFrame] usingLabel:@"Bingo!"] waitForAbsenceOfView];
 }
 
 @end

@@ -8,12 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+
 @interface TestSuiteViewController : UITableViewController
 @end
 
 @implementation TestSuiteViewController
 
--(void) viewDidLoad
+- (void)viewDidLoad
 {
 	[super viewDidLoad];
 
@@ -30,7 +31,7 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (void) setupRefreshControl
+- (void)setupRefreshControl
 {
 	self.refreshControl = [[UIRefreshControl alloc] init];
 	self.refreshControl.backgroundColor = [UIColor grayColor];
@@ -120,10 +121,14 @@
 
 -(void)pullToRefreshHandler
 {
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(4.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"Bingo!", @"") attributes:nil];
-        [self.refreshControl endRefreshing];
-        [self.tableView setContentOffset:CGPointZero animated:YES];
+
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self.refreshControl endRefreshing];
+            [self resetRefreshControl];
+            [self.tableView setContentOffset:CGPointZero animated:YES];
+        });
     });
 }
 

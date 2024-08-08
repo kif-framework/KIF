@@ -87,7 +87,7 @@
     KIFAssertEqual(YES, canOpenURLReturnValue, @"canOpenURL: should have returned YES");
 
     [system waitForApplicationToOpenAnyURLWhileExecutingBlock:^{
-        NSURL *someURL = [NSURL URLWithString:@"423543523454://"];
+        NSURL *someURL = [NSURL URLWithString:@"test12345://"];
         canOpenURLReturnValue = [[UIApplication sharedApplication] canOpenURL:someURL];
         [[UIApplication sharedApplication] openURL:someURL options:[NSDictionary dictionary] completionHandler:nil];
     } returning:YES];

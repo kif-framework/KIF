@@ -212,4 +212,10 @@
     textTitleSelectionTextField.accessibilityLabel = @"Text Title Selection";
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [self.view endEditing:YES];
+    [super viewWillDisappear:animated];
+}
+
 @end

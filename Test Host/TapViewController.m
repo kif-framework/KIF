@@ -78,10 +78,10 @@
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-    [textField resignFirstResponder];
-    
     if (textField == self.otherTextField) {
         [self.greetingTextField becomeFirstResponder];
+    } else {
+        [textField resignFirstResponder];
     }
     return NO;
 }
