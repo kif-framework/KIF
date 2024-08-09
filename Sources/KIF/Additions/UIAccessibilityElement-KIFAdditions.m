@@ -116,7 +116,7 @@ MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
 
 + (BOOL)accessibilityElement:(out UIAccessibilityElement *__autoreleasing *)foundElement view:(out UIView *__autoreleasing *)foundView withElementMatchingPredicate:(NSPredicate *)predicate fromRootView:(UIView *)fromView tappable:(BOOL)mustBeTappable error:(out NSError *__autoreleasing *)error
 {
-    return [self accessibilityElement: foundElement view:foundView withElementMatchingPredicate:predicate tappable:mustBeTappable error:error disableScroll:NO];
+    return [self accessibilityElement:foundElement view:foundView withElementMatchingPredicate:predicate fromRootView:fromView tappable:mustBeTappable error:error disableScroll:NO];
 }
 
 + (BOOL)accessibilityElement:(out UIAccessibilityElement *__autoreleasing *)foundElement view:(out UIView *__autoreleasing *)foundView withElementMatchingPredicate:(NSPredicate *)predicate fromRootView:(UIView *)fromView tappable:(BOOL)mustBeTappable error:(out NSError *__autoreleasing *)error disableScroll:(BOOL)scrollDisabled
