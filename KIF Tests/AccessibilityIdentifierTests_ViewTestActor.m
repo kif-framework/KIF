@@ -73,6 +73,49 @@
     [[viewTester usingIdentifier:@"idGreeting"] clearAndEnterText:@"Yo"];
 }
 
+- (void)testTryFindingOutOfFrameViewWithAccessibilityIdentifier
+{
+    if (![[viewTester usingIdentifier:@"outOfFrameView"] tryFindingView])
+    {
+        [tester fail];
+    }
+}
+
+- (void)testTryFindingViewInFrameWithAccessibilityIdentifier
+{
+    if (![[[viewTester usingCurrentFrame] usingIdentifier:@"idGreeting"] tryFindingView])
+    {
+        [tester fail];
+    }
+
+    if ([[[viewTester usingCurrentFrame] usingIdentifier:@"outOfFrameView"] tryFindingView])
+    {
+        [tester fail];
+    }
+}
+
+- (void)testTryFindingTappableViewInFrameWithAccessibilityIdentifier
+{
+    if (![[[viewTester usingCurrentFrame] usingIdentifier:@"idGreeting"] tryFindingTappableView])
+    {
+        [tester fail];
+    }
+
+    if ([[[viewTester usingCurrentFrame] usingIdentifier:@"outOfFrameView"] tryFindingTappableView])
+    {
+        [tester fail];
+    }
+}
+
+- (void)testTryFindingOccludedTappableViewInFrameWithAccessibilityIdentifier
+{
+
+    if ([[[viewTester usingCurrentFrame] usingIdentifier:@"occludedView"] tryFindingTappableView])
+    {
+        [tester fail];
+    }
+}
+
 - (void)afterEach
 {
     [[[viewTester usingLabel:@"Test Suite"] usingTraits:UIAccessibilityTraitButton] tap];

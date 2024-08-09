@@ -240,6 +240,19 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
 - (void)waitForAccessibilityElement:(UIAccessibilityElement **)element view:(out UIView **)view withElementMatchingPredicate:(NSPredicate *)predicate tappable:(BOOL)mustBeTappable;
 
 /*!
+ @abstract Waits for an accessibility element and its containing view based on a predicate.
+ @discussion This method provides a more verbose API for achieving what is available in the waitForView/waitForTappableView family of methods, exposing both the found element and its containing view.  The results can be used in other methods such as @c tapAccessibilityElement:inView:
+
+ This method provides more flexability than @c waitForAccessibilityElement:view:withLabel:value:traits:tappable: but less precise error messages.  This message will tell you why the method failed but not whether or not the element met some of the criteria.
+ @param element To be populated with the matching accessibility element when found.  Can be NULL.
+ @param view To be populated with the matching view when found.  Can be NULL.
+ @param predicate The predicate to match.
+ @param mustBeTappable If YES, only an element that can be tapped on will be returned.
+ @param scrollDisabled If YES, disable scroll performing the search only in the current visible frame.
+ */
+- (void)waitForAccessibilityElement:(UIAccessibilityElement **)element view:(out UIView **)view withElementMatchingPredicate:(NSPredicate *)predicate tappable:(BOOL)mustBeTappable disableScroll:(BOOL)scrollDisabled;
+
+/*!
  @abstract Waits until an accessibility element is no longer present.
  @discussion The accessibility element matching the given predicate is found in the view hierarchy. If the element is found, then the step will attempt to wait until it isn't. Note that the associated view does not necessarily have to be visible on the screen, and may be behind another view or offscreen. Views with their hidden property set to YES are considered absent.
  @param predicate The predicate to match.

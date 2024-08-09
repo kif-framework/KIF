@@ -63,8 +63,13 @@ static const void *KIFRunLoopModesKey = &KIFRunLoopModesKey;
 
 - (UIAccessibilityElement *)accessibilityElementMatchingBlock:(BOOL(^)(UIAccessibilityElement *))matchBlock;
 {
+    return [self accessibilityElementMatchingBlock:matchBlock disableScroll:NO];
+}
+
+- (UIAccessibilityElement *)accessibilityElementMatchingBlock:(BOOL(^)(UIAccessibilityElement *))matchBlock disableScroll:(BOOL)scrollDisabled;
+{
     for (UIWindow *window in [self.windowsWithKeyWindow reverseObjectEnumerator]) {
-        UIAccessibilityElement *element = [window accessibilityElementMatchingBlock:matchBlock];
+        UIAccessibilityElement *element = [window accessibilityElementMatchingBlock:matchBlock disableScroll:scrollDisabled];
         if (element) {
             return element;
         }

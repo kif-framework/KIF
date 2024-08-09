@@ -144,8 +144,13 @@ static BOOL KIFUITestActorAnimationsEnabled = YES;
 
 - (void)waitForAccessibilityElement:(UIAccessibilityElement * __autoreleasing *)element view:(out UIView * __autoreleasing *)view withElementMatchingPredicate:(NSPredicate *)predicate tappable:(BOOL)mustBeTappable
 {
+    [self waitForAccessibilityElement:element view:view withElementMatchingPredicate:predicate tappable:mustBeTappable disableScroll:NO];
+}
+
+- (void)waitForAccessibilityElement:(UIAccessibilityElement * __autoreleasing *)element view:(out UIView * __autoreleasing *)view withElementMatchingPredicate:(NSPredicate *)predicate tappable:(BOOL)mustBeTappable disableScroll:(BOOL) scrollDisabled
+{
     [self runBlock:^KIFTestStepResult(NSError **error) {
-        return [UIAccessibilityElement accessibilityElement:element view:view withElementMatchingPredicate:predicate tappable:mustBeTappable error:error] ? KIFTestStepResultSuccess : KIFTestStepResultWait;
+        return [UIAccessibilityElement accessibilityElement:element view:view withElementMatchingPredicate:predicate tappable:mustBeTappable error:error disableScroll:scrollDisabled] ? KIFTestStepResultSuccess : KIFTestStepResultWait;
     }];
 }
 

@@ -25,6 +25,7 @@
 @property (nonatomic, strong, readonly) KIFUITestActor *actor;
 @property (nonatomic, strong, readwrite) NSPredicate *predicate;
 @property (nonatomic, assign) BOOL validateEnteredText;
+@property (nonatomic, assign) BOOL disablingAutomaticScroll;
 
 @end
 
@@ -40,6 +41,7 @@ NSString *const inputFieldTestString = @"Testing";
     self = [super initWithFile:file line:line delegate:delegate];
     NSParameterAssert(self);
     _validateEnteredText = YES;
+    _disablingAutomaticScroll = NO;
     return self;
 }
 
@@ -48,6 +50,12 @@ NSString *const inputFieldTestString = @"Testing";
 - (instancetype)validateEnteredText:(BOOL)validateEnteredText;
 {
     self.validateEnteredText = validateEnteredText;
+    return self;
+}
+
+- (instancetype)usingCurrentFrame;
+{
+    self.disablingAutomaticScroll = YES;
     return self;
 }
 
@@ -636,11 +644,11 @@ NSString *const inputFieldTestString = @"Testing";
     __block UIAccessibilityElement *foundElement = nil;
 
     if (requiresMatch) {
-        [self.actor waitForAccessibilityElement:&foundElement view:&foundView withElementMatchingPredicate:self.predicate tappable:tappable];
+        [self.actor waitForAccessibilityElement:&foundElement view:&foundView withElementMatchingPredicate:self.predicate tappable:tappable disableScroll:self.disablingAutomaticScroll];
     } else {
         NSError *error;
         [self tryRunningBlock:^KIFTestStepResult(NSError **error) {
-            KIFTestWaitCondition([self.actor tryFindingAccessibilityElement:&foundElement view:&foundView withElementMatchingPredicate:self.predicate tappable:tappable error:error], error, @"Waiting on view matching %@", self.predicate.kifPredicateDescription);
+            KIFTestWaitCondition([self.actor tryFindingAccessibilityElement:&foundElement view:&foundView withElementMatchingPredicate:self.predicate tappable:tappable error:error disableScroll:self.disablingAutomaticScroll], error, @"Waiting on view matching %@", self.predicate.kifPredicateDescription);
             return KIFTestStepResultSuccess;
         } complete:nil timeout:1.0 error:&error];
     }
