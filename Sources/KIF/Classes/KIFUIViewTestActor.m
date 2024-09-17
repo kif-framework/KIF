@@ -403,6 +403,8 @@ NSString *const inputFieldTestString = @"Testing";
     [self.actor swipeFromEdge:edge];
 }
 
+#pragma mark - Accesibility Actions
+
 - (void)activateCustomActionWithName:(NSString *)name;{
     [self activateCustomActionWithName:name expectedResult:YES];
 }
@@ -414,12 +416,29 @@ NSString *const inputFieldTestString = @"Testing";
         
         [self runBlock:^KIFTestStepResult(NSError **error) {
             if([[found.element KIF_customActionWithName:name] KIF_activate] == expectedResult) {
+                [self waitForAnimationsToFinish];
                 return KIFTestStepResultSuccess;
             }
+            [self waitForAnimationsToFinish];
             return KIFTestStepResultFailure;
         }];
     }
+}
 
+- (void)performAccessibilityActivateWithExpectedResult:(BOOL)expectedResult;
+{
+    @autoreleasepool {
+        KIFUIObject *found = [self _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
+        
+        [self runBlock:^KIFTestStepResult(NSError **error) {
+            if([found.element accessibilityActivate] == expectedResult) {
+                [self waitForAnimationsToFinish];
+                return KIFTestStepResultSuccess;
+            }
+            [self waitForAnimationsToFinish];
+            return KIFTestStepResultFailure;
+        }];
+    }
 }
 
 #pragma mark - Scroll/Table/CollectionView Actions
