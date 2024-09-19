@@ -467,7 +467,7 @@ static BOOL KIFUITestActorAnimationsEnabled = YES;
     }];
 
     // Wait for view to settle.
-    [self waitForTimeInterval:0.5 relativeToAnimationSpeed:YES];
+    [self waitForAnimationsToFinish];
 }
 
 - (void)waitForKeyboard
