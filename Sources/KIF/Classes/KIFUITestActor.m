@@ -1673,6 +1673,14 @@ static BOOL KIFUITestActorAnimationsEnabled = YES;
 
 - (CGPoint) tappablePointInElement:(UIAccessibilityElement *)element andView:(UIView *)view
 {
+    // AccessibilityActivationPoint indicates where on the element assistive technologies should issue a tap event to activate the element.
+    // In the case where the property has not been explicitly set. The default value is the midpoint of the accessibility frame.
+    UIView *hitView = [view.window hitTest:element.accessibilityActivationPoint withEvent:nil];
+    if ([view isTappableWithHitTestResultView:hitView]) {
+        return [view.window convertPoint:element.accessibilityActivationPoint toView:view];
+    }
+    
+    // If the element's AccessibilityActivationPoint is not tappable, attempt to find a suitable tappable point within the element's frame.
     CGRect elementFrame = [self elementFrameForElement:element andView:view];
     CGPoint tappablePoint = [view tappablePointInRect:elementFrame];
 

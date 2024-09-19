@@ -11,9 +11,9 @@
 @property (nonatomic, assign) BOOL activationReturnValue;
 @property (nonatomic, assign) int activationCount;
 
-@property (nonatomic, strong) UILabel *label;
+@property (nonatomic, strong) UILabel *topLabel;
+@property (nonatomic, strong) UILabel *swtichLabel;
 @property (nonatomic, strong) UISwitch *activationSwitch;
-
 
 @end
 
@@ -24,16 +24,16 @@
     self = [super initWithCoder:coder];
     self.isAccessibilityElement = YES;
     self.accessibilityLabel = @"AccessibilityView";
-    
-    
+        
     self.activationReturnValue = YES;
-
-    self.label = [[UILabel alloc] initWithFrame: CGRectZero];
-    [self addSubview:self.label];
-
-    self.backgroundColor = [UIColor systemTealColor];
-    self.label.text = @"Returns YES";
     
+    self.topLabel = [[UILabel alloc] initWithFrame: CGRectZero];
+    self.topLabel.text = @"Awaiting activation or tap";
+    [self addSubview:self.topLabel];
+
+    self.swtichLabel = [[UILabel alloc] initWithFrame: CGRectZero];
+    self.swtichLabel.text = @"Returns YES";
+    [self addSubview:self.swtichLabel];
     
     self.activationSwitch = [[UISwitch alloc] initWithFrame: CGRectZero];
     [self addSubview: self.activationSwitch];
@@ -50,33 +50,52 @@
     
     if (self.activationReturnValue == YES) {
         self.backgroundColor = [UIColor systemTealColor];
-        self.label.text = @"Returns YES";
+        self.swtichLabel.text = @"Returns YES";
     } else {
         self.backgroundColor = [UIColor systemTealColor];
-        self.label.text = @"Returns NO";
+        self.swtichLabel.text = @"Returns NO";
     }
     [self setNeedsLayout];
 }
 
 -(void)layoutSubviews {
     [super layoutSubviews];
-    [self.label sizeToFit];
-    self.label.frame = CGRectMake((self.frame.size.width - self.label.frame.size.width) / 2,
-                                  (self.frame.size.height - self.label.frame.size.height) / 2,
-                                  self.label.frame.size.width,
-                                  self.label.frame.size.height);
+    [self.topLabel sizeToFit];
+    self.topLabel.frame = CGRectMake(20,
+                                     20,
+                                     self.topLabel.frame.size.width,
+                                     self.topLabel.frame.size.height);
+    
+    [self.swtichLabel sizeToFit];
+    self.swtichLabel.frame = CGRectMake(20,
+                                        CGRectGetMaxY(self.topLabel.frame) + 40,
+                                        self.swtichLabel.frame.size.width,
+                                        self.swtichLabel.frame.size.height);
     
     [self.activationSwitch sizeToFit];
-    self.activationSwitch.frame = CGRectMake((self.frame.size.width - self.activationSwitch.frame.size.width) / 2,
-                                             CGRectGetMaxY(self.label.frame) + 10 ,
+    self.activationSwitch.frame = CGRectMake(20,
+                                             CGRectGetMaxY(self.swtichLabel.frame) + 10 ,
                                              self.activationSwitch.frame.size.width,
                                              self.activationSwitch.frame.size.width);
+    
+}
+
+- (NSString *)accessibilityValue {
+   return self.topLabel.text;
 }
 
 - (BOOL)accessibilityActivate {
     self.activationCount += 1;
-    self.accessibilityValue = [NSString stringWithFormat:@"Activated: %i", self.activationCount];
+    self.topLabel.text = [NSString stringWithFormat:@"Activated: %i", self.activationCount];
+    [self setNeedsLayout];
     return self.activationReturnValue;
+}
+
+
+- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    CGPoint location = [[touches anyObject] locationInView: self];
+    self.topLabel.text =  [NSString stringWithFormat:@"Tapped - x:%.04f, y:%.04f", location.x, location.y];
+    [self setNeedsLayout];
 }
 
 @end

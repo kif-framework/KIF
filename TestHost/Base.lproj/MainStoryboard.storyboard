@@ -2170,13 +2170,13 @@ Line Break
                         <viewControllerLayoutGuide type="top" id="shx-5S-eMw"/>
                         <viewControllerLayoutGuide type="bottom" id="u8z-PF-PIc"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="HtV-3z-P6p" customClass="AccessibilityViewController_AccessibilityView">
+                    <view key="view" contentMode="scaleToFill" id="HtV-3z-P6p">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="804"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1Qj-vC-6qF">
-                                <rect key="frame" x="72" y="367" width="240" height="128"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1Qj-vC-6qF" customClass="AccessibilityViewController_AccessibilityView">
+                                <rect key="frame" x="20" y="76" width="374" height="657"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" systemColor="systemPurpleColor"/>
                             </view>
                         </subviews>
@@ -2184,12 +2184,12 @@ Line Break
                     </view>
                     <navigationItem key="navigationItem" id="4hs-zD-BI5"/>
                     <connections>
-                        <outlet property="accessibilityView" destination="HtV-3z-P6p" id="fRH-1a-uNU"/>
+                        <outlet property="accessibilityView" destination="1Qj-vC-6qF" id="YDb-m4-vKE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="N4E-Ay-Je9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1967" y="1449"/>
+            <point key="canvasLocation" x="1966.6666666666667" y="1448.4375"/>
         </scene>
         <!--Animation View Controller-->
         <scene sceneID="odg-A0-FBB">
