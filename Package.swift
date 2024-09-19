@@ -26,7 +26,7 @@ let package = Package(
                 .headerSearchPath("Visualizer/"),
                 .headerSearchPath("IdentifierTests/"),
             ],
-            linkerSettings: [.linkedFramework("IOKit")]
+            linkerSettings: [.linkedFramework("IOKit"), .linkedFramework("XCTest")]
         ),
         .testTarget(
             name: "KIFTests",

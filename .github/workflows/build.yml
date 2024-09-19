@@ -15,13 +15,15 @@ jobs:
     - name: Validate podspec
       run: pod lib lint
 
-  build_xcode14:
-    runs-on: macos-12
+  build_macos14:
+    runs-on: macos-14
     strategy:
       matrix:
         run-config:
-          - { xcode_version: '14.1', simulator: 'name=iPad Pro (12.9-inch) (5th generation),OS=16.1' }
-          - { xcode_version: '14.1', simulator: 'name=iPhone SE (2nd generation),OS=16.1' }
+          - { xcode_version: '14.3.1', simulator: 'name=iPad Air (5th generation),OS=16.4', run_extra_validations: 'false' }
+          - { xcode_version: '14.3.1', simulator: 'name=iPhone 14,OS=16.4', run_extra_validations: 'false' }
+          - { xcode_version: '15.4', simulator: 'name=iPad Air (5th generation),OS=17.5', run_extra_validations: 'false' }
+          - { xcode_version: '15.4', simulator: 'name=iPhone 15,OS=17.5', run_extra_validations: 'true' }
     steps:
     - name: Checkout Project
       uses: actions/checkout@v1
@@ -51,42 +53,4 @@ jobs:
       run:  xcrun simctl list
 
     - name: Build & Test
-      run: ./scripts/ci.sh "${{ matrix.run-config['simulator'] }}"
-
-  build:
-    runs-on: macos-11
-    strategy:
-      matrix:
-        run-config:
-          - { xcode_version: '13.0', simulator: 'name=iPhone SE (2nd generation),OS=15.0' }
-          - { xcode_version: '13.0', simulator: 'name=iPad Pro (12.9-inch) (5th generation),OS=15.0' }
-    steps:
-    - name: Checkout Project
-      uses: actions/checkout@v1
-
-    - name: Brew Update
-      run:  brew update
-
-    - name: Install Bundler
-      run: gem install bundler
-
-    - name: Install Core Utils
-      run: if [ -z "$(brew ls --versions coreutils)" ] ; then brew install coreutils ; fi
-
-    - name: Install XCPretty
-      run: gem install xcpretty --no-document --quiet
-
-    - name: Show Xcode versions
-      run: ls -al /Applications/Xcode*
-
-    - name: Select Xcode
-      run: sudo xcode-select -s /Applications/Xcode_${{ matrix.run-config['xcode_version'] }}.app
-
-    - name: Current Xcode Selected
-      run: xcode-select -p
-
-    - name: List Simulators
-      run:  xcrun simctl list
-
-    - name: Build & Test
-      run: ./scripts/ci.sh "${{ matrix.run-config['simulator'] }}"
+      run: ./scripts/ci.sh "${{ matrix.run-config['simulator'] }}" "${{ matrix.run-config['run_extra_validations'] }}"
