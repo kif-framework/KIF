@@ -86,6 +86,13 @@
 - (BOOL) tryFindingViewWithAccessibilityIdentifier:(NSString *) accessibilityIdentifier;
 
 /*!
+ @abstract returns YES or NO if the element is visible in the current frame (without scrolling).
+ @discussion if the element described by the accessibility identifier is visible, the method returns true.
+ @param accessibilityIdentifier The accessibility identifier of the element to query for
+ */
+- (BOOL) tryFindingViewInFrameWithAccessibilityIdentifier:(NSString *) accessibilityIdentifier;
+
+/*!
  @abstract Swipes a particular view in the view hierarchy in the given direction.
  @discussion This step will get the view with the specified accessibility identifier and swipe the screen in the given direction from the view's center.
  @param identifier The accessibility identifier of the view to swipe.

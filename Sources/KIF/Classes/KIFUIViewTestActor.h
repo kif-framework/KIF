@@ -39,6 +39,14 @@ extern NSString *const inputFieldTestString;
  */
 - (instancetype)validateEnteredText:(BOOL)validateEnteredText;
 
+/*!
+ @abstract Controls if we want to disable the automatic scroll while looking for an element.
+ @discussion This method limits the search in the current frame for each operation that searches for an element.
+
+ @return The message reciever, these methods are intended to be chained together.
+ */
+- (instancetype)usingCurrentFrame;
+
 #pragma mark - Searching for Accessibility Elements
 
 /*!

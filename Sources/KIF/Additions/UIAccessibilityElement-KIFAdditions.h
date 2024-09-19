@@ -93,6 +93,17 @@
 + (BOOL)accessibilityElement:(out UIAccessibilityElement **)foundElement view:(out UIView **)foundView withElementMatchingPredicate:(NSPredicate *)predicate tappable:(BOOL)mustBeTappable error:(out NSError **)error;
 
 /*!
+ @abstract Finds an accessibility element and view where the element passes the predicate, optionally passing a tappability test.
+ @param foundElement The found accessibility element or @c nil if the method returns @c NO.  Can be @c NULL.
+ @param foundView The first matching view for @c foundElement as determined by the accessibility API or @c nil if the view is hidden or fails the tappability test. Can be @c NULL.
+ @param predicate The predicate to test the accessibility element on.
+ @param error A reference to an error object to be populated when no matching element or view is found.  Can be @c NULL.
+ @param scrollDisabled Disable scroll performing the search only in the current visible frame.
+ @result @c YES if the element and view were found.  Otherwise @c NO.
+ */
++ (BOOL)accessibilityElement:(out UIAccessibilityElement **)foundElement view:(out UIView **)foundView withElementMatchingPredicate:(NSPredicate *)predicate tappable:(BOOL)mustBeTappable error:(out NSError **)error disableScroll:(BOOL)scrollDisabled;
+
+/*!
  @abstract Finds and attempts to make visible a view for a given accessibility element.
  @discussion If the element is found, off screen, and is inside a scroll view, this method will attempt to programmatically scroll the view onto the screen before performing any logic as to if the view is tappable.
  
@@ -102,6 +113,18 @@
  @return The first matching view as determined by the accessibility API or nil if the view is hidden or fails the tappability test.
  */
 + (UIView *)viewContainingAccessibilityElement:(UIAccessibilityElement *)element tappable:(BOOL)mustBeTappable error:(NSError **)error;
+
+/*!
+ @abstract Finds and attempts to make visible a view for a given accessibility element.
+ @discussion If the element is found, off screen, and is inside a scroll view, this method will attempt to programmatically scroll the view onto the screen before performing any logic as to if the view is tappable.
+
+ @param element The accessibility element.
+ @param mustBeTappable If @c YES, a tappability test will be performed.
+ @param error A reference to an error object to be populated when no element is found.  Can be @c NULL.
+ @param scrollDisabled Disable scroll performing the search only in the current visible frame.
+ @return The first matching view as determined by the accessibility API or nil if the view is hidden or fails the tappability test.
+ */
++ (UIView *)viewContainingAccessibilityElement:(UIAccessibilityElement *)element tappable:(BOOL)mustBeTappable error:(NSError **)error disableScroll:(BOOL)scrollDisabled;
 
 /*!
  @abstract Returns a human readable string of UIAccessiblityTrait names, derived from UIAccessibilityConstants.h.
