@@ -15,9 +15,23 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "A88CD97C1A019AFF0064F706"
-               BuildableName = "Testable Swift.app"
-               BlueprintName = "Testable Swift"
-               ReferencedContainer = "container:Testable Swift.xcodeproj">
+               BuildableName = "TestableSwift.app"
+               BlueprintName = "TestableSwift"
+               ReferencedContainer = "container:TestableSwift.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "A88CD9931A019AFF0064F706"
+               BuildableName = "TestableSwiftTests.xctest"
+               BlueprintName = "TestableSwiftTests"
+               ReferencedContainer = "container:TestableSwift.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -27,29 +41,27 @@
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "A88CD97C1A019AFF0064F706"
+            BuildableName = "TestableSwift.app"
+            BlueprintName = "TestableSwift"
+            ReferencedContainer = "container:Testable Swift.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <Testables>
          <TestableReference
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "A88CD9931A019AFF0064F706"
-               BuildableName = "Testable SwiftTests.xctest"
-               BlueprintName = "Testable SwiftTests"
-               ReferencedContainer = "container:Testable Swift.xcodeproj">
+               BuildableName = "TestableSwiftTests.xctest"
+               BlueprintName = "TestableSwiftTests"
+               ReferencedContainer = "container:TestableSwift.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "A88CD97C1A019AFF0064F706"
-            BuildableName = "Testable Swift.app"
-            BlueprintName = "Testable Swift"
-            ReferencedContainer = "container:Testable Swift.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
-      <AdditionalOptions>
-      </AdditionalOptions>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"
@@ -61,18 +73,6 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "A88CD97C1A019AFF0064F706"
-            BuildableName = "Testable Swift.app"
-            BlueprintName = "Testable Swift"
-            ReferencedContainer = "container:Testable Swift.xcodeproj">
-         </BuildableReference>
-      </BuildableProductRunnable>
-      <AdditionalOptions>
-      </AdditionalOptions>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -80,16 +80,15 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
+      <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "A88CD97C1A019AFF0064F706"
-            BuildableName = "Testable Swift.app"
-            BlueprintName = "Testable Swift"
-            ReferencedContainer = "container:Testable Swift.xcodeproj">
+            BuildableName = "TestableSwift.app"
+            BlueprintName = "TestableSwift"
+            ReferencedContainer = "container:TestableSwift.xcodeproj">
          </BuildableReference>
-      </BuildableProductRunnable>
+      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

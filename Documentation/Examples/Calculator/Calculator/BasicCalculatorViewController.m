@@ -36,18 +36,25 @@ typedef NS_ENUM(NSInteger, CalculatorOperation) {
     return self;
 }
 
-- (void)setAccessibilityLabel:(NSString *)label forSegment:(NSInteger)segment
-{
-    UIView *view = (self.operationInput.subviews)[self.operationInput.subviews.count - segment - 1];
-    view.accessibilityLabel = label;
-}
-
 - (void)viewDidLoad
 {
-    [self setAccessibilityLabel:@"Add" forSegment:Add];
-    [self setAccessibilityLabel:@"Subtract" forSegment:Subtract];
-    [self setAccessibilityLabel:@"Multiply" forSegment:Multiply];
-    [self setAccessibilityLabel:@"Divide" forSegment:Divide];
+    for (int i = 0; i < self.operationInput.subviews.count; i++) {
+        UIView *segment = (UIView *)self.operationInput.subviews[i];
+        UIView *label = segment.subviews[0];
+        NSString *segmentText = [(id)label text];
+
+        if ([segmentText isEqualToString:@"+"]) {
+            segment.accessibilityLabel = @"Add";
+        } else if ([segmentText isEqualToString:@"–"]) {
+            segment.accessibilityLabel = @"Subtract";
+        } else if ([segmentText isEqualToString:@"×"]) {
+            segment.accessibilityLabel = @"Multiply";
+        } else if ([segmentText isEqualToString:@"÷"]) {
+            segment.accessibilityLabel = @"Divide";
+        } else {
+            @throw([NSException exceptionWithName:NSInvalidArgumentException reason:[NSString stringWithFormat:@"Invalid segment text value (%@)", segmentText] userInfo:nil]);
+        }
+    }
 }
 
 - (IBAction)recalculate

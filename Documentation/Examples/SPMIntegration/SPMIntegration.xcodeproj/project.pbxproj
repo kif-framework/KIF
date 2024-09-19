@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -27,6 +27,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		62582A9C2C9B9B5B00F800BF /* SPMIntegration.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = SPMIntegration.xctestplan; sourceTree = "<group>"; };
 		B4310BDF260BA21400EE03AF /* SPMIntegration.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SPMIntegration.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B4310BE2260BA21400EE03AF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B4310BE6260BA21400EE03AF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -37,7 +38,7 @@
 		B4310BF5260BA21500EE03AF /* SPMIntegrationTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SPMIntegrationTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B4310BF9260BA21500EE03AF /* SPMIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SPMIntegrationTests.swift; sourceTree = "<group>"; };
 		B4310BFB260BA21500EE03AF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B488554F260CE596008916AB /* KIF */ = {isa = PBXFileReference; lastKnownFileType = folder; name = KIF; path = ../..; sourceTree = "<group>"; };
+		B488554F260CE596008916AB /* KIF */ = {isa = PBXFileReference; lastKnownFileType = folder; name = KIF; path = ../../../..; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +63,7 @@
 		B4310BD6260BA21400EE03AF = {
 			isa = PBXGroup;
 			children = (
+				62582A9C2C9B9B5B00F800BF /* SPMIntegration.xctestplan */,
 				B4310BE1260BA21400EE03AF /* SPMIntegration */,
 				B4310BF8260BA21500EE03AF /* SPMIntegrationTests */,
 				B4310BE0260BA21400EE03AF /* Products */,

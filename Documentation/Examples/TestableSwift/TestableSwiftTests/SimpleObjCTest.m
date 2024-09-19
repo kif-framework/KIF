@@ -8,7 +8,7 @@
 //  which Square, Inc. licenses this file to you.
 
 #import <UIKit/UIKit.h>
-#import <KIF/KIF.h>
+@import KIF;
 
 
 @interface SimpleObjCTest : KIFTestCase

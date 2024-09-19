@@ -6,7 +6,7 @@
 //  Copyright © 2017 SSK Development. All rights reserved.
 //
 
-#import <KIF/KIF.h>
+@import KIF;
 
 #import "TestRobot.h"
 
