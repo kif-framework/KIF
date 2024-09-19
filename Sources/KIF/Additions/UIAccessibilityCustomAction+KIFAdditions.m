@@ -1,6 +1,6 @@
 //
 //  UIAccessibilityCustomAction+KIFAdditions.m
-//  KIF Tests
+//  KIF
 //
 //  Created by Alex Odawa on 09/07/2024.
 //

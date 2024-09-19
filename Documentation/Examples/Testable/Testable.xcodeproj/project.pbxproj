@@ -38,14 +38,14 @@
 			containerPortal = 6282C64E2C9CE3F70040DCDB /* KIF.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = EB60ECC1177F8C83005A041A;
-			remoteInfo = "Test Host";
+			remoteInfo = "TestHost";
 		};
 		6282C6592C9CE3F70040DCDB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6282C64E2C9CE3F70040DCDB /* KIF.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = EABD46CD1857A0F300A5F081;
-			remoteInfo = "KIF Tests";
+			remoteInfo = "KIFTests";
 		};
 		62F81AFB1EBBD038009B2400 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -113,8 +113,8 @@
 			isa = PBXGroup;
 			children = (
 				6282C6562C9CE3F70040DCDB /* libKIF.a */,
-				6282C6582C9CE3F70040DCDB /* Test Host.app */,
-				6282C65A2C9CE3F70040DCDB /* KIF Tests - XCTest.xctest */,
+				6282C6582C9CE3F70040DCDB /* TestHost.app */,
+				6282C65A2C9CE3F70040DCDB /* KIFTests - XCTest.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -284,17 +284,17 @@
 			remoteRef = 6282C6552C9CE3F70040DCDB /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		6282C6582C9CE3F70040DCDB /* Test Host.app */ = {
+		6282C6582C9CE3F70040DCDB /* TestHost.app */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.application;
-			path = "Test Host.app";
+			path = "TestHost.app";
 			remoteRef = 6282C6572C9CE3F70040DCDB /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		6282C65A2C9CE3F70040DCDB /* KIF Tests - XCTest.xctest */ = {
+		6282C65A2C9CE3F70040DCDB /* KIFTests - XCTest.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
-			path = "KIF Tests - XCTest.xctest";
+			path = "KIFTests - XCTest.xctest";
 			remoteRef = 6282C6592C9CE3F70040DCDB /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};

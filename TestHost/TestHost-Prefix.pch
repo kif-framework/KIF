@@ -1,5 +1,5 @@
 //
-// Prefix header for all source files of the 'Test Host' target in the 'Test Host' project
+// Prefix header for all source files of the 'TestHost' target in the 'KIF' project
 //
 
 #import <Availability.h>

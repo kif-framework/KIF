@@ -1,6 +1,6 @@
 //
 //  main.m
-//  Test Host
+//  TestHost
 //
 //  Created by Brian Nickel on 6/29/13.
 //

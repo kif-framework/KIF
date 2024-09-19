@@ -31,7 +31,7 @@ let package = Package(
         .testTarget(
             name: "KIFTests",
             dependencies: ["KIF"],
-            path: "./KIF Tests",
+            path: "./Tests",
             cSettings: [.headerSearchPath("../Sources/KIF/")] // allow to look a "private" headers
         ),
     ]

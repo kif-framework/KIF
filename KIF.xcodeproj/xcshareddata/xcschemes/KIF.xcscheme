@@ -42,8 +42,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "EABD46AD1857A0F300A5F081"
-               BuildableName = "KIF Tests - XCTest.xctest"
-               BlueprintName = "KIF Tests"
+               BuildableName = "KIFTests - XCTest.xctest"
+               BlueprintName = "KIFTests"
                ReferencedContainer = "container:KIF.xcodeproj">
             </BuildableReference>
          </TestableReference>

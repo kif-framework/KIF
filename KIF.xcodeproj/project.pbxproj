@@ -155,7 +155,6 @@
 		EABD46C31857A0F300A5F081 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAB072B413971AEA008AF393 /* UIKit.framework */; };
 		EABD46C41857A0F300A5F081 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAB0726B139719AC008AF393 /* Foundation.framework */; };
 		EABD46C51857A0F300A5F081 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB60ECC4177F8C83005A041A /* CoreGraphics.framework */; };
-		EABD46C71857A0F300A5F081 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = EB60ECF2177F8DB3005A041A /* InfoPlist.strings */; };
 		EABD46CF1857A15400A5F081 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EABD46AB1857A0EB00A5F081 /* XCTest.framework */; };
 		EABD46D21857A24E00A5F081 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EABD46AB1857A0EB00A5F081 /* XCTest.framework */; };
 		EABD46D61858C8ED00A5F081 /* libKIF.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EABD46AA1857A0C700A5F081 /* libKIF.a */; };
@@ -205,7 +204,7 @@
 			containerPortal = AAB0725F139719AC008AF393 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = EB60ECC0177F8C83005A041A;
-			remoteInfo = "Test Host";
+			remoteInfo = TestHost;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -317,8 +316,6 @@
 		97E8A5CE1B0A62F700124E3B /* BackgroundViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BackgroundViewController.m; sourceTree = "<group>"; };
 		97E8A5D01B0A63D100124E3B /* BackgroundTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BackgroundTests.m; sourceTree = "<group>"; };
 		9CC881A21AD4CAAC002CD34C /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
-		9CC9673E1AD4B1B600576D13 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		9CC9673F1AD4B1B600576D13 /* KIF.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KIF.h; sourceTree = "<group>"; };
 		AAB0726B139719AC008AF393 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		AAB072B413971AEA008AF393 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		ACA242E32C3DA55400E6F1B6 /* CustomActionTests_ViewTestActor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomActionTests_ViewTestActor.m; sourceTree = "<group>"; };
@@ -343,24 +340,22 @@
 		EA0F25491829839E006FF825 /* CollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionViewController.m; sourceTree = "<group>"; };
 		EABD46AA1857A0C700A5F081 /* libKIF.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libKIF.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		EABD46AB1857A0EB00A5F081 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		EABD46CD1857A0F300A5F081 /* KIF Tests - XCTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "KIF Tests - XCTest.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		EABD46CD1857A0F300A5F081 /* KIFTests - XCTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "KIFTests - XCTest.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EB02523D17AA109400A7D13A /* CompositionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CompositionTests.m; sourceTree = "<group>"; };
 		EB09000F17E3696A00AA15B1 /* SearchFieldTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchFieldTests.m; sourceTree = "<group>"; };
 		EB1A44D91A0C33AD004A3F61 /* AccessibilityIdentifierTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccessibilityIdentifierTests.m; sourceTree = "<group>"; };
 		EB22B5AF17AF52640090B848 /* CascadingFailureTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CascadingFailureTests.m; sourceTree = "<group>"; };
 		EB3F654417AA0B8400469D18 /* TableViewTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableViewTests.m; sourceTree = "<group>"; };
 		EB4C3138167BA3D200E31109 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
-		EB60ECC1177F8C83005A041A /* Test Host.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Test Host.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		EB60ECC1177F8C83005A041A /* TestHost.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestHost.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EB60ECC4177F8C83005A041A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		EB60ECC8177F8C83005A041A /* Test Host-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Test Host-Info.plist"; sourceTree = "<group>"; };
+		EB60ECC8177F8C83005A041A /* TestHost-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "TestHost-Info.plist"; sourceTree = "<group>"; };
 		EB60ECCA177F8C83005A041A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		EB60ECCC177F8C84005A041A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		EB60ECCE177F8C84005A041A /* Test Host-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Test Host-Prefix.pch"; sourceTree = "<group>"; };
+		EB60ECCE177F8C84005A041A /* TestHost-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TestHost-Prefix.pch"; sourceTree = "<group>"; };
 		EB60ECD2177F8C84005A041A /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		EB60ECD4177F8C84005A041A /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		EB60ECD6177F8C84005A041A /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
-		EB60ECF1177F8DB3005A041A /* KIF Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "KIF Tests-Info.plist"; sourceTree = "<group>"; };
-		EB60ECF3177F8DB3005A041A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		EB60ECFC177F9031005A041A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		EB60ECFD177F9031005A041A /* ShowHideViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShowHideViewController.m; sourceTree = "<group>"; };
 		EB60ECFE177F9032005A041A /* TapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TapViewController.m; sourceTree = "<group>"; };
@@ -575,31 +570,12 @@
 			path = Sources/KIF/ApplePrivateAPIs;
 			sourceTree = "<group>";
 		};
-		9CC9673C1AD4B1B600576D13 /* KIF Framework */ = {
-			isa = PBXGroup;
-			children = (
-				9CC9673F1AD4B1B600576D13 /* KIF.h */,
-				9CC9673D1AD4B1B600576D13 /* Supporting Files */,
-			);
-			name = "KIF Framework";
-			path = KIFFramework;
-			sourceTree = "<group>";
-		};
-		9CC9673D1AD4B1B600576D13 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				9CC9673E1AD4B1B600576D13 /* Info.plist */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
 		AAB0725D139719AC008AF393 = {
 			isa = PBXGroup;
 			children = (
 				EB60ECBC177F8C51005A041A /* KIF */,
-				EB60ECC6177F8C83005A041A /* Test Host */,
-				EB60ECEF177F8DB3005A041A /* KIF Tests */,
-				9CC9673C1AD4B1B600576D13 /* KIF Framework */,
+				EB60ECEF177F8DB3005A041A /* Tests */,
+				EB60ECC6177F8C83005A041A /* TestHost */,
 				AAB0726A139719AC008AF393 /* Frameworks */,
 				AAB07269139719AC008AF393 /* Products */,
 			);
@@ -608,9 +584,9 @@
 		AAB07269139719AC008AF393 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				EB60ECC1177F8C83005A041A /* Test Host.app */,
+				EB60ECC1177F8C83005A041A /* TestHost.app */,
 				EABD46AA1857A0C700A5F081 /* libKIF.a */,
-				EABD46CD1857A0F300A5F081 /* KIF Tests - XCTest.xctest */,
+				EABD46CD1857A0F300A5F081 /* KIFTests - XCTest.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -654,7 +630,7 @@
 			name = KIF;
 			sourceTree = "<group>";
 		};
-		EB60ECC6177F8C83005A041A /* Test Host */ = {
+		EB60ECC6177F8C83005A041A /* TestHost */ = {
 			isa = PBXGroup;
 			children = (
 				3812FB601A1212A700335733 /* AnimationViewController.m */,
@@ -676,16 +652,16 @@
 				EB60ECC7177F8C83005A041A /* Supporting Files */,
 				8EAA1EE129D3AF7A008F6029 /* OffscreenViewController.m */,
 			);
-			path = "Test Host";
+			path = TestHost;
 			sourceTree = "<group>";
 		};
 		EB60ECC7177F8C83005A041A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				EB60ECC8177F8C83005A041A /* Test Host-Info.plist */,
+				EB60ECC8177F8C83005A041A /* TestHost-Info.plist */,
 				EB60ECC9177F8C83005A041A /* InfoPlist.strings */,
 				EB60ECCC177F8C84005A041A /* main.m */,
-				EB60ECCE177F8C84005A041A /* Test Host-Prefix.pch */,
+				EB60ECCE177F8C84005A041A /* TestHost-Prefix.pch */,
 				EB60ECD2177F8C84005A041A /* Default.png */,
 				EB60ECD4177F8C84005A041A /* Default@2x.png */,
 				EB60ECD6177F8C84005A041A /* Default-568h@2x.png */,
@@ -695,7 +671,7 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		EB60ECEF177F8DB3005A041A /* KIF Tests */ = {
+		EB60ECEF177F8DB3005A041A /* Tests */ = {
 			isa = PBXGroup;
 			children = (
 				FA8DA74D1A77117A00E0C644 /* KIFUIViewTestActor Tests */,
@@ -729,19 +705,9 @@
 				EB60ED0A177F90BA005A041A /* SystemTests.m */,
 				5F6A1B371C191F9600F20F22 /* UIApplicationKIFAdditionsTests.m */,
 				B66B1BF3202BC94F00D0E4B2 /* AutocorrectTests.m */,
-				EB60ECF0177F8DB3005A041A /* Supporting Files */,
 				8EAA1EE329D3B1F5008F6029 /* OffscreenTests.m */,
 			);
-			path = "KIF Tests";
-			sourceTree = "<group>";
-		};
-		EB60ECF0177F8DB3005A041A /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				EB60ECF1177F8DB3005A041A /* KIF Tests-Info.plist */,
-				EB60ECF2177F8DB3005A041A /* InfoPlist.strings */,
-			);
-			name = "Supporting Files";
+			path = Tests;
 			sourceTree = "<group>";
 		};
 		FA8DA74D1A77117A00E0C644 /* KIFUIViewTestActor Tests */ = {
@@ -871,9 +837,9 @@
 			productReference = EABD46AA1857A0C700A5F081 /* libKIF.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		EABD46AD1857A0F300A5F081 /* KIF Tests */ = {
+		EABD46AD1857A0F300A5F081 /* KIFTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = EABD46C91857A0F300A5F081 /* Build configuration list for PBXNativeTarget "KIF Tests" */;
+			buildConfigurationList = EABD46C91857A0F300A5F081 /* Build configuration list for PBXNativeTarget "KIFTests" */;
 			buildPhases = (
 				EABD46B01857A0F300A5F081 /* Sources */,
 				EABD46C01857A0F300A5F081 /* Frameworks */,
@@ -884,14 +850,14 @@
 			dependencies = (
 				EABD46AE1857A0F300A5F081 /* PBXTargetDependency */,
 			);
-			name = "KIF Tests";
-			productName = "KIF Tests";
-			productReference = EABD46CD1857A0F300A5F081 /* KIF Tests - XCTest.xctest */;
+			name = KIFTests;
+			productName = KIFTests;
+			productReference = EABD46CD1857A0F300A5F081 /* KIFTests - XCTest.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		EB60ECC0177F8C83005A041A /* Test Host */ = {
+		EB60ECC0177F8C83005A041A /* TestHost */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = EB60ECD8177F8C84005A041A /* Build configuration list for PBXNativeTarget "Test Host" */;
+			buildConfigurationList = EB60ECD8177F8C84005A041A /* Build configuration list for PBXNativeTarget "TestHost" */;
 			buildPhases = (
 				EB60ECBD177F8C83005A041A /* Sources */,
 				EB60ECBE177F8C83005A041A /* Frameworks */,
@@ -901,9 +867,9 @@
 			);
 			dependencies = (
 			);
-			name = "Test Host";
-			productName = "Test Host";
-			productReference = EB60ECC1177F8C83005A041A /* Test Host.app */;
+			name = TestHost;
+			productName = TestHost;
+			productReference = EB60ECC1177F8C83005A041A /* TestHost.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -930,8 +896,8 @@
 			targets = (
 				EABD46791857A0C700A5F081 /* KIF */,
 				A88930091685088F00FC7C63 /* KIF Documentation */,
-				EB60ECC0177F8C83005A041A /* Test Host */,
-				EABD46AD1857A0F300A5F081 /* KIF Tests */,
+				EB60ECC0177F8C83005A041A /* TestHost */,
+				EABD46AD1857A0F300A5F081 /* KIFTests */,
 			);
 		};
 /* End PBXProject section */
@@ -941,7 +907,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EABD46C71857A0F300A5F081 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1103,7 +1068,7 @@
 /* Begin PBXTargetDependency section */
 		EABD46AE1857A0F300A5F081 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = EB60ECC0177F8C83005A041A /* Test Host */;
+			target = EB60ECC0177F8C83005A041A /* TestHost */;
 			targetProxy = EABD46AF1857A0F300A5F081 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -1113,14 +1078,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				EB60ECCA177F8C83005A041A /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		EB60ECF2177F8DB3005A041A /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				EB60ECF3177F8DB3005A041A /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -1337,7 +1294,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Test Host.app/Test Host";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/TestHost.app/TestHost";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -1358,11 +1315,11 @@
 				);
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = "KIF Tests/KIF Tests-Info.plist";
+				INFOPLIST_FILE = "Tests/KIFTests-Info.plist";
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.square.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "KIF Tests - XCTest";
+				PRODUCT_NAME = "KIFTests - XCTest";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -1372,7 +1329,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Test Host.app/Test Host";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/TestHost.app/TestHost";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -1393,11 +1350,11 @@
 				);
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = "KIF Tests/KIF Tests-Info.plist";
+				INFOPLIST_FILE = "Tests/KIFTests-Info.plist";
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.square.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "KIF Tests - XCTest";
+				PRODUCT_NAME = "KIFTests - XCTest";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -1407,7 +1364,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Test Host.app/Test Host";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/TestHost.app/TestHost";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -1423,10 +1380,10 @@
 				GCC_PREFIX_HEADER = "";
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = "KIF Tests/KIF Tests-Info.plist";
+				INFOPLIST_FILE = "Tests/KIFTests-Info.plist";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.square.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "KIF Tests - XCTest";
+				PRODUCT_NAME = "KIFTests - XCTest";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = xctest;
@@ -1451,14 +1408,14 @@
 				ENABLE_BITCODE = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Test Host/Test Host-Prefix.pch";
+				GCC_PREFIX_HEADER = "TestHost/TestHost-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				INFOPLIST_FILE = "Test Host/Test Host-Info.plist";
+				INFOPLIST_FILE = "TestHost/TestHost-Info.plist";
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.square.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1484,10 +1441,10 @@
 				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Test Host/Test Host-Prefix.pch";
+				GCC_PREFIX_HEADER = "TestHost/TestHost-Prefix.pch";
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				INFOPLIST_FILE = "Test Host/Test Host-Info.plist";
+				INFOPLIST_FILE = "TestHost/TestHost-Info.plist";
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.square.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1595,14 +1552,14 @@
 				ENABLE_BITCODE = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Test Host/Test Host-Prefix.pch";
+				GCC_PREFIX_HEADER = "TestHost/TestHost-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				INFOPLIST_FILE = "Test Host/Test Host-Info.plist";
+				INFOPLIST_FILE = "TestHost/TestHost-Info.plist";
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.square.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1644,7 +1601,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		EABD46C91857A0F300A5F081 /* Build configuration list for PBXNativeTarget "KIF Tests" */ = {
+		EABD46C91857A0F300A5F081 /* Build configuration list for PBXNativeTarget "KIFTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				EABD46CA1857A0F300A5F081 /* Debug */,
@@ -1654,7 +1611,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		EB60ECD8177F8C84005A041A /* Build configuration list for PBXNativeTarget "Test Host" */ = {
+		EB60ECD8177F8C84005A041A /* Build configuration list for PBXNativeTarget "TestHost" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				EB60ECD9177F8C84005A041A /* Debug */,
