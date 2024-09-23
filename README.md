@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/kif-framework/KIF.svg?branch=master)](https://travis-ci.org/kif-framework/KIF) [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage) [![CocoaPod Version](https://img.shields.io/cocoapods/v/KIF.svg?style=flat)](https://cocoapods.org)
+[![Build Status](https://travis-ci.org/kif-framework/KIF.svg?branch=master)](https://travis-ci.org/kif-framework/KIF) [![CocoaPod Version](https://img.shields.io/cocoapods/v/KIF.svg?style=flat)](https://cocoapods.org)
 
 **IMPORTANT! Even though KIF is used to test your UI, you need to add it to your Unit Test target, _not_ your UI Test target. The magic of KIF is that it allows you to drive your UI from your unit tests and reap all the advantages of testing in-process.**
 
@@ -34,7 +34,7 @@ You can easily run a single KIF test with the Test Navigator or kick off nightly
 See KIF in Action
 -----------------
 
-KIF uses techniques described below to validate its internal functionality.  You can see a test suite that exercises its entire functionality by simply building and testing the KIF scheme with ⌘U.  Look at the tests in the "KIF Tests" group for ideas on how to build your own tests.
+KIF uses techniques described below to validate its internal functionality.  You can see a test suite that exercises its entire functionality by simply building and testing the KIF scheme with ⌘U.  Look at the tests in the "Tests" group for ideas on how to build your own tests.
 
 Installation (with CocoaPods)
 -----------------------------
@@ -113,13 +113,13 @@ Read **Final Test Target Configurations** below for the final details on getting
 Installing Accessibility Identifier Tests
 -----------------------------------------
 
-Normally you identify a UI element via its accessibility label so that KIF simulates the interactions of a real user as closely as possible. In some cases, however, you may have to use accessibility identifiers, which are not exposed to users. If using CocoaPods, install the additional identifier-based KIF tests via the Identifier CocoaPods subspec:
+Normally you identify a UI element via its accessibility label so that KIF simulates the interactions of a real user as closely as possible. In some cases, however, you may have to use accessibility identifiers, which are not exposed to users. If using CocoaPods, install the additional identifier-based Tests via the Identifier CocoaPods subspec:
 
 ```
 pod 'KIF/IdentifierTests'
 ```
 
-If not using CocoaPods, the identifier-based KIF tests can be added by including "KIFUITestActor-IdentifierTests.h".
+If not using CocoaPods, the identifier-based Tests can be added by including "KIFUITestActor-IdentifierTests.h".
 
 Final Test Target Configurations
 --------------------------------
@@ -221,7 +221,7 @@ Everything should now be configured. When you run the integration tests using th
 Use with other testing frameworks
 ---------------------------------
 
-`KIFTestCase` is not necessary for running KIF tests.  Tests can run directly in `XCTestCase` or any subclass.  The basic requirement is that when you call `tester` or `system`, `self` must be an instance of `XCTestCase` and you must call `KIFEnableAccessibility` in `setUp`.
+`KIFTestCase` is not necessary for running Tests.  Tests can run directly in `XCTestCase` or any subclass.  The basic requirement is that when you call `tester` or `system`, `self` must be an instance of `XCTestCase` and you must call `KIFEnableAccessibility` in `setUp`.
 
 For example, the following [Specta](https://github.com/specta/specta) test works without any changes to KIF or Specta:
 
@@ -289,7 +289,7 @@ Troubleshooting
 
 ### Simulator launches but app doesn't appear, steps time out after 10 seconds
 
-This issue occurs when XCTest does not have a valid test host. Reread the instructions above with regards to the "Bundle Loader" and "Test Host" settings.  You may have missed something.
+This issue occurs when XCTest does not have a valid Test Host. Reread the instructions above with regards to the "Bundle Loader" and "Test Host" settings.  You may have missed something.
 
 ### Step fails because a view cannot be found
 

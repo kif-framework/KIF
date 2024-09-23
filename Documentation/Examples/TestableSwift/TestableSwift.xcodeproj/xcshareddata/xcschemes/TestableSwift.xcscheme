@@ -14,10 +14,24 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "EABD46791857A0C700A5F081"
-               BuildableName = "libKIF.a"
-               BlueprintName = "KIF"
-               ReferencedContainer = "container:KIF.xcodeproj">
+               BlueprintIdentifier = "A88CD97C1A019AFF0064F706"
+               BuildableName = "TestableSwift.app"
+               BlueprintName = "TestableSwift"
+               ReferencedContainer = "container:TestableSwift.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "A88CD9931A019AFF0064F706"
+               BuildableName = "TestableSwiftTests.xctest"
+               BlueprintName = "TestableSwiftTests"
+               ReferencedContainer = "container:TestableSwift.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -30,10 +44,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "EABD46791857A0C700A5F081"
-            BuildableName = "libKIF.a"
-            BlueprintName = "KIF"
-            ReferencedContainer = "container:KIF.xcodeproj">
+            BlueprintIdentifier = "A88CD97C1A019AFF0064F706"
+            BuildableName = "TestableSwift.app"
+            BlueprintName = "TestableSwift"
+            ReferencedContainer = "container:Testable Swift.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <Testables>
@@ -41,10 +55,10 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "EABD46AD1857A0F300A5F081"
-               BuildableName = "KIFTests - XCTest.xctest"
-               BlueprintName = "KIFTests"
-               ReferencedContainer = "container:KIF.xcodeproj">
+               BlueprintIdentifier = "A88CD9931A019AFF0064F706"
+               BuildableName = "TestableSwiftTests.xctest"
+               BlueprintName = "TestableSwiftTests"
+               ReferencedContainer = "container:TestableSwift.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -59,27 +73,6 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "EABD46791857A0C700A5F081"
-            BuildableName = "libKIF.a"
-            BlueprintName = "KIF"
-            ReferencedContainer = "container:KIF.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
-      <EnvironmentVariables>
-         <EnvironmentVariable
-            key = "KIF_PRINTVIEWTREEONFAILURE"
-            value = "YES"
-            isEnabled = "YES">
-         </EnvironmentVariable>
-         <EnvironmentVariable
-            key = "VISUALIZE_TOUCHES"
-            value = "YES"
-            isEnabled = "YES">
-         </EnvironmentVariable>
-      </EnvironmentVariables>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -90,10 +83,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "EABD46791857A0C700A5F081"
-            BuildableName = "libKIF.a"
-            BlueprintName = "KIF"
-            ReferencedContainer = "container:KIF.xcodeproj">
+            BlueprintIdentifier = "A88CD97C1A019AFF0064F706"
+            BuildableName = "TestableSwift.app"
+            BlueprintName = "TestableSwift"
+            ReferencedContainer = "container:TestableSwift.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

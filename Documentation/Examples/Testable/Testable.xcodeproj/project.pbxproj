@@ -8,9 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		4440B32C17F5692A00253D51 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4440B32B17F5692A00253D51 /* Default-568h@2x.png */; };
+		6282C65B2C9CE4080040DCDB /* libKIF.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6282C6562C9CE3F70040DCDB /* libKIF.a */; };
 		62F81B001EBBD073009B2400 /* IntegrationTestCases.m in Sources */ = {isa = PBXBuildFile; fileRef = EB47EFB21781DF6D006BBFAC /* IntegrationTestCases.m */; };
 		62F81B011EBBD073009B2400 /* KIFUITestActor+EXAddition.m in Sources */ = {isa = PBXBuildFile; fileRef = EB47EFB41781DF6D006BBFAC /* KIFUITestActor+EXAddition.m */; };
-		62F81B2F1EBBDCB6009B2400 /* libKIF.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 62F81AD91EBBCF26009B2400 /* libKIF.a */; };
 		62F81B311EBBE348009B2400 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62F81B301EBBE348009B2400 /* IOKit.framework */; };
 		AAB073AD139861C0008AF393 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAB073AC139861C0008AF393 /* UIKit.framework */; };
 		AAB073AF139861C0008AF393 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAB073AE139861C0008AF393 /* Foundation.framework */; };
@@ -26,47 +26,26 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		62F81AD81EBBCF26009B2400 /* PBXContainerItemProxy */ = {
+		6282C6552C9CE3F70040DCDB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 62F81ACE1EBBCF26009B2400 /* KIF.xcodeproj */;
+			containerPortal = 6282C64E2C9CE3F70040DCDB /* KIF.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = EABD46AA1857A0C700A5F081;
 			remoteInfo = KIF;
 		};
-		62F81ADA1EBBCF26009B2400 /* PBXContainerItemProxy */ = {
+		6282C6572C9CE3F70040DCDB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 62F81ACE1EBBCF26009B2400 /* KIF.xcodeproj */;
+			containerPortal = 6282C64E2C9CE3F70040DCDB /* KIF.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = EB60ECC1177F8C83005A041A;
-			remoteInfo = "Test Host";
+			remoteInfo = "TestHost";
 		};
-		62F81ADC1EBBCF26009B2400 /* PBXContainerItemProxy */ = {
+		6282C6592C9CE3F70040DCDB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 62F81ACE1EBBCF26009B2400 /* KIF.xcodeproj */;
+			containerPortal = 6282C64E2C9CE3F70040DCDB /* KIF.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = EABD46CD1857A0F300A5F081;
-			remoteInfo = "KIF Tests";
-		};
-		62F81ADE1EBBCF26009B2400 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 62F81ACE1EBBCF26009B2400 /* KIF.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 9CC9673B1AD4B1B600576D13;
-			remoteInfo = KIFFramework;
-		};
-		62F81AE01EBBCF26009B2400 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 62F81ACE1EBBCF26009B2400 /* KIF.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = FAB89FFC1CAC546900C6DFC1;
-			remoteInfo = KIFFrameworkConsumer;
-		};
-		62F81AE21EBBCF26009B2400 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 62F81ACE1EBBCF26009B2400 /* KIF.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = FAB8A0141CAC546A00C6DFC1;
-			remoteInfo = KIFFrameworkConsumerTests;
+			remoteInfo = "KIFTests";
 		};
 		62F81AFB1EBBD038009B2400 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -75,20 +54,13 @@
 			remoteGlobalIDString = AAB073A7139861C0008AF393;
 			remoteInfo = Testable;
 		};
-		62F81B2D1EBBDC54009B2400 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 62F81ACE1EBBCF26009B2400 /* KIF.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = EABD46791857A0C700A5F081;
-			remoteInfo = KIF;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		22191E0524BF79F4004CAA18 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainWindow.xib; sourceTree = "<group>"; };
 		22191E0624BF79F4004CAA18 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/RootViewController.xib; sourceTree = "<group>"; };
 		4440B32B17F5692A00253D51 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
-		62F81ACE1EBBCF26009B2400 /* KIF.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = KIF.xcodeproj; path = ../../../../KIF.xcodeproj; sourceTree = "<group>"; };
+		6282C64E2C9CE3F70040DCDB /* KIF.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = KIF.xcodeproj; path = ../../../KIF.xcodeproj; sourceTree = "<group>"; };
 		62F81AF61EBBD038009B2400 /* Acceptance Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Acceptance Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		62F81B301EBBE348009B2400 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/IOKit.framework; sourceTree = DEVELOPER_DIR; };
 		AAB073A8139861C0008AF393 /* Testable.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Testable.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -118,7 +90,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BCA154372331FFF700CDC69F /* WebKit.framework in Frameworks */,
-				62F81B2F1EBBDCB6009B2400 /* libKIF.a in Frameworks */,
+				6282C65B2C9CE4080040DCDB /* libKIF.a in Frameworks */,
 				62F81B311EBBE348009B2400 /* IOKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -137,15 +109,12 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		62F81ACF1EBBCF26009B2400 /* Products */ = {
+		6282C64F2C9CE3F70040DCDB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				62F81AD91EBBCF26009B2400 /* libKIF.a */,
-				62F81ADB1EBBCF26009B2400 /* Test Host.app */,
-				62F81ADD1EBBCF26009B2400 /* KIF Tests - XCTest.xctest */,
-				62F81ADF1EBBCF26009B2400 /* KIF.framework */,
-				62F81AE11EBBCF26009B2400 /* KIFFrameworkConsumer.app */,
-				62F81AE31EBBCF26009B2400 /* KIFFrameworkConsumerTests.xctest */,
+				6282C6562C9CE3F70040DCDB /* libKIF.a */,
+				6282C6582C9CE3F70040DCDB /* TestHost.app */,
+				6282C65A2C9CE3F70040DCDB /* KIFTests - XCTest.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -173,6 +142,7 @@
 		AAB073AB139861C0008AF393 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6282C64E2C9CE3F70040DCDB /* KIF.xcodeproj */,
 				BCA1542F2331FF8C00CDC69F /* WebKit.framework */,
 				EB9DB7431781DDBA0087B6FD /* libKIF.a */,
 				62F81B301EBBE348009B2400 /* IOKit.framework */,
@@ -212,7 +182,6 @@
 		EB9DB7361781DBD40087B6FD /* Acceptance Tests */ = {
 			isa = PBXGroup;
 			children = (
-				62F81ACE1EBBCF26009B2400 /* KIF.xcodeproj */,
 				EB47EFB21781DF6D006BBFAC /* IntegrationTestCases.m */,
 				EB47EFB31781DF6D006BBFAC /* KIFUITestActor+EXAddition.h */,
 				EB47EFB41781DF6D006BBFAC /* KIFUITestActor+EXAddition.m */,
@@ -244,7 +213,6 @@
 			);
 			dependencies = (
 				62F81AFC1EBBD038009B2400 /* PBXTargetDependency */,
-				62F81B2E1EBBDC54009B2400 /* PBXTargetDependency */,
 			);
 			name = "Acceptance Tests";
 			productName = "Acceptance Tests";
@@ -296,8 +264,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 62F81ACF1EBBCF26009B2400 /* Products */;
-					ProjectRef = 62F81ACE1EBBCF26009B2400 /* KIF.xcodeproj */;
+					ProductGroup = 6282C64F2C9CE3F70040DCDB /* Products */;
+					ProjectRef = 6282C64E2C9CE3F70040DCDB /* KIF.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -309,46 +277,25 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		62F81AD91EBBCF26009B2400 /* libKIF.a */ = {
+		6282C6562C9CE3F70040DCDB /* libKIF.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libKIF.a;
-			remoteRef = 62F81AD81EBBCF26009B2400 /* PBXContainerItemProxy */;
+			remoteRef = 6282C6552C9CE3F70040DCDB /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		62F81ADB1EBBCF26009B2400 /* Test Host.app */ = {
+		6282C6582C9CE3F70040DCDB /* TestHost.app */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.application;
-			path = "Test Host.app";
-			remoteRef = 62F81ADA1EBBCF26009B2400 /* PBXContainerItemProxy */;
+			path = "TestHost.app";
+			remoteRef = 6282C6572C9CE3F70040DCDB /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		62F81ADD1EBBCF26009B2400 /* KIF Tests - XCTest.xctest */ = {
+		6282C65A2C9CE3F70040DCDB /* KIFTests - XCTest.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
-			path = "KIF Tests - XCTest.xctest";
-			remoteRef = 62F81ADC1EBBCF26009B2400 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		62F81ADF1EBBCF26009B2400 /* KIF.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = KIF.framework;
-			remoteRef = 62F81ADE1EBBCF26009B2400 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		62F81AE11EBBCF26009B2400 /* KIFFrameworkConsumer.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = KIFFrameworkConsumer.app;
-			remoteRef = 62F81AE01EBBCF26009B2400 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		62F81AE31EBBCF26009B2400 /* KIFFrameworkConsumerTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = KIFFrameworkConsumerTests.xctest;
-			remoteRef = 62F81AE21EBBCF26009B2400 /* PBXContainerItemProxy */;
+			path = "KIFTests - XCTest.xctest";
+			remoteRef = 6282C6592C9CE3F70040DCDB /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -401,11 +348,6 @@
 			isa = PBXTargetDependency;
 			target = AAB073A7139861C0008AF393 /* Testable */;
 			targetProxy = 62F81AFB1EBBD038009B2400 /* PBXContainerItemProxy */;
-		};
-		62F81B2E1EBBDC54009B2400 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = KIF;
-			targetProxy = 62F81B2D1EBBDC54009B2400 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -570,7 +512,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 			};
@@ -607,7 +549,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
 			};

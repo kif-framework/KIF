@@ -131,7 +131,7 @@
 
 #pragma mark Class Methods
 
-static NSTimeInterval KIFTestStepDefaultAnimationWaitingTimeout = 0.5;
+static NSTimeInterval KIFTestStepDefaultAnimationWaitingTimeout = 2.0;
 static NSTimeInterval KIFTestStepDefaultAnimationStabilizationTimeout = 0.5;
 static NSTimeInterval KIFTestStepDefaultMainThreadDispatchStabilizationTimeout = 0.5;
 static NSTimeInterval KIFTestStepDefaultTimeout = 10.0;

@@ -467,7 +467,7 @@ static BOOL KIFUITestActorAnimationsEnabled = YES;
     }];
 
     // Wait for view to settle.
-    [self waitForTimeInterval:0.5 relativeToAnimationSpeed:YES];
+    [self waitForAnimationsToFinish];
 }
 
 - (void)waitForKeyboard
@@ -1335,7 +1335,8 @@ static BOOL KIFUITestActorAnimationsEnabled = YES;
     // Can handle only the touchable space.
     CGRect elementFrame = [viewToSwipe convertRect:viewToSwipe.bounds toView:[UIApplication sharedApplication].keyWindow.rootViewController.view];
     CGPoint swipeStart = CGPointCenteredInRect(elementFrame);
-    CGPoint swipeDisplacement = CGPointMake(CGRectGetMidX(elementFrame), CGRectGetMaxY(elementFrame));
+    swipeStart.y = swipeStart.y - CGRectGetMaxY(elementFrame) / 4.0;
+    CGPoint swipeDisplacement = CGPointMake(0, CGRectGetMaxY(elementFrame) / 2.0);
 
     [viewToSwipe dragFromPoint:swipeStart displacement:swipeDisplacement steps:kNumberOfPointsInSwipePath];
 }

@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "F823B32F-2F22-4DD2-8CA2-174EF43D6620",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:SPMIntegration.xcodeproj",
+        "identifier" : "B4310BF4260BA21500EE03AF",
+        "name" : "SPMIntegrationTests"
+      }
+    }
+  ],
+  "version" : 1
+}

@@ -26,12 +26,12 @@ let package = Package(
                 .headerSearchPath("Visualizer/"),
                 .headerSearchPath("IdentifierTests/"),
             ],
-            linkerSettings: [.linkedFramework("IOKit")]
+            linkerSettings: [.linkedFramework("IOKit"), .linkedFramework("XCTest")]
         ),
         .testTarget(
             name: "KIFTests",
             dependencies: ["KIF"],
-            path: "./KIF Tests",
+            path: "./Tests",
             cSettings: [.headerSearchPath("../Sources/KIF/")] // allow to look a "private" headers
         ),
     ]
