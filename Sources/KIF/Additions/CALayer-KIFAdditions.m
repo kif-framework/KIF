@@ -27,25 +27,31 @@
 {
     __block BOOL result = NO;
     [self performBlockOnDescendentLayers:^(CALayer *layer, BOOL *stop) {
-      // explicitly exclude _UIParallaxMotionEffect as it is used in alertviews, and we don't want every alertview to be paused
-      // explicitly exclude UITextSelectionViewCaretBlinkAnimation as it is used in textfields, and we don't want every view with textfields to be paused
-      BOOL hasAnimation = layer.animationKeys.count != 0 && ![layer.animationKeys containsObject:@"_UIParallaxMotionEffect"] && ![layer.animationKeys containsObject:@"UITextSelectionViewCaretBlinkAnimation"];
-      if (hasAnimation && !layer.hidden) {
-          double currentTime = CACurrentMediaTime() * [layer KIF_absoluteSpeed];
+        // explicitly exclude _UIParallaxMotionEffect as it is used in alertviews, and we don't want every alertview to be paused
+        // explicitly exclude UITextSelectionViewCaretBlinkAnimation as it is used in textfields, and we don't want every view with textfields to be paused
+        BOOL hasAnimation = layer.animationKeys.count != 0 && ![layer.animationKeys containsObject:@"_UIParallaxMotionEffect"] && ![layer.animationKeys containsObject:@"UITextSelectionViewCaretBlinkAnimation"];
 
-          [layer.animationKeys enumerateObjectsUsingBlock:^(NSString *animationKey, NSUInteger idx, BOOL *innerStop) {
-              CAAnimation *animation = [layer animationForKey:animationKey];
-              double beginTime = [animation beginTime];
-              double completionTime = [animation KIF_completionTime];
+        // Ignore the animation of the KIF touch visualizer circle as it does not affect any view behavior
+        if ([NSStringFromClass(layer.delegate.class) isEqualToString:@"KIFTouchVisualizerView"]) {
+            hasAnimation = NO;
+        }
 
-              // Ignore infinitely repeating animations
-              if (currentTime >= beginTime && completionTime != HUGE_VALF && currentTime < completionTime) {
-                  result = YES;
-                  *innerStop = YES;
-                  *stop = YES;
-              }
-          }];
-      }
+        if (hasAnimation && !layer.hidden) {
+            double currentTime = CACurrentMediaTime() * [layer KIF_absoluteSpeed];
+
+            [layer.animationKeys enumerateObjectsUsingBlock:^(NSString *animationKey, NSUInteger idx, BOOL *innerStop) {
+                CAAnimation *animation = [layer animationForKey:animationKey];
+                double beginTime = [animation beginTime];
+                double completionTime = [animation KIF_completionTime];
+
+                // Ignore long running animations (> 1 minute duration)
+                if (currentTime >= beginTime && completionTime < currentTime + 60 && currentTime < completionTime) {
+                    result = YES;
+                    *innerStop = YES;
+                    *stop = YES;
+                }
+            }];
+        }
     }];
     return result;
 }
@@ -58,6 +64,10 @@
 
 - (void)performBlockOnDescendentLayers:(void (^)(CALayer *, BOOL *))block stop:(BOOL *)stop
 {
+    if (self.isHidden) {
+        return;
+    }
+
     block(self, stop);
     if (*stop) {
         return;
