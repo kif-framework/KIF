@@ -29,7 +29,6 @@
     self.lineBreakLabel.accessibilityLabel = @"A\nB\nC\n\n";
 	self.stepper.isAccessibilityElement = YES;
 	self.stepper.accessibilityLabel = @"theStepper";
-    self.stepper.accessibilityCustomActions = self.customActions;
 }
 
 - (void)memoryWarningNotification:(NSNotification *)notification
@@ -96,56 +95,7 @@
 }
 
 
-- (NSArray *)customActions
-{
-    NSArray *actions = @[self.customActionWithoutArgument, self.customActionWithArgument, self.customActionThatFails];
-    if (@available(iOS 13.0, *)) {
-        return [actions arrayByAddingObject: self.customActionWithBlock];
-    }
-    return actions;
-}
 
-- (UIAccessibilityCustomAction *)customActionWithBlock
-{
-    if (@available(iOS 13.0, *)) {
-        return [[UIAccessibilityCustomAction alloc] initWithName: @"Action With block handler"
-                                                   actionHandler:^BOOL(UIAccessibilityCustomAction * _Nonnull customAction) {
-            return YES;
-        }];
-    } else {
-        return  nil;
-    }
-}
-
-- (UIAccessibilityCustomAction *)customActionWithoutArgument
-{
-    return [[UIAccessibilityCustomAction alloc] initWithName:@"Action without argument" target:self selector:@selector(customActionHandlerWithoutArgument)];
-}
-
-- (UIAccessibilityCustomAction *)customActionWithArgument
-{
-    return [[UIAccessibilityCustomAction alloc] initWithName:@"Action with argument" target:self selector:@selector(customActionHandlerWithArgument:)];
-}
-
-- (UIAccessibilityCustomAction *)customActionThatFails
-{
-    return [[UIAccessibilityCustomAction alloc] initWithName:@"Action that fails" target:self selector:@selector(customActionThatFails)];
-}
-
-- (BOOL)customActionHandlerWithoutArgument
-{
-    return YES;
-}
-
-- (BOOL)customActionHandlerWithArgument:(UIAccessibilityCustomAction *)action
-{
-    return YES;
-}
-
-- (BOOL)customActionHandlerThatFails
-{
-    return NO;
-}
 
 #pragma mark - <UIImagePickerControllerDelegate>
 

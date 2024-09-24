@@ -15,7 +15,7 @@
 
 - (void)beforeEach
 {
-    [[viewTester usingLabel:@"Tapping"] tap];
+    [[viewTester usingLabel:@"Accessibility"] tap];
 }
 
 - (void)afterEach
@@ -26,14 +26,14 @@
 - (void)testCustomActions
 {
     if (@available(iOS 13.0, *)) {
-        [[viewTester usingLabel:@"theStepper"] activateCustomActionWithName:@"Action With block handler"];
+        [[viewTester usingLabel:@"AccessibilityView"] activateCustomActionWithName:@"Action With block handler"];
     }
     
     for (NSString *name in @[@"Action without argument", @"Action with argument"]) {
-        [[viewTester usingLabel:@"theStepper"] activateCustomActionWithName:name];
+        [[viewTester usingLabel:@"AccessibilityView"] activateCustomActionWithName:name];
     }
     
-    [[viewTester usingLabel:@"theStepper"] activateCustomActionWithName:@"Action that fails" expectedResult:NO];
+    [[viewTester usingLabel:@"AccessibilityView"] activateCustomActionWithName:@"Action that fails" expectedResult:NO];
 }
 
 @end

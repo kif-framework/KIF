@@ -200,6 +200,11 @@ extern NSString *const inputFieldTestString;
  */
 - (void)activateCustomActionWithName:(NSString *)name expectedResult:(BOOL)expectedResult;
 
+/*!
+ @abstract Activates a found element via `accessibilityActivate()`.
+ @param expectedResult The expected boolean return from activation of the element.
+ */
+- (void)performAccessibilityActivateWithExpectedResult:(BOOL)expectedResult;
 
 #pragma mark Waiting & Finding
 
