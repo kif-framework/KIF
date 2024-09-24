@@ -380,6 +380,7 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
                         [collectionView scrollRectToVisible:visibleRect animated:NO];
                         [collectionView layoutIfNeeded];
                         UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
+                        NSAssert(cell, @"UICollectionViewCell returned from 'cellForItemAtIndexPath' is unexpectedly nil!");
                         UIAccessibilityElement *element = [cell accessibilityElementMatchingBlock:matchBlock notHidden:NO disableScroll:NO];
                         
                         // Skip this cell if it isn't the one we're looking for
@@ -395,6 +396,7 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
             }
 
             [collectionView setContentOffset:initialPosition.origin];
+            [collectionView layoutIfNeeded];
             CFRunLoopRunInMode(UIApplicationCurrentRunMode, CELL_SCROLL_DELAY_STABILIZATION, false);
         }
     }
