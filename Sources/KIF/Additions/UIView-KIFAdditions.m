@@ -17,6 +17,9 @@
 #import "KIFUITestActor.h"
 #import <WebKit/WebKit.h>
 
+#define DRAG_TOUCH_DELAY 0.01
+#define CELL_SCROLL_DELAY_STABILIZATION 0.05
+
 double KIFDegreesToRadians(double deg) {
     return (deg) / 180.0 * M_PI;
 }
@@ -310,7 +313,6 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
                 }
             }];
 
-            CFTimeInterval delay = 0.05;
             for (NSUInteger section = 0, numberOfSections = [tableView numberOfSections]; section < numberOfSections; section++) {
                 for (NSUInteger row = 0, numberOfRows = [tableView numberOfRowsInSection:section]; row < numberOfRows; row++) {
                     if (!self.window) {
@@ -328,7 +330,7 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
                     }
 
                     @autoreleasepool {
-                        // Scroll to the cell and wait for the animation to complete. Using animations here may not be optimal.
+                        // Scroll to the cell and wait for the animation to complete.
                         CGRect sectionRect = [tableView rectForRowAtIndexPath:indexPath];
                         [tableView scrollRectToVisible:sectionRect animated:NO];
 
@@ -342,24 +344,25 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
                     }
 
                     // Note: using KIFRunLoopRunInModeRelativeToAnimationSpeed here may cause tests to stall
-                    CFRunLoopRunInMode(UIApplicationCurrentRunMode, delay, false);
+                    CFRunLoopRunInMode(UIApplicationCurrentRunMode, CELL_SCROLL_DELAY_STABILIZATION, false);
                     return [self accessibilityElementMatchingBlock:matchBlock disableScroll:NO];
                 }
             }
 
 			//if we're in a picker (scrollView), let's make sure we set the position back to how it was last set.
-            if(scrollView != nil && scrollContentOffset.x != -1.0)
+            if (scrollView != nil && scrollContentOffset.x != -1.0)
             {
                 [scrollView setContentOffset:scrollContentOffset];
             } else {
                 [tableView setContentOffset:initialPosition.origin];
             }
-            CFRunLoopRunInMode(UIApplicationCurrentRunMode, delay, false);
+
+            CFRunLoopRunInMode(UIApplicationCurrentRunMode, CELL_SCROLL_DELAY_STABILIZATION, false);
         } else if ([self isKindOfClass:[UICollectionView class]]) {
             UICollectionView *collectionView = (UICollectionView *)self;
-            
+            CGRect initialPosition = CGRectMake(collectionView.contentOffset.x, collectionView.contentOffset.y, collectionView.frame.size.width, collectionView.frame.size.height);
             NSArray *indexPathsForVisibleItems = [collectionView indexPathsForVisibleItems];
-            
+
             for (NSUInteger section = 0, numberOfSections = [collectionView numberOfSections]; section < numberOfSections; section++) {
                 for (NSUInteger item = 0, numberOfItems = [collectionView numberOfItemsInSection:section]; item < numberOfItems; item++) {
                     if (!self.window) {
@@ -373,36 +376,28 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
                     }
 
                     @autoreleasepool {
-                        // Get the cell directly from the dataSource because UICollectionView will only vend visible cells
-                        UICollectionViewCell *cell = [collectionView.dataSource collectionView:collectionView cellForItemAtIndexPath:indexPath];
-
-                        // The cell contents might change just prior to being displayed, so we simulate the cell appearing onscreen
-                        if ([collectionView.delegate respondsToSelector:@selector(collectionView:willDisplayCell:forItemAtIndexPath:)]) {
-                            [collectionView.delegate collectionView:collectionView willDisplayCell:cell forItemAtIndexPath:indexPath];
-                        }
-                        
+                        CGRect visibleRect = [collectionView layoutAttributesForItemAtIndexPath:indexPath].frame;
+                        [collectionView scrollRectToVisible:visibleRect animated:NO];
+                        [collectionView layoutIfNeeded];
+                        UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
+                        NSAssert(cell, @"UICollectionViewCell returned from 'cellForItemAtIndexPath' is unexpectedly nil!");
                         UIAccessibilityElement *element = [cell accessibilityElementMatchingBlock:matchBlock notHidden:NO disableScroll:NO];
-
-                        // Remove the cell from the collection view so that it doesn't stick around
-                        [cell removeFromSuperview];
                         
                         // Skip this cell if it isn't the one we're looking for
-                        // Sometimes we get cells with no size here which can cause an endless loop, so we ignore those
-                        if (!element || CGSizeEqualToSize(cell.frame.size, CGSizeZero)) {
+                        if (!element) {
                             continue;
                         }
                     }
                     
-                    // Scroll to the cell and wait for the animation to complete
-                    CGRect frame = [collectionView.collectionViewLayout layoutAttributesForItemAtIndexPath:indexPath].frame;
-                    [collectionView scrollRectToVisible:frame animated:YES];
                     // Note: using KIFRunLoopRunInModeRelativeToAnimationSpeed here may cause tests to stall
-                    CFRunLoopRunInMode(UIApplicationCurrentRunMode, 0.5, false);
-                    
-                    // Now try finding the element again
+                    CFRunLoopRunInMode(UIApplicationCurrentRunMode, CELL_SCROLL_DELAY_STABILIZATION, false);
                     return [self accessibilityElementMatchingBlock:matchBlock disableScroll:NO];
                 }
             }
+
+            [collectionView setContentOffset:initialPosition.origin];
+            [collectionView layoutIfNeeded];
+            CFRunLoopRunInMode(UIApplicationCurrentRunMode, CELL_SCROLL_DELAY_STABILIZATION, false);
         }
     }
 
@@ -591,8 +586,6 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
 
     [[UIApplication sharedApplication] kif_sendEvent:event];
 }
-
-#define DRAG_TOUCH_DELAY 0.01
 
 - (void)longPressAtPoint:(CGPoint)point duration:(NSTimeInterval)duration
 {
