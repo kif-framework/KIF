@@ -9,23 +9,31 @@
 #import "UIApplication-KIFAdditions.h"
 #import "NSObject+KIFSwizzle.h"
 
+@interface UIWindow ()
+
+- (instancetype)_initWithFrame:(CGRect)rect debugName:(NSString *)debugName windowScene:(UIWindowScene *)windowScene API_AVAILABLE(ios(13));
+
+@end
+
+
 @implementation UIWindow (KIFSwizzle)
 
 + (void)load
 {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        [self swizzleSEL:@selector(init) withSEL:@selector(swizzle_init)];
-        [self swizzleSEL:@selector(becomeKeyWindow) withSEL:@selector(swizzle_becomeKeyWindow)];
-        if (@available(iOS 13.0, *)) {
-            [self swizzleSEL:@selector(initWithWindowScene:) withSEL:@selector(swizzle_initWithWindowScene:)];
+        if (@available(iOS 13, *)) {
+            [self swizzleSEL:@selector(_initWithFrame:debugName:windowScene:) withSEL:@selector(swizzle__initWithFrame:debugName:windowScene:)];
+        } else {
+            [self swizzleSEL:@selector(init) withSEL:@selector(swizzle_init)];
         }
+        [self swizzleSEL:@selector(becomeKeyWindow) withSEL:@selector(swizzle_becomeKeyWindow)];
     });
 }
 
-- (instancetype)swizzle_initWithWindowScene:(UIWindowScene *)scene API_AVAILABLE(ios(13))
+- (instancetype)swizzle__initWithFrame:(CGRect)rect debugName:(NSString *)debugName windowScene:(UIWindowScene *)windowScene API_AVAILABLE(ios(13))
 {
-    UIWindow *window = [self swizzle_initWithWindowScene:scene];
+    UIWindow *window = [self swizzle__initWithFrame:rect debugName:debugName windowScene:windowScene];
     window.layer.speed = [UIApplication sharedApplication].animationSpeed;
 
     return window;

@@ -17,6 +17,9 @@
     Method originalMethod = class_getInstanceMethod(class, originalSEL);
     Method swizzledMethod = class_getInstanceMethod(class, swizzledSEL);
 
+    NSAssert(originalMethod != nil, @"The original method for selector '%@' couldn't be found", NSStringFromSelector(originalSEL));
+    NSAssert(swizzledMethod != nil, @"The swizzled method for selector '%@' couldn't be found", NSStringFromSelector(swizzledSEL));
+
     method_exchangeImplementations(originalMethod, swizzledMethod);
 }
 
