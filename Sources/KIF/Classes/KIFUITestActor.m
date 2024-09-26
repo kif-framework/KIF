@@ -230,9 +230,8 @@ static BOOL KIFUITestActorAnimationsEnabled = YES;
             [self waitForTimeInterval:maximumWaitingTimeInterval relativeToAnimationSpeed:YES];
         }
     } else {
-
         // Wait for the view to stabilize and give them a chance to start animations before we wait for them.
-        [self waitForTimeInterval:stabilizationTime relativeToAnimationSpeed:YES];
+        [self waitForTimeInterval:MAX(stabilizationTime / [UIApplication sharedApplication].animationSpeed, 0.25) relativeToAnimationSpeed:NO];
         maximumWaitingTimeInterval -= stabilizationTime;
 
         NSTimeInterval startTime = [NSDate timeIntervalSinceReferenceDate];

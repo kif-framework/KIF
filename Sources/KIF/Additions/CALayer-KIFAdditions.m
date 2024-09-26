@@ -41,12 +41,32 @@
 
             [layer.animationKeys enumerateObjectsUsingBlock:^(NSString *animationKey, NSUInteger idx, BOOL *innerStop) {
                 CAAnimation *animation = [layer animationForKey:animationKey];
-                double beginTime = [animation beginTime];
+
                 double completionTime = [animation KIF_completionTime];
 
-                // Ignore long running animations (> 1 minute duration)
-                if (currentTime >= beginTime && completionTime < currentTime + 60 && currentTime < completionTime) {
+                // Ignore long running animations (> 1 minute duration), as we don't want to wait on them
+                if (completionTime > currentTime + 60) {
+                    return;
+                }
+
+                // If an animation is set to be removed on completion, it must still be in progress if we enumerated it
+                // This is the default behavior for animations, so we should often hit this codepath.
+                if ([animation isRemovedOnCompletion]) {
                     result = YES;
+                } else if ([animation.delegate isKindOfClass:NSClassFromString(@"UIViewAnimationState")]) {
+                    // Use a private property on the private class to determine if the animation state has completed
+                    BOOL animationDidStopSent = [[(NSObject *)animation.delegate valueForKey:@"_animationDidStopSent"] boolValue];
+
+                    if (!animationDidStopSent) {
+                        result = YES;
+                    }
+                } else if (currentTime > completionTime) {
+                    // Otherwise, use the completion time to determine if the animation has been completed.
+                    // This doesn't seem to always be exactly right however.
+                    result = YES;
+                }
+
+                if (result) {
                     *innerStop = YES;
                     *stop = YES;
                 }
