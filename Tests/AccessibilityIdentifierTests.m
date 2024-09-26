@@ -49,14 +49,14 @@
 - (void)testLongPressingViewWithAccessibilityIdentifier
 {
     [tester tapViewWithAccessibilityIdentifier:@"idGreeting"];
-    [tester longPressViewWithAccessibilityIdentifier:@"idGreeting" duration:2];
+    [tester longPressViewWithAccessibilityIdentifier:@"idGreeting" duration:1];
     [tester tapViewWithAccessibilityLabel:@"Select All"];
 }
 
 - (void)testEnteringTextIntoViewWithAccessibilityIdentifier
 {
     [tester tapViewWithAccessibilityIdentifier:@"idGreeting"];
-    [tester longPressViewWithAccessibilityIdentifier:@"idGreeting" duration:2];
+    [tester longPressViewWithAccessibilityIdentifier:@"idGreeting" duration:1];
     [tester waitForAnimationsToFinish];
     [tester tapViewWithAccessibilityLabel:@"Select All"];
     [tester tapViewWithAccessibilityLabel:@"Cut"];
@@ -77,7 +77,7 @@
 - (void)testSettingTextIntoViewWithAccessibilityIdentifier
 {
     UIView *greetingView = [tester waitForViewWithAccessibilityIdentifier:@"idGreeting"];
-    [tester longPressViewWithAccessibilityIdentifier:@"idGreeting" duration:2];
+    [tester longPressViewWithAccessibilityIdentifier:@"idGreeting" duration:1];
     [tester setText:@"Yo" intoViewWithAccessibilityIdentifier:@"idGreeting"];
     [tester expectView:greetingView toContainText:@"Yo"];
     [tester setText:@"Hello" intoViewWithAccessibilityIdentifier:@"idGreeting"];

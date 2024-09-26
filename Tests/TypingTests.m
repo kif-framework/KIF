@@ -39,7 +39,7 @@
 - (void)testEnteringTextIntoFirstResponder
 {
     [tester tapViewWithAccessibilityLabel:@"Greeting"];
-    [tester longPressViewWithAccessibilityLabel:@"Greeting" value:@"Hello" duration:2];
+    [tester longPressViewWithAccessibilityLabel:@"Greeting" value:@"Hello" duration:1];
     [tester tapViewWithAccessibilityLabel:@"Select All"];
     [tester enterTextIntoCurrentFirstResponder:@"Yo"];
     [tester waitForViewWithAccessibilityLabel:@"Greeting" value:@"Yo" traits:UIAccessibilityTraitNone];
@@ -53,7 +53,7 @@
 - (void)testEnteringTextIntoViewWithAccessibilityLabel
 {
     [tester tapViewWithAccessibilityLabel:@"Greeting"];
-    [tester longPressViewWithAccessibilityLabel:@"Greeting" value:@"Hello" duration:2];
+    [tester longPressViewWithAccessibilityLabel:@"Greeting" value:@"Hello" duration:1];
     [tester tapViewWithAccessibilityLabel:@"Select All"];
     [tester tapViewWithAccessibilityLabel:@"Cut"];
     [tester enterText:@"Yo" intoViewWithAccessibilityLabel:@"Greeting"];
@@ -110,7 +110,7 @@
 - (void)testSettingTextIntoViewWithAccessibilityLabel
 {
     UIView *greetingView = [tester waitForViewWithAccessibilityLabel:@"Greeting"];
-    [tester longPressViewWithAccessibilityLabel:@"Greeting" duration:2];
+    [tester longPressViewWithAccessibilityLabel:@"Greeting" duration:1];
     [tester setText:@"Yo" intoViewWithAccessibilityLabel:@"Greeting"];
     [tester expectView:greetingView toContainText:@"Yo"];
     [tester setText:@"Hello" intoViewWithAccessibilityLabel:@"Greeting"];

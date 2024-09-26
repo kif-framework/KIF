@@ -28,21 +28,21 @@
 - (void)testLongPressingViewWithAccessibilityLabel
 {
     [tester tapViewWithAccessibilityLabel:@"Greeting"];
-    [tester longPressViewWithAccessibilityLabel:@"Greeting" duration:2];
+    [tester longPressViewWithAccessibilityLabel:@"Greeting" duration:1];
     [tester tapViewWithAccessibilityLabel:@"Select All"];
 }
 
 - (void)testLongPressingViewViewWithTraits
 {
     [tester tapViewWithAccessibilityLabel:@"Greeting"];
-    [tester longPressViewWithAccessibilityLabel:@"Greeting" value:@"Hello" duration:2];
+    [tester longPressViewWithAccessibilityLabel:@"Greeting" value:@"Hello" duration:1];
     [tester tapViewWithAccessibilityLabel:@"Select All"];
 }
 
 - (void)testLongPressingViewViewWithValue
 {
     [tester tapViewWithAccessibilityLabel:@"Greeting"];
-    [tester longPressViewWithAccessibilityLabel:@"Greeting" value:@"Hello" traits:UIAccessibilityTraitUpdatesFrequently duration:2];
+    [tester longPressViewWithAccessibilityLabel:@"Greeting" value:@"Hello" traits:UIAccessibilityTraitUpdatesFrequently duration:1];
     [tester tapViewWithAccessibilityLabel:@"Select All"];
 }
 
