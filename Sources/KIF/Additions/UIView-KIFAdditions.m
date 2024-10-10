@@ -380,7 +380,13 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
                         [collectionView scrollRectToVisible:visibleRect animated:NO];
                         [collectionView layoutIfNeeded];
                         UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
-                        NSAssert(cell, @"UICollectionViewCell returned from 'cellForItemAtIndexPath' is unexpectedly nil!");
+                        int remainingAttempts = 10;
+                        while (!cell && collectionView.window) {
+                            remainingAttempts--;
+                            NSAssert(remainingAttempts > 0, @"UICollectionViewCell returned from 'cellForItemAtIndexPath' is unexpectedly nil!");
+                            CFRunLoopRunInMode(UIApplicationCurrentRunMode, 0.01, false);
+                            cell = [collectionView cellForItemAtIndexPath:indexPath];
+                        }
                         UIAccessibilityElement *element = [cell accessibilityElementMatchingBlock:matchBlock notHidden:NO disableScroll:NO];
                         
                         // Skip this cell if it isn't the one we're looking for
