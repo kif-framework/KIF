@@ -82,10 +82,10 @@
                     orientationMask = UIInterfaceOrientationMaskPortraitUpsideDown;
                     break;
                 case UIDeviceOrientationLandscapeLeft:
-                    orientationMask = UIInterfaceOrientationMaskLandscapeLeft;
+                    orientationMask = UIInterfaceOrientationMaskLandscapeRight;
                     break;
                 case UIDeviceOrientationLandscapeRight:
-                    orientationMask = UIInterfaceOrientationMaskLandscapeRight;
+                    orientationMask = UIInterfaceOrientationMaskLandscapeLeft;
                     break;
                 case UIDeviceOrientationFaceUp:
                     orientationMask = UIInterfaceOrientationMaskAll;
