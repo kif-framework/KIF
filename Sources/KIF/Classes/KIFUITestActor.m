@@ -546,8 +546,8 @@ static BOOL KIFUITestActorAnimationsEnabled = YES;
 {
     // In iOS7, tapping a field that is already first responder moves the cursor to the front of the field
     if (view.window.firstResponder != view) {
-        [self tapAccessibilityElement:element inView:view];
         [self waitForTimeInterval:0.25 relativeToAnimationSpeed:YES];
+        [self tapAccessibilityElement:element inView:view];
     }
 
     [self enterTextIntoCurrentFirstResponder:text fallbackView:view];
