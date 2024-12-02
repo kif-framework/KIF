@@ -385,7 +385,10 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
                             [collectionView layoutIfNeeded];
                             cell = [collectionView cellForItemAtIndexPath:indexPath];
                         }
-                        NSAssert(cell, @"UICollectionViewCell returned from 'cellForItemAtIndexPath' is unexpectedly nil!");
+                        // Skip this cell if it can't be found
+                        if (!cell) {
+                            continue;
+                        }
                         UIAccessibilityElement *element = [cell accessibilityElementMatchingBlock:matchBlock notHidden:NO disableScroll:NO];
                         
                         // Skip this cell if it isn't the one we're looking for
