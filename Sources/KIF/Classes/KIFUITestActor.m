@@ -551,6 +551,7 @@ static BOOL KIFUITestActorAnimationsEnabled = YES;
 
             [self failWithError:[NSError KIFErrorWithFormat:@"Failed to find key for character \"%@\"", characterString] stopTest:YES];
         }
+        CFRunLoopRunInMode(UIApplicationCurrentRunMode, 0.05, false);
     }];
 
     NSTimeInterval remainingWaitTime = 0.01 - [KIFTypist keystrokeDelay];
