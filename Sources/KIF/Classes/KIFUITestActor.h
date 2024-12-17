@@ -402,6 +402,14 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
 - (void)enterTextIntoCurrentFirstResponder:(NSString *)text fallbackView:(UIView *)fallbackView;
 
 /*!
+ @abstract Enters text into a the current first responder.
+ @discussion Text is entered into the view by simulating taps on the appropriate keyboard keys if the keyboard is already displayed. Useful to enter text in WKWebViews or components with no accessibility labels.
+ @param text The text to enter.
+ @param characterTypingDelay the amount to delay between typing each character.
+ */
+- (void)enterTextIntoCurrentFirstResponder:(NSString *)text fallbackView:(UIView *)fallbackView characterTypingDelay:(CFTimeInterval)characterTypingDelay;
+
+/*!
  @abstract Enters text into a particular view in the view hierarchy.
  @discussion If the element isn't currently tappable, then the step will attempt to wait until it is. Once the view is present and tappable, a tap event is simulated in the center of the view or element, then text is entered into the view by simulating taps on the appropriate keyboard keys.
  @param text The text to enter.
@@ -410,6 +418,17 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  @param view the view to type into.
  */
 - (void)enterText:(NSString *)text intoElement:(UIAccessibilityElement *)element inView:(UIView *)view expectedResult:(NSString *)expectedResult;
+
+/*!
+ @abstract Enters text into a particular view in the view hierarchy.
+ @discussion If the element isn't currently tappable, then the step will attempt to wait until it is. Once the view is present and tappable, a tap event is simulated in the center of the view or element, then text is entered into the view by simulating taps on the appropriate keyboard keys.
+ @param text The text to enter.
+ @param expectedResult What the text value should be after entry, including any formatting done by the field. If this is nil, the "text" parameter will be used.
+ @param element the element to type into.
+ @param view the view to type into.
+ @param characterTypingDelay the amount to delay between typing each character.
+ */
+- (void)enterText:(NSString *)text intoElement:(UIAccessibilityElement *)element inView:(UIView *)view expectedResult:(NSString *)expectedResult characterTypingDelay:(CFTimeInterval)characterTypingDelay;
 
 /*!
  @abstract Enters text into a particular view in the view hierarchy.

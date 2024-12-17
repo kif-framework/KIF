@@ -513,7 +513,11 @@ static BOOL KIFUITestActorAnimationsEnabled = YES;
     [self enterTextIntoCurrentFirstResponder:text fallbackView:nil];
 }
 
-- (void)enterTextIntoCurrentFirstResponder:(NSString *)text fallbackView:(UIView *)fallbackView
+- (void)enterTextIntoCurrentFirstResponder:(NSString *)text fallbackView:(UIView *)fallbackView {
+    [self enterTextIntoCurrentFirstResponder:text fallbackView:fallbackView characterTypingDelay:0.0];
+}
+
+- (void)enterTextIntoCurrentFirstResponder:(NSString *)text fallbackView:(UIView *)fallbackView characterTypingDelay:(CFTimeInterval)characterTypingDelay
 {
     [text enumerateSubstringsInRange:NSMakeRange(0, text.length)
                              options:NSStringEnumerationByComposedCharacterSequences
@@ -551,6 +555,9 @@ static BOOL KIFUITestActorAnimationsEnabled = YES;
 
             [self failWithError:[NSError KIFErrorWithFormat:@"Failed to find key for character \"%@\"", characterString] stopTest:YES];
         }
+        if (characterTypingDelay > 0) {
+            CFRunLoopRunInMode(UIApplicationCurrentRunMode, characterTypingDelay, false);
+        }
     }];
 
     NSTimeInterval remainingWaitTime = 0.01 - [KIFTypist keystrokeDelay];
@@ -576,13 +583,18 @@ static BOOL KIFUITestActorAnimationsEnabled = YES;
 
 - (void)enterText:(NSString *)text intoElement:(UIAccessibilityElement *)element inView:(UIView *)view expectedResult:(NSString *)expectedResult;
 {
+    [self enterText:text intoElement:element inView:view expectedResult:expectedResult characterTypingDelay:0.0];
+}
+
+- (void)enterText:(NSString *)text intoElement:(UIAccessibilityElement *)element inView:(UIView *)view expectedResult:(NSString *)expectedResult characterTypingDelay:(CFTimeInterval)characterTypingDelay;
+{
     // In iOS7, tapping a field that is already first responder moves the cursor to the front of the field
     if (view.window.firstResponder != view) {
         [self tapAccessibilityElement:element inView:view];
         [self waitForTimeInterval:0.25 relativeToAnimationSpeed:YES];
     }
 
-    [self enterTextIntoCurrentFirstResponder:text fallbackView:view];
+    [self enterTextIntoCurrentFirstResponder:text fallbackView:view characterTypingDelay:characterTypingDelay];
     if (self.validateEnteredText) {
         [self expectView:view toContainText:expectedResult ?: text];
     }

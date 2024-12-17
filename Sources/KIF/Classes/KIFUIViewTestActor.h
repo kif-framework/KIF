@@ -356,6 +356,15 @@ extern NSString *const inputFieldTestString;
 - (void)enterText:(NSString *)text expectedResult:(NSString *)expectedResult;
 
 /*!
+ @abstract Enters text into a particular view matching the tester's search predicate, then asserts that the view contains the expected text.
+ @discussion If the element isn't currently tappable, then the step will attempt to wait until it is. Once the view is present and tappable, a tap event is simulated in the center of the view or element, then text is entered into the view by simulating taps on the appropriate keyboard keys.
+ @param text The text to enter.
+ @param expectedResult What the text value should be after entry completes, including any formatting done by the field. If this is nil, the "text" parameter will be used.
+ @param characterTypingDelay the amount to delay between typing each character.
+ */
+- (void)enterText:(NSString *)text expectedResult:(NSString *)expectedResult characterTypingDelay:(CFTimeInterval)characterTypingDelay;
+
+/*!
  @abstract Enters text into a the current first responder.
  @discussion Text is entered into the view by simulating taps on the appropriate keyboard keys if the keyboard is already displayed. Useful to enter text in WKWebViews or components with no accessibility labels.
  @param text The text to enter.
@@ -388,6 +397,14 @@ extern NSString *const inputFieldTestString;
  @param text The text to enter after clearing the view.
  */
 - (void)clearAndEnterText:(NSString *)text;
+
+/*!
+ @abstract Clears text from a particular view matching the tester's search predicate, then sets new text.
+ @discussion If the element isn't currently tappable, then the step will attempt to wait until it is. Once the view is present and tappable, a tap event is simulated in the center of the view or element, then text is cleared from the view by simulating taps on the backspace key, the new text is then entered by simulating taps on the appropriate keyboard keys.
+ @param text The text to enter after clearing the view.
+ @param characterTypingDelay the amount to delay between typing each character.
+ */
+- (void)clearAndEnterText:(NSString *)text characterTypingDelay:(CFTimeInterval)characterTypingDelay;
 /*!
  @abstract Clears text from a particular view matching the tester's search predicate, sets new text, then asserts that the view contains the expected text.
  @discussion If the element isn't currently tappable, then the step will attempt to wait until it is. Once the view is present and tappable, a tap event is simulated in the center of the view or element, then text is cleared from the view by simulating taps on the backspace key, the new text is then entered by simulating taps on the appropriate keyboard keys, finally the text of the view is compared against the expected result.
@@ -396,6 +413,15 @@ extern NSString *const inputFieldTestString;
 
  */
 - (void)clearAndEnterText:(NSString *)text expectedResult:(NSString *)expectedResult;
+
+/*!
+ @abstract Clears text from a particular view matching the tester's search predicate, sets new text, then asserts that the view contains the expected text.
+ @discussion If the element isn't currently tappable, then the step will attempt to wait until it is. Once the view is present and tappable, a tap event is simulated in the center of the view or element, then text is cleared from the view by simulating taps on the backspace key, the new text is then entered by simulating taps on the appropriate keyboard keys, finally the text of the view is compared against the expected result.
+ @param text The text to enter after clearing the view.
+ @param expectedResult What the text value should be after entry completes, including any formatting done by the field. If this is nil, the "text" parameter will be used.
+ @param characterTypingDelay the amount to delay between typing each character.
+ */
+- (void)clearAndEnterText:(NSString *)text expectedResult:(NSString *)expectedResult characterTypingDelay:(CFTimeInterval)characterTypingDelay;
 
 /*!
  @abstract Sets text into a particular view matching the tester's search predicate.
