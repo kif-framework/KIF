@@ -21,8 +21,8 @@ jobs:
         run-config:
           - { xcode_version: '15.4', simulator: 'name=iPad Air (5th generation),OS=17.5', run_extra_validations: 'false' }
           - { xcode_version: '15.4', simulator: 'name=iPhone 15,OS=17.5', run_extra_validations: 'false' }
-          - { xcode_version: '16.0', simulator: 'name=iPad Air (5th generation),OS=18.0', run_extra_validations: 'false' }
-          - { xcode_version: '16.0', simulator: 'name=iPhone 16,OS=18.0', run_extra_validations: 'true' }
+          - { xcode_version: '16.1', simulator: 'name=iPad Air (5th generation),OS=18.1', run_extra_validations: 'false' }
+          - { xcode_version: '16.1', simulator: 'name=iPhone 16,OS=18.1', run_extra_validations: 'true' }
     steps:
     - name: Checkout Project
       uses: actions/checkout@v1
