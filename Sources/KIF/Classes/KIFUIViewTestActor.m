@@ -327,25 +327,40 @@ NSString *const inputFieldTestString = @"Testing";
 
 - (void)enterText:(NSString *)text expectedResult:(NSString *)expectedResult;
 {
+    [self enterText:text expectedResult:expectedResult characterTypingDelay:0.0];
+}
+
+- (void)enterText:(NSString *)text expectedResult:(NSString *)expectedResult characterTypingDelay:(CFTimeInterval)characterTypingDelay;
+{
     if (!self.validateEnteredText && expectedResult) {
         [self failWithMessage:@"Can't supply an expectedResult string if `validateEnteredText` is NO."];
     }
 
     @autoreleasepool {
         KIFUIObject *found = [self _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
-        [self.actor enterText:text intoElement:found.element inView:found.view expectedResult:expectedResult];
+        [self.actor enterText:text intoElement:found.element inView:found.view expectedResult:expectedResult characterTypingDelay:characterTypingDelay];
     }
 }
 
 - (void)clearAndEnterText:(NSString *)text;
 {
-    [self clearAndEnterText:text expectedResult:nil];
+    [self clearAndEnterText:text expectedResult:nil characterTypingDelay:0.0];
+}
+
+- (void)clearAndEnterText:(NSString *)text characterTypingDelay:(CFTimeInterval)characterTypingDelay;
+{
+    [self clearAndEnterText:text expectedResult:nil characterTypingDelay:characterTypingDelay];
 }
 
 - (void)clearAndEnterText:(NSString *)text expectedResult:(NSString *)expectedResult;
 {
+    [self clearAndEnterText:text expectedResult:expectedResult characterTypingDelay:0.0];
+}
+
+- (void)clearAndEnterText:(NSString *)text expectedResult:(NSString *)expectedResult characterTypingDelay:(CFTimeInterval)characterTypingDelay;
+{
     [self clearText];
-    [self enterText:text expectedResult:expectedResult];
+    [self enterText:text expectedResult:expectedResult characterTypingDelay:characterTypingDelay];
 }
 
 - (void)enterTextIntoCurrentFirstResponder:(NSString *)text;
