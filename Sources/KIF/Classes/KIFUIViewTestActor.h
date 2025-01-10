@@ -39,14 +39,6 @@ extern NSString *const inputFieldTestString;
  */
 - (instancetype)validateEnteredText:(BOOL)validateEnteredText;
 
-/*!
- @abstract Controls if we want to disable the automatic scroll while looking for an element.
- @discussion This method limits the search in the current frame for each operation that searches for an element.
-
- @return The message reciever, these methods are intended to be chained together.
- */
-- (instancetype)usingCurrentFrame;
-
 #pragma mark - Searching for Accessibility Elements
 
 /*!
@@ -126,19 +118,11 @@ extern NSString *const inputFieldTestString;
 
 /*!
  @abstract Adds a given predicate to the tester's search predicate.
- @discussion The given predicate will be evaluated when searching for a matching view. You likely wont need this method very often, and should rely on the accessibility properties when possibile.
+ @description The given predicate will be evaluated when searching for a matching view. You likely wont need this method very often, and should rely on the accessibility properties when possibile.
  @param predicate The predicate to add to the tester's search predicate.
  @return The message reciever, these methods are intended to be chained together.
  */
 - (instancetype)usingPredicate:(NSPredicate *)predicate;
-
-/*!
- @abstract Adds a check for an accessibility custom action with a provided name to the tester's search predicate.
- @discussion The tester will evaluate accessibility elements looking for a matching accessibility custom action.
- @param name The name of the custom action providd by element to match.
- @return The message reciever, these methods are intended to be chained together.
- */
-- (instancetype)usingCustomActionWithName:(NSString *)name;
 
 #pragma mark - Acting on Accessibility Elements
 
@@ -180,31 +164,6 @@ extern NSString *const inputFieldTestString;
  @param direction The direction to swipe in.
  */
 - (void)swipeInDirection:(KIFSwipeDirection)direction;
-
-/*!
- @abstract Performs a swipe gesture starting from the specified edge of the screen.
- @param edge The edge from which the swipe gesture should start.
- */
-- (void)swipeFromEdge:(UIRectEdge)edge;
-
-/*!
- @abstract Activates a custom accessibility action available on the element..
- @param name The name of the custom action to activate.
- */
-- (void)activateCustomActionWithName:(NSString *)name;
-
-/*!
- @abstract Activates a custom accessibility action available on the element..
- @param name The name of the custom action to activate.
- @param expectedResult The expected boolean return from activation of the custom action.
- */
-- (void)activateCustomActionWithName:(NSString *)name expectedResult:(BOOL)expectedResult;
-
-/*!
- @abstract Activates a found element via `accessibilityActivate()`.
- @param expectedResult The expected boolean return from activation of the element.
- */
-- (void)performAccessibilityActivateWithExpectedResult:(BOOL)expectedResult;
 
 #pragma mark Waiting & Finding
 
@@ -356,15 +315,6 @@ extern NSString *const inputFieldTestString;
 - (void)enterText:(NSString *)text expectedResult:(NSString *)expectedResult;
 
 /*!
- @abstract Enters text into a particular view matching the tester's search predicate, then asserts that the view contains the expected text.
- @discussion If the element isn't currently tappable, then the step will attempt to wait until it is. Once the view is present and tappable, a tap event is simulated in the center of the view or element, then text is entered into the view by simulating taps on the appropriate keyboard keys.
- @param text The text to enter.
- @param expectedResult What the text value should be after entry completes, including any formatting done by the field. If this is nil, the "text" parameter will be used.
- @param characterTypingDelay the amount to delay between typing each character.
- */
-- (void)enterText:(NSString *)text expectedResult:(NSString *)expectedResult characterTypingDelay:(CFTimeInterval)characterTypingDelay;
-
-/*!
  @abstract Enters text into a the current first responder.
  @discussion Text is entered into the view by simulating taps on the appropriate keyboard keys if the keyboard is already displayed. Useful to enter text in WKWebViews or components with no accessibility labels.
  @param text The text to enter.
@@ -397,14 +347,6 @@ extern NSString *const inputFieldTestString;
  @param text The text to enter after clearing the view.
  */
 - (void)clearAndEnterText:(NSString *)text;
-
-/*!
- @abstract Clears text from a particular view matching the tester's search predicate, then sets new text.
- @discussion If the element isn't currently tappable, then the step will attempt to wait until it is. Once the view is present and tappable, a tap event is simulated in the center of the view or element, then text is cleared from the view by simulating taps on the backspace key, the new text is then entered by simulating taps on the appropriate keyboard keys.
- @param text The text to enter after clearing the view.
- @param characterTypingDelay the amount to delay between typing each character.
- */
-- (void)clearAndEnterText:(NSString *)text characterTypingDelay:(CFTimeInterval)characterTypingDelay;
 /*!
  @abstract Clears text from a particular view matching the tester's search predicate, sets new text, then asserts that the view contains the expected text.
  @discussion If the element isn't currently tappable, then the step will attempt to wait until it is. Once the view is present and tappable, a tap event is simulated in the center of the view or element, then text is cleared from the view by simulating taps on the backspace key, the new text is then entered by simulating taps on the appropriate keyboard keys, finally the text of the view is compared against the expected result.
@@ -413,15 +355,6 @@ extern NSString *const inputFieldTestString;
 
  */
 - (void)clearAndEnterText:(NSString *)text expectedResult:(NSString *)expectedResult;
-
-/*!
- @abstract Clears text from a particular view matching the tester's search predicate, sets new text, then asserts that the view contains the expected text.
- @discussion If the element isn't currently tappable, then the step will attempt to wait until it is. Once the view is present and tappable, a tap event is simulated in the center of the view or element, then text is cleared from the view by simulating taps on the backspace key, the new text is then entered by simulating taps on the appropriate keyboard keys, finally the text of the view is compared against the expected result.
- @param text The text to enter after clearing the view.
- @param expectedResult What the text value should be after entry completes, including any formatting done by the field. If this is nil, the "text" parameter will be used.
- @param characterTypingDelay the amount to delay between typing each character.
- */
-- (void)clearAndEnterText:(NSString *)text expectedResult:(NSString *)expectedResult characterTypingDelay:(CFTimeInterval)characterTypingDelay;
 
 /*!
  @abstract Sets text into a particular view matching the tester's search predicate.
