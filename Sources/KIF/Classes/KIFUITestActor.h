@@ -240,19 +240,6 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
 - (void)waitForAccessibilityElement:(UIAccessibilityElement **)element view:(out UIView **)view withElementMatchingPredicate:(NSPredicate *)predicate tappable:(BOOL)mustBeTappable;
 
 /*!
- @abstract Waits for an accessibility element and its containing view based on a predicate.
- @discussion This method provides a more verbose API for achieving what is available in the waitForView/waitForTappableView family of methods, exposing both the found element and its containing view.  The results can be used in other methods such as @c tapAccessibilityElement:inView:
-
- This method provides more flexability than @c waitForAccessibilityElement:view:withLabel:value:traits:tappable: but less precise error messages.  This message will tell you why the method failed but not whether or not the element met some of the criteria.
- @param element To be populated with the matching accessibility element when found.  Can be NULL.
- @param view To be populated with the matching view when found.  Can be NULL.
- @param predicate The predicate to match.
- @param mustBeTappable If YES, only an element that can be tapped on will be returned.
- @param scrollDisabled If YES, disable scroll performing the search only in the current visible frame.
- */
-- (void)waitForAccessibilityElement:(UIAccessibilityElement **)element view:(out UIView **)view withElementMatchingPredicate:(NSPredicate *)predicate tappable:(BOOL)mustBeTappable disableScroll:(BOOL)scrollDisabled;
-
-/*!
  @abstract Waits until an accessibility element is no longer present.
  @discussion The accessibility element matching the given predicate is found in the view hierarchy. If the element is found, then the step will attempt to wait until it isn't. Note that the associated view does not necessarily have to be visible on the screen, and may be behind another view or offscreen. Views with their hidden property set to YES are considered absent.
  @param predicate The predicate to match.
@@ -336,12 +323,6 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
 - (void)tapScreenAtPoint:(CGPoint)screenPoint;
 
 /*!
- @abstract Performs a swipe gesture starting from the specified edge of the screen.
- @param edge The edge from which the swipe gesture should start.
- */
-- (void)swipeFromEdge:(UIRectEdge)edge;
-
-/*!
  @abstract Performs a long press on a particular view in the view hierarchy.
  @discussion The view or accessibility element with the given label is searched for in the view hierarchy. If the element isn't found or isn't currently tappable, then the step will attempt to wait until it is. Once the view is present and tappable, touch events are simulated in the center of the view or element.
  @param label The accessibility label of the element to tap.
@@ -402,14 +383,6 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
 - (void)enterTextIntoCurrentFirstResponder:(NSString *)text fallbackView:(UIView *)fallbackView;
 
 /*!
- @abstract Enters text into a the current first responder.
- @discussion Text is entered into the view by simulating taps on the appropriate keyboard keys if the keyboard is already displayed. Useful to enter text in WKWebViews or components with no accessibility labels.
- @param text The text to enter.
- @param characterTypingDelay the amount to delay between typing each character.
- */
-- (void)enterTextIntoCurrentFirstResponder:(NSString *)text fallbackView:(UIView *)fallbackView characterTypingDelay:(CFTimeInterval)characterTypingDelay;
-
-/*!
  @abstract Enters text into a particular view in the view hierarchy.
  @discussion If the element isn't currently tappable, then the step will attempt to wait until it is. Once the view is present and tappable, a tap event is simulated in the center of the view or element, then text is entered into the view by simulating taps on the appropriate keyboard keys.
  @param text The text to enter.
@@ -418,17 +391,6 @@ typedef NS_ENUM(NSUInteger, KIFPullToRefreshTiming) {
  @param view the view to type into.
  */
 - (void)enterText:(NSString *)text intoElement:(UIAccessibilityElement *)element inView:(UIView *)view expectedResult:(NSString *)expectedResult;
-
-/*!
- @abstract Enters text into a particular view in the view hierarchy.
- @discussion If the element isn't currently tappable, then the step will attempt to wait until it is. Once the view is present and tappable, a tap event is simulated in the center of the view or element, then text is entered into the view by simulating taps on the appropriate keyboard keys.
- @param text The text to enter.
- @param expectedResult What the text value should be after entry, including any formatting done by the field. If this is nil, the "text" parameter will be used.
- @param element the element to type into.
- @param view the view to type into.
- @param characterTypingDelay the amount to delay between typing each character.
- */
-- (void)enterText:(NSString *)text intoElement:(UIAccessibilityElement *)element inView:(UIView *)view expectedResult:(NSString *)expectedResult characterTypingDelay:(CFTimeInterval)characterTypingDelay;
 
 /*!
  @abstract Enters text into a particular view in the view hierarchy.

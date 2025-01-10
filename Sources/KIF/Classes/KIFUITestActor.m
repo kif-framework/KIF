@@ -144,13 +144,8 @@ static BOOL KIFUITestActorAnimationsEnabled = YES;
 
 - (void)waitForAccessibilityElement:(UIAccessibilityElement * __autoreleasing *)element view:(out UIView * __autoreleasing *)view withElementMatchingPredicate:(NSPredicate *)predicate tappable:(BOOL)mustBeTappable
 {
-    [self waitForAccessibilityElement:element view:view withElementMatchingPredicate:predicate tappable:mustBeTappable disableScroll:NO];
-}
-
-- (void)waitForAccessibilityElement:(UIAccessibilityElement * __autoreleasing *)element view:(out UIView * __autoreleasing *)view withElementMatchingPredicate:(NSPredicate *)predicate tappable:(BOOL)mustBeTappable disableScroll:(BOOL) scrollDisabled
-{
     [self runBlock:^KIFTestStepResult(NSError **error) {
-        return [UIAccessibilityElement accessibilityElement:element view:view withElementMatchingPredicate:predicate tappable:mustBeTappable error:error disableScroll:scrollDisabled] ? KIFTestStepResultSuccess : KIFTestStepResultWait;
+        return [UIAccessibilityElement accessibilityElement:element view:view withElementMatchingPredicate:predicate tappable:mustBeTappable error:error] ? KIFTestStepResultSuccess : KIFTestStepResultWait;
     }];
 }
 
@@ -230,8 +225,9 @@ static BOOL KIFUITestActorAnimationsEnabled = YES;
             [self waitForTimeInterval:maximumWaitingTimeInterval relativeToAnimationSpeed:YES];
         }
     } else {
+
         // Wait for the view to stabilize and give them a chance to start animations before we wait for them.
-        [self waitForTimeInterval:MAX(stabilizationTime / [UIApplication sharedApplication].animationSpeed, 0.25) relativeToAnimationSpeed:NO];
+        [self waitForTimeInterval:stabilizationTime relativeToAnimationSpeed:YES];
         maximumWaitingTimeInterval -= stabilizationTime;
 
         NSTimeInterval startTime = [NSDate timeIntervalSinceReferenceDate];
@@ -370,7 +366,18 @@ static BOOL KIFUITestActorAnimationsEnabled = YES;
 - (void)tapScreenAtPoint:(CGPoint)screenPoint
 {
     [self runBlock:^KIFTestStepResult(NSError **error) {
-        UIView *view = [self viewAtPoint:screenPoint];
+        
+        // Try all the windows until we get one back that actually has something in it at the given point
+        UIView *view = nil;
+        for (UIWindow *window in [[[UIApplication sharedApplication] windowsWithKeyWindow] reverseObjectEnumerator]) {
+            CGPoint windowPoint = [window convertPoint:screenPoint fromView:nil];
+            view = [window hitTest:windowPoint withEvent:nil];
+            
+            // If we hit the window itself, then skip it.
+            if (view != window && view != nil) {
+                break;
+            }
+        }
         
         KIFTestWaitCondition(view, error, @"No view was found at the point %@", NSStringFromCGPoint(screenPoint));
         
@@ -380,45 +387,6 @@ static BOOL KIFUITestActorAnimationsEnabled = YES;
         
         return KIFTestStepResultSuccess;
     }];
-}
-
-- (void)swipeFromEdge:(UIRectEdge)edge
-{
-    CGSize screenSize = UIScreen.mainScreen.bounds.size;
-    CGPoint screenPoint;
-    if (edge == UIRectEdgeLeft) {
-        screenPoint = CGPointMake(0.3, screenSize.height / 2);
-    } else if (edge == UIRectEdgeRight) {
-        screenPoint = CGPointMake(screenSize.width - 0.3, screenSize.height / 2);
-    } else {
-        return;
-    }
-    [self runBlock:^KIFTestStepResult(NSError **error) {
-        UIView *view = [self viewAtPoint:screenPoint];
-        
-        KIFTestWaitCondition(view, error, @"No view was found at the point %@", NSStringFromCGPoint(screenPoint));
-        
-        UIRectEdge endEdge = (UIRectEdgeLeft | UIRectEdgeRight) - edge;
-        [view dragFromEdge:edge toEdge:endEdge];
-        
-        return KIFTestStepResultSuccess;
-    }];
-}
-
-- (UIView *)viewAtPoint:(CGPoint)screenPoint
-{
-    // Try all the windows until we get one back that actually has something in it at the given point
-    UIView *view = nil;
-    for (UIWindow *window in [[[UIApplication sharedApplication] windowsWithKeyWindow] reverseObjectEnumerator]) {
-        CGPoint windowPoint = [window convertPoint:screenPoint fromView:nil];
-        view = [window hitTest:windowPoint withEvent:nil];
-        
-        // If we hit the window itself, then skip it.
-        if (view != window && view != nil) {
-            break;
-        }
-    }
-    return view;
 }
 
 - (void)longPressViewWithAccessibilityLabel:(NSString *)label duration:(NSTimeInterval)duration;
@@ -466,7 +434,7 @@ static BOOL KIFUITestActorAnimationsEnabled = YES;
     }];
 
     // Wait for view to settle.
-    [self waitForAnimationsToFinish];
+    [self waitForTimeInterval:0.5 relativeToAnimationSpeed:YES];
 }
 
 - (void)waitForKeyboard
@@ -513,11 +481,7 @@ static BOOL KIFUITestActorAnimationsEnabled = YES;
     [self enterTextIntoCurrentFirstResponder:text fallbackView:nil];
 }
 
-- (void)enterTextIntoCurrentFirstResponder:(NSString *)text fallbackView:(UIView *)fallbackView {
-    [self enterTextIntoCurrentFirstResponder:text fallbackView:fallbackView characterTypingDelay:0.0];
-}
-
-- (void)enterTextIntoCurrentFirstResponder:(NSString *)text fallbackView:(UIView *)fallbackView characterTypingDelay:(CFTimeInterval)characterTypingDelay
+- (void)enterTextIntoCurrentFirstResponder:(NSString *)text fallbackView:(UIView *)fallbackView
 {
     [text enumerateSubstringsInRange:NSMakeRange(0, text.length)
                              options:NSStringEnumerationByComposedCharacterSequences
@@ -555,9 +519,6 @@ static BOOL KIFUITestActorAnimationsEnabled = YES;
 
             [self failWithError:[NSError KIFErrorWithFormat:@"Failed to find key for character \"%@\"", characterString] stopTest:YES];
         }
-        if (characterTypingDelay > 0) {
-            CFRunLoopRunInMode(UIApplicationCurrentRunMode, characterTypingDelay, false);
-        }
     }];
 
     NSTimeInterval remainingWaitTime = 0.01 - [KIFTypist keystrokeDelay];
@@ -583,18 +544,13 @@ static BOOL KIFUITestActorAnimationsEnabled = YES;
 
 - (void)enterText:(NSString *)text intoElement:(UIAccessibilityElement *)element inView:(UIView *)view expectedResult:(NSString *)expectedResult;
 {
-    [self enterText:text intoElement:element inView:view expectedResult:expectedResult characterTypingDelay:0.0];
-}
-
-- (void)enterText:(NSString *)text intoElement:(UIAccessibilityElement *)element inView:(UIView *)view expectedResult:(NSString *)expectedResult characterTypingDelay:(CFTimeInterval)characterTypingDelay;
-{
     // In iOS7, tapping a field that is already first responder moves the cursor to the front of the field
     if (view.window.firstResponder != view) {
         [self tapAccessibilityElement:element inView:view];
         [self waitForTimeInterval:0.25 relativeToAnimationSpeed:YES];
     }
 
-    [self enterTextIntoCurrentFirstResponder:text fallbackView:view characterTypingDelay:characterTypingDelay];
+    [self enterTextIntoCurrentFirstResponder:text fallbackView:view];
     if (self.validateEnteredText) {
         [self expectView:view toContainText:expectedResult ?: text];
     }
@@ -1346,8 +1302,7 @@ static BOOL KIFUITestActorAnimationsEnabled = YES;
     // Can handle only the touchable space.
     CGRect elementFrame = [viewToSwipe convertRect:viewToSwipe.bounds toView:[UIApplication sharedApplication].keyWindow.rootViewController.view];
     CGPoint swipeStart = CGPointCenteredInRect(elementFrame);
-    swipeStart.y = swipeStart.y - CGRectGetMaxY(elementFrame) / 4.0;
-    CGPoint swipeDisplacement = CGPointMake(0, CGRectGetMaxY(elementFrame) / 2.0);
+    CGPoint swipeDisplacement = CGPointMake(CGRectGetMidX(elementFrame), CGRectGetMaxY(elementFrame));
 
     [viewToSwipe dragFromPoint:swipeStart displacement:swipeDisplacement steps:kNumberOfPointsInSwipePath];
 }
@@ -1684,14 +1639,6 @@ static BOOL KIFUITestActorAnimationsEnabled = YES;
 
 - (CGPoint) tappablePointInElement:(UIAccessibilityElement *)element andView:(UIView *)view
 {
-    // AccessibilityActivationPoint indicates where on the element assistive technologies should issue a tap event to activate the element.
-    // In the case where the property has not been explicitly set. The default value is the midpoint of the accessibility frame.
-    UIView *hitView = [view.window hitTest:element.accessibilityActivationPoint withEvent:nil];
-    if ([view isTappableWithHitTestResultView:hitView]) {
-        return [view.window convertPoint:element.accessibilityActivationPoint toView:view];
-    }
-    
-    // If the element's AccessibilityActivationPoint is not tappable, attempt to find a suitable tappable point within the element's frame.
     CGRect elementFrame = [self elementFrameForElement:element andView:view];
     CGPoint tappablePoint = [view tappablePointInRect:elementFrame];
 
