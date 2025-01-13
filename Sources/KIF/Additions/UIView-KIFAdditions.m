@@ -337,7 +337,7 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
 
                     // Note: using KIFRunLoopRunInModeRelativeToAnimationSpeed here may cause tests to stall
                     CFRunLoopRunInMode(UIApplicationCurrentRunMode, CELL_SCROLL_DELAY_STABILIZATION, false);
-                    return [self accessibilityElementMatchingBlock:matchBlock disableScroll:NO];
+                    return [self accessibilityElementMatchingBlock:matchBlock];
                 }
             }
 
@@ -381,7 +381,7 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
                         if (!cell) {
                             continue;
                         }
-                        UIAccessibilityElement *element = [cell accessibilityElementMatchingBlock:matchBlock notHidden:NO disableScroll:NO];
+                        UIAccessibilityElement *element = [cell accessibilityElementMatchingBlock:matchBlock notHidden:NO];
 
                         // Skip this cell if it isn't the one we're looking for
                         if (!element) {
@@ -391,7 +391,7 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
                     
                     // Note: using KIFRunLoopRunInModeRelativeToAnimationSpeed here may cause tests to stall
                     CFRunLoopRunInMode(UIApplicationCurrentRunMode, CELL_SCROLL_DELAY_STABILIZATION, false);
-                    return [self accessibilityElementMatchingBlock:matchBlock disableScroll:NO];
+                    return [self accessibilityElementMatchingBlock:matchBlock];
                 }
             }
 

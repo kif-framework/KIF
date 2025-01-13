@@ -31,8 +31,8 @@
 
 - (void)testInteractionWithAnActionSheet
 {
-    [[viewTester usingLabel:@"UIActionSheet"] tap];
-    [[viewTester usingLabel:@"Action Sheet"] waitForView];
+    [[viewTester usingLabel:@"UIAlertController"] tap];
+    [[viewTester usingLabel:@"Alert Controller"] waitForView];
     [[viewTester usingLabel:@"Destroy"] waitForTappableView];
     [[viewTester usingLabel:@"A"] waitForTappableView];
     [[viewTester usingLabel:@"B"] waitForTappableView];
