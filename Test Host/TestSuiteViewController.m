@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface TestSuiteViewController : UITableViewController <UIActionSheetDelegate>
+@interface TestSuiteViewController : UITableViewController
 @end
 
 @implementation TestSuiteViewController
@@ -70,7 +70,31 @@
 
         case 2:
         {
-            [[[UIActionSheet alloc] initWithTitle:@"Action Sheet" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Destroy" otherButtonTitles:@"A", @"B", nil] showInView:tableView];
+            UIAlertController *alertController = [UIAlertController
+                                                  alertControllerWithTitle:@"Alert Controller"
+                                                  message:@""
+                                                  preferredStyle:UIAlertControllerStyleActionSheet];
+            UIAlertAction *destroyAction = [UIAlertAction actionWithTitle:@"Destroy" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+                [self alertControllerDismissed];
+            }];
+            
+            UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                [self alertControllerDismissed];
+            }];
+            
+            [alertController addAction:destroyAction];
+            [alertController addAction:[self alertActionWithTitle:@"A"]];
+            [alertController addAction:[self alertActionWithTitle:@"B"]];
+            [alertController addAction:cancelAction];
+            
+            if ([alertController respondsToSelector:@selector(popoverPresentationController)] && UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+                // iOS 8 iPad presents in a popover
+                alertController.popoverPresentationController.sourceView = [tableView cellForRowAtIndexPath:indexPath];
+                UIPopoverController *popover = [[UIPopoverController alloc] initWithContentViewController:alertController];
+                [popover presentPopoverFromRect:alertController.popoverPresentationController.sourceView.frame inView:tableView permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+            } else {
+                [self presentViewController:alertController animated:YES completion:nil];
+            }
             break;
         }
 
@@ -103,9 +127,7 @@
     });
 }
 
-#pragma mark - UIActionSheetDelegate
-
-- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
+- (void)alertControllerDismissed
 {
     UIAlertController * alertController = [UIAlertController alertControllerWithTitle:@"Alert View"
                                                                               message:@"Message"
@@ -113,6 +135,13 @@
     [alertController addAction:[UIAlertAction actionWithTitle:@"Continue" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {}]];
     [alertController addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {}]];
     [self presentViewController:alertController animated:YES completion:nil];
+}
+
+-(UIAlertAction *)alertActionWithTitle:(NSString *)title
+{
+    return [UIAlertAction actionWithTitle:title style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self alertControllerDismissed];
+    }];
 }
 
 - (IBAction)resetRefreshControl

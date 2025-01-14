@@ -31,8 +31,8 @@
 
 - (void)testInteractionWithAnActionSheet
 {
-    [tester tapViewWithAccessibilityLabel:@"UIActionSheet"];
-    [tester waitForViewWithAccessibilityLabel:@"Action Sheet"];
+    [tester tapViewWithAccessibilityLabel:@"UIAlertController"];
+    [tester waitForViewWithAccessibilityLabel:@"Alert Controller"];
     [tester waitForTappableViewWithAccessibilityLabel:@"Destroy"];
     [tester waitForTappableViewWithAccessibilityLabel:@"A"];
     [tester waitForTappableViewWithAccessibilityLabel:@"B"];
