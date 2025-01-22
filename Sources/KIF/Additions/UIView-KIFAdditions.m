@@ -363,49 +363,49 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
             CGRect initialPosition = CGRectMake(collectionView.contentOffset.x, collectionView.contentOffset.y, collectionView.frame.size.width, collectionView.frame.size.height);
             NSArray *indexPathsForVisibleItems = [collectionView indexPathsForVisibleItems];
 
+            CGFloat maxX, maxY = 0;
+            BOOL scrollHorizontally = FALSE;
+
             for (NSUInteger section = 0, numberOfSections = [collectionView numberOfSections]; section < numberOfSections; section++) {
                 for (NSUInteger item = 0, numberOfItems = [collectionView numberOfItemsInSection:section]; item < numberOfItems; item++) {
                     if (!self.window) {
                         break;
                     }
-
-                    // Skip visible items because they are already handled
                     NSIndexPath *indexPath = [NSIndexPath indexPathForItem:item inSection:section];
                     if ([indexPathsForVisibleItems containsObject:indexPath]) {
                         continue;
                     }
-
-                    @autoreleasepool {
-                        CGRect visibleRect = [collectionView layoutAttributesForItemAtIndexPath:indexPath].frame;
-                        [collectionView scrollRectToVisible:visibleRect animated:NO];
-                        [collectionView layoutIfNeeded];
-                        UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
-                        if (cell == nil) {
-                            [collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionNone animated:NO];
-                            [collectionView layoutIfNeeded];
-                            cell = [collectionView cellForItemAtIndexPath:indexPath];
-                        }
-                        // Skip this cell if it can't be found
-                        if (!cell) {
-                            continue;
-                        }
-                        UIAccessibilityElement *element = [cell accessibilityElementMatchingBlock:matchBlock notHidden:NO disableScroll:NO];
-                        
-                        // Skip this cell if it isn't the one we're looking for
-                        if (!element) {
-                            continue;
-                        }
-                    }
-                    
-                    // Note: using KIFRunLoopRunInModeRelativeToAnimationSpeed here may cause tests to stall
-                    CFRunLoopRunInMode(UIApplicationCurrentRunMode, CELL_SCROLL_DELAY_STABILIZATION, false);
-                    return [self accessibilityElementMatchingBlock:matchBlock disableScroll:NO];
+                    CGRect visibleRect = [collectionView layoutAttributesForItemAtIndexPath:indexPath].frame;
+                    maxX = MAX(visibleRect.origin.x, maxX);
+                    maxY = MAX(visibleRect.origin.y, maxY);
                 }
             }
 
-            [collectionView setContentOffset:initialPosition.origin];
-            [collectionView layoutIfNeeded];
-            CFRunLoopRunInMode(UIApplicationCurrentRunMode, CELL_SCROLL_DELAY_STABILIZATION, false);
+            CGFloat maxXY = MAX(maxX, maxY);
+            if (maxX > maxY) {
+                scrollHorizontally = TRUE;
+            }
+
+            for (CGFloat location = 0; location < maxXY; location = location + 5) {
+                if (!self.window) {
+                    break;
+                }
+                CGPoint locationPoint = scrollHorizontally ? CGPointMake(location, initialPosition.origin.y) : CGPointMake(initialPosition.origin.x, location);
+                [collectionView setContentOffset:locationPoint];
+                [collectionView layoutIfNeeded];
+
+                UIAccessibilityElement *element = [collectionView accessibilityElementMatchingBlock:matchBlock notHidden:NO disableScroll:YES];
+                if (element) {
+                    CFRunLoopRunInMode(UIApplicationCurrentRunMode, CELL_SCROLL_DELAY_STABILIZATION, false);
+                    return element;
+                }
+            }
+
+            if (collectionView.window) {
+                [collectionView setContentOffset:initialPosition.origin];
+                [collectionView layoutIfNeeded];
+                CFRunLoopRunInMode(UIApplicationCurrentRunMode, CELL_SCROLL_DELAY_STABILIZATION, false);
+            }
         }
     }
 
