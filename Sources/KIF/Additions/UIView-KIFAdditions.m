@@ -375,31 +375,67 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
                         continue;
                     }
 
-                    @autoreleasepool {
-                        CGRect visibleRect = [collectionView layoutAttributesForItemAtIndexPath:indexPath].frame;
-                        [collectionView scrollRectToVisible:visibleRect animated:NO];
-                        [collectionView layoutIfNeeded];
-                        UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
-                        if (cell == nil) {
-                            [collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionNone animated:NO];
+                    if (@available(iOS 18, *)) {
+                        @autoreleasepool {
+                            CGRect visibleRect = [collectionView layoutAttributesForItemAtIndexPath:indexPath].frame;
+                            [collectionView scrollRectToVisible:visibleRect animated:NO];
                             [collectionView layoutIfNeeded];
-                            cell = [collectionView cellForItemAtIndexPath:indexPath];
+                            UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
+                            for (NSUInteger attempts = 0; attempts < 10 && !cell && collectionView.window; attempts++) {
+                                CFRunLoopRunInMode(UIApplicationCurrentRunMode, 0.01, false);
+                                cell = [collectionView cellForItemAtIndexPath:indexPath];
+                            }
+                            if (cell == nil) {
+                                [collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionNone animated:NO];
+                                [collectionView layoutIfNeeded];
+                                cell = [collectionView cellForItemAtIndexPath:indexPath];
+                            }
+                            // Skip this cell if it can't be found
+                            if (!cell) {
+                                continue;
+                            }
+                            UIAccessibilityElement *element = [cell accessibilityElementMatchingBlock:matchBlock notHidden:NO disableScroll:NO];
+
+                            // Skip this cell if it isn't the one we're looking for
+                            if (!element) {
+                                continue;
+                            }
                         }
-                        // Skip this cell if it can't be found
-                        if (!cell) {
-                            continue;
+
+                        // Note: using KIFRunLoopRunInModeRelativeToAnimationSpeed here may cause tests to stall
+                        CFRunLoopRunInMode(UIApplicationCurrentRunMode, CELL_SCROLL_DELAY_STABILIZATION, false);
+                        return [self accessibilityElementMatchingBlock:matchBlock disableScroll:NO];
+                    } else {
+                        @autoreleasepool {
+                            // Get the cell directly from the dataSource because UICollectionView will only vend visible cells
+                            UICollectionViewCell *cell = [collectionView.dataSource collectionView:collectionView cellForItemAtIndexPath:indexPath];
+
+                            // The cell contents might change just prior to being displayed, so we simulate the cell appearing onscreen
+                            if ([collectionView.delegate respondsToSelector:@selector(collectionView:willDisplayCell:forItemAtIndexPath:)]) {
+                                [collectionView.delegate collectionView:collectionView willDisplayCell:cell forItemAtIndexPath:indexPath];
+                            }
+
+                            UIAccessibilityElement *element = [cell accessibilityElementMatchingBlock:matchBlock notHidden:NO disableScroll:NO];
+
+                            // Remove the cell from the collection view so that it doesn't stick around
+                            [cell removeFromSuperview];
+
+                            // Skip this cell if it isn't the one we're looking for
+                            // Sometimes we get cells with no size here which can cause an endless loop, so we ignore those
+                            if (!element || CGSizeEqualToSize(cell.frame.size, CGSizeZero)) {
+                                continue;
+                            }
                         }
-                        UIAccessibilityElement *element = [cell accessibilityElementMatchingBlock:matchBlock notHidden:NO disableScroll:NO];
-                        
-                        // Skip this cell if it isn't the one we're looking for
-                        if (!element) {
-                            continue;
-                        }
+
+                        // Scroll to the cell and wait for the animation to complete
+                        CGRect frame = [collectionView.collectionViewLayout layoutAttributesForItemAtIndexPath:indexPath].frame;
+                        [collectionView scrollRectToVisible:frame animated:YES];
+                        // Note: using KIFRunLoopRunInModeRelativeToAnimationSpeed here may cause tests to stall
+                        CFRunLoopRunInMode(UIApplicationCurrentRunMode, 0.5, false);
+
+                        // Now try finding the element again
+                        return [self accessibilityElementMatchingBlock:matchBlock];
                     }
-                    
-                    // Note: using KIFRunLoopRunInModeRelativeToAnimationSpeed here may cause tests to stall
-                    CFRunLoopRunInMode(UIApplicationCurrentRunMode, CELL_SCROLL_DELAY_STABILIZATION, false);
-                    return [self accessibilityElementMatchingBlock:matchBlock disableScroll:NO];
                 }
             }
 
