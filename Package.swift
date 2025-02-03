@@ -5,7 +5,7 @@ import PackageDescription
 let package = Package(
     name: "KIF",
     platforms: [
-        .iOS(.v11)
+        .iOS(.v13)
     ],
     products: [
         .library(

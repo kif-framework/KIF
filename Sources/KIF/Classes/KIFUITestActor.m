@@ -167,9 +167,6 @@ static BOOL KIFUITestActorAnimationsEnabled = YES;
 - (void)waitForAbsenceOfViewWithAccessibilityLabel:(NSString *)label value:(NSString *)value traits:(UIAccessibilityTraits)traits
 {
     [self runBlock:^KIFTestStepResult(NSError **error) {
-        // If the app is ignoring interaction events, then wait before doing our analysis
-        KIFTestWaitCondition(![[UIApplication sharedApplication] isIgnoringInteractionEvents], error, @"Application is ignoring interaction events.");
-        
         // If the element can't be found, then we're done
         UIAccessibilityElement *element = [[UIApplication sharedApplication] accessibilityElementWithLabel:label accessibilityValue:value traits:traits];
         if (!element) {
@@ -190,9 +187,6 @@ static BOOL KIFUITestActorAnimationsEnabled = YES;
 
 - (void)waitForAbsenceOfViewWithElementMatchingPredicate:(NSPredicate *)predicate {
     [self runBlock:^KIFTestStepResult(NSError **error) {
-        // If the app is ignoring interaction events, then wait before doing our analysis
-        KIFTestWaitCondition(![[UIApplication sharedApplication] isIgnoringInteractionEvents], error, @"Application is ignoring interaction events.");
-
         // If the element can't be found, then we're done
         UIAccessibilityElement *element = nil;
         if (![UIAccessibilityElement accessibilityElement:&element view:NULL withElementMatchingPredicate:predicate tappable:NO error:NULL]) {
@@ -1344,7 +1338,7 @@ static BOOL KIFUITestActorAnimationsEnabled = YES;
     const NSUInteger kNumberOfPointsInSwipePath = pullDownDuration ? pullDownDuration : KIFPullToRefreshInAboutAHalfSecond;
 
     // Can handle only the touchable space.
-    CGRect elementFrame = [viewToSwipe convertRect:viewToSwipe.bounds toView:[UIApplication sharedApplication].keyWindow.rootViewController.view];
+    CGRect elementFrame = [viewToSwipe convertRect:viewToSwipe.bounds toView:[[UIApplication sharedApplication] windowSceneKeyWindow].rootViewController.view];
     CGPoint swipeStart = CGPointCenteredInRect(elementFrame);
     swipeStart.y = swipeStart.y - CGRectGetMaxY(elementFrame) / 4.0;
     CGPoint swipeDisplacement = CGPointMake(0, CGRectGetMaxY(elementFrame) / 2.0);
@@ -1583,11 +1577,6 @@ static BOOL KIFUITestActorAnimationsEnabled = YES;
 
 - (void)tapStatusBar
 {
-    [self runBlock:^KIFTestStepResult(NSError **error) {
-        KIFTestWaitCondition(![UIApplication sharedApplication].statusBarHidden, error, @"Expected status bar to be visible.");
-        return KIFTestStepResultSuccess;
-    }];
-
     UIWindow *statusBarWindow = [[UIApplication sharedApplication] statusBarWindow];
     NSArray *statusBars = [statusBarWindow subviewsWithClassNameOrSuperClassNamePrefix:@"UIStatusBar"];
 

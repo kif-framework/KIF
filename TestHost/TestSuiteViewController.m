@@ -87,8 +87,8 @@
             [alertController addAction:[self alertActionWithTitle:@"A"]];
             [alertController addAction:[self alertActionWithTitle:@"B"]];
             [alertController addAction:cancelAction];
-            
-            if ([alertController respondsToSelector:@selector(popoverPresentationController)] && UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+
+            if ([alertController respondsToSelector:@selector(popoverPresentationController)] && UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
                 // iOS 8 iPad presents in a popover
                 alertController.popoverPresentationController.sourceView = [tableView cellForRowAtIndexPath:indexPath];
                 UIPopoverController *popover = [[UIPopoverController alloc] initWithContentViewController:alertController];
@@ -105,7 +105,7 @@
             if (AVCClass) {
                 UIActivityViewController *controller = [[AVCClass alloc] initWithActivityItems:@[@"Hello World"] applicationActivities:nil];
 
-                if ([controller respondsToSelector:@selector(popoverPresentationController)] && UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+                if ([controller respondsToSelector:@selector(popoverPresentationController)] && UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
                     // iOS 8 iPad presents in a popover
                     controller.popoverPresentationController.sourceView = [tableView cellForRowAtIndexPath:indexPath];
                     UIPopoverController *popover = [[UIPopoverController alloc] initWithContentViewController:controller];
