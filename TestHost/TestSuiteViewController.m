@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "TestHost-Swift.h"
 
 @interface TestSuiteViewController : UITableViewController
 @end
@@ -53,69 +53,80 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section != 1) {
-        return;
-    }
-
-    switch (indexPath.row) {
-        case 0:
-        {
-            [[[UIAlertView alloc] initWithTitle:@"Alert View" message:@"Message" delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:@"Continue", nil] show];
+    switch (indexPath.section) {
+        case 0: // Basics section
             break;
-        }
-
-        case 1:
-        {
-            break;
-        }
-
-        case 2:
-        {
-            UIAlertController *alertController = [UIAlertController
-                                                  alertControllerWithTitle:@"Alert Controller"
-                                                  message:@""
-                                                  preferredStyle:UIAlertControllerStyleActionSheet];
-            UIAlertAction *destroyAction = [UIAlertAction actionWithTitle:@"Destroy" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
-                [self alertControllerDismissed];
-            }];
-            
-            UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-                [self alertControllerDismissed];
-            }];
-            
-            [alertController addAction:destroyAction];
-            [alertController addAction:[self alertActionWithTitle:@"A"]];
-            [alertController addAction:[self alertActionWithTitle:@"B"]];
-            [alertController addAction:cancelAction];
-
-            if ([alertController respondsToSelector:@selector(popoverPresentationController)] && UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
-                // iOS 8 iPad presents in a popover
-                alertController.popoverPresentationController.sourceView = [tableView cellForRowAtIndexPath:indexPath];
-                UIPopoverController *popover = [[UIPopoverController alloc] initWithContentViewController:alertController];
-                [popover presentPopoverFromRect:alertController.popoverPresentationController.sourceView.frame inView:tableView permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-            } else {
-                [self presentViewController:alertController animated:YES completion:nil];
-            }
-            break;
-        }
-
-        case 3:
-        {
-            Class AVCClass = NSClassFromString(@"UIActivityViewController");
-            if (AVCClass) {
-                UIActivityViewController *controller = [[AVCClass alloc] initWithActivityItems:@[@"Hello World"] applicationActivities:nil];
-
-                if ([controller respondsToSelector:@selector(popoverPresentationController)] && UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
-                    // iOS 8 iPad presents in a popover
-                    controller.popoverPresentationController.sourceView = [tableView cellForRowAtIndexPath:indexPath];
-                    UIPopoverController *popover = [[UIPopoverController alloc] initWithContentViewController:controller];
-                    [popover presentPopoverFromRect:controller.popoverPresentationController.sourceView.frame inView:tableView permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-                } else {
-                    [self presentViewController:controller animated:YES completion:nil];
+        case 1: // Modal views section
+            switch (indexPath.row) {
+                case 0:
+                {
+                    [[[UIAlertView alloc] initWithTitle:@"Alert View" message:@"Message" delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:@"Continue", nil] show];
+                    break;
+                }
+                    
+                case 1:
+                {
+                    break;
+                }
+                    
+                case 2:
+                {
+                    UIAlertController *alertController = [UIAlertController
+                                                          alertControllerWithTitle:@"Alert Controller"
+                                                          message:@""
+                                                          preferredStyle:UIAlertControllerStyleActionSheet];
+                    UIAlertAction *destroyAction = [UIAlertAction actionWithTitle:@"Destroy" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+                        [self alertControllerDismissed];
+                    }];
+                    
+                    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                        [self alertControllerDismissed];
+                    }];
+                    
+                    [alertController addAction:destroyAction];
+                    [alertController addAction:[self alertActionWithTitle:@"A"]];
+                    [alertController addAction:[self alertActionWithTitle:@"B"]];
+                    [alertController addAction:cancelAction];
+                    
+                    if ([alertController respondsToSelector:@selector(popoverPresentationController)] && UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+                        // iOS 8 iPad presents in a popover
+                        alertController.popoverPresentationController.sourceView = [tableView cellForRowAtIndexPath:indexPath];
+                        UIPopoverController *popover = [[UIPopoverController alloc] initWithContentViewController:alertController];
+                        [popover presentPopoverFromRect:alertController.popoverPresentationController.sourceView.frame inView:tableView permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+                    } else {
+                        [self presentViewController:alertController animated:YES completion:nil];
+                    }
+                    break;
+                }
+                    
+                case 3:
+                {
+                    Class AVCClass = NSClassFromString(@"UIActivityViewController");
+                    if (AVCClass) {
+                        UIActivityViewController *controller = [[AVCClass alloc] initWithActivityItems:@[@"Hello World"] applicationActivities:nil];
+                        
+                        if ([controller respondsToSelector:@selector(popoverPresentationController)] && UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+                            // iOS 8 iPad presents in a popover
+                            controller.popoverPresentationController.sourceView = [tableView cellForRowAtIndexPath:indexPath];
+                            UIPopoverController *popover = [[UIPopoverController alloc] initWithContentViewController:controller];
+                            [popover presentPopoverFromRect:controller.popoverPresentationController.sourceView.frame inView:tableView permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+                        } else {
+                            [self presentViewController:controller animated:YES completion:nil];
+                        }
+                    }
+                    break;
                 }
             }
-            break;
-        }
+            return;
+        case 2: // SwiftUI section
+            switch (indexPath.row) {
+                case 0:
+                {
+                    UIViewController *vc = [SwiftUIViewControllerFactory makeBasicSwiftUIViewController];
+                    [[self navigationController] pushViewController:vc animated:true];
+                    break;
+                }
+            }
     }
 }
 
