@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		06104D1C2D51473B0038697E /* SwiftUIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06104D1B2D5147370038697E /* SwiftUIViewController.swift */; };
+		06104D1F2D514E0C0038697E /* SwiftUIBasicView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06104D1E2D514E0C0038697E /* SwiftUIBasicView.swift */; };
+		06104D212D5150D10038697E /* SwiftUIViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06104D202D5150D00038697E /* SwiftUIViewControllerFactory.swift */; };
+		06104D242D5156760038697E /* SwiftUIBasicTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 06104D232D5156690038697E /* SwiftUIBasicTests.m */; };
+		06104D262D516FEB0038697E /* ViewModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06104D252D516FE70038697E /* ViewModifiers.swift */; };
 		0E27A9EE1B45B53D00A6DE6E /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9AD81F91AA180B900B369FD /* IOKit.framework */; };
 		2229D59525BEF47D0093296C /* KIFUITestActor-IdentifierTests.h in Headers */ = {isa = PBXBuildFile; fileRef = 2229D53E25BEF47D0093296C /* KIFUITestActor-IdentifierTests.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2229D59625BEF47D0093296C /* KIFUITestActor-IdentifierTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2229D53F25BEF47D0093296C /* KIFUITestActor-IdentifierTests.m */; };
@@ -211,6 +216,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		06104D1B2D5147370038697E /* SwiftUIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIViewController.swift; sourceTree = "<group>"; };
+		06104D1D2D51473D0038697E /* TestHost-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TestHost-Bridging-Header.h"; sourceTree = "<group>"; };
+		06104D1E2D514E0C0038697E /* SwiftUIBasicView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIBasicView.swift; sourceTree = "<group>"; };
+		06104D202D5150D00038697E /* SwiftUIViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIViewControllerFactory.swift; sourceTree = "<group>"; };
+		06104D232D5156690038697E /* SwiftUIBasicTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SwiftUIBasicTests.m; sourceTree = "<group>"; };
+		06104D252D516FE70038697E /* ViewModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModifiers.swift; sourceTree = "<group>"; };
 		22191DFA24BF793F004CAA18 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
 		221FF9A2252231030058F471 /* TestPlan.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = TestPlan.xctestplan; sourceTree = "<group>"; };
 		2229D53E25BEF47D0093296C /* KIFUITestActor-IdentifierTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "KIFUITestActor-IdentifierTests.h"; sourceTree = "<group>"; };
@@ -447,6 +458,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		06104D1A2D51472F0038697E /* SwiftUI */ = {
+			isa = PBXGroup;
+			children = (
+				06104D1D2D51473D0038697E /* TestHost-Bridging-Header.h */,
+				06104D202D5150D00038697E /* SwiftUIViewControllerFactory.swift */,
+				06104D1B2D5147370038697E /* SwiftUIViewController.swift */,
+				06104D1E2D514E0C0038697E /* SwiftUIBasicView.swift */,
+				06104D252D516FE70038697E /* ViewModifiers.swift */,
+			);
+			path = SwiftUI;
+			sourceTree = "<group>";
+		};
+		06104D222D51565A0038697E /* SwiftUI Tests */ = {
+			isa = PBXGroup;
+			children = (
+				06104D232D5156690038697E /* SwiftUIBasicTests.m */,
+			);
+			path = "SwiftUI Tests";
+			sourceTree = "<group>";
+		};
 		2229D53D25BEF47D0093296C /* IdentifierTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -654,6 +685,7 @@
 				AE62FCD51A1D2447002B10DA /* WebViewController.m */,
 				84D293AC1A2C84F700C10944 /* SystemAlertViewController.m */,
 				97E8A5CE1B0A62F700124E3B /* BackgroundViewController.m */,
+				06104D1A2D51472F0038697E /* SwiftUI */,
 				EB60ECC7177F8C83005A041A /* Supporting Files */,
 				8EAA1EE129D3AF7A008F6029 /* OffscreenViewController.m */,
 			);
@@ -679,6 +711,7 @@
 		EB60ECEF177F8DB3005A041A /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				06104D222D51565A0038697E /* SwiftUI Tests */,
 				FA8DA74D1A77117A00E0C644 /* KIFUIViewTestActor Tests */,
 				BFE4708E1C7F44C100580EF9 /* Additions */,
 				2CED883D181F5EE1005ABD20 /* PickerTests.m */,
@@ -886,6 +919,11 @@
 			attributes = {
 				LastTestingUpgradeCheck = 0510;
 				LastUpgradeCheck = 1150;
+				TargetAttributes = {
+					EB60ECC0177F8C83005A041A = {
+						LastSwiftMigration = 1620;
+					};
+				};
 			};
 			buildConfigurationList = AAB07262139719AC008AF393 /* Build configuration list for PBXProject "KIF" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -987,6 +1025,7 @@
 			files = (
 				FA8A3C591A771C5500206350 /* SearchFieldTests_ViewTestActor.m in Sources */,
 				FA8A3C551A77157F00206350 /* LongPressTests_ViewTestActor.m in Sources */,
+				06104D242D5156760038697E /* SwiftUIBasicTests.m in Sources */,
 				FA49155E1A78206E00A78E57 /* CompositionTests_ViewTestActor.m in Sources */,
 				FA8A3C5F1A772E6800206350 /* AccessibilityIdentifierTests_ViewTestActor.m in Sources */,
 				8E654FC429D79BD8007F7811 /* OffscreenTests_ViewTestActor.m in Sources */,
@@ -1058,16 +1097,20 @@
 				AE62FCD61A1D2447002B10DA /* WebViewController.m in Sources */,
 				EB60ECCD177F8C84005A041A /* main.m in Sources */,
 				EB60ED00177F9032005A041A /* AppDelegate.m in Sources */,
+				06104D1F2D514E0C0038697E /* SwiftUIBasicView.swift in Sources */,
 				D927B9DC18F9DF2D00DAD036 /* TableViewController.m in Sources */,
 				EB60ED01177F9032005A041A /* ShowHideViewController.m in Sources */,
 				CD19A99F1F46482200BF0325 /* CustomPickerController.m in Sources */,
 				EB60ED02177F9032005A041A /* TapViewController.m in Sources */,
 				2CDEE1CB181DBED200DF6E63 /* PickerController.m in Sources */,
+				06104D1C2D51473B0038697E /* SwiftUIViewController.swift in Sources */,
 				EB60ED03177F9032005A041A /* TestSuiteViewController.m in Sources */,
+				06104D262D516FEB0038697E /* ViewModifiers.swift in Sources */,
 				ACDB72682CA3146B00D9796E /* AccessibilityViewController.m in Sources */,
 				D9EA274318F05A6700D87E57 /* ScrollViewController.m in Sources */,
 				8EAA1EE229D3AF7A008F6029 /* OffscreenViewController.m in Sources */,
 				3812FB611A1212A700335733 /* AnimationViewController.m in Sources */,
+				06104D212D5150D10038697E /* SwiftUIViewControllerFactory.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1201,6 +1244,7 @@
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -1245,6 +1289,7 @@
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -1410,6 +1455,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -1434,6 +1480,8 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.square.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "TestHost/SwiftUI/TestHost-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
@@ -1445,6 +1493,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -1464,6 +1513,7 @@
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.square.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "TestHost/SwiftUI/TestHost-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
@@ -1516,6 +1566,7 @@
 				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PRODUCT_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Coverage;
 		};
@@ -1556,6 +1607,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -1580,6 +1632,8 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.square.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "TestHost/SwiftUI/TestHost-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
