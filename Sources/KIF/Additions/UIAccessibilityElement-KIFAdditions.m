@@ -255,13 +255,6 @@ MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
             superview = superview.superview;
         }
     }
-
-    if ([[UIApplication sharedApplication] isIgnoringInteractionEvents]) {
-        if (error) {
-            *error = [NSError KIFErrorWithFormat:@"Application is ignoring interaction events"];
-        }
-        return nil;
-    }
     
     // If we don't require tappability, at least make sure it's not hidden
     if ([view isHidden]) {

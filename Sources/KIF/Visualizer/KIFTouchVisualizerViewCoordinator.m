@@ -1,5 +1,6 @@
 #import "KIFTouchVisualizerViewCoordinator.h"
 #import "KIFTouchVisualizerView.h"
+#import "UIApplication-KifAdditions.h"
 
 static const CGFloat KIFTouchAnimationDuration = 0.75;
 
@@ -56,7 +57,7 @@ static const CGFloat KIFTouchAnimationDuration = 0.75;
 
 - (UIWindow *)_topWindow
 {
-    UIWindow *topWindow = UIApplication.sharedApplication.keyWindow;
+    UIWindow *topWindow = [UIApplication.sharedApplication windowSceneKeyWindow];
     
     for (UIWindow *window in UIApplication.sharedApplication.windows) {
         topWindow = window;

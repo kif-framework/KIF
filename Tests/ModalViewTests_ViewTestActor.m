@@ -79,7 +79,7 @@
 
 - (void)_dismissModal;
 {
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+    if (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
         [viewTester dismissPopover];
     } else {
         [[viewTester usingLabel:@"Cancel"] tap];
