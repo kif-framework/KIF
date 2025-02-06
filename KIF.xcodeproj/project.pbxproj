@@ -12,6 +12,7 @@
 		06104D212D5150D10038697E /* SwiftUIViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06104D202D5150D00038697E /* SwiftUIViewControllerFactory.swift */; };
 		06104D242D5156760038697E /* SwiftUIBasicTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 06104D232D5156690038697E /* SwiftUIBasicTests.m */; };
 		06104D262D516FEB0038697E /* ViewModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06104D252D516FE70038697E /* ViewModifiers.swift */; };
+		06A507622D5274B800F77047 /* UIView+KIFPrivateAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = 06A507612D5274B800F77047 /* UIView+KIFPrivateAPI.h */; };
 		0E27A9EE1B45B53D00A6DE6E /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9AD81F91AA180B900B369FD /* IOKit.framework */; };
 		2229D59525BEF47D0093296C /* KIFUITestActor-IdentifierTests.h in Headers */ = {isa = PBXBuildFile; fileRef = 2229D53E25BEF47D0093296C /* KIFUITestActor-IdentifierTests.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2229D59625BEF47D0093296C /* KIFUITestActor-IdentifierTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2229D53F25BEF47D0093296C /* KIFUITestActor-IdentifierTests.m */; };
@@ -222,6 +223,7 @@
 		06104D202D5150D00038697E /* SwiftUIViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIViewControllerFactory.swift; sourceTree = "<group>"; };
 		06104D232D5156690038697E /* SwiftUIBasicTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SwiftUIBasicTests.m; sourceTree = "<group>"; };
 		06104D252D516FE70038697E /* ViewModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModifiers.swift; sourceTree = "<group>"; };
+		06A507612D5274B800F77047 /* UIView+KIFPrivateAPI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+KIFPrivateAPI.h"; sourceTree = "<group>"; };
 		22191DFA24BF793F004CAA18 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
 		221FF9A2252231030058F471 /* TestPlan.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = TestPlan.xctestplan; sourceTree = "<group>"; };
 		2229D53E25BEF47D0093296C /* KIFUITestActor-IdentifierTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "KIFUITestActor-IdentifierTests.h"; sourceTree = "<group>"; };
@@ -599,6 +601,7 @@
 		2229D59325BEF47D0093296C /* ApplePrivateAPIs */ = {
 			isa = PBXGroup;
 			children = (
+				06A507612D5274B800F77047 /* UIView+KIFPrivateAPI.h */,
 				2229D59425BEF47D0093296C /* UIDatePicker+KIFPrivateAPI.h */,
 			);
 			name = ApplePrivateAPIs;
@@ -816,6 +819,7 @@
 				2229D5C225BEF47D0093296C /* LoadableCategory.h in Headers */,
 				2229D5D625BEF47D0093296C /* KIFTestCase.h in Headers */,
 				2229D5C825BEF47D0093296C /* IOHIDEvent+KIF.h in Headers */,
+				06A507622D5274B800F77047 /* UIView+KIFPrivateAPI.h in Headers */,
 				2229D5B725BEF47D0093296C /* NSException-KIFAdditions.h in Headers */,
 				2229D5C325BEF47D0093296C /* XCTestCase-KIFAdditions.h in Headers */,
 				2229D5B425BEF47D0093296C /* CGGeometry-KIFAdditions.h in Headers */,
