@@ -18,17 +18,6 @@
     [viewTester waitForTimeInterval:0.25];
 }
 
-- (void)testInteractionWithAnAlertView
-{
-    [[viewTester usingLabel:@"UIAlertView"] tap];
-    [[viewTester usingLabel:@"Alert View"] waitForView];
-    [[viewTester usingLabel:@"Message"] waitForView];
-    [[viewTester usingLabel:@"Cancel"] waitForTappableView];
-    [[viewTester usingLabel:@"Continue"] waitForTappableView];
-    [[viewTester usingLabel:@"Continue"] tap];
-    [[viewTester usingLabel:@"Message"] waitForAbsenceOfView];
-}
-
 - (void)testInteractionWithAnActionSheet
 {
     [[viewTester usingLabel:@"UIAlertController"] tap];

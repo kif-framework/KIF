@@ -32,9 +32,10 @@
 
 - (void)testThatAlertViewsCanBeTappedInLandscape
 {
-    [tester tapViewWithAccessibilityLabel:@"UIAlertView"];
+    [tester tapViewWithAccessibilityLabel:@"UIAlertController"];
+    [tester tapViewWithAccessibilityLabel:@"Cancel"];
     [tester tapViewWithAccessibilityLabel:@"Continue"];
-    [tester waitForAbsenceOfViewWithAccessibilityLabel:@"Message"];
+    [tester waitForAbsenceOfViewWithAccessibilityLabel:@"Alert View"];
 }
 
 @end
