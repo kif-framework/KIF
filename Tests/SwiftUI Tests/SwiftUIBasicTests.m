@@ -44,11 +44,11 @@
 - (void)testTappingToggleSwitch
 {
     [tester waitForViewWithAccessibilityLabel:@"Enabled"];
-    [tester tapViewWithAccessibilityLabel:@"Toggle switch"];
+    [tester longPressViewWithAccessibilityLabel:@"Toggle switch" duration: 1.0f];
     [tester waitForViewWithAccessibilityLabel:@"Disabled"];
     
     if (@available(iOS 17.0, *)) {
-        [tester tapViewWithAccessibilityLabel:@"Toggle switch" traits:UIAccessibilityTraitToggleButton | UIAccessibilityTraitButton];
+        [tester longPressViewWithAccessibilityLabel:@"Toggle switch" value: nil traits:UIAccessibilityTraitToggleButton | UIAccessibilityTraitButton duration:1.0f];
         [tester waitForViewWithAccessibilityLabel:@"Enabled"];
     }
 }
