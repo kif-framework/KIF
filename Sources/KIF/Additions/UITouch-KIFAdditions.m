@@ -152,26 +152,29 @@ typedef struct {
             canHitTestWithContext = [[UIView class] instancesRespondToSelector:@selector(_hitTestWithContext:)];
         });
         
-        /*
-         From observation - this can be either of UIView type (e.g. when using UIViewRepresentable inside SwiftUI), a specialized SwiftUI view compatible with UIView, or a newly introduced structure SwiftUI.UIKitGestureContainer implementing UIResponder interface. What's important it seems it is compatible with setView:(UIView *) method.
-         */
-        id foundResponder = NULL;
-        
         if (canCreateContext && canHitTestWithContext) {
             id hitTestContext = ((id (*)(id, SEL, CGPoint, CGFloat))objc_msgSend)(UIHitTestContextClass, contextWithPointAndRadiusSel, point, 0);
             
             if (hitTestContext) {
+                /*
+                 From observation - this can be either of following types:
+                    - UIView type (e.g. when using UIViewRepresentable inside SwiftUI)
+                    - specialized SwiftUI view compatible with UIView,
+                    - newly introduced structure SwiftUI.UIKitGestureContainer implementing UIResponder interface.
+                    What's important it seems it is compatible with setView:(UIView *) method.
+                 */
+                id foundResponder = NULL;
                 UIView *currentView = hitTestView;
                 
                 while(foundResponder == NULL && currentView != NULL) {
                     foundResponder = [currentView _hitTestWithContext:hitTestContext];
                     currentView = [currentView superview];
                 }
+                
+                if (foundResponder) {
+                    return foundResponder;
+                }
             }
-        }
-        
-        if (foundResponder) {
-            return foundResponder;
         }
     }
     
