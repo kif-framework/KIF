@@ -90,10 +90,7 @@ typedef struct {
     }
     
     // Starting with iOS 9, internal IOHIDEvent must be set for UITouch object
-    NSOperatingSystemVersion iOS9 = {9, 0, 0};
-    if ([NSProcessInfo instancesRespondToSelector:@selector(isOperatingSystemAtLeastVersion:)] && [[NSProcessInfo new] isOperatingSystemAtLeastVersion:iOS9]) {
-        [self kif_setHidEvent];
-    }
+    [self kif_setHidEvent];
     
 	return self;
 }

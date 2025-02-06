@@ -336,9 +336,8 @@ static BOOL KIFUITestActorAnimationsEnabled = YES;
         // This is mostly redundant of the test in _accessibilityElementWithLabel:
         KIFTestWaitCondition(!isnan(tappablePointInElement.x), error, @"View is not tappable: %@", view);
         
-        NSOperatingSystemVersion iOS9 = {9, 0, 0};
-        BOOL isOperatingSystemAtLeastVersion9 = [NSProcessInfo instancesRespondToSelector:@selector(isOperatingSystemAtLeastVersion:)] && [[NSProcessInfo new] isOperatingSystemAtLeastVersion:iOS9];
-        if (isOperatingSystemAtLeastVersion9 && [NSStringFromClass([view class]) isEqualToString:@"_UIAlertControllerActionView"]) {
+
+        if ([NSStringFromClass([view class]) isEqualToString:@"_UIAlertControllerActionView"]) {
             [view longPressAtPoint:tappablePointInElement duration:0.1];
         } else {
             [view tapAtPoint:tappablePointInElement];
