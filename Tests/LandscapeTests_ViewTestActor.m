@@ -32,7 +32,8 @@
 
 - (void)testThatAlertViewsCanBeTappedInLandscape
 {
-    [viewTester tapRowInTableViewAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:1]];
+    [viewTester tapRowInTableViewAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:1]];
+    [[viewTester usingLabel:@"Cancel"] tap];
     [[viewTester usingLabel:@"Continue"] tap];
     [[viewTester usingLabel:@"Message"] waitForAbsenceOfView];
 }

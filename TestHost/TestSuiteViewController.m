@@ -60,16 +60,10 @@
             switch (indexPath.row) {
                 case 0:
                 {
-                    [[[UIAlertView alloc] initWithTitle:@"Alert View" message:@"Message" delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:@"Continue", nil] show];
                     break;
                 }
                     
                 case 1:
-                {
-                    break;
-                }
-                    
-                case 2:
                 {
                     UIAlertController *alertController = [UIAlertController
                                                           alertControllerWithTitle:@"Alert Controller"
@@ -99,7 +93,7 @@
                     break;
                 }
                     
-                case 3:
+                case 2:
                 {
                     Class AVCClass = NSClassFromString(@"UIActivityViewController");
                     if (AVCClass) {

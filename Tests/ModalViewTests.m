@@ -18,16 +18,6 @@
     [tester waitForTimeInterval:0.25];
 }
 
-- (void)testInteractionWithAnAlertView
-{
-    [tester tapViewWithAccessibilityLabel:@"UIAlertView"];
-    [tester waitForViewWithAccessibilityLabel:@"Alert View"];
-    [tester waitForViewWithAccessibilityLabel:@"Message"];
-    [tester waitForTappableViewWithAccessibilityLabel:@"Cancel"];
-    [tester waitForTappableViewWithAccessibilityLabel:@"Continue"];
-    [tester tapViewWithAccessibilityLabel:@"Continue"];
-    [tester waitForAbsenceOfViewWithAccessibilityLabel:@"Message"];
-}
 
 - (void)testInteractionWithAnActionSheet
 {
