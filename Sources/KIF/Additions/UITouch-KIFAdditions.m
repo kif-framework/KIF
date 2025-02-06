@@ -8,8 +8,10 @@
 //  which Square, Inc. licenses this file to you.
 
 #import "UITouch-KIFAdditions.h"
+#import "UIView+KIFPrivateAPI.h"
 #import "LoadableCategory.h"
 #import <objc/runtime.h>
+#import <objc/message.h>
 #import "IOHIDEvent+KIF.h"
 
 MAKE_CATEGORIES_LOADABLE(UITouch_KIFAdditions)
@@ -63,9 +65,9 @@ typedef struct {
     [self setTapCount:1];
     [self _setLocationInWindow:point resetPrevious:YES];
     
-	UIView *hitTestView = [window hitTest:point withEvent:nil];
-    
+    UIView *hitTestView = [self kif_getHitTestViewInWindow:window atPoint:point];
     [self setView:hitTestView];
+    
     [self setPhase:UITouchPhaseBegan];
     
     if ([self respondsToSelector:@selector(_setIsFirstTouchForView:)]) {
@@ -124,10 +126,59 @@ typedef struct {
     [self _setEdgeType:edgeType];
 }
 
-- (void)kif_setHidEvent {
+- (void)kif_setHidEvent
+{
     IOHIDEventRef event = kif_IOHIDEventWithTouches(@[self]);
     [self _setHidEvent:event];
     CFRelease(event);
+}
+
+/*!
+ @abstract Beginning with iOS 18, there is  @c _UIHitTestContext structure introduced for hit testing SwiftUI views. This method tries to mimic that behaviour.
+ @returns The view that should be assigned to the touch gesture.
+ */
+- (UIView *)kif_getHitTestViewInWindow:(UIWindow *)window atPoint:(CGPoint)point
+{
+    UIView *hitTestView = [window hitTest:point withEvent:nil];
+    
+    if (@available(iOS 18.0, *)) {
+        static Class UIHitTestContextClass;
+        static SEL contextWithPointAndRadiusSel;
+        static BOOL canCreateContext;
+        static BOOL canHitTestWithContext;
+        
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            UIHitTestContextClass = NSClassFromString(@"_UIHitTestContext");
+            contextWithPointAndRadiusSel = NSSelectorFromString(@"contextWithPoint:radius:");
+            canCreateContext = UIHitTestContextClass && [UIHitTestContextClass respondsToSelector:contextWithPointAndRadiusSel];
+            canHitTestWithContext = [[UIView class] instancesRespondToSelector:@selector(_hitTestWithContext:)];
+        });
+        
+        /*
+         From observation - this can be either of UIView type (e.g. when using UIViewRepresentable inside SwiftUI), a specialized SwiftUI view compatible with UIView, or a newly introduced structure SwiftUI.UIKitGestureContainer implementing UIResponder interface. What's important it seems it is compatible with setView:(UIView *) method.
+         */
+        id foundResponder = NULL;
+        
+        if (canCreateContext && canHitTestWithContext) {
+            id hitTestContext = ((id (*)(id, SEL, CGPoint, CGFloat))objc_msgSend)(UIHitTestContextClass, contextWithPointAndRadiusSel, point, 0);
+            
+            if (hitTestContext) {
+                UIView *currentView = hitTestView;
+                
+                while(foundResponder == NULL && currentView != NULL) {
+                    foundResponder = [currentView _hitTestWithContext:hitTestContext];
+                    currentView = [currentView superview];
+                }
+            }
+        }
+        
+        if (foundResponder) {
+            return foundResponder;
+        }
+    }
+    
+    return hitTestView;
 }
 
 @end
