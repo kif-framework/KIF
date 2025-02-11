@@ -1,5 +1,5 @@
 //
-//  SwiftUIBasicTests.m
+//  SwiftUITappingTests.m
 //  KIF
 //
 //  Created by Bartłomiej Włodarczak on 03/02/2025.
@@ -7,14 +7,14 @@
 
 #import <KIF/KIF.h>
 
-@interface SwiftUIBasicTests : KIFTestCase
+@interface SwiftUITappingTests : KIFTestCase
 @end
 
-@implementation SwiftUIBasicTests
+@implementation SwiftUITappingTests
 
 - (void)beforeEach
 {
-    [tester tapViewWithAccessibilityLabel:@"Basic Views"];
+    [tester tapViewWithAccessibilityLabel:@"SwiftUI Tapping"];
 }
 
 - (void)afterEach

@@ -116,8 +116,13 @@
             switch (indexPath.row) {
                 case 0:
                 {
-                    UIViewController *vc = [SwiftUIViewControllerFactory makeBasicSwiftUIViewController];
-                    [[self navigationController] pushViewController:vc animated:true];
+                    [[self navigationController] pushViewController:[SwiftUIViewControllerFactory makeSwiftUITappingViewController] animated:true];
+                    break;
+                }
+                
+                case 1:
+                {
+                    [[self navigationController] pushViewController:[SwiftUIViewControllerFactory makeSwiftUITypingViewController] animated:true];
                     break;
                 }
             }
