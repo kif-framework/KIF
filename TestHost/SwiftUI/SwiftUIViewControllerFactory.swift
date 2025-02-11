@@ -10,7 +10,11 @@ import UIKit
 @MainActor final class SwiftUIViewControllerFactory: NSObject {
     private override init() {}
     
-    @objc static func makeBasicSwiftUIViewController() -> UIViewController {
-        SwiftUIViewController(content: SwiftUIBasicView())
+    @objc static func makeSwiftUITappingViewController() -> UIViewController {
+        SwiftUIViewController(content: SwiftUITappingView())
+    }
+    
+    @objc static func makeSwiftUITypingViewController() -> UIViewController {
+        SwiftUIViewController(content: SwiftUITypingView())
     }
 }

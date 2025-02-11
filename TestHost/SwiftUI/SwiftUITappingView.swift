@@ -1,5 +1,5 @@
 //
-//  SwiftUIBasicView.swift
+//  SwiftUITappingView.swift
 //  TestHost
 //
 //  Created by Bartłomiej Włodarczak on 03/02/2025.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SwiftUIBasicView: View {
+struct SwiftUITappingView: View {
     var body: some View {
         List {
             TextWithTapCount(text: "Text with tap gesture")
@@ -23,7 +23,7 @@ struct SwiftUIBasicView: View {
 }
 
 #Preview {
-    SwiftUIBasicView()
+    SwiftUITappingView()
 }
 
 private struct ButtonWithTapCount: View {
