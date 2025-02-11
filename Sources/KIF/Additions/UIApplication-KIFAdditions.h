@@ -82,6 +82,12 @@ CF_EXPORT SInt32 KIFRunLoopRunInModeRelativeToAnimationSpeed(CFStringRef mode, C
  */
 - (NSArray *)windowsWithKeyWindow;
 
+/*!
+ @discussion A replacement for the  @c keyWindow property, which was deprecated in iOS 13
+ @returns The key window, found by iterating @c UIApplication's @c connectedScenes.
+ */
+- (UIWindow *)windowSceneKeyWindow;
+
 /// @discussion The first responders are ordered in the reverse order of @c -windowsWithKeyWindow
 /// to return in order of nearest visually.
 /// @returns All first responders in the application.
