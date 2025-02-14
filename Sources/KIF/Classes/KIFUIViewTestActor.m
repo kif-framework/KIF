@@ -202,9 +202,6 @@ NSString *const inputFieldTestString = @"Testing";
 - (void)waitForAbsenceOfView;
 {
     [self runBlock:^KIFTestStepResult(NSError **error) {
-        // If the app is ignoring interaction events, then wait before doing our analysis
-        KIFTestWaitCondition(![[UIApplication sharedApplication] isIgnoringInteractionEvents], error, @"Application is ignoring interaction events.");
-        
         // If the element can't be found, then we're done
         KIFUIObject *found = [self _predicateSearchWithRequiresMatch:NO mustBeTappable:NO];
         if (!found) {

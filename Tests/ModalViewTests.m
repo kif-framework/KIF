@@ -18,16 +18,6 @@
     [tester waitForTimeInterval:0.25];
 }
 
-- (void)testInteractionWithAnAlertView
-{
-    [tester tapViewWithAccessibilityLabel:@"UIAlertView"];
-    [tester waitForViewWithAccessibilityLabel:@"Alert View"];
-    [tester waitForViewWithAccessibilityLabel:@"Message"];
-    [tester waitForTappableViewWithAccessibilityLabel:@"Cancel"];
-    [tester waitForTappableViewWithAccessibilityLabel:@"Continue"];
-    [tester tapViewWithAccessibilityLabel:@"Continue"];
-    [tester waitForAbsenceOfViewWithAccessibilityLabel:@"Message"];
-}
 
 - (void)testInteractionWithAnActionSheet
 {
@@ -81,7 +71,7 @@
 
 - (void)_dismissModal;
 {
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+    if (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
         [tester dismissPopover];
     } else {
         [tester tapViewWithAccessibilityLabel:@"Cancel"];
