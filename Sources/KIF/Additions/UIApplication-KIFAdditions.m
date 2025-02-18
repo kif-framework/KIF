@@ -134,23 +134,22 @@ static const void *KIFRunLoopModesKey = &KIFRunLoopModesKey;
 
 - (NSArray *)windowsWithKeyWindow
 {
-    NSMutableArray *windows = self.windows.mutableCopy;
-    UIWindow *keyWindow = [self windowSceneKeyWindow];
-    if (keyWindow && ![windows containsObject:keyWindow]) {
-        [windows addObject:keyWindow];
+    NSMutableArray *windows = [NSMutableArray array];
+    
+    for (UIWindowScene *scene in UIApplication.sharedApplication.connectedScenes) {
+        if ([scene isKindOfClass:[UIWindowScene class]]) {
+            [windows addObjectsFromArray:scene.windows];
+        }
     }
+    
     return windows;
 }
 
 - (UIWindow *)windowSceneKeyWindow
 {
-    for (UIWindowScene *scene in UIApplication.sharedApplication.connectedScenes) {
-        if ([scene isKindOfClass:[UIWindowScene class]]) {
-            for (UIWindow *window in [scene.windows reverseObjectEnumerator]) {
-                if (window.isKeyWindow) {
-                    return window;
-                }
-            }
+    for (UIWindow *window in [self windowsWithKeyWindow]) {
+        if (window.isKeyWindow) {
+            return window;
         }
     }
     
@@ -168,7 +167,7 @@ static const void *KIFRunLoopModesKey = &KIFRunLoopModesKey;
 
 - (void)setAnimationSpeed:(float)animationSpeed
 {
-    for (UIWindow *window in self.windows) {
+    for (UIWindow *window in [self windowsWithKeyWindow]) {
         window.layer.speed = animationSpeed;
     }
 }
