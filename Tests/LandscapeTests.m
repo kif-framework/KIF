@@ -19,7 +19,7 @@
     [tester waitForTimeInterval:0.5];
     
     // only scroll if we are on iphone
-    if(UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPhone) {
+    if (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPhone) {
         [tester scrollViewWithAccessibilityIdentifier:@"Test Suite TableView" byFractionOfSizeHorizontal:0 vertical:-0.2];
     }
 }
@@ -33,7 +33,14 @@
 - (void)testThatAlertViewsCanBeTappedInLandscape
 {
     [tester tapViewWithAccessibilityLabel:@"UIAlertController"];
-    [tester tapViewWithAccessibilityLabel:@"Cancel"];
+    if (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPhone) {
+        [tester tapViewWithAccessibilityLabel:@"Cancel"];
+    } else {
+        /* On iPadOS the UIAlertController is displayed as a popup over table view cell, there's no "Cancel" button.
+         It can be dismissed by tapping anywhere on the screen.
+         */
+        [tester tapScreenAtPoint:CGPointMake(1, 1)];
+    }
     [tester tapViewWithAccessibilityLabel:@"Continue"];
     [tester waitForAbsenceOfViewWithAccessibilityLabel:@"Alert View"];
 }
