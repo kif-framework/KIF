@@ -211,7 +211,7 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
     // the returned objects are UIAccessibilityElementMockViews (which aren't actually views)
     // rather than the real subviews it contains. We want the real views if possible.
     // UITableViewCell is such an offender.
-    for (UIView *view in [self.subviews reverseObjectEnumerator]) {
+    for (UIView *view in [self.subviewsRespectingAccessibilityViewIsModal reverseObjectEnumerator]) {
 
         UIAccessibilityElement *element = [view accessibilityElementMatchingBlock:matchBlock disableScroll:scrollDisabled];
 
@@ -448,6 +448,24 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
     return matchingButOccludedElement;
 }
 
+- (NSArray<UIView *> *)subviewsRespectingAccessibilityViewIsModal;
+{
+    UIView *accessibilityViewIsModalSubview = nil;
+    
+    for (UIView *view in self.subviews) {
+        if (view.accessibilityViewIsModal) {
+            accessibilityViewIsModalSubview = view;
+            break;
+        }
+    }
+    
+    if (accessibilityViewIsModalSubview != nil) {
+        return @[accessibilityViewIsModalSubview];
+    } else {
+        return self.subviews;
+    }
+}
+
 - (UIView *)subviewWithClassNamePrefix:(NSString *)prefix;
 {
     NSArray *subviews = [self subviewsWithClassNamePrefix:prefix];
@@ -464,7 +482,7 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
     
     // Breadth-first population of matching subviews
     // First traverse the next level of subviews, adding matches.
-    for (UIView *view in self.subviews) {
+    for (UIView *view in self.subviewsRespectingAccessibilityViewIsModal) {
         if ([NSStringFromClass([view class]) hasPrefix:prefix]) {
             [result addObject:view];
         }
@@ -476,7 +494,7 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
     }
     
     // Now traverse the subviews of the subviews, adding matches.
-    for (UIView *view in self.subviews) {
+    for (UIView *view in self.subviewsRespectingAccessibilityViewIsModal) {
         NSArray *matchingSubviews = [view subviewsWithClassNamePrefix:prefix];
         [result addObjectsFromArray:matchingSubviews];
         
@@ -535,7 +553,7 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
     }
     
     // Now traverse the subviews of the subviews, adding matches
-    for (UIView *view in self.subviews) {
+    for (UIView *view in self.subviewsRespectingAccessibilityViewIsModal) {
         NSArray * matchingSubviews = [view subviewsWithClassNameOrSuperClassNamePrefix:prefix];
         [result addObjectsFromArray:matchingSubviews];
     }
