@@ -452,7 +452,7 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
 {
     UIView *accessibilityViewIsModalSubview = nil;
     
-    for (UIView *view in self.subviews) {
+    for (UIView *view in [self.subviews reverseObjectEnumerator]) {
         if (view.accessibilityViewIsModal) {
             accessibilityViewIsModalSubview = view;
             break;
