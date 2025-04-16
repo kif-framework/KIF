@@ -12,6 +12,7 @@
 #import "KIFTestActor_Private.h"
 #import "KIFUIObject.h"
 #import "KIFUITestActor_Private.h"
+#import "NSObject+KIFAdditions.h"
 #import "NSPredicate+KIFAdditions.h"
 #import "NSString+KIFAdditions.h"
 #import "UIAccessibilityElement-KIFAdditions.h"
@@ -427,7 +428,7 @@ NSString *const inputFieldTestString = @"Testing";
         KIFUIObject *found = [self _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
         
         [self runBlock:^KIFTestStepResult(NSError **error) {
-            if([[found.element KIF_customActionWithName:name] KIF_activate] == expectedResult) {
+            if ([[found.element KIF_customActionWithName:name] KIF_activate] == expectedResult) {
                 [self waitForAnimationsToFinish];
                 return KIFTestStepResultSuccess;
             }
@@ -443,7 +444,41 @@ NSString *const inputFieldTestString = @"Testing";
         KIFUIObject *found = [self _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
         
         [self runBlock:^KIFTestStepResult(NSError **error) {
-            if([found.element accessibilityActivate] == expectedResult) {
+            if ([found.element accessibilityActivate] == expectedResult) {
+                [self waitForAnimationsToFinish];
+                return KIFTestStepResultSuccess;
+            }
+            [self waitForAnimationsToFinish];
+            return KIFTestStepResultFailure;
+        }];
+    }
+}
+
+- (void)performAccessibilityIncrement;
+{
+    @autoreleasepool {
+        KIFUIObject *found = [self _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
+        
+        [self runBlock:^KIFTestStepResult(NSError **error) {
+            if ([found.element isAccessibilityAdjustable]) {
+                [found.element accessibilityIncrement];
+                [self waitForAnimationsToFinish];
+                return KIFTestStepResultSuccess;
+            }
+            [self waitForAnimationsToFinish];
+            return KIFTestStepResultFailure;
+        }];
+    }
+}
+
+- (void)performAccessibilityDecrement;
+{
+    @autoreleasepool {
+        KIFUIObject *found = [self _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
+        
+        [self runBlock:^KIFTestStepResult(NSError **error) {
+            if ([found.element isAccessibilityAdjustable]) {
+                [found.element accessibilityDecrement];
                 [self waitForAnimationsToFinish];
                 return KIFTestStepResultSuccess;
             }

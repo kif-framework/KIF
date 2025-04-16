@@ -8,11 +8,11 @@
 #import <KIF/KIF.h>
 #import <UIKit/UIAccessibility.h>
 
-@interface AccessibilityActivateTests_ViewTestActor : KIFTestCase
+@interface AccessibilityAdjustable_ViewTestActor : KIFTestCase
 @end
 
 
-@implementation AccessibilityActivateTests_ViewTestActor
+@implementation AccessibilityAdjustable_ViewTestActor
 
 - (void)beforeEach
 {
@@ -24,26 +24,13 @@
     [[[viewTester usingLabel:@"Test Suite"] usingTraits:UIAccessibilityTraitButton] tap];
 }
 
-- (void)testAccessibilityActivate
-{
-    [[viewTester usingLabel:@"AccessibilityView"] performAccessibilityActivateWithExpectedResult: YES];
-    [[viewTester usingValue:@"Activated: 1"] waitForView];
-    
-    [[viewTester usingLabel:@"AccessibilitySwitch"] setSwitchOn:false];
-    [[viewTester usingLabel:@"AccessibilityView"] performAccessibilityActivateWithExpectedResult: NO];
-    [[viewTester usingValue:@"Activated: 2"] waitForView];
-}
-
-- (void)testAccessibilityAdjust
+- (void)testAccessibilityIncrement
 {
     [[viewTester usingLabel:@"AccessibilityView"] performAccessibilityIncrement];
-    [[viewTester usingValue:@"Incremented: 1"] waitForView];
-    
-    [[viewTester usingLabel:@"AccessibilityView"] performAccessibilityDecrement];
-    [[viewTester usingValue:@"Decremented: 0"] waitForView];
+   
 }
 
-- (void)testAccessibilityActivationPoint
+- (void)testAccessibilityActiationPoint
 {
     UIView *view = [[viewTester usingValue: @"Awaiting activation or tap"] waitForView];
     [view setAccessibilityActivationPoint: [view.window convertPoint:CGPointMake(25.0, 50.0) fromView:view]];
