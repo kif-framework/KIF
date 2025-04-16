@@ -34,7 +34,16 @@
     [[viewTester usingValue:@"Activated: 2"] waitForView];
 }
 
-- (void)testAccessibilityActiationPoint
+- (void)testAccessibilityAdjust
+{
+    [[viewTester usingLabel:@"AccessibilityView"] performAccessibilityIncrement];
+    [[viewTester usingValue:@"Incremented: 1"] waitForView];
+    
+    [[viewTester usingLabel:@"AccessibilityView"] performAccessibilityDecrement];
+    [[viewTester usingValue:@"Decremented: 0"] waitForView];
+}
+
+- (void)testAccessibilityActivationPoint
 {
     UIView *view = [[viewTester usingValue: @"Awaiting activation or tap"] waitForView];
     [view setAccessibilityActivationPoint: [view.window convertPoint:CGPointMake(25.0, 50.0) fromView:view]];

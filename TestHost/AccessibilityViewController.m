@@ -10,6 +10,8 @@
 @interface AccessibilityViewController_AccessibilityView : UIView
 @property (nonatomic, assign) BOOL activationReturnValue;
 @property (nonatomic, assign) int activationCount;
+@property (nonatomic, assign) int adjustableCount;
+
 
 @property (nonatomic, strong) UILabel *topLabel;
 @property (nonatomic, strong) UILabel *swtichLabel;
@@ -24,7 +26,8 @@
     self = [super initWithCoder:coder];
     self.isAccessibilityElement = YES;
     self.accessibilityLabel = @"AccessibilityView";
-        
+    self.accessibilityTraits |= UIAccessibilityTraitButton | UIAccessibilityTraitAdjustable;
+
     self.activationReturnValue = YES;
     
     self.topLabel = [[UILabel alloc] initWithFrame: CGRectZero];
@@ -95,6 +98,18 @@
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     CGPoint location = [[touches anyObject] locationInView: self];
     self.topLabel.text =  [NSString stringWithFormat:@"Tapped - x:%.04f, y:%.04f", location.x, location.y];
+    [self setNeedsLayout];
+}
+
+- (void)accessibilityIncrement; {
+    self.adjustableCount += 1;
+    self.topLabel.text = [NSString stringWithFormat:@"Incremented: %i", self.adjustableCount];
+    [self setNeedsLayout];
+}
+
+- (void)accessibilityDecrement; {
+    self.adjustableCount -= 1;
+    self.topLabel.text = [NSString stringWithFormat:@"Decremented: %i", self.adjustableCount];
     [self setNeedsLayout];
 }
 

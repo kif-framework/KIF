@@ -206,6 +206,17 @@ extern NSString *const inputFieldTestString;
  */
 - (void)performAccessibilityActivateWithExpectedResult:(BOOL)expectedResult;
 
+/*!
+ @abstract Activates a found element via `accessibilityIncrement()`.
+ */
+- (void)performAccessibilityIncrement;
+
+/*!
+ @abstract Activates a found element via `accessibilityDecrement()`.
+ */
+- (void)performAccessibilityDecrement;
+
+
 #pragma mark Waiting & Finding
 
 /*!
