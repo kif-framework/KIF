@@ -460,7 +460,7 @@ NSString *const inputFieldTestString = @"Testing";
         KIFUIObject *found = [self _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
         
         [self runBlock:^KIFTestStepResult(NSError **error) {
-            if ([found.element isAccessibilityAdjustable]) {
+            if ([found.element KIF_isAccessibilityAdjustable]) {
                 [found.element accessibilityIncrement];
                 [self waitForAnimationsToFinish];
                 return KIFTestStepResultSuccess;
@@ -477,7 +477,7 @@ NSString *const inputFieldTestString = @"Testing";
         KIFUIObject *found = [self _predicateSearchWithRequiresMatch:YES mustBeTappable:NO];
         
         [self runBlock:^KIFTestStepResult(NSError **error) {
-            if ([found.element isAccessibilityAdjustable]) {
+            if ([found.element KIF_isAccessibilityAdjustable]) {
                 [found.element accessibilityDecrement];
                 [self waitForAnimationsToFinish];
                 return KIFTestStepResultSuccess;

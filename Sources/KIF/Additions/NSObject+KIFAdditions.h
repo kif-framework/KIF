@@ -2,6 +2,6 @@
 
 @interface NSObject (KIFAdditions)
 
-- (BOOL)isAccessibilityAdjustable;
+- (BOOL)KIF_isAccessibilityAdjustable;
 
 @end
