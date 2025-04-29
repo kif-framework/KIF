@@ -416,6 +416,11 @@ NSString *const inputFieldTestString = @"Testing";
     [self.actor swipeFromEdge:edge];
 }
 
+- (void)drawSignature;
+{
+    [self.actor drawSignature];
+}
+
 #pragma mark - Accesibility Actions
 
 - (void)activateCustomActionWithName:(NSString *)name;{

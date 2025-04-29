@@ -188,6 +188,11 @@ extern NSString *const inputFieldTestString;
 - (void)swipeFromEdge:(UIRectEdge)edge;
 
 /*!
+ @abstract Draws a signature on a signature pad
+ */
+ - (void)drawSignature;
+
+/*!
  @abstract Activates a custom accessibility action available on the element..
  @param name The name of the custom action to activate.
  */

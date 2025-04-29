@@ -399,6 +399,19 @@ static BOOL KIFUITestActorAnimationsEnabled = YES;
     }];
 }
 
+-(void)drawSignature;
+{
+    UIView *signaturePad = nil;
+    UIAccessibilityElement *element = nil;
+    [self waitForAccessibilityElement:&element view:&signaturePad withLabel:@"Signature Pad" value:nil traits:UIAccessibilityTraitAllowsDirectInteraction tappable:YES];
+    
+    
+    // Drag away!
+    CGFloat yCoordinate = signaturePad.center.y;
+    CGFloat xCoordinate = signaturePad.frame.size.width;
+    [signaturePad dragFromPoint:CGPointMake(0, yCoordinate) toPoint:CGPointMake(xCoordinate, yCoordinate) steps:10];
+}
+
 - (UIView *)viewAtPoint:(CGPoint)screenPoint
 {
     // Try all the windows until we get one back that actually has something in it at the given point
