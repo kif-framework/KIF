@@ -112,18 +112,44 @@ static inline void Swizzle(Class c, SEL orig, SEL new)
     }];
 }
 
-- (void)printViewHierarchyIfOptedIn;
+- (BOOL)_shouldPrintViewHierarchy
 {
     static BOOL shouldPrint;
-    
+
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         NSString *shouldPrintValue = [NSProcessInfo.processInfo.environment objectForKey:@"KIF_PRINTVIEWTREEONFAILURE"];
         shouldPrint = [[shouldPrintValue uppercaseString] isEqualToString:@"YES"];
     });
 
-    if (shouldPrint) {
-        [UIView printViewHierarchy];
+    return shouldPrint;
+}
+
+- (BOOL)_shouldAttachViewHierarchy
+{
+    static BOOL shouldPrint;
+
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        NSString *shouldPrintValue = [NSProcessInfo.processInfo.environment objectForKey:@"KIF_ATTACHVIEWTREEONFAILURE"];
+        shouldPrint = [[shouldPrintValue uppercaseString] isEqualToString:@"YES"];
+    });
+
+    return shouldPrint;
+}
+
+- (void)printViewHierarchyIfOptedIn;
+{
+    NSString *hierarchy = [UIView viewHierarchyDescription];
+    if ([self _shouldPrintViewHierarchy]) {
+        printf("%s", hierarchy.UTF8String);
+    }
+    if ([self _shouldAttachViewHierarchy]) {
+        [XCTContext runActivityNamed:@"view hierarchy" block:^(id<XCTActivity>  _Nonnull activity) {
+            XCTAttachment *attachment = [XCTAttachment attachmentWithString:hierarchy];
+            attachment.name = @"View Hierarchy";
+            [activity addAttachment:attachment];
+        }];
     }
 }
 
