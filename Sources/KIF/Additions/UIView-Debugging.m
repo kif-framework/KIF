@@ -105,7 +105,7 @@
     } 
     
     if(identifier != nil) {
-        [result appendFormat:@", identifier: %@", label];
+        [result appendFormat:@", identifier: %@", identifier];
     }
 }
 
