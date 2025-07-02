@@ -10,13 +10,18 @@
 
 @interface UIView (Debugging)
 /*!
- @abstract Prints the view hiererchy, starting from the top window(s), along with accessibility information, which is more related to KIF than the usual information given by the 'description' method.
+ @abstract Prints a string representation of the view hierarchy via @code+[UIView viewHierarchyDescription]@endcode
  */
 +(void)printViewHierarchy;
 
 /*!
- @abstract Prints the view hiererchy, starting from this view, along with accessibility information, which is more related to KIF than the usual information given by the 'description' method.
+ @abstract Prints a string representation of the view hierarchy via @code+[UIView viewHierarchyDescription]@endcode
  */
 -(void)printViewHierarchy;
+
+/*!
+ @abstract Returns a string representation of the view hierarchy, starting from the top window(s), along with accessibility information, which is more related to KIF than the usual information given by the 'description' method.
+ */
++(NSString *)viewHierarchyDescription;
 
 @end

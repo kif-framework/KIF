@@ -8,254 +8,237 @@
 #import "UIView-Debugging.h"
 #import "KIFEventVisualizer.h"
 #import "KIFTouchVisualizerView.h"
+#import <Foundation/Foundation.h>
 
 @implementation UIView (Debugging)
 
 +(void)printViewHierarchy {
+    printf("%s", [self viewHierarchyDescription].UTF8String);
+}
+
++ (NSString *)viewHierarchyDescription {
     NSArray* windows = [UIApplication sharedApplication].windows;
+    NSMutableString *result = [[NSMutableString alloc] init];
     if(windows.count == 1) {
-        [windows[0] printViewHierarchy];
+        [windows[0] _KIF_appendViewHierarchy:result];
     } else {
         //more than one window, also print some information about each window
         for (UIWindow* window in windows) {
-            printf("Window level %f", window.windowLevel);
-            if(window.isKeyWindow) printf(" (key window)");
-            printf("\n");
-            [window printViewHierarchy];
-            printf("\n");
+            [result appendFormat:@"Window level %@", @(window.windowLevel)];
+            if(window.isKeyWindow) [result appendString:@" (key window)"];
+            [result appendString:@"\n"];
+            [window _KIF_appendViewHierarchy:result];
+            [result appendString:@"\n"];
         }
     }
+    return result;
 }
+
 
 - (void)printViewHierarchy {
-    [self printViewHierarchyWithIndentation:0];
+    NSMutableString *result = [NSMutableString new];
+    [self _KIF_appendViewHierarchy:result];
+    printf("%s", result.UTF8String);
 }
 
-- (void)printViewHierarchyWithIndentation:(int)indent {
-    
+- (void)_KIF_appendViewHierarchy:(NSMutableString *)result {
+    [self _KIF_viewHierarchyWithIndentation:0 result:result];
+}
+
+- (void)_KIF_viewHierarchyWithIndentation:(int)indent result:(NSMutableString *)result {
+
     // Don't print the touch visualizer view or it's subviews.
     if([self isKindOfClass:[KIFTouchVisualizerView class]]) {
         return;
     }
 
-    [self printIndentation:indent];
-    [self printClassName];
+    [self _KIF_appendIndentation:indent result:result];
+    [self _KIF_appendClassName:result];
 
-    [self printAccessibilityInfo];
+    [self _KIF_appendAccessibilityInfo:result];
 
     if(self.hidden) {
-        printf(" (invisible)");
+        [result appendString:@" (invisible)"];
     }
 
     if([self isKindOfClass:[UIImageView class]]) {
-        [self printImageHighlightedState];
+        [self _KIF_appendImageHighlightedState:result];
     }
 
     if([self isKindOfClass:[UIControl class]]) {
-        [self printControlState];
+        [self _KIF_appendControlState:result];
     }
     
     if([self isKindOfClass:[UIDatePicker class]]) {
-        [self printDatePickerState];
+        [self _KIF_appendDatePickerState:result];
     }
+
+    [result appendString:@"\n"];
+
+    [self _KIF_appendAccessibilityElementsWithIndentation:indent result:result];
     
-    printf("\n");
-    
-    [self printAccessibilityElementsWithIndentation:indent];
-    
-    // We do not want to print the view heirarchy under this class as it is too large and not helpful.
+    // We do not want to print the view hierarchy under this class as it is too large and not helpful.
     if([self isKindOfClass:[NSClassFromString(@"_UIDatePickerView") class]]) {
         return;
     }
     
     for (UIView *subview in self.subviews) {
-        [subview printViewHierarchyWithIndentation:indent+1];
+        [subview _KIF_viewHierarchyWithIndentation:indent+1 result:result];
     }
 }
 
-- (void)printIndentation:(int)indent {
+- (void)_KIF_appendIndentation:(int)indent result:(NSMutableString *)result{
     for(int i = 0; i < indent; ++i) {
-        printf("|\t");
+        [result appendString:@"|\t"];
     }
 }
 
-- (void)printClassName {
-    NSString* name = NSStringFromClass([self class]);
-    printf("%s", name.UTF8String);
+- (void)_KIF_appendClassName:(NSMutableString *)result {
+    [result appendString:NSStringFromClass([self class])];
 }
 
-- (void)printAccessibilityInfo {
+- (void)_KIF_appendAccessibilityInfo:(NSMutableString *)result {
     NSString* label = self.accessibilityLabel;
     NSString* identifier = self.accessibilityIdentifier;
     if(label != nil) {
-        printf(", label: %s", label.UTF8String);
+        [result appendFormat:@", label: %@", label];
     } 
     
     if(identifier != nil) {
-        printf(", identifier: %s", identifier.UTF8String);
+        [result appendFormat:@", identifier: %@", identifier];
     }
 }
 
-- (void)printImageHighlightedState {
+- (void)_KIF_appendImageHighlightedState:(NSMutableString *)result {
     if(((UIImageView*)self).highlighted) {
-        printf(" (highlighted)");
+        [result appendString:@" (highlighted)"];
     } else {
-        printf(" (not highlighted)");
+        [result appendString:@" (not highlighted)"];
     }
 }
 
-- (void)printControlState {
+- (void)_KIF_appendControlState:(NSMutableString *)result {
     UIControl* ctrl = (UIControl*)self;
-    ctrl.enabled ? printf(" (enabled)") : printf(" (not enabled)");
-    ctrl.selected ? printf(" (selected)") : printf(" (not selected)");
-    ctrl.highlighted ? printf(" (highlighted)") : printf(" (not highlighted)");
+    [result appendString:ctrl.enabled ? @" (enabled)" : @" (not enabled)"];
+    [result appendString:ctrl.selected ? @" (selected)" : @" (not selected)"];
+    [result appendString:ctrl.highlighted ? @" (highlighted)" : @" (not highlighted)" ];
 }
 
-- (void)printDatePickerState {
+- (void)_KIF_appendDatePickerState:(NSMutableString *)result {
     UIDatePicker *datePicker = (UIDatePicker *)self;
-    printf(" (date range:");
-    datePicker.minimumDate ? printf(" %s", datePicker.minimumDate.description.UTF8String) : printf(" no minimum");
-    printf(" -");
-    datePicker.maximumDate ? printf(" %s", datePicker.minimumDate.description.UTF8String) : printf(" no maximum");
-    printf(")");
-    printf(" (mode:");
+    [result appendFormat:@" (date range: %@ - %@)",
+     datePicker.minimumDate ? datePicker.minimumDate.description : @"no minimum",
+     datePicker.maximumDate ? datePicker. maximumDate.description : @"no maximum"];
+
+
+    [result appendString:@" (mode:"];
     
     switch (datePicker.datePickerMode) {
         case UIDatePickerModeTime:
-            printf(" UIDatePickerModeTime");
+            [result appendString:@" UIDatePickerModeTime"];
             break;
             
         case UIDatePickerModeDate:
-            printf(" UIDatePickerModeDate");
+            [result appendString:@" UIDatePickerModeDate"];
             break;
             
         case UIDatePickerModeDateAndTime:
-            printf(" UIDatePickerModeDateAndTime");
+            [result appendString:@" UIDatePickerModeDateAndTime"];
             break;
             
         case UIDatePickerModeCountDownTimer:
-            printf(" UIDatePickerModeCountDownTimer");
+            [result appendString:@" UIDatePickerModeCountDownTimer"];
             break;
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 170400 //__IPHONE_17_4
         case UIDatePickerModeYearAndMonth:
-            printf(" UIDatePickerModeYearAndMonth");
+            [result appendString:@" UIDatePickerModeYearAndMonth"];
             break;
 #endif
     }
-    printf(")");
-    printf(" (minute interval: %s)", @(datePicker.minuteInterval).stringValue.UTF8String);
+    [result appendString:@")"];
+    [result appendFormat:@" (minute interval: %@)",  @(datePicker.minuteInterval)];
 }
 
-- (void)printAccessibilityElementsWithIndentation:(int)indent {
+- (void)_KIF_appendAccessibilityElementsWithIndentation:(int)indent result:(NSMutableString *)result {
     NSInteger numOfAccElements = self.accessibilityElementCount;
     if(numOfAccElements != NSNotFound) {
         for (NSInteger i = 0; i < numOfAccElements; ++i) {
-            [self printIndentation:indent];
+            [self _KIF_appendIndentation:indent result:result];
             UIAccessibilityElement *e = [(UIAccessibilityElement*)self accessibilityElementAtIndex:i];
-            printf("%s, label: %s", NSStringFromClass([e class]).UTF8String, e.accessibilityLabel.UTF8String);
+            [result appendFormat:@"%@, label: %@", NSStringFromClass([e class]), e.accessibilityLabel];
             if(e.accessibilityValue && e.accessibilityValue.length > 0) {
-                printf(", value: %s", e.accessibilityValue.UTF8String);
+                [result appendFormat:@", value: %@", e.accessibilityValue];
             }
             if(e.accessibilityHint && e.accessibilityHint.length > 0) {
-                printf(", hint: %s", e.accessibilityHint.UTF8String);
+                [result appendFormat:@", hint: %@", e.accessibilityHint];
             }
-            printf(", ");
-            [self printAccessibilityTraits:e.accessibilityTraits];
-            printf("\n");
+            [result appendString:@", "];
+            [self _KIF_appendAccessibilityTraits:e.accessibilityTraits result:result];
+            [result appendString:@"\n"];
         }
     }
 }
 
-- (void)printAccessibilityTraits:(UIAccessibilityTraits)traits {
-    
-    printf("traits: ");
-    bool didPrintOne = false;
+- (void)_KIF_appendAccessibilityTraits:(UIAccessibilityTraits)traits result:(NSMutableString *)result {
+
+    [result appendString:@"traits: "];
+    NSMutableArray<NSString *> *components = [NSMutableArray new];
     if(traits == UIAccessibilityTraitNone) {
-        printf("none");
-        didPrintOne = true;
+        [components addObject:@"none"];
     }
     if(traits & UIAccessibilityTraitButton) {
-        if(didPrintOne) printf(", ");
-        printf("button");
-        didPrintOne = true;
+        [components addObject:@"button"];
     }
     if(traits & UIAccessibilityTraitLink) {
-        if(didPrintOne) printf(", ");
-        printf("link");
-        didPrintOne = true;
+        [components addObject:@"link"];
     }
     if(traits & UIAccessibilityTraitHeader) {
-        if(didPrintOne) printf(", ");
-        printf("header");
-        didPrintOne = true;
+        [components addObject:@"header"];
     }
     if(traits & UIAccessibilityTraitSearchField) {
-        if(didPrintOne) printf(", ");
-        printf("search field");
-        didPrintOne = true;
+        [components addObject:@"search field"];
     }
     if(traits & UIAccessibilityTraitImage) {
-        if(didPrintOne) printf(", ");
-        printf("image");
-        didPrintOne = true;
+        [components addObject:@"image"];
     }
     if(traits & UIAccessibilityTraitSelected) {
-        if(didPrintOne) printf(", ");
-        printf("selected");
-        didPrintOne = true;
+        [components addObject:@"selected"];
     }
     if(traits & UIAccessibilityTraitPlaysSound) {
-        if(didPrintOne) printf(", ");
-        printf("plays sound");
-        didPrintOne = true;
+        [components addObject:@"plays sound"];
     }
     if(traits & UIAccessibilityTraitKeyboardKey) {
-        if(didPrintOne) printf(", ");
-        printf("keyboard key");
-        didPrintOne = true;
+        [components addObject:@"keyboard key"];
     }
     if(traits & UIAccessibilityTraitStaticText) {
-        if(didPrintOne) printf(", ");
-        printf("static text");
-        didPrintOne = true;
+        [components addObject:@"static text"];
     }
     if(traits & UIAccessibilityTraitSummaryElement) {
-        if(didPrintOne) printf(", ");
-        printf("summary element");
-        didPrintOne = true;
+        [components addObject:@"summary element"];
     }
     if(traits & UIAccessibilityTraitNotEnabled) {
-        if(didPrintOne) printf(", ");
-        printf("not enabled");
-        didPrintOne = true;
+        [components addObject:@"not enabled"];
     }
     if(traits & UIAccessibilityTraitUpdatesFrequently) {
-        if(didPrintOne) printf(", ");
-        printf("updates frequently");
-        didPrintOne = true;
+        [components addObject:@"updates frequently"];
     }
     if(traits & UIAccessibilityTraitStartsMediaSession) {
-        if(didPrintOne) printf(", ");
-        printf("starts media session");
-        didPrintOne = true;
+        [components addObject:@"starts media session"];
     }
     if(traits & UIAccessibilityTraitAdjustable) {
-        if(didPrintOne) printf(", ");
-        printf("adjustable");
-        didPrintOne = true;
+        [components addObject:@"adjustable"];
     }
     if(traits & UIAccessibilityTraitAllowsDirectInteraction) {
-        if(didPrintOne) printf(", ");
-        printf("allows direct interaction");
-        didPrintOne = true;
+        [components addObject:@"allows direct interaction"];
     }
     if(traits & UIAccessibilityTraitCausesPageTurn) {
-        if(didPrintOne) printf(", ");
-        printf("causes page turn");
-        didPrintOne = true;
+        [components addObject:@"causes page turn"];
     }
-    if(!didPrintOne) {
-        printf("unknown flags (0x%llx)", traits);
+
+    if(components.count == 0) {
+        [result appendFormat:@"unknown flags (0x%llx)", traits];
+    } else {
+        [result appendString:[components componentsJoinedByString:@", "]];
     }
 }
 
