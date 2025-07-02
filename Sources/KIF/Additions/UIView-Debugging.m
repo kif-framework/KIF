@@ -128,7 +128,7 @@
     UIDatePicker *datePicker = (UIDatePicker *)self;
     [result appendFormat:@" (date range: %@ - %@)",
      datePicker.minimumDate ? datePicker.minimumDate.description : @"no minimum",
-     datePicker.maximumDate ? datePicker.minimumDate.description : @" no maximum"];
+     datePicker.maximumDate ? datePicker. maximumDate.description : @"no maximum"];
 
 
     [result appendString:@" (mode:"];
