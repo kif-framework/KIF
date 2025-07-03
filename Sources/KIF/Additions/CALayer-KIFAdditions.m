@@ -60,7 +60,7 @@
                     if (!animationDidStopSent) {
                         result = YES;
                     }
-                } else if (currentTime > completionTime) {
+                } else if (currentTime < completionTime) {
                     // Otherwise, use the completion time to determine if the animation has been completed.
                     // This doesn't seem to always be exactly right however.
                     result = YES;
