@@ -599,13 +599,12 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
     // Handle touches in the normal way for other views
     UITouch *touch = [[UITouch alloc] initAtPoint:point inView:self];
     [touch setPhaseAndUpdateTimestamp:UITouchPhaseBegan];
-    
-    UIEvent *event = [self eventWithTouch:touch];
+    UIEvent *beganEvent = [self eventWithTouch:touch];
+    [[UIApplication sharedApplication] kif_sendEvent:beganEvent];
 
-    [[UIApplication sharedApplication] kif_sendEvent:event];
-    
     [touch setPhaseAndUpdateTimestamp:UITouchPhaseEnded];
-    [[UIApplication sharedApplication] kif_sendEvent:event];
+    UIEvent *endedEvent = [self eventWithTouch:touch];
+    [[UIApplication sharedApplication] kif_sendEvent:endedEvent];
 
     // Dispatching the event doesn't actually update the first responder, so fake it
     if ([touch.view isDescendantOfView:self] && [self canBecomeFirstResponder]) {
