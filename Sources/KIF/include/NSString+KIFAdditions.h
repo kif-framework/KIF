@@ -1,0 +1,1 @@
+../Additions/NSString+KIFAdditions.h
