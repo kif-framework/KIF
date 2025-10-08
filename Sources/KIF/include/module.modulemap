@@ -28,6 +28,18 @@ module KIF {
     header "UIView-KIFAdditions.h"
     header "UIWindow-KIFAdditions.h"
     header "XCTestCase-KIFAdditions.h"
+    header "IOHIDEvent+KIF.h"
+    header "KIFTestActor_Private.h"
+    header "KIFTextInputTraitsOverrides.h"
+    header "KIFUITestActor_Private.h"
+    header "UIAutomationHelper.h"
+    header "NSObject+KIFAdditions.h"
+    header "NSPredicate+KIFAdditions.h"
+    header "NSString+KIFAdditions.h"
+    header "UIAccessibilityCustomAction+KIFAdditions.h"
+    header "UIDatePicker+KIFAdditions.h"
+    header "UIScreen+KIFAdditions.h"
+    header "UIEvent+KIFAdditions.h"
 
     export *
 }
