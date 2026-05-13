@@ -94,7 +94,6 @@
 		EABD46C41857A0F300A5F081 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAB0726B139719AC008AF393 /* Foundation.framework */; };
 		EABD46C51857A0F300A5F081 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB60ECC4177F8C83005A041A /* CoreGraphics.framework */; };
 		EABD46CF1857A15400A5F081 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EABD46AB1857A0EB00A5F081 /* XCTest.framework */; };
-		EABD46D21857A24E00A5F081 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EABD46AB1857A0EB00A5F081 /* XCTest.framework */; };
 		EABD46D61858C8ED00A5F081 /* libKIF.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EABD46AA1857A0C700A5F081 /* libKIF.a */; };
 		EB60ECC2177F8C83005A041A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAB072B413971AEA008AF393 /* UIKit.framework */; };
 		EB60ECC3177F8C83005A041A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAB0726B139719AC008AF393 /* Foundation.framework */; };
@@ -229,7 +228,6 @@
 			files = (
 				BCA1542A23312E7300CDC69F /* WebKit.framework in Frameworks */,
 				85DB94721C5A5D430025F83E /* QuartzCore.framework in Frameworks */,
-				EABD46D21857A24E00A5F081 /* XCTest.framework in Frameworks */,
 				EABD468E1857A0C700A5F081 /* Foundation.framework in Frameworks */,
 				EABD468F1857A0C700A5F081 /* UIKit.framework in Frameworks */,
 				0E27A9EE1B45B53D00A6DE6E /* IOKit.framework in Frameworks */,
