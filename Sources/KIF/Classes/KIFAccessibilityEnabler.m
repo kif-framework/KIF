@@ -7,7 +7,6 @@
 //
 
 #import "KIFAccessibilityEnabler.h"
-#import <XCTest/XCTest.h>
 #import <dlfcn.h>
 
 

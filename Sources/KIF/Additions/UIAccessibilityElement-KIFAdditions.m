@@ -14,8 +14,6 @@
 #import "UIScrollView-KIFAdditions.h"
 #import "UIView-KIFAdditions.h"
 #import "LoadableCategory.h"
-#import "KIFTestActor.h"
-#import "KIFUITestActor.h"
 
 MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
 
@@ -204,7 +202,7 @@ MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
         while (superview) {
             if ([superview isKindOfClass:[UIScrollView class]]) {
                 UIScrollView *scrollView = (UIScrollView *)superview;
-                BOOL animationEnabled = [KIFUITestActor testActorAnimationsEnabled];
+                BOOL animationEnabled = YES;
 
                 if (((UIAccessibilityElement *)view == element) && ![view isKindOfClass:[UITableViewCell class]]) {
                     [scrollView scrollViewToVisible:view animated:animationEnabled];

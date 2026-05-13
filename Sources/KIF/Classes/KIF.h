@@ -7,13 +7,3 @@
 //  See the LICENSE file distributed with this work for the terms under
 //  which Square, Inc. licenses this file to you.
 
-#import "KIFTestActor.h"
-#import "KIFTestCase.h"
-#import "KIFSystemTestActor.h"
-#import "KIFUITestActor.h"
-#import "KIFUITestActor-ConditionalTests.h"
-
-#import "KIFUIViewTestActor.h"
-#import "KIFUIObject.h"
-
-#import "XCTestCase-KIFAdditions.h"
