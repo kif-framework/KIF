@@ -600,6 +600,8 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
     [touch setPhaseAndUpdateTimestamp:UITouchPhaseBegan];
     UIEvent *beganEvent = [self eventWithTouch:touch];
     [[UIApplication sharedApplication] kif_sendEvent:beganEvent];
+    
+    CFRunLoopRunInMode(kCFRunLoopDefaultMode, DRAG_TOUCH_DELAY, false);
 
     [touch setPhaseAndUpdateTimestamp:UITouchPhaseEnded];
     UIEvent *endedEvent = [self eventWithTouch:touch];
