@@ -3,11 +3,11 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 54;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6282C6352C9CBE210040DCDB /* KIF in Frameworks */ = {isa = PBXBuildFile; productRef = 6282C6342C9CBE210040DCDB /* KIF */; };
+		2593D75B2FDB4E54001AB786 /* KIF in Frameworks */ = {isa = PBXBuildFile; productRef = 2593D75A2FDB4E54001AB786 /* KIF */; };
 		62F81B521EBBE976009B2400 /* BasicCalculatorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EB4C315F167BAE6100E31109 /* BasicCalculatorTests.m */; };
 		62F81B5D1EBBEB6B009B2400 /* BasicCalculatorRobot.m in Sources */ = {isa = PBXBuildFile; fileRef = 62F81B5C1EBBEB6B009B2400 /* BasicCalculatorRobot.m */; };
 		62F972EB1F708273003EFFDA /* TestRobot.m in Sources */ = {isa = PBXBuildFile; fileRef = 62F972EA1F708273003EFFDA /* TestRobot.m */; };
@@ -45,7 +45,6 @@
 		62F81B5C1EBBEB6B009B2400 /* BasicCalculatorRobot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BasicCalculatorRobot.m; sourceTree = "<group>"; };
 		62F972E91F708273003EFFDA /* TestRobot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestRobot.h; sourceTree = "<group>"; };
 		62F972EA1F708273003EFFDA /* TestRobot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestRobot.m; sourceTree = "<group>"; };
-		62FA513E2C9CBDCD00E335D6 /* KIF */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = KIF; path = ../../..; sourceTree = "<group>"; };
 		EB4C30D9167B9E3A00E31109 /* Calculator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Calculator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EB4C30DD167B9E3A00E31109 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		EB4C30DF167B9E3A00E31109 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -74,11 +73,11 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		62F81B421EBBE925009B2400 /* Frameworks */ = {
+		2593D7582FDB4E2E001AB786 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6282C6352C9CBE210040DCDB /* KIF in Frameworks */,
+				2593D75B2FDB4E54001AB786 /* KIF in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -117,7 +116,6 @@
 		EB4C30DC167B9E3A00E31109 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				62FA513E2C9CBDCD00E335D6 /* KIF */,
 				EB4C30DD167B9E3A00E31109 /* UIKit.framework */,
 				EB4C30DF167B9E3A00E31109 /* Foundation.framework */,
 				EB4C30E1167B9E3A00E31109 /* CoreGraphics.framework */,
@@ -189,7 +187,7 @@
 			buildConfigurationList = 62F81B4C1EBBE925009B2400 /* Build configuration list for PBXNativeTarget "Acceptance Tests" */;
 			buildPhases = (
 				62F81B411EBBE925009B2400 /* Sources */,
-				62F81B421EBBE925009B2400 /* Frameworks */,
+				2593D7582FDB4E2E001AB786 /* Frameworks */,
 				62F81B431EBBE925009B2400 /* Resources */,
 			);
 			buildRules = (
@@ -200,6 +198,7 @@
 			name = "Acceptance Tests";
 			packageProductDependencies = (
 				6282C6342C9CBE210040DCDB /* KIF */,
+				2593D75A2FDB4E54001AB786 /* KIF */,
 			);
 			productName = "Acceptance Tests";
 			productReference = 62F81B451EBBE925009B2400 /* Acceptance Tests.xctest */;
@@ -249,6 +248,9 @@
 				Base,
 			);
 			mainGroup = EB4C30CE167B9E3A00E31109;
+			packageReferences = (
+				2593D7592FDB4E54001AB786 /* XCLocalSwiftPackageReference "../../../../KIF" */,
+			);
 			productRefGroup = EB4C30DA167B9E3A00E31109 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -576,7 +578,18 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCLocalSwiftPackageReference section */
+		2593D7592FDB4E54001AB786 /* XCLocalSwiftPackageReference "../../../../KIF" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../../../../KIF;
+		};
+/* End XCLocalSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
+		2593D75A2FDB4E54001AB786 /* KIF */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = KIF;
+		};
 		6282C6342C9CBE210040DCDB /* KIF */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = KIF;

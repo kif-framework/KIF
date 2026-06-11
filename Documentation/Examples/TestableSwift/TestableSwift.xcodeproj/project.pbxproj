@@ -3,12 +3,12 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 54;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2593D8092FDB4F9E001AB786 /* KIF in Frameworks */ = {isa = PBXBuildFile; productRef = 2593D8082FDB4F9E001AB786 /* KIF */; };
 		5600E94A1C3BBCC800235220 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5600E9491C3BBCC700235220 /* IOKit.framework */; };
-		62582AF22C9CB00E00F800BF /* KIF in Resources */ = {isa = PBXBuildFile; fileRef = 62582AF12C9CAFEA00F800BF /* KIF */; };
 		62FA513C2C9CB1A500E335D6 /* KIF in Frameworks */ = {isa = PBXBuildFile; productRef = 62FA513B2C9CB1A500E335D6 /* KIF */; };
 		A88CD9831A019AFF0064F706 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A88CD9821A019AFF0064F706 /* AppDelegate.swift */; };
 		A88CD9851A019AFF0064F706 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A88CD9841A019AFF0064F706 /* MasterViewController.swift */; };
@@ -32,7 +32,6 @@
 
 /* Begin PBXFileReference section */
 		5600E9491C3BBCC700235220 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/IOKit.framework; sourceTree = DEVELOPER_DIR; };
-		62582AF12C9CAFEA00F800BF /* KIF */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = KIF; path = ../../../..; sourceTree = "<group>"; };
 		A88CD97D1A019AFF0064F706 /* TestableSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestableSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A88CD9811A019AFF0064F706 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A88CD9821A019AFF0064F706 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -60,6 +59,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2593D8092FDB4F9E001AB786 /* KIF in Frameworks */,
 				5600E94A1C3BBCC800235220 /* IOKit.framework in Frameworks */,
 				62FA513C2C9CB1A500E335D6 /* KIF in Frameworks */,
 			);
@@ -118,7 +118,6 @@
 		A88CD9971A019AFF0064F706 /* TestableSwiftTests */ = {
 			isa = PBXGroup;
 			children = (
-				62582AF12C9CAFEA00F800BF /* KIF */,
 				5600E9491C3BBCC700235220 /* IOKit.framework */,
 				A88CD99A1A019AFF0064F706 /* Testable_SwiftTests.swift */,
 				A88CD9981A019AFF0064F706 /* Supporting Files */,
@@ -173,6 +172,7 @@
 			name = TestableSwiftTests;
 			packageProductDependencies = (
 				62FA513B2C9CB1A500E335D6 /* KIF */,
+				2593D8082FDB4F9E001AB786 /* KIF */,
 			);
 			productName = TestableSwiftTests;
 			productReference = A88CD9941A019AFF0064F706 /* TestableSwiftTests.xctest */;
@@ -184,8 +184,9 @@
 		A88CD9751A019AFF0064F706 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 0720;
-				LastUpgradeCheck = 1010;
+				LastUpgradeCheck = 2650;
 				TargetAttributes = {
 					A88CD97C1A019AFF0064F706 = {
 						CreatedOnToolsVersion = 6.1;
@@ -207,6 +208,9 @@
 				Base,
 			);
 			mainGroup = A88CD9741A019AFF0064F706;
+			packageReferences = (
+				2593D8072FDB4F9E001AB786 /* XCLocalSwiftPackageReference "../../../../KIF" */,
+			);
 			productRefGroup = A88CD97E1A019AFF0064F706 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -232,7 +236,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				62582AF22C9CB00E00F800BF /* KIF in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -310,6 +313,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -319,6 +323,7 @@
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -338,6 +343,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -364,6 +370,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -373,6 +380,7 @@
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -384,6 +392,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				VALIDATE_PRODUCT = YES;
@@ -517,7 +526,18 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCLocalSwiftPackageReference section */
+		2593D8072FDB4F9E001AB786 /* XCLocalSwiftPackageReference "../../../../KIF" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../../../../KIF;
+		};
+/* End XCLocalSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
+		2593D8082FDB4F9E001AB786 /* KIF */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = KIF;
+		};
 		62FA513B2C9CB1A500E335D6 /* KIF */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = KIF;
