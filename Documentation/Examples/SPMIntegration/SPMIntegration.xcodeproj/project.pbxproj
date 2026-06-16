@@ -3,10 +3,11 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 54;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2593D8B22FDB5036001AB786 /* KIF in Frameworks */ = {isa = PBXBuildFile; productRef = 2593D8B12FDB5036001AB786 /* KIF */; };
 		B4310BE3260BA21400EE03AF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4310BE2260BA21400EE03AF /* AppDelegate.swift */; };
 		B4310BE7260BA21400EE03AF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4310BE6260BA21400EE03AF /* ViewController.swift */; };
 		B4310BEA260BA21400EE03AF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B4310BE8260BA21400EE03AF /* Main.storyboard */; };
@@ -38,7 +39,6 @@
 		B4310BF5260BA21500EE03AF /* SPMIntegrationTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SPMIntegrationTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B4310BF9260BA21500EE03AF /* SPMIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SPMIntegrationTests.swift; sourceTree = "<group>"; };
 		B4310BFB260BA21500EE03AF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B488554F260CE596008916AB /* KIF */ = {isa = PBXFileReference; lastKnownFileType = folder; name = KIF; path = ../../../..; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +54,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B4885551260CE5D3008916AB /* KIF in Frameworks */,
+				2593D8B22FDB5036001AB786 /* KIF in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -96,7 +97,6 @@
 		B4310BF8260BA21500EE03AF /* SPMIntegrationTests */ = {
 			isa = PBXGroup;
 			children = (
-				B488554F260CE596008916AB /* KIF */,
 				B4310BF9260BA21500EE03AF /* SPMIntegrationTests.swift */,
 				B4310BFB260BA21500EE03AF /* Info.plist */,
 			);
@@ -146,6 +146,7 @@
 			name = SPMIntegrationTests;
 			packageProductDependencies = (
 				B4885550260CE5D3008916AB /* KIF */,
+				2593D8B12FDB5036001AB786 /* KIF */,
 			);
 			productName = SPMIntegrationTests;
 			productReference = B4310BF5260BA21500EE03AF /* SPMIntegrationTests.xctest */;
@@ -178,6 +179,9 @@
 				Base,
 			);
 			mainGroup = B4310BD6260BA21400EE03AF;
+			packageReferences = (
+				2593D8B02FDB5036001AB786 /* XCLocalSwiftPackageReference "../../../../KIF" */,
+			);
 			productRefGroup = B4310BE0260BA21400EE03AF /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -480,7 +484,18 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCLocalSwiftPackageReference section */
+		2593D8B02FDB5036001AB786 /* XCLocalSwiftPackageReference "../../../../KIF" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../../../../KIF;
+		};
+/* End XCLocalSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
+		2593D8B12FDB5036001AB786 /* KIF */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = KIF;
+		};
 		B4885550260CE5D3008916AB /* KIF */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = KIF;

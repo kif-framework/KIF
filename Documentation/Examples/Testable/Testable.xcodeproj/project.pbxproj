@@ -3,12 +3,12 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2593D8062FDB4EC0001AB786 /* KIF in Frameworks */ = {isa = PBXBuildFile; productRef = 2593D8052FDB4EC0001AB786 /* KIF */; };
 		4440B32C17F5692A00253D51 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4440B32B17F5692A00253D51 /* Default-568h@2x.png */; };
-		6282C65B2C9CE4080040DCDB /* libKIF.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6282C6562C9CE3F70040DCDB /* libKIF.a */; };
 		62F81B001EBBD073009B2400 /* IntegrationTestCases.m in Sources */ = {isa = PBXBuildFile; fileRef = EB47EFB21781DF6D006BBFAC /* IntegrationTestCases.m */; };
 		62F81B011EBBD073009B2400 /* KIFUITestActor+EXAddition.m in Sources */ = {isa = PBXBuildFile; fileRef = EB47EFB41781DF6D006BBFAC /* KIFUITestActor+EXAddition.m */; };
 		62F81B311EBBE348009B2400 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62F81B301EBBE348009B2400 /* IOKit.framework */; };
@@ -26,27 +26,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		6282C6552C9CE3F70040DCDB /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6282C64E2C9CE3F70040DCDB /* KIF.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = EABD46AA1857A0C700A5F081;
-			remoteInfo = KIF;
-		};
-		6282C6572C9CE3F70040DCDB /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6282C64E2C9CE3F70040DCDB /* KIF.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = EB60ECC1177F8C83005A041A;
-			remoteInfo = "TestHost";
-		};
-		6282C6592C9CE3F70040DCDB /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6282C64E2C9CE3F70040DCDB /* KIF.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = EABD46CD1857A0F300A5F081;
-			remoteInfo = "KIFTests";
-		};
 		62F81AFB1EBBD038009B2400 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AAB0739F139861C0008AF393 /* Project object */;
@@ -60,7 +39,6 @@
 		22191E0524BF79F4004CAA18 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainWindow.xib; sourceTree = "<group>"; };
 		22191E0624BF79F4004CAA18 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/RootViewController.xib; sourceTree = "<group>"; };
 		4440B32B17F5692A00253D51 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
-		6282C64E2C9CE3F70040DCDB /* KIF.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = KIF.xcodeproj; path = ../../../KIF.xcodeproj; sourceTree = "<group>"; };
 		62F81AF61EBBD038009B2400 /* Acceptance Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Acceptance Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		62F81B301EBBE348009B2400 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/IOKit.framework; sourceTree = DEVELOPER_DIR; };
 		AAB073A8139861C0008AF393 /* Testable.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Testable.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -89,8 +67,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2593D8062FDB4EC0001AB786 /* KIF in Frameworks */,
 				BCA154372331FFF700CDC69F /* WebKit.framework in Frameworks */,
-				6282C65B2C9CE4080040DCDB /* libKIF.a in Frameworks */,
 				62F81B311EBBE348009B2400 /* IOKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -109,16 +87,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		6282C64F2C9CE3F70040DCDB /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				6282C6562C9CE3F70040DCDB /* libKIF.a */,
-				6282C6582C9CE3F70040DCDB /* TestHost.app */,
-				6282C65A2C9CE3F70040DCDB /* KIFTests - XCTest.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		AAB0739D139861C0008AF393 = {
 			isa = PBXGroup;
 			children = (
@@ -142,7 +110,6 @@
 		AAB073AB139861C0008AF393 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				6282C64E2C9CE3F70040DCDB /* KIF.xcodeproj */,
 				BCA1542F2331FF8C00CDC69F /* WebKit.framework */,
 				EB9DB7431781DDBA0087B6FD /* libKIF.a */,
 				62F81B301EBBE348009B2400 /* IOKit.framework */,
@@ -242,7 +209,8 @@
 		AAB0739F139861C0008AF393 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1150;
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 2650;
 				TargetAttributes = {
 					62F81AF51EBBD038009B2400 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -260,14 +228,11 @@
 				Base,
 			);
 			mainGroup = AAB0739D139861C0008AF393;
+			packageReferences = (
+				2593D8042FDB4EC0001AB786 /* XCLocalSwiftPackageReference "../../../../KIF" */,
+			);
 			productRefGroup = AAB073A9139861C0008AF393 /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 6282C64F2C9CE3F70040DCDB /* Products */;
-					ProjectRef = 6282C64E2C9CE3F70040DCDB /* KIF.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				AAB073A7139861C0008AF393 /* Testable */,
@@ -275,30 +240,6 @@
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		6282C6562C9CE3F70040DCDB /* libKIF.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libKIF.a;
-			remoteRef = 6282C6552C9CE3F70040DCDB /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		6282C6582C9CE3F70040DCDB /* TestHost.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = "TestHost.app";
-			remoteRef = 6282C6572C9CE3F70040DCDB /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		6282C65A2C9CE3F70040DCDB /* KIFTests - XCTest.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = "KIFTests - XCTest.xctest";
-			remoteRef = 6282C6592C9CE3F70040DCDB /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		62F81AF41EBBD038009B2400 /* Resources */ = {
@@ -402,7 +343,6 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				DEAD_CODE_STRIPPING = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -418,7 +358,11 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				INFOPLIST_FILE = "Acceptance Tests/Acceptance Tests-Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MTL_ENABLE_DEBUG_INFO = YES;
 				OTHER_CFLAGS = (
 					"-DDEPRECATE_KIF_SYSTEM=1",
@@ -427,7 +371,6 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.squareup.Acceptance-Tests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRIP_INSTALLED_PRODUCT = NO;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Testable.app/Testable";
 			};
 			name = Debug;
@@ -455,7 +398,6 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				DEAD_CODE_STRIPPING = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -466,12 +408,15 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				INFOPLIST_FILE = "Acceptance Tests/Acceptance Tests-Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.squareup.Acceptance-Tests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRIP_INSTALLED_PRODUCT = NO;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Testable.app/Testable";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -493,6 +438,7 @@
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -501,6 +447,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -515,6 +462,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 			};
 			name = Debug;
 		};
@@ -534,6 +482,7 @@
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -541,6 +490,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -552,6 +502,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 			};
 			name = Release;
 		};
@@ -620,6 +571,20 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		2593D8042FDB4EC0001AB786 /* XCLocalSwiftPackageReference "../../../../KIF" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../../../../KIF;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		2593D8052FDB4EC0001AB786 /* KIF */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = KIF;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = AAB0739F139861C0008AF393 /* Project object */;
 }
