@@ -36,8 +36,20 @@ See KIF in Action
 
 KIF uses techniques described below to validate its internal functionality.  You can see a test suite that exercises its entire functionality by simply building and testing the KIF scheme with ⌘U.  Look at the tests in the "Tests" group for ideas on how to build your own tests.
 
+
+Installation (with Swift Package Manager)
+-----------------------------------------
+
+Add the KIF package as a dependency:
+
+```swift
+.package(url: "https://github.com/kif-framework/KIF", from: {VERSION})
+```
+
 Installation (with CocoaPods)
 -----------------------------
+
+⚠️ CocoaPods is no longer supported and will not be receiving new updates
 
 [CocoaPods](http://cocoapods.org) are the easiest way to get set up with KIF.
 
@@ -61,33 +73,6 @@ end
 
 After running `pod install` complete the tasks in [**Final Test Target Configurations**](#final-test-target-configurations) below for the final details on getting your tests to run.
 
-Installation (from GitHub)
---------------------------
-
-To install KIF, you'll need to link the libKIF static library directly into your application. Download the source from the [kif-framework/KIF](https://github.com/kif-framework/KIF/) and follow the instructions below. The screenshots are from Xcode 6 on Yosemite, but the instructions should be the same for Xcode 5 or later on any OS version.
-
-We'll be using a simple project as an example, and you can find it in `Documentation/Examples/Testable Swift` in this repository.
-
-![Simple App](https://github.com/kif-framework/KIF/raw/master/Documentation/Images/Simple%20App.png)
-
-
-### Add KIF to your project files
-The first step is to add the KIF project into the ./Frameworks/KIF subdirectory of your existing app. If your project uses Git for version control, you can use submodules to make updating in the future easier:
-
-```
-cd /path/to/MyApplicationSource
-mkdir Frameworks
-git submodule add https://github.com/kif-framework/KIF.git Frameworks/KIF
-```
-
-If you're not using Git, simply download the source and copy it into the `./Frameworks/KIF` directory.
-
-### Add KIF to Your Workspace
-Let your project know about KIF by adding the KIF project into a workspace along with your main project. Find the `KIF.xcodeproj` file in Finder and drag it into the Project Navigator (⌘1).
-
-![Added KIF to the project](https://github.com/kif-framework/KIF/raw/master/Documentation/Images/Added%20KIF%20to%20Project.png)
-
-
 ### Create a Testing Target
 You'll need to create a test target for your app.  You may already have one named *MyApplication*Tests if you selected to automatically create unit tests when you created the project.  If you did, you can keep using it if you aren't using it for unit tests.  Otherwise, follow these directions to create a new one.
 
@@ -109,17 +94,6 @@ KIF takes advantage of Objective C's ability to add categories on an object, but
 ![Add category linker flags screen shot](https://github.com/kif-framework/KIF/raw/master/Documentation/Images/Add%20Category%20Linker%20Flags.png)
 
 Read **Final Test Target Configurations** below for the final details on getting your tests to run.
-
-Installing Accessibility Identifier Tests
------------------------------------------
-
-Normally you identify a UI element via its accessibility label so that KIF simulates the interactions of a real user as closely as possible. In some cases, however, you may have to use accessibility identifiers, which are not exposed to users. If using CocoaPods, install the additional identifier-based Tests via the Identifier CocoaPods subspec:
-
-```
-pod 'KIF/IdentifierTests'
-```
-
-If not using CocoaPods, the identifier-based Tests can be added by including "KIFUITestActor-IdentifierTests.h".
 
 Final Test Target Configurations
 --------------------------------
