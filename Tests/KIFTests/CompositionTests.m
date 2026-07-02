@@ -6,9 +6,7 @@
 //  Copyright (c) 2013 Brian Nickel. All rights reserved.
 //
 
-#import <KIF/KIF.h>
-#import "UIApplication-KIFAdditions.h"
-#import "UIAccessibilityElement-KIFAdditions.h"
+@import KIF;
 
 @interface KIFUITestActor (Composition)
 

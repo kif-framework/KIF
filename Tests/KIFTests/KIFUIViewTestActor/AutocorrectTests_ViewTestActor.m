@@ -5,9 +5,8 @@
 //  Created by Harley Cooper on 2/7/18.
 //
 
-#import <KIF/KIF.h>
+@import KIF;
 
-#import "KIFTextInputTraitsOverrides.h"
 
 @interface AutocorrectTests_ViewTestActor : KIFTestCase
 @end

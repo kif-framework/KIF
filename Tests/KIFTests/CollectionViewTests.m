@@ -6,8 +6,7 @@
 //  Copyright (c) 2013 Brian Nickel. All rights reserved.
 //
 
-#import <KIF/KIF.h>
-#import "KIFTestStepValidation.h"
+@import KIF;
 
 @interface CollectionViewTests : KIFTestCase
 @end

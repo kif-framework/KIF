@@ -7,7 +7,7 @@
 //
 
 
-#import <KIF/KIF.h>
+@import KIF;
 
 @interface WaitForAbscenceTests_ViewTestActor : KIFTestCase
 @end

@@ -5,7 +5,7 @@
 //  Created by Bartłomiej Włodarczak on 03/02/2025.
 //
 
-#import <KIF/KIF.h>
+@import KIF;
 
 @interface SwiftUITappingTests : KIFTestCase
 @end

@@ -5,8 +5,7 @@
 //  Created by Steve Sun on 2023-03-31.
 //
 
-#import <KIF/KIF.h>
-#import "KIFUITestActor.h"
+@import KIF;
 
 @interface OffscreenTests_ViewTestActor : KIFTestCase
 @end

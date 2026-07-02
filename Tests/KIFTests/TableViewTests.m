@@ -6,10 +6,7 @@
 //  Copyright (c) 2013 Brian Nickel. All rights reserved.
 //
 
-#import <KIF/KIF.h>
-#import <KIF/KIFUITestActor-IdentifierTests.h>
-#import "KIFTestStepValidation.h"
-#import "UIApplication-KIFAdditions.h"
+@import KIF;
 
 @interface TableViewTests : KIFTestCase
 @end

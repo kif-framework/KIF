@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 Brian Nickel. All rights reserved.
 //
 
-#import <KIF/KIF.h>
+@import KIF;
 
 #define KIFAssertEqual XCTAssertEqual
 #define KIFAssertEqualObjects XCTAssertEqualObjects

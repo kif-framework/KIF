@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1010"
-   version = "1.3">
+   LastUpgradeVersion = "2650"
+   version = "1.7">
    <BuildAction
       parallelizeBuildables = "YES"
-      buildImplicitDependencies = "YES">
+      buildImplicitDependencies = "YES"
+      buildArchitectures = "Automatic">
       <BuildActionEntries>
          <BuildActionEntry
             buildForTesting = "YES"
@@ -14,10 +15,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "EABD46791857A0C700A5F081"
-               BuildableName = "libKIF.a"
+               BlueprintIdentifier = "KIF"
+               BuildableName = "KIF"
                BlueprintName = "KIF"
-               ReferencedContainer = "container:KIF.xcodeproj">
+               ReferencedContainer = "container:">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -27,24 +28,21 @@
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "EABD46791857A0C700A5F081"
-            BuildableName = "libKIF.a"
-            BlueprintName = "KIF"
-            ReferencedContainer = "container:KIF.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
+      <TestPlans>
+         <TestPlanReference
+            reference = "container:KIF.xctestplan"
+            default = "YES">
+         </TestPlanReference>
+      </TestPlans>
       <Testables>
          <TestableReference
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "EABD46AD1857A0F300A5F081"
-               BuildableName = "KIFTests - XCTest.xctest"
+               BlueprintIdentifier = "KIFTests"
+               BuildableName = "KIFTests"
                BlueprintName = "KIFTests"
-               ReferencedContainer = "container:KIF.xcodeproj">
+               ReferencedContainer = "container:">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -59,27 +57,6 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "EABD46791857A0C700A5F081"
-            BuildableName = "libKIF.a"
-            BlueprintName = "KIF"
-            ReferencedContainer = "container:KIF.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
-      <EnvironmentVariables>
-         <EnvironmentVariable
-            key = "KIF_PRINTVIEWTREEONFAILURE"
-            value = "YES"
-            isEnabled = "YES">
-         </EnvironmentVariable>
-         <EnvironmentVariable
-            key = "VISUALIZE_TOUCHES"
-            value = "YES"
-            isEnabled = "YES">
-         </EnvironmentVariable>
-      </EnvironmentVariables>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -90,10 +67,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "EABD46791857A0C700A5F081"
-            BuildableName = "libKIF.a"
+            BlueprintIdentifier = "KIF"
+            BuildableName = "KIF"
             BlueprintName = "KIF"
-            ReferencedContainer = "container:KIF.xcodeproj">
+            ReferencedContainer = "container:">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

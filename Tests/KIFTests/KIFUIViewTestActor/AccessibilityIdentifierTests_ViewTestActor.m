@@ -6,8 +6,7 @@
 //
 //
 
-#import <KIF/KIF.h>
-#import <KIF/KIFTestStepValidation.h>
+@import KIF;
 
 @interface AccessibilityIdentifierTests_ViewTestActor : KIFTestCase
 @end

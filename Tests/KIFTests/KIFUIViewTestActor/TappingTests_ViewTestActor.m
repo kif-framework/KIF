@@ -7,7 +7,7 @@
 //
 
 
-#import <KIF/KIF.h>
+@import KIF;
 
 @implementation KIFUIViewTestActor (tappingtests)
 

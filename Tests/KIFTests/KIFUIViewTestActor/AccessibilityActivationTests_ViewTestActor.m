@@ -5,7 +5,7 @@
 //  Created by Alex Odawa on 09/07/2024.
 //
 
-#import <KIF/KIF.h>
+@import KIF;
 #import <UIKit/UIAccessibility.h>
 
 @interface AccessibilityActivateTests_ViewTestActor : KIFTestCase

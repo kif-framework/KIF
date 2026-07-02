@@ -9,6 +9,7 @@
 #import "KIFEventVisualizer.h"
 #import "KIFTouchVisualizerView.h"
 #import <Foundation/Foundation.h>
+@import KIFSwift;
 
 @implementation UIView (Debugging)
 
@@ -94,7 +95,7 @@
 }
 
 - (void)_KIF_appendClassName:(NSMutableString *)result {
-    [result appendString:NSStringFromClass([self class])];
+    [result appendString:[NSObject _kif_typeNameOfObject:self qualified:YES]];
 }
 
 - (void)_KIF_appendAccessibilityInfo:(NSMutableString *)result {
