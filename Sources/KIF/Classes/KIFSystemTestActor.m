@@ -58,7 +58,6 @@
 
 - (void)simulateDeviceRotationToOrientation:(UIDeviceOrientation)orientation
 {
-#ifdef __IPHONE_16_0
     if (@available(iOS 16.0, *)) {
         NSSet<UIScene *> *scenes = [[UIApplication sharedApplication] connectedScenes];
         UIWindowScene* windowScene;
@@ -101,11 +100,8 @@
             }];
         }
     } else {
-#endif
         [[UIDevice currentDevice] setValue:@(orientation) forKey:@"orientation"];
-#ifdef __IPHONE_16_0
     }
-#endif
 }
 
 

@@ -579,10 +579,6 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
     id /*UIWebBrowserView*/ webBrowserView = nil;
 
     BOOL isWebView = [self isKindOfClass:[WKWebView class]];
-
-#if  __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_12_0
-    isWebView = isWebView || [self isKindOfClass:[UIWebView class]];
-#endif
     
     if ([NSStringFromClass([self class]) isEqual:@"UIWebBrowserView"]) {
         webBrowserView = self;
