@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "28683086-9317-4D0B-9456-520884DD03F4",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "performanceAntipatternCheckerEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:KIF.xcodeproj",
+        "identifier" : "EABD46AD1857A0F300A5F081",
+        "name" : "KIFTests"
+      }
+    }
+  ],
+  "version" : 1
+}

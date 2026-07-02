@@ -6,7 +6,7 @@
 //
 //
 
-#import <KIF/KIF.h>
+@import KIF;
 
 @interface CustomPickerTests_ViewTestActor : KIFTestCase
 @end

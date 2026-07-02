@@ -7,7 +7,7 @@
 //
 
 
-#import <KIF/KIF.h>
+@import KIF;
 
 @interface WaitForViewTests_ViewTestActor : KIFTestCase
 @end

@@ -7,8 +7,7 @@
 //
 
 
-#import <KIF/KIF.h>
-#import "KIFUITestActor.h"
+@import KIF;
 
 @interface SystemAlertTests_ViewTestActor : KIFTestCase
 @end

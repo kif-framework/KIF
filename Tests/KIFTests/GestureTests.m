@@ -6,10 +6,7 @@
 //  Copyright (c) 2013 Brian Nickel. All rights reserved.
 //
 
-#import <KIF/KIF.h>
-#import <KIF/KIFTestStepValidation.h>
-#import <KIF/KIFUITestActor-IdentifierTests.h>
-#import <KIF/UIView-KIFAdditions.h>
+@import KIF;
 
 #define kPanMeAccessibilityString               @"Pan Me"
 #define kVelocityValueLabelAccessibilityString  @"velocityValueLabel"

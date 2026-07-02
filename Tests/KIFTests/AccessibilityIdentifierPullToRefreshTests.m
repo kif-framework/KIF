@@ -6,11 +6,7 @@
 //
 //
 
-#import <KIF/KIFTestCase.h>
-#import <KIF/KIFUITestActor-IdentifierTests.h>
-#import <KIF/KIFUIViewTestActor.h>
-
-#import <KIF/KIFTestStepValidation.h>
+@import KIF;
 
 @interface AccessibilityIdentifierPullToRefreshTests : KIFTestCase
 @end

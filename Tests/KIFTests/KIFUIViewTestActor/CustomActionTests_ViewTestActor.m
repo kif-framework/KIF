@@ -5,7 +5,7 @@
 //  Created by Alex Odawa on 09/07/2024.
 //
 
-#import <KIF/KIF.h>
+@import KIF;
 
 @interface CustomActionTests_ViewTestActor : KIFTestCase
 @end

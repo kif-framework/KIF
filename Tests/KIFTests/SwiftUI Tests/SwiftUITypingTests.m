@@ -5,8 +5,7 @@
 //  Created by Bartłomiej Włodarczak on 10/02/2025.
 //
 
-#import <KIF/KIF.h>
-#import "KIFTestStepValidation.h"
+@import KIF;
 
 @interface SwiftUITypingTests : KIFTestCase
 @end

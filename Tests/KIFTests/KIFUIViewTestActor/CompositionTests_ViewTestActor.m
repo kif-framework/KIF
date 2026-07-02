@@ -6,9 +6,7 @@
 //
 //
 
-#import <KIF/KIF.h>
-#import "UIApplication-KIFAdditions.h"
-#import "UIAccessibilityElement-KIFAdditions.h"
+@import KIF;
 
 @interface KIFUIViewTestActor (Composition)
 

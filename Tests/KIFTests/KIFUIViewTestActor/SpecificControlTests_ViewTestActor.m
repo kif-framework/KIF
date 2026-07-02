@@ -6,7 +6,7 @@
 //
 //
 
-#import <KIF/KIF.h>
+@import KIF;
 
 @interface SpecificControlTests_ViewTestActor : KIFTestCase
 @end

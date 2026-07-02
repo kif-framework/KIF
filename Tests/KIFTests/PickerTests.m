@@ -1,4 +1,4 @@
-#import <KIF/KIF.h>
+@import KIF;
 
 @interface PickerTests : KIFTestCase
 @end

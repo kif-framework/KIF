@@ -5,8 +5,7 @@
 //  Created by Steve Sun on 2023-03-28.
 //
 
-#import <KIF/KIF.h>
-#import "KIFTestStepValidation.h"
+@import KIF;
 
 @interface OffscreenTests : KIFTestCase
 @end
