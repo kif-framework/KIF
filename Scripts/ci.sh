@@ -21,9 +21,6 @@ if [ $RUN_EXTRA_VALIDATIONS != "true" ]; then
   exit 0
 fi
 
-# Compile the KIF SPM package directly
-swift build -Xcc "-isysroot" -Xcc "$(xcrun --sdk iphonesimulator --show-sdk-path)" -Xcc "-target" -Xcc "x86_64-apple-ios$(xcrun --sdk iphonesimulator --show-sdk-version)-simulator"
-
 # Consume KIF via Swift Package Manager in an Xcode project
 env NSUnbufferedIO=YES xcodebuild test -project "Documentation/Examples/SPMIntegration/SPMIntegration.xcodeproj" -scheme "SPMIntegration" -derivedDataPath=${PWD}/build/SPMIntegration -destination "platform=iOS Simulator,${SIMULATOR}" CODE_SIGNING_ALLOWED=NO | xcbeautify
 
