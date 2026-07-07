@@ -318,7 +318,6 @@ static const void *KIFRunLoopModesKey = &KIFRunLoopModesKey;
     }
 }
 
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 100000
 - (BOOL)KIF_openURL:(NSURL *)URL options:(NSDictionary<NSString *, id> *)options completionHandler:(void (^ __nullable)(BOOL success))completionHandler;
 {
     if (_KIF_UIApplicationMockOpenURL) {
@@ -328,7 +327,6 @@ static const void *KIFRunLoopModesKey = &KIFRunLoopModesKey;
         return [self KIF_openURL:URL options: options completionHandler: completionHandler];
     }
 }
-#endif
 
 - (BOOL)KIF_canOpenURL:(NSURL *)URL;
 {
@@ -368,9 +366,7 @@ static inline void Swizzle(Class c, SEL orig, SEL new)
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         Swizzle(self, @selector(openURL:), @selector(KIF_openURL:));
-        #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 100000
-            Swizzle(self, @selector(openURL:options:completionHandler:), @selector(KIF_openURL:options:completionHandler:));
-        #endif
+        Swizzle(self, @selector(openURL:options:completionHandler:), @selector(KIF_openURL:options:completionHandler:));
         Swizzle(self, @selector(canOpenURL:), @selector(KIF_canOpenURL:));
     });
 

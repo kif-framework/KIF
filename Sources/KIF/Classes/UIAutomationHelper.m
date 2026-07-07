@@ -121,7 +121,6 @@ static void FixReactivateApp(void)
     UIAApplication *application = [[self target] frontMostApp];
     UIAAlert *alert = application.alert;
 
-#ifdef __IPHONE_13_1
     if ([alert isKindOfClass:[self nilElementClass]]) {
         // application.alert returns UIAElementNil on iOS 13.1
         // Instead find the alert by looking for the alert's window and getting the UIAAlert off of it
@@ -132,7 +131,6 @@ static void FixReactivateApp(void)
         return [[evaluatedObject valueForKey:@"type"] isEqualToString:@"_UIAlertControllerView"];
         }]] firstObject];
     }
-#endif
 
     return alert;
 }
