@@ -1,4 +1,5 @@
-[![Build Status](https://travis-ci.org/kif-framework/KIF.svg?branch=master)](https://travis-ci.org/kif-framework/KIF) [![CocoaPod Version](https://img.shields.io/cocoapods/v/KIF.svg?style=flat)](https://cocoapods.org)
+[![GitHub branch status](https://img.shields.io/github/checks-status/kif-framework/KIF/master)](https://github.com/kif-framework/KIF/actions?query=branch%3Amaster)
+ [![GitHub Release](https://img.shields.io/github/v/release/kif-framework/KIF?style=flat)](https://github.com/kif-framework/KIF/releases)
 
 **IMPORTANT! Even though KIF is used to test your UI, you need to add it to your Unit Test target, _not_ your UI Test target. The magic of KIF is that it allows you to drive your UI from your unit tests and reap all the advantages of testing in-process.**
 
