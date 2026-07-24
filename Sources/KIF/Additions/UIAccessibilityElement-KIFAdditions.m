@@ -256,13 +256,63 @@ MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
     }
     
     if (mustBeTappable && !view.isProbablyTappable) {
+        // The scroll pass above only scrolls when the element lies outside its scroll view's
+        // visible rect. An element inside the visible rect can still fail hit-testing when a
+        // floating overlay (e.g. a tab bar or toolbar) covers it. Center the element in its
+        // scroll ancestor's viewport, which moves it clear of edge-anchored overlays, and
+        // resolve once more with scrolling disabled.
+        if (!scrollDisabled && [self KIF_revealPossiblyCoveredAccessibilityElement:element view:view]) {
+            return [self viewContainingAccessibilityElement:element tappable:mustBeTappable error:error disableScroll:YES];
+        }
         if (error) {
             *error = [NSError KIFErrorWithFormat:@"Accessibility element %@ for view %@ with label \"%@\" is not tappable. It may be blocked by other views.", element, view, element.accessibilityLabel];
         }
         return nil;
     }
-    
+
     return view;
+}
+
+// Attempts to uncover an element that resolved to a view but failed the tappability check by
+// centering it vertically in its nearest scroll ancestor's inset-adjusted viewport.
+// Returns YES if the scroll view was scrolled, NO if there is no scroll ancestor or the
+// element is already as centered as the content allows (in which case scrolling cannot
+// uncover it and the caller should fail with the original error).
++ (BOOL)KIF_revealPossiblyCoveredAccessibilityElement:(UIAccessibilityElement *)element view:(UIView *)view;
+{
+    // The view itself is a candidate: a scroll view acting as the accessibility
+    // container resolves as the element's containing view.
+    UIScrollView *scrollView = nil;
+    for (UIView *candidate = view; candidate; candidate = candidate.superview) {
+        if ([candidate isKindOfClass:[UIScrollView class]]) {
+            scrollView = (UIScrollView *)candidate;
+            break;
+        }
+    }
+    if (!scrollView) {
+        return NO;
+    }
+
+    CGRect elementFrame = [view.window convertRect:element.accessibilityFrame toView:scrollView];
+    UIEdgeInsets contentInset = scrollView.adjustedContentInset;
+    CGFloat visibleHeight = CGRectGetHeight(scrollView.bounds) - contentInset.top - contentInset.bottom;
+    if (visibleHeight <= 0) {
+        return NO;
+    }
+
+    CGFloat minOffsetY = -contentInset.top;
+    CGFloat maxOffsetY = MAX(minOffsetY, scrollView.contentSize.height + contentInset.bottom - CGRectGetHeight(scrollView.bounds));
+    CGFloat targetOffsetY = CGRectGetMidY(elementFrame) - contentInset.top - visibleHeight / 2;
+    targetOffsetY = MIN(MAX(targetOffsetY, minOffsetY), maxOffsetY);
+    if (fabs(targetOffsetY - scrollView.contentOffset.y) < 1) {
+        return NO;
+    }
+
+    BOOL animationEnabled = [KIFUITestActor testActorAnimationsEnabled];
+    [scrollView setContentOffset:CGPointMake(scrollView.contentOffset.x, targetOffsetY) animated:animationEnabled];
+    CFTimeInterval delay = animationEnabled ? 0.3 : 0.05;
+    KIFRunLoopRunInModeRelativeToAnimationSpeed(kCFRunLoopDefaultMode, delay, false);
+    return YES;
 }
 
 + (NSError *)errorForFailingPredicate:(NSPredicate*)failingPredicate disableScroll:(BOOL) scrollDisabled;
