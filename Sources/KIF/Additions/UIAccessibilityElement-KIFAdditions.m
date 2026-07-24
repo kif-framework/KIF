@@ -280,10 +280,12 @@ MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
 // uncover it and the caller should fail with the original error).
 + (BOOL)KIF_revealPossiblyCoveredAccessibilityElement:(UIAccessibilityElement *)element view:(UIView *)view;
 {
+    // The view itself is a candidate: a scroll view acting as the accessibility
+    // container resolves as the element's containing view.
     UIScrollView *scrollView = nil;
-    for (UIView *superview = view.superview; superview; superview = superview.superview) {
-        if ([superview isKindOfClass:[UIScrollView class]]) {
-            scrollView = (UIScrollView *)superview;
+    for (UIView *candidate = view; candidate; candidate = candidate.superview) {
+        if ([candidate isKindOfClass:[UIScrollView class]]) {
+            scrollView = (UIScrollView *)candidate;
             break;
         }
     }
