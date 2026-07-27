@@ -22,9 +22,7 @@ let package = Package(
             cSettings: [
                 .headerSearchPath("ApplePrivateAPIs/"),
                 .headerSearchPath("Additions/"),
-                .headerSearchPath("Classes/"),
                 .headerSearchPath("Visualizer/"),
-                .headerSearchPath("IdentifierTests/"),
             ],
             linkerSettings: [.linkedFramework("IOKit"), .linkedFramework("XCTest")]
         ),
