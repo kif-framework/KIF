@@ -21,8 +21,8 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
-    // Uncomment the following line to run the tests with animations 100x faster
-    //UIApplication.sharedApplication.keyWindow.layer.speed = 100;
+    // Speed up animations to improve test times
+    application.keyWindow.layer.speed = 3;
 }
 
 @end
