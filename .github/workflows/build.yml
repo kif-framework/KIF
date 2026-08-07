@@ -13,14 +13,29 @@ jobs:
       uses: actions/checkout@v1
 
     - name: Validate Package
-      run: swift build --sdk "`xcrun --sdk iphonesimulator --show-sdk-path`" --triple arm64-apple-ios13.0-simulator
-  build_macos15:
-    runs-on: macos-15
+      run: swift build --sdk "`xcrun --sdk iphonesimulator --show-sdk-path`" --triple arm64-apple-ios18.0-simulator
+  build:
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        run-config:
-          - { xcode_version: '16.4', simulator: 'name=iPad (10th generation),OS=18.5,arch=arm64', run_extra_validations: 'false' }
-          - { xcode_version: '16.4', simulator: 'name=iPhone 16,OS=18.5,arch=arm64', run_extra_validations: 'true' }
+        include:
+          - xcode_version: '16.4'
+            os: 'macos-15'
+            sim_device: 'iPad (10th generation)' 
+            run_extra_validations: 'false'
+            ios_version: '18.5'
+
+          - xcode_version: '16.4'
+            os: 'macos-15'
+            sim_device: 'iPhone 16' 
+            run_extra_validations: 'true'
+            ios_version: '18.5'
+
+          - xcode_version: '26.6'
+            os: 'macos-26-arm64'
+            sim_device: 'iPhone 17 Pro' 
+            run_extra_validations: 'false'
+            ios_version: '26.5'
     steps:
     - name: Checkout Project
       uses: actions/checkout@v1
@@ -28,26 +43,25 @@ jobs:
     - name: Brew Update
       run:  brew update
 
-    - name: Install Bundler
-      run: gem install bundler
-
     - name: Install Core Utils
       run: if [ -z "$(brew ls --versions coreutils)" ] ; then brew install coreutils ; fi
-
-    - name: Install XCPretty
-      run: gem install xcpretty --no-document --quiet
 
     - name: Show Xcode versions
       run: ls -al /Applications/Xcode*
 
     - name: Select Xcode
-      run: sudo xcode-select -s /Applications/Xcode_${{ matrix.run-config['xcode_version'] }}.app
+      run: sudo xcode-select -s /Applications/Xcode_${{ matrix.xcode_version }}.app
 
     - name: Current Xcode Selected
       run: xcode-select -p
+
+    # - name: Create Simulator
+    #   run: |
+    #     xcrun simctl list runtimes
+    #     xcrun simctl create "${{ matrix.sim_device }}" "${{ matrix.sim_device }}" "iOS ${{ matrix.ios_version }}"
 
     - name: List Simulators
       run:  xcrun simctl list
 
     - name: Build & Test
-      run: ./scripts/ci.sh "${{ matrix.run-config['simulator'] }}" "${{ matrix.run-config['run_extra_validations'] }}"
+      run: ./scripts/ci.sh "name=${{ matrix.sim_device }},OS=${{ matrix.ios_version }},arch=arm64" "${{ matrix.run_extra_validations }}"
