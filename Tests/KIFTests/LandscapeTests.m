@@ -16,12 +16,11 @@
 - (void)beforeAll
 {
     [system simulateDeviceRotationToOrientation:UIDeviceOrientationLandscapeLeft];
-    [tester waitForTimeInterval:0.5];
-    
-    // only scroll if we are on iphone
-    if (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPhone) {
-        [tester scrollViewWithAccessibilityIdentifier:@"Test Suite TableView" byFractionOfSizeHorizontal:0 vertical:-0.2];
-    }
+    [tester waitForAnimationsToFinish];
+
+    [tester scrollViewWithAccessibilityIdentifier:@"Test Suite TableView" byFractionOfSizeHorizontal:0 vertical:-0.2];
+
+    [tester waitForAnimationsToFinish];
 }
 
 - (void)afterAll
@@ -32,6 +31,8 @@
 
 - (void)testThatAlertViewsCanBeTappedInLandscape
 {
+    // The tap can fail if the initial scroll is still happening scroll
+    [tester waitForTimeInterval:0.5];
     [tester tapViewWithAccessibilityLabel:@"UIAlertController"];
     if (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPhone) {
         [tester tapViewWithAccessibilityLabel:@"Cancel"];
