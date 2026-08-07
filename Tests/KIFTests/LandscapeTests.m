@@ -32,7 +32,7 @@
 - (void)testThatAlertViewsCanBeTappedInLandscape
 {
     // The tap can fail if the initial scroll is still happening scroll
-    [tester waitForTimeInterval:0.5];
+    [tester waitForTimeInterval:1.0];
     [tester tapViewWithAccessibilityLabel:@"UIAlertController"];
     if (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPhone) {
         [tester tapViewWithAccessibilityLabel:@"Cancel"];
