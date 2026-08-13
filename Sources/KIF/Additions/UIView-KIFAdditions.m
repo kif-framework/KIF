@@ -84,9 +84,9 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
 // Collects the layout attributes of every supplementary view the layout vends, in the order the
 // layout places them.
 //
-// The kinds are read from the layout rather than assumed to be the UIKit section header and footer.
-// A layout is free to define its own kinds, and asking one for a kind it does not vend is not a
-// supported query: layouts commonly assert on it rather than returning nil.
+// A layout defines its own supplementary view kinds, and asking one for a kind it does not vend is
+// not a supported query: layouts commonly assert on it rather than returning nil. Enumerating the
+// laid out attributes reports the kinds a layout does vend, whatever they are.
 static NSArray<UICollectionViewLayoutAttributes *> *KIFSupplementaryViewAttributes(UICollectionView *collectionView)
 {
     CGRect contentRect = CGRectMake(0.0, 0.0, collectionView.collectionViewLayout.collectionViewContentSize.width, collectionView.collectionViewLayout.collectionViewContentSize.height);
@@ -115,9 +115,8 @@ static BOOL KIFSupplementaryViewMatches(UICollectionView *collectionView, UIColl
         NSString *kind = attributes.representedElementKind;
         NSIndexPath *indexPath = attributes.indexPath;
 
-        // A realised view was already reachable by the ordinary subview search, so leave it to that
-        // search. Matching it here as well would put supplementary views ahead of everything else in
-        // the search order.
+        // A realised view is reachable by the ordinary subview search, which visits the hierarchy in
+        // order. Leave it to that search so supplementary views keep their place in it.
         if ([collectionView supplementaryViewForElementKind:kind atIndexPath:indexPath] != nil) {
             return NO;
         }

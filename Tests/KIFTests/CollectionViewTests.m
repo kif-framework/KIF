@@ -93,10 +93,11 @@
     KIFExpectFailure([[tester usingTimeout:1] tapItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0] inCollectionViewWithAccessibilityIdentifier:@"Unknown CollectionView"]);
 }
 
-// A section header is a supplementary view, not an item. The scroll search in
-// -[UIView(KIFAdditions) accessibilityElementMatchingBlock:notHidden:disableScroll:]
-// enumerates numberOfItemsInSection only, so a header that has not been scrolled
-// near is never realised and cannot be found.
+// Section headers and footers are supplementary views, not items, so the scroll
+// search in -[UIView(KIFAdditions) accessibilityElementMatchingBlock:notHidden:disableScroll:]
+// reaches them by scrolling to each one directly rather than through the item
+// enumeration. A view that has not been scrolled near is not realised, so one
+// below the fold only resolves if that scroll happens.
 - (void)testWaitingForOffscreenSupplementaryView
 {
     // The header is onscreen at rest, so it is found without scrolling.
