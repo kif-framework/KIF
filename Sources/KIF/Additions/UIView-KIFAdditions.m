@@ -102,42 +102,25 @@ static NSArray<UICollectionViewLayoutAttributes *> *KIFSupplementaryViewAttribut
     return supplementaryAttributes;
 }
 
-// Returns the element matching within a supplementary view, or nil.
+// Returns the element matching within a realised supplementary view, or nil.
 //
-// Supplementary views are not items, so the item enumeration does not reach them. A supplementary
-// view below the fold is not realised, so it has to be brought into the viewport before it can be
-// searched, the same way the item enumeration scrolls to a cell before searching it.
+// Supplementary views are not items, so the item enumeration does not reach them, and the subview
+// search does not always reach one either: a header taller than the space left for it stays in the
+// hierarchy while the part holding its controls sits outside the viewport.
 //
-// Only a supplementary view whose attributes place it outside the viewport is scrolled to, and the
-// collection view is returned to where it started when the view does not match. A layout may vend
-// thousands of supplementary views, so scrolling to each in turn would drag the collection view
-// through its whole content and carry off whatever the caller was about to look at.
+// Searching does not scroll. A layout decides where its supplementary views go and may vend
+// thousands of them, so scrolling to each in turn to find out whether it matches would drag the
+// collection view through its whole content and carry off whatever the caller was about to look at.
 static UIAccessibilityElement *KIFSupplementaryViewMatch(UICollectionView *collectionView, UICollectionViewLayoutAttributes *attributes, BOOL(^matchBlock)(UIAccessibilityElement *))
 {
     if (collectionView.window == nil) {
         return nil;
     }
 
-    CGRect viewport = CGRectMake(collectionView.contentOffset.x, collectionView.contentOffset.y, collectionView.bounds.size.width, collectionView.bounds.size.height);
-    BOOL needsScroll = !CGRectContainsRect(viewport, attributes.frame);
-
-    if (needsScroll) {
-        [collectionView scrollRectToVisible:attributes.frame animated:NO];
-        [collectionView layoutIfNeeded];
-    }
-
-    UIAccessibilityElement *element = nil;
     @autoreleasepool {
         UICollectionReusableView *supplementaryView = [collectionView supplementaryViewForElementKind:attributes.representedElementKind atIndexPath:attributes.indexPath];
-        element = [supplementaryView accessibilityElementMatchingBlock:matchBlock notHidden:NO disableScroll:NO];
+        return [supplementaryView accessibilityElementMatchingBlock:matchBlock notHidden:NO disableScroll:NO];
     }
-
-    if (element == nil && needsScroll) {
-        [collectionView setContentOffset:viewport.origin animated:NO];
-        [collectionView layoutIfNeeded];
-    }
-
-    return element;
 }
 
 @implementation UIView (KIFAdditions)
