@@ -115,14 +115,17 @@ static BOOL KIFSupplementaryViewMatches(UICollectionView *collectionView, UIColl
         NSString *kind = attributes.representedElementKind;
         NSIndexPath *indexPath = attributes.indexPath;
 
-        // Already on screen means the ordinary subview search already had a chance at it.
-        UICollectionReusableView *supplementaryView = [collectionView supplementaryViewForElementKind:kind atIndexPath:indexPath];
-        if (supplementaryView == nil) {
-            [collectionView scrollRectToVisible:attributes.frame animated:NO];
-            [collectionView layoutIfNeeded];
-            supplementaryView = [collectionView supplementaryViewForElementKind:kind atIndexPath:indexPath];
+        // A realised view was already reachable by the ordinary subview search, so leave it to that
+        // search. Matching it here as well would put supplementary views ahead of everything else in
+        // the search order.
+        if ([collectionView supplementaryViewForElementKind:kind atIndexPath:indexPath] != nil) {
+            return NO;
         }
 
+        [collectionView scrollRectToVisible:attributes.frame animated:NO];
+        [collectionView layoutIfNeeded];
+
+        UICollectionReusableView *supplementaryView = [collectionView supplementaryViewForElementKind:kind atIndexPath:indexPath];
         if (supplementaryView == nil) {
             return NO;
         }
