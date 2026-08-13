@@ -115,7 +115,7 @@ static NSArray<UICollectionViewLayoutAttributes *> *KIFSupplementaryViewAttribut
 // whatever the caller was about to look at. Put the content offset back when the view does not
 // match, and restore the offset itself rather than a rectangle derived from it: deriving one drops
 // the adjusted content inset, which moves the collection view by the inset on every miss.
-static UIAccessibilityElement *KIFSupplementaryViewMatch(UICollectionView *collectionView, UICollectionViewLayoutAttributes *attributes, BOOL(^matchBlock)(UIAccessibilityElement *))
+static UIAccessibilityElement *KIFSupplementaryViewMatch(UICollectionView *collectionView, UICollectionViewLayoutAttributes *attributes, BOOL(^matchBlock)(UIAccessibilityElement *), BOOL scrollAllowed)
 {
     if (collectionView.window == nil) {
         return nil;
@@ -123,7 +123,11 @@ static UIAccessibilityElement *KIFSupplementaryViewMatch(UICollectionView *colle
 
     CGPoint initialContentOffset = collectionView.contentOffset;
     CGRect viewport = CGRectMake(initialContentOffset.x, initialContentOffset.y, collectionView.bounds.size.width, collectionView.bounds.size.height);
-    BOOL needsScroll = !CGRectContainsRect(viewport, attributes.frame);
+    BOOL needsScroll = scrollAllowed && !CGRectContainsRect(viewport, attributes.frame);
+
+    if (!scrollAllowed && !CGRectIntersectsRect(viewport, attributes.frame)) {
+        return nil;
+    }
 
     if (needsScroll) {
         [collectionView scrollRectToVisible:attributes.frame animated:NO];
@@ -431,12 +435,30 @@ static UIAccessibilityElement *KIFSupplementaryViewMatch(UICollectionView *colle
             NSArray *indexPathsForVisibleItems = [collectionView indexPathsForVisibleItems];
 
             // Supplementary views are not items, so the item enumeration below does not cover them.
-            for (UICollectionViewLayoutAttributes *attributes in KIFSupplementaryViewAttributes(collectionView)) {
+            //
+            // Search the realised ones where they are before scrolling to any. Scrolling is
+            // observable to the caller: a test that reads a point off one view and then taps it
+            // expects the two to refer to the same place, and moving the collection view in between
+            // leaves the point describing somewhere else. Anything reachable without scrolling is
+            // found here, so only a search that would otherwise fail moves the collection view.
+            NSArray<UICollectionViewLayoutAttributes *> *supplementaryAttributes = KIFSupplementaryViewAttributes(collectionView);
+            for (UICollectionViewLayoutAttributes *attributes in supplementaryAttributes) {
                 if (!self.window) {
                     break;
                 }
 
-                UIAccessibilityElement *element = KIFSupplementaryViewMatch(collectionView, attributes, matchBlock);
+                UIAccessibilityElement *element = KIFSupplementaryViewMatch(collectionView, attributes, matchBlock, NO);
+                if (element != nil) {
+                    return element;
+                }
+            }
+
+            for (UICollectionViewLayoutAttributes *attributes in supplementaryAttributes) {
+                if (!self.window) {
+                    break;
+                }
+
+                UIAccessibilityElement *element = KIFSupplementaryViewMatch(collectionView, attributes, matchBlock, YES);
                 if (element != nil) {
                     return element;
                 }
