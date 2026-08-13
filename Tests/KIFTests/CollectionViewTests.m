@@ -93,6 +93,19 @@
     KIFExpectFailure([[tester usingTimeout:1] tapItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0] inCollectionViewWithAccessibilityIdentifier:@"Unknown CollectionView"]);
 }
 
+// A section header is a supplementary view, not an item. The scroll search in
+// -[UIView(KIFAdditions) accessibilityElementMatchingBlock:notHidden:disableScroll:]
+// enumerates numberOfItemsInSection only, so a header that has not been scrolled
+// near is never realised and cannot be found.
+- (void)testWaitingForOffscreenSupplementaryView
+{
+    // The header is onscreen at rest, so it is found without scrolling.
+    [tester waitForViewWithAccessibilityLabel:@"Section Header"];
+
+    // The footer sits below all 200 items, so it must be scrolled to.
+    [tester waitForViewWithAccessibilityLabel:@"Section Footer"];
+}
+
 - (void)testTappingItemsByLabel
 {
     // Tap the first item, which is already visible

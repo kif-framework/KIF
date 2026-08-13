@@ -77,6 +77,44 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
 }
 
 
+@interface UIView (KIFSupplementaryViewSearch)
+- (UIAccessibilityElement *)accessibilityElementMatchingBlock:(BOOL(^)(UIAccessibilityElement *))matchBlock notHidden:(BOOL)notHidden disableScroll:(BOOL)scrollDisabled;
+@end
+
+// Scrolls a section's supplementary view of the given kind into view and reports whether it
+// matches. Supplementary views are not items, so the item enumeration does not reach them. A view
+// that has not been scrolled near is not realised and cannot be matched, so it has to be scrolled
+// to first. Views that are already visible were reachable by the ordinary subview search and are
+// skipped.
+static BOOL KIFSupplementaryViewMatches(UICollectionView *collectionView, NSString *kind, NSUInteger section, NSArray *visibleIndexPaths, BOOL(^matchBlock)(UIAccessibilityElement *))
+{
+    if (collectionView.window == nil) {
+        return NO;
+    }
+
+    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:0 inSection:section];
+    if ([visibleIndexPaths containsObject:indexPath]) {
+        return NO;
+    }
+
+    @autoreleasepool {
+        UICollectionViewLayoutAttributes *attributes = [collectionView.collectionViewLayout layoutAttributesForSupplementaryViewOfKind:kind atIndexPath:indexPath];
+        if (attributes == nil || CGRectIsEmpty(attributes.frame)) {
+            return NO;
+        }
+
+        [collectionView scrollRectToVisible:attributes.frame animated:NO];
+        [collectionView layoutIfNeeded];
+
+        UICollectionReusableView *supplementaryView = [collectionView supplementaryViewForElementKind:kind atIndexPath:indexPath];
+        if (supplementaryView == nil) {
+            return NO;
+        }
+
+        return [supplementaryView accessibilityElementMatchingBlock:matchBlock notHidden:NO disableScroll:NO] != nil;
+    }
+}
+
 @implementation UIView (KIFAdditions)
 
 + (NSSet *)classesToSkipAccessibilitySearchRecursion
@@ -362,8 +400,17 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
             UICollectionView *collectionView = (UICollectionView *)self;
             CGRect initialPosition = CGRectMake(collectionView.contentOffset.x, collectionView.contentOffset.y, collectionView.frame.size.width, collectionView.frame.size.height);
             NSArray *indexPathsForVisibleItems = [collectionView indexPathsForVisibleItems];
+            NSArray *indexPathsForVisibleHeaders = [collectionView indexPathsForVisibleSupplementaryElementsOfKind:UICollectionElementKindSectionHeader];
+            NSArray *indexPathsForVisibleFooters = [collectionView indexPathsForVisibleSupplementaryElementsOfKind:UICollectionElementKindSectionFooter];
 
             for (NSUInteger section = 0, numberOfSections = [collectionView numberOfSections]; section < numberOfSections; section++) {
+                // A section header precedes the section's items, so look for it before them.
+                // Supplementary views are not items, so the enumeration below does not cover them.
+                if (KIFSupplementaryViewMatches(collectionView, UICollectionElementKindSectionHeader, section, indexPathsForVisibleHeaders, matchBlock)) {
+                    CFRunLoopRunInMode(UIApplicationCurrentRunMode, CELL_SCROLL_DELAY_STABILIZATION, false);
+                    return [self accessibilityElementMatchingBlock:matchBlock disableScroll:NO];
+                }
+
                 for (NSUInteger item = 0, numberOfItems = [collectionView numberOfItemsInSection:section]; item < numberOfItems; item++) {
                     if (!self.window) {
                         break;
@@ -436,6 +483,12 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
                         // Now try finding the element again
                         return [self accessibilityElementMatchingBlock:matchBlock];
                     }
+                }
+
+                // A section footer follows the section's items, so look for it after them.
+                if (KIFSupplementaryViewMatches(collectionView, UICollectionElementKindSectionFooter, section, indexPathsForVisibleFooters, matchBlock)) {
+                    CFRunLoopRunInMode(UIApplicationCurrentRunMode, CELL_SCROLL_DELAY_STABILIZATION, false);
+                    return [self accessibilityElementMatchingBlock:matchBlock disableScroll:NO];
                 }
             }
 
