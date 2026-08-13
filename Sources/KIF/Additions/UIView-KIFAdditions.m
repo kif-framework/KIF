@@ -115,9 +115,15 @@ static BOOL KIFSupplementaryViewMatches(UICollectionView *collectionView, UIColl
         NSString *kind = attributes.representedElementKind;
         NSIndexPath *indexPath = attributes.indexPath;
 
-        // A realised view is reachable by the ordinary subview search, which visits the hierarchy in
-        // order. Leave it to that search so supplementary views keep their place in it.
-        if ([collectionView supplementaryViewForElementKind:kind atIndexPath:indexPath] != nil) {
+        // A view that is realised and fully within the viewport is reachable by the ordinary subview
+        // search, which visits the hierarchy in order. Leave it to that search so supplementary
+        // views keep their place in it.
+        //
+        // Being realised is not enough on its own. A supplementary view taller than the part of it
+        // on screen stays realised while most of it sits outside the viewport, and an element within
+        // the offscreen part cannot be tapped. Scroll to those so the whole view is reachable.
+        CGRect viewport = CGRectMake(collectionView.contentOffset.x, collectionView.contentOffset.y, collectionView.bounds.size.width, collectionView.bounds.size.height);
+        if ([collectionView supplementaryViewForElementKind:kind atIndexPath:indexPath] != nil && CGRectContainsRect(viewport, attributes.frame)) {
             return NO;
         }
 
