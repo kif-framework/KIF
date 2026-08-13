@@ -102,41 +102,42 @@ static NSArray<UICollectionViewLayoutAttributes *> *KIFSupplementaryViewAttribut
     return supplementaryAttributes;
 }
 
-// Scrolls a supplementary view into view and reports whether it matches. Supplementary views are
-// not items, so the item enumeration does not reach them. A view that has not been scrolled near is
-// not realised and cannot be matched, so it has to be scrolled to first.
-static BOOL KIFSupplementaryViewMatches(UICollectionView *collectionView, UICollectionViewLayoutAttributes *attributes, BOOL(^matchBlock)(UIAccessibilityElement *))
+// Returns the element matching within a supplementary view, or nil.
+//
+// Supplementary views are not items, so the item enumeration does not reach them. A supplementary
+// view below the fold is not realised, so it has to be brought into the viewport before it can be
+// searched, the same way the item enumeration scrolls to a cell before searching it.
+//
+// Only a supplementary view whose attributes place it outside the viewport is scrolled to, and the
+// collection view is returned to where it started when the view does not match. A layout may vend
+// thousands of supplementary views, so scrolling to each in turn would drag the collection view
+// through its whole content and carry off whatever the caller was about to look at.
+static UIAccessibilityElement *KIFSupplementaryViewMatch(UICollectionView *collectionView, UICollectionViewLayoutAttributes *attributes, BOOL(^matchBlock)(UIAccessibilityElement *))
 {
     if (collectionView.window == nil) {
-        return NO;
+        return nil;
     }
 
-    @autoreleasepool {
-        NSString *kind = attributes.representedElementKind;
-        NSIndexPath *indexPath = attributes.indexPath;
+    CGRect viewport = CGRectMake(collectionView.contentOffset.x, collectionView.contentOffset.y, collectionView.bounds.size.width, collectionView.bounds.size.height);
+    BOOL needsScroll = !CGRectContainsRect(viewport, attributes.frame);
 
-        // A view that is realised and fully within the viewport is reachable by the ordinary subview
-        // search, which visits the hierarchy in order. Leave it to that search so supplementary
-        // views keep their place in it.
-        //
-        // Being realised is not enough on its own. A supplementary view taller than the part of it
-        // on screen stays realised while most of it sits outside the viewport, and an element within
-        // the offscreen part cannot be tapped. Scroll to those so the whole view is reachable.
-        CGRect viewport = CGRectMake(collectionView.contentOffset.x, collectionView.contentOffset.y, collectionView.bounds.size.width, collectionView.bounds.size.height);
-        if ([collectionView supplementaryViewForElementKind:kind atIndexPath:indexPath] != nil && CGRectContainsRect(viewport, attributes.frame)) {
-            return NO;
-        }
-
+    if (needsScroll) {
         [collectionView scrollRectToVisible:attributes.frame animated:NO];
         [collectionView layoutIfNeeded];
-
-        UICollectionReusableView *supplementaryView = [collectionView supplementaryViewForElementKind:kind atIndexPath:indexPath];
-        if (supplementaryView == nil) {
-            return NO;
-        }
-
-        return [supplementaryView accessibilityElementMatchingBlock:matchBlock notHidden:NO disableScroll:NO] != nil;
     }
+
+    UIAccessibilityElement *element = nil;
+    @autoreleasepool {
+        UICollectionReusableView *supplementaryView = [collectionView supplementaryViewForElementKind:attributes.representedElementKind atIndexPath:attributes.indexPath];
+        element = [supplementaryView accessibilityElementMatchingBlock:matchBlock notHidden:NO disableScroll:NO];
+    }
+
+    if (element == nil && needsScroll) {
+        [collectionView setContentOffset:viewport.origin animated:NO];
+        [collectionView layoutIfNeeded];
+    }
+
+    return element;
 }
 
 @implementation UIView (KIFAdditions)
@@ -426,16 +427,14 @@ static BOOL KIFSupplementaryViewMatches(UICollectionView *collectionView, UIColl
             NSArray *indexPathsForVisibleItems = [collectionView indexPathsForVisibleItems];
 
             // Supplementary views are not items, so the item enumeration below does not cover them.
-            // Where they sit is up to the layout, so there is no item to reach them from: scroll to
-            // each one directly instead.
             for (UICollectionViewLayoutAttributes *attributes in KIFSupplementaryViewAttributes(collectionView)) {
                 if (!self.window) {
                     break;
                 }
 
-                if (KIFSupplementaryViewMatches(collectionView, attributes, matchBlock)) {
-                    CFRunLoopRunInMode(UIApplicationCurrentRunMode, CELL_SCROLL_DELAY_STABILIZATION, false);
-                    return [self accessibilityElementMatchingBlock:matchBlock disableScroll:NO];
+                UIAccessibilityElement *element = KIFSupplementaryViewMatch(collectionView, attributes, matchBlock);
+                if (element != nil) {
+                    return element;
                 }
             }
 
