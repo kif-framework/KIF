@@ -77,6 +77,73 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
 }
 
 
+@interface UIView (KIFSupplementaryViewSearch)
+- (UIAccessibilityElement *)accessibilityElementMatchingBlock:(BOOL(^)(UIAccessibilityElement *))matchBlock notHidden:(BOOL)notHidden disableScroll:(BOOL)scrollDisabled;
+@end
+
+// Collects the layout attributes of every supplementary view the layout vends, in the order the
+// layout places them.
+//
+// A layout defines its own supplementary view kinds, and asking one for a kind it does not vend is
+// not a supported query: layouts commonly assert on it rather than returning nil. Enumerating the
+// laid out attributes reports the kinds a layout does vend, whatever they are.
+static NSArray<UICollectionViewLayoutAttributes *> *KIFSupplementaryViewAttributes(UICollectionView *collectionView)
+{
+    CGRect contentRect = CGRectMake(0.0, 0.0, collectionView.collectionViewLayout.collectionViewContentSize.width, collectionView.collectionViewLayout.collectionViewContentSize.height);
+    NSArray<UICollectionViewLayoutAttributes *> *allAttributes = [collectionView.collectionViewLayout layoutAttributesForElementsInRect:contentRect];
+
+    NSMutableArray<UICollectionViewLayoutAttributes *> *supplementaryAttributes = [NSMutableArray array];
+    for (UICollectionViewLayoutAttributes *attributes in allAttributes) {
+        if (attributes.representedElementCategory == UICollectionElementCategorySupplementaryView && !CGRectIsEmpty(attributes.frame)) {
+            [supplementaryAttributes addObject:attributes];
+        }
+    }
+
+    return supplementaryAttributes;
+}
+
+// Returns the element matching within a supplementary view, or nil.
+//
+// Supplementary views are not items, so the item enumeration does not reach them, and the subview
+// search does not always reach one either: a header taller than the space left for it stays in the
+// hierarchy while the part holding its controls sits outside the viewport. A view the layout places
+// beyond the viewport is not realised at all, so it has to be scrolled to before it can be searched,
+// the same way the item enumeration scrolls to a cell before searching it.
+//
+// A layout may vend thousands of supplementary views, so a search that left the collection view
+// wherever the last one happened to put it would drag it through its whole content and carry off
+// whatever the caller was about to look at. Put the content offset back when the view does not
+// match, and restore the offset itself rather than a rectangle derived from it: deriving one drops
+// the adjusted content inset, which moves the collection view by the inset on every miss.
+static UIAccessibilityElement *KIFSupplementaryViewMatch(UICollectionView *collectionView, UICollectionViewLayoutAttributes *attributes, BOOL(^matchBlock)(UIAccessibilityElement *))
+{
+    if (collectionView.window == nil) {
+        return nil;
+    }
+
+    CGPoint initialContentOffset = collectionView.contentOffset;
+    CGRect viewport = CGRectMake(initialContentOffset.x, initialContentOffset.y, collectionView.bounds.size.width, collectionView.bounds.size.height);
+    BOOL needsScroll = !CGRectContainsRect(viewport, attributes.frame);
+
+    if (needsScroll) {
+        [collectionView scrollRectToVisible:attributes.frame animated:NO];
+        [collectionView layoutIfNeeded];
+    }
+
+    UIAccessibilityElement *element = nil;
+    @autoreleasepool {
+        UICollectionReusableView *supplementaryView = [collectionView supplementaryViewForElementKind:attributes.representedElementKind atIndexPath:attributes.indexPath];
+        element = [supplementaryView accessibilityElementMatchingBlock:matchBlock notHidden:NO disableScroll:NO];
+    }
+
+    if (element == nil && needsScroll) {
+        [collectionView setContentOffset:initialContentOffset animated:NO];
+        [collectionView layoutIfNeeded];
+    }
+
+    return element;
+}
+
 @implementation UIView (KIFAdditions)
 
 + (NSSet *)classesToSkipAccessibilitySearchRecursion
@@ -362,6 +429,18 @@ NS_INLINE BOOL StringsMatchExceptLineBreaks(NSString *expected, NSString *actual
             UICollectionView *collectionView = (UICollectionView *)self;
             CGRect initialPosition = CGRectMake(collectionView.contentOffset.x, collectionView.contentOffset.y, collectionView.frame.size.width, collectionView.frame.size.height);
             NSArray *indexPathsForVisibleItems = [collectionView indexPathsForVisibleItems];
+
+            // Supplementary views are not items, so the item enumeration below does not cover them.
+            for (UICollectionViewLayoutAttributes *attributes in KIFSupplementaryViewAttributes(collectionView)) {
+                if (!self.window) {
+                    break;
+                }
+
+                UIAccessibilityElement *element = KIFSupplementaryViewMatch(collectionView, attributes, matchBlock);
+                if (element != nil) {
+                    return element;
+                }
+            }
 
             for (NSUInteger section = 0, numberOfSections = [collectionView numberOfSections]; section < numberOfSections; section++) {
                 for (NSUInteger item = 0, numberOfItems = [collectionView numberOfItemsInSection:section]; item < numberOfItems; item++) {
