@@ -1169,7 +1169,7 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection headerTitle="Section-3" id="TFu-FW-SYg">
+                            <tableViewSection footerTitle="Footer-3" headerTitle="Section-3" id="TFu-FW-SYg">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="36z-vc-3xL">
                                         <rect key="frame" x="0.0" y="2054" width="414" height="44"/>

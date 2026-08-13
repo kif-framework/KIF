@@ -57,6 +57,20 @@
     [tester waitForViewWithAccessibilityLabel:@"Last Cell" traits:UIAccessibilityTraitSelected];
 }
 
+// Section headers and footers are not rows, so the scroll search in
+// -[UIView(KIFAdditions) accessibilityElementMatchingBlock:notHidden:disableScroll:]
+// never looks for one directly. It scrolls to each row in turn, which drags the
+// headers between them into view. The last section's footer has no rows after it,
+// so nothing scrolls past it.
+- (void)testWaitingForOffscreenSectionHeaderAndFooter
+{
+    // Sits below the second section's 76 rows.
+    [tester waitForViewWithAccessibilityLabel:@"Section-3"];
+
+    // Sits below every row in the table.
+    [tester waitForViewWithAccessibilityLabel:@"Footer-3"];
+}
+
 - (void)testOutOfBounds
 {
     KIFExpectFailure([[tester usingTimeout:1] tapRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:99] inTableViewWithAccessibilityIdentifier:@"TableView Tests Table"]);
