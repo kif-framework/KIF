@@ -1376,6 +1376,49 @@ static BOOL KIFUITestActorAnimationsEnabled = YES;
     scrollStart.y -= scrollDisplacement.y / 2;
 
     [viewToScroll dragFromPoint:scrollStart displacement:scrollDisplacement steps:kNumberOfPointsInScrollPath];
+
+    [self waitForScrollingToStopInView:viewToScroll];
+}
+
+/*!
+ @abstract Waits until the scroll view enclosing @c view has stopped moving.
+ @discussion Lifting a finger hands a scroll view whatever momentum the drag built up, so the
+ content keeps moving well after the last touch has been delivered; even a short fractional scroll
+ can decelerate for over a second and coast all the way to the end of the content. Until it stops,
+ the scroll view is a moving target, and the first touch to arrive is spent halting the scroll
+ rather than reaching the view underneath it. That makes the following step look like a tap that
+ silently did nothing, so waiting here is what lets a scroll mean "the content has moved" instead
+ of "the content has started moving". A scroll that never settles is left alone rather than failed,
+ matching the way waiting for animations gives up quietly once it runs out of time.
+ */
+- (void)waitForScrollingToStopInView:(UIView *)view
+{
+    UIScrollView *scrollView = nil;
+    for (UIView *candidate = view; candidate != nil; candidate = candidate.superview) {
+        if ([candidate isKindOfClass:[UIScrollView class]]) {
+            scrollView = (UIScrollView *)candidate;
+            break;
+        }
+    }
+
+    if (scrollView == nil) {
+        return;
+    }
+
+    NSTimeInterval timeout = self.executionBlockTimeout;
+    NSTimeInterval startTime = [NSDate timeIntervalSinceReferenceDate];
+
+    [self runBlock:^KIFTestStepResult(NSError **error) {
+        if (!scrollView.isDragging && !scrollView.isDecelerating) {
+            return KIFTestStepResultSuccess;
+        }
+
+        if ([NSDate timeIntervalSinceReferenceDate] - startTime >= timeout) {
+            return KIFTestStepResultSuccess;
+        }
+
+        return KIFTestStepResultWait;
+    } timeout:timeout + 1];
 }
 
 - (void)waitForFirstResponderWithAccessibilityLabel:(NSString *)label
