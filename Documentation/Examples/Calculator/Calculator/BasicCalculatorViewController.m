@@ -36,27 +36,6 @@ typedef NS_ENUM(NSInteger, CalculatorOperation) {
     return self;
 }
 
-- (void)viewDidLoad
-{
-    for (int i = 0; i < self.operationInput.subviews.count; i++) {
-        UIView *segment = (UIView *)self.operationInput.subviews[i];
-        UIView *label = segment.subviews[0];
-        NSString *segmentText = [(id)label text];
-
-        if ([segmentText isEqualToString:@"+"]) {
-            segment.accessibilityLabel = @"Add";
-        } else if ([segmentText isEqualToString:@"–"]) {
-            segment.accessibilityLabel = @"Subtract";
-        } else if ([segmentText isEqualToString:@"×"]) {
-            segment.accessibilityLabel = @"Multiply";
-        } else if ([segmentText isEqualToString:@"÷"]) {
-            segment.accessibilityLabel = @"Divide";
-        } else {
-            @throw([NSException exceptionWithName:NSInvalidArgumentException reason:[NSString stringWithFormat:@"Invalid segment text value (%@)", segmentText] userInfo:nil]);
-        }
-    }
-}
-
 - (IBAction)recalculate
 {
     double value1 = self.input1.text.doubleValue;

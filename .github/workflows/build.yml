@@ -14,13 +14,14 @@ jobs:
 
     - name: Validate Package
       run: swift build --sdk "`xcrun --sdk iphonesimulator --show-sdk-path`" --triple arm64-apple-ios13.0-simulator
-  build_macos15:
-    runs-on: macos-15
+  build_and_test:
+    runs-on: ${{ matrix.run-config['macos_image'] }}
     strategy:
       matrix:
         run-config:
-          - { xcode_version: '16.4', simulator: 'name=iPad (10th generation),OS=18.5,arch=arm64', run_extra_validations: 'false' }
-          - { xcode_version: '16.4', simulator: 'name=iPhone 16,OS=18.5,arch=arm64', run_extra_validations: 'true' }
+          - { macos_image: 'macos-15', xcode_version: '16.4', simulator: 'name=iPad (10th generation),OS=18.5,arch=arm64', run_extra_validations: 'false' }
+          - { macos_image: 'macos-15', xcode_version: '16.4', simulator: 'name=iPhone 16,OS=18.5,arch=arm64', run_extra_validations: 'true' }
+          - { macos_image: 'macos-26', xcode_version: '26.6', simulator: 'name=iPhone 17 Pro,OS=26.5,arch=arm64', run_extra_validations: 'true' }
     steps:
     - name: Checkout Project
       uses: actions/checkout@v1
