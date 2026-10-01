@@ -1217,7 +1217,11 @@
                             <outlet property="delegate" destination="gLb-0u-HV7" id="au3-RC-Q05"/>
                         </connections>
                     </tableView>
-                    <toolbarItems/>
+                    <toolbarItems>
+                        <barButtonItem title="Toolbar Item" id="Tbi-0d-Itm">
+                            <accessibility key="accessibilityConfiguration" label="Toolbar Item"/>
+                        </barButtonItem>
+                    </toolbarItems>
                     <navigationItem key="navigationItem" title="TableViews" id="dc2-IR-8qH"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
@@ -1806,6 +1810,7 @@ Line Break
                     </navigationItem>
                     <connections>
                         <outlet property="greetingTextField" destination="4Fd-CG-0ud" id="Pav-dh-PQb"/>
+                        <outlet property="happySwitch" destination="BGR-Qm-fMh" id="Hsw-1t-Fnt"/>
                         <outlet property="lineBreakLabel" destination="B0B-JK-Dre" id="eOC-HO-sni"/>
                         <outlet property="memoryWarningLabel" destination="cOR-b3-gcc" id="xXg-Fh-Lpo"/>
                         <outlet property="otherTextField" destination="WsR-z2-y1y" id="rq9-9M-Czf"/>

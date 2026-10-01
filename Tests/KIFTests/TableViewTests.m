@@ -122,8 +122,10 @@
 
 - (void)testTappingRowUnderToolbarByLabel
 {
-    // Ensure the toolbar is visible
-    [tester waitForViewWithAccessibilityIdentifier:@"Toolbar"];
+    // Ensure the toolbar is visible. Looking for one of its items rather than the bar
+    // itself: iOS 26 hosts toolbar items in a floating bar instead of the navigation
+    // controller's UIToolbar, which is not in the view hierarchy there at all.
+    [tester waitForViewWithAccessibilityLabel:@"Toolbar Item"];
 
     // Tap row 31, which will scroll so that cell 32 is precisely positioned under the toolbar
     [tester tapViewWithAccessibilityLabel:@"Cell 31"];
@@ -150,8 +152,10 @@
 {
     [[tester class] setTestActorAnimationsEnabled:NO];
 
-    // Ensure the toolbar is visible
-    [tester waitForViewWithAccessibilityIdentifier:@"Toolbar"];
+    // Ensure the toolbar is visible. Looking for one of its items rather than the bar
+    // itself: iOS 26 hosts toolbar items in a floating bar instead of the navigation
+    // controller's UIToolbar, which is not in the view hierarchy there at all.
+    [tester waitForViewWithAccessibilityLabel:@"Toolbar Item"];
     
     // Tap row 31, which will scroll so that cell 32 is precisely positioned under the toolbar
     [tester tapViewWithAccessibilityLabel:@"Cell 31"];

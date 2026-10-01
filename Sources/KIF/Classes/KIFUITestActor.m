@@ -20,6 +20,7 @@
 #import "UIAutomationHelper.h"
 #import "UIScreen+KIFAdditions.h"
 #import "UITableView-KIFAdditions.h"
+#import "UITouch-KIFAdditions.h"
 #import "UIView-KIFAdditions.h"
 #import "UIWindow-KIFAdditions.h"
 #import "UIDatePicker+KIFAdditions.h"
@@ -1122,7 +1123,70 @@ static BOOL KIFUITestActorAnimationsEnabled = YES;
         finalPosition.x = slider.bounds.size.width;
     }
 
-    [slider dragFromPoint:currentPosition toPoint:finalPosition steps:10];
+    [self dragThumbOfSlider:slider fromPoint:currentPosition toPoint:finalPosition toValue:value];
+}
+
+/*!
+ @abstract Drags a slider's thumb from @c startPoint to @c endPoint, closing any remaining
+ distance against the slider's own value before letting go.
+ @discussion @c thumbRectForBounds:trackRect:value: says where the thumb is drawn, but the
+ thumb does not necessarily end up underneath the finger. Since iOS 26 the slider only starts
+ following the touch after the first few points of movement, so a drag sized purely from the
+ reported geometry stops short of the requested value. Reading the slider back while the touch
+ is still down closes the rest of the distance without depending on how much slack a given
+ iOS version takes. The touch then holds still before lifting, because releasing mid-movement
+ lets the slider carry on past the target under its own momentum.
+ */
+- (void)dragThumbOfSlider:(UISlider *)slider fromPoint:(CGPoint)startPoint toPoint:(CGPoint)endPoint toValue:(float)targetValue
+{
+    const NSTimeInterval touchDelay = 0.01;
+    const NSUInteger stepsPerMove = 10;
+    const NSUInteger maximumCorrections = 10;
+    const CGFloat toleranceInPoints = 0.5;
+
+    CGRect trackRect = [slider trackRectForBounds:slider.bounds];
+    CGFloat lowestThumbX = CGPointCenteredInRect([slider thumbRectForBounds:slider.bounds trackRect:trackRect value:slider.minimumValue]).x;
+    CGFloat highestThumbX = CGPointCenteredInRect([slider thumbRectForBounds:slider.bounds trackRect:trackRect value:slider.maximumValue]).x;
+    CGFloat valueRange = slider.maximumValue - slider.minimumValue;
+    CGFloat pointsPerUnit = valueRange > 0 ? (highestThumbX - lowestThumbX) / valueRange : 0;
+
+    UITouch *touch = [[UITouch alloc] initAtPoint:startPoint inView:slider];
+    [touch setPhaseAndUpdateTimestamp:UITouchPhaseBegan];
+    [[UIApplication sharedApplication] kif_sendEvent:[slider eventWithTouch:touch]];
+    CFRunLoopRunInMode(UIApplicationCurrentRunMode, touchDelay, false);
+
+    __block CGPoint location = startPoint;
+    void (^moveByX)(CGFloat) = ^(CGFloat distance) {
+        for (NSUInteger step = 0; step < stepsPerMove; step++) {
+            location.x += distance / stepsPerMove;
+            [touch setLocationInWindow:[slider.window convertPoint:location fromView:slider]];
+            [touch setPhaseAndUpdateTimestamp:UITouchPhaseMoved];
+            [[UIApplication sharedApplication] kif_sendEvent:[slider eventWithTouch:touch]];
+            CFRunLoopRunInMode(UIApplicationCurrentRunMode, touchDelay, false);
+        }
+    };
+
+    moveByX(endPoint.x - startPoint.x);
+
+    for (NSUInteger correction = 0; pointsPerUnit > 0 && correction < maximumCorrections; correction++) {
+        CGFloat remainingDistance = (targetValue - slider.value) * pointsPerUnit;
+        if (fabs(remainingDistance) < toleranceInPoints) {
+            break;
+        }
+        moveByX(remainingDistance);
+    }
+
+    // Hold still so that lifting the touch does not hand the slider any momentum.
+    for (NSUInteger step = 0; step < stepsPerMove; step++) {
+        [touch setLocationInWindow:[slider.window convertPoint:location fromView:slider]];
+        [touch setPhaseAndUpdateTimestamp:UITouchPhaseMoved];
+        [[UIApplication sharedApplication] kif_sendEvent:[slider eventWithTouch:touch]];
+        CFRunLoopRunInMode(UIApplicationCurrentRunMode, touchDelay, false);
+    }
+
+    [touch setPhaseAndUpdateTimestamp:UITouchPhaseEnded];
+    [[UIApplication sharedApplication] kif_sendEvent:[slider eventWithTouch:touch]];
+    CFRunLoopRunInMode(UIApplicationCurrentRunMode, touchDelay, false);
 }
 
 - (void)dismissPopover

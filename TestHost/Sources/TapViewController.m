@@ -18,6 +18,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *greetingTextField;
 @property (weak, nonatomic) IBOutlet UIStepper *stepper;
 @property (weak, nonatomic) IBOutlet UILabel *stepperValueLabel;
+@property (weak, nonatomic) IBOutlet UISwitch *happySwitch;
 @end
 
 @implementation TapViewController
@@ -29,6 +30,12 @@
     self.lineBreakLabel.accessibilityLabel = @"A\nB\nC\n\n";
 	self.stepper.isAccessibilityElement = YES;
 	self.stepper.accessibilityLabel = @"theStepper";
+
+    // This screen is laid out with autoresizing masks, so its subviews shift by different
+    // amounts as the navigation bar height changes between iOS versions. On iOS 26 the taller
+    // bar moves the inner scroll view up on top of the switch, which stops the switch being
+    // hittable. Keeping the switch in front leaves it tappable whatever the bar height is.
+    [self.view bringSubviewToFront:self.happySwitch];
 }
 
 - (void)memoryWarningNotification:(NSNotification *)notification

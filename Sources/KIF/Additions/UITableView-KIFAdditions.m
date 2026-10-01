@@ -52,7 +52,10 @@
         }
     }
     CGPoint destinationPoint = CGPointMake(sourcePoint.x, destinationDragY);
-    
+
+    // Keep the whole gesture inside the visible area so the table does not auto-scroll under it.
+    [self scrollToKeepReorderDragBetweenY:sourcePoint.y andY:destinationDragY margin:destinationCellRect.size.height];
+
     // Create the touch (there should only be one touch object for the whole drag)
     UITouch *touch = [[UITouch alloc] initAtPoint:sourcePoint inView:self];
     [touch setPhaseAndUpdateTimestamp:UITouchPhaseBegan];
@@ -93,6 +96,49 @@
         [self becomeFirstResponder];
     }
     return YES;
+}
+
+/*!
+ @abstract Scrolls so that both ends of a reorder drag sit at least @c margin inside the
+ table's visible, inset adjusted viewport.
+ @discussion While a row is being reordered the table auto-scrolls whenever the touch is near
+ the edge of that viewport. The rows then move underneath the finger, so the cell is dropped
+ on a different index than the one the drag aimed at. How close to the edge is "near" varies
+ by iOS version, and a bar overlapping the bottom of the table is enough to pull the
+ destination into the zone. Scrolling both ends of the drag clear of the edges up front keeps
+ the table still for the whole gesture and makes the drop index depend only on where the
+ touch goes. If the two ends are too far apart to be on screen together then the drag has to
+ rely on auto-scroll as before, so the content offset is left alone.
+ */
+- (void)scrollToKeepReorderDragBetweenY:(CGFloat)startY andY:(CGFloat)endY margin:(CGFloat)margin;
+{
+    UIEdgeInsets insets = self.adjustedContentInset;
+    CGFloat viewportHeight = self.bounds.size.height - insets.top - insets.bottom;
+    CGFloat lowestY = MIN(startY, endY) - margin;
+    CGFloat highestY = MAX(startY, endY) + margin;
+
+    if (viewportHeight <= 0 || highestY - lowestY > viewportHeight) {
+        return;
+    }
+
+    CGFloat viewportTop = self.contentOffset.y + insets.top;
+    CGFloat offsetY;
+    if (highestY > viewportTop + viewportHeight) {
+        offsetY = highestY - viewportHeight - insets.top;
+    } else if (lowestY < viewportTop) {
+        offsetY = lowestY - insets.top;
+    } else {
+        return;
+    }
+
+    CGFloat minimumOffsetY = -insets.top;
+    CGFloat maximumOffsetY = MAX(minimumOffsetY, self.contentSize.height + insets.bottom - self.bounds.size.height);
+    offsetY = MIN(MAX(offsetY, minimumOffsetY), maximumOffsetY);
+
+    [self setContentOffset:CGPointMake(self.contentOffset.x, offsetY) animated:NO];
+
+    // Let the table lay out the rows that just scrolled into view before the drag starts.
+    CFRunLoopRunInMode(UIApplicationCurrentRunMode, 0.1, false);
 }
 
 @end

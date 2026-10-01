@@ -29,15 +29,30 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-    self.navigationController.interactivePopGestureRecognizer.enabled = NO;
+
+    [self setNavigationPopGesturesEnabled:NO];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
-    
-    self.navigationController.interactivePopGestureRecognizer.enabled = YES;
+
+    [self setNavigationPopGesturesEnabled:YES];
+}
+
+// This screen tests its own swipe recognizers, so the navigation controller must not claim
+// those swipes for itself. iOS 26 added a second pop gesture that triggers anywhere in the
+// content rather than just at the screen edge, which otherwise swallows every swipe to the
+// right and pops back to the test suite list.
+- (void)setNavigationPopGesturesEnabled:(BOOL)enabled
+{
+    self.navigationController.interactivePopGestureRecognizer.enabled = enabled;
+
+#if __IPHONE_26_0
+    if (@available(iOS 26.0, *)) {
+        self.navigationController.interactiveContentPopGestureRecognizer.enabled = enabled;
+    }
+#endif
 }
 
 - (IBAction)swipedUp:(id)sender
