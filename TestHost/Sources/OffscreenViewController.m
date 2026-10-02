@@ -6,15 +6,72 @@
 //
 
 @interface OffscreenViewController : UIViewController<UIScrollViewDelegate>
-@property (weak, nonatomic) IBOutlet UIView *alphaView;
-@property (weak, nonatomic) IBOutlet UIView *movingView;
-@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
-@property (weak, nonatomic) IBOutlet UIView *hiddenView;
+@property (strong, nonatomic) UIView *alphaView;
+@property (strong, nonatomic) UIView *movingView;
+@property (strong, nonatomic) UIScrollView *scrollView;
+@property (strong, nonatomic) UIView *hiddenView;
 
 @property (strong, nonatomic) UIView *scrollMovingView;
 @end
 
 @implementation OffscreenViewController
+
+// Creates one of the plain colored boxes that OffscreenTests looks for by label.
+static UIView *OffscreenBox(CGRect frame, UIViewAutoresizing autoresizingMask, UIColor *color, NSString *accessibilityLabel)
+{
+    UIView *box = [[UIView alloc] initWithFrame:frame];
+    box.autoresizingMask = autoresizingMask;
+    box.backgroundColor = color;
+    box.isAccessibilityElement = YES;
+    box.accessibilityLabel = accessibilityLabel;
+    return box;
+}
+
+- (void)loadView
+{
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 414, 804)];
+    view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    view.backgroundColor = [UIColor systemBackgroundColor];
+
+    self.movingView = OffscreenBox(CGRectMake(20, 121, 237, 129),
+                                   UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin,
+                                   [UIColor labelColor],
+                                   @"Out of screen view");
+    [view addSubview:self.movingView];
+
+    self.alphaView = OffscreenBox(CGRectMake(20, 281, 240, 128),
+                                  UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleBottomMargin,
+                                  [UIColor systemBrownColor],
+                                  @"Alpha view");
+    [view addSubview:self.alphaView];
+
+    self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(20, 467, 237, 127)];
+    self.scrollView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
+    self.scrollView.multipleTouchEnabled = YES;
+    self.scrollView.clipsToBounds = YES;
+    [view addSubview:self.scrollView];
+
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeSystem];
+    button.frame = CGRectMake(20, 36, 183, 36);
+    button.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
+    if (@available(iOS 15.0, *)) {
+        UIButtonConfiguration *configuration = [UIButtonConfiguration plainButtonConfiguration];
+        configuration.title = @"Move and hide views";
+        button.configuration = configuration;
+    } else {
+        [button setTitle:@"Move and hide views" forState:UIControlStateNormal];
+    }
+    [button addTarget:self action:@selector(hideAndMoveViewsTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [view addSubview:button];
+
+    self.hiddenView = OffscreenBox(CGRectMake(268, 231, 76, 128),
+                                   UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleBottomMargin,
+                                   [UIColor systemPurpleColor],
+                                   @"Hidden view");
+    [view addSubview:self.hiddenView];
+
+    self.view = view;
+}
 
 - (void)viewDidLoad
 {
@@ -32,7 +89,7 @@
     [self.scrollView addSubview:self.scrollMovingView];
 }
 
-- (IBAction)hideAndMoveViewsTapped:(UIButton *)sender
+- (void)hideAndMoveViewsTapped:(UIButton *)sender
 {
     CGRect screenRect = [[UIScreen mainScreen] bounds];
 

@@ -22,8 +22,8 @@
 
 @implementation AccessibilityViewController_AccessibilityView
 
-- (instancetype)initWithCoder:(NSCoder *)coder {
-    self = [super initWithCoder:coder];
+- (instancetype)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
     self.isAccessibilityElement = YES;
     self.accessibilityLabel = @"AccessibilityView";
     self.accessibilityTraits |= UIAccessibilityTraitButton | UIAccessibilityTraitAdjustable;
@@ -116,11 +116,24 @@
 @end
 
 @interface AccessibilityViewController : UIViewController
-@property (weak, nonatomic) IBOutlet AccessibilityViewController_AccessibilityView *accessibilityView;
+@property (strong, nonatomic) AccessibilityViewController_AccessibilityView *accessibilityView;
 
 @end
 
 @implementation AccessibilityViewController
+
+- (void)loadView {
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 414, 804)];
+    view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleBottomMargin;
+    view.backgroundColor = [UIColor systemBackgroundColor];
+
+    self.accessibilityView = [[AccessibilityViewController_AccessibilityView alloc] initWithFrame:CGRectMake(20, 76, 374, 657)];
+    self.accessibilityView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    self.accessibilityView.backgroundColor = [UIColor systemPurpleColor];
+    [view addSubview:self.accessibilityView];
+
+    self.view = view;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
