@@ -60,7 +60,7 @@
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="1" green="0.99997437000274658" blue="0.99999129772186279" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <connections>
-                                            <segue destination="21" kind="push" identifier="showDetail" id="jZb-fq-zAk"/>
+                                            <segue destination="21" kind="push" id="jZb-fq-zAk"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" textLabel="is0-hF-0X7" style="IBUITableViewCellStyleDefault" id="GWD-nn-L4o">
@@ -1903,27 +1903,18 @@ Line Break
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
-                                        <connections>
-                                            <outlet property="delegate" destination="9JK-H0-VuW" id="MR1-18-Qvf"/>
-                                        </connections>
                                     </textField>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Attributed Title Selection" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="6mf-Av-wic" userLabel="attributedTitleSelection">
                                         <rect key="frame" x="0.0" y="38" width="320" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
-                                        <connections>
-                                            <outlet property="delegate" destination="9JK-H0-VuW" id="Ace-do-xAI"/>
-                                        </connections>
                                     </textField>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Text Title Selection" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qj4-OB-vvL" userLabel="textTitleSelection">
                                         <rect key="frame" x="0.0" y="76" width="320" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
-                                        <connections>
-                                            <outlet property="delegate" destination="9JK-H0-VuW" id="MBm-3m-Dre"/>
-                                        </connections>
                                     </textField>
                                 </subviews>
                                 <color key="backgroundColor" red="0.98763227462768555" green="0.31666561961174011" blue="0.76941287517547607" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -2114,9 +2105,6 @@ Line Break
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="0.99997437000274658" blue="0.99999129772186279" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <userDefinedRuntimeAttributes>
-                            <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="TapViewController Inner ScrollView"/>
-                        </userDefinedRuntimeAttributes>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <navigationItem key="navigationItem" id="fud-79-Dhj"/>
