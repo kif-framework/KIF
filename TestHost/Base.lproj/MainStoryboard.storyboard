@@ -19,9 +19,6 @@
                     <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="hnX-Hl-00A">
                         <rect key="frame" x="0.0" y="813" width="414" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <userDefinedRuntimeAttributes>
-                            <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="Toolbar"/>
-                        </userDefinedRuntimeAttributes>
                     </toolbar>
                     <connections>
                         <segue destination="12" kind="relationship" relationship="rootViewController" id="19"/>
@@ -1829,25 +1826,7 @@ Line Break
         <scene sceneID="9o4-wY-P5V">
             <objects>
                 <viewController id="nxV-M8-Pdp" customClass="ScrollViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="emM-pK-5Lp"/>
-                        <viewControllerLayoutGuide type="bottom" id="IAb-wJ-z3c"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="LBN-Ef-LCX">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="804"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vCe-NZ-HE8">
-                                <rect key="frame" x="104" y="297" width="201" height="203"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                            </scrollView>
-                        </subviews>
-                        <color key="backgroundColor" red="1" green="0.99997437000274658" blue="0.99999129772186279" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    </view>
                     <navigationItem key="navigationItem" title="ScrollViews" id="SpZ-dM-ZUT"/>
-                    <connections>
-                        <outlet property="scrollView" destination="vCe-NZ-HE8" id="dda-Sp-2kA"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="o1o-AZ-2gP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -2096,9 +2075,6 @@ Line Break
                                 <state key="highlighted">
                                     <color key="titleColor" red="1" green="0.99997437000274658" blue="0.99999129772186279" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="Inner Button"/>
-                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="requestLocationServicesAndNotificicationsSchedulingAccesses" destination="k4d-l4-aKf" eventType="touchUpInside" id="up3-fx-DyS"/>
                                 </connections>

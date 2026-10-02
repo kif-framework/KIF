@@ -9,10 +9,25 @@
 #import <UIKit/UIKit.h>
 
 @interface ScrollViewController : UIViewController<UIScrollViewDelegate>
-@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (strong, nonatomic) UIScrollView *scrollView;
 @end
 
 @implementation ScrollViewController
+
+- (void)loadView
+{
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 414, 804)];
+    view.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleBottomMargin;
+    view.backgroundColor = [UIColor whiteColor];
+
+    self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(104, 297, 201, 203)];
+    self.scrollView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
+    self.scrollView.multipleTouchEnabled = YES;
+    self.scrollView.clipsToBounds = YES;
+    [view addSubview:self.scrollView];
+
+    self.view = view;
+}
 
 - (void)viewDidLoad
 {
