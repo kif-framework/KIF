@@ -7,10 +7,26 @@
 //
 
 @interface BackgroundViewController : UIViewController
-@property (nonatomic, weak) IBOutlet UILabel *label;
+@property (nonatomic, strong) UILabel *label;
 @end
 
 @implementation BackgroundViewController
+
+- (void)loadView {
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 414, 804)];
+    view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    view.backgroundColor = [UIColor whiteColor];
+
+    self.label = [[UILabel alloc] initWithFrame:CGRectMake(139, 263, 42, 21)];
+    self.label.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleBottomMargin;
+    self.label.contentMode = UIViewContentModeLeft;
+    self.label.text = @"Label";
+    self.label.font = [UIFont systemFontOfSize:17];
+    self.label.textColor = [UIColor darkTextColor];
+    [view addSubview:self.label];
+
+    self.view = view;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
