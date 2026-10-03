@@ -150,9 +150,9 @@
 
 #pragma mark CustomPickerController
 @interface CustomPickerController : UIViewController
-@property (weak, nonatomic) IBOutlet UITextField *customLabelSelectionTextField;
-@property (weak, nonatomic) IBOutlet UITextField *attributedTitleSelectionTextField;
-@property (weak, nonatomic) IBOutlet UITextField *textTitleSelectionTextField;
+@property (strong, nonatomic) UITextField *customLabelSelectionTextField;
+@property (strong, nonatomic) UITextField *attributedTitleSelectionTextField;
+@property (strong, nonatomic) UITextField *textTitleSelectionTextField;
 @property (strong, nonatomic) UIPickerView *customLabelPicker;
 @property (strong, nonatomic) UIPickerView *attributedTitlePicker;
 @property (strong, nonatomic) UIPickerView *textTitlePicker;
@@ -170,6 +170,42 @@
 @synthesize attributedTitleSelectionTextField;
 @synthesize textTitlePicker;
 @synthesize textTitleSelectionTextField;
+
+static UITextField *SelectionTextField(CGRect frame)
+{
+    UITextField *textField = [[UITextField alloc] initWithFrame:frame];
+    textField.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleBottomMargin;
+    textField.borderStyle = UITextBorderStyleRoundedRect;
+    textField.font = [UIFont systemFontOfSize:14];
+    textField.clipsToBounds = YES;
+    return textField;
+}
+
+- (void)loadView
+{
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 414, 804)];
+    view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    view.backgroundColor = [UIColor whiteColor];
+
+    UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(-1, -3, 411, 739)];
+    scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    scrollView.multipleTouchEnabled = YES;
+    scrollView.clipsToBounds = YES;
+    scrollView.backgroundColor = [UIColor colorWithRed:0.98763227462768555 green:0.31666561961174011 blue:0.76941287517547607 alpha:1];
+
+    self.customLabelSelectionTextField = SelectionTextField(CGRectMake(0, 0, 320, 30));
+    [scrollView addSubview:self.customLabelSelectionTextField];
+
+    self.attributedTitleSelectionTextField = SelectionTextField(CGRectMake(0, 38, 320, 30));
+    [scrollView addSubview:self.attributedTitleSelectionTextField];
+
+    self.textTitleSelectionTextField = SelectionTextField(CGRectMake(0, 76, 320, 30));
+    [scrollView addSubview:self.textTitleSelectionTextField];
+
+    [view addSubview:scrollView];
+
+    self.view = view;
+}
 
 - (void)viewDidLoad
 {
