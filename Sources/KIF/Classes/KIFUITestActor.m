@@ -786,6 +786,19 @@ static BOOL KIFUITestActorAnimationsEnabled = YES;
     [self selectDatePickerValue:datePickerColumnValues fromPicker:datePicker withSearchOrder:KIFPickerSearchForwardFromStart];
 }
 
+// Converts an hour read off a picker's hour column to the 0-23 hour NSDateComponents expects.
+// With an AM/PM column the hour is 1-12, where 12 AM is midnight (0) and 12 PM is noon (12).
+// Without one the picker is in 24-hour time and the hour is used as-is.
++ (NSInteger)__kifHourFromPickerHour:(NSInteger)hour meridiem:(NSString *)meridiem
+{
+    if ([meridiem isEqualToString:self.__kifDateFormatter.AMSymbol]) {
+        return hour % 12;
+    } else if ([meridiem isEqualToString:self.__kifDateFormatter.PMSymbol]) {
+        return hour % 12 + 12;
+    }
+    return hour;
+}
+
 - (void)selectDatePickerValue:(NSArray *)datePickerColumnValues fromPicker:(UIDatePicker *)datePicker withSearchOrder:(KIFPickerSearchOrder)searchOrder
 {
     NSDateComponents *dateComponents = [[NSDateComponents alloc] init];
@@ -807,13 +820,8 @@ static BOOL KIFUITestActorAnimationsEnabled = YES;
         }
     } else if (datePicker.datePickerMode == UIDatePickerModeTime) {
         dateComponents.minute = [datePickerColumnValues[1] integerValue];
-        
-        BOOL isPM = NO;
-        if(datePickerColumnValues.count > 2 && [datePickerColumnValues.lastObject isEqualToString:self.class.__kifDateFormatter.PMSymbol]) {
-            isPM = YES;
-        }
-        
-        dateComponents.hour = isPM ? [datePickerColumnValues[0] integerValue] + 12 : [datePickerColumnValues[0] integerValue];
+        NSString *meridiem = datePickerColumnValues.count > 2 ? datePickerColumnValues.lastObject : nil;
+        dateComponents.hour = [self.class __kifHourFromPickerHour:[datePickerColumnValues[0] integerValue] meridiem:meridiem];
     } else if (datePicker.datePickerMode == UIDatePickerModeDateAndTime) {
         NSAssert(datePickerColumnValues.count == 3 || datePickerColumnValues.count == 4, @"Invalid datePickerColumnValue count. Expected 3 or 4 got %@", @(datePickerColumnValues.count));
         NSString *dayOfWeekMonthDay = datePickerColumnValues[0];
@@ -838,14 +846,8 @@ static BOOL KIFUITestActorAnimationsEnabled = YES;
             }
         }
     
-        BOOL shouldOffsetPM = NO;
-        if(datePickerColumnValues.count == 4 &&
-           [datePickerColumnValues.lastObject isEqualToString:self.class.__kifDateFormatter.PMSymbol] &&
-           [datePickerColumnValues[1] integerValue] != 12) { // If the time is 12pm, 12 shouldn't be added to make it 24h format
-            shouldOffsetPM = YES;
-        }
-        
-        dateComponents.hour = shouldOffsetPM ? [datePickerColumnValues[1] integerValue] + 12 : [datePickerColumnValues[1] integerValue];
+        NSString *meridiem = datePickerColumnValues.count == 4 ? datePickerColumnValues.lastObject : nil;
+        dateComponents.hour = [self.class __kifHourFromPickerHour:[datePickerColumnValues[1] integerValue] meridiem:meridiem];
         dateComponents.minute = [datePickerColumnValues[2] integerValue];
         dateComponents.year = currentDateComponents.year;
     }
