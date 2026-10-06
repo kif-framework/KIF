@@ -1,14 +1,14 @@
 
 @interface PickerController : UIViewController<UIPickerViewDataSource, UIPickerViewDelegate, UIPickerViewAccessibilityDelegate>
 
-@property (weak, nonatomic, readonly) IBOutlet UITextField *wheelDateSelectionTextField;
-@property (weak, nonatomic, readonly) IBOutlet UITextField *wheelDateTimeSelectionTextField;
-@property (weak, nonatomic, readonly) IBOutlet UITextField *wheelTimeZoneDateTimeSelectionTextField;
-@property (weak, nonatomic, readonly) IBOutlet UITextField *wheelLimitedDateTimeSelectionTextField;
-@property (weak, nonatomic, readonly) IBOutlet UITextField *wheelTimeSelectionTextField;
-@property (weak, nonatomic, readonly) IBOutlet UITextField *countdownSelectionTextField;
-@property (weak, nonatomic) IBOutlet UITextField *datePickerCalendarTextField;
-@property (weak, nonatomic) IBOutlet UITextField *dateTimePickerCalendarTextField;
+@property (strong, nonatomic) UITextField *wheelDateSelectionTextField;
+@property (strong, nonatomic) UITextField *wheelDateTimeSelectionTextField;
+@property (strong, nonatomic) UITextField *wheelTimeZoneDateTimeSelectionTextField;
+@property (strong, nonatomic) UITextField *wheelLimitedDateTimeSelectionTextField;
+@property (strong, nonatomic) UITextField *wheelTimeSelectionTextField;
+@property (strong, nonatomic) UITextField *countdownSelectionTextField;
+@property (strong, nonatomic) UITextField *datePickerCalendarTextField;
+@property (strong, nonatomic) UITextField *dateTimePickerCalendarTextField;
 @property (strong, nonatomic) UIDatePicker *wheelDatePicker;
 @property (strong, nonatomic) UIDatePicker *wheelDateTimePicker;
 @property (strong, nonatomic) UIDatePicker *wheelTimeZoneDateTimePicker;
@@ -17,7 +17,7 @@
 @property (strong, nonatomic) UIDatePicker *countdownPicker;
 @property (strong, nonatomic) UIDatePicker *dateCalendarPicker;
 @property (strong, nonatomic) UIDatePicker *dateTimeCalendarPicker;
-@property (strong, nonatomic) IBOutlet UIPickerView *phoneticPickerView;
+@property (strong, nonatomic) UIPickerView *phoneticPickerView;
 
 @end
 
@@ -36,6 +36,65 @@
 @synthesize wheelTimeSelectionTextField;
 @synthesize countdownSelectionTextField;
 @synthesize phoneticPickerView;
+
+// Placeholders and input views are filled in by -viewDidLoad.
+static UITextField *SelectionTextField(CGRect frame)
+{
+    UITextField *textField = [[UITextField alloc] initWithFrame:frame];
+    textField.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleBottomMargin;
+    textField.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    textField.borderStyle = UITextBorderStyleRoundedRect;
+    textField.font = [UIFont systemFontOfSize:14];
+    textField.textAlignment = NSTextAlignmentLeft;
+    textField.adjustsFontSizeToFitWidth = YES;
+    textField.minimumFontSize = 17;
+    textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
+    return textField;
+}
+
+- (void)loadView
+{
+    UIScrollView *view = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, 414, 804)];
+    view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    view.multipleTouchEnabled = YES;
+    view.clipsToBounds = YES;
+    view.backgroundColor = [UIColor colorWithRed:0.98763227462768555 green:0.31666561961174011 blue:0.76941287517547607 alpha:1];
+
+    wheelDateSelectionTextField = SelectionTextField(CGRectMake(0, 0, 320, 30));
+    [view addSubview:wheelDateSelectionTextField];
+
+    wheelDateTimeSelectionTextField = SelectionTextField(CGRectMake(0, 32, 320, 30));
+    [view addSubview:wheelDateTimeSelectionTextField];
+
+    wheelLimitedDateTimeSelectionTextField = SelectionTextField(CGRectMake(0, 131, 320, 30));
+    [view addSubview:wheelLimitedDateTimeSelectionTextField];
+
+    wheelTimeSelectionTextField = SelectionTextField(CGRectMake(0, 65, 320, 30));
+    [view addSubview:wheelTimeSelectionTextField];
+
+    countdownSelectionTextField = SelectionTextField(CGRectMake(0, 98, 320, 30));
+    [view addSubview:countdownSelectionTextField];
+
+    self.datePickerCalendarTextField = SelectionTextField(CGRectMake(0, 169, 320, 34));
+    self.datePickerCalendarTextField.textAlignment = NSTextAlignmentNatural;
+    [view addSubview:self.datePickerCalendarTextField];
+
+    self.dateTimePickerCalendarTextField = SelectionTextField(CGRectMake(0, 211, 320, 34));
+    self.dateTimePickerCalendarTextField.textAlignment = NSTextAlignmentNatural;
+    [view addSubview:self.dateTimePickerCalendarTextField];
+
+    wheelTimeZoneDateTimeSelectionTextField = SelectionTextField(CGRectMake(0, 253, 320, 34));
+    [view addSubview:wheelTimeZoneDateTimeSelectionTextField];
+
+    phoneticPickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(-1, 300, 412, 162)];
+    phoneticPickerView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin;
+    phoneticPickerView.backgroundColor = [UIColor colorWithRed:0.14493817090988159 green:1 blue:0.025771163403987885 alpha:1];
+    phoneticPickerView.dataSource = self;
+    phoneticPickerView.delegate = self;
+    [view addSubview:phoneticPickerView];
+
+    self.view = view;
+}
 
 - (void)viewDidLoad
 {
