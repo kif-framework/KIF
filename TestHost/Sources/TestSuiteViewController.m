@@ -10,9 +10,136 @@
 #import "TestHost-Swift.h"
 
 @interface TestSuiteViewController : UITableViewController
+@property (copy, nonatomic) NSArray<NSString *> *sectionTitles;
+@property (copy, nonatomic) NSArray<NSArray<UITableViewCell *> *> *cells;
+@property (copy, nonatomic) NSArray<NSString *> *basicsViewControllerClassNames;
 @end
 
 @implementation TestSuiteViewController
+
+- (instancetype)initWithStyle:(UITableViewStyle)style
+{
+    self = [super initWithStyle:style];
+    if (self) {
+        self.title = @"Master";
+        self.navigationItem.title = @"Test Suite";
+
+        UISwitch *switch1 = [[UISwitch alloc] initWithFrame:CGRectMake(343, 6.5, 51, 31)];
+        switch1.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleBottomMargin;
+        switch1.opaque = NO;
+        switch1.on = YES;
+        switch1.accessibilityLabel = @"Switch 1";
+        [switch1 setContentHuggingPriority:250 forAxis:UILayoutConstraintAxisHorizontal];
+        [switch1 setContentHuggingPriority:250 forAxis:UILayoutConstraintAxisVertical];
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:switch1];
+
+        self.toolbarItems = @[[[UIBarButtonItem alloc] initWithTitle:@"Reset Refresh Control" style:UIBarButtonItemStylePlain target:self action:@selector(resetRefreshControl)]];
+    }
+    return self;
+}
+
+- (void)loadView
+{
+    UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 414, 804) style:UITableViewStylePlain];
+    tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    tableView.opaque = NO;
+    tableView.clipsToBounds = YES;
+    tableView.clearsContextBeforeDrawing = NO;
+    tableView.alwaysBounceVertical = YES;
+    tableView.backgroundColor = [UIColor colorWithRed:1 green:0.99997437000274658 blue:0.99999129772186279 alpha:1];
+    tableView.rowHeight = 44;
+    tableView.sectionHeaderHeight = 22;
+    tableView.sectionFooterHeight = 22;
+    tableView.estimatedRowHeight = 0;
+    tableView.estimatedSectionHeaderHeight = 0;
+    tableView.estimatedSectionFooterHeight = 0;
+    tableView.accessibilityIdentifier = @"Test Suite TableView";
+
+    // The menu is static: every row has exactly one cell, created here and never reused or replaced.
+    // Rows in the Basics section push the view controller with the matching class name.
+    self.sectionTitles = @[@"Basics", @"Modal Views", @"SwiftUI"];
+    self.basicsViewControllerClassNames = @[@"TapViewController", @"ShowHideViewController", @"GestureViewController", @"TableViewController",
+                                            @"CollectionViewController", @"ScrollViewController", @"PickerController", @"WebViewController",
+                                            @"BackgroundViewController", @"CustomPickerController", @"OffscreenViewController", @"AccessibilityViewController"];
+    self.cells = @[
+        @[[self textCellWithText:@"Tapping"],
+          [self textCellWithText:@"Show/Hide"],
+          [self textCellWithText:@"Gestures"],
+          [self textCellWithText:@"TableViews"],
+          [self textCellWithText:@"CollectionViews"],
+          [self textCellWithText:@"ScrollViews"],
+          [self labelCellWithText:@"Pickers" labelSize:CGSizeMake(106, 21)],
+          [self labelCellWithText:@"WebViews" labelSize:CGSizeMake(106, 24)],
+          [self labelCellWithText:@"Background" labelSize:CGSizeMake(113, 24)],
+          [self labelCellWithText:@"Custom Picker" labelSize:CGSizeMake(176, 24)],
+          [self labelCellWithText:@"Offscreen Views" labelSize:CGSizeMake(176, 24)],
+          [self labelCellWithText:@"Accessibility" labelSize:CGSizeMake(176, 24)]],
+        @[[self labelCellWithText:@"System Alerts" labelSize:CGSizeMake(128, 24)],
+          [self textCellWithText:@"UIAlertController"],
+          [self textCellWithText:@"UIActivityViewController"]],
+        @[[self textCellWithText:@"SwiftUI Tapping"],
+          [self textCellWithText:@"SwiftUI Typing"]],
+    ];
+
+    tableView.dataSource = self;
+    tableView.delegate = self;
+
+    self.tableView = tableView;
+}
+
+- (UITableViewCell *)disclosureCellWithReuseIdentifier:(NSString *)reuseIdentifier
+{
+    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    cell.contentView.opaque = NO;
+    cell.contentView.clipsToBounds = YES;
+    cell.contentView.multipleTouchEnabled = YES;
+    cell.contentView.contentMode = UIViewContentModeCenter;
+    return cell;
+}
+
+- (UITableViewCell *)textCellWithText:(NSString *)text
+{
+    UITableViewCell *cell = [self disclosureCellWithReuseIdentifier:@"Cell"];
+    cell.backgroundColor = [UIColor colorWithRed:1 green:0.99997437000274658 blue:0.99999129772186279 alpha:1];
+    cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+    cell.indentationLevel = 1;
+    cell.indentationWidth = 0;
+    cell.textLabel.opaque = NO;
+    cell.textLabel.userInteractionEnabled = YES;
+    cell.textLabel.multipleTouchEnabled = YES;
+    cell.textLabel.contentMode = UIViewContentModeCenter;
+    cell.textLabel.backgroundColor = nil;
+    cell.textLabel.textAlignment = NSTextAlignmentLeft;
+    cell.textLabel.text = text;
+    cell.textLabel.font = [UIFont systemFontOfSize:20 weight:UIFontWeightBold];
+    cell.textLabel.textColor = [UIColor darkTextColor];
+    cell.textLabel.highlightedTextColor = [UIColor colorWithRed:1 green:0.99997437000274658 blue:0.99999129772186279 alpha:1];
+    return cell;
+}
+
+- (UITableViewCell *)labelCellWithText:(NSString *)text labelSize:(CGSize)labelSize
+{
+    UITableViewCell *cell = [self disclosureCellWithReuseIdentifier:nil];
+    cell.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleBottomMargin;
+    cell.selectionStyle = UITableViewCellSelectionStyleDefault;
+    cell.indentationWidth = 10;
+
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(12, 11, labelSize.width, labelSize.height)];
+    label.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleBottomMargin;
+    label.opaque = NO;
+    label.userInteractionEnabled = NO;
+    label.backgroundColor = nil;
+    label.contentMode = UIViewContentModeLeft;
+    label.text = text;
+    label.font = [UIFont systemFontOfSize:20 weight:UIFontWeightBold];
+    label.textColor = [UIColor darkTextColor];
+    label.textAlignment = NSTextAlignmentLeft;
+    [label setContentHuggingPriority:251 forAxis:UILayoutConstraintAxisHorizontal];
+    [label setContentHuggingPriority:251 forAxis:UILayoutConstraintAxisVertical];
+    [cell.contentView addSubview:label];
+    return cell;
+}
 
 - (void)viewDidLoad
 {
@@ -51,15 +178,43 @@
 	});
 }
 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return self.cells.count;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return self.cells[section].count;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    return self.sectionTitles[section];
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return self.cells[indexPath.section][indexPath.row];
+}
+
+- (void)pushViewControllerWithClassName:(NSString *)className
+{
+    UIViewController *viewController = [[NSClassFromString(className) alloc] init];
+    [self.navigationController pushViewController:viewController animated:YES];
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     switch (indexPath.section) {
         case 0: // Basics section
+            [self pushViewControllerWithClassName:self.basicsViewControllerClassNames[indexPath.row]];
             break;
         case 1: // Modal views section
             switch (indexPath.row) {
                 case 0:
                 {
+                    [self pushViewControllerWithClassName:@"SystemAlertViewController"];
                     break;
                 }
                     
@@ -159,7 +314,7 @@
     }];
 }
 
-- (IBAction)resetRefreshControl
+- (void)resetRefreshControl
 {
 	self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"Refreshing...", @"") attributes:nil];
 }

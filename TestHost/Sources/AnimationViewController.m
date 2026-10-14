@@ -6,13 +6,22 @@
 //
 //
 
-#import <UIKit/UIKit.h>
+#import "AnimationViewController.h"
 
-@interface AnimationViewController : UIViewController
+@interface AnimationViewController ()
 @property (strong, nonatomic) UILabel *testLabel;
 @end
 
 @implementation AnimationViewController
+
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        self.edgesForExtendedLayout = UIRectEdgeBottom;
+    }
+    return self;
+}
 
 - (void)loadView {
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 414, 804)];

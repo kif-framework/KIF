@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <UIKit/UIAccessibilityCustomAction.h>
+#import "AnimationViewController.h"
 
 @interface TapViewController : UIViewController<UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 @property (strong, nonatomic) UISlider *slider;
@@ -22,6 +23,17 @@
 @end
 
 @implementation TapViewController
+
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        self.title = @"Detail";
+        self.navigationItem.title = @"TapView";
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Photos" style:UIBarButtonItemStylePlain target:self action:@selector(pickPhoto:)];
+    }
+    return self;
+}
 
 // Every text field on this screen is a 14pt rounded rect field, delegated to this controller, that keeps its distance from the top and bottom edges.
 - (UITextField *)textFieldWithFrame:(CGRect)frame
@@ -72,7 +84,7 @@
 {
     UIScrollView *view = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, 414, 804)];
     view.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleBottomMargin;
-    // The storyboard decoded this as a plain view with a UIScrollView class, so it never got the scroll view defaults.
+    // This view began as a plain view given a UIScrollView class, so it never had the scroll view defaults.
     view.clipsToBounds = NO;
     view.multipleTouchEnabled = NO;
     view.bouncesZoom = NO;
@@ -277,10 +289,10 @@
 
 - (void)showAnimations:(UIButton *)sender
 {
-    [self performSegueWithIdentifier:@"showAnimations" sender:sender];
+    [self.navigationController pushViewController:[[AnimationViewController alloc] init] animated:YES];
 }
 
-- (IBAction)pickPhoto:(id)sender
+- (void)pickPhoto:(id)sender
 {
     UIImagePickerController *controller = [[UIImagePickerController alloc] init];
     controller.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
