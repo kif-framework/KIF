@@ -19,6 +19,15 @@
 
 @implementation GestureViewController
 
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        self.navigationItem.title = @"Gestures";
+    }
+    return self;
+}
+
 // Every view on this screen is positioned by constraints. The frames given here are only the
 // design-time starting values, which viewDidLoad relies on to size the scroll view's content.
 // Labels accept touches so KIF's hit testing can find them; the two status labels opt out.

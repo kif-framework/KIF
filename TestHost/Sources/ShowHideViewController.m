@@ -34,7 +34,7 @@
 {
     UIScrollView *view = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, 414, 804)];
     view.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleBottomMargin;
-    // The storyboard decoded this as a plain view with a UIScrollView class, so it never got the scroll view defaults.
+    // This view began as a plain view given a UIScrollView class, so it never had the scroll view defaults.
     view.clipsToBounds = NO;
     view.multipleTouchEnabled = NO;
     view.bouncesZoom = NO;

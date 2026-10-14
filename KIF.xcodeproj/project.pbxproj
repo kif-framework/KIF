@@ -29,7 +29,6 @@
 		EB60ECD3177F8C84005A041A /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = EB60ECD2177F8C84005A041A /* Default.png */; };
 		EB60ECD5177F8C84005A041A /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EB60ECD4177F8C84005A041A /* Default@2x.png */; };
 		EB60ECD7177F8C84005A041A /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EB60ECD6177F8C84005A041A /* Default-568h@2x.png */; };
-		EB60ED06177F9041005A041A /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EB60ED04177F9041005A041A /* MainStoryboard.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,7 +42,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		22191DFA24BF793F004CAA18 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
 		22B1372525D6E27F00D88061 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk/System/Library/Frameworks/IOKit.framework; sourceTree = DEVELOPER_DIR; };
 		25105B302FF6E4C30098BAFB /* KIF.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = KIF.xctestplan; sourceTree = "<group>"; };
 		255C040F2F68D9050023E400 /* KIFTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "KIFTests-Info.plist"; sourceTree = "<group>"; };
@@ -153,7 +151,6 @@
 			isa = PBXGroup;
 			children = (
 				255C04102F68D95A0023E400 /* Sources */,
-				EB60ED04177F9041005A041A /* MainStoryboard.storyboard */,
 				EB60ECC7177F8C83005A041A /* Supporting Files */,
 			);
 			path = TestHost;
@@ -300,7 +297,6 @@
 				EB60ECD5177F8C84005A041A /* Default@2x.png in Resources */,
 				AE62FCD81A1D2667002B10DA /* index.html in Resources */,
 				EB60ECD7177F8C84005A041A /* Default-568h@2x.png in Resources */,
-				EB60ED06177F9041005A041A /* MainStoryboard.storyboard in Resources */,
 				AE62FCDA1A1D26BB002B10DA /* page2.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -340,14 +336,6 @@
 				EB60ECCA177F8C83005A041A /* en */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		EB60ED04177F9041005A041A /* MainStoryboard.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				22191DFA24BF793F004CAA18 /* Base */,
-			);
-			name = MainStoryboard.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

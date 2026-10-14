@@ -15,6 +15,15 @@
 
 @implementation SystemAlertViewController
 
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        self.edgesForExtendedLayout = UIRectEdgeBottom;
+    }
+    return self;
+}
+
 // Every button on this screen is a bold-system-font push that fires one access request.
 - (UIButton *)buttonWithFrame:(CGRect)frame title:(NSString *)title action:(SEL)action
 {

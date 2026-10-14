@@ -16,6 +16,18 @@
 
 @implementation TableViewController
 
+- (instancetype)initWithStyle:(UITableViewStyle)style
+{
+    self = [super initWithStyle:style];
+    if (self) {
+        self.navigationItem.title = @"TableViews";
+        UIBarButtonItem *toolbarItem = [[UIBarButtonItem alloc] initWithTitle:@"Toolbar Item" style:UIBarButtonItemStylePlain target:nil action:nil];
+        toolbarItem.accessibilityLabel = @"Toolbar Item";
+        self.toolbarItems = @[toolbarItem];
+    }
+    return self;
+}
+
 - (void)loadView
 {
     UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 414, 804) style:UITableViewStylePlain];
