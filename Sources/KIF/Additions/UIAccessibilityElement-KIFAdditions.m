@@ -255,7 +255,7 @@ MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
         return nil;
     }
     
-    if (mustBeTappable && !view.isProbablyTappable) {
+    if (mustBeTappable && !view.isProbablyTappable && ![self KIF_isTappableAccessibilityElement:element view:view]) {
         // The scroll pass above only scrolls when the element lies outside its scroll view's
         // visible rect. An element inside the visible rect can still fail hit-testing when a
         // floating overlay (e.g. a tab bar or toolbar) covers it. Center the element in its
@@ -271,6 +271,19 @@ MAKE_CATEGORIES_LOADABLE(UIAccessibilityElement_KIFAdditions)
     }
 
     return view;
+}
+
+// A view can contain an element that is smaller than the view, such as a SwiftUI control in its
+// hosting view. When the view lets touches through where it draws nothing, its bounds can fail the
+// tappability check although the element itself can be tapped. Check the element's own frame, as
+// the element search does.
++ (BOOL)KIF_isTappableAccessibilityElement:(UIAccessibilityElement *)element view:(UIView *)view;
+{
+    if ((UIView *)element == view || !view.window || CGRectIsEmpty(element.accessibilityFrame)) {
+        return NO;
+    }
+    CGRect accessibilityFrame = [view.window convertRect:element.accessibilityFrame toView:view];
+    return [view isTappableInRect:accessibilityFrame];
 }
 
 // Attempts to uncover an element that resolved to a view but failed the tappability check by

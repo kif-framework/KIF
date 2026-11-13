@@ -78,7 +78,8 @@
           [self textCellWithText:@"UIAlertController"],
           [self textCellWithText:@"UIActivityViewController"]],
         @[[self textCellWithText:@"SwiftUI Tapping"],
-          [self textCellWithText:@"SwiftUI Typing"]],
+          [self textCellWithText:@"SwiftUI Typing"],
+          [self textCellWithText:@"SwiftUI Pass-Through"]],
     ];
 
     tableView.dataSource = self;
@@ -278,6 +279,12 @@
                 case 1:
                 {
                     [[self navigationController] pushViewController:[SwiftUIViewControllerFactory makeSwiftUITypingViewController] animated:true];
+                    break;
+                }
+
+                case 2:
+                {
+                    [[self navigationController] pushViewController:[SwiftUIViewControllerFactory makeSwiftUIPassThroughViewController] animated:true];
                     break;
                 }
             }

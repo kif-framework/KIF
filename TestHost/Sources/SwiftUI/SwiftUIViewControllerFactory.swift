@@ -17,4 +17,8 @@ import UIKit
     @objc static func makeSwiftUITypingViewController() -> UIViewController {
         SwiftUIViewController(content: SwiftUITypingView())
     }
+
+    @objc static func makeSwiftUIPassThroughViewController() -> UIViewController {
+        SwiftUIPassThroughViewController()
+    }
 }
